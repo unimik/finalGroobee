@@ -1,0 +1,18 @@
+@charset "UTF-8";
+body{margin:0; background: #daf4ed; }
+#header{ width: 100%; height: 60px; background:#daf4ed ;}
+#logo{ display:block; width: 50px; height: 50px; margin:auto; padding-top: 4px;}
+
+.content{ width: 730px; margin:auto;}
+#index_logo{display: block; width: 100px; height: 110px; margin: auto; margin-top: 120px;}
+#login_Box{ background: #fcfcfc; border-radius: 10px; width: 500px; height: 420px; border: 1px solid #47c6a3; margin: auto; margin-top: 40px; text-align: center;}
+#inputArea{ margin-top: 45px;}
+label{ color: #555555; font-size: 16px;}
+input{ border-radius: 10px; border: 1px solid #555555; width: 200px; height: 35px; margin: 20px 0 10px 0;}
+#loginBtn{ width: 300px; height: 40px; background: #daf4ed; border: 0; border-radius: 10px; margin-bottom: 40px;}
+#find_Id_Pwd{ text-decoration: none; color: #555555; font-size: 14px; }
+#find_Id_Pwd b{ color: #47c6a3; font-weight: 600;}
+#create_Id{ text-decoration: none; color:#555555; font-size: 14px; }
+#create_Id b{ color: #47c6a3; font-weight: 600;}
+
+#copy p{ padding: 0; margin: 0; text-align: center; color: #555555; font-size: 14px; margin-top: 40px;}

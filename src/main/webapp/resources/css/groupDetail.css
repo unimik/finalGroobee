@@ -1,0 +1,61 @@
+#feedArea{ width: 640px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none;  }
+#feedArea::-webkit-scrollbar{display: none;}
+#create_group{ width: 80px; height: 40px; border-radius: 10px; border: 0; margin-top: 20px; background: #daf4ed; font-size:14px;color: #555555; cursor: pointer; }
+
+p{ margin: 0; }
+#groupInfoArea{height: 560px; width: 630px;  border: 2px solid #E5E5E5; }
+/* 직사각형 이미지 */
+#groupImage{height: 250px; margin-top: 40px; margin-bottom: 40px; }
+#groupImage > img{width: 100%; height: 100%; }
+
+#groupInfo{height: 180px; border-top: 2px solid #E5E5E5; }
+#groupmenubar{height: 40px; border-top: 2px solid #E5E5E5;}
+#groupNameAndInterest{ float: left; width: 500px; height: 40px; margin-top: 10px; margin-left: 20px;margin-right: 20px;}
+#groupName,#groupInterest{float: left; font-size: 20px; }
+#groupInterest{color:#47c6a3; font-weight: 600;}
+#groupintroduction b{color:#555555; float: left; font-size: 16px; border: 2px; margin:5px 20px 0 20px;}
+#groupintroduction #groupInfo{ height: 100%; color:#555555; float: left; font-size: 16px; border: 2px; padding: 5px 20px 5px 20px;}
+#groupintroduction #tag{ padding: 0;     margin: 20px 0 10px 20px;}
+#tag li{ list-style: none; float: left;}
+/* ... 버튼 */
+#groupdotbtn{float: left; width: 35px; height: 35px;margin: 7px 0 0 35px; border-style: none; outline: none; background-color: #ffffff;}
+#groupSearchbar{ width: 630px; height: 60px; margin: auto;}
+#groupSearch{ width: 470px; height: 40px; margin: 10px 0 0 30px; border: 1px solid #E5E5E5;}
+#groupSearchBtn{width: 90px; height: 40px; margin-left: 10px; border-radius: 10px; border-style: none; background-color: #daf4ed;}
+
+#btnsbox{width: 630px; height: 40px; border: 0; }
+.feedbtns{float: left; width: 50%; height: 100%;border: 0; background: white; outline: none;}
+.feedbtns.on{ background: #daf4ed;}
+
+.conBox{ display: none; margin-bottom: 200px;}
+.conBox.on{display: block;}
+
+
+
+.pop_menu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+#feed_menu_list{ background: white; width: 320px; margin: auto; height: 243px; border-radius: 15px; margin-top:300px;}
+#feed_menu_list ul{ padding:0; margin: 0; }
+#feed_menu_list li{ list-style: none; text-align: center; height: 60px;}
+#feed_menu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
+#feed_menu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
+#feed_menu_list li:nth-child(3){border-bottom: 1px solid #e5e5e5;}
+#feed_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color: #555555;}
+
+
+.pop_Mymenu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+#feed_groupmenu_list{ background: white; width: 320px; margin: auto; height: 303px; border-radius: 15px; margin-top:300px;}
+#feed_groupmenu_list li{ list-style: none; text-align: center; height: 60px;}
+#feed_groupmenu_list ul{ padding:0; margin: 0; }
+#feed_groupmenu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
+#feed_groupmenu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
+#feed_groupmenu_list li:nth-child(3){border-bottom: 1px solid #e5e5e5;}
+#feed_groupmenu_list li:nth-child(4){border-bottom: 1px solid #e5e5e5;}
+#feed_groupmenu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;color: #555555;}
+
+
+.feed_report{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+#feed_report_con{ background: white; width: 320px; margin: auto; height: 220px; border-radius: 15px; margin-top:300px;}
+#feed_report_con p{ padding:0; margin:0; text-align: center; font-size: 16px; padding: 20px 0 20px 0; border-bottom: 1px solid #e5e5e5;}
+#feed_report_con select{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #555555; margin:30px 0 30px 50px;}
+#submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
+#cancel{ width: 100px; height: 35px; margin-left: 10px; border: 0; border-radius: 10px; background: #e5e5e5;}

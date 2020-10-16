@@ -1,0 +1,82 @@
+a{text-decoration: none; color:black;}
+#settingArea{ width: 640px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none;  }
+#settingArea::-webkit-scrollbar{display: none;}
+.setting{ border: 1px solid #e5e5e5; width: 630px; margin-bottom: 20px;}
+
+
+#userId{ float: left; margin:9px 15px 0 15px; font-weight: 600; color: #555555;}
+#reply_img{width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; }
+#replyCon{ font-size: 14px; color:#555555; font-weight:lighter; margin-top:9px; height: 100%;}
+#time{ font-size: 12px; float: right; color: #aaaaaa;}
+#reply{ width: 100%; padding: 20px 0 20px 0; }
+#textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px;}
+#replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed;}
+
+
+.setMenu{ border: 1px solid #e5e5e5; border-top: 0;; width: 150px;}
+.notification{border-left:none;}
+.settings{text-align: left; padding-top:10px;}
+#info-setting{display: none;}
+#privarcy-setting{display: none;}
+#blocked-accounts td{width:200px;text-align: left;}
+#notification-setting>div>table{margin-left: 20px; margin-right: 20px;}
+#setting-all{margin-bottom: 30px;}
+#setting-detail{border-radius: 5px;}
+#info-setting tr{width: 500px;}
+
+#info-menu{text-align: left; float: left; margin-left: 20px; margin-top: 10px;}
+
+.modal {
+    display: none;
+    position:relative;
+    width:100%;
+    height:100%;
+    z-index:1;
+  }
+  
+  .modal h3 {
+    margin:0;
+  }
+  .modal button {
+    display:inline-block;
+    /* margin-left:calc(100% - 100px - 10px); */
+    width:100px;
+    background: #daf4ed;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .modal .modal_content {
+    width:600px;
+    height: 150px;
+    margin:100px auto;
+    padding:20px 10px;
+    background:#fff;
+    border: 3px solid #47c6a3;
+    /* border:2px solid #666; */
+    border-radius: 10px;
+  }
+  
+  .modal .modal_layer {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, 0.5);
+    z-index:-1;
+  }   
+
+.modal label{margin-left: 130px;}
+#cancel{margin-left: 80px;}
+#delete_account{margin-left:140px}
+.line{width: 480px; border: 0.1px solid lightgray;}
+th{font: bolder;}
+td>div>img{margin-left: 10px; margin-right: 10px; width: 30px;border-radius: 30px;}
+.setMenu{cursor:pointer}
+#disable_btn{color:rgb(64, 123, 212)}
+#question-area{background: #daf4ed; border: 1px solid #f3f3f3; border-radius: 5px;}
+.selected{border-left:2px solid #fcfcfc; background:#fcfcfc;}
+#question-btn{float:right;background: #47c6a3;color: white;border-radius: 3px;width: 90px;height: 20px;border: none;}
+#blockedList{height: 0; margin-left: 100px; padding-left:10px;background-color: #daf4ed; width:350px; border-radius: 2px; overflow: scroll;}
+#blockedList span{vertical-align: super;}

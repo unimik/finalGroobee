@@ -1,0 +1,275 @@
+
+body{margin:0; background: #daf4ed;}
+#index_logo{display: block; width: 100px; height: 110px; margin: auto; margin-top: 120px;}
+div{
+    /* border: 0.5px solid #555555; */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-collapse: 0;
+    border-spacing: 0;
+}
+#content{
+    text-align: center;
+    width: 730px;
+    height: 100%;
+    margin: auto;
+}
+#inContent{
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+#c1{height: 240px; }
+#c1>div{
+    margin-top: 3%;
+    width: 100%;
+    height: 340px;
+    border-radius: 10px;
+    border: 2px solid #47c6a3 ;
+    background: white;
+}
+#c1_1_1{
+    height: 40px;
+    border-bottom: 1px solid #47c6a3;
+}
+#c1_1_1>p{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #47c6a3;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+#c1_1_2{
+    height: 220px;
+}
+#terms{
+    /* margin-top: 1%; */
+    width: 99%;
+    resize: none;
+    border: none;
+    border-bottom: 1px solid #47c6a3;
+    height: 100%;
+    outline: none;
+}
+#terms::-webkit-scrollbar{width: 7px;}
+#terms::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
+#terms::-webkit-scrollbar-track{ background-color: #daf4ed;}
+#agreeBox{ width: 260px; float: right; margin-right: 10px;}
+#agreeBox label{ margin-left: 10px;}
+#c1_1_3{
+    height: 20px;
+    font-size: 14px;
+}
+#c1_1_3 p{ float: left; width: 180px;}
+#agree{
+    transform: scale(0.8,0.8);
+    margin: 0;
+    padding: 0;
+    margin-top:3px;
+}
+#c1_1_3>div p, #c1_1_3>div input{
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#c2{
+    height: 620px;
+    border-radius: 10px;
+    border: 2px solid #47c6a3 ;
+    margin-top: 140px;
+    background: white;
+    margin-bottom: 50px;
+}
+#c2 input{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #e5e5e5;}
+#cHeader{
+    width: 100%;
+    height: 40px;
+    border-bottom:1px solid #47c6a3 ;
+}
+#cHeader>p{
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+    color:  #47c6a3;
+    font-weight: 600;
+}
+#idCheckResult{
+    color: skyblue;
+    font-weight: 1000;
+}
+#pwdCheckResult{
+    color: red;
+    font-weight: 1000;
+}
+#cContent{
+    width: 90%;
+    margin:auto;
+    padding-top:20px ;
+    font-size: 14px;
+}
+
+#con1{
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 40px;
+    height: 50px;
+
+}
+#idCheck{
+    margin: 0;
+    padding-top: 3.5px;
+    padding-bottom: 3px;
+    background-color: #47c6a3;
+    border: none;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    margin-top: 2px;
+}
+#selectEmail{
+    padding-top: 1.8px;
+    padding-bottom: 1.8px;
+    font-size: 12px;
+    font-weight: 1000;
+    width: 150px; 
+    height: 30px;
+    color: #555555;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+#emailConfirmResultBtn{
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 3px;
+    background-color: #47c6a3;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-top: 2px;
+}
+#con2{
+    text-align: left;
+    margin-left: 50px;
+    height: 50px;
+
+}
+#con3{
+    text-align: left;
+    margin-left: 30px;
+    height: 50px;
+
+}
+#con4{
+    text-align: left;
+    margin-left: 6px;
+    height: 50px;
+
+}
+#con5{
+    text-align: left;
+    margin-left: 40px;
+    height: 50px;
+
+}
+#con6{
+    text-align: left;
+    margin-left: 132px;
+    height: 50px;
+
+}
+#con7{
+    text-align: left;
+    margin-left: 40px;
+    margin-top: 10px;
+}
+#con7 input{ 
+    width: 10px; 
+    height: 10px;
+    margin-bottom: 20px;
+}
+#con7Box{ 
+    width: 500px; 
+    margin: -20px 0 0 90px;
+}
+#con7 label{ margin-right: 12px;}
+.checkBox{
+    transform: scale(1.1,1.1);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#cFooter{
+    width: 100%;
+    margin-top: 40px;
+    height: 100px;
+    border-top: 1px solid #e5e5e5;
+}
+#insertBtn{
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #47c6a3;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+#insertCancleBtn{
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 17px;
+    padding-right: 17px;
+    background-color: #47c6a3;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+/* input들 길이 설정 */
+#userId{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#userName{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#userPwd1{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#userPwd2{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#email1{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#email2{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#confirmText{
+    width: 80px;
+    font-size: 10px;
+    height: 14.7px;
+}
+#copy{ margin-bottom: 200px;}
+#copy p{ padding: 0; margin: 0; text-align: center; color: #555555; font-size: 14px; margin-top: 40px;}

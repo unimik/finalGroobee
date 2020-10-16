@@ -1,0 +1,32 @@
+div{ box-sizing: border-box;}
+a{ text-decoration: none; }
+text, h1, h2, h3, h4, h5, p, pre, a{ color: #555555; }
+textarea{ resize: none; }
+
+#editArea{ width: 730px; height: 100%; position: fixed; overflow-y: scroll; -ms-overflow-style: none; }
+#editArea::-webkit-scrollbar{ display: none; }
+#edit{ width: 730px; margin-bottom: 300px; }
+
+#edit_head>h2{ text-align: center; padding-bottom: 10px; border-bottom: 2px solid #47c6a3; margin-top: 70px; }
+#edit_body{ width: 500px; height: 100%; margin: auto; padding-bottom: 50px; border-bottom: 2px solid #daf4ed; }
+#edit_body2{ width: 500px; height: 100%; margin: auto; }
+
+#myProfileImg{ display: flex; justify-content: center; padding: 50px; border-bottom: 2px solid #daf4ed; }
+#myProfileImg>img { width: 100px; height: 100px; border: 2px solid #47c6a3; border-radius: 20px; }
+.change_myImg{ margin-left: 30px; }
+.change_myImg>p{ font-size: larger; line-height: 1pt; margin-top: 35px; }
+#imgScript{ color: #47c6a3; }
+
+#info_edit{ margin-top: 30px; }
+#info_selfIntro{ padding-bottom: 60px;}
+#info_edit>div{ margin: auto; padding: 10px; }
+#info_edit p{ position: absolute; right: 500px; top: auto; margin-right: 10px; }
+#name, #selfIntro, #email1, #email2, #phone2, #phone3, .interests, #select_email
+            { margin-top: 10px; position: relative; left: 150px; top: auto; background: #daf4ed; border: none; border-radius: 10px; }
+#name{ width: 265px; height: 30px; }
+#email1, #email2, #select_email{ width: 100px; height: 30px; }
+.info_interests>label{ position: relative; left: 150px; top: auto; font-size: 10pt; }
+#editBtnArea { display: inline-flex; margin: auto; padding: 30px 0px 0px 95px; }
+#edit_submitBtn{ width: 130px; height: 40px; margin-right: 80px; background: #daf4ed; }
+#edit_cancleBtn{ width: 100px; height: 40px; background: #f5f5f5; }
+.completeBtn{ border: none; border-radius: 10px; text-align: center; font-size: 10pt; }

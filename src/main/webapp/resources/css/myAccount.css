@@ -1,0 +1,35 @@
+button{padding: 0;}
+.myAccount{ position:absolute; width: 320px; height: 800px; margin-left: 750px; top: 60px; display: none; background-color: white; border-left: 1px solid #47c6a3; border-right: 1px solid #47c6a3;}
+#myId img{ width: 60px; height: 60px; border-radius: 15px; border: 3px double #47c6a3; float: left; margin:20px 20px 0 30px;}
+#myId p{ padding: 0; margin: 0; font-size: 20px; font-weight: 600; padding-top: 35px;}
+#MyTab{ border-top: 1px solid #e5e5e5; width: 300px; margin:auto; margin-top: 40px;}
+#MyTab button{border:0; background: none; cursor: pointer; outline:none; width: 96px; height: 45px; transition: 0.5s all;}
+.MyTab_tab.on{ font-weight: 600; color:#47c6a3;}
+
+.MyTab_box{ display: none;}
+.MyTab_box.on{display: block;}
+
+#My_follower_list{ border-bottom: 1px solid #e5e5e5; height: 60px; margin-top: 20px;}
+#My_follower_list ul{ padding:0;margin:0;}
+#follower_info li{ list-style: none;}
+#follower_info li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#follower_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin-top: 10px;}
+#follower_info li #follower{float:right; width: 70px; height: 35px; border-radius: 10px; background:white; color:#47c6a3; border: 2px solid #47c6a3;  margin: 4px 20px 0 0;}
+#follower_list_img{ width: 40px; height: 40px; border-radius: 10px;}
+
+
+#My_following_list{ border-bottom: 1px solid #e5e5e5; height: 60px; margin-top: 20px;}
+#My_following_list ul{ padding:0;margin:0;}
+#following_info li{ list-style: none;}
+#following_info li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#following_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin-top: 10px;}
+#following_info li #following{float:right; width: 70px; height: 35px; border-radius: 10px; background:#daf4ed;; margin: 4px 20px 0 0; }
+#following_list_img{ width: 40px; height: 40px; border-radius: 10px;}
+
+#My_fgroup_list{ border-bottom: 1px solid #e5e5e5; height: 60px; margin-top: 20px;}
+#My_fgroup_list ul{ padding:0;margin:0;}
+#fgroup_info li{ list-style: none;}
+#fgroup_info li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#fgroup_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin-top: 10px;}
+#fgroup_info li #del_group{float:right; width: 70px; height: 35px; border-radius: 10px; background:#e5e5e5; margin: 4px 20px 0 0; }
+#fgroup_list_img{ width: 40px; height: 40px; border-radius: 10px;}

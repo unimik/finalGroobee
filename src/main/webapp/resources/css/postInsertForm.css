@@ -1,0 +1,25 @@
+#postingForm{border: 2px #e5e5e5 solid; background: white; border-radius: 10px; width: 630px; height: 700px; margin-bottom: 100px;}
+#postingForm > h4{ text-align: center }
+#postingForm >hr{ border: 1px solid #e5e5e5;}
+#tbb{display: table;}
+td{ display: table; padding: 0; float: left;}
+#tbb ul{ list-style: none; margin: auto;}
+#tbb li{ float: left; margin-right: 10px;}
+#fileIcon{ width: 25px; height: 25px; margin-left: 50px; margin-top: 10px;}
+.filetb{ margin-top: 10px; margin-left: 10px;}
+#tbb textarea{outline:none; margin:0; padding:10px; width: 550px; height: 300px; margin-left:24px; font-size: 16px; border-radius: 10px; resize: none; border: 2px solid#e5e5e5; }
+.checkList{margin-left: 50px; width: 100px; font-weight: 600;color: #555555;}
+#underLine{width: 630px; border-bottom: 2px solid #e5e5e5; height: 10px;}
+.checkListse{margin-left: 150px; }
+.st{ width: 60px; font-size: 16px; color: #555555;}
+.tdfi{ margin-top: 15px;}
+.tdfi select{ width: 100px; height: 32px; border-radius: 10px; margin-top: -5px; color: #555555;}
+
+
+#myGroupList{display:none; width: 100px; height: 32px; margin-left: 10px; border-radius: 10px; margin-top: 11px; color: #555555;}
+
+label{font-size: 14px; margin-left: 10px; color: #555555;}
+#btnstd{ margin-top: 30px; margin-left: 200px;}
+#btns1{margin-top: 30px; width: 90px; height: 43px; border:1px; border-radius: 10px; background-color: #e5e5e5;}
+#btns2{margin-top: 30px; width: 90px; height: 43px; border:1px; border-radius: 10px; background-color: #daf4ed;}
+#btns1 a{ text-decoration: none; color: #555555;}

@@ -1,0 +1,58 @@
+.chat{ width: 320px; height: 520px; border-radius: 10px; border: 1px solid #e5e5e5; position: absolute; margin-top: 80px; margin-left: -340px; background: white; display: none;}
+.tab_menu button{ border:0;border-bottom: 3px solid #daf4ed; background: none; cursor: pointer; outline:none; }
+.tab_menu_container{display: flex;}
+.tab_menu_btn{padding:0; width: 157px; height: 45px; transition: 0.5s all;}
+.tab_menu_btn.on{ border-bottom:3px solid #47c6a3; font-weight: 600; color:#47c6a3;}
+.tab_menu_btn:hover{ color:#47c6a3}
+.tab_box{ display: none;}
+.tab_box.on{display: block;}
+#search_f{ width: 100%; height: 50px; border-bottom: 1px solid #e5e5e5; }
+#f_list{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #e5e5e5; margin:8px 0 0 20px; background: #e5e5e5; }
+#searchBtn{width:55px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; cursor: pointer;}
+
+#search_g{ width: 100%; height: 50px; border-bottom: 1px solid #e5e5e5; }
+#g_list{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #e5e5e5; margin:8px 0 0 20px; background: #e5e5e5; }
+
+#myChat_list{ border-bottom: 1px solid #e5e5e5;}
+#myChat_list:hover{ background: #ecf9f6}
+#myChat_list #list{ padding:0;margin:0;padding: 15px 0 15px 0;}
+#list li{ list-style: none;}
+#list li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#list li:nth-child(2){ font-weight: 500; color: #555555; }
+#list li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
+#chat_back{ width: 35px; height: 35px; border-radius: 10px;}
+
+#myGroupChat_list{border-bottom: 1px solid #e5e5e5;}
+#myGroupChat_list:hover{background: #ecf9f6;}
+#myGroupChat_list #list{ padding:0;margin:0;padding: 15px 0 15px 0;}
+
+input::placeholder{ padding-left: 10px;}
+input[type="search"]{ padding-left: 15px; }
+input:focus{ outline:none;}
+
+
+
+
+.chat_room{width: 320px; height: 520px; border-radius: 10px; border: 1px solid #e5e5e5; position: absolute; margin-top: 80px; margin-left: -340px; background: white; display: none;}
+.chatRoomContainer{ width: 320px; height: 100%; box-sizing:content-box;}
+#chat_top{ width: 100%; height: 45px; box-sizing: border-box; border-bottom: 1px solid #e5e5e5;}
+#goList{ float: left; border: 0; background: none; margin:15px 0 0 15px;}
+#chat_top p{margin:0; text-align: center; font-weight: 500; color: #555555; width: 200px; margin-left: 65px; padding-top: 10px; }
+#chatArea{ height: 420px; overflow-y: scroll; overflow: auto; overflow-x:hidden;}
+#chatArea::-webkit-scrollbar{width: 7px;}
+#chatArea::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
+#chatArea::-webkit-scrollbar-track{ background-color: #daf4ed;}
+
+#chating{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
+
+#chatId{ margin:0; margin: -5px 0 0 10px; font-size: 12px; float: left;}
+#chating img{ width: 40px; height: 40px; border-radius: 15px; float: left;}
+
+#chating #chatBox{margin:0; font-size: 14px; padding:10px; margin-left: 0; border-radius: 10px; background: #daf4ed; width: 60%; margin:15px 0 0 45px; }
+#chatBox #chatText{ margin:0;}
+#myChating{ width: 100%; padding: 5px 0 5px 0; margin-left: 60px; }
+#myChating p{ font-size: 14px; padding: 8px; border-radius: 10px; background:white; border: 2px solid #47c6a3; width: 70%;  margin: 0; }
+
+#input_chat{ width: 320px; height: 45px; border-top: 1px solid #e5e5e5;}
+#inputArea{ margin: 12px 5px 0 12px; width: 200px; height: 28px; border-radius: 10px; border: 1px solid #e5e5e5;}
+#send{ cursor: pointer; width: 80px; height: 32px; border: 0; background: #daf4ed; border-radius: 10px;}

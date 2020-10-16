@@ -1,0 +1,41 @@
+#admin_common{ box-sizing:border-box; width: 100%; height: 300px;}
+#menu li:nth-child(2){ border: 2px solid #47c6a3; width: 78px; height: 65.5px;}
+#menu li:nth-child(2)>a{color:#47c6a3; font-weight: 600; }
+.content #title{width: 600px; font-size: 20px; color: #555555; padding:0; margin: 0; font-weight: 600; float: left; margin: 10px 0 10px 35px;}
+#searchBox{ border-radius: 10px; border:1px solid #47c6a3; float: left; margin-left:20px; width: 628px;}
+
+.tab_menuBtn.on{ background:#daf4ed; color:#47c6a3;}
+
+.tab_menuBtn{outline:none; cursor: pointer; border-radius:10px; width: 311px; height: 62px; border:0; background:#ffffff; padding:0; font-size:20px; }
+.search_feed { margin: 23px 0 22px 45px;}
+.search_feed label{ margin:0 15px 0 15px; }
+.search_feed #num,#id,#fContent{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+.search_feed #writedate{ width: 153px; height: 33px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+
+.search_box.on{display:block;}
+.search_box{ display:none;}
+
+.search_reply { margin: 23px 0 22px 45px; }
+.search_reply label{ margin:0 15px 0 15px; }
+.search_reply #re_num,#id,#re_Content{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+.search_reply #writedate{ width: 153px; height: 33px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+.containar.on{display:block;}
+.containar{display:none;}
+
+#searchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
+#resetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
+#containar{ width: 100%;}
+.feed_table{ text-align: center; width: 100%; margin-top: 30px; font-size: 14px; table-layout:fixed;}
+thead tr{ background: #daf4ed; height: 35px;}
+tbody tr{ cursor: pointer;}
+tbody td{ border-bottom: 1px solid #e5e5e5; height: 35px; text-overflow:ellipsis; overflow:hidden;}
+.feed_table td:nth-child(1){width: 80px;}
+.feed_table td:nth-child(2){width: 100px;}
+.feed_table td:nth-child(3){width: 240px;}
+
+.reply_table{ text-align: center; width: 100%; margin-top: 30px; font-size: 14px; table-layout:fixed;}
+.reply_table td:nth-child(1){width: 80px;}
+.reply_table td:nth-child(3){width: 110px;}
+.reply_table td:nth-child(4){width: 300px;}
+.reply_table td:nth-child(5){width: 110px;}
+
