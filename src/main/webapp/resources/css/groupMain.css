@@ -1,9 +1,20 @@
-#create_group{ width: 80px; height: 40px; border-radius: 10px; border: 0; margin-top: 20px; background: #daf4ed; font-size:14px;color: #555555; cursor: pointer; }
+#create_group{position:absolute; outline:none; width: 80px; height: 40px; border-radius: 10px; border: 0; margin: 320px 0 0 -80px; background: #daf4ed; font-size:14px;color: #555555; cursor: pointer; }
 
-#feedArea{ width: 640px; height: 100%; margin-left:100px; padding-bottom: 100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none;  }
+#groupAllList{ width: 630px; height: 300px; margin-left: 100px; overflow-x: scroll; overflow: auto; margin-bottom:20px;}
+#groupAllList::-webkit-scrollbar{ width: 7px;}
+#groupAllList::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+#groupAllList::-webkit-scrollbar-track{ background-color: #daf4ed;}
+#groupBox{position: relative; float: left;   border: 1px solid #e5e5e5; width: 180px; height: 250px; margin:25px 12px 0 12px;}
+#groupBack{position: absolute; opacity: 45%; width: 180px; height: 60%; }
+#groupProfile{position: absolute; width: 80px; height: 80px; border-radius: 15px; margin:80px 0 10px 50px; }
+#groupName{ margin:0; text-align: center; font-size: 16px; color:#555555; margin-top: 170px;}
+#groupBox ul{ padding: 0; width: 100%; margin: 10px 15px 0 12px; }
+#groupBox ul li{ margin:auto; float: left; list-style: none; font-size: 12px; margin:0 10px 0 0; color: #47c6a3;}
+
+#feedArea{width: 640px; height: 100%; margin-left:100px;  position: fixed; overflow-y: scroll; -ms-overflow-style: none;  }
 #feedArea::-webkit-scrollbar{display: none;}
 #feed_content{ width: 100%; background: white;}
-#feed{ border: 1px solid #e5e5e5; width: 630px; margin-bottom: 200px;}
+#feed{ border: 1px solid #e5e5e5; width: 630px; margin-bottom: 600px;}
 #writer_submenu{ width: 100%; height: 60px; border-bottom: 1px solid #e5e5e5;background: white;}
 #feed_profile_img{width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; margin:10px 20px 0 20px;}
 #feed_id{ padding-top:11px; margin:0;  margin-right: 15px;color:#555555; font-weight: 600; float: left; font-size: 16px; }
