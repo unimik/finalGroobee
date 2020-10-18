@@ -19,15 +19,17 @@ public class Member implements Serializable{
 	private int gNo;
 	private String mStatus;
 	private String mImage;
+	private String mRenameImage;
 	private Date cDate;
 	private String mLevel;
+	private String mIntro;
 
 	public Member() {
 		super();
 	}
 
 	public Member(int mNo, String userId, String userName, String userPwd, String email, String interestes, int gNo,
-			String mStatus, String mImage, Date cDate, String mLevel) {
+			String mStatus, String mImage, String mRenameImage, Date cDate, String mLevel, String mIntro) {
 		super();
 		this.mNo = mNo;
 		this.userId = userId;
@@ -38,8 +40,10 @@ public class Member implements Serializable{
 		this.gNo = gNo;
 		this.mStatus = mStatus;
 		this.mImage = mImage;
+		this.mRenameImage = mRenameImage;
 		this.cDate = cDate;
 		this.mLevel = mLevel;
+		this.mIntro = mIntro;
 	}
 
 	public int getmNo() {
@@ -114,6 +118,14 @@ public class Member implements Serializable{
 		this.mImage = mImage;
 	}
 
+	public String getmRenameImage() {
+		return mRenameImage;
+	}
+
+	public void setmRenameImage(String mRenameImage) {
+		this.mRenameImage = mRenameImage;
+	}
+
 	public Date getcDate() {
 		return cDate;
 	}
@@ -130,10 +142,19 @@ public class Member implements Serializable{
 		this.mLevel = mLevel;
 	}
 
+	public String getmIntro() {
+		return mIntro;
+	}
+
+	public void setmIntro(String mIntro) {
+		this.mIntro = mIntro;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [mNo=" + mNo + ", userId=" + userId + ", userName=" + userName + ", userPwd=" + userPwd
 				+ ", email=" + email + ", interestes=" + interestes + ", gNo=" + gNo + ", mStatus=" + mStatus
-				+ ", mImage=" + mImage + ", cDate=" + cDate + ", mLevel=" + mLevel + "]";
+				+ ", mImage=" + mImage + ", mRenameImage=" + mRenameImage + ", cDate=" + cDate + ", mLevel=" + mLevel
+				+ ", mIntro=" + mIntro + "]";
 	}
 }
