@@ -15,7 +15,10 @@
 		<c:if test="${ !empty glist }">
 		<div id="groupAllList">
 	       <c:forEach var="g" items="${ glist }">
-	       <div id="groupBox">
+	       <c:url var="gdetail" value="gdetail.do">
+				<c:param name="gNo" value="${ g.gNo }"/>
+		   </c:url>
+	       <div id="groupBox" onclick="gDetail();">
 	       	   <c:if test="${ !empty g.gImage }">
 	       	   		<img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }" id="groupBack">
 	       	   </c:if>
@@ -29,9 +32,7 @@
 	           		<img src="<%=request.getContextPath()%>/resources/icons/g_pro.png" id="groupProfile">
 	           </c:if>
 	           <p id="groupName">${ g.gName }</p>
-	           <ul>
-	               <li>${ g.gCategory }</li>
-	           </ul>
+	           <p id="gcategoryName">${ g.gCategory }</p>
 	       </div>
 	       </c:forEach>
 		</div>
@@ -40,6 +41,10 @@
 		$('#create_group').click(function(){
 			location.href="gInsertView.do";
 		});
+		
+		function gDetail(){
+			location.href="gdetail";
+		}
 	</script>
 	<div id="feedArea">
     	<div id="feed">

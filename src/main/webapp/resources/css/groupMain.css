@@ -8,8 +8,7 @@
 #groupBack{position: absolute; opacity: 45%; width: 180px; height: 60%; }
 #groupProfile{position: absolute; width: 80px; height: 80px; border-radius: 15px; margin:80px 0 10px 50px; }
 #groupName{ margin:0; text-align: center; font-size: 16px; color:#555555; margin-top: 170px;}
-#groupBox ul{ padding: 0; width: 100%; margin: 10px 15px 0 12px; }
-#groupBox ul li{ margin:auto; float: left; list-style: none; font-size: 12px; margin:0 10px 0 0; color: #47c6a3;}
+#gcategoryName{margin:0; text-align: center; margin-top: 10px; font-size: 12px;color: #47c6a3;}
 
 #feedArea{width: 640px; height: 100%; margin-left:100px;  position: fixed; overflow-y: scroll; -ms-overflow-style: none;  }
 #feedArea::-webkit-scrollbar{display: none;}
