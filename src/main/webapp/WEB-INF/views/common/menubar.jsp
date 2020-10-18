@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +17,11 @@
      <div class="content">
      <div class="search_userInfo">
            <div id="searchbar">
-               <input type="search" id="allSearch" name="allSearch">
-               <input type="button" id="allSearchBtn" name="allSearchBtn" value="검색">
-           </div>
+           	   <form action="search.do" method="post">
+	               <input type="search" id="allSearch" name="allSearch">
+	               <input type="submit" id="allSearchBtn" name="allSearchBtn" value="검색">
+           	</form>
+    	 </div>
            <div id="userInfo">
                <ul>
                    <li id="goMypage"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></li>
@@ -34,7 +36,7 @@
              <li><a href="/views/home.html"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
              <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
              <li><a href="/views/groupPage.html"><img src="resources/icons/logoicon.png"></a></li>
-             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
+             <li><a href="/setting.do"><img src="resources/icons/menu_set.png" alt="SET"></a></li>
          </ul>
      </div>
 </body>

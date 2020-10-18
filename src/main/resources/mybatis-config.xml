@@ -9,10 +9,14 @@
 		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.spring.setting.model.vo.NotificationSetting" alias="NotificationSetting"/>
 		<typeAlias type="com.kh.spring.setting.model.vo.PersonalSetting" alias="PersonalSetting"/>
+		<typeAlias type="com.kh.spring.feed.model.vo.Feed" alias="Feed"/>
+		<typeAlias type="com.kh.spring.search.model.vo.Search" alias="Search"/>
+		<typeAlias type="com.kh.spring.search.model.vo.RelatedSearch" alias="RelatedSearch"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/setting-mapper.xml"/>
+		<mapper resource="mappers/search-mapper.xml"/>
 	</mappers>
 </configuration>
