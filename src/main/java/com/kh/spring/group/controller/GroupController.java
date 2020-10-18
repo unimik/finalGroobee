@@ -60,7 +60,7 @@ public class GroupController{
 		
 		if(mpf == null || mpf.getSize() <= 0) {
 			System.out.println("용량없음");
-			return "glist.do";
+			
 		}
 		
 		ArrayList groupImgFiles = new ArrayList();
@@ -90,13 +90,15 @@ public class GroupController{
 			}
 			System.out.println(groupImgFiles);
 		}
-
-		String gProfileName = (String) groupImgFiles.get(0);
-		String renameGproName = (String) groupImgFiles.get(1);
-		String gImageName = (String) groupImgFiles.get(2);
-		String renameGimgName = (String) groupImgFiles.get(3);
 		
-		System.out.println(gProfileName+", "+renameGproName+", "+gImageName+", "+renameGimgName);
+		if( groupImgFiles.size()!=0){
+		    String gProfileName = (String) groupImgFiles.get(0);
+			String renameGproName = (String) groupImgFiles.get(1);
+			String gImageName = (String) groupImgFiles.get(2);
+			String renameGimgName = (String) groupImgFiles.get(3);
+		
+			System.out.println(gProfileName+", "+renameGproName+", "+gImageName+", "+renameGimgName);
+		}
 		
 
 
