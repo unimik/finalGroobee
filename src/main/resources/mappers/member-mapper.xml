@@ -15,14 +15,41 @@
  		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
  		<result property="cDate" column="CREATE_DATE"/>
  		<result property="mLevel" column="M_LEVEL"/>
-		<result property="mIntro" column="M_INTRO"/>
+
+ 		<result property="mIntro" column="M_INTRO"/>
  	</resultMap>
 
+	<!-- 로그인 -->
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT *
 		FROM MEMBER
 		WHERE M_ID = #{userId}
-		AND M_PWD = #{userPwd}
 		AND M_STATUS = 'Y'
 	</select>
+	
+	<!-- ID 중복확인 -->
+	<select id="idCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE M_ID = #{userId}
+	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		INSERT INTO MEMBER
+		VALUES(SEQ_MNO.NEXTVAL,#{userId},#{userName},#{userPwd},#{email},#{interestes},NULL,DEFAULT,NULL,NULL,SYSDATE,DEFAULT,NULL)
+	</insert>
+	
+	<select id="findId" parameterType="Member" resultType="string">
+		SELECT M_ID
+		FROM MEMBER
+		WHERE M_NAME = #{userName}
+		AND M_EMAIL = #{email}
+	</select>
+	
+	<update id="findPwd" parameterType="Member">
+		UPDATE MEMBER
+		SET M_PWD = #{userPwd}
+		WHERE M_ID = #{userId}
+		AND M_EMAIL = #{email}
+	</update>
 </mapper>

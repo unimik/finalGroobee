@@ -24,7 +24,6 @@ public class Member implements Serializable{
 	private String mLevel;
 	private String mIntro;
 
-
 	public Member() {
 		super();
 	}
@@ -128,7 +127,7 @@ public class Member implements Serializable{
 	public void setmRenameImage(String mRenameImage) {
 		this.mRenameImage = mRenameImage;
 	}
-	
+
 	public Date getcDate() {
 		return cDate;
 	}
@@ -153,8 +152,6 @@ public class Member implements Serializable{
 	public void setmIntro(String mIntro) {
 		this.mIntro = mIntro;
 	}
-
-
 
 	@Override
 	public String toString() {

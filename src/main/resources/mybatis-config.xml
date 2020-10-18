@@ -12,11 +12,15 @@
 		<typeAlias type="com.kh.spring.feed.model.vo.Feed" alias="Feed"/>
 		<typeAlias type="com.kh.spring.search.model.vo.Search" alias="Search"/>
 		<typeAlias type="com.kh.spring.search.model.vo.RelatedSearch" alias="RelatedSearch"/>
+		<typeAlias type="com.kh.spring.group.model.vo.Group" alias="Group"/>
+		<typeAlias type="com.kh.spring.group.model.vo.GroupMember" alias="GroupMember"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/setting-mapper.xml"/>
 		<mapper resource="mappers/search-mapper.xml"/>
+		<mapper resource="mappers/group-mapper.xml"/>
+		<mapper resource="mappers/gm-mapper.xml"/>
 	</mappers>
 </configuration>
