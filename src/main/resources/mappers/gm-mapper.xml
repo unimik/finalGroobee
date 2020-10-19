@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gmMapper">
+	<resultMap id="GroupMemberResultSet" type="GroupMember">
+  		<id property="gNo" column="G_NO"/>
+  		<result property="gCreator" column="GM_ID"/>
+  		<result property="gmStatus" column="GM_STATUS"/>
+  		<result property="gmLevel" column="GM_LEVEL"/>
+  		<result property="a1" column="A1"/>
+  		<result property="a2" column="A2"/>
+  		<result property="a3" column="A3"/>
+  		<result property="gJoinDate" column="G_JOINDATE"/>	
+  	</resultMap>
+  	
+  	<insert id="insertGroupMember" parameterType="GroupMember">
+		INSERT INTO GROUP_MEMBER
+		VALUES(
+			#{ gNo }, #{ gCreator }, DEFAULT, '그룹장', NULL,NULL,NULL,SYSDATE
+		)
+	</insert>
+</mapper>

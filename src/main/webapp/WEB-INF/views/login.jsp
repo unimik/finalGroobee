@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GROOBEE</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/login.css">
-
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 	<div class="wapper">
@@ -20,13 +20,17 @@
                     <input type="submit" id="loginBtn" name="loginBtn" value="로그인"> 
                 </form>
                 </div>
-                <a href="../finalProjectWorkspace/views/memberFind.html" id="find_Id_Pwd">아이디나 비밀번호를 잊어버리셨나요? &nbsp;&nbsp;<b>아이디찾기</b></a><br><br>
-                <a href="../finalProjectWorkspace/views/memberJoin.html" id="create_Id">아직 회원이 아니신가요? &nbsp;&nbsp;<b>계정만들기</b></a>
+                <a href="goMemberFindForm.do" id="find_Id_Pwd">아이디나 비밀번호를 잊어버리셨나요? &nbsp;&nbsp;<b>아이디/비밀번호 찾기</b></a><br><br>
+                <a href="goMemberJoinForm.do" id="create_Id">아직 회원이 아니신가요? &nbsp;&nbsp;<b>계정만들기</b></a>
             </div>
         </div>
         <div id="copy">
             <p>GROOBEE © 2020</p>
         </div>
     </div>
+    
+    <script>
+    	
+    </script>
 </body>
 </html>
