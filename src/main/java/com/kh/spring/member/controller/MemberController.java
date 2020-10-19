@@ -133,10 +133,10 @@ public class MemberController {
 	public boolean sendEmailPwd(Member m,String userId,String email,int random,HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		String authCode = String.valueOf(random);
+		String encPwd = bcryptPasswordEncoder.encode(authCode);
 		m.setUserId(userId);
-		m.setUserPwd(authCode);
+		m.setUserPwd(encPwd);
 		m.setEmail(email);
-		System.out.println(m);
 		int result = mService.findPwd(m);
 		if(result > 0) {
 			session.setAttribute("authCode", authCode);
