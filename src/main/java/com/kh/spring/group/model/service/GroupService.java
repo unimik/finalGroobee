@@ -27,4 +27,10 @@ public interface GroupService {
 	 */
 	int insertGM(GroupMember gm);
 
+	/**
+	 * 4. 그룹 상세조회
+	 * @param gNo
+	 * @return
+	 */
+	Group selectGroup(int gNo);
 }

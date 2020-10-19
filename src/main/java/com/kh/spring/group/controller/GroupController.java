@@ -98,9 +98,15 @@ public class GroupController{
 			String renameGimgName = (String) groupImgFiles.get(3);
 		
 			System.out.println(gProfileName+", "+renameGproName+", "+gImageName+", "+renameGimgName);
-		}
+			
+			g.setgProfile(gProfileName);
+			g.setgRenameProfile(renameGproName);
+			g.setgImage(gImageName);
+			g.setgRenameImage(renameGimgName);
+		} 		
 		
-
+		
+		System.out.println(g.getgProfile()+", " +g.getgRenameProfile()+", "+g.getgImage()+", "+g.getgRenameImage());
 
 		int result = gService.insertGroup(g);
 		int seq = g.getgNo();
@@ -114,6 +120,19 @@ public class GroupController{
 		} else {
 			return "common/errorPage";
 		}
+	}
+	
+	@RequestMapping("gdetail.do")
+	public ModelAndView groupDetail(ModelAndView mv, int gNo) {
+		Group g = gService.selectGroup(gNo);
+		
+		if(g != null) {
+			mv.addObject("g",g).setViewName("group/groupDetail");
+		} else {
+			mv.addObject("msg","그룹 상세조회에 실패하셨습니다.").setViewName("common/errerPage");
+		}
+		
+		return mv;
 	}
 	
 

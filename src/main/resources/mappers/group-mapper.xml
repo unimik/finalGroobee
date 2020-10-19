@@ -39,6 +39,13 @@
 		VALUES(#{ gNo }, #{ gCreator }, #{ gName }, #{ gCategory }, #{ gMax }, 
 			SYSDATE, #{ gOpenScope }, #{ gJoinSet }, #{ gQset }, #{ q1 }, #{ q2 }, #{ q3 },
 			#{ gIntro }, #{ gTag }, DEFAULT, #{ gNotice }, #{ gProfile },
-			#{ gImage }, #{ gRenameProfile }, #{ gRenameImage })
+			#{ gRenameProfile }, #{ gImage }, #{ gRenameImage })
 	</insert>
+	
+	<select id="selectGroup" resultMap="GroupResultSet">
+		SELECT * 
+		FROM GROUPS
+		WHERE G_NO=#{ gNo }
+		AND G_STATUS='Y'
+	</select>
 </mapper>
