@@ -15,7 +15,6 @@
  		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
  		<result property="cDate" column="CREATE_DATE"/>
  		<result property="mLevel" column="M_LEVEL"/>
-
  		<result property="mIntro" column="M_INTRO"/>
  	</resultMap>
 

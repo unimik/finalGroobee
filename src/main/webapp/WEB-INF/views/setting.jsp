@@ -143,12 +143,16 @@
                             <tr>
                                 <th class="settings">전체알림</th>
                             </tr>
-                            <tr>
-                            <c:if test="${NotificationSetting.aAll } == 'Y'">
-                            
+                            <c:if test="${ns.aAll eq 'Y' }"> 
+	                            <tr>
+	                                <td><input type="radio" name="notification-all" class="all" id="set" checked value="Y"> 설정 <input type="radio" name="notification-all" class="all" id="nonset" value="N"> 해제</td>                            
+	                            </tr>
                             </c:if>
-                                <td><input type="radio" name="notification-all" class="all" id="set" checked > 설정 <input type="radio" name="notification-all" class="all" id="noneset" > 해제</td>
-                            </tr>
+                            <c:if test="${ns.aAll eq 'N' }">
+	                            <tr>
+	                                <td><input type="radio" name="notification-all" class="all" id="set" value="Y"> 설정 <input type="radio" name="notification-all" class="all" id="nonset" value="N" checked> 해제</td>                            
+	                            </tr>
+                            </c:if>
                         </table>
                     </div>
                     <div id="setting-detail">
@@ -158,37 +162,37 @@
                                 <th class="settings others" >좋아요</th>
                             </tr>
 
-                            <tr><td class="others"><input class="others" type="radio" name="notification-like" id="" checked>전체 알림</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-like" id="" >알림 해제</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-like" id="" >친구만 알림</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-like" id="" value="Y" checked>전체 알림</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-like" id="" value="N" >알림 해제</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-like" id="" value="F">친구만 알림</td></tr>
                             
                             <tr><td><div class="line"></div></td></tr>
                             <tr>
                                 <th class="settings others">댓글</th>
                             </tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" checked>전체 알림</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" >알림 해제</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" >친구만 알림</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" value="Y" checked>전체 알림</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" value="N">알림 해제</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" value="F">친구만 알림</td></tr>
                             <tr><td><div class="line"></div></td></tr>
                             <tr>
                                 <th class="settings others">댓글 좋아요</th>
                             </tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" checked>전체 알림</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" >알림 해제</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" >친구만 알림</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" value="Y" checked>전체 알림</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" value="N">알림 해제</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" value="F">친구만 알림</td></tr>
                             <tr><td><div class="line"></div></td></tr>
                             <tr>
                                 <th class="settings others">친구추가</th>
                             </tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Addfollow" id="" checked>설정</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Addfollow" id="" >해제</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Addfollow" id="" value="Y" checked>설정</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Addfollow" id="" value="N">해제</td></tr>
                             
                             <tr><td><div class="line"></div></td></tr>
                             <tr>
                             <th class="settings others">메시지</th>
                             </tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Message" id="" checked>설정</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-Message" id="" >해제</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Message" id="" value="Y" checked>설정</td></tr>
+                            <tr><td class="others"><input class="others" type="radio" name="notification-Message" id="" value="N">해제</td></tr>
                         </table>
                     </div>   
                 </div>
@@ -457,6 +461,21 @@
                     $('.chat').hide();
                 }
             });
+            
+           
+                if(document.getElementById('set').checked == true){
+                    $("#setting-detail").css("background","none");
+                    $(".others").attr('disabled',false);
+                    $(".others").css("color","black");
+                    
+
+                }else if(document.getElementById('nonset').checked == true){
+                    $("#setting-detail").css("background","lightgray");
+                    $(".others").attr('disabled',true);
+                    $(".others").css("color","#5a5a5a");
+                    
+                }
+           
         });
 
        $('.tab_menu_btn').on('click',function(){
@@ -534,26 +553,20 @@
             if(document.getElementById('set').checked == true){
                 $("#setting-detail").css("background","none");
                 $(".others").attr('disabled',false);
-                $(".others").css("color","#5a5a5a");
+                $(".others").css("color","black");
                 
 
-            }else if(document.getElementById('noneset').checked == true){
+            }else if(document.getElementById('nonset').checked == true){
                 $("#setting-detail").css("background","lightgray");
                 $(".others").attr('disabled',true);
                 $(".others").css("color","#5a5a5a");
                 
             }
         });
+        
 
         // 차단된 계정 클릭시 스크롤 
-        
-        // $("#blocked-accounts").on('click',function(){
-        //     if(document.getElementById('blockedList').style.display == 'block'){
-        //         $('#blockedList').css('display','none');
-        //     }else{
-        //         $('#blockedList').css('display','block');
-        //     }
-        // });
+
         
         $("#blocked-accounts").on('click',function(){
           var num=0;
@@ -629,6 +642,25 @@
         });
         $('#question-btn').mouseup(function(){
             $('#question-btn').css({'background':'#47c6a3','color':'white'});
+        });
+        
+        $("input[name^=notification]").on('click',function(e){
+        	console.log(e.target.name);
+			console.log($('input[name='+e.target.name+']:checked').val())
+			
+        	$.ajax({
+        		  url: '/spring/updateSetting.do',
+        		  type: 'post',
+        		   data: {
+        		    aAll : $('input[name=notification-all]:checked').val(),
+        		    aLike : $('input[name=notification-like]:checked').val(),
+        		    aReply : $('input[name=notification-Comment]:checked').val(),
+        		    aFriends : $('input[name=notification-Addfollow]:checked').val(),
+        		    aMessage : $('input[name=notification-Message]:checked').val() 
+        		  } 
+        		 
+        		
+        		}); 
         });
     </script>
 </body>

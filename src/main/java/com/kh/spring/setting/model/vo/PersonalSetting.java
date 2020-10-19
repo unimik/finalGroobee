@@ -47,6 +47,12 @@ public class PersonalSetting implements Serializable {
 	public void setBlockedNo(String blockedNo) {
 		this.blockedNo = blockedNo;
 	}
+	@Override
+	public String toString() {
+		return "PersonalSetting [mNo=" + mNo + ", openStatus=" + openStatus + ", pwdSaved=" + pwdSaved + ", blockedNo="
+				+ blockedNo + "]";
+	}
+
 	
 
 	
