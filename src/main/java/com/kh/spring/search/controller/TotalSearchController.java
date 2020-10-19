@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.search.model.service.TotalSearchService;
 import com.kh.spring.search.model.vo.RelatedSearch;
@@ -45,17 +46,18 @@ public class TotalSearchController {
 		}else if(allSearch.charAt(0) =='#') { //# 달고 검색 했을 때 -> 태그 검색
 			Search srch = new Search(allSearch.charAt(0), allSearch);
 			ArrayList<Member> mList = tsService.searcMember(srch);
-//			ArrayList<Group> gList = tsService.searchGroup(allSearch);
 			Search srch2 = new Search(allSearch.charAt(0), allSearch);
+			ArrayList<Group> gList = tsService.searchGroup(srch2);
 			ArrayList<Feed> fList = tsService.searchFeed(srch2);
 			
 //			ArrayList rsList = new ArrayList<>();
 			ArrayList<RelatedSearch> rsList = tsService.relatedSearch(srch2);  
 //			System.out.println("연관검색어 들어옴?"+rsList);
 //			System.out.println("태그로 검색했을 때 멤버 리스트"+mList);
+			System.out.println("gList"+gList);
 
 			mv.addObject("mList", mList);
-//			mv.addObject("gList", gList);
+			mv.addObject("gList", gList);
 			mv.addObject("fList", fList);
 			mv.addObject("rsList",rsList);
 		

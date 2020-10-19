@@ -37,7 +37,7 @@
 	                            </c:when>
 	                            <c:otherwise>
 	                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
-	                                <img src="resources/images/memberProfileFiles/${ m.mRenameImage }" alt="" id="user_profile_img">
+	                                <img src="resources/memberProfileFiles/${ m.mRenameImage }" alt="" id="user_profile_img">
 	                                <p id="search_id">${ m.userId }</p>
 	                            </div>                            
 	                            </c:otherwise>
@@ -60,16 +60,12 @@
 	         				<c:otherwise>
 	                        	<c:forEach var="g" items="${ gList }">
 		                            <div id="search_group" style=" cursor: pointer;" onclick="location.href='';">
-		                                <img src="resources/images/groupProfileFiles/${g.Image} }" alt="" id="group_profile_img">
-		                                <p id="search_id_group">축구싶어 </p>
+		                                <img src="resources/gUploadFiles/${g.gRenameProfile} " alt="" id="group_profile_img">
+		                                <p id="search_id_group">${ g.gName} </p>
 		                            </div>                      
 		                       </c:forEach>
 	                       </c:otherwise>                        
                        </c:choose>
-                            <div id="search_group" style=" cursor: pointer;" onclick="location.href='';">
-                                <img src="resources/images/IMG_7502.JPG" alt="" id="group_profile_img">
-                                <p id="search_id_group">댕댕사랑 </p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,14 +105,13 @@
 	                    	<c:forEach var="f" items="${ fList }">
 	                    	<c:choose>
 	                   			<c:when test="${ empty f.fFile }">
-	                   			<div class="post" style=" cursor: pointer; border: 1px solid #555555;">
-		                             <p style="height:200px">${f.fContent} </p>
+	                   			<div class="post" style=" cursor: pointer;;">
+		                             <p>${f.fContent} </p>
 		                        </div>
 	                   			</c:when>
-	                   			
 	                   			<c:otherwise>
 	                   			<div class="post" style=" cursor: pointer;">
-		                            <img src="resources/images/feedFile/${f.fRenameFile}" alt="" id="post_con">
+		                            <img src="resources/feedUpFiles/${f.fRenameFile}" alt="" id="post_con">
 		                        </div>
 	                   			</c:otherwise>
 	                   		</c:choose>							                 		
