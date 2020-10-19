@@ -62,7 +62,7 @@ public class TotalSearchController {
 			mv.setViewName("search/totalSearch");
 			return mv;
 			
-		}else{				//@나 # 빼고 검색했을 때
+		}else{								//@나 # 빼고 검색했을 때
 //			Search srch = new Search(allSearch.charAt(0), allSearch);
 //			ArrayList<Member> mList = tsService.searcMember("");
 //			ArrayList<Feed> gList = tsService.searchGroup(allSearch);

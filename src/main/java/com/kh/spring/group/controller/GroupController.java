@@ -62,7 +62,7 @@ public class GroupController{
 			System.out.println("용량없음");
 			
 		}
-		
+	
 		ArrayList groupImgFiles = new ArrayList();
 		
 		List<MultipartFile> fileList = groupFiles.getFiles("file");
