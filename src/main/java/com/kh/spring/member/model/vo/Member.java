@@ -143,8 +143,7 @@ public class Member implements Serializable{
 	public void setmLevel(String mLevel) {
 		this.mLevel = mLevel;
 	}
-
-
+	
 	public String getmIntro() {
 		return mIntro;
 	}
