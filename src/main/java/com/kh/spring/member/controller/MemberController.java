@@ -68,8 +68,20 @@ public class MemberController {
 	}
 	
 	@RequestMapping("adminmain.do")
-	public String goAdmin() {
+	public String goAdminmain() {
 		return "adminmain";
+	}
+	@RequestMapping("adminboard.do")
+	public String goAdminBoard() {
+		return "adminboard";
+	}
+	@RequestMapping("admingroups.do")
+	public String goAdminGroups() {
+		return "admingroups";
+	}
+	@RequestMapping("adminreport.do")
+	public String goAdminReport() {
+		return "adminreport";
 	}
 	
 	@RequestMapping("goMemberJoinForm.do")
