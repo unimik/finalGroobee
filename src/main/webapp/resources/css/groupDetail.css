@@ -5,18 +5,18 @@
 p{ margin: 0; }
 #groupInfoArea{height: 560px; width: 630px;  border: 2px solid #E5E5E5; }
 /* 직사각형 이미지 */
-#groupImage{height: 250px; margin-top: 40px; margin-bottom: 40px; }
-#groupImage > img{width: 100%; height: 100%; }
+#groupImage{height: 300px;}
+#groupImage > img{ width:100%;height: 300px; }
 
 #groupInfo{height: 180px; border-top: 2px solid #E5E5E5; }
 #groupmenubar{height: 40px; border-top: 2px solid #E5E5E5;}
 #groupNameAndInterest{ float: left; width: 500px; height: 40px; margin-top: 10px; margin-left: 20px;margin-right: 20px;}
 #groupName,#groupInterest{float: left; font-size: 20px; }
 #groupInterest{color:#47c6a3; font-weight: 600;}
-#groupintroduction b{color:#555555; float: left; font-size: 16px; border: 2px; margin:5px 20px 0 20px;}
-#groupintroduction #groupInfo{ height: 100%; color:#555555; float: left; font-size: 16px; border: 2px; padding: 5px 20px 5px 20px;}
-#groupintroduction #tag{ padding: 0;     margin: 20px 0 10px 20px;}
-#tag li{ list-style: none; float: left;}
+#groupintroduction b{ color:#555555; float: left; width:97%; font-size: 16px; padding: 15px 0 10px 20px; border-top:1px solid #e5e5e5;}
+#groupintroduction #groupInfo{ height: 100%; width:95%; color:#555555; float: left; font-size: 16px; border: 2px; padding: 5px 20px 5px 20px;}
+#groupintroduction #tag{ padding: 0;  padding:20px 0 0 20px;}
+#tag li{ list-style: none; float: left; margin-top:20px}
 /* ... 버튼 */
 #groupdotbtn{float: left; width: 35px; height: 35px;margin: 7px 0 0 35px; border-style: none; outline: none; background-color: #ffffff;}
 #groupSearchbar{ width: 630px; height: 60px; margin: auto;}

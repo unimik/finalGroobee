@@ -50,7 +50,12 @@ public class MemberController {
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			return "redirect:home.do";
+			System.out.println(loginUser.getUserId());
+			if(loginUser.getUserId().equals("admin")) {
+				return "redirect:adminmain.do";
+			}else {
+				return "redirect:home.do";
+			}
 		}else {
 			model.addAttribute("msg", "로그인실패!");
 			return "common/errorPage";
@@ -60,6 +65,11 @@ public class MemberController {
 	@RequestMapping("home.do")
 	public String goHome() {
 		return "home";
+	}
+	
+	@RequestMapping("adminmain.do")
+	public String goAdmin() {
+		return "adminmain";
 	}
 	
 	@RequestMapping("goMemberJoinForm.do")

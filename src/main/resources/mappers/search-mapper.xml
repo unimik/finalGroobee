@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="searchMapper">
+
+	<resultMap id="memberResultSet" type="Member">
+		<id property="mNo" column="M_NO"/>
+		<result property="userId" column="M_ID"/>
+		<result property="userName" column="M_NAME"/>
+		<result property="userPwd" column="M_PWD"/>
+		<result property="email" column="M_EMAIL"/>
+		<result property="interestes" column="INTERESTES"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="mStatus" column="M_STATUS"/>
+		<result property="mImage" column="M_IMAGE"/>
+ 		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
+		<result property="cDate" column="CREATE_DATE"/>
+		<result property="mLevel" column="M_LEVEL"/>
+		<result property="mIntro" column="M_INTRO"/>
+	</resultMap>
+	
+	<resultMap id="feedResultSet" type="Feed">
+		<id property="fNo" column="F_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="fContent" column="F_CONTENT"/>
+		<result property="fWriter" column="F_WRITER"/>
+		<result property="fFile" column="F_FILE"/>
+		<result property="fRenameFile" column="F_RENAMEFILE"/>
+		<result property="fCreateDate" column="F_CREATE_DATE"/>
+		<result property="fModifyDate" column="F_MODIFY_DATE"/>
+		<result property="fStatus" column="F_STATUS"/>
+		<result property="fLocation" column="F_LOCATION"/>
+		<result property="fOpenScope" column="F_OPEN_SCOPE"/>
+		<result property="fLikeSet" column="F_LIKE_SET"/>
+		<result property="fReplySet" column="F_REPLY_SET"/>
+		<result property="fShareSet" column="F_SHARE_SET"/>
+		<result property="fLikeCnt" column="F_LIKECNT"/>
+		<result property="fReplyCnt" column="F_REPLYCNT"/>
+	</resultMap>
+	
+	<resultMap id="relatedSearchSet" type="RelatedSearch">
+		<result property="rsNo" column="RNUM"/>
+		<result property="rsTag" column="TATG"/>
+		<result property="rsCnt" column="SUMC"/>
+	</resultMap>
+	
+	<select id="searchMember" parameterType="Search" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE M_STATUS='Y'
+		AND M_LEVEL='M'
+		<if test="searchType=='@' and search!=null">
+		AND M_ID LIKE '%' || #{search}  || '%'
+		</if>
+		<if test="searchType=='#' and search!=null">
+		AND M_INTRO LIKE '%' || #{search}  || '%'
+		</if>
+	</select>
+	
+	<select id="searchGroup" parameterType="Search" resultType="String">
+		SELECT G_NO,G_NAME,G_IMAGE
+		FROM GROUPS
+		WHERE G_STATUS='Y'
+	</select>
+	<select id="searchFeed" parameterType="Search" resultMap="feedResultSet">
+		SELECT * FROM FEED
+		WHERE F_OPEN_SCOPE='Y'
+		AND F_STATUS='Y'
+		<if test="searchType=='#' and search!=null">
+		AND F_CONTENT LIKE '%' || #{search}  || '%'
+		</if>
+		<if test="searchType=='@' and search!=null">
+		AND F_CONTENT LIKE '%' || #{search}  || '%'
+		</if>
+	</select>
+	<select id="relatedSearch" parameterType="Search" resultMap="relatedSearchSet">
+	<![CDATA[
+	SELECT ROWNUM, TC.*
+	FROM (
+	    SELECT TB.TATG, SUM(CNT) SUMC
+	    FROM(
+	        SELECT TA.F_TAG AS TATG, COUNT(TA.F_TAG) CNT
+	        FROM TAG TA
+	        WHERE TA.F_NO IN(SELECT F_NO 
+	                        FROM TAG
+	                        WHERE F_TAG= #{search} )
+	        AND NOT TA.F_TAG = #{search} 
+	        GROUP BY TA.F_NO, TA.F_TAG) TB
+	    GROUP BY TB.TATG
+	    ORDER BY SUMC DESC) TC
+	WHERE ROWNUM < 10
+	]]>
+	</select>	
+
+
+</mapper>

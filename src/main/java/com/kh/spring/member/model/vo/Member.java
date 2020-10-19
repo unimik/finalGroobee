@@ -28,6 +28,7 @@ public class Member implements Serializable{
 		super();
 	}
 
+
 	public Member(int mNo, String userId, String userName, String userPwd, String email, String interestes, int gNo,
 			String mStatus, String mImage, String mRenameImage, Date cDate, String mLevel, String mIntro) {
 		super();
@@ -45,6 +46,7 @@ public class Member implements Serializable{
 		this.mLevel = mLevel;
 		this.mIntro = mIntro;
 	}
+
 
 	public int getmNo() {
 		return mNo;
@@ -142,6 +144,7 @@ public class Member implements Serializable{
 		this.mLevel = mLevel;
 	}
 
+
 	public String getmIntro() {
 		return mIntro;
 	}
@@ -157,4 +160,7 @@ public class Member implements Serializable{
 				+ ", mImage=" + mImage + ", mRenameImage=" + mRenameImage + ", cDate=" + cDate + ", mLevel=" + mLevel
 				+ ", mIntro=" + mIntro + "]";
 	}
+
+
+	
 }
