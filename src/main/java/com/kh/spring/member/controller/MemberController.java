@@ -50,7 +50,6 @@ public class MemberController {
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			System.out.println(loginUser.getUserId());
 			if(loginUser.getUserId().equals("admin")) {
 				return "redirect:adminmain.do";
 			}else {
@@ -60,21 +59,6 @@ public class MemberController {
 			model.addAttribute("msg", "로그인실패!");
 			return "common/errorPage";
 		}
-	}
-	
-	@RequestMapping("home.do")
-	public String goHome() {
-		return "home";
-	}
-	
-	@RequestMapping("adminmain.do")
-	public String goAdmin() {
-		return "adminmain";
-	}
-	
-	@RequestMapping("goMemberJoinForm.do")
-	public String goMemberJoinForm() {
-		return "member/memberJoinForm";
 	}
 	
 	/**
@@ -184,18 +168,22 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("goMemberFindForm.do")
-	public String goMemberFindForm() {
-		return "member/memberFindForm";
-	}
-	
+	/**
+	 * - 아이디 찾기
+	 * @param m
+	 * @param userName
+	 * @param email
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("findId.do")
 	public void findId(Member m,String userName,String email,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		m.setUserName(userName);
 		m.setEmail(email);
+		System.out.println(m);
 		String userId = mService.findId(m);
-		
+		System.out.println(userId);
 		JSONObject job = new JSONObject();
 		
 		if(userId == null || userId.equals("")) {
@@ -206,6 +194,26 @@ public class MemberController {
 		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
+	}
+	
+	@RequestMapping("home.do")
+	public String goHome() {
+		return "home";
+	}
+	
+	@RequestMapping("adminmain.do")
+	public String goAdmin() {
+		return "adminmain";
+	}
+	
+	@RequestMapping("goMemberJoinForm.do")
+	public String goMemberJoinForm() {
+		return "member/memberJoinForm";
+	}
+	
+	@RequestMapping("goMemberFindForm.do")
+	public String goMemberFindForm() {
+		return "member/memberFindForm";
 	}
 	
 }
