@@ -24,4 +24,15 @@ public class SettingDao {
 		return sqlSession.selectOne("settingMapper.pSetting",mNo);
 	}
 
+	public int updateSetting(NotificationSetting ns) {
+		
+		System.out.println("settingDao 실행확인");
+		return sqlSession.update("settingMapper.nUpdateSetting",ns);
+		
+	}
+
+	public int updateSetting(PersonalSetting ps) {
+		return sqlSession.update("settingMapper.pUpdateSetting",ps);
+	}
+
 }

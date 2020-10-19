@@ -24,4 +24,18 @@ public class SettingServiceImpl implements SettingService {
 		return sDao.personalSetting(mNo);
 	}
 
+	@Override
+	public int updateSetting(NotificationSetting ns) {
+		System.out.println("settingService 실행확인");
+		return sDao.updateSetting(ns);
+		
+		
+	}
+
+	@Override
+	public int updateSetting(PersonalSetting ps) {
+		
+		return sDao.updateSetting(ps);
+	}
+
 }
