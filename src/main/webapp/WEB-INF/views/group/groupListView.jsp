@@ -18,7 +18,8 @@
 	       <c:url var="gdetail" value="gdetail.do">
 				<c:param name="gNo" value="${ g.gNo }"/>
 		   </c:url>
-	       <div id="groupBox" onclick="gDetail();">
+	       <div id="groupBox">
+	       <a href="${ gdetail }">
 	       	   <c:if test="${ !empty g.gImage }">
 	       	   		<img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }" id="groupBack">
 	       	   </c:if>
@@ -33,6 +34,7 @@
 	           </c:if>
 	           <p id="groupName">${ g.gName }</p>
 	           <p id="gcategoryName">${ g.gCategory }</p>
+	       </a>
 	       </div>
 	       </c:forEach>
 		</div>
@@ -42,9 +44,7 @@
 			location.href="gInsertView.do";
 		});
 		
-		function gDetail(){
-			location.href="gdetail";
-		}
+
 	</script>
 	<div id="feedArea">
     	<div id="feed">
