@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypageMapper">
+
+	<resultMap id="mypageResultSet" type="Mypage">
+ 		<id property="mNo" column="M_NO"/>
+ 		<result property="userId" column="M_ID"/>
+ 		<result property="mImage" column="M_IMAGE"/>
+ 		<result property="mIntro" column="M_INTRO"/>
+ 		<result property="interestes" column="INTERESTES"/>
+ 		<result property="follows" column="follows"/>
+ 		<result property="followers" column="followers"/>
+ 		<result property="fNo" column="f_no"/>
+ 		<result property="fContent" column="f_Content"/>
+ 		<result property="fFile" column="f_File"/>
+ 		<result property="sbName" column="sb_Name"/>
+ 		<result property="gNo" column="g_no"/>
+ 		<result property="gName" column="g_Name"/>
+ 		<result property="gImage" column="g_Image"/>
+ 		<result property="gJoinDate" column="g_JoinDate"/>
+ 		<result property="gCategory" column="g_Category"/>
+ 	</resultMap>
+
+	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
+		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
+		,(select count(*) from FOLLOW  where follows = #{mNo}) as followers  
+		from dual
+	</select>
+	<select id="selectMemInfo" parameterType="Mypage" resultMap="mypageResultSet">
+		select * from member where m_no=#{mNo}
+	</select>
+	<select id="selectFeedInfo" parameterType="Mypage" resultMap="mypageResultSet">
+		select * from feed where m_no=#{mNo}
+	</select>
+	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="mypageResultSet">
+		select * from storage_box where m_no=#{mNo}
+	</select>
+	<insert id="insertBox" parameterType="Mypage">
+		INSERT INTO STORAGE_BOX VALUES(default, null, #{mNo}, (select max(sb_no)+1 from storage_box where M_NO=#{mNo}))
+	</insert>
+
+</mapper>
