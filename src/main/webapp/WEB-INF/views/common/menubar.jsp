@@ -35,7 +35,7 @@
                    		</c:if>
                    		<p>${ loginUser.userId }</p>
                    </li>
-                   <li><a href="/views/PostInsertForm.html"><img src="resources/icons/write.png" alt="" id="writeIcon"></a></li>
+                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
                    <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
                    <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
                </ul>
