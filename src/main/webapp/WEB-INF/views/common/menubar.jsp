@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.kh.spring.member.model.vo.Member"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -24,6 +26,7 @@
     	 </div>
            <div id="userInfo">
                <ul>
+                   <!--<li id="goMypage"><a href="goMypage.do?mNo=${ loginUser.mNo }"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>-->
                    <li id="goMypage">
                    		<c:if test="${ !empty loginUser.mImage }">
                    		</c:if>

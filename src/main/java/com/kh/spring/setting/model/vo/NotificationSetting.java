@@ -65,5 +65,12 @@ public class NotificationSetting implements Serializable{
 	public void setaMessage(String aMessage) {
 		this.aMessage = aMessage;
 	}
+	@Override
+	public String toString() {
+		return "NotificationSetting [mNo=" + mNo + ", aAll=" + aAll + ", aLike=" + aLike + ", aReply=" + aReply
+				+ ", aFriends=" + aFriends + ", aMessage=" + aMessage + "]";
+	}
+	
+	
 	
 }
