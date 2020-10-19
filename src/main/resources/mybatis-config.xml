@@ -24,5 +24,6 @@
 		<mapper resource="mappers/search-mapper.xml"/>
 		<mapper resource="mappers/group-mapper.xml"/>
 		<mapper resource="mappers/gm-mapper.xml"/>
+		<mapper resource="mappers/feed-mapper.xml"/>
 	</mappers>
 </configuration>
