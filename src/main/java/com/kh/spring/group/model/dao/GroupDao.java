@@ -27,4 +27,7 @@ public class GroupDao {
 		return sqlSession.insert("gmMapper.insertGroupMember", gm);
 	}
 
+	public Group selectGroup(int gNo) {
+		return sqlSession.selectOne("groupMapper.selectGroup", gNo);
+	}
 }

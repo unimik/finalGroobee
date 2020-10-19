@@ -30,4 +30,8 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.insertGM(gm);
 	}
 
+	@Override
+	public Group selectGroup(int gNo) {
+		return gDao.selectGroup(gNo);
+	}
 }
