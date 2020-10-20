@@ -51,4 +51,11 @@
 		WHERE M_ID = #{userId}
 		AND M_EMAIL = #{email}
 	</update>
+	
+	<select id="totalMember" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE M_STATUS ='Y'
+	</select>
+	
 </mapper>

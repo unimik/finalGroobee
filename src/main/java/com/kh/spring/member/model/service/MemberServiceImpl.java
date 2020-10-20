@@ -37,5 +37,11 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.findPwd(m);
 	}
 
+	@Override
+	public int totalMember() {
+		return mDao.totalMember();
+	}
+
+
 
 }

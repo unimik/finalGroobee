@@ -56,4 +56,8 @@ public class GroupDao {
 	public int groupMemberDelete(GroupMember gm) {
 		return sqlSession.update("gmMapper.gmDelete", gm);
 	}
+
+	public int totalGroups() {
+		return sqlSession.selectOne("groupMapper.totalGroups");
+	}
 }

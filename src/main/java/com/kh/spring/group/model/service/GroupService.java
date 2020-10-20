@@ -56,4 +56,9 @@ public interface GroupService {
 	 */
 	int gmDelete(GroupMember gm);
 
+	/**8. 총 그룹의 수
+	 * @return
+	 */
+	int totalGroups();
+
 }

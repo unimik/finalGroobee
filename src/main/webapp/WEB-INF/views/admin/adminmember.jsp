@@ -25,10 +25,8 @@
 				
 				<p id="title">GROOBEE 회원관리</p>
 				<div id="searchBox">
-					<div id="all_user">
-						<p>
-							현재 GROOBEE 회원 수는 <b>${totalCount}</b>명입니다.
-						</p>
+					<div id="all_user" style="font-size: 15px;">
+						<p>현재 GROOBEE 회원 수는 <b id="total" style="color: red;"></b> 명입니다.</p>
 					</div>
 					<div id="search">
 						<form>
@@ -87,8 +85,20 @@
 		</div>
 	</div>
 	<script>
+		var totalCount;
+		
 		$(document).ready(function() {
-
+			$.ajax({
+				url:"totalMember.do",
+				dataType: "html",
+				type:"get",
+				success:function(data){
+					console.log(data);
+					$("#total").html(data);
+				},error:function(){
+					console.log("전송실패!");
+				}				
+			});
 			$('#alarmIcon').on("click", function() {
 				$('.alarm_pop').show();
 			});
@@ -111,9 +121,9 @@
 			$('.close_pop').on("click", function() {
 				$('.alarm_pop').hide();
 			});
+			
+			
 		});
-
-		
 	</script>
 </body>
 </html>

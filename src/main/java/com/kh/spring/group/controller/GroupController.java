@@ -2,12 +2,14 @@ package com.kh.spring.group.controller;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -178,4 +180,13 @@ public class GroupController{
 			return "common/errorPage";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
+	public int totalGroups(HttpServletResponse response) throws IOException{
+		
+		int totalGroups = gService.totalGroups();
+		return totalGroups;
+	}
+	
+	
 }

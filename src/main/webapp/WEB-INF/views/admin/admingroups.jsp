@@ -25,7 +25,7 @@
                 <p id="title">GROOBEE 회원관리</p>
                 <div id="searchBox">
                     <div id="all_group">
-                        <p>현재 GROOBEE 그룹 수는 <b>831</b>개입니다.</p>
+                        <p>현재 GROOBEE Group은 <b id="total" style="color: red;"></b> 개 입니다.</p>
                     </div>
                     <div id="search">
                         <form>
@@ -90,7 +90,17 @@
     </div>
     <script>
         $(document).ready(function(){
-        
+        	$.ajax({
+				url:"totalGroups.do",
+				dataType: "html",
+				type:"get",
+				success:function(data){
+					console.log(data);
+					$("#total").html(data);
+				},error:function(){
+					console.log("전송실패!");
+				}				
+			});
             $('#alarmIcon').on("click",function(){
                 $('.alarm_pop').show();
             });

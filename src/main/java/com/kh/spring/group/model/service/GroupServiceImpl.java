@@ -49,4 +49,9 @@ public class GroupServiceImpl implements GroupService{
 	public int gmDelete(GroupMember gm) {
 		return gDao.groupMemberDelete(gm);
 	}
+
+	@Override
+	public int totalGroups() {
+		return gDao.totalGroups();
+	}
 }
