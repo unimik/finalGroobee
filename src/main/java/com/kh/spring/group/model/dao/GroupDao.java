@@ -2,6 +2,7 @@ package com.kh.spring.group.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,11 +24,36 @@ public class GroupDao {
 		return sqlSession.insert("groupMapper.insertGroup", g);
 	}
 
+	/**
+	 * 1. 그룹 관리자 insert
+	 * @param gm
+	 * @return
+	 */
 	public int insertGM(GroupMember gm) {
-		return sqlSession.insert("gmMapper.insertGroupMember", gm);
+		return sqlSession.insert("gmMapper.insertGroupMaster", gm);
 	}
 
 	public Group selectGroup(int gNo) {
 		return sqlSession.selectOne("groupMapper.selectGroup", gNo);
+	}
+
+	/**
+	 * 2. 그룹 회원 insert
+	 * @param gm
+	 * @param mId 
+	 * @return
+	 */
+	public int groupMemberinsert(GroupMember gm) {
+		return sqlSession.insert("gmMapper.insertGroupMember", gm);
+	}
+
+	public int groupMemberSelect(GroupMember gm) {
+		System.out.println("dao : " + gm.getGmId());
+		System.out.println("dao : " + gm.getgNo());
+		return sqlSession.selectOne("gmMapper.gmSelectId", gm);
+	}
+
+	public int groupMemberDelete(GroupMember gm) {
+		return sqlSession.update("gmMapper.gmDelete", gm);
 	}
 }

@@ -3,7 +3,7 @@
 <mapper namespace="gmMapper">
 	<resultMap id="GroupMemberResultSet" type="GroupMember">
   		<id property="gNo" column="G_NO"/>
-  		<result property="gCreator" column="GM_ID"/>
+  		<result property="gmId" column="GM_ID"/>
   		<result property="gmStatus" column="GM_STATUS"/>
   		<result property="gmLevel" column="GM_LEVEL"/>
   		<result property="a1" column="A1"/>
@@ -12,10 +12,34 @@
   		<result property="gJoinDate" column="G_JOINDATE"/>	
   	</resultMap>
   	
-  	<insert id="insertGroupMember" parameterType="GroupMember">
+  	<insert id="insertGroupMaster" parameterType="GroupMember">
 		INSERT INTO GROUP_MEMBER
 		VALUES(
-			#{ gNo }, #{ gCreator }, DEFAULT, '그룹장', NULL,NULL,NULL,SYSDATE
+			#{ gNo }, #{ gmId }, DEFAULT, '그룹장', NULL,NULL,NULL,SYSDATE
 		)
 	</insert>
+	
+	<insert id="insertGroupMember" parameterType="GroupMember">
+		INSERT INTO GROUP_MEMBER
+		VALUES(
+			#{ gNo }, #{ gmId }, 'N', '멤버', #{ a1 }, #{ a2 }, #{ a3 }, SYSDATE 
+			)
+	</insert>
+	
+	<select id="gmSelectId" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_MEMBER
+		WHERE G_NO=#{gNo}
+		AND GM_ID=#{gmId}
+		AND GM_STATUS = 'Y'
+	</select>
+	
+	<update id="gmDelete" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_STATUS='N'
+		WHERE
+			G_NO=#{ gNo }
+		AND GM_ID=#{ gmId }
+	</update>
 </mapper>

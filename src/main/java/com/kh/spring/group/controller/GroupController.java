@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,7 +43,7 @@ public class GroupController{
 	}
 	
 	@RequestMapping(value="ginsert.do", method=RequestMethod.POST)
-	public String insertGroup(Group g, GroupMember gm,HttpServletRequest request,
+	public String insertGroup(Group g, GroupMember gm, String gmId, HttpServletRequest request,
 								MultipartHttpServletRequest groupFiles){
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
@@ -107,14 +108,15 @@ public class GroupController{
 		
 		
 		System.out.println(g.getgProfile()+", " +g.getgRenameProfile()+", "+g.getgImage()+", "+g.getgRenameImage());
-
+		
+		g.setgCreator(gmId);
 		int result = gService.insertGroup(g);
 		int seq = g.getgNo();
 		gm.setgNo(seq);
 		System.out.println("그룹 시퀀스 : " + gm.getgNo());
 		System.out.println(seq);
 		if(result > 0) {
-			gm.setgCreator(g.getgCreator());
+			gm.setGmId(g.getgCreator());
 			int insertGm = gService.insertGM(gm);
 			return "redirect:glist.do";
 		} else {
@@ -135,5 +137,45 @@ public class GroupController{
 		return mv;
 	}
 	
-
+	@ResponseBody
+	@RequestMapping("gmSelect.do")
+	public int gmSelect(GroupMember gm, String userId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(userId);
+		System.out.println(gm.getGmId());
+		System.out.println(gm.getgNo());
+		
+		int result = gService.gmSelectId(gm);
+		return result;
+	}
+	
+	@RequestMapping(value="gmInsert.do", method=RequestMethod.POST)
+	public String gmInsert(Group g, GroupMember gm, String mId, HttpServletRequest request) {
+				
+		gm.setgNo(g.getgNo());
+		gm.setGmId(mId);
+		int result = gService.gmInsert(gm);
+		
+		if(result > 0) {
+			return "redirect:gdetail.do?gNo="+g.getgNo();
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+	@RequestMapping("gmDelete.do")
+	public String gmDelete(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmDelete(gm);
+		
+		if(result > 0) {
+			return "redirect:gdetail.do?gNo="+gNo;
+		}else {
+			return "common/errorPage";
+		}
+	}
 }
