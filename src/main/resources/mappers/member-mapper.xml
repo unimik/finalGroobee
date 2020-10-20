@@ -51,4 +51,16 @@
 		WHERE M_ID = #{userId}
 		AND M_EMAIL = #{email}
 	</update>
+	
+	<select id="selectOne" parameterType="string" resultMap="memberResultSet">
+		SELECT * 
+		FROM MEMBER
+		WHERE M_NO=#{mNo}
+	</select>
+	
+	<update id="disableAccount" parameterType="int">
+	 	UPDATE MEMBER 
+	 	SET M_STATUS = 'N'
+	 	WHERE M_NO = #m{mNo}
+	</update> 
 </mapper>

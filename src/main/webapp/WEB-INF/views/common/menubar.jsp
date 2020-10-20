@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.kh.spring.member.model.vo.Member"%> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,7 @@
             <img src="resources/icons/logo.png" alt="logo" id="logo" name="logo">
      </div>
      <div class="content">
+<<<<<<< HEAD
      	<div id="chat" name="chat" class="chat">
             <div class="tab_menu">
                 <button class="tab_menu_btn1 tab_menu_btn on">내 채팅</button>

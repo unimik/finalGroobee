@@ -42,6 +42,7 @@
         <url-pattern>*.png</url-pattern>
         <url-pattern>*.jpg</url-pattern>
         <url-pattern>*.js</url-pattern>
+        <url-pattern>*.jpeg</url-pattern>
     </servlet-mapping>
     
     <error-page>

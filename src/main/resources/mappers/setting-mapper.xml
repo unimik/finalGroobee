@@ -19,18 +19,18 @@
  	
  	<select id="nSetting" parameterType="NotificationSetting" resultMap="notificationResultSet">
  		SELECT *
- 		FROM NOTIFICATION_SETTING
+ 		FROM NOTI_SET
  		WHERE M_NO=#{mNo}
  	</select>
  	
  	<select id="pSetting" parameterType="PersonalSetting" resultMap="personalResultSet">
  		SELECT *
- 		FROM PERSONAL_SETTING
+ 		FROM PERSON_SET
  		WHERE M_NO=#{mNo}
  	</select>
  	
  	<update id="nUpdateSetting" parameterType="NotificationSetting">
- 		UPDATE NOTIFICATION_SETTING
+ 		UPDATE NOTI_SET
  		SET A_ALL =#{aAll},
 	 		 A_LIKE =#{aLike},
 	 		 A_REPLY =#{aReply},
@@ -38,5 +38,12 @@
 	 		 A_MESSAGE =#{aMessage}
  		WHERE M_NO = #{mNo}
  		
+ 	</update>
+ 	
+ 	<update id="pUpdateSetting" parameterType="PersonalSetting">
+ 		UPDATE PERSON_SET
+ 		SET OPEN_STATUS =#{openStatus},
+	 		PWD_SAVED =#{pwdSaved}
+ 		WHERE M_NO = #{mNo}
  	</update>
 </mapper>

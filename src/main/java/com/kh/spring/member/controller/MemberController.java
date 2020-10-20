@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
@@ -51,7 +50,7 @@ public class MemberController {
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("loginUser", loginUser);
 			if(loginUser.getUserId().equals("admin")) {
-				return "redirect:adminmain.do";
+				return "redirect:adminmember.do";
 			}else {
 				return "redirect:home.do";
 			}
@@ -61,6 +60,36 @@ public class MemberController {
 		}
 	}
 	
+<<<<<<< HEAD
+=======
+	@RequestMapping("home.do")
+	public String goHome() {
+		return "home";
+	}
+	
+	@RequestMapping("adminmember.do")
+	public String goAdminmain() {
+		return "admin/adminmember";
+	}
+	@RequestMapping("adminboard.do")
+	public String goAdminBoard() {
+		return "admin/adminboard";
+	}
+	@RequestMapping("admingroups.do")
+	public String goAdminGroups() {
+		return "admin/admingroups";
+	}
+	@RequestMapping("adminreport.do")
+	public String goAdminReport() {
+		return "admin/adminreport";
+	}
+	
+	@RequestMapping("goMemberJoinForm.do")
+	public String goMemberJoinForm() {
+		return "member/memberJoinForm";
+	}
+	
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	/**
 	 * - 아이디 중복체크
 	 * @param userId
@@ -196,6 +225,7 @@ public class MemberController {
 		out.print(job);
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping("home.do")
 	public String goHome() {
 		return "home";
@@ -215,5 +245,7 @@ public class MemberController {
 	public String goMemberFindForm() {
 		return "member/memberFindForm";
 	}
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	
 }
