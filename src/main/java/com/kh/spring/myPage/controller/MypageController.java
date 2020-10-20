@@ -28,12 +28,14 @@ public class MypageController {
 		Mypage followInfo = myService.selectFollowInfo(mNo);
 		ArrayList<Mypage> feedList = myService.selectFeedInfo(mNo);
 		ArrayList<Mypage> storageBoxList = myService.selectStorageBoxInfo(mNo);
+		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
 		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("storageBoxList", storageBoxList);
+		mv.addObject("groupList", groupList);
 		mv.setViewName("myPageMain");
 		
 		return mv;

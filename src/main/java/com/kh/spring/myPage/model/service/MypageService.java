@@ -16,6 +16,8 @@ public interface MypageService {
 
 	int insertBox(int mNo);
 
+	ArrayList<Mypage> selectGroupInfo(int mNo);
+
 
 
 }

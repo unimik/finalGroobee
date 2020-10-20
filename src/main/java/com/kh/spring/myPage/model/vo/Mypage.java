@@ -14,19 +14,24 @@ public class Mypage {
 	private int fNo;
 	private String fContent;
 	private String fFile;
+	private int sbNo;	// 보관함번호
 	private String sbName;	// 보관함명
 	private int gNo;
 	private String gName;
 	private String gImage;
+	private String gRenameProfile;
 	private Date gJoinDate;
 	private String gCategory;
 	public Mypage() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
 	public Mypage(int mNo, String userId, String mImage, String mIntro, String interestes, int follows, int followers,
-			int fNo, String fContent, String fFile, String sbName, int gNo, String gName, String gImage, Date gJoinDate,
-			String gCategory) {
+			int fNo, String fContent, String fFile, int sbNo, String sbName, int gNo, String gName, String gImage,
+			String gRenameProfile, Date gJoinDate, String gCategory) {
 		super();
 		this.mNo = mNo;
 		this.userId = userId;
@@ -38,13 +43,18 @@ public class Mypage {
 		this.fNo = fNo;
 		this.fContent = fContent;
 		this.fFile = fFile;
+		this.sbNo = sbNo;
 		this.sbName = sbName;
 		this.gNo = gNo;
 		this.gName = gName;
 		this.gImage = gImage;
+		this.gRenameProfile = gRenameProfile;
 		this.gJoinDate = gJoinDate;
 		this.gCategory = gCategory;
 	}
+
+
+
 	public int getmNo() {
 		return mNo;
 	}
@@ -141,13 +151,41 @@ public class Mypage {
 	public void setgCategory(String gCategory) {
 		this.gCategory = gCategory;
 	}
+	
+	public int getSbNo() {
+		return sbNo;
+	}
+
+	public void setSbNo(int sbNo) {
+		this.sbNo = sbNo;
+	}
+
+
+
+	public String getgRenameProfile() {
+		return gRenameProfile;
+	}
+
+
+
+	public void setgRenameProfile(String gRenameProfile) {
+		this.gRenameProfile = gRenameProfile;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Mypage [mNo=" + mNo + ", userId=" + userId + ", mImage=" + mImage + ", mIntro=" + mIntro
 				+ ", interestes=" + interestes + ", follows=" + follows + ", followers=" + followers + ", fNo=" + fNo
-				+ ", fContent=" + fContent + ", fFile=" + fFile + ", sbName=" + sbName + ", gNo=" + gNo + ", gName="
-				+ gName + ", gImage=" + gImage + ", gJoinDate=" + gJoinDate + ", gCategory=" + gCategory + "]";
+				+ ", fContent=" + fContent + ", fFile=" + fFile + ", sbNo=" + sbNo + ", sbName=" + sbName + ", gNo="
+				+ gNo + ", gName=" + gName + ", gImage=" + gImage + ", gRenameProfile=" + gRenameProfile
+				+ ", gJoinDate=" + gJoinDate + ", gCategory=" + gCategory + "]";
 	}
+
+	
+
+	
 	
 	
 
