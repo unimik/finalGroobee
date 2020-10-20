@@ -11,7 +11,7 @@ public class GroupMember implements Serializable{
 	private static final long serialVersionUID = -945082179979937540L;
 	
 	private int gNo;
-	private String gCreator;
+	private String gmId;
 	private String gmStatus;
 	private String gmLevel;
 	private String a1;
@@ -23,11 +23,11 @@ public class GroupMember implements Serializable{
 		super();
 	}
 
-	public GroupMember(int gNo, String gCreator, String gmStatus, String gmLevel, String a1, String a2, String a3,
+	public GroupMember(int gNo, String gmId, String gmStatus, String gmLevel, String a1, String a2, String a3,
 			Date gJoinDate) {
 		super();
 		this.gNo = gNo;
-		this.gCreator = gCreator;
+		this.gmId = gmId;
 		this.gmStatus = gmStatus;
 		this.gmLevel = gmLevel;
 		this.a1 = a1;
@@ -44,12 +44,12 @@ public class GroupMember implements Serializable{
 		this.gNo = gNo;
 	}
 
-	public String getgCreator() {
-		return gCreator;
+	public String getGmId() {
+		return gmId;
 	}
 
-	public void setgCreator(String gCreator) {
-		this.gCreator = gCreator;
+	public void setGmId(String gmId) {
+		this.gmId = gmId;
 	}
 
 	public String getGmStatus() {
@@ -102,7 +102,7 @@ public class GroupMember implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupMember [gNo=" + gNo + ", gCreator=" + gCreator + ", gmStatus=" + gmStatus + ", gmLevel=" + gmLevel
+		return "GroupMember [gNo=" + gNo + ", gmId=" + gmId + ", gmStatus=" + gmStatus + ", gmLevel=" + gmLevel
 				+ ", a1=" + a1 + ", a2=" + a2 + ", a3=" + a3 + ", gJoinDate=" + gJoinDate + "]";
 	}
 
