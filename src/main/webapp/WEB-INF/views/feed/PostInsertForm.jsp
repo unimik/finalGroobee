@@ -119,23 +119,23 @@
                 <div id="postingForm">
                     <h4>새 피드 작성</h4>
                     <hr>
-                    <form action="home.do" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="">
-                        <input type="hidden" name="">
+                    <form action="pInsert.do" method="post" enctype="multipart/form-data">
+                    	<input type="hidden" name="fWriter" value="${ loginUser.userId }">
+						<input type="hidden" name="mNo" value="${ loginUser.mNo }">
                         <table id="tbb">
                             <!--글 쓰는 영역-->
                             <tr>
                                 <td>
-                                    <textarea cols="60" rows="7"></textarea>
+                                    <textarea cols="60" rows="7" name="fContent"></textarea>
                                 </td>    
                             </tr>
-                            <!-- 파일 첨부 영역 + 버튼 누르면 최대 5개까지 첨부파일 넣을 수 있게 해야함 ** 쑤정 할것-->
+                            <!-- 파일 첨부 영역 + 버튼 누르면 최대 5개까지 첨부파일 넣을 수 있게 해야함 ** 수정 할것-->
                             <tr>
                                 <td>
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" id="input_file" name="">
+                                    <input type="file" id="input_file" name="uploadFile">
                                 </td>
                             </tr>
                             <tr>
@@ -146,13 +146,19 @@
                                 <td class="tdfi">
                                     <select id="select_board">
                                         <option value="myFeed">내 피드</option>
-                                        <option value="group">그룹피드</option>
+                                        <option value="group">그룹 피드</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select id="myGroupList">
-                                        <option>맛잘알</option>
-                                        <option>여행Life</option>
+										<c:choose>
+											<c:when test="${ gNo ne null }">
+												<option>${ gName }</option>
+											</c:when>
+											<c:otherwise>
+                                        		<option>가입된 그룹이 없습니다.</option>
+											</c:otherwise>
+										</c:choose>
                                     </select>
                                 </td>
                             </tr>
@@ -162,9 +168,9 @@
                                 <td class="checkList tdfi">공개여부</td>
                                 <td class="tdfi">
                                     <select>
-                                        <option>전체공개</option>
-                                        <option>친구만</option>
-                                        <option>비공개</option>
+                                        <option id="public" name="public">전체공개</option>
+                                        <option id="friends" name="friends">친구만</option>
+                                        <option id="private" name="private">비공개</option>
                                     </select>
                                 </td>
                             </tr>

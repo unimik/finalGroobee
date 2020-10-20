@@ -13,12 +13,25 @@
 		<result property="fModifyDate" column="F_MODIFY_DATE"/>
 		<result property="fStatus" column="F_STATUS"/>
 		<result property="fLocation" column="F_LOCATION"/>
-		<result property="fOpenScope" column="F_OPENS_COPE"/>
+		<result property="fOpenScope" column="F_OPEN_SCOPE"/>
 		<result property="fLikeSet" column="F_LIKE_SET"/>
-		<result property="fReplySet" column="F_REPLEY_SET"/>
+		<result property="fReplySet" column="F_REPLY_SET"/>
 		<result property="fShareSet" column="F_SHARE_SET"/>
 		<result property="fLikeCnt" column="F_LIKECNT"/>
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
+	</resultMap>
+	
+	
+	<resultMap id="replyResultSet" type="Reply">
+		<id property="rNo" column="R_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="fNo" column="F_NO"/>
+		<result property="rContent" column="R_CONTENT"/>
+		<result property="rWriterImg" column="R_WRITER_IMG"/>
+		<result property="rWriter" column="R_WRITER"/>
+		<result property="rCreateDate" column="R_CREATE_DATE"/>
+		<result property="rModifyDate" column="R_MODIFLY_DATE"/>
+		<result property="rStatus" column="R_STATUS"/>
 	</resultMap>
 	
 	<insert id="insertPost" parameterType="Feed">
@@ -27,4 +40,19 @@
 			SEQ_FNO.NEXTVAL, #{mNo}, #{fContent}, #{fWriter}, #{fFile}, #{fRenameFile}, SYSDATE, SYSDATE, DEFAULT,
 			#{fLocation}, #{fOpenScope}, #{fLikeSet}, #{fReplySet}, #{fShareSet}, #{fLikeCnt}, #{fReplyCnt})
 	</insert>
+	
+	<select id="selectList" resultMap="postResultSet">
+		SELECT F_NO, F_CONTENT, M.M_ID AS F_WRITER,
+			   F_CREATE_DATE, F_MODIFY_DATE, F_STATUS, F_FILE,
+			   F_OPEN_SCOPE, F_LIKECNT, F_REPLYCNT
+			   R_NO, R_CONTENT, R_WRITER_IMG, M2.M_ID AS R_WRITER,
+			   R_CREATE_DATE, R_MODIFLY_DATE, R_STATUS
+		FROM FEED F
+		JOIN MEMBER M ON (F.F_WRITER = M.M_NO)
+		LEFT JOIN REPLY R ON (F.F_NO = R.REF_BID)
+		LEFT JOIN MEMBER M2 ON (R.R_WRITER = M2.M_NO)
+		WHERE F.F_NO = #{ fNo }
+		  AND F_STATUS = 'Y'
+		ORDER BY F_CREATE_DATE DESC
+	</select>
 </mapper>

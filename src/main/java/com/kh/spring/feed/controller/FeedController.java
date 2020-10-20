@@ -2,6 +2,7 @@ package com.kh.spring.feed.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
@@ -25,7 +27,7 @@ public class FeedController {
 		return "feed/PostInsertForm";
 	}
 	
-	@RequestMapping("pinsert.do")
+	@RequestMapping("pInsert.do")
 	public String insertPost(Feed f, HttpServletRequest request,
 			@RequestParam(name="uploadFile", required=false) MultipartFile file) {
 		if(!file.getOriginalFilename().equals("")) {
@@ -37,16 +39,14 @@ public class FeedController {
 				f.setfRenameFile(renameFileName);
 			}
 		}
-		
+		System.out.println(f);
 		int result = fService.insertPost(f);
 		
-		String referer = request.getHeader("referer");
-		
 		if(result > 0) {
-			return "redirect:" + referer;
+			return "redirect:home.do";
 			
 		}else {
-			return "common/errorPage";
+			return "../common/errorPage";
 		}
 	}
 	
@@ -76,6 +76,18 @@ public class FeedController {
 		}
 		
 		return renameFileName;
+	}
+	
+	@RequestMapping("pList.do")
+	public ModelAndView boardList(ModelAndView mv,
+			@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage) {
+
+		ArrayList<Feed> list = fService.selectList();
+		
+		mv.addObject("list", list);
+		mv.setViewName("home");
+		
+		return mv;
 	}
 
 }
