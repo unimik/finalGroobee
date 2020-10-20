@@ -40,4 +40,7 @@ public interface MemberService {
 	 */
 	int findPwd(Member m);
 
+	Member selectOne(String mNo);
+
+	int disableAccount(int mNo);
 }
