@@ -12,10 +12,10 @@
 <body>
 	<c:import url="../common/menubar.jsp"/>
 		<div id="feedArea">
-        	<form action="ginsert.do" method="post" enctype="multipart/form-data">
+        	<form action="ginsert.do" id="joinform" method="post" enctype="multipart/form-data">
             	<div id="group_create">
                 	<div class="container">
-                	<input type="hidden" id="gCreator" name="gCreator" value="${ loginUser.userId }">
+                	<input type="hidden" id="gCreator" name="gmId" value="${ loginUser.userId }">
                     	<p id="title">그룹 만들기</p>
                     </div>
                    	<div class="container" id="container_main_first">
@@ -149,6 +149,10 @@
 			
 			reader.readAsDataURL(event.target.files[0]);
 		};
+		
+		$('#cancel').on("click",function(){
+			location.href="javascript:history.go(-1);";
+		});
 	</script>
 </body>
 </html>

@@ -39,33 +39,44 @@
                             <button id="groupdotbtn">
                                 <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" id="group_menuBtn" name="group_menuBtn">
                             </button>
-							<c:if test="${ loginUser.userId ne g.gCreator }">
                             <div class="pop_menu">
                                 <div id="feed_menu_list">
                                     <ul>
-                                        <li><a id="groupJoin_btn">그룹가입</a></li>
-                                        <li><a>그룹탈퇴</a></li>
+                                        <li><a id="groupJoin_btn" class="gmSelet">그룹가입</a></li>
                                         <li><a id="feed_report_btn">신고</a></li> 
                                         <li><a id="close">취소</a></li>
                                     </ul>
                                 </div>
                             </div>
-							</c:if>
-							<c:if test="${ loginUser.userId eq g.gCreator }">
-                            <div class="pop_menu">
+                            <div class="pop_menu_gm">
+                                <div id="feed_menu_list">
+                                <c:url var="gmDelete" value="gmDelete.do">
+                                	<c:param name="gNo" value="${ g.gNo }"/>
+                                	<c:param name="gmId" value="${ loginUser.userId }"/>
+                                </c:url>
+                                    <ul>
+                                        <li><a href="${ gmDelete }">그룹탈퇴</a></li>
+                                        <li><a id="feed_report_btn">신고</a></li> 
+                                        <li><a id="close_gm">취소</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pop_menu_master">
                                 <div id="feed_groupmenu_list">
-                                	<c:url var="gUpdateView" value="gUpdateView.do"/>
+                                	<c:url var="gUpdateView" value="gUpdateView.do">
+                                		<c:param name="gNo" value="${ g.gNo }"/>
+                                		<c:param name="gmId" value="${ loginUser.userId }"/>
+                                	</c:url>
                                     <c:url var="gdelete" value="gdelete.do"/>
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li> 
                                         <li><a>그룹탈퇴</a></li> 
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
                                         <li><a>채팅방생성</a></li>
-                                        <li><a id="close">취소</a></li>
+                                        <li><a id="close_master">취소</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            </c:if>
                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
@@ -100,8 +111,10 @@
 							                  </c:forTokens>
                                             </ul>
                                         </div>
-	                                        <form action="gmWaiting.do" method="post">
-	                                            <div id="join_questionCon">
+	                                    <form action="gmInsert.do" method="post">
+	                                    	<input type="hidden" name="mId" value="${ loginUser.userId }">
+	                                    	<input type="hidden" name="gNo" value="${ g.gNo }">
+	                                    	<div id="join_questionCon">
 	                                            <c:set var="q_status" value="${ g.gQset }"/>
                                         		<c:choose>
 		                                            <c:when test="${ 'Y' eq q_status }">
@@ -132,8 +145,8 @@
 	                                            <div id="btnBox">
 	                                                <input type="submit" id="joinBtn" name="joinBtn" value="가입하기">
 	                                                <input type="button" id="close_joinPop" name="close_joinPop" value="취소">
-	                                            </div>
-	                                        </form>
+	                                    	</div>
+	                                	</form>
                                     </div>
                                 </div>
                             </div>
@@ -207,11 +220,37 @@
             /************  팝업 메뉴 script *********** */
 
             $('#group_menuBtn').on("click",function(){
-                $('.pop_menu').show();
+            	$.ajax({
+            		url:"gmSelect.do",
+            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo} },
+            		type:"post",
+            		success:function(data){
+            			console.log(data);
+            			if(data > 0){
+            				if("${g.gCreator}" != "${loginUser.userId}"){
+            					$('.pop_menu_gm').show();
+ 
+            				}else{
+            					$('.pop_menu_master').show();
+            				}
+            			} else {
+           		            $('.pop_menu').show();
+            			} 
+            		}, error:function(){
+            			alert("오류");
+            		}
+            	});
             });
+            
 
             $('#close').on('click',function(){
                 $('.pop_menu').hide();
+            });
+            $('#close_gm').on('click',function(){
+                $('.pop_menu_gm').hide();
+            });
+            $('#close_master').on('click',function(){
+                $('.pop_menu_master').hide();
             });
 
             $('#feed_report_btn').on("click",function(){

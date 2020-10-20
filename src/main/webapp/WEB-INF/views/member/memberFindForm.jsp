@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="<%=path%>/resources/css/common.css">
     <link rel="stylesheet" href="<%=path%>/resources/css/memberFind.css">
     <link rel="stylesheet" href="<%=path%>/resources/css/bootstrap.min.css">
-    <script src="<%=path%>/resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=path%>/resources/js/bootstrap.min.js"></script>
     <title>GROOBEE</title>
 </head>
 <body>
@@ -140,6 +140,7 @@
 	            		$("#findIdResult").html("회원님의 아이디는 <b>" + data.userId + "</b> 입니다.");
             		}
 					$('#idFindModal').modal("show");
+					console.log("gd");
             	},
             	error:function(){
             		console.log("에러");

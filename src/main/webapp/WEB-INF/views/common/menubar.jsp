@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<<<<<<< HEAD
 <%@page import="com.kh.spring.member.model.vo.Member"%> 
 
+=======
+<%@page import="com.kh.spring.member.model.vo.Member"%> 
+
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,6 +92,7 @@
 	           	</form>
 	    	 </div>
 	           <div id="userInfo">
+<<<<<<< HEAD
 	               <ul>
 	                   <li id="goMypage">
 	                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
@@ -97,6 +103,17 @@
 		                   		</c:if>
 		                   		<p>${ loginUser.userId }</p>
 	                   		</a>
+=======
+	               <ul>
+	                   <!--<li id="goMypage"><a href="goMypage.do?mNo=${ loginUser.mNo }"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>-->
+	                   <li id="goMypage">
+	                   		<c:if test="${ !empty loginUser.mImage }">
+	                   		</c:if>
+	                   		<c:if test="${ empty loginUser.mImage }">
+	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+	                   		</c:if>
+	                   		<p>${ loginUser.userId }</p>
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
 	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
