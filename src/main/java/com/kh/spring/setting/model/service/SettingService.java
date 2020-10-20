@@ -13,4 +13,6 @@ public interface SettingService {
 
 	int updateSetting(PersonalSetting ps);
 
+
+
 }

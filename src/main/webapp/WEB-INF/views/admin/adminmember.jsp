@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,26 +8,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>adminPage</title>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" href="../resources/css/admincommon.css">
-<link rel="stylesheet" href="../resources/css/admin1.css">
-<link rel="stylesheet" href="../resources/css/alarmPop.css">
+<link rel="stylesheet" href="resources/css/admincommon.css">
+<link rel="stylesheet" href="resources/css/admin1.css">
+<link rel="stylesheet" href="resources/css/alarmPop.css">
 
 </head>
 <body>
 	<div class="wapper">
 		<div id="header">
-			<img src="../resources/icons/logo.png" alt="logo" id="logo"
-				name="logo">
+			<img src="resources/icons/logo.png" alt="logo" id="logo" name="logo">
 		</div>
 		<div class="content">
-			<c:import url="common/adminMenubar.jsp"/>
+			<c:import url="commonAdmin/admininfo.jsp" />
 			<div id="admin_common">
-			<c:import url="common/sidebar.jsp"/>
+				<c:import url="commonAdmin/sidebar.jsp" />
+				
 				<p id="title">GROOBEE 회원관리</p>
 				<div id="searchBox">
 					<div id="all_user">
 						<p>
-							현재 GROOBEE 회원 수는 <b>395,302</b>명입니다.
+							현재 GROOBEE 회원 수는 <b>${totalCount}</b>명입니다.
 						</p>
 					</div>
 					<div id="search">
@@ -86,31 +87,33 @@
 		</div>
 	</div>
 	<script>
-            $(document).ready(function(){
-            
-                $('#alarmIcon').on("click",function(){
-                    $('.alarm_pop').show();
-                });
+		$(document).ready(function() {
 
-                $('.alarm_menubtn').on("click",function(){
-                    $('.alarm_menubtn').removeClass('on');
-                    $(this).addClass('on')
-                });
+			$('#alarmIcon').on("click", function() {
+				$('.alarm_pop').show();
+			});
 
-                $('.alarmBtn').on('click', function(){
-                    $('.conBox').hide();
-                    $('.alarmCon').show();
-                });
+			$('.alarm_menubtn').on("click", function() {
+				$('.alarm_menubtn').removeClass('on');
+				$(this).addClass('on')
+			});
 
-                $('.enquiryBtn').on('click', function(){
-                    $('.conBox').hide();
-                    $('.enquiryCon').show();
-                });
+			$('.alarmBtn').on('click', function() {
+				$('.conBox').hide();
+				$('.alarmCon').show();
+			});
 
-                $('.close_pop').on("click",function(){
-                    $('.alarm_pop').hide();
-                });
-            });
-    </script>
+			$('.enquiryBtn').on('click', function() {
+				$('.conBox').hide();
+				$('.enquiryCon').show();
+			});
+
+			$('.close_pop').on("click", function() {
+				$('.alarm_pop').hide();
+			});
+		});
+
+		
+	</script>
 </body>
 </html>

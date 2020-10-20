@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
@@ -50,9 +49,8 @@ public class MemberController {
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			System.out.println(loginUser.getUserId());
 			if(loginUser.getUserId().equals("admin")) {
-				return "redirect:adminmain.do";
+				return "redirect:adminmember.do";
 			}else {
 				return "redirect:home.do";
 			}
@@ -62,21 +60,7 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("home.do")
-	public String goHome() {
-		return "home";
-	}
-	
-	@RequestMapping("adminmain.do")
-	public String goAdmin() {
-		return "adminmain";
-	}
-	
-	@RequestMapping("goMemberJoinForm.do")
-	public String goMemberJoinForm() {
-		return "member/memberJoinForm";
-	}
-	
+
 	/**
 	 * - 아이디 중복체크
 	 * @param userId
@@ -143,10 +127,10 @@ public class MemberController {
 	public boolean sendEmailPwd(Member m,String userId,String email,int random,HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		String authCode = String.valueOf(random);
+		String encPwd = bcryptPasswordEncoder.encode(authCode);
 		m.setUserId(userId);
-		m.setUserPwd(authCode);
+		m.setUserPwd(encPwd);
 		m.setEmail(email);
-		System.out.println(m);
 		int result = mService.findPwd(m);
 		if(result > 0) {
 			session.setAttribute("authCode", authCode);
@@ -184,18 +168,22 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("goMemberFindForm.do")
-	public String goMemberFindForm() {
-		return "member/memberFindForm";
-	}
-	
+	/**
+	 * - 아이디 찾기
+	 * @param m
+	 * @param userName
+	 * @param email
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("findId.do")
 	public void findId(Member m,String userName,String email,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		m.setUserName(userName);
 		m.setEmail(email);
+		System.out.println(m);
 		String userId = mService.findId(m);
-		
+		System.out.println(userId);
 		JSONObject job = new JSONObject();
 		
 		if(userId == null || userId.equals("")) {
@@ -207,5 +195,26 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
+	
+	@RequestMapping("home.do")
+	public String goHome() {
+		return "home";
+	}
+	
+	@RequestMapping("adminmain.do")
+	public String goAdmin() {
+		return "adminmain";
+	}
+	
+	@RequestMapping("goMemberJoinForm.do")
+	public String goMemberJoinForm() {
+		return "member/memberJoinForm";
+	}
+	
+	@RequestMapping("goMemberFindForm.do")
+	public String goMemberFindForm() {
+		return "member/memberFindForm";
+	}
+
 	
 }
