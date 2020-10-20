@@ -60,36 +60,7 @@ public class MemberController {
 		}
 	}
 	
-<<<<<<< HEAD
-=======
-	@RequestMapping("home.do")
-	public String goHome() {
-		return "home";
-	}
-	
-	@RequestMapping("adminmember.do")
-	public String goAdminmain() {
-		return "admin/adminmember";
-	}
-	@RequestMapping("adminboard.do")
-	public String goAdminBoard() {
-		return "admin/adminboard";
-	}
-	@RequestMapping("admingroups.do")
-	public String goAdminGroups() {
-		return "admin/admingroups";
-	}
-	@RequestMapping("adminreport.do")
-	public String goAdminReport() {
-		return "admin/adminreport";
-	}
-	
-	@RequestMapping("goMemberJoinForm.do")
-	public String goMemberJoinForm() {
-		return "member/memberJoinForm";
-	}
-	
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
 	/**
 	 * - 아이디 중복체크
 	 * @param userId
@@ -225,7 +196,6 @@ public class MemberController {
 		out.print(job);
 	}
 	
-<<<<<<< HEAD
 	@RequestMapping("home.do")
 	public String goHome() {
 		return "home";
@@ -245,7 +215,6 @@ public class MemberController {
 	public String goMemberFindForm() {
 		return "member/memberFindForm";
 	}
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
 	
 }
