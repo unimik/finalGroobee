@@ -52,5 +52,9 @@
              <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
          </ul>
      </div>
+     <script>
+     
+     
+     </script>
 </body>
 </html>
