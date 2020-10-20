@@ -1,5 +1,6 @@
 /* common*/
-#create_group{ width: 80px; height: 40px; border-radius: 10px; border: 0; margin-top: 20px; background: #daf4ed; font-size:14px;color: #555555; cursor: pointer; }
+#create_group{position:absolute; outline:none; width: 80px; height: 40px; border-radius: 10px; border: 0; margin: 320px 0 0 -80px; background: #daf4ed; font-size:14px;color: #555555; cursor: pointer; }
+
 p{margin:0;}
 #feedArea{  width: 632px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none;  }
 #feedArea::-webkit-scrollbar{display: none;}
@@ -44,16 +45,20 @@ p{margin:0;}
 #inputBox{ width: 250px; height: 30px; border-radius: 10px; border: 1px solid #e5e5e5; margin-left: 30px;}
 #p_title{ margin:20px 0 10px 30px;}
 input[type="radio"]{ margin: 24px 5px 0 10px;}
-#container_main_first{    height: 180px; border-top:2px solid #e5e5e5;}
+#container_main_first{    height: 260px; border-top:2px solid #e5e5e5;}
 #container_main_first_first{width: 50%;float: left;}
-#container_main_first_first_first{height: 25%;}
+#container_main_first_first_first{height: 70px; padding-top: 40px;}
+#imgView{ width:60px; height:60px; float:left; margin:0 20px 0 30px; border:1px solid #e5e5e5; border-radius:10px;} 
+#imgView img{width:60px; height:60px; border-radius:10px;}
+#groupImg{ width:100%; height:70px;}
+#groupProfile{ position: absolute;}
 
-#container_main_first_first_second{height: 25%;}
+#container_main_first_first_second{height: 70px;}
 select{ width: 210px; height: 34px; border: 1px solid #e5e5e5; border-radius: 10px; margin-left: 30px;}
 
-#container_main_first_first_third{height: 25%;}
-#container_main_first_first_fourth{height: 25%;}
-#container_main_first_second{width: 50%;float: left;}
+#container_main_first_first_third{height: 70px;}
+#container_main_first_first_fourth{height: 70px;}
+#container_main_first_second{width: 50%;float: left;margin-top:91px;}
 
 #container_main_second{ height: 100%;}
 
@@ -78,6 +83,7 @@ select{ width: 210px; height: 34px; border: 1px solid #e5e5e5; border-radius: 10
 #container_main_sixth_first p{float: left; margin-right: 20px;}
 #container_main_sixth_first input{ margin-top: 16px;}
 #imgBox{ border: 1px solid #e5e5e5; border-radius: 10px; width: 350px; height: 200px;float: left; margin-top: 15px;}
+#imgBox img{ width: 350px; height: 200px; border-radius: 10px;}
 
 #container_main_seventh_first{ height: 130px; width: 100%;}
 #container_main_seventh_first p{ float: left; margin-right: 20px;}
@@ -91,8 +97,7 @@ select{ width: 210px; height: 34px; border: 1px solid #e5e5e5; border-radius: 10
 #container_main_ninth input{ width: 150px; height: 45px; border: 0; border-radius: 10px; }
 #container_main_ninth #submit{ background: #daf4ed; margin-right: 10px;}
 
-form{ margin-bottom: 200px;}
-
+#updateform{ margin-bottom:200px;}
 
 /* permit*/
 #permit_first{height: 550px; display: none; border: 2px solid #e5e5e5; border-radius: 10px;}

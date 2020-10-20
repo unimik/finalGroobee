@@ -178,4 +178,15 @@ public class GroupController{
 			return "common/errorPage";
 		}
 	}
+	
+	@RequestMapping("gUpdateView.do")
+	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {
+		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
+		mv.addObject("g", gService.selectUpdateGroup(gNo));
+		mv.addObject("NgmList", NgmList);
+		mv.addObject("gmList", gmList);
+		mv.setViewName("group/groupUpdateView");
+		return mv;
+	}
 }
