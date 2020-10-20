@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -178,6 +179,15 @@ public class GroupController{
 			return "common/errorPage";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
+	public int totalGroups(HttpServletResponse response) throws IOException{
+		
+		int totalGroups = gService.totalGroups();
+		return totalGroups;
+	}
+	
+	
 	
 	@RequestMapping("gUpdateView.do")
 	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {

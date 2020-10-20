@@ -41,6 +41,11 @@ public interface MemberService {
 	 */
 	int findPwd(Member m);
 
+	/** 6. 총 회원 수
+	 * @return
+	 */
+	int totalMember();
+
 	Member selectOne(String mNo);
 	
 	int disableAccount(int mNo);

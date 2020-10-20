@@ -38,6 +38,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+
+	public int totalMember() {
+		return mDao.totalMember();
+	}
+
+
+	@Override
 	public Member selectOne(String mNo) {
 		return mDao.selectOne(mNo);
 	}

@@ -33,6 +33,9 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.findPwd",m);
 	}
 
+	public int totalMember() {
+		return sqlSession.selectOne("memberMapper.totalMember");
+	}
 	public Member selectOne(String mNo) {
 		return sqlSession.selectOne("memberMapper.selectOne",mNo);
 	}
