@@ -2,7 +2,6 @@ package com.kh.spring.group.controller;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -189,4 +188,15 @@ public class GroupController{
 	}
 	
 	
+	
+	@RequestMapping("gUpdateView.do")
+	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {
+		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
+		mv.addObject("g", gService.selectUpdateGroup(gNo));
+		mv.addObject("NgmList", NgmList);
+		mv.addObject("gmList", gmList);
+		mv.setViewName("group/groupUpdateView");
+		return mv;
+	}
 }

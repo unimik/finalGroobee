@@ -34,5 +34,9 @@ public class MypageDao {
 	public int insertBox(int mNo) {
 		return sqlSession.insert("mypageMapper.insertBox",mNo);
 	}
+
+	public ArrayList<Mypage> selectGroupInfo(int mNo) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectGroupInfo", mNo);
+	}
 	
 }

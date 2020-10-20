@@ -42,4 +42,16 @@
 			G_NO=#{ gNo }
 		AND GM_ID=#{ gmId }
 	</update>
+	
+	<select id="SelectGmList" resultMap="GroupMemberResultSet">
+		SELECT * FROM GROUP_MEMBER
+		WHERE G_NO=#{ gNo }
+		AND GM_STATUS='Y'
+	</select>
+	
+	<select id="selectNgmList" resultMap="GroupMemberResultSet">
+		SELECT * FROM GROUP_MEMBER
+		WHERE G_NO=#{ gNo }
+		AND GM_STATUS='N'
+	</select>
 </mapper>

@@ -49,7 +49,6 @@ public class MemberController {
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			System.out.println(loginUser.getUserId());
 			if(loginUser.getUserId().equals("admin")) {
 				return "redirect:adminmember.do";
 			}else {
@@ -61,33 +60,7 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("home.do")
-	public String goHome() {
-		return "home";
-	}
-	
-	@RequestMapping("adminmember.do")
-	public String goAdminmain() {
-		return "admin/adminmember";
-	}
-	@RequestMapping("adminboard.do")
-	public String goAdminBoard() {
-		return "admin/adminboard";
-	}
-	@RequestMapping("admingroups.do")
-	public String goAdminGroups() {
-		return "admin/admingroups";
-	}
-	@RequestMapping("adminreport.do")
-	public String goAdminReport() {
-		return "admin/adminreport";
-	}
-	
-	@RequestMapping("goMemberJoinForm.do")
-	public String goMemberJoinForm() {
-		return "member/memberJoinForm";
-	}
-	
+
 	/**
 	 * - 아이디 중복체크
 	 * @param userId
@@ -154,10 +127,10 @@ public class MemberController {
 	public boolean sendEmailPwd(Member m,String userId,String email,int random,HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		String authCode = String.valueOf(random);
+		String encPwd = bcryptPasswordEncoder.encode(authCode);
 		m.setUserId(userId);
-		m.setUserPwd(authCode);
+		m.setUserPwd(encPwd);
 		m.setEmail(email);
-		System.out.println(m);
 		int result = mService.findPwd(m);
 		if(result > 0) {
 			session.setAttribute("authCode", authCode);
@@ -195,18 +168,22 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("goMemberFindForm.do")
-	public String goMemberFindForm() {
-		return "member/memberFindForm";
-	}
-	
+	/**
+	 * - 아이디 찾기
+	 * @param m
+	 * @param userName
+	 * @param email
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("findId.do")
 	public void findId(Member m,String userName,String email,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		m.setUserName(userName);
 		m.setEmail(email);
+		System.out.println(m);
 		String userId = mService.findId(m);
-		
+		System.out.println(userId);
 		JSONObject job = new JSONObject();
 		
 		if(userId == null || userId.equals("")) {
@@ -226,4 +203,26 @@ public class MemberController {
 		return totalMember;
 	}
 
+	
+	@RequestMapping("home.do")
+	public String goHome() {
+		return "home";
+	}
+	
+	@RequestMapping("adminmain.do")
+	public String goAdmin() {
+		return "adminmain";
+	}
+	
+	@RequestMapping("goMemberJoinForm.do")
+	public String goMemberJoinForm() {
+		return "member/memberJoinForm";
+	}
+	
+	@RequestMapping("goMemberFindForm.do")
+	public String goMemberFindForm() {
+		return "member/memberFindForm";
+	}
+
+	
 }

@@ -60,4 +60,12 @@ public class GroupDao {
 	public int totalGroups() {
 		return sqlSession.selectOne("groupMapper.totalGroups");
 	}
+
+	public ArrayList<GroupMember> selectGmList(int gNo) {
+		return (ArrayList)sqlSession.selectList("gmMapper.SelectGmList",gNo);
+	}
+
+	public ArrayList<GroupMember> selectNgmList(int gNo) {
+		return (ArrayList)sqlSession.selectList("gmMapper.selectNgmList",gNo);
+	}
 }

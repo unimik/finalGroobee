@@ -45,5 +45,7 @@ public interface MemberService {
 	 */
 	int totalMember();
 
-
+	Member selectOne(String mNo);
+	
+	int disableAccount(int mNo);
 }

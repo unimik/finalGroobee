@@ -63,7 +63,10 @@
                             </div>
                             <div class="pop_menu_master">
                                 <div id="feed_groupmenu_list">
-                                	<c:url var="gUpdateView" value="gUpdateView.do"/>
+                                	<c:url var="gUpdateView" value="gUpdateView.do">
+                                		<c:param name="gNo" value="${ g.gNo }"/>
+                                		<c:param name="gmId" value="${ loginUser.userId }"/>
+                                	</c:url>
                                     <c:url var="gdelete" value="gdelete.do"/>
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li> 

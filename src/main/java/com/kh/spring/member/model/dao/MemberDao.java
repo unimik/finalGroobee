@@ -35,4 +35,12 @@ public class MemberDao {
 	public int totalMember() {
 		return sqlSession.selectOne("memberMapper.totalMember");
 	}
+	public Member selectOne(String mNo) {
+		return sqlSession.selectOne("memberMapper.selectOne",mNo);
+	}
+
+	public int disableAccount(int mNo) {
+		return sqlSession.update("memberMapper.disableAccount",mNo);
+	}
+
 }

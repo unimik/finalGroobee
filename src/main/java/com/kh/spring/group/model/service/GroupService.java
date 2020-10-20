@@ -42,23 +42,44 @@ public interface GroupService {
 	int gmInsert(GroupMember gm);
 
 	/**
-	 * 6. 회원 아이디 조회
-	 *    이미 가입한 회원인지 조회하기
+	 * 6. 멤버 아이디 조회
+	 *    이미 가입한 멤버인지 조회하기
 	 * @param gm
 	 * @return
 	 */
 	int gmSelectId(GroupMember gm);
 
 	/**
-	 * 7. 회원 삭제
+	 * 7. 그룹 멤버 삭제
 	 * @param gm
 	 * @return
 	 */
 	int gmDelete(GroupMember gm);
 
-	/**8. 총 그룹의 수
+	/**11. 총 그룹의 수
 	 * @return
 	 */
 	int totalGroups();
 
+	/**
+	 * 8. 그룹수정
+	 * @param gNo
+	 * @return
+	 */
+	Group selectUpdateGroup(int gNo);
+
+	/**
+	 * 9. 그룹 전체멤버 조회
+	 * @param gNo
+	 * @return
+	 */
+	ArrayList<GroupMember> selectGmList(int gNo);
+
+	/**
+	 * 10. 승인안된 멤버 조회
+	 * @param gNo
+	 * @return
+	 */
+	ArrayList<GroupMember> selectNgmList(int gNo);
+	
 }

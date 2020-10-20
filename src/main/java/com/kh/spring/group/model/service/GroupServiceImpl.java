@@ -54,4 +54,19 @@ public class GroupServiceImpl implements GroupService{
 	public int totalGroups() {
 		return gDao.totalGroups();
 	}
+
+	@Override
+	public Group selectUpdateGroup(int gNo) {
+		return gDao.selectGroup(gNo);
+	}
+
+	@Override
+	public ArrayList<GroupMember> selectGmList(int gNo) {
+		return gDao.selectGmList(gNo);
+	}
+
+	@Override
+	public ArrayList<GroupMember> selectNgmList(int gNo) {
+		return gDao.selectNgmList(gNo);
+	}
 }

@@ -38,10 +38,21 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public int totalMember() {
 		return mDao.totalMember();
 	}
 
 
+=======
+	public Member selectOne(String mNo) {
+		return mDao.selectOne(mNo);
+	}
+
+	@Override
+	public int disableAccount(int mNo) {
+		return mDao.disableAccount(mNo);
+	}
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 
 }

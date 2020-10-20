@@ -26,7 +26,6 @@ public class SettingServiceImpl implements SettingService {
 
 	@Override
 	public int updateSetting(NotificationSetting ns) {
-		System.out.println("settingService 실행확인");
 		return sDao.updateSetting(ns);
 		
 		
@@ -34,8 +33,11 @@ public class SettingServiceImpl implements SettingService {
 
 	@Override
 	public int updateSetting(PersonalSetting ps) {
+		System.out.println("settingService 실행확인");
 		
 		return sDao.updateSetting(ps);
 	}
+
+
 
 }
