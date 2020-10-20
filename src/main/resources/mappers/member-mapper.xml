@@ -52,4 +52,5 @@
 		WHERE M_ID = #{userId}
 		AND M_EMAIL = #{email}
 	</update>
+
 </mapper>

@@ -37,4 +37,5 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.findPwd(m);
 	}
 
+
 }

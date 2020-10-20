@@ -40,4 +40,5 @@ public interface MemberService {
 	 */
 	int findPwd(Member m);
 
+
 }

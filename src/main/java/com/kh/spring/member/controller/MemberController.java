@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
@@ -52,7 +51,7 @@ public class MemberController {
 			model.addAttribute("loginUser", loginUser);
 			System.out.println(loginUser.getUserId());
 			if(loginUser.getUserId().equals("admin")) {
-				return "redirect:adminmain.do";
+				return "redirect:adminmember.do";
 			}else {
 				return "redirect:home.do";
 			}
@@ -67,21 +66,21 @@ public class MemberController {
 		return "home";
 	}
 	
-	@RequestMapping("adminmain.do")
+	@RequestMapping("adminmember.do")
 	public String goAdminmain() {
-		return "adminmain";
+		return "admin/adminmember";
 	}
 	@RequestMapping("adminboard.do")
 	public String goAdminBoard() {
-		return "adminboard";
+		return "admin/adminboard";
 	}
 	@RequestMapping("admingroups.do")
 	public String goAdminGroups() {
-		return "admingroups";
+		return "admin/admingroups";
 	}
 	@RequestMapping("adminreport.do")
 	public String goAdminReport() {
-		return "adminreport";
+		return "admin/adminreport";
 	}
 	
 	@RequestMapping("goMemberJoinForm.do")
@@ -219,5 +218,6 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
+	
 	
 }
