@@ -70,7 +70,7 @@
                 <div class="myAccount">
                     <div id="myId">
                         <img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="myProfile" id="myProfile">
-                        <p>user01</p>
+                        <p>${ loginUser.userId }</p>
                     </div>
                     <div id="MyTab">
                         <button class="MyTab_tab1 MyTab_tab on">친구</button>
@@ -80,29 +80,11 @@
                                 <div id="My_f_list">
                                     <ul id="f_info">
                                         <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user02</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user03</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user04</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user05</li>
-                                        <li><button id="follow" name="follow">팔로우</button></li>
+                                        <li>${ userId }</li>
+	                                        <c:if test="${ followUser.follows eq mNo }">
+	                                        <li><button id="following" name="following">팔로잉</button></li>                                        	
+	                                        </c:if>
+	                                	<li><button id="follow" name="follow">팔로우</button></li>
                                     </ul>
                                 </div>
                             </div>

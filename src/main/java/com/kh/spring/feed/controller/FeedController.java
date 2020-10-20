@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 
-@Controller
+@Controller("feedPost")
 public class FeedController {
 	
 	@Autowired

@@ -42,10 +42,11 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value="login.do",method=RequestMethod.POST) 
-	public String memberLogin(Member m,String userId,String userPwd,Model model) {      
+	public String memberLogin(Member m, String userId,String userPwd,Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
+		
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("loginUser", loginUser);
