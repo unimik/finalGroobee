@@ -9,4 +9,8 @@ public interface SettingService {
 
 	PersonalSetting personalSetting(int mNo);
 
+	int updateSetting(NotificationSetting ns);
+
+	int updateSetting(PersonalSetting ps);
+
 }

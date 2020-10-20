@@ -28,4 +28,15 @@
  		FROM PERSONAL_SETTING
  		WHERE M_NO=#{mNo}
  	</select>
+ 	
+ 	<update id="nUpdateSetting" parameterType="NotificationSetting">
+ 		UPDATE NOTIFICATION_SETTING
+ 		SET A_ALL =#{aAll},
+	 		 A_LIKE =#{aLike},
+	 		 A_REPLY =#{aReply},
+	 		 A_FRIENDS =#{aFriends},
+	 		 A_MESSAGE =#{aMessage}
+ 		WHERE M_NO = #{mNo}
+ 		
+ 	</update>
 </mapper>

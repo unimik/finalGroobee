@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.kh.spring.member.model.vo.Member"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -24,6 +26,7 @@
     	 </div>
            <div id="userInfo">
                <ul>
+                   <!--<li id="goMypage"><a href="goMypage.do?mNo=${ loginUser.mNo }"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>-->
                    <li id="goMypage">
                    		<c:if test="${ !empty loginUser.mImage }">
                    		</c:if>
@@ -32,7 +35,7 @@
                    		</c:if>
                    		<p>${ loginUser.userId }</p>
                    </li>
-                   <li><a href="/views/PostInsertForm.html"><img src="resources/icons/write.png" alt="" id="writeIcon"></a></li>
+                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
                    <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
                    <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
                </ul>
