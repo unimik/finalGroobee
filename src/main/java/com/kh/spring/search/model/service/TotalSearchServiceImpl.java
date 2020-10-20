@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.search.model.dao.TotalSearchDao;
 import com.kh.spring.search.model.vo.RelatedSearch;
@@ -23,11 +24,11 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 		return tsDao.searchMember(srch);
 	}
 
-//	@Override
-//	public ArrayList<Group> searchGroup(Search srch) {
-//		
-//		return tsDao.searchGroup(srch);
-//	}
+	@Override
+	public ArrayList<Group> searchGroup(Search srch) {
+		
+		return tsDao.searchGroup(srch);
+	}
 
 	@Override
 	public ArrayList<Feed> searchFeed(Search srch) {
