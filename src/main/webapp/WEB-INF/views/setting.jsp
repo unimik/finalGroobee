@@ -1,6 +1,13 @@
+<%@page import="com.kh.spring.member.model.vo.Member"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.spring.setting.model.vo.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	ArrayList<Member> blist = (ArrayList<Member>)request.getAttribute("bList");
+	Member m = (Member)session.getAttribute("loginUser");
+   
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -208,8 +215,8 @@
                         <tr>
                             <th class="settings">공개범위</th>
                         </tr>
-                        <tr><td><input type="radio" name="x" id="" checked>전체 공개</td></tr>
-                        <tr><td><input type="radio" name="x" id="">친구만 공개</td></tr>
+                        <tr><td><input type="radio" name="personal-openstatus" id="" value="Y" checked>전체 공개</td></tr>
+                        <tr><td><input type="radio" name="personal-openstatus" id="" value="N">친구만 공개</td></tr>
                         <tr><td><div class="line"></div></td></tr>
                         <tr>
                             <th class="settings" id="blocked-accounts"><a href="#" style="text-decoration: none; color:black">차단된 계정</a></th>
@@ -219,14 +226,11 @@
                                 <div id="blockedList">
                                     <div style="height: 10px;"></div>
                                     <!-- 여기에 DB에서 가져온 리스트 출력-->
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user01</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user02</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user03</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user04</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user05</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user06</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user07</span><br>
-                                    <img src="resources/images/IMG_7460.JPG" alt=""> <span>user08</span><br>
+                                   
+                                    <% for (Member b : blist) { %>
+                                     <img src="resources/images/<%= b.getmImage() %>" alt=""> <span><%= b.getUserId() %></span><br>
+                                    
+                                    <%} %>
                                     <div style="height: 10px;"></div>
 
                                 </div>
@@ -243,8 +247,8 @@
                         <tr>
                             <th class="settings">비밀번호 저장</th>
                         </tr>
-                        <tr><td><input type="radio" name="y" id="">설정</td></tr>
-                        <tr><td><input type="radio" name="y" id="" checked>해제</td></tr>
+                        <tr><td><input type="radio" name="personal-savedpwd" id="" value="Y">설정</td></tr>
+                        <tr><td><input type="radio" name="personal-savedpwd" id="" value="N" checked>해제</td></tr>
                         <tr><td><div class="line"></div></td></tr>
                         <tr>
                             <th class="settings">계정 관리</th>
@@ -403,7 +407,7 @@
         </div>
         
     </div>
-   
+   		<input type="hidden" name="userpwd" value="<%= m.getUserPwd() %>"> 
     <div class="modal" id="disable_modal">
        
         <div class="modal_content">
@@ -411,7 +415,7 @@
             <hr>
            
             <p align="center">계정을 비활성화를 위한 본인 확인을 위해 비밀번호를 입력해 주세요.</p>
-            <label>비밀번호 : </label> <input type="text" name="pwdchk" id="pwdchk">
+            <label>비밀번호 : </label> <input type="password" name="pwdchk" id="pwdchk">
             <button type="button" id="disableAccount">확인</button>
             <!-- 로그아웃 후 로그인 페이지로 보내기-->
            
@@ -427,7 +431,7 @@
             <hr>
            
             <p align="center">계정을 삭제를 위한 본인 확인을 위해 비밀번호를 입력해 주세요.</p>
-            <label>비밀번호 : </label> <input type="text" name="pwdchk" id="pwdchk">
+            <label>비밀번호 : </label> <input type="password" name="pwdchk2" id="pwdchk2">
             <button type="button" id="pwdchk_btn">확인</button>
            
         </div>
@@ -569,8 +573,12 @@
 
         
         $("#blocked-accounts").on('click',function(){
-          var num=0;
-          var x = setInterval(function(){
+          
+        	
+          
+        	
+        	var num=0;
+          	var x = setInterval(function(){
                if(num<20){num=num+1}
                else if(num>20 && num<50){num=num+2}
                else if(num>70 && num<100){num=num+2}
@@ -592,11 +600,7 @@
         document.getElementById("modal_opne_btn").onclick = function() {
             document.getElementById("pwdchk_modal").style.display="block";
         }
-        
-        document.getElementById("disable_btn").onclick = function() {
-            document.getElementById("disable_modal").style.display="block";
-        }
-       
+         
         document.getElementById("pwdchk_btn").onclick = function() {
             document.getElementById("pwdchk_modal").style.display="none";
             $("#delete_modal").css('display','block')
@@ -608,9 +612,31 @@
        
         document.getElementById("cancel").onclick = function() {
             document.getElementById("delete_modal").style.display="none";
-        }   
+        }  
         
+        // 비활성화 버튼 클릭
+        document.getElementById("disable_btn").onclick = function() {
+            document.getElementById("disable_modal").style.display="block";
+           	
+        }
         document.getElementById("disableAccount").onclick = function() {
+        	 console.log($("input[name=pwdchk]").val()); 
+        	 console.log($("input[name=userpwd]").val()); 
+        	 
+        	 
+        	 $.ajax({
+        		 url: '/spring/disableAccount.do',
+       		  	 type: 'post',
+       		   	 data: {
+       		    	 userPwd : $('input[name=pwdchk]').val()
+       		   	 		},
+       		   	 dataType:"text",
+       		   	 success: function(data){
+       		   		 console.log(data);
+       		   	 },error: function(error){
+       		   		 alert(error+"에러");
+       		   	 }
+        	 });
             document.getElementById("disable_modal").style.display="none";        
         }   
 
@@ -644,7 +670,7 @@
             $('#question-btn').css({'background':'#47c6a3','color':'white'});
         });
         
-        $("input[name^=notification]").on('click',function(e){
+        $("input[name^=notification],input[name^=personal]").on('click',function(e){
         	console.log(e.target.name);
 			console.log($('input[name='+e.target.name+']:checked').val())
 			
@@ -656,12 +682,16 @@
         		    aLike : $('input[name=notification-like]:checked').val(),
         		    aReply : $('input[name=notification-Comment]:checked').val(),
         		    aFriends : $('input[name=notification-Addfollow]:checked').val(),
-        		    aMessage : $('input[name=notification-Message]:checked').val() 
+        		    aMessage : $('input[name=notification-Message]:checked').val(),
+        		    openStatus : $('input[name=personal-openstatus]:checked').val(),
+        		    pwdSaved : $('input[name=personal-savedpwd]:checked').val()
         		  } 
         		 
         		
         		}); 
         });
+        
+       
     </script>
 </body>
 </html>

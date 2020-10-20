@@ -171,33 +171,46 @@
         		var idCheck = $("#idCheckHidden").val();
         		if(idCheck != 1) {
         			alert("아이디 중복체크를 해주세요");
-        			return false
-        		}
+        			return false;
+        		} 
+        		var vUserId = $("#userId").val();
+        		var regex = /^[a-z\d]{4,11}$/;
+              	var resultId = regex.exec(vUserId);
+                if(resultId == null) {
+                	alert("영어 소문자 및 숫자로 4자리 이상 11자리 이하로 입력해주세요");
+                	return false;
+                }
         		var userName = $("#userName").val();
         		if(userName == "" || userName == null) {
         			alert("이름을 입력해주세요");
-        			return false
+        			return false;
         		}
         		var pwd1 = $("#userPwd1").val();
         		var pwd2 = $("#userPwd2").val();
         		if(pwd1 == null || pwd1 == "" || pwd2 == null || pwd2 == "") {
         			alert("비밀번호를 입력해주세요");
-        			return false
+        			return false;
         		} else if(pwd1 != pwd2) {
         			alert("비밀번호를 동일하게 입력해주세요");
-        			return false
-        		}
+        			return false;
+        		} 
+        		var vPwd = $("#userPwd1").val();
+        		var regex = /^[a-z\d]{4,11}$/;
+              	var resultPwd = regex.exec(vPwd);
+                if(resultPwd == null) {
+                	alert("영어 소문자 및 숫자로 4자리 이상 11자리 이하로 입력해주세요");
+                	return false;
+                }
         		var emailHidden = $("#emailHidden").val();
         		if(emailHidden != 1) {
         			alert("이메일 인증을 확인해주세요");
-        			return false
+        			return false;
         		}
         		var interest = $(".interest").val();
         		if(!$(':input:checkbox[name=interest]:checked').val()) {
         			alert("최소 1개 이상의 관심사를 선택해주세요");
-        			return false
+        			return false;
         		}
-        		
         	});
         	/* 아이디 중복확인 */
         	$("#idCheck").on("click",function(){

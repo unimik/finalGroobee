@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.search.model.vo.RelatedSearch;
 import com.kh.spring.search.model.vo.Search;
@@ -23,9 +24,9 @@ public class TotalSearchDao {
 		return (ArrayList)sqlSession.selectList("searchMapper.searchMember",srch);
 	}
 
-//	public ArrayList<Group> searchGroup(Search srch) {
-//		return (ArrayList)sqlSession.selectList("searchMapper.searchGroup",srch);
-//	}
+	public ArrayList<Group> searchGroup(Search srch) {
+		return (ArrayList)sqlSession.selectList("searchMapper.searchGroup",srch);
+	}
 
 	public ArrayList<Feed> searchFeed(Search srch) {
 		return (ArrayList)sqlSession.selectList("searchMapper.searchFeed",srch);

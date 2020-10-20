@@ -37,4 +37,14 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.findPwd(m);
 	}
 
+	@Override
+	public Member selectOne(String mNo) {
+		return mDao.selectOne(mNo);
+	}
+
+	@Override
+	public int disableAccount(int mNo) {
+		return mDao.disableAccount(mNo);
+	}
+
 }

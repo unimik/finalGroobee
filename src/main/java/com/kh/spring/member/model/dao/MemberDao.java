@@ -32,4 +32,12 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.findPwd",m);
 	}
 
+	public Member selectOne(String mNo) {
+		return sqlSession.selectOne("memberMapper.selectOne",mNo);
+	}
+
+	public int disableAccount(int mNo) {
+		return sqlSession.update("memberMapper.disableAccount",mNo);
+	}
+
 }

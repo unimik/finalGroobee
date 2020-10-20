@@ -16,6 +16,16 @@ public class PersonalSetting implements Serializable {
 	public PersonalSetting() {
 		super();
 	}
+	
+	
+	public PersonalSetting(int mNo, String openStatus, String pwdSaved) {
+		super();
+		this.mNo = mNo;
+		this.openStatus = openStatus;
+		this.pwdSaved = pwdSaved;
+	}
+
+
 	public PersonalSetting(int mNo, String openStatus, String pwdSaved, String blockedNo) {
 		super();
 		this.mNo = mNo;

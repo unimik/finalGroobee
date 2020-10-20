@@ -34,4 +34,34 @@ public class GroupServiceImpl implements GroupService{
 	public Group selectGroup(int gNo) {
 		return gDao.selectGroup(gNo);
 	}
+
+	@Override
+	public int gmInsert(GroupMember gm) {
+		return gDao.groupMemberinsert(gm);
+	}
+
+	@Override
+	public int gmSelectId(GroupMember gm) {
+		return gDao.groupMemberSelect(gm);
+	}
+
+	@Override
+	public int gmDelete(GroupMember gm) {
+		return gDao.groupMemberDelete(gm);
+	}
+
+	@Override
+	public Group selectUpdateGroup(int gNo) {
+		return gDao.selectGroup(gNo);
+	}
+
+	@Override
+	public ArrayList<GroupMember> selectGmList(int gNo) {
+		return gDao.selectGmList(gNo);
+	}
+
+	@Override
+	public ArrayList<GroupMember> selectNgmList(int gNo) {
+		return gDao.selectNgmList(gNo);
+	}
 }

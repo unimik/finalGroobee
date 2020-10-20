@@ -13,17 +13,19 @@
  		<result property="fNo" column="f_no"/>
  		<result property="fContent" column="f_Content"/>
  		<result property="fFile" column="f_File"/>
+ 		<result property="sbNo" column="sb_No"/>
  		<result property="sbName" column="sb_Name"/>
  		<result property="gNo" column="g_no"/>
  		<result property="gName" column="g_Name"/>
- 		<result property="gImage" column="g_Image"/>
+ 		<result property="gImage" column="g_profile"/>
+ 		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
  		<result property="gJoinDate" column="g_JoinDate"/>
  		<result property="gCategory" column="g_Category"/>
  	</resultMap>
 
 	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
 		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
-		,(select count(*) from FOLLOW  where follows = #{mNo}) as followers  
+		,(select count(*) from FOLLOW where follows = #{mNo}) as followers  
 		from dual
 	</select>
 	<select id="selectMemInfo" parameterType="Mypage" resultMap="mypageResultSet">
@@ -36,7 +38,16 @@
 		select * from storage_box where m_no=#{mNo}
 	</select>
 	<insert id="insertBox" parameterType="Mypage">
-		INSERT INTO STORAGE_BOX VALUES(default, null, #{mNo}, (select max(sb_no)+1 from storage_box where M_NO=#{mNo}))
+		INSERT INTO STORAGE_BOX VALUES(default, null, #{mNo}, (select nvl((max(sb_no)+1),1) from storage_box where M_NO=#{mNo}))
 	</insert>
+	<select id="selectGroupInfo" parameterType="Mypage" resultMap="mypageResultSet">
+		select * 
+		from group_member gm
+		left join member m
+		on (gm.gm_id=m.m_id)
+		left join groups g
+		on (g.g_no=gm.g_no)
+		where m_no=#{mNo}
+	</select>
 
 </mapper>
