@@ -2,6 +2,7 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.spring.feed.model.service.FeedService;
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
@@ -33,6 +36,9 @@ public class MemberController {
 	private MailService mailService;
 	
 	@Autowired
+	private FeedService fService; 
+	
+	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	/**
@@ -46,14 +52,18 @@ public class MemberController {
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
-		
+		ArrayList<Feed> f = fService.selectFeed();
+		for(Feed ff : f) {
+			System.out.println(ff);
+		}
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
+			model.addAttribute("f",f);
 			model.addAttribute("loginUser", loginUser);
 			if(loginUser.getUserId().equals("admin")) {
-				return "redirect:adminmember.do";
+				return "adminmember.do";
 			}else {
-				return "redirect:home.do";
+				return "home";
 			}
 		}else {
 			model.addAttribute("msg", "로그인실패!");
