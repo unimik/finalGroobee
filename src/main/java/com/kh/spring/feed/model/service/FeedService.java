@@ -20,6 +20,6 @@ public interface FeedService {
 	 * @return
 	 *
 	 */
-	ArrayList<Feed> selectList();
+	ArrayList<Feed> selectFeed();
 
 }

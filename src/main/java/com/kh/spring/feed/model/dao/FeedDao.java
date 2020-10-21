@@ -18,8 +18,8 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertPost", f);
 	}
 
-	public ArrayList<Feed> selectList() {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectList");
+	public ArrayList<Feed> selectFeed() {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed");
 	}
 	
 	

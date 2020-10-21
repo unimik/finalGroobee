@@ -10,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 
-@Controller("feedPost")
+@SessionAttributes("feedPost")
+@Controller
 public class FeedController {
 	
 	@Autowired
@@ -43,7 +45,7 @@ public class FeedController {
 		int result = fService.insertPost(f);
 		
 		if(result > 0) {
-			return "redirect:home.do";
+			return "redirect:fList.do";
 			
 		}else {
 			return "../common/errorPage";
@@ -78,14 +80,17 @@ public class FeedController {
 		return renameFileName;
 	}
 	
-	@RequestMapping("pList.do")
-	public ModelAndView boardList(ModelAndView mv,
-			@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage) {
-
-		ArrayList<Feed> list = fService.selectList();
+	@RequestMapping("fList.do")
+	public ModelAndView feedList(ModelAndView mv) {
+		System.out.println("ㅡㅏㅡㅏㅡㅏ");
+		ArrayList<Feed> f = fService.selectFeed();
+		System.out.println(f);
 		
-		mv.addObject("list", list);
-		mv.setViewName("home");
+		if(f != null) {
+			mv.addObject("f", f).setViewName("home");
+		}else {
+			mv.addObject("msg", "에러 발생").setViewName("common/errorPage");
+		}
 		
 		return mv;
 	}

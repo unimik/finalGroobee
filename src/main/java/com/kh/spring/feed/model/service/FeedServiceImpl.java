@@ -20,8 +20,8 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public ArrayList<Feed> selectList() {
-		return fDao.selectList();
+	public ArrayList<Feed> selectFeed() {
+		return fDao.selectFeed();
 	}
 
 }
