@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.setting.model.service.SettingService;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -28,7 +29,8 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
-	
+	@Autowired
+	private SettingService sService;
 	@Autowired
 	private MailService mailService;
 	
@@ -188,6 +190,11 @@ public class MemberController {
 		m.setUserPwd(encPwd);
 		
 		int result = mService.insertMember(m);
+		
+		Member newUser = mService.selectNo(m.getUserId());
+		System.out.println(newUser.getmNo());
+		
+		int result2 = sService.insertNSetting(newUser.getmNo()) + sService.insertPSetting(newUser.getmNo());
 		if(result > 0) {
 			return"redirect:loginView.do";
 		} else {

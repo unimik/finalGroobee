@@ -43,4 +43,8 @@ public interface MemberService {
 	Member selectOne(String mNo);
 	
 	int disableAccount(int mNo);
+
+	int deleteAccount(int mNo);
+
+	Member selectNo(String userId);
 }

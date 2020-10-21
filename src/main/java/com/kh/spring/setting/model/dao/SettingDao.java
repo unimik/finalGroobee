@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.spring.setting.model.vo.NotificationSetting;
 import com.kh.spring.setting.model.vo.PersonalSetting;
+import com.kh.spring.setting.model.vo.Question;
 
 @Repository("sDao")
 public class SettingDao {
@@ -28,6 +29,22 @@ public class SettingDao {
 
 	public int updateSetting(PersonalSetting ps) {
 		return sqlSession.update("settingMapper.pUpdateSetting",ps);
+	}
+
+	public int insertQuestion(Question q) {
+		return sqlSession.update("settingMapper.insertQuestion",q);
+	}
+
+	public int insertNSetting(int mNo) {
+		return sqlSession.insert("settingMapper.insertNSet",mNo);
+	}
+
+	public int insertPSetting(int mNo) {
+		return sqlSession.insert("settingMapper.insertPSet",mNo);
+	}
+
+	public int disableblock(PersonalSetting p) {
+		return sqlSession.update("settingMapper.disableblock",p);
 	}
 
 
