@@ -54,7 +54,7 @@ public class GroupDao {
 	}
 
 	public int groupMemberDelete(GroupMember gm) {
-		return sqlSession.update("gmMapper.gmDelete", gm);
+		return sqlSession.delete("gmMapper.gmDelete", gm);
 	}
 
 	public ArrayList<GroupMember> selectGmList(int gNo) {
@@ -63,5 +63,17 @@ public class GroupDao {
 
 	public ArrayList<GroupMember> selectNgmList(int gNo) {
 		return (ArrayList)sqlSession.selectList("gmMapper.selectNgmList",gNo);
+	}
+
+	public int groupUpdate(Group g) {
+		return sqlSession.update("groupMapper.groupUpdate",g);
+	}
+
+	public int groupMemberUpdate(GroupMember gm) {
+		return sqlSession.update("gmMapper.groupMemberUpdate",gm);
+	}
+
+	public int groupMemberCheck(GroupMember gm) {
+		return sqlSession.selectOne("gmMapper.groupMemberCheck",gm);
 	}
 }

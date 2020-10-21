@@ -76,5 +76,26 @@ public interface GroupService {
 	 * @return
 	 */
 	ArrayList<GroupMember> selectNgmList(int gNo);
+
+	/**
+	 * 11. 멤버 가입 승인
+	 * @param gm
+	 * @return
+	 */
+	int gmUpdate(GroupMember gm);
 	
+	/**
+	 * 12. 그룹정보 업데이트
+	 * @param g
+	 * @return
+	 */
+	int updateGroup(Group g);
+
+	/**
+	 * 13. 가입신청한 멤버 체크
+	 * @param gm
+	 * @return
+	 */
+	int gmCheckId(GroupMember gm);
+
 }

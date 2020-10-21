@@ -54,7 +54,7 @@
 		                                   		<td><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" ></td>
 		                                   </c:if>
 		                                   <td>${ gm.gmId }</td>
-		                                   <td><img src="../resources/icons/feed_menu.png" alt="" class="groupMemberMenu"></td>
+		                                   <td><img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" class="groupMemberMenu"></td>
 		                               </tr>
 	                              	</c:forEach>
 	                           </table>
@@ -67,13 +67,21 @@
 
                        <div class="container" id="container_first">
                            <form action="groupUpdate.do" id="updateform" method="post" enctype="multipart/form-data">
+                               <input type="hidden" name="gNo" value="${ g.gNo }">
                                <div id="group_update">
                                    <div class="container" id="container_main_first">
                                        <div class="container second" id="container_main_first_first">
                                            <div class="groupImg">
-				                        		<div id="imgView"></div>
+                                           		<c:if test="${ !empty g.gProfile }">
+				                        		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameProfile }"></div>
 				                        		<p id="p_title">그룹 프로필사진</p>
 				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+			                        	   		</c:if>
+			                        	   		<c:if test="${ empty g.gProfile }">
+			                        	   		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/icons/g_pro.png"></div>
+				                        		<p id="p_title">그룹 프로필사진</p>
+				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+			                        	   		</c:if>
 			                        	   </div>
 			                                           
                                            <div class="container third" id="container_main_first_first_first">
@@ -133,12 +141,18 @@
                                        </div>
                                        <div id="container_main_sixth_first">
                                            <p id="p_title">대표 사진</p>
+                                           <c:if test="${ !empty g.gImage }">
                                             <input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
-                                           <div id="imgBox"></div>
+                                           <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }"></div>
+                                       		</c:if>
+                                       		<c:if test="${ empty g.gImage }">
+                                       		<input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
+                                           <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/images/g_back.png"></div>
+                                       		</c:if>
                                        </div>
                                        <div id="container_main_seventh_first">
                                            <p id="p_title">그룹 소개</p>
-                                           <textarea cols="80" rows="5" id="groupInfo" name="gIntro" value="${ g.gIntro }" placeholder="${ g.gIntro }"></textarea>
+                                           <textarea cols="80" rows="5" id="groupInfo" name="gIntro" placeholder="${ g.gIntro }">${ g.gIntro }</textarea>
                                        </div>
                                        <div id="container_main_eighth_first">
                                            <p id="p_title">그룹 태그</p>
@@ -164,27 +178,27 @@
                                <div id="permit_user">
                                	   <c:forEach var="Ngm" items="${ NgmList }">
 	                                   <ul class="permit_userInfo">
-	                                       <li>${gm.gmLevel}</li>
+	                                       <li>${Ngm.gmLevel}</li>
 	                                       <c:if test="${ !empty loginUser.mImage }">
 	                                       		<li><img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }"></li>
 	                                       </c:if>
 	                                       <c:if test="${ empty loginUser.mImage }">
 	                                       		<li><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></li>
 	                                       </c:if>
-	                                       <li>${ gm.gmId }</li>
+	                                       <li>${ Ngm.gmId }<input type="hidden" id="NgmId" name="NgmId" value="${ Ngm.gmId }"></li>
 	                                       <li><input type="button" id="user_Y" name="user_Y" value="승인"></li>
 	                                       <li><input type="button" id="user_N" name="user_N" value="거절"></li>
 	                                   </ul>
-	                                   <c:if test="${ !empty gm.a1 }">
-	                                   <div class="permit_answer" id="permit_answer">
-	                                       <p>답변1 : ${ a1 }</p>
-	                                       <c:if test="${ !empty gm.a2 }">
-	                                       <p>답변1 : ${ a2 }</p>
-	                                       </c:if>
-	                                       <c:if test="${ !empty gm.a3 }">
-	                                       <p>답변1 : ${ a3 }</p>
-	                                       </c:if>
-	                                   </div>
+	                                   <c:if test="${ !empty Ngm.a1 }">
+		                                   <div class="permit_answer" id="permit_answer">
+		                                       <p>답변1 : ${ Ngm.a1 }</p>
+		                                       <c:if test="${ !empty Ngm.a2 }">
+		                                       <p>답변2 : ${ Ngm.a2 }</p>
+		                                       </c:if>
+		                                       <c:if test="${ !empty Ngm.a3 }">
+		                                       <p>답변3 : ${ Ngm.a3 }</p>
+		                                       </c:if>
+		                                   </div>
 	                                   </c:if>
                                    </c:forEach>
                                </div>
@@ -197,8 +211,8 @@
 
 
                <!-- 팝업 메뉴-->
-               <div class="pop_menu">
-                   <div id="feed_menu_list">
+               <div class="pop_menu_gmList">
+                   <div id="feed_menu_gmlist">
                        <ul>
                           <li><a>그룹장 위임</a></li>
                           <li><a>매니저 임명</a></li>
@@ -257,14 +271,33 @@
 
                 // 팝업처리
                 $(".groupMemberMenu").on("click",function(){
-                    $(".pop_menu").show();
+                    $(".pop_menu_gmList").show();
                 });
                 $('.close').on('click',function(){
-                    $('.pop_menu').hide();
+                    $('.pop_menu_gmList').hide();
                 });
 
             });
+			
+            
+            // 회원 승인
+            $(function(){
 
+            	$('#user_Y').on("click", function(){
+                	$.ajax({
+                		url:"gmUpdate.do",
+                		data:{ gmId:$('#NgmId').val(), gNo:${g.gNo}},
+                		type:"post",
+                		success:function(data){
+                			if(data>0){
+                				alert("승인하셨습니다.");
+                			}
+                		}, error:function(){
+                			alert("오류");
+                		}
+                	});
+                });	
+            })
             
             $(function(){
                 $('.permit_answer').slideUp();
@@ -322,6 +355,58 @@
                 $('.MyTab_box').hide();
                 $('.MyTab_box2').show();
             });
+            
+            $(document).ready(function(){
+                var i = 2;
+                $('#add_question').on("click",function(){
+                    $('#sub_question').show();
+                    $('#container_main_fifth_first').append("<input type='text' id='question"+i+"' name='q"+i+"'>")
+                    i++;
+                    if(i>=4){
+                        $('#add_question').attr("disabled","disabled");
+                    };
+                });
+
+                $('#sub_question').on("click",function(){
+                    if(i != 2){
+                    $('#container_main_fifth_first input:last').remove();
+                    $('#add_question').prop("disabled",false);
+                    i--;
+
+                    }
+                });
+
+    		});
+    		
+            function sethumbnail(event){
+    			var reader = new FileReader();
+    			
+    			reader.onload = function(event){
+    				var img = document.createElement('img');
+    				img.setAttribute("src",event.target.result);
+    				document.querySelector("div#imgView>img").remove();
+    				document.querySelector("div#imgView").appendChild(img);
+    			};
+    			
+    			reader.readAsDataURL(event.target.files[0]);
+    		} ;
+            
+            function sethumbnail2(event){
+    			var reader = new FileReader();
+    			
+    			reader.onload = function(event){
+    				var groupimg = document.createElement('img');
+    				groupimg.setAttribute("src",event.target.result);
+    				document.querySelector("div#imgBox>img").remove();
+    				document.querySelector("div#imgBox").appendChild(groupimg);
+    			};
+    			
+    			reader.readAsDataURL(event.target.files[0]);
+    		};
+    		
+    		$('#cancel').on("click",function(){
+    			location.href="javascript:history.go(-1);";
+    		});
         </script>
 </body>
 </html>
