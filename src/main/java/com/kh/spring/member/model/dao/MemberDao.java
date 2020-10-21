@@ -13,7 +13,7 @@ public class MemberDao {
 	SqlSessionTemplate sqlSession;
 	
 	public Member loginMember(Member m) {
-		return sqlSession.selectOne("memberMapper.loginMember",m);
+		return sqlSession.selectOne("memberMapper.loginMember", m);
 	}
 
 	public int idCheck(String userId) {
@@ -32,6 +32,9 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.findPwd",m);
 	}
 
+	public int totalMember() {
+		return sqlSession.selectOne("memberMapper.totalMember");
+	}
 	public Member selectOne(String mNo) {
 		return sqlSession.selectOne("memberMapper.selectOne",mNo);
 	}
