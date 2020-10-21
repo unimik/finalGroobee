@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<style>
+	a{text-decoration:none;}
+</style>
 </head>
 <body>
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
@@ -85,14 +88,15 @@
 	    	 </div>
 	           <div id="userInfo">
 	               <ul>
-	                   <!--<li id="goMypage"><a href="goMypage.do?mNo=${ loginUser.mNo }"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>-->
 	                   <li id="goMypage">
-	                   		<c:if test="${ !empty loginUser.mImage }">
-	                   		</c:if>
-	                   		<c:if test="${ empty loginUser.mImage }">
-	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
-	                   		</c:if>
-	                   		<p>${ loginUser.userId }</p>
+	                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
+		                   		<c:if test="${ !empty loginUser.mImage }">
+		                   		</c:if>
+		                   		<c:if test="${ empty loginUser.mImage }">
+		                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+		                   		</c:if>
+		                   		<p>${ loginUser.userId }</p>
+	                   		</a>
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
 	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>

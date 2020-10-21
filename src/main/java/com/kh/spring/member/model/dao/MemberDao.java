@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 
 @Repository("mDao")
@@ -13,7 +14,7 @@ public class MemberDao {
 	SqlSessionTemplate sqlSession;
 	
 	public Member loginMember(Member m) {
-		return sqlSession.selectOne("memberMapper.loginMember",m);
+		return sqlSession.selectOne("memberMapper.loginMember", m);
 	}
 
 	public int idCheck(String userId) {
@@ -32,6 +33,9 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.findPwd",m);
 	}
 
+	public int totalMember() {
+		return sqlSession.selectOne("memberMapper.totalMember");
+	}
 	public Member selectOne(String mNo) {
 		return sqlSession.selectOne("memberMapper.selectOne",mNo);
 	}

@@ -1,5 +1,7 @@
 package com.kh.spring.feed.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,10 @@ public class FeedDao {
 
 	public int insertPost(Feed f) {
 		return sqlSession.insert("feedMapper.insertPost", f);
+	}
+
+	public ArrayList<Feed> selectFeed() {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed");
 	}
 	
 	

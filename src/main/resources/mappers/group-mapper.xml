@@ -48,7 +48,7 @@
 		WHERE G_NO=#{ gNo }
 		AND G_STATUS='Y'
 	</select>
-	
+
 	<update id="groupUpdate" parameterType="Group">
 		UPDATE GROUPS
 		SET
@@ -74,4 +74,10 @@
 		WHERE
 			G_NO=#{gNo}
 	</update>
+
+	<select id="totalGroups" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUPS
+		WHERE G_STATUS ='Y'
+	</select>
 </mapper>

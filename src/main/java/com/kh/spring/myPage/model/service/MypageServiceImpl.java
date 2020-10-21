@@ -39,6 +39,11 @@ public class MypageServiceImpl implements MypageService {
 	public int insertBox(int mNo) {
 		return myDao.insertBox(mNo);
 	}
+
+	@Override
+	public ArrayList<Mypage> selectGroupInfo(int mNo) {
+		return myDao.selectGroupInfo(mNo);
+	}
 	
 
 }
