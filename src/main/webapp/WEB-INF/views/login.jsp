@@ -28,9 +28,26 @@
             <p>GROOBEE © 2020</p>
         </div>
     </div>
-    
     <script>
-    	
+    /* 유효성 검사 */
+    $(function(){
+    	$("#loginBtn").on("click",function(){
+		    var vUserId = $("#userId").val();
+	   		var regex = /^[a-z\d]{4,11}$/;
+	       	var resultId = regex.exec(vUserId);
+	        if(resultId == null) {
+	        	alert("올바른 문자열을 입력해주세요");
+	        	return false;
+	        }
+		    var vPwd = $("#userPwd").val();
+			var regex = /^[a-z\d]{4,11}$/;
+		  	var resultPwd = regex.exec(vPwd);
+		    if(resultPwd == null) {
+		    	alert("올바른 문자열을 입력해주세요");
+		    	return false;
+		    }
+    	});
+    });
     </script>
 </body>
 </html>

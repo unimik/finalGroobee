@@ -2,12 +2,14 @@ package com.kh.spring.group.controller;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,9 +53,9 @@ public class GroupController{
 		String fileName = "";
 		
 		File folder = new File(savePath);
-		if(!folder.exists()) {
-			folder.mkdirs();
-		}
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
 		
 		Iterator<String> files = groupFiles.getFileNames();
 		MultipartFile mpf = groupFiles.getFile(files.next());
@@ -150,11 +152,23 @@ public class GroupController{
 		return result;
 	}
 	
+	@ResponseBody
+	@RequestMapping("gmCheckId.do")
+	public int gmCheckId(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmCheckId(gm);
+		return result;
+	}
+	
 	@RequestMapping(value="gmInsert.do", method=RequestMethod.POST)
 	public String gmInsert(Group g, GroupMember gm, String mId, HttpServletRequest request) {
 				
 		gm.setgNo(g.getgNo());
 		gm.setGmId(mId);
+		
+		
 		int result = gService.gmInsert(gm);
 		
 		if(result > 0) {
@@ -162,6 +176,20 @@ public class GroupController{
 		}else {
 			return "common/errorPage";
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("gmUpdate.do")
+	public int gmUpdate( GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		System.out.println(gm.getgNo());
+		System.out.println(gm.getGmId());
+		
+		int result = gService.gmUpdate(gm);
+		
+		return result;
 	}
 	
 	@RequestMapping("gmDelete.do")
@@ -178,4 +206,119 @@ public class GroupController{
 			return "common/errorPage";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
+	public int totalGroups(HttpServletResponse response) throws IOException{
+		
+		int totalGroups = gService.totalGroups();
+		return totalGroups;
+	}
+	
+	
+	
+	@RequestMapping("gUpdateView.do")
+	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {
+		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
+		mv.addObject("g", gService.selectUpdateGroup(gNo));
+		mv.addObject("NgmList", NgmList);
+		mv.addObject("gmList", gmList);
+		mv.setViewName("group/groupUpdateView");
+		return mv;
+	}
+	
+	@RequestMapping("groupUpdate.do")
+	public ModelAndView groupUpdate(ModelAndView mv, Group g, int gNo, HttpServletRequest request,
+								MultipartHttpServletRequest groupFiles) {
+		System.out.println(g.getgNo());
+		g.setgNo(gNo);
+		
+		System.out.println("그룹번호 : " + g.getgNo());
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "\\gUploadFiles";
+		String fileName = "";
+		
+		File folder = new File(savePath);
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
+		Iterator<String> files = groupFiles.getFileNames();
+		MultipartFile mpf = groupFiles.getFile(files.next());
+		
+		
+		if(mpf != null && mpf.isEmpty()) {
+			if(g.getgRenameProfile()!=null && g.getgRenameImage()!=null) {
+				deleteFile(g.getgRenameProfile(),g.getgRenameImage(),request);
+			}
+		}	
+		ArrayList groupImgFiles = new ArrayList();
+			
+		List<MultipartFile> fileList = groupFiles.getFiles("file");
+		for( MultipartFile gfile : fileList) {
+			fileName = gfile.getOriginalFilename();
+			System.out.println("실제 파일 이름 : " + fileName);
+			long fileSize = gfile.getSize();
+			
+			if(!gfile.isEmpty()) {
+				String originalFileName = gfile.getOriginalFilename();
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
+				int rdv = (int)(Math.random()*1000);
+				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + rdv 
+										+ originalFileName.substring(originalFileName.lastIndexOf("."));
+				String renamePath = folder + "\\" + renameFileName;
+			
+				try {
+					gfile.transferTo(new File(renamePath));
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				groupImgFiles.add(gfile.getOriginalFilename());
+				groupImgFiles.add(renameFileName);
+			}
+			System.out.println(groupImgFiles);
+		}
+		
+		if( groupImgFiles.size()!=0){
+		    String gProfileName = (String) groupImgFiles.get(0);
+			String renameGproName = (String) groupImgFiles.get(1);
+			String gImageName = (String) groupImgFiles.get(2);
+			String renameGimgName = (String) groupImgFiles.get(3);
+		
+			System.out.println(gProfileName+", "+renameGproName+", "+gImageName+", "+renameGimgName);
+			
+			g.setgProfile(gProfileName);
+			g.setgRenameProfile(renameGproName);
+			g.setgImage(gImageName);
+			g.setgRenameImage(renameGimgName);
+		} 		
+
+		
+		int result = gService.updateGroup(g);
+		
+		if(result > 0) {
+			mv.addObject("g",g).setViewName("redirect:gdetail.do?gNo="+g.getgNo());
+		}else {
+			mv.addObject("msg","그룹정보 수정 실패").setViewName("common/errorPage");
+		}
+
+		return mv;
+	}
+
+	private void deleteFile(String getgRenameProfile, String getgRenameImage, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		
+		System.out.println(getgRenameProfile);
+		System.out.println(getgRenameImage);
+		File f = new File(savePath + "\\" + getgRenameProfile);
+		File f2 = new File(savePath + "\\" + getgRenameImage);
+		if(f.exists() && f2.exists()) {
+			f.delete();
+			f2.delete();
+		}
+	}
+
+
 }

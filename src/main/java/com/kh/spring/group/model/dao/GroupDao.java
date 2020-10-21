@@ -54,6 +54,30 @@ public class GroupDao {
 	}
 
 	public int groupMemberDelete(GroupMember gm) {
-		return sqlSession.update("gmMapper.gmDelete", gm);
+		return sqlSession.delete("gmMapper.gmDelete", gm);
+	}
+
+	public int totalGroups() {
+		return sqlSession.selectOne("groupMapper.totalGroups");
+	}
+
+	public ArrayList<GroupMember> selectGmList(int gNo) {
+		return (ArrayList)sqlSession.selectList("gmMapper.SelectGmList",gNo);
+	}
+
+	public ArrayList<GroupMember> selectNgmList(int gNo) {
+		return (ArrayList)sqlSession.selectList("gmMapper.selectNgmList",gNo);
+	}
+
+	public int groupUpdate(Group g) {
+		return sqlSession.update("groupMapper.groupUpdate",g);
+	}
+
+	public int groupMemberUpdate(GroupMember gm) {
+		return sqlSession.update("gmMapper.groupMemberUpdate",gm);
+	}
+
+	public int groupMemberCheck(GroupMember gm) {
+		return sqlSession.selectOne("gmMapper.groupMemberCheck",gm);
 	}
 }

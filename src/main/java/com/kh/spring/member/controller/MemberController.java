@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.spring.feed.model.service.FeedService;
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
@@ -34,6 +36,9 @@ public class MemberController {
 	private SettingService sService;
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private FeedService fService; 
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;

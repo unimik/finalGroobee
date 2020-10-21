@@ -132,6 +132,7 @@
 			reader.onload = function(event){
 				var img = document.createElement('img');
 				img.setAttribute("src",event.target.result);
+				document.querySelector("div#imgView>img").remove();
 				document.querySelector("div#imgView").appendChild(img);
 			};
 			
@@ -144,6 +145,7 @@
 			reader.onload = function(event){
 				var groupimg = document.createElement('img');
 				groupimg.setAttribute("src",event.target.result);
+				document.querySelector("div#imgBox>img").remove();
 				document.querySelector("div#imgBox").appendChild(groupimg);
 			};
 			
