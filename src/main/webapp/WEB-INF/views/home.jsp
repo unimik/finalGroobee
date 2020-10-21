@@ -18,12 +18,13 @@
 <body>
 	<div class="wapper">
 		<c:import url="common/menubar.jsp" />
+		<a href="fList.do">리스트테스</a>
 		<div class="content">
 		<div class="myAccount">
 			<div id="myId">
 				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="myProfile"
 					id="myProfile">
-				<p>user01</p>
+				<p>${ loginUser.userId }</p>
 			</div>
 			<div id="MyTab">
 				<button class="MyTab_tab1 MyTab_tab on">친구</button>
@@ -71,98 +72,97 @@
 	<div id="feedArea">
 		<div id="feed">
 			<div id="writer_submenu">
+				<input type="hidden" name="fNo" value="${ fNo }">
 				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
 					id="feed_profile_img">
 				<div id="user_time">
-					<c:choose>					
-						<c:when test="${ feedPost.mNo eq loginUser.mNo }">
-							<p id="feed_id">${ loginUser.userId }</p>
-							<h6>${ fCreateDate }</h6>
-						</c:when>
-						<c:otherwise>
-							<p id="feed_id">${ userId }</p>
-							<h6>${ fCreateDate }</h6>
-						</c:otherwise>
-					</c:choose>
+					<p id="feed_id">${ userId }</p>
+					<h6>${ fCreateDate }</h6>
 				</div>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
 			</div>
-			<!-- 다른 회원 글 볼 때 피드메뉴 -->
-			<div class="pop_menu">
-				<div id="feed_menu_list">
-					<ul>
-						<li><a id="feed_report_btn">신고</a></li>
-						<li><a>공유하기</a></li>
-						<li><a>보관함</a></li>
-						<li><a id="close">취소</a></li>
-					</ul>
-				</div>
-			</div>
-				<!-- 내가 쓴 글 볼 때 피드메뉴
-                        <div class="pop_menu">
-                            <div id="feed_Mymenu_list">
-                                <ul>
-                                <li><a href="../views/PostUpdateForm.html" id="feed_menu1_btn">수정</a></li> 
-                                <li><a>삭제</a></li> 
-                                <li><a id="close">취소</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    -->
-				<div class="feed_report">
-				<div id="feed_report_con">
-					<p>신고사유</p>
-					<select style=>
-						<option>부적절한 게시글</option>
-						<option>욕설</option>
-						<option>광고</option>
-						<option>도배</option>
-					</select> <br> <input type="button" id="submit" name="submit"
-						value="확인">
-					<button id="cancel">취소</button>
-				</div>
-			</div>
-			<div id="con">
-				<div id="feed_content">
-					<img src="${ contextPath }/resources/images/IMG_7572.JPG" alt="" id="input_img">
-					<div id="heart_reply">
-						<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
-						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-					</div>
-					<p id="text">${ fContent }</p>
-					<ul id="tag">
-						<li>${ fTag }</li>
-					</ul>
-				</div>
-				<div id="replyArea">
-					<div id="replyList">
-						<ul id="re_list">
-							<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-								id="reply_img">&nbsp;&nbsp;&nbsp;
-								<p id="userId" name="rWriter">${ rWriter }</p></li>
-							<li><p id="replyCon">${ rContent }</p></li>
-							<li><p id="time">1시간 전</p></li>
-							<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt=""
-								id="updateBtn"></li>
+			
+		<c:choose>
+			<c:when test="${ !loginUser.userId }">
+				<!-- 다른 회원 글 볼 때 피드메뉴 -->
+				<div class="pop_menu">
+					<div id="feed_menu_list">
+						<ul>
+							<li><a id="feed_report_btn">신고</a></li>
+							<li><a>공유하기</a></li>
+							<li><a>보관함</a></li>
+							<li><a id="close">취소</a></li>
 						</ul>
 					</div>
-					<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
-					<div class="reply_menu">
-						<div id="re_menu_list">
-							<ul>
-								<li><a>댓글 수정</a></li>
-								<li><a>댓글 삭제</a></li>
-								<li><a id="re_close">취소</a></li>
-							</ul>
-						</div>
-					</div>
-
-					<div id="reply">
-						<input type="text" id="textArea" name="textArea"> <input
-							type="button" id="replyBtn" name="replyBtn" value="등록">
+				</div>
+			</c:when>
+			<c:otherwise>			
+				<!-- 내가 쓴 글 볼 때 피드메뉴 -->
+                <div class="pop_menu">
+                    <div id="feed_Mymenu_list">
+                        <ul>
+                        <li><a href="../views/PostUpdateForm.html" id="feed_menu1_btn">수정</a></li> 
+                        <li><a>삭제</a></li> 
+                        <li><a id="close">취소</a></li>
+                        </ul>
+                    </div>
+                </div>
+			</c:otherwise>
+		</c:choose>
+			<div class="feed_report">
+			<div id="feed_report_con">
+				<p>신고사유</p>
+				<select style=>
+					<option>부적절한 게시글</option>
+					<option>욕설</option>
+					<option>광고</option>
+					<option>도배</option>
+				</select> <br> <input type="button" id="submit" name="submit"
+					value="확인">
+				<button id="cancel">취소</button>
+			</div>
+		</div>
+		<div id="con">
+			<div id="feed_content">
+				<img src="${ contextPath }/resources/images/IMG_7572.JPG" alt="" id="input_img">
+				<div id="heart_reply">
+					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+				</div>
+				<p id="text">${ fContent }</p>
+				<ul id="tag">
+					<li>${ fTag }</li>
+				</ul>
+			</div>
+			<div id="replyArea">
+				<div id="replyList">
+					<ul id="re_list">
+						<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
+							id="reply_img">&nbsp;&nbsp;&nbsp;
+							<p id="userId" name="rWriter">${ rWriter }</p></li>
+						<li><p id="replyCon">${ rContent }</p></li>
+						<li><p id="time">1시간 전</p></li>
+						<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt=""
+							id="updateBtn"></li>
+					</ul>
+				</div>
+				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
+				<div class="reply_menu">
+					<div id="re_menu_list">
+						<ul>
+							<li><a>댓글 수정</a></li>
+							<li><a>댓글 삭제</a></li>
+							<li><a id="re_close">취소</a></li>
+						</ul>
 					</div>
 				</div>
+
+				<div id="reply">
+					<input type="text" id="textArea" name="textArea"> <input
+						type="button" id="replyBtn" name="replyBtn" value="등록">
+				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 	</div>
