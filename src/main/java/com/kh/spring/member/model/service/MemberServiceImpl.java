@@ -38,6 +38,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+
+	public int totalMember() {
+		return mDao.totalMember();
+	}
+
+
+	@Override
 	public Member selectOne(String mNo) {
 		return mDao.selectOne(mNo);
 	}
@@ -45,6 +52,16 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int disableAccount(int mNo) {
 		return mDao.disableAccount(mNo);
+	}
+
+	@Override
+	public int deleteAccount(int mNo) {
+		return mDao.deleteAccount(mNo);
+	}
+
+	@Override
+	public Member selectNo(String mId) {
+		return mDao.selectNo(mId);
 	}
 
 }

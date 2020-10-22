@@ -190,7 +190,7 @@
         /************** 채팅 팝업 *****************/
 
         $(document).ready(function(){
-            $('#chat_icon').click(function(){
+           /*  $('#chat_icon').click(function(){
                 var state = $(".chat").css('display');
                 if(state=='none'){
                     $('.chat').show();
@@ -214,7 +214,7 @@
                 });
 
 
-            });
+            }); */
 
 
             /************  팝업 메뉴 script *********** */
@@ -222,20 +222,19 @@
             $('#group_menuBtn').on("click",function(){
             	$.ajax({
             		url:"gmSelect.do",
-            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo} },
+            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo}},
             		type:"post",
             		success:function(data){
             			console.log(data);
             			if(data > 0){
             				if("${g.gCreator}" != "${loginUser.userId}"){
             					$('.pop_menu_gm').show();
- 
-            				}else{
+            				}else {
             					$('.pop_menu_master').show();
-            				}
+            				} 
             			} else {
            		            $('.pop_menu').show();
-            			} 
+            			}
             		}, error:function(){
             			alert("오류");
             		}
@@ -269,14 +268,30 @@
                 $('.reply_menu').hide();
             });
 
-            $('#groupJoin_btn').on("click",function(){
-                $('.joinPop_back').show();
-            });
-
+            
+           	$('#groupJoin_btn').on("click",function(){
+                  $.ajax({
+                  	url:"gmCheckId.do",
+                  	data:{ gNo:${g.gNo}, gmId:"${loginUser.userId}"},
+              		success:function(data){
+              			console.log(data);
+              			if(data == 0){
+              				$('.joinPop_back').show();
+              			} else {
+              				alert("이미 가입신청하셨습니다.");
+              			}
+              		},error:function(){
+              			alert("오류");
+              		}
+                  });
+              	
+              });	
+           	
             $("#close_joinPop").on("click",function(){
                 $('.joinPop_back').hide();
             });
         });
+	
 
 
 

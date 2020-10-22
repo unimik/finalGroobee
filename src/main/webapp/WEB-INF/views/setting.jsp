@@ -6,6 +6,8 @@
 <%
 	ArrayList<Member> blist = (ArrayList<Member>)request.getAttribute("bList");
 	Member m = (Member)session.getAttribute("loginUser");
+	String blocked = (String)request.getAttribute("blocked");
+	
    
 %>
 <!DOCTYPE html>
@@ -19,123 +21,15 @@
     <link rel="stylesheet" href="resources/css/chat.css">
     <link rel="stylesheet" href="resources/css/myAccount.css">
     <title>Home</title>
+    <style>
+    	.disblock,.block{float:right; color:black; background:#a3d4ff; border:none; border-radius:5px;font-size: 14px;padding: 3px;}
+    	.closemodal{position: fixed;bottom: 685px;left: 820px;width: 50px;font-size: 20px; border: none;background: none;color: white;cursor:pointer;}
+    </style>
 </head>
 <body>
     <div class="wapper">
-        <div id="header">
-            <img src="resources/icons/logo.png" alt="logo" id="logo" name="logo">
-        </div>
-        <div id="chat" name="chat" class="chat">
-            <div class="tab_menu">
-                <button class="tab_menu_btn1 tab_menu_btn on">내 채팅</button>
-                <button class="tab_menu_btn2 tab_menu_btn">그룹</button>
-                <div class="tab_box_container">
-                    <div class="tab_box1 tab_box on">
-                        <div id="search_f">
-                            <input type="search" id="f_list" name="f_list" placeholder="친구 검색">
-                            <input type="button" id="searchBtn" name="searchBtn" value="검색">
-                        </div>
-                        <div id="myChat_list">
-                            <ul id="list">
-                                <li><img src="resources/images/IMG_7273.JPEG" alt="" id="chat_back"></li>
-                                <li>user02</li>
-                                <li>그래서 어떻게 됐음?</li>
-                            </ul>
-                        </div>
-                        <div id="myChat_list">
-                            <ul id="list">
-                                <li><img src="resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
-                                <li>user03</li>
-                                <li>나는 낼 들어온다 안녕~</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab_box2 tab_box">
-                        <div id="search_g">
-                            <input type="search" id="g_list" name="g_list" placeholder="그룹 검색">
-                            <input type="button" id="searchBtn" name="searchBtn" value="검색">
-                        </div>
-                        <div id="myGroupChat_list">
-                            <ul id="list">
-                                <li><img src="resources/images/group_sample.png" alt="" id="chat_back"></li>
-                                <li>강남 사람</li>
-                                <li>오늘 날씨 좋지 않나요?</li>
-                            </ul>
-                        </div>
-                        <div id="myGroupChat_list">
-                            <ul id="list">
-                                <li><img src="resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
-                                <li>떠나자 여행</li>
-                                <li>거기 여행지로 추천!!</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="search_userInfo">
-                
-                <div id="userInfo">
-                    <ul>
-                        <li><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></li>
-                        <li><img src="resources/icons/write.png" alt="" id="writeIcon"></li>
-                        <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
-                        <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
-                    </ul>
-                </div>
-                <div class="myAccount">
-                    <div id="myId">
-                        <img src="resources/images/IMG_7502.JPG" alt="myProfile" id="myProfile">
-                        <p>user01</p>
-                    </div>
-                    <div id="MyTab">
-                        <button class="MyTab_tab1 MyTab_tab on">팔로워</button>
-                        <button class="MyTab_tab2 MyTab_tab">팔로잉</button>
-                        <button class="MyTab_tab3 MyTab_tab">그룹</button>
-                        <div id="MyTab_container">
-                            <!-- 팔로워 -->
-                            <div class="MyTab_box1 MyTab_box on">
-                                <div id="My_follower_list">
-                                    <ul id="follower_info">
-                                        <li><img src="resources/images/IMG_7273.JPEG" alt="" id="follower_list_img"></li>
-                                        <li>user02</li>
-                                        <li><button id="follower" name="follower">삭제</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- 팔로잉 -->
-                            <div class="MyTab_box2 MyTab_box">
-                                <div id="My_following_list">
-                                    <ul id="following_info">
-                                        <li><img src="resources/images/IMG_7273.JPEG" alt="" id="following_list_img"></li>
-                                        <li>user02</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- 그룹 -->
-                            <div class="MyTab_box3 MyTab_box">
-                                <div id="My_fgroup_list">
-                                    <ul id="fgroup_info">
-                                        <li><img src="resources/images/IMG_7273.JPEG" alt="" id="fgroup_list_img"></li>
-                                        <li>user02</li>
-                                        <li><button id="del_group" name="del_group">탈퇴</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="menubar">
-                <ul id="menu">
-                    <li><a href="../views/home.html"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
-                    <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
-                    <li><a href="../views/groupPage.html"><img src="resources/icons/logoicon.png"></a></li>
-                    <li><img src="resources/icons/menu_set.png" alt="SET"></li>
-                </ul>
-            </div>
+    <c:import url="common/menubar.jsp"/>
+      
             <div id="settingArea">
                 <div class="setting" id="notification-setting">
                     <div id="setting-all">
@@ -226,12 +120,19 @@
                                 <div id="blockedList">
                                     <div style="height: 10px;"></div>
                                     <!-- 여기에 DB에서 가져온 리스트 출력-->
-                                   
+                                   <%if(!blist.isEmpty()){ %>
                                     <% for (Member b : blist) { %>
-                                     <img src="resources/images/<%= b.getmImage() %>" alt=""> <span><%= b.getUserId() %></span><br>
+                                     <img src="resources/images/<%= b.getmImage() %>" alt=""> <span><%= b.getUserId() %></span> 
+                                     <button class="disblock" id="<%= b.getUserId() %>" value="<%= b.getmNo() %>">차단해제</button>
+                                     <button class="block" id="<%= b.getUserId() %>1" style="display:none;"value="<%= b.getmNo() %>" >차단 </button><br>
                                     
                                     <%} %>
+                                     
+                                    <%}else{ %>
+                                    <div style="height: 10px; font-size:14px; float:right; margin-right:30px; color:darkgray;" >아직 차단된 계정이 없습니다.</div>
+                                    <%} %>
                                     <div style="height: 10px;"></div>
+                                    <input type="hidden" id="blocked" value="<%= blocked %>">
 
                                 </div>
                                 <div id="test" style="height: 0; overflow: hidden; display: none;">
@@ -420,14 +321,14 @@
             <!-- 로그아웃 후 로그인 페이지로 보내기-->
            
         </div>
-       
+       <input type="button" class="closemodal" value="x">
         <div class="modal_layer"></div>
     </div>
     
     <div class="modal" id="pwdchk_modal">
        
         <div class="modal_content">
-            <h3 align="center">계정삭제</h3>
+            <h3 align="center" float="left">계정삭제</h3>
             <hr>
            
             <p align="center">계정을 삭제를 위한 본인 확인을 위해 비밀번호를 입력해 주세요.</p>
@@ -435,7 +336,7 @@
             <button type="button" id="pwdchk_btn">확인</button>
            
         </div>
-       
+       <input type="button" class="closemodal" value="x">
         <div class="modal_layer"></div>
     </div>
 
@@ -451,7 +352,7 @@
             <button type="button" id="cancel">취소</button>
            
         </div>
-       
+       <input type="button" class="closemodal" value="x">
         <div class="modal_layer"></div>
     </div>
    
@@ -591,7 +492,58 @@
           },5);
         });
 
-      
+      	// 차단해제/차단 버튼 클릭시 이벤트
+      	$(".disblock").on('click',function(e){
+      		var unblockId = e.target.id;
+      		if($("#"+e.target.id).html() == '차단해제' ){
+      			$.ajax({
+      	       		 url: '/spring/disableBlock.do',
+      	      		  	 type: 'post',
+      	      		   	 data: {
+	      	      		   		disblockId : $("#"+unblockId).val(),
+	      	      		   		blocked : $("#blocked").val()
+      	      		    	 
+      	      		   	 		},
+      	      		   	 datatype:"text",
+      	      		   	 success: function(data){
+      		      		   	if(data != null){
+      		  		   			 console.log("차단해제 후 : "+data)
+      		      		   		$("#"+e.target.id).html('차단'); 
+      							$("#blocked").val(data);
+      		  		   		 }else{
+      		  		   			 alert("차단해제 실패");
+      		  		   		 }
+      	      		   	 },error: function(error){
+      	      		   		 alert(error+"차단해제 에러");
+      	      		   	 }
+      	       	 });
+      			
+      		}else{
+      			$.ajax({
+      				url: '/spring/blockAccount.do',
+      				type: 'post',
+      				data:{
+      					
+      					newblock : $("#"+unblockId).val(),
+      					blocked : $("#blocked").val()
+      				},
+      				datatype:"text",
+      				success: function(data){
+      					if(data != null){ 
+      						console.log("차단 후 : "+data)
+			      			$("#"+e.target.id).html('차단해제');      			      			
+	      					$("#blocked").val(data);				
+      					}else{
+      						alert("차단 실패");
+      					}
+      					
+      				},error: function(error){
+      					alert("차단실패 에러 ");
+      				}
+      			})
+      		}
+      	});
+      	
 
 
 
@@ -600,14 +552,38 @@
         document.getElementById("modal_opne_btn").onclick = function() {
             document.getElementById("pwdchk_modal").style.display="block";
         }
-         
+        
         document.getElementById("pwdchk_btn").onclick = function() {
-            document.getElementById("pwdchk_modal").style.display="none";
-            $("#delete_modal").css('display','block')
+            
+            $.ajax({
+       		 url: '/spring/deleteAccount.do',
+      		  	 type: 'post',
+      		   	 data: {
+      		    	 userPwd : $('input[name=pwdchk2]').val()
+      		   	 		},
+      		   	 datatype:"text",
+      		   	 success: function(data){
+	      		   	if(data == 'success'){
+	  		   			 
+	      		   		document.getElementById("pwdchk_modal").style.display="none"; 
+	      		  		$("#delete_modal").css('display','block');
+		                
+	
+	  		   		 }else{
+	  		   			/*  $('#pwdchk').val()=null; */
+	  		   			 alert("비밀번호를 확인 해 주세요");
+	  		   		 }
+      		   	 },error: function(error){
+      		   		 alert(error+"에러");
+      		   	 }
+       	 });
+            
         }
 
          document.getElementById("delete_account").onclick = function() {
             document.getElementById("delete_modal").style.display="none";
+            location.href="index.jsp";
+            alert("계정이 삭제 되었습니다.");
         }
        
         document.getElementById("cancel").onclick = function() {
@@ -620,8 +596,8 @@
            	
         }
         document.getElementById("disableAccount").onclick = function() {
-        	 console.log($("input[name=pwdchk]").val()); 
-        	 console.log($("input[name=userpwd]").val()); 
+        	/*  console.log($("input[name=pwdchk]").val()); 
+        	  console.log($("input[name=userpwd]").val());*/ 
         	 
         	 
         	 $.ajax({
@@ -630,15 +606,29 @@
        		   	 data: {
        		    	 userPwd : $('input[name=pwdchk]').val()
        		   	 		},
-       		   	 dataType:"text",
+       		   	 datatype:"text",
        		   	 success: function(data){
        		   		 console.log(data);
+       		   		 if(data == 'success'){
+       		   			 
+		       		   	 document.getElementById("disable_modal").style.display="none";  
+		                 location.href="index.jsp";
+		                 alert("계정이 비활성화 되었습니다.");
+
+       		   		 }else{
+       		   			/*  $('#pwdchk').val()=null; */
+       		   			 alert("비밀번호를 확인 해 주세요");
+       		   		 }
+       		   	
        		   	 },error: function(error){
        		   		 alert(error+"에러");
        		   	 }
         	 });
-            document.getElementById("disable_modal").style.display="none";        
         }   
+        
+        $(".closemodal").on('click',function(){
+        	$(".modal").css('display','none');
+        })
 
         function showquestion(){
             $('.question').css('display','flex');
@@ -690,6 +680,34 @@
         		
         		}); 
         });
+        
+        
+        // 문의처리
+        $("#question-btn").on('click',function(){
+        	
+        	console.log($("#question-area").val().length);
+        	if($("#question-area").val().length > 10){
+        		$.ajax({
+    	        	url: '/spring/updateQuestion.do',
+    	        	type:'post',
+    	        	data:{
+    	        		questionText : $("#question-area").val()
+    	        	},
+    	        	success: function(){
+    	        		$("#question-area").val('');
+    	        		alert("문의가 성공적으로 전송되었습니다.");
+    	        	},error: function(error){
+    	        		alert(error);
+    	        	}
+    	        	
+    	        });
+        	}else{
+        		alert('10자 이상 입력해 주세요');
+        		$("#question-area").val('');
+        	}
+	        
+        });
+       
         
        
     </script>

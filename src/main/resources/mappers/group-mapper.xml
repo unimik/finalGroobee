@@ -48,4 +48,36 @@
 		WHERE G_NO=#{ gNo }
 		AND G_STATUS='Y'
 	</select>
+
+	<update id="groupUpdate" parameterType="Group">
+		UPDATE GROUPS
+		SET
+			G_NO=#{gNo}
+		,	G_NAME=#{gName}
+		,	G_CATEGORY=#{gCategory}
+		,	G_MAX=#{gMax}
+		,	G_DATE=SYSDATE
+		,	G_OPENSCOPE=#{gOpenScope}
+		,	G_JOINSET=#{gJoinSet}
+		,	G_QSET=#{gQset}
+		,	Q1=#{q1}
+		,	Q2=#{q2}
+		,	Q3=#{q3}
+		,	G_INTRO=#{gIntro}
+		,	G_TAG=#{gTag}
+		,	G_STATUS=DEFAULT
+		,	G_NOTICE=#{gNotice}
+		,	G_PROFILE=#{gProfile}
+		,	G_RENAME_PROFILE=#{gRenameProfile}
+		,	G_IMAGE=#{gImage}
+		,	G_RENAME_IMAGE=#{gRenameImage}
+		WHERE
+			G_NO=#{gNo}
+	</update>
+
+	<select id="totalGroups" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUPS
+		WHERE G_STATUS ='Y'
+	</select>
 </mapper>

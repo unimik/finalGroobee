@@ -1,5 +1,6 @@
 package com.kh.spring.member.model.service;
 
+import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 
 public interface MemberService {
@@ -40,7 +41,16 @@ public interface MemberService {
 	 */
 	int findPwd(Member m);
 
+	/** 6. 총 회원 수
+	 * @return
+	 */
+	int totalMember();
+
 	Member selectOne(String mNo);
 	
 	int disableAccount(int mNo);
+
+	int deleteAccount(int mNo);
+
+	Member selectNo(String userId);
 }

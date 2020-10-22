@@ -74,7 +74,16 @@
                 </div>
                 <div id="userInfo">
                     <ul>
-                        <li><a href="<%=request.getContextPath()%>/views/myPageMain.jsp"><img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>
+                        <li id="goMypage">
+                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
+	                   		<c:if test="${ !empty loginUser.mImage }">
+	                   		</c:if>
+	                   		<c:if test="${ empty loginUser.mImage }">
+	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+	                   		</c:if>
+	                   		<p>${ loginUser.userId }</p>
+                   		</a>
+                   </li>
                         <li><img src="<%=request.getContextPath()%>/resources/icons/write.png" alt="" id="writeIcon"></li>
                         <li><img src="<%=request.getContextPath()%>/resources/icons/alarm.png" alt="" id="alarmIcon"></li>
                         <li><img src="<%=request.getContextPath()%>/resources/icons/open.png" alt="" id="detailInfo"></li>
@@ -144,16 +153,20 @@
                 <!-- 프로필 시작 -->
                     <div id="myPage_profile">
                         <div id="mp_profile_img">
-                            <img src="<%=request.getContextPath()%>/resources/images/${ memberInfo.mImage }">
+                        	<c:if test="${ !empty loginUser.mImage }">
+	                   		</c:if>
+	                   		<c:if test="${ empty loginUser.mImage }">
+	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+	                   		</c:if>
                         </div>
                         <div id="mp_profile_info">
-                            <h3>${ memberInfo.userId }</h3>
+                            <h3>${ loginUser.userId }</h3>
                         </div>
                         <div id="mp_profile_edit">
-                            <!-- <input type="button" id="profile_edit_btn" name="profile_edit_btn" value="프로필 편집"> -->
-                            <input type="button" id="follow_btn" name="follow_btn" value="팔로우">
+                            <input type="button" id="profile_edit_btn" name="profile_edit_btn" value="프로필 편집">
+                            <%-- <input type="button" id="follow_btn" name="follow_btn" value="팔로우">
                             <input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
-                            <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn">
+                            <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn"> --%>
                         </div>
 
                     <!-- 다른 사람이 내 피드를 방문했을 때 -->
@@ -490,9 +503,9 @@
                         </tr>
                      <input type="hidden" value="${ loginUser.mNo }" id="mNo">
                         <tr class="storagebox">
-               	 			<div id="box">cc</div>
+               	 			<div id="box">보관함새폴더생성</div>
                             <td class="fstorageBox_folder"><img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
-                            	<div id="box2">xxx</div>
+                            	<div id="box2">폴더명</div>
                             </td>
                	 <%-- 	<c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
                             <table>
@@ -522,44 +535,37 @@
                             <tr class="group">
                                 <td class="empty-space" colspan="3"></td>
                             </tr>
-
+                       		
                         <!-- 내 그룹 목록 -->
+                        <c:forEach var="groupList" items="${ groupList }">
                             <tr id="groupList" colspan="1" class="group">
                                 <td class="groupImg" align="center">
-                                    <a href="#">
-                                        <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
-                                    </a>
+	                                <c:if test="${ !empty groupList.gImage }">
+	                                	<a href="gdetail">
+	                                        <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
+	                                    </a>
+						            </c:if>
+						            <c:if test="${ empty groupList.gImage }">
+						            	<a href="gdetail">
+						            		<div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
+						            	</a>
+						            </c:if>
                                 </td>
                                 <td class="groupInfo" colspan="3">
-                                    <a href="#">
-                                        <h3>떠나자! 여행!</h3>
+                                    <a href="gdetail">
+                                        <h3>${ groupList.gName }</h3>
                                         <div>
                                             <div>
-                                                <h5 class="group_interests">여행 지역</h5>
-                                                <h5 class="group_subDate">가입일 2020-09-28</h5>
+                                                <h5 class="group_interests">${ groupList.gCategory }</h5>
+                                                <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
                                             </div>
                                             <input type="button" class="leaveBtn" value="탈퇴">
                                         </div>
                                     </a>
                                 </td>
                             </tr>
-                            <tr id="groupList" class="group">
-                                <td class="groupImg" align="center">
-                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo2.png"></div>
-                                </td>
-                                <td class="groupInfo" colspan="3">
-                                    <a href="#">
-                                        <h3>강남 사람</h3>
-                                        <div>
-                                            <div>
-                                                <h5 class="group_interests">지역</h5>
-                                                <h5 class="group_subDate">가입일 2018-07-03</h5>
-                                            </div>
-                                            <input type="button" class="leaveBtn" value="탈퇴">
-                                        </div>
-                                    </a>
-                                </td>
-                            </tr>
+                         </c:forEach>
+
                     </table>
                 </div>
             </div>
@@ -703,7 +709,8 @@
                 		input += "</table>";
             			input += "</td>";
 			            
-			            $("#box").html(input);
+			            $("#box").append(input);
+			           /*  $("#box").html(input); */
 
 					}else if(data.msg != null && data.msg != 'undefined'){
 						alert(data.msg);

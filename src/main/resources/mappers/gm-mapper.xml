@@ -34,10 +34,23 @@
 		AND GM_STATUS = 'Y'
 	</select>
 	
-	<update id="gmDelete" parameterType="GroupMember">
+	<select id="groupMemberCheck" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_MEMBER
+		WHERE G_NO=#{gNo}
+		AND GM_ID=#{gmId}
+	</select>
+	<delete id="gmDelete" parameterType="GroupMember">
+		DELETE GROUP_MEMBER
+		WHERE
+			G_NO=#{ gNo }
+		AND GM_ID=#{ gmId }
+	</delete>
+	
+	<update id="groupMemberDeleteCheck" parameterType="GroupMember">
 		UPDATE GROUP_MEMBER
 		SET
-			GM_STATUS='N'
+			GM_STATUS='D'
 		WHERE
 			G_NO=#{ gNo }
 		AND GM_ID=#{ gmId }
@@ -54,4 +67,13 @@
 		WHERE G_NO=#{ gNo }
 		AND GM_STATUS='N'
 	</select>
+	
+	<update id="groupMemberUpdate" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_STATUS='Y'
+		WHERE
+			G_NO=#{gNo}
+		AND GM_ID=#{gmId}
+	</update>
 </mapper>

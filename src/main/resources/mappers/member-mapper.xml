@@ -52,15 +52,36 @@
 		AND M_EMAIL = #{email}
 	</update>
 	
+	<select id="totalMember" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE M_STATUS ='Y'
+	</select>
+	
+	
 	<select id="selectOne" parameterType="string" resultMap="memberResultSet">
 		SELECT * 
 		FROM MEMBER
 		WHERE M_NO=#{mNo}
 	</select>
+
+	<select id="selectNo" parameterType="string" resultMap="memberResultSet">
+		SELECT * 
+		FROM MEMBER
+		WHERE M_ID=#{mId}
+	</select>
 	
 	<update id="disableAccount" parameterType="int">
 	 	UPDATE MEMBER 
 	 	SET M_STATUS = 'N'
-	 	WHERE M_NO = #m{mNo}
+	 	WHERE M_NO = #{mNo}
 	</update> 
+
+	<update id="deleteAccount" parameterType="int">
+	 	UPDATE MEMBER 
+	 	SET M_STATUS = 'D'
+	 	WHERE M_NO = #{mNo}
+	</update> 
+	
+	
 </mapper>
