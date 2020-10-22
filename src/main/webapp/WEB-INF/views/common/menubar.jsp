@@ -118,11 +118,7 @@
 	           <div id="userInfo">
 	               <ul>
 	                   <!--<li id="goMypage"><a href="goMypage.do?mNo=${ loginUser.mNo }"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>-->
-=======
-	           <div id="userInfo">
-	               <ul>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
-	                   <li id="goMypage">
+						<li id="goMypage">
 	                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
 		                   		<c:if test="${ !empty loginUser.mImage }">
 		                   		</c:if>
