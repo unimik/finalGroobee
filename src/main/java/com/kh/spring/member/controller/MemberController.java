@@ -2,6 +2,7 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.spring.feed.model.service.FeedService;
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.setting.model.service.SettingService;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -28,9 +32,13 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
-	
+	@Autowired
+	private SettingService sService;
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private FeedService fService; 
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -42,17 +50,22 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value="login.do",method=RequestMethod.POST) 
-	public String memberLogin(Member m,String userId,String userPwd,Model model) {      
+	public String memberLogin(Member m, String userId,String userPwd,Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
+		ArrayList<Feed> f = fService.selectFeed();
+		for(Feed ff : f) {
+			System.out.println(ff);
+		}
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
+			model.addAttribute("f",f);
 			model.addAttribute("loginUser", loginUser);
 			if(loginUser.getUserId().equals("admin")) {
-				return "redirect:adminmember.do";
+				return "adminmember.do";
 			}else {
-				return "redirect:home.do";
+				return "home";
 			}
 		}else {
 			model.addAttribute("msg", "로그인실패!");
@@ -161,6 +174,11 @@ public class MemberController {
 		m.setUserPwd(encPwd);
 		
 		int result = mService.insertMember(m);
+		
+		Member newUser = mService.selectNo(m.getUserId());
+		System.out.println(newUser.getmNo());
+		
+		int result2 = sService.insertNSetting(newUser.getmNo()) + sService.insertPSetting(newUser.getmNo());
 		if(result > 0) {
 			return"redirect:loginView.do";
 		} else {
@@ -195,6 +213,14 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
+	@ResponseBody
+	@RequestMapping(value="totalMember.do", method = RequestMethod.GET)
+	public int totalMember(HttpServletResponse response) throws IOException{
+		
+		int totalMember = mService.totalMember();
+		return totalMember;
+	}
+
 	
 	@RequestMapping("home.do")
 	public String goHome() {

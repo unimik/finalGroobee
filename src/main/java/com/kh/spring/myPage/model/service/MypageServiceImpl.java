@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.dao.MypageDao;
 import com.kh.spring.myPage.model.vo.Mypage;
 
