@@ -17,8 +17,6 @@ public interface TotalSearchService {
 	 */
 	ArrayList<Member> searcMember(Search srch);
 
-
-	
 	
 	/**
 	 * 그룹 검색
@@ -41,4 +39,14 @@ public interface TotalSearchService {
 	 * @return
 	 */
 	ArrayList<RelatedSearch> relatedSearch(Search srch);
+
+
+
+
+	ArrayList<Group> tagsearchGroup(String[] srch);
+
+
+
+
+	ArrayList<Feed> tagsearchFeed(String[] srch);
 }

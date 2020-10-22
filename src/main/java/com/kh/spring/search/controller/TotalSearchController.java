@@ -2,7 +2,9 @@ package com.kh.spring.search.controller;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +34,11 @@ public class TotalSearchController {
 			return mv;
 			
 		}else if(allSearch.charAt(0) =='@') {	//@달고 검색했을 때 --> 아이디, 글에 달린 @아이디 검색	
+			//유저 검색
 			Search srch = new Search(allSearch.charAt(0), allSearch.substring(1));
 			ArrayList<Member> mList = tsService.searcMember(srch);
+
+			//피드 검색
 			Search srch2 = new Search(allSearch.charAt(0), allSearch);
 			ArrayList<Feed> fList = tsService.searchFeed(srch2);
 
@@ -44,23 +49,38 @@ public class TotalSearchController {
 			return mv;
 			
 		}else if(allSearch.charAt(0) =='#') { //# 달고 검색 했을 때 -> 태그 검색
+			//유저 검색
 			Search srch = new Search(allSearch.charAt(0), allSearch);
 			ArrayList<Member> mList = tsService.searcMember(srch);
+			
+			//그룹 검색, 피드 검색
 			Search srch2 = new Search(allSearch.charAt(0), allSearch);
 			ArrayList<Group> gList = tsService.searchGroup(srch2);
 			ArrayList<Feed> fList = tsService.searchFeed(srch2);
 			
+			//연관 검색어
+//			ArrayList<RelatedSearch> rsList = tsService.relatedSearch(srch2); 
+			ArrayList raList = tsService.relatedSearch(srch2); 
+			ArrayList rbList = new ArrayList();
+
+//			ArrayList<RelatedSearch> rsList = new ArrayList<RelatedSearch>();
+//			System.out.println(raList);
+			for( int i = 0; i<raList.size();i++) {
+				String str = (String) raList.get(i);
+				rbList.add(i,str.substring(1));
+			}
+//			System.out.println(rbList);
 //			ArrayList rsList = new ArrayList<>();
-			ArrayList<RelatedSearch> rsList = tsService.relatedSearch(srch2);  
-//			System.out.println("연관검색어 들어옴?"+rsList);
 //			System.out.println("태그로 검색했을 때 멤버 리스트"+mList);
-			System.out.println("gList"+gList);
+//			System.out.println("gList"+gList);
 
 			mv.addObject("mList", mList);
 			mv.addObject("gList", gList);
 			mv.addObject("fList", fList);
-			mv.addObject("rsList",rsList);
-		
+			mv.addObject("rsList",rbList);
+			mv.addObject("searchKey", allSearch.substring(1));
+			
+			
 			mv.setViewName("search/totalSearch");
 			return mv;
 			
@@ -78,7 +98,20 @@ public class TotalSearchController {
 		
 	}
 	
-	
+	@RequestMapping("tagSearch.do")
+	public ModelAndView tagSearch(ModelAndView mv , String search) {
+		
+		System.out.println("태그 클릭하면 클릭한거 들어옴?:"+search);
+		String searchKey = search;
+		String[] srch = search.split(" ");
+		
+		ArrayList<Group> gList = tsService.tagsearchGroup(srch);
+		ArrayList<Feed> fList = tsService.tagsearchFeed(srch);
+		
+		mv.addObject("searchKey",searchKey);
+		mv.setViewName("search/totalSearch");
+		return mv;
+	}
 	
 	
 	

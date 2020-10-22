@@ -37,6 +37,7 @@
 	                            </c:when>
 	                            <c:otherwise>
 	                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
+	             
 	                                <img src="resources/memberProfileFiles/${ m.mRenameImage }" alt="" id="user_profile_img">
 	                                <p id="search_id">${ m.userId }</p>
 	                            </div>                            
@@ -83,15 +84,14 @@
              				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="rs" items="${ rsList }">
-		                            <li style=" cursor: pointer;" onclick="location.href='';">${rs.rsTag}</li>	                                                  
+		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}">#${rs}</a></li>	                                                  
 		                       </c:forEach>
 	                       </c:otherwise>                        
                         </c:choose>
                         </ul>
                     </div>
                 </div>
-
-                <!--검색 피드-->
+                <!--검색된 피드-->
                 <div id="search_feed">
                     <div id="title_feed">
                         <p id="title"><b>게시물</b> </p>

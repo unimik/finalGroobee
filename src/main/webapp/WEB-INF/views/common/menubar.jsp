@@ -10,6 +10,7 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
+
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
@@ -80,9 +81,36 @@
 	           <div id="searchbar">
 	           	   <form action="search.do" method="post">
 		               <input type="search" id="allSearch" name="allSearch">
+		               <!-- 자동 검색어 뜨는 부분
+		               <div style="border:1px solid black; height: 40px;width: 300px;float: none;position: fixed;">
+			               <ul>
+			               		<li>안녕하세요</li>
+			               </ul>
+		               </div> -->
 		               <input type="submit" id="allSearchBtn" name="allSearchBtn" value="검색">
 	           	</form>
 	    	 </div>
+	    	 <!--
+	    	 	<script>
+	    	 		$(function autoSearch() {
+	    	 			$("#allSearch").on("keyup",function(){
+	    					var allSearch = $(this).val();
+	    					}
+
+	    	 			$.ajax({
+	    					url:"autoSearch.do",
+	    					data:{aSearch:allSearch},
+	    					type:"post",
+							success:function(data){
+								
+								}
+							}
+					});
+	    	 	
+	    	 	</script>
+	    	 	-->
+	    	 
+	    	 
 	           <div id="userInfo">
 	               <ul>
 	                   <!--<li id="goMypage"><a href="goMypage.do?mNo=${ loginUser.mNo }"><img src="resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>-->
@@ -123,15 +151,7 @@
              }
          });
 
-<<<<<<< HEAD
-             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>
-             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
-         </ul>
-     </div>
-     <script>
-     
-     
-=======
+
          $('.tab_menu_btn').on('click',function(){
              $('.tab_menu_btn').removeClass('on');
              $(this).addClass('on')
@@ -155,7 +175,6 @@
              $(".chat_room").hide();
          });
      });
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      </script>
 </body>
 </html>

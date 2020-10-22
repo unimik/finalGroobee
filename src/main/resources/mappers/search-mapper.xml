@@ -98,6 +98,7 @@
 		AND F_CONTENT LIKE '%' || #{search}  || '%'
 		</if>
 	</select>
+	<!-- 
 	<select id="relatedSearch" parameterType="Search" resultMap="relatedSearchSet">
 	<![CDATA[
 	SELECT ROWNUM, TC.*
@@ -116,6 +117,24 @@
 	WHERE ROWNUM < 10
 	]]>
 	</select>	
-
-
+ -->
+	<select id="relatedSearch" parameterType="Search" resultType="String" >
+	<![CDATA[
+	SELECT RTAG.TATG FROM(
+		SELECT ROWNUM, TC.*
+		FROM (
+		    SELECT TB.TATG, SUM(CNT) SUMC
+		    FROM(
+		        SELECT TA.F_TAG AS TATG, COUNT(TA.F_TAG) CNT
+		        FROM TAG TA
+		        WHERE TA.F_NO IN(SELECT F_NO 
+		                        FROM TAG
+		                        WHERE F_TAG= #{search} )
+		        AND NOT TA.F_TAG = #{search} 
+		        GROUP BY TA.F_NO, TA.F_TAG) TB
+		    GROUP BY TB.TATG
+		    ORDER BY SUMC DESC) TC
+		WHERE ROWNUM < 10 ) RTAG
+	]]>
+	</select>
 </mapper>
