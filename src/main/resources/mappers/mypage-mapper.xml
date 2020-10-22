@@ -22,7 +22,29 @@
  		<result property="gJoinDate" column="g_JoinDate"/>
  		<result property="gCategory" column="g_Category"/>
  	</resultMap>
-
+ 	
+ 	<resultMap id="feedResultSet" type="Feed">
+		<id property="fNo" column="F_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="fContent" column="F_CONTENT"/>
+		<result property="fWriter" column="F_WRITER"/>
+		<result property="fFile" column="F_FILE"/>
+		<result property="fRenameFile" column="F_RENAMEFILE"/>
+		<result property="fCreateDate" column="F_CREATE_DATE"/>
+		<result property="fModifyDate" column="F_MODIFY_DATE"/>
+		<result property="fStatus" column="F_STATUS"/>
+		<result property="fLocation" column="F_LOCATION"/>
+		<result property="fOpenScope" column="F_OPEN_SCOPE"/>
+		<result property="fLikeSet" column="F_LIKE_SET"/>
+		<result property="fReplySet" column="F_REPLY_SET"/>
+		<result property="fShareSet" column="F_SHARE_SET"/>
+		<result property="fLikeCnt" column="F_LIKECNT"/>
+		<result property="fReplyCnt" column="F_REPLYCNT"/>
+	</resultMap>
+	
+		
+		
+		
 	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
 		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
 		,(select count(*) from FOLLOW where follows = #{mNo}) as followers  
@@ -31,7 +53,7 @@
 	<select id="selectMemInfo" parameterType="Mypage" resultMap="mypageResultSet">
 		select * from member where m_no=#{mNo}
 	</select>
-	<select id="selectFeedInfo" parameterType="Mypage" resultMap="mypageResultSet">
+	<select id="selectFeedInfo" parameterType="Mypage" resultMap="feedResultSet">
 		select * from feed where m_no=#{mNo}
 	</select>
 	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="mypageResultSet">

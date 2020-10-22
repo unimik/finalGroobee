@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.Mypage;
 
@@ -24,7 +25,7 @@ public class MypageDao {
 		return sqlSession.selectOne("mypageMapper.selectFollowInfo", mNo);
 	}
 
-	public ArrayList<Mypage> selectFeedInfo(int mNo) {
+	public ArrayList<Feed> selectFeedInfo(int mNo) {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectFeedInfo", mNo);
 	}
 

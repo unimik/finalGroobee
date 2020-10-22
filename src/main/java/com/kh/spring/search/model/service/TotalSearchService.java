@@ -34,19 +34,36 @@ public interface TotalSearchService {
 	ArrayList<Feed> searchFeed(Search srch);
 
 	/**
-	 * 연관 검색어
-	 * @param srch
+	 * 연관 검색어 
+	 * @param srch2
 	 * @return
 	 */
-	ArrayList<RelatedSearch> relatedSearch(Search srch);
+	ArrayList<RelatedSearch> relatedSearch(Search srch2);
+
+
+
+//===============태그 눌렀을때 검색되는거==================
+	ArrayList<Group> tagsearchGroup(ArrayList srch);
 
 
 
 
-	ArrayList<Group> tagsearchGroup(String[] srch);
+	/** 
+	 * 피드 검색
+	 * @param rarr
+	 * @return
+	 */
+//	ArrayList<Feed> tagsearchFeed(ArrayList rlist);
+	ArrayList<Feed> tagSearchFeed(String[] rlist);
+
+
+	/**
+	 * 연관 검색어
+	 * @param rlist
+	 * @return
+	 */
+	ArrayList tagSearchRs(String[] rlist);
 
 
 
-
-	ArrayList<Feed> tagsearchFeed(String[] srch);
 }

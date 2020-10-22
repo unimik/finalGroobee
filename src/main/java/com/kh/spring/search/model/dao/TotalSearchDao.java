@@ -1,6 +1,7 @@
 package com.kh.spring.search.model.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,19 @@ public class TotalSearchDao {
 
 	public ArrayList<RelatedSearch> relatedSearch(Search srch) {
 		return (ArrayList)sqlSession.selectList("searchMapper.relatedSearch", srch);
+	}
+
+//	public ArrayList<Feed> tagsearchFeed(ArrayList rlist) {
+//		return (ArrayList)sqlSession.selectList("searchMapper.tagsearchFeed", rlist);
+//	}
+
+	public ArrayList<Feed> tagSearchFeed(String[] rlist) {
+//		System.out.println("dao"+Arrays.toString(rlist));
+		return(ArrayList)sqlSession.selectList("searchMapper.tagSearchFeed", rlist);
+	}
+
+	public ArrayList tagSearchRs(String[] rlist) {
+		return (ArrayList)sqlSession.selectList("searchMapper.tagSearchRs", rlist);
 	}
 
 }

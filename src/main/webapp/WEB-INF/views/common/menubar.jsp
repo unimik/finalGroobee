@@ -93,7 +93,7 @@
 		               <input type="submit" id="allSearchBtn" name="allSearchBtn" value="검색">
 	           	</form>
 	    	 </div>
-<<<<<<< HEAD
+
 	    	 <!--
 	    	 	<script>
 	    	 		$(function autoSearch() {

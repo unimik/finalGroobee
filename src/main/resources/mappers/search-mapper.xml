@@ -137,4 +137,68 @@
 		WHERE ROWNUM < 10 ) RTAG
 	]]>
 	</select>
+	
+	<!-- 
+	<select id="tagsearchFeed" parameterType="arraylist" resultMap="feedResultSet">
+	SELECT FD.*
+	FROM FEED FD
+	WHERE F_NO IN(SELECT F_NO 
+	            	FROM FEED
+	            	WHERE
+	            	F_STATUS ='Y'
+	            	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	            	<if test="list != null">
+	            	AND 
+	            	</if>
+	            	F_CONTENT LIKE '%'|| #{list.item} ||'%'
+	            	</foreach>
+					);
+	</select>
+	 -->
+	 
+	<select id="tagSearchFeed" parameterType="String" resultMap="feedResultSet">
+	SELECT FD.*
+	FROM FEED FD
+	WHERE F_NO IN(SELECT F_NO 
+	            	FROM FEED
+	            	WHERE
+	            	F_STATUS ='Y'
+	            	<foreach collection="array" item="arr" open="" close="" separator="">
+	            	<if test="array != null">
+	            	AND 
+	            	</if>
+	            	F_CONTENT LIKE '%'|| #{arr} ||'%'
+	            	</foreach>
+					)
+	</select>
+	
+	<select id="tagSearchRs" parameterType="String" resultType="String">
+	
+	SELECT RCRT.F_TAG
+	FROM(SELECT ROWNUM, TC.F_TAG
+	    FROM( SELECT TB.F_TAG, COUNT(TB.F_TAG) CNT
+	            FROM TAG TB
+	            WHERE TB.F_NO IN(SELECT F_NO 
+	                            FROM FEED
+	   							WHERE 
+	   							F_STATUS ='Y'
+	   							<if test="array != null">
+				            	AND 
+				            	</if>
+	            				<foreach collection="array" item="arr" open="" close="" separator="AND">
+	                            F_CONTENT LIKE '%'||#{arr}||'%'
+	                            </foreach>
+	                            )
+				<if test="array != null">
+            	AND 
+            	</if>
+				<foreach collection="array" item="arr" open="" close="" separator="AND">
+	            NOT TB.F_TAG=#{arr}
+                </foreach>
+	            GROUP BY TB.F_NO, TB.F_TAG
+	            ORDER BY CNT DESC) TC
+	<![CDATA[
+	WHERE ROWNUM < 10) RCRT
+	]]>
+	</select>
 </mapper>

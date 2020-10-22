@@ -125,8 +125,8 @@
                         <tr class="post">
                   			<c:forEach var="feedlist" items="${ feedList }">
                   				<c:choose>
-                  					<c:when test="${!empty feedlist.fFile }">
-		                            	<td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/images/${ feedlist.fFile}" type="button" id="pb1"></td>
+                  					<c:when test="${!empty feedlist.fRenameFile }">
+		                            	<td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
                   					</c:when>
                   					<c:otherwise>
 			                            <td class="postbox" name="postbox">

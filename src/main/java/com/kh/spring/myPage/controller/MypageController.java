@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
@@ -48,7 +49,7 @@ public class MypageController {
 		
 		Mypage memberInfo = myService.selectMemInfo(mNo);
 		Mypage followInfo = myService.selectFollowInfo(mNo);
-		ArrayList<Mypage> feedList = myService.selectFeedInfo(mNo);
+		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
 		ArrayList<Mypage> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
 		
