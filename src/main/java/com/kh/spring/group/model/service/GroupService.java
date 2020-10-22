@@ -103,4 +103,11 @@ public interface GroupService {
 	 */
 	int gmCheckId(GroupMember gm);
 
+	/**
+	 * 14. 멤버 강퇴/거절하기
+	 * @param gm
+	 * @return
+	 */
+	int gmDeleteCheck(GroupMember gm);
+
 }

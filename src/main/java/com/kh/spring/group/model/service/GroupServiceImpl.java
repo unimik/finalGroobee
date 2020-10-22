@@ -84,4 +84,9 @@ public class GroupServiceImpl implements GroupService{
 	public int gmCheckId(GroupMember gm) {
 		return gDao.groupMemberCheck(gm);
 	}
+
+	@Override
+	public int gmDeleteCheck(GroupMember gm) {
+		return gDao.groupDeleteCheck(gm);
+	}
 }

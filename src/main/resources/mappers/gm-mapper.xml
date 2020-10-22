@@ -47,6 +47,15 @@
 		AND GM_ID=#{ gmId }
 	</delete>
 	
+	<update id="groupMemberDeleteCheck" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_STATUS='D'
+		WHERE
+			G_NO=#{ gNo }
+		AND GM_ID=#{ gmId }
+	</update>
+	
 	<select id="SelectGmList" resultMap="GroupMemberResultSet">
 		SELECT * FROM GROUP_MEMBER
 		WHERE G_NO=#{ gNo }

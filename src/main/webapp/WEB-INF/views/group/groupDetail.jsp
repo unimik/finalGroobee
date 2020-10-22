@@ -229,12 +229,12 @@
             			if(data > 0){
             				if("${g.gCreator}" != "${loginUser.userId}"){
             					$('.pop_menu_gm').show();
-            				}else{
+            				}else {
             					$('.pop_menu_master').show();
-            				}
+            				} 
             			} else {
            		            $('.pop_menu').show();
-            			} 
+            			}
             		}, error:function(){
             			alert("오류");
             		}
@@ -277,7 +277,7 @@
               			console.log(data);
               			if(data == 0){
               				$('.joinPop_back').show();
-              			}else{
+              			} else {
               				alert("이미 가입신청하셨습니다.");
               			}
               		},error:function(){

@@ -20,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
@@ -192,6 +195,28 @@ public class GroupController{
 		return result;
 	}
 	
+	@ResponseBody
+	@RequestMapping("gmDeleteCheck.do")
+	public int gmDeleteCheck(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		int result = gService.gmDeleteCheck(gm);
+		
+		return result;
+	}
+	
+	@RequestMapping("NgmList.do")
+	public void getNgmList(HttpServletResponse response, int gNo) throws JsonIOException, IOException {
+		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(NgmList,response.getWriter());
+	}
+	
 	@RequestMapping("gmDelete.do")
 	public String gmDelete(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
 		
@@ -206,6 +231,7 @@ public class GroupController{
 			return "common/errorPage";
 		}
 	}
+	
 	@ResponseBody
 	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
 	public int totalGroups(HttpServletResponse response) throws IOException{
@@ -214,14 +240,10 @@ public class GroupController{
 		return totalGroups;
 	}
 	
-	
-	
 	@RequestMapping("gUpdateView.do")
 	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
-		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
 		mv.addObject("g", gService.selectUpdateGroup(gNo));
-		mv.addObject("NgmList", NgmList);
 		mv.addObject("gmList", gmList);
 		mv.setViewName("group/groupUpdateView");
 		return mv;

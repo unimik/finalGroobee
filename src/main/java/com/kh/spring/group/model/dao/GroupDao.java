@@ -80,4 +80,8 @@ public class GroupDao {
 	public int groupMemberCheck(GroupMember gm) {
 		return sqlSession.selectOne("gmMapper.groupMemberCheck",gm);
 	}
+
+	public int groupDeleteCheck(GroupMember gm) {
+		return sqlSession.update("gmMapper.groupMemberDeleteCheck", gm);
+	}
 }

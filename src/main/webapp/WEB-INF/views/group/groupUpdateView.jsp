@@ -56,6 +56,21 @@
 		                                   <td>${ gm.gmId }</td>
 		                                   <td><img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" class="groupMemberMenu"></td>
 		                               </tr>
+		                               <div class="pop_menu_gmList">
+						                   <div id="feed_menu_gmlist">
+						                   <c:url var="del_gm" value="gmDeleteCheck.do">
+						                   		<c:param name="gNo" value="${ g.gNo }"/>
+						                   		<c:param name="gmId" value="${ gm.gmId }"/>
+						                   </c:url>
+						                       <ul>
+						                          <li><a>그룹장 위임</a></li>
+						                          <li><a>매니저 임명</a></li>
+						                          <li><a >그룹 내보내기</a></li>
+						                          <li><a>신고</a></li> 
+						                          <li><a class="close">취소</a></li>
+						                       </ul>
+						                   </div>
+						               </div>
 	                              	</c:forEach>
 	                           </table>
                            </c:if>
@@ -173,7 +188,11 @@
                    <div class="container second" id="permit_first">
                        
                        <div class="permit_MemberAnswer" id="permit_MemberAnswer">
-                           <div class="permit_member" id="permit_member">
+                       		<div class="permit_member" id="permit_member">
+                       			<div id="permit_user">
+                       			</div>
+                       		</div>
+                           <%-- <div class="permit_member" id="permit_member">
                            	   <c:if test="${ !empty NgmList }">
                                <div id="permit_user">
                                	   <c:forEach var="Ngm" items="${ NgmList }">
@@ -186,6 +205,9 @@
 	                                       		<li><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></li>
 	                                       </c:if>
 	                                       <li>${ Ngm.gmId }<input type="hidden" id="NgmId" name="NgmId" value="${ Ngm.gmId }"></li>
+	                                       <c:if test="${ !empty Ngm.a1 }">
+	                                       		<li><input type="button" id="showAnswer" name="showAnswer" value="답변보기"></li>
+	                                       </c:if>
 	                                       <li><input type="button" id="user_Y" name="user_Y" value="승인"></li>
 	                                       <li><input type="button" id="user_N" name="user_N" value="거절"></li>
 	                                   </ul>
@@ -203,30 +225,18 @@
                                    </c:forEach>
                                </div>
                                </c:if>                      
-                           </div>
+                           </div> --%>
                        </div>
                    </div>
                </div>
 
-
-
-               <!-- 팝업 메뉴-->
-               <div class="pop_menu_gmList">
-                   <div id="feed_menu_gmlist">
-                       <ul>
-                          <li><a>그룹장 위임</a></li>
-                          <li><a>매니저 임명</a></li>
-                          <li><a>그룹 내보내기</a></li>
-                          <li><a>신고</a></li> 
-                          <li><a class="close">취소</a></li>
-                       </ul>
-                   </div>
-               </div>
         </div>
         <script>
+
+        	
             // groupUdate 메뉴 버튼 이벤트
             $(document).ready(function(){
-                
+            	
                 $('.group_menubtn').on('click',function(){
                     $('.group_menubtn').removeClass('on');
                     $(this).addClass('on');
@@ -255,20 +265,22 @@
                     }
                     
                 });
-
+                
+                
                 $(".group_permit").on("click",function(){
+                	 getNgmList();
+                	
                     if( $("#permit_first").hide){
                         $("#info_container").hide();
                         $("#permit_first").show();
                         $("#management_container").hide();
-
+						
                         $("#page_name").empty();
                         $("#page_name").html("&nbsp;&nbsp;&nbsp;승인 관리");
                     }
-                    
+                   
                 });
                 
-
                 // 팝업처리
                 $(".groupMemberMenu").on("click",function(){
                     $(".pop_menu_gmList").show();
@@ -277,38 +289,86 @@
                     $('.pop_menu_gmList').hide();
                 });
 
-            });
-			
-            
-            // 회원 승인
-            $(function(){
-
-            	$('#user_Y').on("click", function(){
-                	$.ajax({
-                		url:"gmUpdate.do",
-                		data:{ gmId:$('#NgmId').val(), gNo:${g.gNo}},
-                		type:"post",
-                		success:function(data){
-                			if(data>0){
-                				alert("승인하셨습니다.");
-                			}
-                		}, error:function(){
-                			alert("오류");
-                		}
-                	});
-                });	
-            })
-            
-            $(function(){
-                $('.permit_answer').slideUp();
-                $('.permit_userInfo').click(function(){
+                
+                $('.showAnswer').on("click",function(){
                 // $(this).next('p').slideDown();
-                    $(this).next('div').slideToggle(300,function(){
+                    $('.permit_answer').slideToggle(300,function(){
                         console.log('slideToggle() 실행');
                     });
                 });
             });
-    
+            
+            
+	              	
+	              	
+            function getNgmList(){
+            	var gNo = ${ g.gNo };
+            	
+            	$.ajax({
+            		url:"NgmList.do",
+            		data:{gNo:gNo},
+            		dataType:"json",
+            		success:function(data){
+            			$divAll = $('#permit_user');
+            			$divAll.html("");
+            		    console.log(data);
+            		    
+            		    var $ul;
+            		    var $li;
+            		    var $gmLevel;
+            		    var $img;
+            		    var $gmId;
+            		    var $inputAnswer;
+            		    var $inputY;
+            		    var $inputN;
+            		    var $a1;
+            		    var $a2;
+            		    var $a3;
+            		    var $div;
+            		    var $p;
+            		    
+            		    if(data.length > 0){
+            		    	for(var i in data){
+            		    		$ul = $('<ul class="permit_userInfo">');
+            		    		$gmLevel = $('<li>').text(data[i].gmLevel);
+            		    		$img = $('<li>').html('<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png">');
+            		    		$gmId = $('<li id="NgmId" name="NgmId">').text(data[i].gmId);
+            		    		$inputAnswer = $('<li>').html('<input type="button" class="showAnswer" id="showAnswer" name="showAnswer" value="답변보기">');
+            		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="user_Y" value="승인">');
+            		    		$inputN =$('<li>').html('<input type="button" class="user_N" id="user_N" name="user_N" value="거절">');
+            		    		$div = $('<div class="permit_answer" id="permit_answer">');
+            		    		$a1 = $('<p>').text(data[i].a1);
+            		    		$a2 = $('<p>').text(data[i].a2);
+            		    		$a3 = $('<p>').text(data[i].a3);
+            		    		
+            		    		$ul.append($gmLevel);
+            		    		$ul.append($img);
+            		    		$ul.append($gmId);
+            		    		$ul.append($inputAnswer);
+            		    		$ul.append($inputY);
+            		    		$ul.append($inputN);
+            		    		$div.append($a1);
+            		    		$div.append($a2);
+            		    		$div.append($a3);
+            		    		$divAll.append($ul);
+            		    		$divAll.append($div);
+            		    	}
+            		    	
+            		    }else{
+            		    	$divAll.html("");
+            		    	
+            		    	$p = $('<p id="textP">').text("가입신청이 없습니다.");
+            		    	$divAll.append($p);
+            		    	
+            		    }
+            		}, error:function(){
+            			console.log("실패");
+            		}
+            	});
+            };
+            
+            
+        
             $(document).ready(function () {
                 $('#chat_icon').click(function () {
                     var state = $(".chat").css('display');
@@ -407,6 +467,45 @@
     		$('#cancel').on("click",function(){
     			location.href="javascript:history.go(-1);";
     		});
+    		
+    		 $(document).ready(function(){
+    	        	getNgmList();
+    	        	
+    	        	
+    		        // 회원 승인
+    		        $(document).on("click", "#user_Y", function(event){
+    		              	$.ajax({
+    		              		url:"gmUpdate.do",
+    		              		data:{ gmId:$('#NgmId').text(), gNo:${ g.gNo } },
+    		              		type:"post",
+    		              		success:function(data){
+    		              			if(data>0){
+    		              				alert("승인하셨습니다.");
+    		              				getNgmList();
+    		              			}
+    		              		}, error:function(){
+    		              			alert("오류");
+    		              		}
+    		              	});
+    		              });
+    		            	
+    		            	
+    		            $(document).on("click","#user_N",function(event){
+    		            		$.ajax({
+    		            			url:"gmDeleteCheck.do",
+    		            			data:{ gmId:$('#NgmId').text(), gNo:${ g.gNo } },
+    		            			type:"post",
+    		            			success:function(data){
+    		            				if(data > 0){
+    		            					alert("승인거부하셨습니다.");
+    		            					getNgmList();
+    		            				}
+    		            			}, error:function(){
+    		            				alert("오류");
+    		            			}
+    		            		});
+    		            	});
+    		        });
         </script>
 </body>
 </html>
