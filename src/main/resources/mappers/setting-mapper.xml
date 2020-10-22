@@ -17,6 +17,13 @@
  		<result property="blockedNo" column="BLOCKED_NO"/>
  	</resultMap>
  	
+ 	<resultMap id="qusetionResultSet" type="Question">
+ 		<id property="qNo" column="Q_NO"/>
+ 		<result property="qContent" column="Q_CONTENT"/>
+ 		<result property="mNo" column="M_NO"/>
+ 	</resultMap>
+ 	
+ 	
  	<select id="nSetting" parameterType="NotificationSetting" resultMap="notificationResultSet">
  		SELECT *
  		FROM NOTI_SET
@@ -45,5 +52,21 @@
  		SET OPEN_STATUS =#{openStatus},
 	 		PWD_SAVED =#{pwdSaved}
  		WHERE M_NO = #{mNo}
+ 	</update>
+ 	
+ 	<insert id="insertQuestion" parameterType="Question">
+ 		INSERT INTO QUESTION VALUES(SEQ_QNO.NEXTVAL,#{qContent},#{mNo})
+ 	</insert>
+ 	
+ 	<insert id="insertNSet" parameterType="NotificationSetting">
+ 		INSERT INTO NOTI_SET VALUES(#{mNo},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+ 	</insert>
+ 	
+ 	<insert id="insertPSet" parameterType="PersonalSetting">
+ 		INSERT INTO PERSON_SET VALUES(#{mNo},DEFAULT,DEFAULT,NULL)
+ 	</insert>
+ 	
+ 	<update id="disableblock" parameterType="PersonalSetting">
+ 		UPDATE PERSON_SET SET BLOCKED_NO = #{blockedNo} WHERE M_NO = #{mNo}
  	</update>
 </mapper>

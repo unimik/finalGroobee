@@ -54,4 +54,14 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.disableAccount(mNo);
 	}
 
+	@Override
+	public int deleteAccount(int mNo) {
+		return mDao.deleteAccount(mNo);
+	}
+
+	@Override
+	public Member selectNo(String mId) {
+		return mDao.selectNo(mId);
+	}
+
 }

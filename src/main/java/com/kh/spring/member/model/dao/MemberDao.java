@@ -44,4 +44,12 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.disableAccount",mNo);
 	}
 
+	public int deleteAccount(int mNo) {
+		return sqlSession.update("memberMapper.deleteAccount",mNo);
+	}
+
+	public Member selectNo(String mId) {
+		return sqlSession.selectOne("memberMapper.selectNo",mId);
+	}
+
 }
