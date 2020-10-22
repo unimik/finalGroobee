@@ -7,144 +7,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Main.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Main.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
 </head>
 <body>
-	<div class="wrapper">
-        <div id="header">
-            <img src="<%=request.getContextPath()%>/resources/icons/logo.png" alt="logo" id="logo" name="logo">
-        </div>
-        <div id="chat" name="chat" class="chat">
-            <div class="tab_menu">
-                <button class="tab_menu_btn1 tab_menu_btn on">내 채팅</button>
-                <button class="tab_menu_btn2 tab_menu_btn">그룹</button>
-                <div class="tab_box_container">
-                    <div class="tab_box1 tab_box on">
-                        <div id="search_f">
-                            <input type="search" id="f_list" name="f_list" placeholder="친구 검색">
-                            <input type="button" id="searchBtn" name="searchBtn" value="검색">
-                        </div>
-                        <div id="myChat_list">
-                            <ul id="list">
-                                <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7273.JPEG" alt="" id="chat_back"></li>
-                                <li>user02</li>
-                                <li>그래서 어떻게 됐음?</li>
-                            </ul>
-                        </div>
-                        <div id="myChat_list">
-                            <ul id="list">
-                                <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
-                                <li>user03</li>
-                                <li>나는 낼 들어온다 안녕~</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab_box2 tab_box">
-                        <div id="search_g">
-                            <input type="search" id="g_list" name="g_list" placeholder="그룹 검색">
-                            <input type="button" id="searchBtn" name="searchBtn" value="검색">
-                        </div>
-                        <div id="myGroupChat_list">
-                            <ul id="list">
-                                <li><img src="<%=request.getContextPath()%>/resources/images/group_sample.png" alt="" id="chat_back"></li>
-                                <li>강남 사람</li>
-                                <li>오늘 날씨 좋지 않나요?</li>
-                            </ul>
-                        </div>
-                        <div id="myGroupChat_list">
-                            <ul id="list">
-                                <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
-                                <li>떠나자 여행</li>
-                                <li>거기 여행지로 추천!!</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="search_userInfo">
-                <div id="searchbar">
-                    <input type="search" id="allSearch" name="allSearch">
-                    <input type="button" id="allSearchBtn" name="allSearchBtn" value="검색">
-                </div>
-                <div id="userInfo">
-                    <ul>
-                        <li id="goMypage">
-                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
-	                   		<c:if test="${ !empty loginUser.mImage }">
-	                   		</c:if>
-	                   		<c:if test="${ empty loginUser.mImage }">
-	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
-	                   		</c:if>
-	                   		<p>${ loginUser.userId }</p>
-                   		</a>
-                   </li>
-                        <li><img src="<%=request.getContextPath()%>/resources/icons/write.png" alt="" id="writeIcon"></li>
-                        <li><img src="<%=request.getContextPath()%>/resources/icons/alarm.png" alt="" id="alarmIcon"></li>
-                        <li><img src="<%=request.getContextPath()%>/resources/icons/open.png" alt="" id="detailInfo"></li>
-                    </ul>
-                </div>
-                <div class="myAccount">
-                    <div id="myId">
-                        <a href="<%=request.getContextPath()%>/views/myPageMain.jsp">
-                        <img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="myProfile" id="myProfile">
-                        <p>user01</p>
-                        </a>
-                    </div>
-                    <div id="MyTab">
-                        <button class="MyTab_tab1 MyTab_tab on">친구</button>
-                        <button class="MyTab_tab2 MyTab_tab">그룹</button>
-                        <div id="MyTab_container">
-                            <div class="MyTab_box1 MyTab_box on">
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user02</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user03</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user04</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user05</li>
-                                        <li><button id="follow" name="follow">팔로우</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="MyTab_box2 MyTab_box">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="menubar">
-                <ul id="menu">
-                    <li><a href="<%=request.getContextPath()%>/views/home.jsp"><img src="<%=request.getContextPath()%>/resources/icons/menu_home.png" alt="HOME"></a></li>
-                    <li><img src="<%=request.getContextPath()%>/resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
-                    <li><a href="<%=request.getContextPath()%>/views/groupPage.jsp"><img src="<%=request.getContextPath()%>/resources/icons/menu_group.png" alt="GROUP"></a></li>
-                    <li><img src="<%=request.getContextPath()%>/resources/icons/menu_set.png" alt="SET"></li>
-                </ul>
-            </div>
+   <c:import url="common/menubar.jsp"/>
             
         <!-- 피드 부분 -->
             <div id="feedArea">
@@ -153,11 +23,11 @@
                 <!-- 프로필 시작 -->
                     <div id="myPage_profile">
                         <div id="mp_profile_img">
-                        	<c:if test="${ !empty loginUser.mImage }">
-	                   		</c:if>
-	                   		<c:if test="${ empty loginUser.mImage }">
-	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
-	                   		</c:if>
+                           <c:if test="${ !empty loginUser.mImage }">
+                            </c:if>
+                            <c:if test="${ empty loginUser.mImage }">
+                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+                            </c:if>
                         </div>
                         <div id="mp_profile_info">
                             <h3>${ loginUser.userId }</h3>
@@ -250,8 +120,11 @@
                         </tr>
 
                     <!-- 게시글 -->
-                        <tr class="post">
+                    		<%! int i = 0; %>
                   			<c:forEach var="feedlist" items="${ feedList }">
+		                        <% if(i%3 ==0){ %>
+		                        <tr class="post">
+                  				<%} %>
                   				<c:choose>
                   					<c:when test="${!empty feedlist.fFile }">
 		                            	<td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/images/${ feedlist.fFile}" type="button" id="pb1"></td>
@@ -259,14 +132,16 @@
                   					<c:otherwise>
 			                            <td class="postbox" name="postbox">
 			                                <div type="button" id="pb2">
-			                                    <text>${ feedlist.fContent }</text>
+			                                    <text><%=i %>${ feedlist.fContent }</text>
 			                                    <text class="hashtag">#피자 #치킨 #맥주 #콜라 #피자 #치킨 #맥주 #콜라 #피자 #치...</text>
 			                                </div>
 			                            </td>
                   					</c:otherwise>
                   				</c:choose>
+        	                <% if(i%3 ==2){ %>
+        	                </tr>
+                  			<%} i++;%>
                        		</c:forEach>
-                        </tr>
                         
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">

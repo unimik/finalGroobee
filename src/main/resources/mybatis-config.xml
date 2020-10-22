@@ -17,6 +17,8 @@
 		<typeAlias type="com.kh.spring.search.model.vo.RelatedSearch" alias="RelatedSearch"/>
 		<typeAlias type="com.kh.spring.group.model.vo.Group" alias="Group"/>
 		<typeAlias type="com.kh.spring.group.model.vo.GroupMember" alias="GroupMember"/>
+		<typeAlias type="com.kh.spring.declaration.model.vo.Declaration" alias="Declaration"/>
+		
 	</typeAliases>
 	
 	<mappers>
@@ -27,5 +29,6 @@
 		<mapper resource="mappers/group-mapper.xml"/>
 		<mapper resource="mappers/gm-mapper.xml"/>
 		<mapper resource="mappers/feed-mapper.xml"/>
+		<mapper resource="mappers/declaration-mapper.xml"/>
 	</mappers>
 </configuration>

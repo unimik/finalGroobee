@@ -10,6 +10,12 @@
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<style>
+	#cancel2{margin-left: 14px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+	#report-submit{margin-left:50px; float:left; width:100px; background:#daf4ed;}
+	#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
+	#reportContent{margin-top:13px;margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+	</style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
@@ -36,7 +42,7 @@
                                 <p id="groupInterest">${ g.gCategory }</p>
                             </div>
                             <!-- ... 버튼 -->
-                            <button id="groupdotbtn">
+                            <button id="groupdotbtn" style="cursor:pointer;">
                                 <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" id="group_menuBtn" name="group_menuBtn">
                             </button>
                             <div class="pop_menu">
@@ -80,16 +86,19 @@
                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
-                                    <select style=>
-                                        <option>부적절한 게시글</option>
-                                        <option>욕설</option>
-                                        <option>광고</option>
-                                        <option>도배</option>
+                                    <select id="reportType" class="selectRtype">
+                                        <option value="unacceptfeed">부적절한 게시글</option>
+                                        <option value="insult">욕설</option>
+                                        <option value="ad">광고</option>
+                                        <option value="spam">도배</option>
                                     </select>
+	                                    <textarea class="sendreport" id="reportContent" cols="25" rows="4"></textarea>
                                     <br>
-                                    <input type="button" id="submit" name="submit" value="확인">
-                                    <button id="cancel">취소</button>
-                                </div>
+                                    <input class="selectRtype" id="selectRtype"type="button" value="확인" style="cursor:pointer;">
+                                    <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+                                    <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
+                                    <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+                               </div>
                             </div>
 
                             <!-- 그룹 가입 팝업 -->
@@ -335,7 +344,45 @@
                 $('.conBox').hide();
                 $('.hotConBox').show();
             });
-
+            
+      	/**************** 그룹 신고 관련*******************/ 
+		$("#report-submit").on('click',function(){
+			
+			if($("#reportContent").val() == ""){
+				alert('신고 사유를 입력해 주세요.')
+			}else{
+				
+				$.ajax({
+					url:'/spring/report.do',
+					data:{
+						reportType : $("#reportType").val(),
+						feedType : "groop",
+						content : $("#reportContent").val()
+					},
+					success: function(){
+						$(".feed_report").css('display','none');
+						$(".selectRtype").css("display","inline-block");
+			      		$(".sendreport").css("display","none");
+			      		$("#reportContent").val('')
+						alert('신고완료');
+					},error:function(){
+						alert('신고 실패!');
+					}
+				});
+				
+			};
+		});
+      	 
+      	$("#cancel2").on('click',function(){
+      		$(".feed_report").css('display','none');
+			$(".selectRtype").css("display","inline-block");
+      		$(".sendreport").css("display","none");
+      	})
+      	
+      	$("#selectRtype").on('click',function(){
+      		$(".selectRtype").css("display","none");
+      		$(".sendreport").css("display","block");
+      	}); 
 
     </script>
 </body>
