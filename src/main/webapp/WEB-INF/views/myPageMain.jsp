@@ -7,14 +7,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Main.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Main.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
 </head>
 <body>
-	<c:import url="common/menubar.jsp"/>
+   <c:import url="common/menubar.jsp"/>
             
         <!-- 피드 부분 -->
             <div id="feedArea">
@@ -23,11 +23,11 @@
                 <!-- 프로필 시작 -->
                     <div id="myPage_profile">
                         <div id="mp_profile_img">
-                        	<c:if test="${ !empty loginUser.mImage }">
-	                   		</c:if>
-	                   		<c:if test="${ empty loginUser.mImage }">
-	                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
-	                   		</c:if>
+                           <c:if test="${ !empty loginUser.mImage }">
+                            </c:if>
+                            <c:if test="${ empty loginUser.mImage }">
+                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+                            </c:if>
                         </div>
                         <div id="mp_profile_info">
                             <h3>${ loginUser.userId }</h3>
@@ -54,8 +54,8 @@
                     <!-- 내 피드에서 프로필 편집을 누를 경우 -->
                         <div class="myFeed_popup_myEdit">
                             <div id="myFeed_myEdit_list">
-								<c:url var="mupdateView" value="mupdateView.do"/>
-								<c:url var="updatePwd" value="updatePwdView.do"/>
+                        <c:url var="mupdateView" value="mupdateView.do"/>
+                        <c:url var="updatePwd" value="updatePwdView.do"/>
                                 <ul>
                                 <li><a href="${ mupdateView }" id="edit_profile">기본 정보 수정</a></li> 
                                 <li><a href="${ updatePwd }" id="edit_password">비밀번호 변경</a></li> 
@@ -122,23 +122,28 @@
                         </tr>
 
                     <!-- 게시글 -->
+                                           	<%! int i = 0; %>
+                        <c:forEach var="feedlist" items="${ feedList }">
+                        <% if (i%3==0){ %>
                         <tr class="post">
-                  			<c:forEach var="feedlist" items="${ feedList }">
-                  				<c:choose>
-                  					<c:when test="${!empty feedlist.fFile }">
-		                            	<td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/images/${ feedlist.fFile}" type="button" id="pb1"></td>
-                  					</c:when>
-                  					<c:otherwise>
-			                            <td class="postbox" name="postbox">
-			                                <div type="button" id="pb2">
-			                                    <text>${ feedlist.fContent }</text>
-			                                    <text class="hashtag">#피자 #치킨 #맥주 #콜라 #피자 #치킨 #맥주 #콜라 #피자 #치...</text>
-			                                </div>
-			                            </td>
-                  					</c:otherwise>
-                  				</c:choose>
-                       		</c:forEach>
-                        </tr>
+                        <%} %>
+                              <c:choose>
+                                 <c:when test="${!empty feedlist.fRenameFile }">
+                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
+                                 </c:when>
+                                 <c:otherwise>
+                                     <td class="postbox" name="postbox">
+                                         <div type="button" id="pb2">
+                                             <text>${ feedlist.fContent }</text>
+                                             <text class="hashtag">#피자 #치킨 #맥주 #콜라 #피자 #치킨 #맥주 #콜라 #피자 #치...</text>
+                                         </div>
+                                     </td>
+                                 </c:otherwise>
+                              </c:choose>
+                          <% if (i%3==2){ %>
+	                      </tr>
+	                      <%} i++; %>
+                          </c:forEach>
                         
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
@@ -375,13 +380,13 @@
                         </tr>
                      <input type="hidden" value="${ loginUser.mNo }" id="mNo">
                         <tr class="storagebox">
-               	 			<div id="box">보관함새폴더생성</div>
+                            <div id="box">보관함새폴더생성</div>
                             <td class="fstorageBox_folder"><img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
-                            	<div id="box2">폴더명</div>
+                               <div id="box2">폴더명</div>
                             </td>
-               	 <%-- 	<c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
+                   <%--    <c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
                             <table>
-                            	<tr class="storagebox">
+                               <tr class="storagebox">
                         <!-- 기존 상태 -->
                             <td class="folder_default" align="center">
                                 <label class="current_folder">${ storagebox.sbName }</label>
@@ -398,33 +403,33 @@
                         </tr>
                             </table>
                             </td>
-                	</c:forEach> --%>
+                   </c:forEach> --%>
                         </tr>
                         
-					
+               
                         
                         <!-- empty-space -->
                             <tr class="group">
                                 <td class="empty-space" colspan="3"></td>
                             </tr>
-                       		
+                             
                         <!-- 내 그룹 목록 -->
                         <c:forEach var="groupList" items="${ groupList }">
                             <tr id="groupList" colspan="1" class="group">
                                 <td class="groupImg" align="center">
-                                	<c:url var="gdetail" value="gdetail.do">
-										<c:param name="gNo" value="${ groupList.gNo }"/>
-								    </c:url>
-	                                <c:if test="${ !empty groupList.gImage }">
-	                                	<a href="${ gdetail }">
-	                                        <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
-	                                    </a>
-						            </c:if>
-						            <c:if test="${ empty groupList.gImage }">
-						            	<a href="${ gdetail }">
-						            		<div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
-						            	</a>
-						            </c:if>
+                                   <c:url var="gdetail" value="gdetail.do">
+                              <c:param name="gNo" value="${ groupList.gNo }"/>
+                            </c:url>
+                                   <c:if test="${ !empty groupList.gImage }">
+                                      <a href="${ gdetail }">
+                                           <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
+                                       </a>
+                              </c:if>
+                              <c:if test="${ empty groupList.gImage }">
+                                 <a href="${ gdetail }">
+                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
+                                 </a>
+                              </c:if>
                                 </td>
                                 <td class="groupInfo" colspan="3">
                                     <a href="${ gdetail }">
@@ -550,75 +555,75 @@
         /********* 보관함 수정 및 삭제 script ************/
         
          $('.storageBox_subBtn1').click(function() {
-        	 var mNo = $('#mNo').val();
-			$.ajax({
-				url:"insertBox.do",
-				dataType:"json",
-				data:{mNo: mNo},
-				type:"post",
-				success:function(data){
-					if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
-					alert("되냐");
-						/* $('.folder_default').show();
-			            $('.folder_correct').hide();
-			            $('.folder_delete').hide();
+            var mNo = $('#mNo').val();
+         $.ajax({
+            url:"insertBox.do",
+            dataType:"json",
+            data:{mNo: mNo},
+            type:"post",
+            success:function(data){
+               if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
+               alert("되냐");
+                  /* $('.folder_default').show();
+                     $('.folder_correct').hide();
+                     $('.folder_delete').hide();
 
-			            $('.storageBox_subBtn3').hide();
-			            $('.storageBox_subBtn4').show(); */
-			            
-			            var input="";
-			            input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
-			            input += "<table>";
-			            input += "<tr class='storagebox'>";
-               			input += "<td class='folder_default' align='center'>";
-		                input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
-	                	input += "</td>";
-		                input += "<td class='folder_correct' align='center'>";
-		                input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
-		                input += "</td>";
-		                input += "<td class='folder_delete' align='center' id='folder_delete'>";
-		                input += "<input type='checkbox' id='delete_folder'>";
-		                input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
-		                input += "</td>";
-                		input += "</tr>";
-                		input += "</table>";
-            			input += "</td>";
-			            
-			            $("#box").append(input);
-			           /*  $("#box").html(input); */
+                     $('.storageBox_subBtn3').hide();
+                     $('.storageBox_subBtn4').show(); */
+                     
+                     var input="";
+                     input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
+                     input += "<table>";
+                     input += "<tr class='storagebox'>";
+                        input += "<td class='folder_default' align='center'>";
+                      input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
+                      input += "</td>";
+                      input += "<td class='folder_correct' align='center'>";
+                      input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
+                      input += "</td>";
+                      input += "<td class='folder_delete' align='center' id='folder_delete'>";
+                      input += "<input type='checkbox' id='delete_folder'>";
+                      input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
+                      input += "</td>";
+                      input += "</tr>";
+                      input += "</table>";
+                     input += "</td>";
+                     
+                     $("#box").append(input);
+                    /*  $("#box").html(input); */
 
-					}else if(data.msg != null && data.msg != 'undefined'){
-						alert(data.msg);
-					}else{
-						alert("시스템 오류입니다.");
-					}
+               }else if(data.msg != null && data.msg != 'undefined'){
+                  alert(data.msg);
+               }else{
+                  alert("시스템 오류입니다.");
+               }
 
-				},
-		 		error:function(request,jqXHR,exception){
-					var msg="";
-					if(request.status == 0){
-						msg = 'Not Connect. \n Verify Network.';
-					} else if(request.status == 404){
-						msg = 'Requested page not fount [404]';
-					} else if(request.status == 500){
-						msg = 'Internal Server Error [500]';
-					} else if(request.status == 'parsererror'){
-						msg = 'Requested JSON parse failed';
-					} else if(exception == 'timeout'){
-						msg = 'Time out error';
-					} else if(exception == 'abort'){
-						msg = 'Ajax request aborted';
-					} else {
-						msg = 'Error. \n' + jqXHR.responseText;
-					}
-					alert(msg);
-				} 
-			});
+            },
+             error:function(request,jqXHR,exception){
+               var msg="";
+               if(request.status == 0){
+                  msg = 'Not Connect. \n Verify Network.';
+               } else if(request.status == 404){
+                  msg = 'Requested page not fount [404]';
+               } else if(request.status == 500){
+                  msg = 'Internal Server Error [500]';
+               } else if(request.status == 'parsererror'){
+                  msg = 'Requested JSON parse failed';
+               } else if(exception == 'timeout'){
+                  msg = 'Time out error';
+               } else if(exception == 'abort'){
+                  msg = 'Ajax request aborted';
+               } else {
+                  msg = 'Error. \n' + jqXHR.responseText;
+               }
+               alert(msg);
+            } 
+         });
            
         });
         
         $('#close_btn').on('click',function(){
-        	$('.myFeed_popup_myEdit').hide();
+           $('.myFeed_popup_myEdit').hide();
          });
 
         $('.storageBox_subBtn2').click(function() {
@@ -631,42 +636,42 @@
         });
 
         $('.storageBox_subBtn3').click(function() {
-					var rename_folderId = 
-					$.ajax({
-						url:"updateBox.do",
-						data:{
-							id: rename_folder0	
-						},
-						type:"post",
-						success:function(data){
-							console.log(data);
-				            $('.folder_default').hide();
-				            $('.folder_correct').hide();
-				            $('.folder_delete').show();
+               var rename_folderId = 
+               $.ajax({
+                  url:"updateBox.do",
+                  data:{
+                     id: rename_folder0   
+                  },
+                  type:"post",
+                  success:function(data){
+                     console.log(data);
+                        $('.folder_default').hide();
+                        $('.folder_correct').hide();
+                        $('.folder_delete').show();
 
-				            $('.storageBox_subBtn2').hide();
-				            $('.storageBox_subBtn4').show();
-						},
-				 		error:function(request,jqXHR,exception){
-							var msg="";
-							if(request.status == 0){
-								msg = 'Not Connect. \n Verify Network.';
-							} else if(request.status == 404){
-								msg = 'Requested page not fount [404]';
-							} else if(request.status == 500){
-								msg = 'Internal Server Error [500]';
-							} else if(request.status == 'parsererror'){
-								msg = 'Requested JSON parse failed';
-							} else if(exception == 'timeout'){
-								msg = 'Time out error';
-							} else if(exception == 'abort'){
-								msg = 'Ajax request aborted';
-							} else {
-								msg = 'Error. \n' + jqXHR.responseText;
-							}
-							alert(msg);
-						} 
-					});
+                        $('.storageBox_subBtn2').hide();
+                        $('.storageBox_subBtn4').show();
+                  },
+                   error:function(request,jqXHR,exception){
+                     var msg="";
+                     if(request.status == 0){
+                        msg = 'Not Connect. \n Verify Network.';
+                     } else if(request.status == 404){
+                        msg = 'Requested page not fount [404]';
+                     } else if(request.status == 500){
+                        msg = 'Internal Server Error [500]';
+                     } else if(request.status == 'parsererror'){
+                        msg = 'Requested JSON parse failed';
+                     } else if(exception == 'timeout'){
+                        msg = 'Time out error';
+                     } else if(exception == 'abort'){
+                        msg = 'Ajax request aborted';
+                     } else {
+                        msg = 'Error. \n' + jqXHR.responseText;
+                     }
+                     alert(msg);
+                  } 
+               });
             
             
         });
