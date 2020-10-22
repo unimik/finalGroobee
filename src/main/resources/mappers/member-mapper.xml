@@ -83,5 +83,9 @@
 	 	WHERE M_NO = #{mNo}
 	</update> 
 	
-	
+	<update id="memberUpdate" parameterType="Member">
+		UPDATE MEMBER
+		SET M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes}
+		WHERE M_NO=#{mNo}
+	</update>
 </mapper>

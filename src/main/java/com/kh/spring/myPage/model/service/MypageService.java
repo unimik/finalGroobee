@@ -2,6 +2,7 @@ package com.kh.spring.myPage.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.Mypage;
 
 public interface MypageService {

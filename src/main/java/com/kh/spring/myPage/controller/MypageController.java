@@ -2,24 +2,46 @@ package com.kh.spring.myPage.controller;
 
 
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.spring.member.model.service.MemberService;
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
+import com.kh.spring.setting.model.vo.NotificationSetting;
+import com.kh.spring.setting.model.vo.PersonalSetting;
 
 @Controller
 public class MypageController {
 	
 	@Autowired
 	MypageService myService;
+
+	@Autowired
+	MemberService mService;
+	
+	@Autowired
+	HttpSession session;
 	
 	@RequestMapping(value="goMypage.do")
 	public ModelAndView goMypage(ModelAndView mv,int mNo) {
@@ -39,6 +61,89 @@ public class MypageController {
 		mv.setViewName("myPageMain");
 		
 		return mv;
+	}
+	
+	@RequestMapping("mupdateView.do")
+	public String myPageEditView() {
+		return "myPageEdit";
+	}
+	
+	@RequestMapping(value="mupdate.do", method=RequestMethod.POST)
+	public String memberUpdate(Member m, HttpServletRequest request
+			,Model model,String email1,String email2,String interests
+			,MultipartHttpServletRequest memFiles) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\mUploadFiles";
+		String fileName = "";
+		
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		Iterator<String> files = memFiles.getFileNames();
+		MultipartFile mpf = memFiles.getFile(files.next());
+		
+		
+		if(mpf == null || mpf.getSize() <= 0) {
+			System.out.println("용량없음");
+		}
+		
+		ArrayList memImgFiles = new ArrayList();
+		
+		List<MultipartFile> fileList = memFiles.getFiles("file");
+		for( MultipartFile mfile : fileList) {
+			fileName = mfile.getOriginalFilename();
+			System.out.println("실제 파일 이름 : " + fileName);
+			long fileSize = mfile.getSize();
+			
+			if(!mfile.isEmpty()) {
+				String originalFileName = mfile.getOriginalFilename();
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
+				int rdv = (int)(Math.random()*1000);
+				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + rdv 
+										+ originalFileName.substring(originalFileName.lastIndexOf("."));
+				String renamePath = folder + "\\" + renameFileName;
+			
+				try {
+					mfile.transferTo(new File(renamePath));
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				memImgFiles.add(mfile.getOriginalFilename());
+				memImgFiles.add(renameFileName);
+			}
+			System.out.println(memImgFiles);
+		}
+		
+		if( memImgFiles.size()!=0){
+		    String mProfileName = (String) memImgFiles.get(0);
+			String renameMemName = (String) memImgFiles.get(1);
+		
+			System.out.println(mProfileName+", "+renameMemName);
+			
+			m.setmImage(mProfileName);
+			m.setmRenameImage(renameMemName);
+		} 		
+		
+		
+		System.out.println(m.getmImage()+", " +m.getmRenameImage());
+		
+		
+		m.setEmail(email1+"@"+email2);
+		m.setInterestes(interests);
+		
+		System.out.println(m);
+		int result = mService.memberUpdate(m);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", m);
+			return "redirect:goMypage.do";
+		} else {
+			model.addAttribute("msg","회원 정보 수정 실패!");
+			return "common/errorPage";
+		}
 	}
 	
 	@ResponseBody
