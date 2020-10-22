@@ -1,5 +1,7 @@
 package com.kh.spring.feed.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,12 @@ public class FeedServiceImpl implements FeedService {
 	
 	@Override
 	public int insertPost(Feed f) {
-		
 		return fDao.insertPost(f);
+	}
+
+	@Override
+	public ArrayList<Feed> selectFeed() {
+		return fDao.selectFeed();
 	}
 
 }

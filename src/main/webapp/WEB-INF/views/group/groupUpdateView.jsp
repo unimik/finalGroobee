@@ -54,8 +54,23 @@
 		                                   		<td><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" ></td>
 		                                   </c:if>
 		                                   <td>${ gm.gmId }</td>
-		                                   <td><img src="../resources/icons/feed_menu.png" alt="" class="groupMemberMenu"></td>
+		                                   <td><img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" class="groupMemberMenu"></td>
 		                               </tr>
+		                               <div class="pop_menu_gmList">
+						                   <div id="feed_menu_gmlist">
+						                   <c:url var="del_gm" value="gmDeleteCheck.do">
+						                   		<c:param name="gNo" value="${ g.gNo }"/>
+						                   		<c:param name="gmId" value="${ gm.gmId }"/>
+						                   </c:url>
+						                       <ul>
+						                          <li><a>그룹장 위임</a></li>
+						                          <li><a>매니저 임명</a></li>
+						                          <li><a >그룹 내보내기</a></li>
+						                          <li><a>신고</a></li> 
+						                          <li><a class="close">취소</a></li>
+						                       </ul>
+						                   </div>
+						               </div>
 	                              	</c:forEach>
 	                           </table>
                            </c:if>
@@ -67,13 +82,21 @@
 
                        <div class="container" id="container_first">
                            <form action="groupUpdate.do" id="updateform" method="post" enctype="multipart/form-data">
+                               <input type="hidden" name="gNo" value="${ g.gNo }">
                                <div id="group_update">
                                    <div class="container" id="container_main_first">
                                        <div class="container second" id="container_main_first_first">
                                            <div class="groupImg">
-				                        		<div id="imgView"></div>
+                                           		<c:if test="${ !empty g.gProfile }">
+				                        		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameProfile }"></div>
 				                        		<p id="p_title">그룹 프로필사진</p>
 				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+			                        	   		</c:if>
+			                        	   		<c:if test="${ empty g.gProfile }">
+			                        	   		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/icons/g_pro.png"></div>
+				                        		<p id="p_title">그룹 프로필사진</p>
+				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+			                        	   		</c:if>
 			                        	   </div>
 			                                           
                                            <div class="container third" id="container_main_first_first_first">
@@ -133,12 +156,18 @@
                                        </div>
                                        <div id="container_main_sixth_first">
                                            <p id="p_title">대표 사진</p>
+                                           <c:if test="${ !empty g.gImage }">
                                             <input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
-                                           <div id="imgBox"></div>
+                                           <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }"></div>
+                                       		</c:if>
+                                       		<c:if test="${ empty g.gImage }">
+                                       		<input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
+                                           <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/images/g_back.png"></div>
+                                       		</c:if>
                                        </div>
                                        <div id="container_main_seventh_first">
                                            <p id="p_title">그룹 소개</p>
-                                           <textarea cols="80" rows="5" id="groupInfo" name="gIntro" value="${ g.gIntro }" placeholder="${ g.gIntro }"></textarea>
+                                           <textarea cols="80" rows="5" id="groupInfo" name="gIntro" placeholder="${ g.gIntro }">${ g.gIntro }</textarea>
                                        </div>
                                        <div id="container_main_eighth_first">
                                            <p id="p_title">그룹 태그</p>
@@ -159,60 +188,55 @@
                    <div class="container second" id="permit_first">
                        
                        <div class="permit_MemberAnswer" id="permit_MemberAnswer">
-                           <div class="permit_member" id="permit_member">
+                       		<div class="permit_member" id="permit_member">
+                       			<div id="permit_user">
+                       			</div>
+                       		</div>
+                           <%-- <div class="permit_member" id="permit_member">
                            	   <c:if test="${ !empty NgmList }">
                                <div id="permit_user">
                                	   <c:forEach var="Ngm" items="${ NgmList }">
 	                                   <ul class="permit_userInfo">
-	                                       <li>${gm.gmLevel}</li>
+	                                       <li>${Ngm.gmLevel}</li>
 	                                       <c:if test="${ !empty loginUser.mImage }">
 	                                       		<li><img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }"></li>
 	                                       </c:if>
 	                                       <c:if test="${ empty loginUser.mImage }">
 	                                       		<li><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></li>
 	                                       </c:if>
-	                                       <li>${ gm.gmId }</li>
+	                                       <li>${ Ngm.gmId }<input type="hidden" id="NgmId" name="NgmId" value="${ Ngm.gmId }"></li>
+	                                       <c:if test="${ !empty Ngm.a1 }">
+	                                       		<li><input type="button" id="showAnswer" name="showAnswer" value="답변보기"></li>
+	                                       </c:if>
 	                                       <li><input type="button" id="user_Y" name="user_Y" value="승인"></li>
 	                                       <li><input type="button" id="user_N" name="user_N" value="거절"></li>
 	                                   </ul>
-	                                   <c:if test="${ !empty gm.a1 }">
-	                                   <div class="permit_answer" id="permit_answer">
-	                                       <p>답변1 : ${ a1 }</p>
-	                                       <c:if test="${ !empty gm.a2 }">
-	                                       <p>답변1 : ${ a2 }</p>
-	                                       </c:if>
-	                                       <c:if test="${ !empty gm.a3 }">
-	                                       <p>답변1 : ${ a3 }</p>
-	                                       </c:if>
-	                                   </div>
+	                                   <c:if test="${ !empty Ngm.a1 }">
+		                                   <div class="permit_answer" id="permit_answer">
+		                                       <p>답변1 : ${ Ngm.a1 }</p>
+		                                       <c:if test="${ !empty Ngm.a2 }">
+		                                       <p>답변2 : ${ Ngm.a2 }</p>
+		                                       </c:if>
+		                                       <c:if test="${ !empty Ngm.a3 }">
+		                                       <p>답변3 : ${ Ngm.a3 }</p>
+		                                       </c:if>
+		                                   </div>
 	                                   </c:if>
                                    </c:forEach>
                                </div>
                                </c:if>                      
-                           </div>
+                           </div> --%>
                        </div>
                    </div>
                </div>
 
-
-
-               <!-- 팝업 메뉴-->
-               <div class="pop_menu">
-                   <div id="feed_menu_list">
-                       <ul>
-                          <li><a>그룹장 위임</a></li>
-                          <li><a>매니저 임명</a></li>
-                          <li><a>그룹 내보내기</a></li>
-                          <li><a>신고</a></li> 
-                          <li><a class="close">취소</a></li>
-                       </ul>
-                   </div>
-               </div>
         </div>
         <script>
+
+        	
             // groupUdate 메뉴 버튼 이벤트
             $(document).ready(function(){
-                
+            	
                 $('.group_menubtn').on('click',function(){
                     $('.group_menubtn').removeClass('on');
                     $(this).addClass('on');
@@ -241,41 +265,110 @@
                     }
                     
                 });
-
+                
+                
                 $(".group_permit").on("click",function(){
+                	 getNgmList();
+                	
                     if( $("#permit_first").hide){
                         $("#info_container").hide();
                         $("#permit_first").show();
                         $("#management_container").hide();
-
+						
                         $("#page_name").empty();
                         $("#page_name").html("&nbsp;&nbsp;&nbsp;승인 관리");
                     }
-                    
+                   
                 });
                 
-
                 // 팝업처리
                 $(".groupMemberMenu").on("click",function(){
-                    $(".pop_menu").show();
+                    $(".pop_menu_gmList").show();
                 });
                 $('.close').on('click',function(){
-                    $('.pop_menu').hide();
+                    $('.pop_menu_gmList').hide();
                 });
 
-            });
-
-            
-            $(function(){
-                $('.permit_answer').slideUp();
-                $('.permit_userInfo').click(function(){
+                
+                $('.showAnswer').on("click",function(){
                 // $(this).next('p').slideDown();
-                    $(this).next('div').slideToggle(300,function(){
+                    $('.permit_answer').slideToggle(300,function(){
                         console.log('slideToggle() 실행');
                     });
                 });
             });
-    
+            
+            
+	              	
+	              	
+            function getNgmList(){
+            	var gNo = ${ g.gNo };
+            	
+            	$.ajax({
+            		url:"NgmList.do",
+            		data:{gNo:gNo},
+            		dataType:"json",
+            		success:function(data){
+            			$divAll = $('#permit_user');
+            			$divAll.html("");
+            		    console.log(data);
+            		    
+            		    var $ul;
+            		    var $li;
+            		    var $gmLevel;
+            		    var $img;
+            		    var $gmId;
+            		    var $inputAnswer;
+            		    var $inputY;
+            		    var $inputN;
+            		    var $a1;
+            		    var $a2;
+            		    var $a3;
+            		    var $div;
+            		    var $p;
+            		    
+            		    if(data.length > 0){
+            		    	for(var i in data){
+            		    		$ul = $('<ul class="permit_userInfo">');
+            		    		$gmLevel = $('<li>').text(data[i].gmLevel);
+            		    		$img = $('<li>').html('<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png">');
+            		    		$gmId = $('<li id="NgmId" name="NgmId">').text(data[i].gmId);
+            		    		$inputAnswer = $('<li>').html('<input type="button" class="showAnswer" id="showAnswer" name="showAnswer" value="답변보기">');
+            		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="user_Y" value="승인">');
+            		    		$inputN =$('<li>').html('<input type="button" class="user_N" id="user_N" name="user_N" value="거절">');
+            		    		$div = $('<div class="permit_answer" id="permit_answer">');
+            		    		$a1 = $('<p>').text(data[i].a1);
+            		    		$a2 = $('<p>').text(data[i].a2);
+            		    		$a3 = $('<p>').text(data[i].a3);
+            		    		
+            		    		$ul.append($gmLevel);
+            		    		$ul.append($img);
+            		    		$ul.append($gmId);
+            		    		$ul.append($inputAnswer);
+            		    		$ul.append($inputY);
+            		    		$ul.append($inputN);
+            		    		$div.append($a1);
+            		    		$div.append($a2);
+            		    		$div.append($a3);
+            		    		$divAll.append($ul);
+            		    		$divAll.append($div);
+            		    	}
+            		    	
+            		    }else{
+            		    	$divAll.html("");
+            		    	
+            		    	$p = $('<p id="textP">').text("가입신청이 없습니다.");
+            		    	$divAll.append($p);
+            		    	
+            		    }
+            		}, error:function(){
+            			console.log("실패");
+            		}
+            	});
+            };
+            
+            
+        
             $(document).ready(function () {
                 $('#chat_icon').click(function () {
                     var state = $(".chat").css('display');
@@ -322,6 +415,97 @@
                 $('.MyTab_box').hide();
                 $('.MyTab_box2').show();
             });
+            
+            $(document).ready(function(){
+                var i = 2;
+                $('#add_question').on("click",function(){
+                    $('#sub_question').show();
+                    $('#container_main_fifth_first').append("<input type='text' id='question"+i+"' name='q"+i+"'>")
+                    i++;
+                    if(i>=4){
+                        $('#add_question').attr("disabled","disabled");
+                    };
+                });
+
+                $('#sub_question').on("click",function(){
+                    if(i != 2){
+                    $('#container_main_fifth_first input:last').remove();
+                    $('#add_question').prop("disabled",false);
+                    i--;
+
+                    }
+                });
+
+    		});
+    		
+            function sethumbnail(event){
+    			var reader = new FileReader();
+    			
+    			reader.onload = function(event){
+    				var img = document.createElement('img');
+    				img.setAttribute("src",event.target.result);
+    				document.querySelector("div#imgView>img").remove();
+    				document.querySelector("div#imgView").appendChild(img);
+    			};
+    			
+    			reader.readAsDataURL(event.target.files[0]);
+    		} ;
+            
+            function sethumbnail2(event){
+    			var reader = new FileReader();
+    			
+    			reader.onload = function(event){
+    				var groupimg = document.createElement('img');
+    				groupimg.setAttribute("src",event.target.result);
+    				document.querySelector("div#imgBox>img").remove();
+    				document.querySelector("div#imgBox").appendChild(groupimg);
+    			};
+    			
+    			reader.readAsDataURL(event.target.files[0]);
+    		};
+    		
+    		$('#cancel').on("click",function(){
+    			location.href="javascript:history.go(-1);";
+    		});
+    		
+    		 $(document).ready(function(){
+    	        	getNgmList();
+    	        	
+    	        	
+    		        // 회원 승인
+    		        $(document).on("click", "#user_Y", function(event){
+    		              	$.ajax({
+    		              		url:"gmUpdate.do",
+    		              		data:{ gmId:$('#NgmId').text(), gNo:${ g.gNo } },
+    		              		type:"post",
+    		              		success:function(data){
+    		              			if(data>0){
+    		              				alert("승인하셨습니다.");
+    		              				getNgmList();
+    		              			}
+    		              		}, error:function(){
+    		              			alert("오류");
+    		              		}
+    		              	});
+    		              });
+    		            	
+    		            	
+    		            $(document).on("click","#user_N",function(event){
+    		            		$.ajax({
+    		            			url:"gmDeleteCheck.do",
+    		            			data:{ gmId:$('#NgmId').text(), gNo:${ g.gNo } },
+    		            			type:"post",
+    		            			success:function(data){
+    		            				if(data > 0){
+    		            					alert("승인거부하셨습니다.");
+    		            					getNgmList();
+    		            				}
+    		            			}, error:function(){
+    		            				alert("오류");
+    		            			}
+    		            		});
+    		            	});
+    		        });
         </script>
 </body>
 </html>
