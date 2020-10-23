@@ -20,7 +20,7 @@ textarea{ resize: none; }
 #info_edit{ margin-top: 30px; }
 #info_selfIntro{ padding-bottom: 60px;}
 #info_edit>div{ margin: auto; padding: 10px; }
-#info_edit p{ position: absolute; right: 500px; top: auto; margin-right: 10px; }
+#info_edit p{ position: absolute; top: auto; margin-right: 10px; }
 #name, #selfIntro, #email1, #email2, #phone2, #phone3, .interests, #select_email
             { margin-top: 10px; position: relative; left: 150px; top: auto; background: #daf4ed; border: none; border-radius: 10px; }
 #name{ width: 265px; height: 30px; }

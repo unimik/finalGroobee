@@ -50,7 +50,10 @@ public interface MemberService {
 	
 	int disableAccount(int mNo);
 
+	int memberUpdate(Member m);
+
 	int deleteAccount(int mNo);
 
+	
 	Member selectNo(String userId);
 }

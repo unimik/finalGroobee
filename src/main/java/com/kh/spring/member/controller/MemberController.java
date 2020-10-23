@@ -49,15 +49,12 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="login.do",method=RequestMethod.POST) 
+	@RequestMapping(value="login.do",method= {RequestMethod.POST,RequestMethod.GET}) 
 	public String memberLogin(Member m, String userId,String userPwd,Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> f = fService.selectFeed();
-		for(Feed ff : f) {
-			System.out.println(ff);
-		}
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("f",f);

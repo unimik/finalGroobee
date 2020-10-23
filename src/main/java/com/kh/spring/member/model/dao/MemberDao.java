@@ -52,4 +52,8 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectNo",mId);
 	}
 
+	public int memberUpdate(Member m) {
+		return sqlSession.update("memberMapper.memberUpdate", m);
+	}
+
 }

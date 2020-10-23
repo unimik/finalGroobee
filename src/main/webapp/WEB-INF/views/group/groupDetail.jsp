@@ -10,6 +10,12 @@
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<style>
+	#cancel2{margin-left: 14px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+	#report-submit{margin-left:50px; float:left; width:100px; background:#daf4ed;}
+	#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
+	#reportContent{margin-top:13px;margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+	</style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
