@@ -54,5 +54,6 @@ public interface MemberService {
 
 	int deleteAccount(int mNo);
 
+	
 	Member selectNo(String userId);
 }
