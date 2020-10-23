@@ -54,13 +54,13 @@ public class MemberController {
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
-		ArrayList<Feed> f = fService.selectFeed();
-		for(Feed ff : f) {
+		ArrayList<Feed> feed = fService.selectFeed();
+		for(Feed ff : feed) {
 			System.out.println(ff);
 		}
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
-			model.addAttribute("f",f);
+			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
 			if(loginUser.getUserId().equals("admin")) {
 				return "adminmember.do";
@@ -68,7 +68,7 @@ public class MemberController {
 				return "home";
 			}
 		}else {
-			model.addAttribute("msg", "로그인실패!");
+			model.addAttribute("msg", "로그인 실패!");
 			return "common/errorPage";
 		}
 	}

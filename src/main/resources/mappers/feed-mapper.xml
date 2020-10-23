@@ -19,8 +19,9 @@
 		<result property="fShareSet" column="F_SHARE_SET"/>
 		<result property="fLikeCnt" column="F_LIKECNT"/>
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
+		
+		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 	</resultMap>
-	
 	
 	<resultMap id="replyResultSet" type="Reply">
 		<id property="rNo" column="R_NO"/>
@@ -42,30 +43,23 @@
 	</insert>
 	
 	<select id="selectFeed" resultMap="postResultSet">
-		<!-- SELECT F_NO, F_CONTENT, M.M_ID AS F_WRITER,
-			   F_CREATE_DATE, F_MODIFY_DATE, F_STATUS, F_FILE,
-			   F_OPEN_SCOPE, F_LIKECNT, F_REPLYCNT
-			   R_NO, R_CONTENT, R_WRITER_IMG, M2.M_ID AS R_WRITER,
-			   R_CREATE_DATE, R_MODIFLY_DATE, R_STATUS
+		SELECT *
 		FROM FEED F
-		JOIN MEMBER M ON (F.F_WRITER = M.M_NO)
-		LEFT JOIN REPLY R ON (F.F_NO = R.REF_BID)
-		LEFT JOIN MEMBER M2 ON (R.R_WRITER = M2.M_NO)
-		WHERE
-		   F_STATUS = 'Y'
-		ORDER BY F_CREATE_DATE DESC -->
-		
-		SELECT F.F_NO, F.F_CONTENT, M.M_ID AS F_WRITER,
-			   F.F_CREATE_DATE, F.F_MODIFY_DATE, F.F_STATUS, F.F_FILE,
-			   F.F_OPEN_SCOPE, F.F_LIKECNT, F.F_REPLYCNT,
-			   R.R_NO, R.R_CONTENT, R.R_WRITER_IMG,
-			   R.R_CREATE_DATE, R.R_MODIFLY_DATE, R.R_STATUS
-		FROM FEED F
-		JOIN MEMBER M ON (F.M_NO = M.M_NO)
-		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-		LEFT JOIN MEMBER M2 ON (R.R_WRITER = M2.M_NO)
-		WHERE
-		   F.F_STATUS = 'Y'
-		ORDER BY F.F_CREATE_DATE DESC
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+		WHERE F.F_STATUS='Y'
+		ORDER BY F.F_NO DESC
 	</select>
+	
+<!-- 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT *
+		FROM REPLY
+		WHERE F_NO=#{fNo}
+		AND R_STATUS='Y'
+		ORDER BY R_NO DESC
+	</select> -->
+	
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO REPLY VALUES
+		(SEQ_RNO.NEXTVAL, ${mNo}, ${fNo}, ${rWriterImg}, ${rWriter}, ${rContent}, SYSDATE, SYSDATE, DEFAULT)
+	</insert>
 </mapper>
