@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatMapper">
+
+<resultMap id="chatRoomResultMap" type="Chat">
+	<id property="crNo" column="CR_NO"/>
+	<result property="crMax" column="CR_MAX"/>
+</resultMap>
+<resultMap id="chatResultSet" type="Chat" >
+	<id property="cNo" column="C_NO"/>
+	<result property="crNo" column="CR_NO" />
+	<result property="fromId" column="FROM_ID"/>
+	<result property="toId" column="TO_ID"/>
+	<result property="cContent" column="C_CONTENT"/>
+	<result property="chatDate" column="C_DATE"/>
+	<result property="cRead" column="C_READ"/>
+</resultMap>
+<resultMap  id="chatJoinResultMap" type="Chat">
+	<id property="jcNo" column="JC_NO"/>
+	<result property="crNo" column="CR_NO"/>
+	<result property="joinId" column="JOIN_ID"/>
+</resultMap>
+
+	<select id="getCrNo" parameterType="string" resultMap="chatJoinResultMap">
+		SELECT CR_NO,JOIN_ID
+		FROM JOIN_CHATROOM
+		WHERE JOIN_ID = #{userId}
+	</select>
+	
+	<select id="getChatList" parameterType="Chat" resultMap="chatResultSet">
+		SELECT *
+		FROM CHAT
+		WHERE CR_NO = #{crNo}
+		AND ROWNUM = 1
+		ORDER BY C_DATE DESC
+	</select>
+
+</mapper>
