@@ -42,38 +42,10 @@
 
                        <!--회원 정보 출력-->
                        <div class="member main" id="member_main">
-                           <c:if test="${ !empty gmList }">
 	                           <table class="member select">
-	                           		<c:forEach var="gm" items="${ gmList }">
-		                               <tr>
-		                                   <td>${ gm.gmLevel }</td>
-		                                   <c:if test="${ !empty loginUser.mImage }">
-		                                   		<td><img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }"></td>
-		                                   </c:if>
-		                                   <c:if test="${ empty loginUser.mImage }">
-		                                   		<td><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" ></td>
-		                                   </c:if>
-		                                   <td>${ gm.gmId }</td>
-		                                   <td><img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" class="groupMemberMenu"></td>
-		                               </tr>
-		                               <div class="pop_menu_gmList">
-						                   <div id="feed_menu_gmlist">
-						                   <c:url var="del_gm" value="gmDeleteCheck.do">
-						                   		<c:param name="gNo" value="${ g.gNo }"/>
-						                   		<c:param name="gmId" value="${ gm.gmId }"/>
-						                   </c:url>
-						                       <ul>
-						                          <li><a>그룹장 위임</a></li>
-						                          <li><a>매니저 임명</a></li>
-						                          <li><a >그룹 내보내기</a></li>
-						                          <li><a>신고</a></li> 
-						                          <li><a class="close">취소</a></li>
-						                       </ul>
-						                   </div>
-						               </div>
-	                              	</c:forEach>
+                           			
+                           			
 	                           </table>
-                           </c:if>
                        </div>
                    </div> 
 
@@ -192,48 +164,12 @@
                        			<div id="permit_user">
                        			</div>
                        		</div>
-                           <%-- <div class="permit_member" id="permit_member">
-                           	   <c:if test="${ !empty NgmList }">
-                               <div id="permit_user">
-                               	   <c:forEach var="Ngm" items="${ NgmList }">
-	                                   <ul class="permit_userInfo">
-	                                       <li>${Ngm.gmLevel}</li>
-	                                       <c:if test="${ !empty loginUser.mImage }">
-	                                       		<li><img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }"></li>
-	                                       </c:if>
-	                                       <c:if test="${ empty loginUser.mImage }">
-	                                       		<li><img src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></li>
-	                                       </c:if>
-	                                       <li>${ Ngm.gmId }<input type="hidden" id="NgmId" name="NgmId" value="${ Ngm.gmId }"></li>
-	                                       <c:if test="${ !empty Ngm.a1 }">
-	                                       		<li><input type="button" id="showAnswer" name="showAnswer" value="답변보기"></li>
-	                                       </c:if>
-	                                       <li><input type="button" id="user_Y" name="user_Y" value="승인"></li>
-	                                       <li><input type="button" id="user_N" name="user_N" value="거절"></li>
-	                                   </ul>
-	                                   <c:if test="${ !empty Ngm.a1 }">
-		                                   <div class="permit_answer" id="permit_answer">
-		                                       <p>답변1 : ${ Ngm.a1 }</p>
-		                                       <c:if test="${ !empty Ngm.a2 }">
-		                                       <p>답변2 : ${ Ngm.a2 }</p>
-		                                       </c:if>
-		                                       <c:if test="${ !empty Ngm.a3 }">
-		                                       <p>답변3 : ${ Ngm.a3 }</p>
-		                                       </c:if>
-		                                   </div>
-	                                   </c:if>
-                                   </c:forEach>
-                               </div>
-                               </c:if>                      
-                           </div> --%>
                        </div>
                    </div>
                </div>
-
         </div>
         <script>
 
-        	
             // groupUdate 메뉴 버튼 이벤트
             $(document).ready(function(){
             	
@@ -255,6 +191,8 @@
                 
                 });
                 $(".group_member").on("click",function(){
+                	getgmList();
+                	
                     if( $("#management_container").hide){
                         $("#info_container").hide();
                         $("#permit_first").hide();
@@ -282,14 +220,9 @@
                 });
                 
                 // 팝업처리
-                $(".groupMemberMenu").on("click",function(){
-                    $(".pop_menu_gmList").show();
-                });
-                $('.close').on('click',function(){
-                    $('.pop_menu_gmList').hide();
-                });
+             
 
-                
+                //******* 멤버 회원가입 답변 보기
                 $('.showAnswer').on("click",function(){
                 // $(this).next('p').slideDown();
                     $('.permit_answer').slideToggle(300,function(){
@@ -299,8 +232,91 @@
             });
             
             
+            //****** 가입한 멤버 보기
+			function getgmList(){
+				var gNo = ${g.gNo};
+				
+				$.ajax({
+					url:"gmList.do",
+					data:{gNo:gNo},
+					dataType:"json",
+					success:function(data){
+						$table = $('.member table');
+						$table.html("");
+						
+						var $tr;
+						var $gmLevel;
+						var $gmId;
+						var $Profile;
+						var $menuImg;
+						var $div_back;
+						var $div_popback;
+						var $ul;
+						var $menu1;
+						var $menu2;
+						var $menu3;
+						var $menu4;
+						var $menu5;
+						var $gmL;
+						var $gmI;
+						
+						if(data.length > 0){
+							for(var i in data){
+								if( data[i].gmLevel == '그룹장'){
+										
+										$tr = $('<tr>');
+										$gmLevel = $("<td>").text(data[i].gmLevel);
+										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }">');
+										$gmId = $('<td id="gmId">').html(data[i].gmId);
+										$gmL = $("<td>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
+										
+										
+										$tr.append($gmLevel);
+										$tr.append($Profile);
+										$tr.append($gmId);
+										$tr.append($gmL);
+										$table.append($tr);
+								}else{
+										$tr= $('<tr>');
+										$gmLevel = $("<td>").text(data[i].gmLevel);
+										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }">');
+										$gmId = $('<td id="gmId">').html(data[i].gmId);
+										$menuImg = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
+										$div_back = $('<div class="pop_menu_gmList">');
+										$div_popback = $('<div id="feed_menu_gmlist">');
+										$ul = $('<ul>').html("<input type='hidden' id='g_gm' name='g_gm' value='" + data[i].gmId+ "'>");
+										$menu1 = $('<li>').html('<a id="entrust">그룹장 위임</a>');
+										$menu2 = $('<li>').html('<a>매니저 임명</a>');
+										$menu3 = $('<li>').html('<a id="del_gm">내보내기</a>');
+										$menu4 = $('<li>').html('<a>신고</a>');
+										$menu5 = $('<li>').html('<a class="close">취소</a>');
+										$gmI = $("<li>").html("<input type='hidden' id='g_gmI' name='g_gmI' value='" + data[i].gmId + "'>");
+										
+										$tr.append($gmLevel);
+										$tr.append($Profile);
+										$tr.append($gmId);
+										$tr.append($menuImg);
+										$ul.append($menu1);
+										$ul.append($menu2);
+										$ul.append($menu3);
+										$ul.append($menu4);
+										$ul.append($menu5);
+										$ul.append($gmI);
+										$div_popback.append($ul);
+										$div_back.append($div_popback);
+										$tr.append($div_back);
+										$table.append($tr);
+								}
+							}
+						}
+					},error:function(){
+						alert("오류");
+					}
+				});
+    		};
+    		
 	              	
-	              	
+	        //************* 승인하지 않은 멤버 가져오기
             function getNgmList(){
             	var gNo = ${ g.gNo };
             	
@@ -368,54 +384,8 @@
             };
             
             
-        
-            $(document).ready(function () {
-                $('#chat_icon').click(function () {
-                    var state = $(".chat").css('display');
-                    if (state == 'none') {
-                        $('.chat').show();
-                    } else {
-                        $('.chat').hide();
-                    }
-                });
-            });
-
-            $('.tab_menu_btn').on('click', function () {
-                $('.tab_menu_btn').removeClass('on');
-                $(this).addClass('on')
-            });
-
-            $('.tab_menu_btn1').on('click', function () {
-                $('.tab_box').hide();
-                $('.tab_box1').show();
-            });
-
-            $('.tab_menu_btn2').on('click', function () {
-                $('.tab_box').hide();
-                $('.tab_box2').show();
-            });
-
-            $(document).ready(function () {
-                $('#detailInfo').click(function () {
-                    $(".myAccount").animate({ width: "toggle" }, 250);
-                });
-            });
-
-            $('.MyTab_tab').on("click", function () {
-                $('.MyTab_tab').removeClass('on');
-                $(this).addClass('on')
-            });
-
-            $('.MyTab_tab1').on('click', function () {
-                $('.MyTab_box').hide();
-                $('.MyTab_box1').show();
-            });
-
-            $('.MyTab_tab2').on('click', function () {
-                $('.MyTab_box').hide();
-                $('.MyTab_box2').show();
-            });
             
+            //***************** 질문 추가/삭제 버튼 
             $(document).ready(function(){
                 var i = 2;
                 $('#add_question').on("click",function(){
@@ -438,6 +408,7 @@
 
     		});
     		
+            //****************** 그룹사진 썸네일
             function sethumbnail(event){
     			var reader = new FileReader();
     			
@@ -464,20 +435,80 @@
     			reader.readAsDataURL(event.target.files[0]);
     		};
     		
+    		
+    		//************** 수정하지 않기
     		$('#cancel').on("click",function(){
     			location.href="javascript:history.go(-1);";
     		});
     		
+    		
+    		
+    
+    		
     		 $(document).ready(function(){
-    	        	getNgmList();
-    	        	
-    	        	
+    			 
+    		    $(document).on("click","#entrust",function(){
+   	            	var gmL = $("#g_gmL").val();
+    				var gNo = ${g.gNo};
+   	            	console.log(gmL);
+   	            	$.ajax({
+   	            		url:"gmChangeLevel.do",
+   	            		data:{ gmL:gmL, gNo:gNo },
+   	            		type:"post",
+   	            		success:function(data){
+   	            			if(data > 0){
+   	            				console.log("완료");
+   	            				gmChangeMaster();
+   	            			}
+   	            		},error:function(){
+   	            			alert("오류");
+   	            		}
+   	            	});
+   			 	});
+   			 	
+   			 	
+				function gmChangeMaster(){
+    	            	var gmId = $('#g_gm').val();
+    	            	var gNo = ${ g.gNo };
+    	            	console.log(gmId);
+    	            	console.log(gNo);
+    	            	$.ajax({
+    	            		url:"gmChangeMaster.do",
+    	            		data:{ gmId:gmId, gNo:gNo },
+    	            		type:"post",
+    	            		success:function(data){
+    	            			console.log(data);
+    	            			if(data > 0){
+    	            				alert("그룹장이 변경되었습니다.");
+    	            				 $('.pop_menu_gmList').hide();
+    	            				 gCreatorChange();	            				 
+    	            			} else{
+    	            				alert("전송실패");
+    	            			}
+    	            		},error:function(){
+    	            			alert("오류");
+    	            		}
+    	            	});
+    	            	
+    	            };
+    			 	
+    	            function gCreatorChange(){
+    	            	var gNo = ${g.gNo};
+    	            	var gmI = $('#g_gmI').val();
+    	            	console.log(gmI);
+    	            	
+    	            	location.href="gCreatorChange.do?gNo="+gNo+"&gmI="+gmI;
+      	            };
+      	            
+      	            
+    	        	var gNo = ${ g.gNo }; 
     		        // 회원 승인
     		        $(document).on("click", "#user_Y", function(event){
     		              	$.ajax({
     		              		url:"gmUpdate.do",
-    		              		data:{ gmId:$('#NgmId').text(), gNo:${ g.gNo } },
+    		              		data:{ gmId:$('#NgmId').text(), gNo:gNo },
     		              		type:"post",
+    		              		async:false,
     		              		success:function(data){
     		              			if(data>0){
     		              				alert("승인하셨습니다.");
@@ -493,8 +524,9 @@
     		            $(document).on("click","#user_N",function(event){
     		            		$.ajax({
     		            			url:"gmDeleteCheck.do",
-    		            			data:{ gmId:$('#NgmId').text(), gNo:${ g.gNo } },
+    		            			data:{ gmId:$('#NgmId').text(), gNo:gNo },
     		            			type:"post",
+    		            			async:false,
     		            			success:function(data){
     		            				if(data > 0){
     		            					alert("승인거부하셨습니다.");
@@ -505,7 +537,39 @@
     		            			}
     		            		});
     		            	});
+    		            
+    		            $(document).on("click","#del_gm",function(){
+    		            	var gmId= $('#g_gm').val();
+    		            	var gNo = ${ g.gNo };
+    	         		$.ajax({
+    	         			url:"gmDeleteCheck.do",
+    	         			data:{ gmId:gmId, gNo:gNo },
+    	         			type:"post",
+    	         			async:false,
+    	         			success:function(data){
+    	         				if(data > 0){
+    	         					alert("강퇴하셨습니다.");
+    	         					$('.pop_menu_gmList').hide();
+    	         					getgmList();
+    	         				}
+    	         			}, error:function(){
+    	         				alert("오류");
+    	         			}
+    	         		});
+    	         	});
+    		            
+    		            
+    		            $(document).on("click","#groupMemberMenu",function(event){
+    	                    $(".pop_menu_gmList").show();
+    	                });
+    	                
+    	                $(document).on('click','.close',function(){
+    	                    $('.pop_menu_gmList').hide();
+    	                });
+    	                
+    		            
     		        });
+    		 
         </script>
 </body>
 </html>
