@@ -30,7 +30,7 @@
 	                        	<c:forEach var="m" items="${ mList }">
 	                            <c:choose>
 	                            <c:when test="${ empty m.mImage }">
-		                            <div id="search_user" style=" cursor: pointer;" onclick="ClickUser()">
+		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
 		                                <img src="resources/images/IMG_7502.JPG" alt="" id="user_profile_img">
 		                                <p id="search_id">${ m.userId }</p>
 		                                <input type="hidden" id="mNo" name="mNo" value="${m.mNo} }"/>
@@ -39,7 +39,6 @@
 	                            </c:when>
 	                            <c:otherwise>
 	                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
-	             
 	                                <img src="resources/memberProfileFiles/${ m.mRenameImage }" alt="" id="user_profile_img">
 	                                <p id="search_id">${ m.userId }</p>
 	                            </div>                            

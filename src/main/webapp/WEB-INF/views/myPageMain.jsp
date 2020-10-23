@@ -126,24 +126,6 @@
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
-<<<<<<< HEAD
-                  			<c:forEach var="feedlist" items="${ feedList }">
-                  				<c:choose>
-                  					<c:when test="${!empty feedlist.fRenameFile }">
-		                            	<td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
-                  					</c:when>
-                  					<c:otherwise>
-			                            <td class="postbox" name="postbox">
-			                                <div type="button" id="pb2">
-			                                    <text>${ feedlist.fContent }</text>
-			                                    <text class="hashtag">#피자 #치킨 #맥주 #콜라 #피자 #치킨 #맥주 #콜라 #피자 #치...</text>
-			                                </div>
-			                            </td>
-                  					</c:otherwise>
-                  				</c:choose>
-                       		</c:forEach>
-                        </tr>
-=======
                         <%} %>
                               <c:choose>
                                  <c:when test="${!empty feedlist.fRenameFile }">
@@ -162,7 +144,6 @@
 	                      </tr>
 	                      <%} i++; %>
                           </c:forEach>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
                         
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
