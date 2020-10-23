@@ -30,9 +30,11 @@
 	                        	<c:forEach var="m" items="${ mList }">
 	                            <c:choose>
 	                            <c:when test="${ empty m.mImage }">
-		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
+		                            <div id="search_user" style=" cursor: pointer;" onclick="ClickUser()">
 		                                <img src="resources/images/IMG_7502.JPG" alt="" id="user_profile_img">
 		                                <p id="search_id">${ m.userId }</p>
+		                                <input type="hidden" id="mNo" name="mNo" value="${m.mNo} }"/>
+		                                <input type="hidden" id="mStatus" name="mStatus" value="${m.mStatus} }"/>
 		                            </div>
 	                            </c:when>
 	                            <c:otherwise>
@@ -48,6 +50,12 @@
                          </c:choose>   
                         </div>
                     </div>
+                     <script type="text/javascript">
+                     function ClickUser(obj) {
+                     	console.log("눌렀다")
+	
+						}
+                     </script>
                     <!--그룹-->
                     <div id="group">
                         <div id="title_group">

@@ -43,7 +43,12 @@ public interface TotalSearchService {
 
 
 //===============태그 눌렀을때 검색되는거==================
-	ArrayList<Group> tagsearchGroup(ArrayList srch);
+	/**
+	 * 그룹 검색
+	 * @param rlist
+	 * @return
+	 */
+	ArrayList<Group> tagSearchGroup(String[] rlist);
 
 
 
@@ -63,6 +68,14 @@ public interface TotalSearchService {
 	 * @return
 	 */
 	ArrayList tagSearchRs(String[] rlist);
+
+
+	/**
+	 * 멤버 검색
+	 * @param rlist
+	 * @return
+	 */
+	ArrayList<Member> tagSearchMember(String[] rlist);
 
 
 

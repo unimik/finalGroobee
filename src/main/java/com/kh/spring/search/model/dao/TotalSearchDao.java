@@ -37,10 +37,10 @@ public class TotalSearchDao {
 		return (ArrayList)sqlSession.selectList("searchMapper.relatedSearch", srch);
 	}
 
-//	public ArrayList<Feed> tagsearchFeed(ArrayList rlist) {
+//===================== 태그 검색 ==========================
+//	public ArrayList<Feed> tagSearchFeed(ArrayList rlist) {
 //		return (ArrayList)sqlSession.selectList("searchMapper.tagsearchFeed", rlist);
 //	}
-
 	public ArrayList<Feed> tagSearchFeed(String[] rlist) {
 //		System.out.println("dao"+Arrays.toString(rlist));
 		return(ArrayList)sqlSession.selectList("searchMapper.tagSearchFeed", rlist);
@@ -48,6 +48,14 @@ public class TotalSearchDao {
 
 	public ArrayList tagSearchRs(String[] rlist) {
 		return (ArrayList)sqlSession.selectList("searchMapper.tagSearchRs", rlist);
+	}
+
+	public ArrayList<Group> tagSearchGroup(String[] rlist) {
+		return (ArrayList)sqlSession.selectList("searchMapper.tagSearchGroup", rlist);
+	}
+
+	public ArrayList<Member> tagSearchMember(String[] rlist) {
+		return (ArrayList)sqlSession.selectList("searchMapper.tagSearchMember", rlist);
 	}
 
 }

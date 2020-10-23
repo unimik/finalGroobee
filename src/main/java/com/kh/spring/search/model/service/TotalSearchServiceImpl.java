@@ -42,9 +42,8 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 	}
 
 	@Override
-	public ArrayList<Group> tagsearchGroup(ArrayList srch) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Group> tagSearchGroup(String[] rlist) {
+		return tsDao.tagSearchGroup(rlist);
 	}
 
 //	@Override
@@ -60,6 +59,11 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 	@Override
 	public ArrayList tagSearchRs(String[] rlist) {
 		return tsDao.tagSearchRs(rlist);
+	}
+
+	@Override
+	public ArrayList<Member> tagSearchMember(String[] rlist) {
+		return tsDao.tagSearchMember(rlist);
 	}
 
 

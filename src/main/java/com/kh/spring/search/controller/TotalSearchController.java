@@ -120,10 +120,10 @@ public class TotalSearchController {
 		}
 		
 		//인물 검색
-
+		ArrayList<Member> mList = tsService.tagSearchMember(rlist);
 		
 		//그룹 검색
-		//ArrayList<Group> gList = tsService.tagsearchGroup(srch);
+		ArrayList<Group> gList = tsService.tagSearchGroup(rlist);
 		
 		//피드 검색
 //		ArrayList<Feed> fList = tsService.tagsearchFeed(rlist);
@@ -139,8 +139,10 @@ public class TotalSearchController {
 			rbList.add(i,str.substring(1));
 		}
 		
-		mv.addObject("fList",fList);
+		mv.addObject("mList", mList);
+		mv.addObject("gList", gList);
 		mv.addObject("rsList",rbList);
+		mv.addObject("fList",fList);
 		mv.addObject("searchKey",searchKey);
 		mv.setViewName("search/totalSearch");
 		return mv;

@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.feed.model.vo.Feed;
+<<<<<<< HEAD
+=======
+import com.kh.spring.group.model.vo.Group;
+import com.kh.spring.group.model.vo.GroupMember;
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.Mypage;
 

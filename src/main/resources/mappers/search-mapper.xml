@@ -69,8 +69,7 @@
 	
 	<select id="searchMember" parameterType="Search" resultMap="memberResultSet">
 		SELECT * FROM MEMBER
-		WHERE M_STATUS='Y'
-		AND M_LEVEL='M'
+		WHERE M_LEVEL='M'
 		<if test="searchType=='@' and search!=null">
 		AND M_ID LIKE '%' || #{search}  || '%'
 		</if>
@@ -173,7 +172,6 @@
 	</select>
 	
 	<select id="tagSearchRs" parameterType="String" resultType="String">
-	
 	SELECT RCRT.F_TAG
 	FROM(SELECT ROWNUM, TC.F_TAG
 	    FROM( SELECT TB.F_TAG, COUNT(TB.F_TAG) CNT
@@ -200,5 +198,30 @@
 	<![CDATA[
 	WHERE ROWNUM < 10) RCRT
 	]]>
+	</select>
+	
+	<select id="tagSearchGroup" parameterType="String" resultMap="GroupResultSet">
+	SELECT *
+	FROM GROUPS
+	WHERE G_STATUS='Y'
+	<if test="array != null">
+    AND 
+    </if>
+	<foreach collection="array" item="arr" open="" close="" separator="AND">
+	G_TAG LIKE '%'||#{arr}||'%'
+	</foreach>
+	
+	</select>
+	
+	<select id="tagSearchMember" parameterType="String" resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	WHERE
+	M_LEVEL ='M'
+	<if test="array != null">
+    AND 
+    </if>
+	<foreach collection="array" item="arr" open="" close="" separator="AND">
+	M_INTRO LIKE  '%'||#{ arr }||'%'
+	</foreach>
 	</select>
 </mapper>
