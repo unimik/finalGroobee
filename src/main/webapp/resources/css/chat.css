@@ -13,14 +13,15 @@
 #search_g{ width: 100%; height: 50px; border-bottom: 1px solid #e5e5e5; }
 #g_list{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #e5e5e5; margin:8px 0 0 20px; background: #e5e5e5; }
 
-#myChat_list{ border-bottom: 1px solid #e5e5e5;}
-#myChat_list:hover{ background: #ecf9f6}
-#myChat_list #list{ padding:0;margin:0;padding: 15px 0 15px 0;}
-#list li{ list-style: none;}
-#list li:nth-child(1){float: left; margin: 0 20px 0 20px;}
-#list li:nth-child(2){ font-weight: 500; color: #555555; }
-#list li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
-#chat_back{ width: 35px; height: 35px; border-radius: 10px;}
+
+#mcList>div{ border-bottom: 1px solid #e5e5e5;}
+#mcList>div:hover{ background: #ecf9f6}
+#mcList>div>ul{ padding:0;margin:0;padding: 15px 0 15px 0;}
+#mcList>div>ul>li{ list-style: none;}
+#mcList>div>ul>li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#mcList>div>ul>li:nth-child(2){ font-weight: 500; color: #555555; }
+#mcList>div>ul>li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
+#mcList>div>ul>li>img{ width: 35px; height: 35px; border-radius: 10px;}
 
 #myGroupChat_list{border-bottom: 1px solid #e5e5e5;}
 #myGroupChat_list:hover{background: #ecf9f6;}
