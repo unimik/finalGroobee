@@ -10,6 +10,12 @@
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<style>
+	#cancel2{margin-left: 14px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+	#report-submit{margin-left:50px; float:left; width:100px; background:#daf4ed;}
+	#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
+	#reportContent{margin-top:13px;margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+	</style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
@@ -67,10 +73,11 @@
                                 		<c:param name="gNo" value="${ g.gNo }"/>
                                 		<c:param name="gmId" value="${ loginUser.userId }"/>
                                 	</c:url>
-                                    <c:url var="gdelete" value="gdelete.do"/>
+                                    <c:url var="gdelete" value="gdelete.do">
+                                    	<c:param name="gNo" value="${ g.gNo }"/>
+                                    </c:url>
                                     <ul>
-                                        <li><a href="${ gUpdateView }">그룹관리</a></li> 
-                                        <li><a>그룹탈퇴</a></li> 
+                                        <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
                                         <li><a>채팅방생성</a></li>
                                         <li><a id="close_master">취소</a></li>
@@ -187,34 +194,7 @@
         
         <script>
 
-        /************** 채팅 팝업 *****************/
-
         $(document).ready(function(){
-           /*  $('#chat_icon').click(function(){
-                var state = $(".chat").css('display');
-                if(state=='none'){
-                    $('.chat').show();
-                }else{
-                    $('.chat').hide();
-                }
-
-                $('.tab_menu_btn').on('click',function(){
-                    $('.tab_menu_btn').removeClass('on');
-                    $(this).addClass('on')
-                });
-
-                $('.tab_menu_btn1').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box1').show();
-                });
-
-                $('.tab_menu_btn2').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box2').show();
-                });
-
-
-            }); */
 
 
             /************  팝업 메뉴 script *********** */
@@ -222,19 +202,19 @@
             $('#group_menuBtn').on("click",function(){
             	$.ajax({
             		url:"gmSelect.do",
-            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo}},
+            		data:{ userId:"${loginUser.userId}", gNo:${ g.gNo }},
             		type:"post",
             		success:function(data){
             			console.log(data);
             			if(data > 0){
             				if("${g.gCreator}" != "${loginUser.userId}"){
             					$('.pop_menu_gm').show();
-            				}else{
+            				}else {
             					$('.pop_menu_master').show();
-            				}
+            				} 
             			} else {
            		            $('.pop_menu').show();
-            			} 
+            			}
             		}, error:function(){
             			alert("오류");
             		}
@@ -277,7 +257,7 @@
               			console.log(data);
               			if(data == 0){
               				$('.joinPop_back').show();
-              			}else{
+              			} else {
               				alert("이미 가입신청하셨습니다.");
               			}
               		},error:function(){
@@ -293,30 +273,6 @@
         });
 	
 
-
-
-        /************* 내계정 자세히보기 script **************/
-
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
-
-        $('.MyTab_tab').on("click",function(){
-            $('.MyTab_tab').removeClass('on');
-            $(this).addClass('on')
-        });
-
-        $('.MyTab_tab1').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box1').show();
-        });
-
-        $('.MyTab_tab2').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box2').show();
-        });
 
 
          /*********** 뉴피드 / 핫피드 *************/

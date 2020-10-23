@@ -12,72 +12,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
 </head>
 <body>
-	 <div class="wrapper">
-        <div id="header">
-            <img src="<%=request.getContextPath()%>/resources/icons/logo.png" alt="logo" id="logo" name="logo">
-        </div>
-        <div class="content">
-            <div class="search_userInfo">
-                <div id="searchbar">
-                    <input type="search" id="allSearch" name="allSearch">
-                    <input type="button" id="allSearchBtn" name="allSearchBtn" value="검색">
-                </div>
-                <div id="userInfo">
-                    <ul>
-                        <li><a href="../views/myPage_Main.html"><img src="../resources/images/IMG_7502.JPG" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;<p>user01</p></a></li>
-                        <li><img src="<%=request.getContextPath()%>/resources/icons/write.png" alt="" id="writeIcon"></li>
-                        <li><img src="<%=request.getContextPath()%>/resources/icons/alarm.png" alt="" id="alarmIcon"></li>
-                        <li><img src="<%=request.getContextPath()%>/resources/icons/open.png" alt="" id="detailInfo"></li>
-                    </ul>
-                </div>
-                <div class="myAccount">
-                    <div id="myId">
-                        <a href="../views/myPage_Main.html">
-                        <img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="myProfile" id="myProfile">
-                        <p>user01</p>
-                        </a>
-                    </div>
-                    <div id="MyTab">
-                        <button class="MyTab_tab1 MyTab_tab on">친구</button>
-                        <button class="MyTab_tab2 MyTab_tab">그룹</button>
-                        <div id="MyTab_container">
-                            <div class="MyTab_box1 MyTab_box on">
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user02</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="../resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user03</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="../resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user04</li>
-                                        <li><button id="following" name="following">팔로잉</button></li>
-                                    </ul>
-                                </div>
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="../resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>user05</li>
-                                        <li><button id="follow" name="follow">팔로우</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="MyTab_box2 MyTab_box">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	 <c:import url="common/menubar.jsp"/>
             
     <!-- 비밀번호 변경 부분 -->
         <div id="editArea">

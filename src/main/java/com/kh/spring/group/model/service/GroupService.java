@@ -103,4 +103,40 @@ public interface GroupService {
 	 */
 	int gmCheckId(GroupMember gm);
 
+	/**
+	 * 14. 멤버 강퇴/거절하기
+	 * @param gm
+	 * @return
+	 */
+	int gmDeleteCheck(GroupMember gm);
+
+	/**
+	 * 15. 그룹 삭제
+	 * @param gNo
+	 * @return
+	 */
+	int groupDelete(int gNo);
+
+	/**
+	 * 16. 그룹장 위임
+	 * @param gm
+	 * @return
+	 */
+	int gmChangeMaster(GroupMember gm);
+
+	/**
+	 * 17. 원래 그룹장 일반멤버로 변경
+	 * @param gm
+	 * @return
+	 */
+	int gmChangeLevel(GroupMember gm);
+
+	/**
+	 * 18. 그룹장 변경 후 -> gCreator도 변경
+	 * @param g
+	 * @return
+	 */
+	int gCreatorChange(Group g);
+	
+
 }

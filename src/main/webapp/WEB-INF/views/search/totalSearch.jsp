@@ -33,6 +33,8 @@
 		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
 		                                <img src="resources/images/IMG_7502.JPG" alt="" id="user_profile_img">
 		                                <p id="search_id">${ m.userId }</p>
+		                                <input type="hidden" id="mNo" name="mNo" value="${m.mNo} }"/>
+		                                <input type="hidden" id="mStatus" name="mStatus" value="${m.mStatus} }"/>
 		                            </div>
 	                            </c:when>
 	                            <c:otherwise>
@@ -47,6 +49,12 @@
                          </c:choose>   
                         </div>
                     </div>
+                     <script type="text/javascript">
+                     function ClickUser(obj) {
+                     	console.log("눌렀다")
+	
+						}
+                     </script>
                     <!--그룹-->
                     <div id="group">
                         <div id="title_group">
@@ -83,15 +91,14 @@
              				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="rs" items="${ rsList }">
-		                            <li style=" cursor: pointer;" onclick="location.href='';">${rs.rsTag}</li>	                                                  
+		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}">#${rs}</a></li>	                                                  
 		                       </c:forEach>
 	                       </c:otherwise>                        
                         </c:choose>
                         </ul>
                     </div>
                 </div>
-
-                <!--검색 피드-->
+                <!--검색된 피드-->
                 <div id="search_feed">
                     <div id="title_feed">
                         <p id="title"><b>게시물</b> </p>

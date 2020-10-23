@@ -47,6 +47,15 @@
 		AND GM_ID=#{ gmId }
 	</delete>
 	
+	<update id="groupMemberDeleteCheck" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_STATUS='D'
+		WHERE
+			G_NO=#{ gNo }
+		AND GM_ID=#{ gmId }
+	</update>
+	
 	<select id="SelectGmList" resultMap="GroupMemberResultSet">
 		SELECT * FROM GROUP_MEMBER
 		WHERE G_NO=#{ gNo }
@@ -66,5 +75,23 @@
 		WHERE
 			G_NO=#{gNo}
 		AND GM_ID=#{gmId}
+	</update>
+	
+	<update id="gmChangeMaster" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_LEVEL='그룹장'
+		WHERE
+			G_NO=#{gNo}
+		AND GM_ID=#{gmId}
+	</update>
+	
+	<update id="gmChangeLevel" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_LEVEL='멤버'
+		WHERE
+			G_NO=#{gNo}
+		AND GM_LEVEL=#{gmLevel}
 	</update>
 </mapper>

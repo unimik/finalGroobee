@@ -17,8 +17,6 @@ public interface TotalSearchService {
 	 */
 	ArrayList<Member> searcMember(Search srch);
 
-
-	
 	
 	/**
 	 * 그룹 검색
@@ -36,9 +34,49 @@ public interface TotalSearchService {
 	ArrayList<Feed> searchFeed(Search srch);
 
 	/**
-	 * 연관 검색어
-	 * @param srch
+	 * 연관 검색어 
+	 * @param srch2
 	 * @return
 	 */
-	ArrayList<RelatedSearch> relatedSearch(Search srch);
+	ArrayList<RelatedSearch> relatedSearch(Search srch2);
+
+
+
+//===============태그 눌렀을때 검색되는거==================
+	/**
+	 * 그룹 검색
+	 * @param rlist
+	 * @return
+	 */
+	ArrayList<Group> tagSearchGroup(String[] rlist);
+
+
+
+
+	/** 
+	 * 피드 검색
+	 * @param rarr
+	 * @return
+	 */
+//	ArrayList<Feed> tagsearchFeed(ArrayList rlist);
+	ArrayList<Feed> tagSearchFeed(String[] rlist);
+
+
+	/**
+	 * 연관 검색어
+	 * @param rlist
+	 * @return
+	 */
+	ArrayList tagSearchRs(String[] rlist);
+
+
+	/**
+	 * 멤버 검색
+	 * @param rlist
+	 * @return
+	 */
+	ArrayList<Member> tagSearchMember(String[] rlist);
+
+
+
 }

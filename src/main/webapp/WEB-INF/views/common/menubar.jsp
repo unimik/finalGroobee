@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+
 <style>
 	a{text-decoration:none;}
 </style>
@@ -31,12 +34,8 @@
                             <input type="search" id="f_list" name="f_list" placeholder="친구 검색">
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
-                        <div id="myChat_list">
-                            <ul id="list">
-                                <li><img src="#" alt="" id="chat_back"></li>
-                                <li>채팅 상대 아이디</li>
-                                <li>마지막 대화 내용</li>
-                            </ul>
+                        <div id="mcList">
+                        <!-- 채팅목록 공간 -->
                         </div>
                     </div>
                     <div class="tab_box2 tab_box">
@@ -45,11 +44,11 @@
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
                         <div id="myGroupChat_list">
-                            <ul id="list">
+                            <!-- <ul id="list">
                                 <li><img src="#" alt="" id="chat_back"></li>
                                 <li>그룹 이름</li>
                                 <li>그룹 대화 마지막 내용</li>
-                            </ul>
+                            </ul> -->
                         </div>
                     </div>
                 </div>
@@ -120,8 +119,43 @@
      $(function(){
     	 $('#chat_icon').on("click",function(){
              var state = $(".chat").css('display');
-             if(state=='none'){
-                 $('.chat').show();
+             if(state =='none'){
+            	 $.ajax({
+                 	url:"oneChatList.do",
+                 	data:{userId:'<c:out value="${loginUser.userId}"/>'},
+                 	type:"post",
+            		dataType:"json",
+                 	success:function(data){
+                 		$("#mcList").children().remove();
+                 		$.each(data,function(index,value){
+                 			var $div = $("<div>");
+    						var $ul = $("<ul>");
+    						var $img = $("<li>");
+    						var $rImg = $('<img src="#">');
+    						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
+	    						var $id = $("<li>").text(value.toId);
+    						} else {
+    							var $id = $("<li>").text(value.fromId);
+    						}
+    						var $cContent = $("<li>").text(value.cContent);
+    						var $input = $('<input type="hidden" id="crNo">').val(value.crNo);
+    						
+    						
+    						$img.append($rImg);
+    						$ul.append($img);
+    						$ul.append($id);
+    						$ul.append($cContent);
+    						$ul.append($input);
+    						$div.append($ul);
+    						$("#mcList").append($div);
+    					});
+                 		
+                 		 $('.chat').show();
+                 	},
+                 	error:function(){
+                 		console.log("에러");
+                 	}
+                  });
              }else{
                  $('.chat').hide();
              }
@@ -142,7 +176,7 @@
              $('.tab_box2').show();
          });
 
-         $("#list").on("click",function(){
+         $("<ul>").on("click",function(){
              $(".chat_room").show();
          });
 
@@ -150,6 +184,39 @@
              $(".chat_room").hide();
          });
      });
+     /* 채팅 관련(sockJs) */
+     $(function(){
+ 		$("#sendBtn").click(function() {
+ 			sendMessage();
+ 			$('#message').val('')
+ 		});
+ 	 });
+     
+	 var sock = new SockJS("http://localhost:8787/spring/echo");
+ 	 sock.onmessage = onMessage;
+ 	 sock.onclose = onClose;
+ 	 
+ 	 // 메시지 전송
+ 	 function sendMessage() {
+ 	 	 var toId = $("#toId").val();
+ 		 var sendType = $("#sendType").val();
+ 		 var crNo = $("#chatRoom").val();
+ 		 sock.send($("#message").val() +"|"+toId+"|"+sendType+"|"+crNo);
+ 	 }
+ 	 // 서버로부터 메시지를 받았을 때
+ 	 function onMessage(msg) {
+ 		 var data = msg.data;
+ 		 var dArr = data.split('|');
+ 		 if(dArr.length == 2) {
+ 		 	 $("#messageArea").append(dArr[0] + "<br/>");
+ 		 } else {
+ 			 $("#messageArea").append(data + "<br/>");
+ 		 }
+ 	 }
+ 	 // 서버와 연결을 끊었을 때
+ 	 function onClose(evt) {
+ 		 $("#messageArea").append("연결 끊김");
+ 	 }
      </script>
 </body>
 </html>
