@@ -117,7 +117,7 @@
     	 $("#inputArea").keydown(function(key){
     		if(key.keyCode == 13) {
    	 			sendMessage();
-   	 			$('#inputArea').val('')
+   	 			$('#inputArea').val('');
     		} 
     	 });
     	 
@@ -241,7 +241,10 @@
      
      /* 채팅 관련(sockJs) */
      $(function(){
- 		
+ 		$("#send").on("click",function(){
+ 			sendMessage();
+ 			$('#inputArea').val('');
+ 		});
  	 });
      
 	 var sock = new SockJS("http://localhost:8787/spring/echo");

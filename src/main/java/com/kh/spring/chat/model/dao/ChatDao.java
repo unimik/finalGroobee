@@ -16,11 +16,11 @@ public class ChatDao {
 	private SqlSessionTemplate sqlSession;
 
 	public ArrayList<Chat> getChatList(String userId) {
-		 ArrayList<Chat> crNoList = (ArrayList)sqlSession.selectList("chatMapper.getCrNo",userId);
-		 ArrayList<Chat> cList = new ArrayList<Chat>();
-		 for (Chat c : crNoList) {
-			Chat result = sqlSession.selectOne("chatMapper.getChatList",c);
-			cList.add(result);
+		ArrayList<Chat> crNoList = (ArrayList)sqlSession.selectList("chatMapper.getCrNo",userId);
+		ArrayList<Chat> cList = new ArrayList<Chat>();
+		for (Chat c : crNoList) {
+		   Chat result = sqlSession.selectOne("chatMapper.getChatList",c);
+		   cList.add(result);
 		}
 		return cList;
 	}
