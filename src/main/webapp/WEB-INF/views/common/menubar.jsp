@@ -14,14 +14,9 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 
-<script>
-	
-</script>
-
 <style>
 	a{text-decoration:none;}
 </style>
-
 </head>
 <body>
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
@@ -63,10 +58,19 @@
             <div class="chatRoomContainer">
                 <div id="chat_top">
                     <button id="goList"><img src="${ contextPath }/resources/icons/goList.png"></button>
-                    <p id="chatUser"></p>
+                    <p>user02</p>
                 </div>
                 <div id="chatArea">
-                   	<!-- 채팅방 안 -->
+                    <div id="chating">
+                        <img src="${ contextPath }/resources/images/IMG_7273.JPEG">
+                        <p id="chatId">상대방 아이디</p>
+                        <div id="chatBox">
+                            <a id="chatText">상대 채팅 내용내용내용내용내용내용내용</a>
+                        </div>
+                    </div>
+                    <div id="myChating">
+                        <p>내꺼 내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+                    </div>
                 </div>
                 <div id="input_chat">
                     <input type="text" id="inputArea" name="inputArea">
@@ -112,72 +116,7 @@
 	         </ul>
 	     </div>
      <script type="text/javascript">
-     /* 채팅방 채팅내용 불러오기 */
-     $(document).on("click",".chRoom",function(){
-    	 
-    	 $("#inputArea").keydown(function(key){
-    		if(key.keyCode == 13) {
-   	 			sendMessage();
-   	 			$('#inputArea').val('')
-    		} 
-    	 });
-    	 
-		var crNo = $(this).children("input").val();
-		$.ajax({
-			url:"oneChatContentList.do",
-			data:{crNo:crNo},
-         	type:"post",
-    		dataType:"json",
-    		success:function(data){
-    			console.log("ok");
-    			var userId = '<c:out value="${loginUser.userId}"/>';
-    			$("#chatArea").children().remove();
-    			$.each(data,function(index,value){
-	    			if(value.fromId == userId) {
-	    				$div1 = $("<div class='myChating'>");
-	    				$div = $("<div>");
-	    				$p = $("<p id='myChatt'>").text(value.cContent);
-	    				
-	    				$div.append($p);
-	    				$div1.append($div);
-	    				
-	    				$("#chatArea").append($div1);
-	    			} else {
-	    				$div3 = $("<div class='chating'>");
-	    				$inputId = $("<input type='hidden' class='1'>").val(value.fromId);
-	    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
-	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
-	    				$div = $("<div>");
-	        			$img = $("<img src='#'>");
-	        			$p = $("<p id='chatId'>").text(value.fromId);
-	        			$div1 = $("<div>");
-	        			$a = $("<a id='chatText'>").text(value.cContent);
-	        			$userName = $("#chatUser").text(value.fromId);
-	        			
-	        			$div.append($img);
-	        			$div.append($p);
-	        			$div1.append($a);
-	        			$div.append($div1);
-	        			$div3.append($div);
-	        			
-	        			$("#chatArea").append($div3);
-	        			$("#chatArea").append($inputId);
-	        			$("#chatArea").append($inputType);
-	        			$("#chatArea").append($inputCrNo);
-	    			}
-    			});
-    			$(".chat_room").show();
-    			$("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
-    		},
-    		error:function(){
-    			console.log('에러');
-    		}
-		});
-		
-		var msg = $("#inputArea").val();
-		
-	 });
-     /* 채팅 창 여는 스크립트 */	
+     /* 채팅 창 여는 스크립트 */		
      $(function(){
     	 $('#chat_icon').on("click",function(){
              var state = $(".chat").css('display');
@@ -190,27 +129,29 @@
                  	success:function(data){
                  		$("#mcList").children().remove();
                  		$.each(data,function(index,value){
-                 			var $div = $('<div class="chRoom">');
-    						var $ul = $('<ul>');
+                 			var $div = $("<div>");
+    						var $ul = $("<ul>");
     						var $img = $("<li>");
     						var $rImg = $('<img src="#">');
-    						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
     						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
 	    						var $id = $("<li>").text(value.toId);
     						} else {
     							var $id = $("<li>").text(value.fromId);
     						}
     						var $cContent = $("<li>").text(value.cContent);
+    						var $input = $('<input type="hidden" id="crNo">').val(value.crNo);
+    						
     						
     						$img.append($rImg);
     						$ul.append($img);
     						$ul.append($id);
     						$ul.append($cContent);
+    						$ul.append($input);
     						$div.append($ul);
-    						$div.append($inputt);
     						$("#mcList").append($div);
     					});
-                 		$('.chat').show();
+                 		
+                 		 $('.chat').show();
                  	},
                  	error:function(){
                  		console.log("에러");
@@ -220,7 +161,7 @@
                  $('.chat').hide();
              }
          });
-    	
+
          $('.tab_menu_btn').on('click',function(){
              $('.tab_menu_btn').removeClass('on');
              $(this).addClass('on')
@@ -235,14 +176,21 @@
              $('.tab_box').hide();
              $('.tab_box2').show();
          });
+
+         $("<ul>").on("click",function(){
+             $(".chat_room").show();
+         });
+
          $('#goList').on("click",function(){
              $(".chat_room").hide();
          });
      });
-     
      /* 채팅 관련(sockJs) */
      $(function(){
- 		
+ 		$("#sendBtn").click(function() {
+ 			sendMessage();
+ 			$('#message').val('')
+ 		});
  	 });
      
 	 var sock = new SockJS("http://localhost:8787/spring/echo");
@@ -251,44 +199,20 @@
  	 
  	 // 메시지 전송
  	 function sendMessage() {
- 	 	 var toId = $("#chatArea").children(".1").val();
- 		 var sendType = $("#chatArea").children(".2").val();
- 		 var crNo = $("#chatArea").children(".3").val();
- 		 console.log(toId+","+sendType+","+crNo);
- 		 sock.send( $("#inputArea").val() +"|"+toId+"|"+sendType+"|"+crNo);
+ 	 	 var toId = $("#toId").val();
+ 		 var sendType = $("#sendType").val();
+ 		 var crNo = $("#chatRoom").val();
+ 		 sock.send($("#message").val() +"|"+toId+"|"+sendType+"|"+crNo);
  	 }
  	 // 서버로부터 메시지를 받았을 때
  	 function onMessage(msg) {
  		 var data = msg.data;
  		 var dArr = data.split('|');
  		 if(dArr.length == 2) {
- 			$div1 = $("<div class='myChating'>");
-			$div = $("<div>");
-			$p = $("<p id='myChatt'>").text(dArr[0]);
-			
-			$div.append($p);
-			$div1.append($div);
-			
-			$("#chatArea").append($div1);
+ 		 	 $("#messageArea").append(dArr[0] + "<br/>");
  		 } else {
- 			var toId = $("#chatArea").children(".1").val();
- 			$div3 = $("<div class='chating'>");
-			$div = $("<div>");
-			$img = $("<img src='#'>");
-			$p = $("<p id='chatId'>").text(toId);
-			$div1 = $("<div>");
-			$a = $("<a id='chatText'>").text(data);
-			$userName = $("#chatUser").text(toId);
-			
-			$div.append($img);
-			$div.append($p);
-			$div1.append($a);
-			$div.append($div1);
-			$div3.append($div);
-			
-			$("#chatArea").append($div3);
+ 			 $("#messageArea").append(data + "<br/>");
  		 }
- 		 $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
  	 }
  	 // 서버와 연결을 끊었을 때
  	 function onClose(evt) {
