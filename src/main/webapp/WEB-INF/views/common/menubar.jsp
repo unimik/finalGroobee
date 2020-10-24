@@ -85,9 +85,10 @@
 	               <ul>
 	                   <li id="goMypage">
 	                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
-		                   		<c:if test="${ !empty loginUser.mImage }">
+		                   		<c:if test="${ !empty loginUser.mRenameImage }">
+		                   		<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
 		                   		</c:if>
-		                   		<c:if test="${ empty loginUser.mImage }">
+		                   		<c:if test="${ empty loginUser.mRenameImage }">
 		                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
 		                   		</c:if>
 		                   		<p>${ loginUser.userId }</p>
