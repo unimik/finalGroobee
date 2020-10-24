@@ -13,18 +13,4 @@ public interface ChatService {
 	 */
 	ArrayList<Chat> getChatList(String userId);
 
-	/**
-	 * 2. 채팅방 내용 불러오기
-	 * @param crNo
-	 * @return
-	 */
-	ArrayList<Chat> getChatContentList(int crNo);
-
-	/**
-	 * 3. 채팅내용 인서트
-	 * @param c
-	 * @return
-	 */
-	int insertChat(Chat c);
-
 }

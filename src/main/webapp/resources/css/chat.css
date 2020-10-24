@@ -44,15 +44,15 @@ input:focus{ outline:none;}
 #chatArea::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
 #chatArea::-webkit-scrollbar-track{ background-color: #daf4ed;}
 
-.chating>div{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
+#chating{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
 
-.chating>div>p{ margin:0; margin: -5px 0 0 10px; font-size: 12px; float: left;}
-.chating>div>img{ width: 40px; height: 40px; border-radius: 15px; float: left;}
+#chatId{ margin:0; margin: -5px 0 0 10px; font-size: 12px; float: left;}
+#chating img{ width: 40px; height: 40px; border-radius: 15px; float: left;}
 
-.chating>div>div{margin:0; font-size: 14px; padding:10px; margin-left: 0; border-radius: 10px; background: #daf4ed; width: 60%; margin:15px 0 0 45px; }
-.chating>div>div>a{ margin:0;}
-.myChating>div{ width: 100%; padding: 5px 0 5px 0; margin-left: 60px; }
-.myChating>div>p{ font-size: 14px; padding: 8px; border-radius: 10px; background:white; border: 2px solid #47c6a3; width: 70%;  margin: 0; }
+#chating #chatBox{margin:0; font-size: 14px; padding:10px; margin-left: 0; border-radius: 10px; background: #daf4ed; width: 60%; margin:15px 0 0 45px; }
+#chatBox #chatText{ margin:0;}
+#myChating{ width: 100%; padding: 5px 0 5px 0; margin-left: 60px; }
+#myChating p{ font-size: 14px; padding: 8px; border-radius: 10px; background:white; border: 2px solid #47c6a3; width: 70%;  margin: 0; }
 
 #input_chat{ width: 320px; height: 45px; border-top: 1px solid #e5e5e5;}
 #inputArea{ margin: 12px 5px 0 12px; width: 200px; height: 28px; border-radius: 10px; border: 1px solid #e5e5e5;}
