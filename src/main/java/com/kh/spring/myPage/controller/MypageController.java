@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,9 @@ public class MypageController {
 	@Autowired
 	HttpSession session;
 	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	@RequestMapping(value="goMypage.do")
 	public ModelAndView goMypage(ModelAndView mv,int mNo) {
 		
@@ -67,12 +71,12 @@ public class MypageController {
 		return "myPageEdit";
 	}
 	
-	@RequestMapping(value="mupdate.do", method=RequestMethod.POST)
+	@RequestMapping(value="mupdate.do")
 	public String memberUpdate(Member m, HttpServletRequest request
-			,Model model,String email1,String email2,String interests
+			,Model model,String email1,String email2,String interest
 			,MultipartHttpServletRequest memFiles) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\mUploadFiles";
+		String savePath = root + "\\memberProfileFiles";
 		String fileName = "";
 		
 		File folder = new File(savePath);
@@ -127,20 +131,55 @@ public class MypageController {
 		} 		
 		
 		
-		System.out.println(m.getmImage()+", " +m.getmRenameImage());
+		System.out.println(m.getmImage()+", " +m.getmRenameImage()+"savePath"+savePath);
 		
 		
 		m.setEmail(email1+"@"+email2);
-		m.setInterestes(interests);
+		m.setInterestes(interest);
 		
 		System.out.println(m);
 		int result = mService.memberUpdate(m);
 		
 		if(result > 0) {
 			model.addAttribute("loginUser", m);
+			model.addAttribute("mNo", m.getmNo() );
 			return "redirect:goMypage.do";
 		} else {
 			model.addAttribute("msg","회원 정보 수정 실패!");
+			return "common/errorPage";
+		}
+	}
+	
+	@RequestMapping("updatePwdView.do")
+	public String myPagePassEditView() {
+		return "myPagePassEdit";
+	}
+	
+	@RequestMapping(value="mPwdUpdate.do")
+	public String memberUpdate(Member m, Model model, String userPwd,String userPwdeny, String userPwd1 ) {
+
+		    
+		boolean result1 = bcryptPasswordEncoder.matches(userPwd,userPwdeny);
+		System.out.println(userPwd);
+		System.out.println(userPwdeny);
+		System.out.println(result1);
+		if(!result1) {
+			model.addAttribute("msg","현재 비밀 번호를 확인해주세요");
+			return "common/errorPage";
+		} 
+		
+		String encPwd1 = bcryptPasswordEncoder.encode(userPwd1);
+		m.setUserPwd(encPwd1);
+		int result = mService.updatePwd(m);
+		
+		System.out.println(m);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", m);
+			model.addAttribute("mNo", m.getmNo() );
+			return "redirect:loginView.do";
+		} else {
+			model.addAttribute("msg","비밀번호 수정 실패!");
 			return "common/errorPage";
 		}
 	}
