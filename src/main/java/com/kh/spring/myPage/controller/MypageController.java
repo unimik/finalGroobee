@@ -29,8 +29,6 @@ import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
-import com.kh.spring.setting.model.vo.NotificationSetting;
-import com.kh.spring.setting.model.vo.PersonalSetting;
 
 @Controller
 public class MypageController {
@@ -93,7 +91,7 @@ public class MypageController {
 		ArrayList memImgFiles = new ArrayList();
 		
 		List<MultipartFile> fileList = memFiles.getFiles("file");
-		for( MultipartFile mfile : fileList) {
+		for(MultipartFile mfile : fileList) {
 			fileName = mfile.getOriginalFilename();
 			System.out.println("실제 파일 이름 : " + fileName);
 			long fileSize = mfile.getSize();

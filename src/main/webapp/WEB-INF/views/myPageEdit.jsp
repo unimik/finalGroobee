@@ -31,6 +31,18 @@
 			border-radius:10px;
 			height: 30px;
 		}
+		#checkbox_interest{
+			margin-top:10px;
+			position: relative;
+			left:150px;
+			top:auto;
+			background:#daf4ed;
+			border:none;
+			border-radius:10px;
+			font-size:small;
+			width:350px;
+			padding:5px;
+		}
     </style>
 </head>
 <body>
@@ -95,44 +107,39 @@
                             </div>
                             <div id="interests_box">
 		                        <p>관심사</p>
-                            	<div class="info_interests">
-		                            <input type="checkbox" id="interests_literature" class="interests" name="interests">
-		                            <label for="interests_literature">문학·책</label>
-		                            <input type="checkbox" id="interests_movie" class="interests" name="interests">
-		                            <label for="interests_movie">영화</label>
-		                            <input type="checkbox" id="interests_artDesign" class="interests" name="interests">
-		                            <label for="interests_artDesign">미술·디자인</label>
-		                            <input type="checkbox" id="interests_perform" class="interests" name="interests">
-		                            <label for="interests_perform">공연·전시</label>
+		                        <div id="checkbox_interest">	                        
+									<input type="checkbox" name="interest" class="checkBox" value="문학＊책">
+	                                <label for="checkbox">문학＊책</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="영화">
+	                                <label for="checkbox">영화</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="미술＊디자인">
+	                                <label for="checkbox">미술＊디자인</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="공연＊전시">
+	                                <label for="checkbox">공연＊전시</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="외국어">
+	                                <label for="checkbox">외국어</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="맛집">
+	                                <label for="checkbox">맛집</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="요리＊레시피">
+	                                <label for="checkbox">요리＊레시피</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="음악">
+	                                <label for="checkbox">음악</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="여행">
+	                                <label for="checkbox">여행</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="반려동물">
+	                                <label for="checkbox">반려동물</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="엔터테인먼트">
+	                                <label for="checkbox">엔터테이먼트</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="육아＊결혼">
+	                                <label for="checkbox">육아＊결혼</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="지역">
+	                                <label for="checkbox">지역</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="스포츠">
+	                                <label for="checkbox">스포츠</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="인테리어＊DIY">
+	                                <label for="checkbox">인테리어＊DIY</label>
 		                        </div>
-		                        <div class="info_interests">
-		                            <input type="checkbox" id="interests_music" class="interests" name="interests">
-		                            <label for="interests_music">음악</label>
-		                            <input type="checkbox" id="interests_entertainment" class="interests" name="interests">
-		                            <label for="interests_entertainment">엔터테인먼트</label>
-		                            <input type="checkbox" id="interests_pets" class="interests" name="interests">
-		                            <label for="interests_pets">반려동물</label>
-		                            <input type="checkbox" id="interests_travel" class="interests" name="interests">
-		                            <label for="interests_travel">여행</label>
-		                        </div>
-		                        <div class="info_interests">
-		                            <input type="checkbox" id="interests_language" class="interests" name="interests">
-		                            <label for="interests_language">외국어</label>
-		                            <input type="checkbox" id="interests_famousRestaurant" class="interests" name="interests">
-		                            <label for="interests_famousRestaurant">맛집</label>
-		                            <input type="checkbox" id="interests_cooking" class="interests" name="interests">
-		                            <label for="interests_cooking">요리·레시피</label>
-		                            <input type="checkbox" id="interests_DIY" class="interests" name="interests">
-		                            <label for="interests_DIY">인테리어·DIY</label>
-		                        </div>
-		                        <div class="info_interests">
-		                            <input type="checkbox" id="interests_marriage" class="interests" name="interests">
-		                            <label for="interests_marriage">육아·결혼</label>
-		                            <input type="checkbox" id="interests_sports" class="interests" name="interests">
-		                            <label for="interests_sports">스포츠</label>
-		                            <input type="checkbox" id="interests_local" class="interests" name="interests">
-		                            <label for="interests_local">지역</label>
-		                        </div>
+
                             </div>
 	                        
 	                    </div>
@@ -218,7 +225,20 @@
 			});	    	
 	    });
 	    
-		    function sethumbnail(event){
+	    function sethumbnail(event){
+		    var reader = new FileReader();
+			
+			reader.onload = function(event){
+				var img = document.createElement('img');
+				img.setAttribute("src",event.target.result);
+				document.querySelector("div#imgView>img").remove();
+				document.querySelector("div#imgView").appendChild(img);
+			};
+			
+			reader.readAsDataURL(event.target.files[0]);
+		};
+	    
+/* 		    function sethumbnail(event){
 				var reader = new FileReader();
 				var x = document.getElementById("imgScript");
 		    	var txt = "";
@@ -230,7 +250,7 @@
 					
 				};
 				reader.readAsDataURL(event.target.files[0]);
-			};
+			}; */
 	    
 	        $(document).ready(function(){
 	            $('#chat_icon').click(function(){
