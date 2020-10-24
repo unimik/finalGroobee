@@ -32,7 +32,19 @@
 		FROM CHAT
 		WHERE CR_NO = #{crNo}
 		AND ROWNUM = 1
-		ORDER BY C_DATE DESC
+		ORDER BY C_NO DESC
 	</select>
+	
+	<select id="getChatContentList" parameterType="_int" resultMap="chatResultSet">
+		SELECT *
+		FROM CHAT
+		WHERE CR_NO = #{crNo}
+		ORDER BY C_DATE
+	</select>
+	
+	<insert id="insertChat" parameterType="Chat">
+		INSERT INTO CHAT
+		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N')
+	</insert>
 
 </mapper>
