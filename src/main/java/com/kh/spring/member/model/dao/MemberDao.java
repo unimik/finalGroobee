@@ -56,12 +56,4 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.memberUpdate", m);
 	}
 
-	public int selectOriginalPwdCheck(Member m) {
-		return sqlSession.selectOne("memberMapper.selectOriginalPwdCheck",m);
-	}
-
-	public int updatePwd(Member m) {
-		return sqlSession.update("memberMapper.updatePwd", m);
-	}
-
 }

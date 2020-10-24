@@ -23,10 +23,9 @@
                 <!-- 프로필 시작 -->
                     <div id="myPage_profile">
                         <div id="mp_profile_img">
-                           <c:if test="${ !empty loginUser.mRenameImage }">
-                           	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+                           <c:if test="${ !empty loginUser.mImage }">
                             </c:if>
-                            <c:if test="${ empty loginUser.mRenameImage }">
+                            <c:if test="${ empty loginUser.mImage }">
                             <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                         </div>

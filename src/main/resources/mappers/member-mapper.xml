@@ -85,19 +85,7 @@
 	
 	<update id="memberUpdate" parameterType="Member">
 		UPDATE MEMBER
-		SET M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes},M_IMAGE=#{mImage},M_RENAME_IMAGE=#{mRenameImage}
-		WHERE M_NO=#{mNo}
-	</update>
-	
-	<select id="selectOriginalPwdCheck" parameterType="Member" resultType="_int">
-		SELECT COUNT(*) FROM MEMBER
-		WHERE M_NO=#{mNo}
-		AND M_PWD=#{userPwd}
-	</select>
-	
-	<update id="updatePwd" parameterType="Member">
-		UPDATE MEMBER
-		SET M_PWD=#{userPwd}
+		SET M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes}
 		WHERE M_NO=#{mNo}
 	</update>
 </mapper>

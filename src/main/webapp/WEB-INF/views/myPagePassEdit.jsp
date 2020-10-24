@@ -10,12 +10,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_PassEdit.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
-    <style>
-    	#editArea{ margin-left:100px; width:640px; }
-		#edit_head>h2{ margin-top:30px; }
-		#edit{ width:640px; }
-		.myImg>p{ font-size:xx-large; line-height: 20pt; margin-top:50px; }
-    </style>
 </head>
 <body>
 	 <c:import url="common/menubar.jsp"/>
@@ -23,38 +17,29 @@
     <!-- 비밀번호 변경 부분 -->
         <div id="editArea">
             <div id="edit">
-              	<form action="mPwdUpdate.do" method="post" id="updateForm">
                 <div id="edit_head">
                     <h2>비밀번호 변경</h2>
                 </div>
-                <input type="hidden" name="mNo" value="${ loginUser.mNo }">
                 
                 <div id="edit_body">
                     <div id="myProfileImg">
-                    	 	<c:if test="${ !empty loginUser.mRenameImage }">
-                           		<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
-                            </c:if>
-                            <c:if test="${ empty loginUser.mRenameImage }">
-                            	<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
-                            </c:if>
+                        <img src="<%=request.getContextPath()%>/resources/images/mp_profile_sample.jpg">
                         <div class="myImg">
-                            <p>${ loginUser.userId }</p>
+                            <p>USER01</p>
                         </div>
                     </div>
                     <div id="pass_edit">
                         <div class="pwd1">
                             <p>현재 비밀번호</p>
-                            <input type="hidden"   id="userPwd" name="userPwdeny" value="${loginUser.userPwd }">
-                            <input type="password" id="current_pass" name="userPwd" maxlength="11">
+                            <input type="password" id="current_pass" name="current_pass" maxlength="20">
                         </div>
                         <div class="pwd2">
                             <p>새로운 비밀번호</p>
-                            <input type="password" id="new_pass" name="userPwd1" maxlength="11" onkeyup="passwordCheckFunction();" placeholder="  4자리 이상 입력">
+                            <input type="password" id="new_pass" name="new_pass" maxlength="20">
                         </div>
                         <div class="pwd3">
                             <p>비밀번호 확인</p>
-                            <input type="password" id="check_pass" name="userPwd2" maxlength="11" onkeyup="passwordCheckFunction();">
-                            <span id="pwdCheckResult"> </span>
+                            <input type="password" id="check_pass" name="check_pass" maxlength="20">
                         </div>
                     </div>
                 </div>
@@ -65,29 +50,9 @@
                         <input type="button" id="edit_cancleBtn" class="completeBtn" value="취소" onclick="goBack()">
                     </div>
                 </div>
-                </form>
             </div>
         </div>
     <script>
-    $('#edit_submitBtn').click(function(){
-    		var pwd1 = $("#new_pass").val();
-    		var pwd2 = $("#check_pass").val();
-    		if(pwd1 == null || pwd1 == "" || pwd2 == null || pwd2 == "") {
-    			alert("비밀번호를 입력해주세요");
-    			return false;
-    		} else if(pwd1 != pwd2) {
-    			alert("비밀번호를 동일하게 입력해주세요");
-    			return false;
-    		} 
-    		var vPwd = $("#new_pass").val();
-    		var regex = /^[a-z\d]{4,11}$/;
-          	var resultPwd = regex.exec(vPwd);
-            if(resultPwd == null) {
-            	alert("영어 소문자 및 숫자로 4자리 이상 11자리 이하로 입력해주세요");
-            	return false;
-            }
-    	});
-    
         $(document).ready(function(){
             $('#chat_icon').click(function(){
                 var state = $(".chat").css('display');
