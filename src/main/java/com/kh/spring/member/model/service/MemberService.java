@@ -53,7 +53,10 @@ public interface MemberService {
 	int memberUpdate(Member m);
 
 	int deleteAccount(int mNo);
-
 	
 	Member selectNo(String userId);
+
+	int selectOriginalPwdCheck(Member m);
+
+	int updatePwd(Member m);
 }
