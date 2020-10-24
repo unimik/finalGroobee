@@ -59,4 +59,6 @@ public interface MemberService {
 	int selectOriginalPwdCheck(Member m);
 
 	int updatePwd(Member m);
+
+	Member selectUserInfo(String userId);
 }

@@ -19,6 +19,7 @@
 		<typeAlias type="com.kh.spring.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.spring.declaration.model.vo.Declaration" alias="Declaration"/>
+		<typeAlias type="com.kh.spring.member.model.vo.Follow" alias="Follow"/>
 	</typeAliases>
 	
 	<mappers>

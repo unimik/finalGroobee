@@ -100,4 +100,10 @@
 		SET M_PWD=#{userPwd}
 		WHERE M_NO=#{mNo}
 	</update>
+
+	<select id="selectUserInfo" parameterType="Member" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{userId}
+	</select>
 </mapper>

@@ -79,4 +79,9 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.updatePwd(m);
 	}
 
+	@Override
+	public Member selectUserInfo(String userId) {
+		return mDao.selectUserInfo(userId);
+	}
+
 }
