@@ -19,4 +19,14 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.getChatList(userId);
 	}
 
+	@Override
+	public ArrayList<Chat> getChatContentList(int crNo) {
+		return cDao.getChatContentList(crNo);
+	}
+
+	@Override
+	public int insertChat(Chat c) {
+		return cDao.insertChat(c);
+	}
+
 }

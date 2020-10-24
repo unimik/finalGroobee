@@ -25,4 +25,12 @@ public class ChatDao {
 		return cList;
 	}
 
+	public ArrayList<Chat> getChatContentList(int crNo) {
+		return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",crNo);
+	}
+
+	public int insertChat(Chat c) {
+		return sqlSession.insert("chatMapper.insertChat",c);
+	}
+
 }
