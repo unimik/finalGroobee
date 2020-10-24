@@ -80,4 +80,20 @@
 		FROM GROUPS
 		WHERE G_STATUS ='Y'
 	</select>
+	
+	<update id="deleteGroup" parameterType="Group">
+		UPDATE GROUPS
+		SET
+			G_STATUS = 'N'
+		WHERE
+			G_NO=#{ gNo }
+	</update>
+	
+	<update id="gCreatorChange" parameterType="Group">
+		UPDATE GROUPS
+		SET
+			G_CREATOR=#{ gCreator }
+		WHERE
+			G_NO=#{ gNo }
+	</update>
 </mapper>

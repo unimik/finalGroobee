@@ -122,7 +122,7 @@
                         </tr>
 
                     <!-- 게시글 -->
-                                           	<%! int i = 0; %>
+                        <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">

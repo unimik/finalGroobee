@@ -12,13 +12,13 @@
 <link rel="stylesheet" href="resources/css/myAccount.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
-	#feed{ height: fit-content; }
+	#feed{ height: fit-content; margin-bottom: 50px; }
+	#footer{ height: 200px; text-align: center; }
 </style>
 </head>
 <body>
 	<div class="wapper">
 		<c:import url="common/menubar.jsp" />
-		<a href="fList.do">리스트테스</a>
 		<div class="content">
 		<div class="myAccount">
 			<div id="myId">
@@ -70,18 +70,17 @@
 		</div>
 	</div>
 	<div id="feedArea">
+	<c:forEach var="f" items="${ feed }" varStatus="status">
 		<div id="feed">
 			<div id="writer_submenu">
-				<input type="hidden" name="fNo" value="${ fNo }">
 				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
 					id="feed_profile_img">
 				<div id="user_time">
-					<p id="feed_id">${ userId }</p>
-					<h6>${ fCreateDate }</h6>
+					<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+					<h6><c:out value="${ f.fCreateDate }" /></h6>
 				</div>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
 			</div>
-			
 		<c:choose>
 			<c:when test="${ !loginUser.userId }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
@@ -96,7 +95,7 @@
 					</div>
 				</div>
 			</c:when>
-			<c:otherwise>			
+			<c:otherwise>
 				<!-- 내가 쓴 글 볼 때 피드메뉴 -->
                 <div class="pop_menu">
                     <div id="feed_Mymenu_list">
@@ -129,23 +128,27 @@
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 				</div>
-				<p id="text">${ fContent }</p>
-				<ul id="tag">
-					<li>${ fTag }</li>
-				</ul>
+				<p id="text"><c:out value="${ f.fContent }" /></p>
+
 			</div>
 			<div id="replyArea">
-				<div id="replyList">
-					<ul id="re_list">
-						<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-							id="reply_img">&nbsp;&nbsp;&nbsp;
-							<p id="userId" name="rWriter">${ rWriter }</p></li>
-						<li><p id="replyCon">${ rContent }</p></li>
-						<li><p id="time">1시간 전</p></li>
-						<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt=""
-							id="updateBtn"></li>
-					</ul>
+				<div id="replyList" style="display: none;">
 				</div>
+					<c:if test="${ f.replyList[2] eq f.fNo }">
+						<div id="replyList" style="display: block;">
+						<c:forEach var="r" items="${ f.replyList }">
+						<ul id="re_list">
+							<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
+								id="reply_img">&nbsp;&nbsp;&nbsp;
+								<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+							<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
+							<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
+							<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+						</ul>
+						</c:forEach>
+						</div>
+					</c:if>
+
 				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
 				<div class="reply_menu">
 					<div id="re_menu_list">
@@ -158,14 +161,17 @@
 				</div>
 
 				<div id="reply">
-					<input type="text" id="textArea" name="textArea"> <input
-						type="button" id="replyBtn" name="replyBtn" value="등록">
+					<input type="text" id="textArea" name="textArea">
+					<input type="button" id="replyBtn" name="replyBtn" value="등록">
 				</div>
 			</div>
 		</div>
 		</div>
+	</c:forEach>
+	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
 	</div>
+	
 	<script>
         /************* 내계정 자세히보기 script **************/
 

@@ -1,23 +1,23 @@
 package com.kh.spring.feed.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Reply;
 
-@SessionAttributes("feedPost")
 @Controller
 public class FeedController {
 	
@@ -80,19 +80,4 @@ public class FeedController {
 		return renameFileName;
 	}
 	
-	@RequestMapping("fList.do")
-	public ModelAndView feedList(ModelAndView mv) {
-		System.out.println("ㅡㅏㅡㅏㅡㅏ");
-		ArrayList<Feed> f = fService.selectFeed();
-		System.out.println(f);
-		
-		if(f != null) {
-			mv.addObject("f", f).setViewName("home");
-		}else {
-			mv.addObject("msg", "에러 발생").setViewName("common/errorPage");
-		}
-		
-		return mv;
-	}
-
 }
