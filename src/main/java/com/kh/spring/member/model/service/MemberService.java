@@ -55,9 +55,14 @@ public interface MemberService {
 	int memberUpdate(Member m);
 
 	int deleteAccount(int mNo);
-
 	
 	Member selectNo(String userId);
 
 	ArrayList<Member> memberSearchList(Member m);
+	
+	int selectOriginalPwdCheck(Member m);
+
+	int updatePwd(Member m);
+
+	Member selectUserInfo(String userId);
 }

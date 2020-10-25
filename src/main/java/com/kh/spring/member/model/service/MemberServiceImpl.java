@@ -75,5 +75,19 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Member> memberSearchList(Member m) {
 		return mDao.memberSearchList(m);
 	}
+	@Override
+	public int selectOriginalPwdCheck(Member m) {
+		return mDao.selectOriginalPwdCheck(m);
+	}
+
+	@Override
+	public int updatePwd(Member m) {
+		return mDao.updatePwd(m);
+	}
+
+	@Override
+	public Member selectUserInfo(String userId) {
+		return mDao.selectUserInfo(userId);
+	}
 
 }

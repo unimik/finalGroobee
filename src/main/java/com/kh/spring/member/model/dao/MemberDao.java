@@ -62,4 +62,15 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.memberSearchList", m);
 	}
 
+	public int selectOriginalPwdCheck(Member m) {
+		return sqlSession.selectOne("memberMapper.selectOriginalPwdCheck",m);
+	}
+
+	public int updatePwd(Member m) {
+		return sqlSession.update("memberMapper.updatePwd", m);
+	}
+
+	public Member selectUserInfo(String userId) {
+		return sqlSession.selectOne("memberMapper.selectUserInfo",userId);
+	}
 }
