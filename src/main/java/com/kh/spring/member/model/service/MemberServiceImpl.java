@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +69,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member selectNo(String mId) {
 		return mDao.selectNo(mId);
+	}
+
+	@Override
+	public ArrayList<Member> memberSearchList(Member m) {
+		return mDao.memberSearchList(m);
 	}
 
 }

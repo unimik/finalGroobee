@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 
@@ -56,4 +58,6 @@ public interface MemberService {
 
 	
 	Member selectNo(String userId);
+
+	ArrayList<Member> memberSearchList(Member m);
 }
