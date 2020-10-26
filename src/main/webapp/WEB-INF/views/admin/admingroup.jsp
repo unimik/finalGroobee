@@ -28,15 +28,16 @@
                         <p>현재 GROOBEE Group은 <b id="total" style="color: red;"></b> 개 입니다.</p>
                     </div>
                     <div id="search">
-                        <form>
+                        <form id="groupSearch_form" name="groupSearch_form">
                             <label>그 룹 명</label><input type="text" id="name" name="name">
-                            <label>관 심 사</label><select id="category">
-                                <option>전체</option>
-                                <option>문학/책</option>
+                            <label>관 심 사</label><select id="category" name="category">
+								<option disabled="disabled" selected="selected">---------</option>
+                                <option>문화/책</option>
                                 <option>영화</option>
                                 <option>미술/디자인</option>
                                 <option>공연/전시</option>
                                 <option>외국어</option>
+                                <option>외국</option>
                                 <option>맛집</option>
                                 <option>요리/레시피</option>
                                 <option>인테리어/DIY</option>
@@ -48,11 +49,12 @@
                                 <option>스포츠</option>
                                 <option>지역</option>
                             </select><br><br>
-                            <label>채팅여부</label><select id="chat">
+                            <label>태그</label><input type="text" id="tag" name="tag">
+                            <!-- <select id="chat">
                                 <option>전체</option>
                                 <option>N</option>
-                                <option>Y</option>
-                            </select>
+                                <option>Y</option> 
+                            </select>-->
                             <label>생 성 일</label><input type="date" id="enrolldate" name="enrolldate"><br>
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                             <input type="reset" id="resetBtn" name="resetBtn" value="초기화">
@@ -61,7 +63,7 @@
                 </div>
             </div>
             <div id="containar">
-                <table cellspacing="0" id="group_table">
+                <table name="group_table" cellspacing="0" id="group_table">
                     <thead>
                         <tr>
                             <td>번호</td>
@@ -69,8 +71,9 @@
                             <td>관심사</td>
                             <td>인원</td>
                             <td>생성일</td>
-                            <td>채팅방</td>
-                            <td>삭제</td>
+                            <td>태그</td>
+                            <td>활성화</td>
+                            <td>정지</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,6 +83,7 @@
                             <td>반려동물</td>
                             <td>999</td>
                             <td>2020-10-07</td>
+                            <td>#고양이</td>
                             <td>Y</td>
                             <td><button id="group_delete">삭제</button></td>
                         </tr>
@@ -124,6 +128,67 @@
                 $('.alarm_pop').hide();
             });
         });
+        
+        
+    	// 회원 검색 버튼 클릭 이벤트
+		 $('#searchBtn').on("click",function(){
+			console.log("클릭했엉?");
+			
+			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
+			
+
+			console.log("전달되는 값"+$("#groupSearch_form").serialize());
+			
+			$.ajax({
+				url:"groupSearch.do",
+				type:'post',
+				data:$("#groupSearch_form").serialize(),
+				dataType:"json",
+				success:function(data){
+					console.log(data);
+					
+					$tableBody = $("#group_table  tbody");
+					$tableBody.html("");
+					
+					for(var i in data){
+						
+						var $tr = $("<tr>");
+						var $gNo = $("<td>").text(data[i].gNo);	// 그룹 넘버
+						var $gName = $("<td>").text(data[i].gName);	// 그룹명
+						var $gCategory = $("<td>").text(data[i].gCategory); // 관심사
+						var $gMax = $("<td>").text(data[i].gMax);	// 인원
+						var $gDate = $("<td>").text(data[i].gDate);// 생성일
+						var $gTag = $("<td>").text(data[i].gTag); // 태그
+						var $gStatus = $("<td>").text(data[i].gStatus); // 활성화 여부
+						
+						// 정지 버튼
+						if(data[i].mStatus==='Y'){
+							var $getOutBtn = $("<td>").html(dynamicBtnY); // 활성화 상태가 Y일 때 
+						}else{
+							var $getOutBtn = $("<td>").html(dynamicBtnN); // 활성화 상태가 N일 때
+						}
+						
+							$tr.append($gNo);
+							$tr.append($gName);
+							$tr.append($gCategory);
+							$tr.append($gMax);
+							$tr.append($gDate);
+							$tr.append($gTag);
+							$tr.append($gStatus);
+							$tr.append($getOutBtn);
+							
+							$tableBody.append($tr);
+					}
+				},
+				error:function(request,status,error){
+					alert("code : "+request.status+"\n"
+							+"message : "+request.responseText+"\n"
+							+"error : "+ error);		
+				}
+			});
+		}); 
+        
 </script>
 
 </body>

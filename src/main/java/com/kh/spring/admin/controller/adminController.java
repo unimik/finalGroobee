@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.admin.service.AdminService;
+import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
 
 
@@ -44,9 +45,9 @@ public class adminController {
 	/** 3.sidebar에서 admingroupsPage로 이동
 	 * @return
 	 */
-	@RequestMapping("admingroups.do")
-	public String goAdminGroups() {
-		return "admin/admingroups";
+	@RequestMapping("admingroup.do")
+	public String goAdminGroup() {
+		return "admin/admingroup";
 	}
 	
 	/** 4.sidebar에서 adminreportPage로 이동
@@ -62,7 +63,6 @@ public class adminController {
 	 * @param request
 	 * @throws IOException
 	 */
-	@ResponseBody
 	@RequestMapping(value="memberSearch.do", method=RequestMethod.POST)
 	public void memberSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
 		response.setContentType("application/json; charset=utf-8");
@@ -94,6 +94,35 @@ public class adminController {
 		gson.toJson(memberList,response.getWriter());
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value="groupSearch.do", method=RequestMethod.POST)
+	public void groupsSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		Group g= new Group(); // 받아온 파라미터를 정보를 담을 객체
+		
+		if(!request.getParameter("name").equals("")) {
+			g.setgName(request.getParameter("name"));
+		}
+		if(!request.getParameter("category").equals("")) {
+			g.setgCategory(request.getParameter("category"));
+		}
+		if(!request.getParameter("tag").equals("")) {
+			g.setgTag(request.getParameter("tag"));			
+		}
+		
+		if(!request.getParameter("enrolldate").equals("")) {
+		Date todate = java.sql.Date.valueOf((request.getParameter("enrolldate")));
+			g.setgDate(todate);
+		}
+		
+		System.out.println(g);
+		ArrayList<Group> groupList = aService.groupSearchList(g);
+		
+		System.out.println("컨트롤러로 돌아왔니?");
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(groupList,response.getWriter());
+	}
 	
 }
