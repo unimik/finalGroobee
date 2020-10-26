@@ -41,7 +41,7 @@ public class MemberController {
 	private MailService mailService;
 	
 	@Autowired
-	private FeedService fService; 
+	private FeedService fService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -61,7 +61,6 @@ public class MemberController {
 		for(Feed ff : feed) {
 			System.out.println(ff);
 		}
-		ArrayList<Feed> f = fService.selectFeed();
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
@@ -227,7 +226,9 @@ public class MemberController {
 
 	
 	@RequestMapping("home.do")
-	public String goHome() {
+	public String goHome(Model model) {
+		ArrayList<Feed> feed = fService.selectFeed();
+		model.addAttribute("feed", feed);
 		return "home";
 	}
 	

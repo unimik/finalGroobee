@@ -194,6 +194,11 @@
             $('.MyTab_box').hide();
             $('.MyTab_box2').show();
         });
+        
+        $('.MyTab_tab3').on('click', function(){
+            $('.MyTab_box').hide();
+            $('.MyTab_box3').show();
+        });
 
         $('#goMypage').click(function(){
             location.href="../views/myPage_Main.html";
