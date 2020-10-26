@@ -21,6 +21,7 @@
 		#edit_head>h2{ margin-top:30px; }
 		#edit{ width:640px; }
 		#check_email p{ position:absolute; margin-right:10px; top:auto; }
+		.info_email span{ left:149px; position: relative; }
 		#confirmText,#emailConfirmBtn,#emailConfirmResultBtn,#emailHidden{ 
 			margin-top:10px;
 			position: relative;
@@ -66,10 +67,10 @@
                         	<input type="hidden" name="interestes" id="interestes" value="${ loginUser.interestes }">
 	                    	<div id="imgView" class="filebox">
 	                    		<c:if test="${ !empty loginUser.mRenameImage }">
-	                           	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="">
+	                           		<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="">
 	                            </c:if>
 	                            <c:if test="${ empty loginUser.mRenameImage }">
-	                            <img src="resources/icons/pro_default.png" alt="" >
+	                            	<img src="resources/icons/pro_default.png" alt="" >
 	                            </c:if>
 	                    	</div>
 	                        <div class="change_myImg">

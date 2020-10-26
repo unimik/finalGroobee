@@ -100,4 +100,8 @@ public class GroupDao {
 	public int gCreatorChange(Group g) {
 		return sqlSession.update("groupMapper.gCreatorChange",g);
 	}
+
+	public int gmChangeManager(GroupMember gm) {
+		return sqlSession.update("gmMapper.gmChangeManager", gm);
+	}
 }

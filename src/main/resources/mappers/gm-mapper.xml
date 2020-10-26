@@ -94,4 +94,13 @@
 			G_NO=#{gNo}
 		AND GM_LEVEL=#{gmLevel}
 	</update>
+	
+	<update id="gmChangeManager" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_LEVEL='매니저'
+		WHERE
+			G_NO=#{gNo}
+		AND GM_ID=#{gmId}
+	</update>
 </mapper>

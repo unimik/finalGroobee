@@ -137,6 +137,13 @@ public interface GroupService {
 	 * @return
 	 */
 	int gCreatorChange(Group g);
+
+	/**
+	 * 19. 매니저 지정
+	 * @param gm
+	 * @return
+	 */
+	int gmChangeManager(GroupMember gm);
 	
 
 }
