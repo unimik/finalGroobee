@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.member.model.vo.Member;
 
 @Repository("cDao")
 public class ChatDao {
@@ -31,6 +32,15 @@ public class ChatDao {
 
 	public int insertChat(Chat c) {
 		return sqlSession.insert("chatMapper.insertChat",c);
+	}
+
+	public ArrayList<Member> getChatImage(ArrayList<Member> mList) {
+		ArrayList<Member> rmList = new ArrayList<Member>();
+		for(Member m : mList) {
+			String userId = m.getUserId();
+			rmList.add(sqlSession.selectOne("memberMapper.getChatImage",userId));
+		}
+		return rmList;
 	}
 
 }

@@ -27,6 +27,6 @@ textarea{ resize: none; }
 #email1, #email2, #select_email{ width: 100px; height: 30px; }
 .info_interests>label{ position: relative; left: 150px; top: auto; font-size: 10pt; }
 #editBtnArea { display: inline-flex; margin: auto; padding: 30px 0px 0px 95px; }
-#edit_submitBtn{ width: 130px; height: 40px; margin-right: 80px; background: #daf4ed; }
-#edit_cancleBtn{ width: 100px; height: 40px; background: #f5f5f5; }
+#edit_submitBtn{ width: 130px; height: 40px; margin-right: 30px; background: #daf4ed; }
+#edit_cancleBtn{ width: 130px; height: 40px; background: #f5f5f5; }
 .completeBtn{ border: none; border-radius: 10px; text-align: center; font-size: 10pt; }

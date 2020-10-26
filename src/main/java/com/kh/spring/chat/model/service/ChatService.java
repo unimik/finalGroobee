@@ -3,6 +3,7 @@ package com.kh.spring.chat.model.service;
 import java.util.ArrayList;
 
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.member.model.vo.Member;
 
 public interface ChatService {
 
@@ -26,5 +27,12 @@ public interface ChatService {
 	 * @return
 	 */
 	int insertChat(Chat c);
+
+	/**
+	 * 4. 채팅목록 이미지 가져오기
+	 * @param mList
+	 * @return
+	 */
+	ArrayList<Member> getChatImage(ArrayList<Member> mList);
 
 }

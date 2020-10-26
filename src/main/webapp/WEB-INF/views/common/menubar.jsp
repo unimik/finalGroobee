@@ -148,7 +148,7 @@
 	    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
 	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
 	    				$div = $("<div>");
-	        			$img = $("<img src='#'>");
+	        			$img = $('<img src="resources/'+value.chatImage+'">');
 	        			$p = $("<p id='chatId'>").text(value.fromId);
 	        			$div1 = $("<div>");
 	        			$a = $("<a id='chatText'>").text(value.cContent);
@@ -173,9 +173,7 @@
     			console.log('에러');
     		}
 		});
-		
 		var msg = $("#inputArea").val();
-		
 	 });
      /* 채팅 창 여는 스크립트 */	
      $(function(){
@@ -190,10 +188,11 @@
                  	success:function(data){
                  		$("#mcList").children().remove();
                  		$.each(data,function(index,value){
+                 			console.log(value.chatImage);
                  			var $div = $('<div class="chRoom">');
     						var $ul = $('<ul>');
     						var $img = $("<li>");
-    						var $rImg = $('<img src="#">');
+    						var $rImg = $('<img src="resources/'+value.chatImage+'">');
     						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
     						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
 	    						var $id = $("<li>").text(value.toId);
@@ -295,7 +294,7 @@
  	 }
  	 // 서버와 연결을 끊었을 때
  	 function onClose(evt) {
- 		 $("#messageArea").append("연결 끊김");
+ 		 $("#chatArea").append("연결 끊김");
  	 }
      </script>
 </body>

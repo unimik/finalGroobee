@@ -65,7 +65,9 @@ public class EchoHandler extends TextWebSocketHandler{
 				crno = strs[3];
 			}
         	int crNo = Integer.parseInt(crno);
-        	
+        	if(Rmsg == null || Rmsg.equals("")) {
+        		Rmsg = " ";
+        	}
         	if(sendType.equals("chatting")) {
         		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
         		WebSocketSession toSession =  userSessions.get(toId);

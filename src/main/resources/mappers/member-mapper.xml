@@ -93,9 +93,6 @@
 
 	<update id="memberUpdate" parameterType="Member">
 		UPDATE MEMBER
-		SET
-		M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes}
-
 		SET M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes},M_IMAGE=#{mImage},M_RENAME_IMAGE=#{mRenameImage}
 		WHERE M_NO=#{mNo}
 	</update>
@@ -130,5 +127,11 @@
 					AND CREATE_DATE like '%'||#{cDate}||'%'
 				</if>
 		</trim>
+	</select>
+	
+	<select id="getChatImage" parameterType="string" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{userId}
 	</select>
 </mapper>

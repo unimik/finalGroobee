@@ -109,4 +109,9 @@ public class GroupServiceImpl implements GroupService{
 	public int gCreatorChange(Group g) {
 		return gDao.gCreatorChange(g);
 	}
+
+	@Override
+	public int gmChangeManager(GroupMember gm) {
+		return gDao.gmChangeManager(gm);
+	}
 }
