@@ -408,7 +408,16 @@ public class GroupController{
 		return result;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("changeManager.do")
+	public int gmChangeManager(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmChangeManager(gm);
+		
+		return result;
+	}
 	
 	
 	@ResponseBody
@@ -419,6 +428,4 @@ public class GroupController{
 		return totalGroups;
 	}
 
-	
-	
 }

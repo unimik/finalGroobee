@@ -83,19 +83,9 @@
 	 	SET M_STATUS = 'D'
 	 	WHERE M_NO = #{mNo}
 	</update> 
-	
-<!-- 	<update id="memberUpdate" parameterType="Member">
-		UPDATE MEMBER
-		SET
-		M_STATUS = 'D'
-		WHERE M_NO = #{mNo}
-	</update> -->
 
 	<update id="memberUpdate" parameterType="Member">
 		UPDATE MEMBER
-		SET
-		M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes}
-
 		SET M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes},M_IMAGE=#{mImage},M_RENAME_IMAGE=#{mRenameImage}
 		WHERE M_NO=#{mNo}
 	</update>
@@ -111,6 +101,12 @@
 		SET M_PWD=#{userPwd}
 		WHERE M_NO=#{mNo}
 	</update>
+	
+	<select id="selectUserInfo" parameterType="Member" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{userId}
+	</select>
 
 	<select id="memberSearchList" parameterType="Member"
 		resultMap="memberResultSet">

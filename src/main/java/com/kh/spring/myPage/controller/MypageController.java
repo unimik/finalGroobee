@@ -3,6 +3,7 @@ package com.kh.spring.myPage.controller;
 
 
 import java.io.File;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,11 @@ import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
+
+import com.kh.spring.myPage.model.vo.StorageBox;
+import com.kh.spring.setting.model.vo.NotificationSetting;
+import com.kh.spring.setting.model.vo.PersonalSetting;
+
 
 @Controller
 public class MypageController {
@@ -46,13 +53,13 @@ public class MypageController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	@RequestMapping(value="goMypage.do")
+	@RequestMapping("goMypage.do")
 	public ModelAndView goMypage(ModelAndView mv,int mNo) {
 		
 		Mypage memberInfo = myService.selectMemInfo(mNo);
 		Mypage followInfo = myService.selectFollowInfo(mNo);
 		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
-		ArrayList<Mypage> storageBoxList = myService.selectStorageBoxInfo(mNo);
+		ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
 		
 		mv.addObject("memberInfo", memberInfo);
@@ -71,67 +78,27 @@ public class MypageController {
 		return "myPageEdit";
 	}
 	
-	@RequestMapping(value="mupdate.do")
-	public String memberUpdate(Member m, HttpServletRequest request
-			,Model model,String email1,String email2,String interest
-			,MultipartHttpServletRequest memFiles) {
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\memberProfileFiles";
-		String fileName = "";
-		
-		File folder = new File(savePath);
-		if(!folder.exists()) {
-			folder.mkdirs();
-		}
-		
-		Iterator<String> files = memFiles.getFileNames();
-		MultipartFile mpf = memFiles.getFile(files.next());
+	@RequestMapping(value="mupdate.do",method=RequestMethod.POST)
+	public ModelAndView memberUpdate(ModelAndView mv, Member m, HttpServletRequest request
+			,String email1,String email2,String interest
+			,@RequestParam(value="file", required=false) MultipartFile  memFile) {
 		
 		
-		if(mpf == null || mpf.getSize() <= 0) {
-			System.out.println("용량없음");
-		}
 		
-		ArrayList memImgFiles = new ArrayList();
-		
-		List<MultipartFile> fileList = memFiles.getFiles("file");
-		for(MultipartFile mfile : fileList) {
-			fileName = mfile.getOriginalFilename();
-			System.out.println("실제 파일 이름 : " + fileName);
-			long fileSize = mfile.getSize();
-			
-			if(!mfile.isEmpty()) {
-				String originalFileName = mfile.getOriginalFilename();
-				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
-				int rdv = (int)(Math.random()*1000);
-				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + rdv 
-										+ originalFileName.substring(originalFileName.lastIndexOf("."));
-				String renamePath = folder + "\\" + renameFileName;
-			
-				try {
-					mfile.transferTo(new File(renamePath));
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-				memImgFiles.add(mfile.getOriginalFilename());
-				memImgFiles.add(renameFileName);
+		if( memFile != null && !memFile.isEmpty()) {
+			if(m.getmRenameImage() != null) {
+				deleteFile(m.getmRenameImage(),request);
 			}
-			System.out.println(memImgFiles);
-		}
-		
-		if( memImgFiles.size()!=0){
-		    String mProfileName = (String) memImgFiles.get(0);
-			String renameMemName = (String) memImgFiles.get(1);
-		
-			System.out.println(mProfileName+", "+renameMemName);
 			
-			m.setmImage(mProfileName);
-			m.setmRenameImage(renameMemName);
-		} 		
-		
-		
-		System.out.println(m.getmImage()+", " +m.getmRenameImage()+"savePath"+savePath);
+			String renameFileName = saveFile(memFile, request);
+			
+			if(renameFileName != null) {
+				m.setmImage(memFile.getOriginalFilename());
+				m.setmRenameImage(renameFileName);
+				Member mSesison = (Member)session.getAttribute("loginUser");
+				mSesison.setmRenameImage(renameFileName);
+			}
+		}
 		
 		
 		m.setEmail(email1+"@"+email2);
@@ -141,15 +108,59 @@ public class MypageController {
 		int result = mService.memberUpdate(m);
 		
 		if(result > 0) {
-			model.addAttribute("loginUser", m);
-			model.addAttribute("mNo", m.getmNo() );
-			return "redirect:goMypage.do";
+			mv.addObject("loginUser", m);
+			mv.addObject("mNo", m.getmNo());
+			mv.setViewName("redirect:goMypage.do");
+			
+			
+			return mv;
 		} else {
-			model.addAttribute("msg","회원 정보 수정 실패!");
-			return "common/errorPage";
+			mv.addObject("msg", "회원 정보 수정 실패");
+			mv.setViewName("common/errorPage");
+			
+			return mv;
 		}
 	}
 	
+	private void deleteFile(String memFile, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\memberProfileFiles";
+		
+		File f = new File(savePath + "\\" + memFile);
+		
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+
+	private String saveFile(MultipartFile memFile, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\memberProfileFiles";
+		String fileName = "";
+		
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		String originalFileName = memFile.getOriginalFilename();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		
+		String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
+											+ originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+		
+		String renamePath = folder + "\\" + renameFileName;
+		
+		try {
+			memFile.transferTo(new File(renamePath));
+		}catch(Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		return renameFileName;
+	}
+
 	@RequestMapping("updatePwdView.do")
 	public String myPagePassEditView() {
 		return "myPagePassEdit";
@@ -200,7 +211,7 @@ public class MypageController {
 		int result = myService.insertBox(mno);
 		
 		if(result > 0) {			
-			ArrayList<Mypage> storageBoxList = myService.selectStorageBoxInfo(mno);
+			ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mno);
 			JSONArray jArr = new JSONArray();
 			for(int i=0; i <storageBoxList.size(); i++) {
 					JSONObject jObj = new JSONObject();
@@ -216,6 +227,7 @@ public class MypageController {
 		
 		return job.toString();
 	}
+
 
 	@RequestMapping(value="goUserpage.do")
 	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
