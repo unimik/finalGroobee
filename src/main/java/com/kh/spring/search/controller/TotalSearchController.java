@@ -26,9 +26,9 @@ public class TotalSearchController {
 	private TotalSearchService tsService;
 	
 	//검색창에 검색 컨트롤러
-	@RequestMapping(value="search.do",method=RequestMethod.POST)
+	@RequestMapping("search.do")
 	public ModelAndView searchList(ModelAndView mv, String allSearch) {
-		
+
 //		System.out.println("검색어 잘 들어오니?"+allSearch);
 //		System.out.println("맨 앞글자 구분: "+allSearch.charAt(0));
 		if(allSearch =="") { //아무것도 검색하지 않을 때

@@ -7,6 +7,7 @@ import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.Mypage;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 public interface MypageService {
 
@@ -16,7 +17,7 @@ public interface MypageService {
 
 	ArrayList<Feed> selectFeedInfo(int mNo);
 
-	ArrayList<Mypage> selectStorageBoxInfo(int mNo);
+	ArrayList<StorageBox> selectStorageBoxInfo(int mNo);
 
 	int insertBox(int mNo);
 

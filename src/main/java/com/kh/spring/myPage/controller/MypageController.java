@@ -29,6 +29,7 @@ import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
+import com.kh.spring.myPage.model.vo.StorageBox;
 import com.kh.spring.setting.model.vo.NotificationSetting;
 import com.kh.spring.setting.model.vo.PersonalSetting;
 
@@ -50,7 +51,7 @@ public class MypageController {
 		Mypage memberInfo = myService.selectMemInfo(mNo);
 		Mypage followInfo = myService.selectFollowInfo(mNo);
 		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
-		ArrayList<Mypage> storageBoxList = myService.selectStorageBoxInfo(mNo);
+		ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
 		
 		mv.addObject("memberInfo", memberInfo);
@@ -162,7 +163,7 @@ public class MypageController {
 		int result = myService.insertBox(mno);
 		
 		if(result > 0) {			
-			ArrayList<Mypage> storageBoxList = myService.selectStorageBoxInfo(mno);
+			ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mno);
 			JSONArray jArr = new JSONArray();
 			for(int i=0; i <storageBoxList.size(); i++) {
 					JSONObject jObj = new JSONObject();
@@ -179,7 +180,7 @@ public class MypageController {
 		return job.toString();
 	}
 	
-	
+
 
 
 }

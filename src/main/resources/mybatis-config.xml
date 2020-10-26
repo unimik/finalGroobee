@@ -11,6 +11,7 @@
 		<typeAlias type="com.kh.spring.setting.model.vo.PersonalSetting" alias="PersonalSetting"/>
 		<typeAlias type="com.kh.spring.setting.model.vo.Question" alias="Question"/>
 		<typeAlias type="com.kh.spring.myPage.model.vo.Mypage" alias="Mypage"/>
+		<typeAlias type="com.kh.spring.myPage.model.vo.StorageBox" alias="sBox"/>
 		<typeAlias type="com.kh.spring.feed.model.vo.Feed" alias="Feed"/>
 		<typeAlias type="com.kh.spring.feed.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.spring.search.model.vo.Search" alias="Search"/>

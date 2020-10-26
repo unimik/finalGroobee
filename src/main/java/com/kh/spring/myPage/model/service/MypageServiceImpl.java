@@ -9,6 +9,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.dao.MypageDao;
 import com.kh.spring.myPage.model.vo.Mypage;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 
 @Service("myService")
@@ -33,7 +34,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public ArrayList<Mypage> selectStorageBoxInfo(int mNo) {
+	public ArrayList<StorageBox> selectStorageBoxInfo(int mNo) {
 		return myDao.selectStorageBoxInfo(mNo);
 	}
 
