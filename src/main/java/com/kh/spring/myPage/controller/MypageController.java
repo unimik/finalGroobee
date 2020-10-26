@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MemberService;
+import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
@@ -184,6 +184,7 @@ public class MypageController {
 		}
 	}
 	
+	
 	@ResponseBody
 	@RequestMapping(value="insertBox.do",produces="application/json;charset=utf-8")
 	public String insertBox(ModelAndView mv, String mNo) {
@@ -215,8 +216,60 @@ public class MypageController {
 		
 		return job.toString();
 	}
-	
-	
 
+	@RequestMapping(value="goUserpage.do")
+	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
+		
+		Member memberInfo = mService.selectUserInfo(userId);
+		
+		Follow fw = new Follow();
+		fw.setmNo(mNo);
+		fw.setFollows(memberInfo.getmNo());
+		String followYN = myService.selectFollowYN(fw);
+		Mypage followInfo = myService.selectFollowInfo(memberInfo.getmNo());
+		ArrayList<Feed> feedList = myService.selectFeedInfo(memberInfo.getmNo());
+		
+		mv.addObject("memberInfo", memberInfo);
+		mv.addObject("followInfo", followInfo);
+		mv.addObject("feedList", feedList);
+		mv.addObject("feedCnt", feedList.size());
+		mv.addObject("followYN", followYN);
+		mv.setViewName("userPage");
+		
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertFollow.do")
+	public String insertFollow(@RequestParam("follow") int follow,@RequestParam("mNo") int mNo) {
+		
+		Follow fw = new Follow();
+		fw.setmNo(mNo);
+		fw.setFollows(follow);
+		int result = myService.insertFollow(fw);
+		
+		
+		if(result > 0) {
+			return "success";				
+		} else {
+			return"server error";			
+		}
+	}
 
+	@ResponseBody
+	@RequestMapping("deleteFollow.do")
+	public String deleteFollow(@RequestParam("follow") int follow,@RequestParam("mNo") int mNo) {
+		
+		Follow fw = new Follow();
+		fw.setmNo(mNo);
+		fw.setFollows(follow);
+		int result = myService.deleteFollow(fw);
+		
+		
+		if(result > 0) {
+			return "success";				
+		} else {
+			return"server error";			
+		}
+	}
 }

@@ -25,26 +25,27 @@
 		WHERE M_ID = #{userId}
 		AND M_STATUS = 'Y'
 	</select>
-	
+
 	<!-- ID 중복확인 -->
 	<select id="idCheck" parameterType="string" resultType="_int">
-		SELECT COUNT(*)
+		SELECT
+		COUNT(*)
 		FROM MEMBER
 		WHERE M_ID = #{userId}
 	</select>
-	
+
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER
 		VALUES(SEQ_MNO.NEXTVAL,#{userId},#{userName},#{userPwd},#{email},#{interestes},NULL,DEFAULT,NULL,NULL,SYSDATE,DEFAULT,NULL)
 	</insert>
-	
+
 	<select id="findId" parameterType="Member" resultType="string">
 		SELECT M_ID
 		FROM MEMBER
 		WHERE M_NAME = #{userName}
 		AND M_EMAIL = #{email}
 	</select>
-	
+
 	<update id="findPwd" parameterType="Member">
 		UPDATE MEMBER
 		SET M_PWD = #{userPwd}
@@ -70,7 +71,7 @@
 		FROM MEMBER
 		WHERE M_ID=#{mId}
 	</select>
-	
+
 	<update id="disableAccount" parameterType="int">
 	 	UPDATE MEMBER 
 	 	SET M_STATUS = 'N'
@@ -83,8 +84,18 @@
 	 	WHERE M_NO = #{mNo}
 	</update> 
 	
+<!-- 	<update id="memberUpdate" parameterType="Member">
+		UPDATE MEMBER
+		SET
+		M_STATUS = 'D'
+		WHERE M_NO = #{mNo}
+	</update> -->
+
 	<update id="memberUpdate" parameterType="Member">
 		UPDATE MEMBER
+		SET
+		M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes}
+
 		SET M_NAME=#{userName},M_INTRO=#{mIntro},M_EMAIL=#{email},INTERESTES=#{interestes},M_IMAGE=#{mImage},M_RENAME_IMAGE=#{mRenameImage}
 		WHERE M_NO=#{mNo}
 	</update>
@@ -100,4 +111,24 @@
 		SET M_PWD=#{userPwd}
 		WHERE M_NO=#{mNo}
 	</update>
+
+	<select id="memberSearchList" parameterType="Member"
+		resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+	<trim prefix="WHERE" prefixOverrides="AND |OR">
+				<if test="userId != null">
+					M_ID like '%'||#{userId}||'%'
+				</if>
+				<if test="userName != null">
+					AND M_NAME like '%'||#{userName}||'%'
+				</if>
+				<if test="mStatus != null">
+					AND M_STATUS like '%'||#{mStatus}||'%'
+				</if>
+				<if test="cDate != null">
+					AND CREATE_DATE like '%'||#{cDate}||'%'
+				</if>
+		</trim>
+	</select>
 </mapper>

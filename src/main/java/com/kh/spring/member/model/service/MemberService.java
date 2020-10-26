@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 
@@ -55,8 +57,10 @@ public interface MemberService {
 	int deleteAccount(int mNo);
 	
 	Member selectNo(String userId);
-
+	
 	int selectOriginalPwdCheck(Member m);
 
 	int updatePwd(Member m);
+
+	Member selectUserInfo(String userId);
 }
