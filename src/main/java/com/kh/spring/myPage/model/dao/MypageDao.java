@@ -12,6 +12,7 @@ import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.Mypage;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 
 @Repository("myDao")
@@ -32,7 +33,7 @@ public class MypageDao {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectFeedInfo", mNo);
 	}
 
-	public ArrayList<Mypage> selectStorageBoxInfo(int mNo) {
+	public ArrayList<StorageBox> selectStorageBoxInfo(int mNo) {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectStorageBoxInfo", mNo);
 	}
 

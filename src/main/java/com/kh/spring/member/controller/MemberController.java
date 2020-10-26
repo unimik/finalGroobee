@@ -27,6 +27,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.setting.model.service.SettingService;
 
 @SessionAttributes("loginUser")
@@ -35,8 +36,13 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
+	
 	@Autowired
 	private SettingService sService;
+	
+	@Autowired
+	private MypageService mpService;
+	
 	@Autowired
 	private MailService mailService;
 	
@@ -61,7 +67,6 @@ public class MemberController {
 		for(Feed ff : feed) {
 			System.out.println(ff);
 		}
-		ArrayList<Feed> f = fService.selectFeed();
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
@@ -183,6 +188,8 @@ public class MemberController {
 		System.out.println(newUser.getmNo());
 		
 		int result2 = sService.insertNSetting(newUser.getmNo()) + sService.insertPSetting(newUser.getmNo());
+		int result3 = mpService.insertBox(newUser.getmNo());
+		
 		if(result > 0) {
 			return"redirect:loginView.do";
 		} else {
@@ -227,7 +234,9 @@ public class MemberController {
 
 	
 	@RequestMapping("home.do")
-	public String goHome() {
+	public String goHome(Model model) {
+		ArrayList<Feed> feed = fService.selectFeed();
+		model.addAttribute("feed", feed);
 		return "home";
 	}
 	
