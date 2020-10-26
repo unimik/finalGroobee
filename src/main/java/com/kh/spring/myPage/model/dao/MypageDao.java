@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.Mypage;
 import com.kh.spring.myPage.model.vo.StorageBox;
@@ -42,6 +43,18 @@ public class MypageDao {
 
 	public ArrayList<Mypage> selectGroupInfo(int mNo) {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectGroupInfo", mNo);
+	}
+
+	public String selectFollowYN(Follow fw) {
+		return sqlSession.selectOne("mypageMapper.selectFollowYN", fw);
+	}
+
+	public int insertFollow(Follow fw) {
+		return sqlSession.insert("mypageMapper.insertFollow",fw);
+	}
+
+	public int deleteFollow(Follow fw) {
+		return sqlSession.delete("mypageMapper.deleteFollow",fw);
 	}
 	
 }

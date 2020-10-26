@@ -286,7 +286,7 @@
 										$div_popback = $('<div id="feed_menu_gmlist">');
 										$ul = $('<ul>').html("<input type='hidden' id='g_gm' name='g_gm' value='" + data[i].gmId+ "'>");
 										$menu1 = $('<li>').html('<a id="entrust">그룹장 위임</a>');
-										$menu2 = $('<li>').html('<a>매니저 임명</a>');
+										$menu2 = $('<li>').html('<a id="changeManager">매니저 임명</a>');
 										$menu3 = $('<li>').html('<a id="del_gm">내보내기</a>');
 										$menu4 = $('<li>').html('<a>신고</a>');
 										$menu5 = $('<li>').html('<a class="close">취소</a>');
@@ -491,7 +491,8 @@
     	            	});
     	            	
     	            };
-    			 	
+    	         
+    	            
     	            function gCreatorChange(){
     	            	var gNo = ${g.gNo};
     	            	var gmI = $('#g_gmI').val();
@@ -499,6 +500,27 @@
     	            	
     	            	location.href="gCreatorChange.do?gNo="+gNo+"&gmI="+gmI;
       	            };
+      	            
+      	            
+      	          $(document).on("click", "#changeManager", function(){
+	   	            	var gNo = ${g.gNo};
+	 	            	var gmI = $('#g_gmI').val();
+	   	            	$.ajax({
+	   	            		url:"changeManager.do",
+	   	            		data:{gmId:gmI, gNo:gNo},
+	   	            		type:"post",
+	   	            		success:function(data){
+	   	            			if(data>0){
+	   	            				alert("매니저를 지정하셨습니다.");
+	   	            				getgmList();
+	   	            			}else{
+	   	            				alert("매니저를 지정할 수 없습니다.");
+	   	            			}
+	   	            		}, error:function(){
+	   	            			alert("오류");
+	   	            		}
+	   	            	});
+	   	            }); 
       	            
       	            
     	        	var gNo = ${ g.gNo }; 
@@ -518,27 +540,27 @@
     		              			alert("오류");
     		              		}
     		              	});
-    		              });
-    		            	
-    		            	
-    		            $(document).on("click","#user_N",function(event){
-    		            		$.ajax({
-    		            			url:"gmDeleteCheck.do",
-    		            			data:{ gmId:$('#NgmId').text(), gNo:gNo },
-    		            			type:"post",
-    		            			async:false,
-    		            			success:function(data){
-    		            				if(data > 0){
-    		            					alert("승인거부하셨습니다.");
-    		            					getNgmList();
-    		            				}
-    		            			}, error:function(){
-    		            				alert("오류");
-    		            			}
-    		            		});
-    		            	});
+   		              });
+   		            	
+   		            	
+   		            $(document).on("click","#user_N",function(event){
+  		            		$.ajax({
+  		            			url:"gmDeleteCheck.do",
+  		            			data:{ gmId:$('#NgmId').text(), gNo:gNo },
+  		            			type:"post",
+  		            			async:false,
+  		            			success:function(data){
+  		            				if(data > 0){
+  		            					alert("승인거부하셨습니다.");
+  		            					getNgmList();
+  		            				}
+  		            			}, error:function(){
+  		            				alert("오류");
+  		            			}
+  		            		});
+   		            });
     		            
-    		            $(document).on("click","#del_gm",function(){
+    		       $(document).on("click","#del_gm",function(){
     		            	var gmId= $('#g_gm').val();
     		            	var gNo = ${ g.gNo };
     	         		$.ajax({
@@ -567,8 +589,9 @@
     	                    $('.pop_menu_gmList').hide();
     	                });
     	                
-    		            
+    		           
     		        });
+    		 	
     		 
         </script>
 </body>

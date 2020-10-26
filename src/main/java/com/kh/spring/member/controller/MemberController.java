@@ -2,6 +2,7 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
@@ -60,18 +63,22 @@ public class MemberController {
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
+		ArrayList<Feed> feed = fService.selectFeed();
+		for(Feed ff : feed) {
+			System.out.println(ff);
+		}
 		ArrayList<Feed> f = fService.selectFeed();
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
-			model.addAttribute("f",f);
+			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
 			if(loginUser.getUserId().equals("admin")) {
-				return "adminmember.do";
+				return "admin/adminmember";
 			}else {
 				return "home";
 			}
 		}else {
-			model.addAttribute("msg", "로그인실패!");
+			model.addAttribute("msg", "로그인 실패!");
 			return "common/errorPage";
 		}
 	}
@@ -232,11 +239,6 @@ public class MemberController {
 		return "home";
 	}
 	
-	@RequestMapping("adminmain.do")
-	public String goAdmin() {
-		return "adminmain";
-	}
-	
 	@RequestMapping("goMemberJoinForm.do")
 	public String goMemberJoinForm() {
 		return "member/memberJoinForm";
@@ -246,6 +248,8 @@ public class MemberController {
 	public String goMemberFindForm() {
 		return "member/memberFindForm";
 	}
+	
 
 	
+
 }
