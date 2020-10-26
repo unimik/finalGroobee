@@ -84,6 +84,7 @@ public class MypageController {
 			,@RequestParam(value="file", required=false) MultipartFile  memFile) {
 		
 		
+		
 		if( memFile != null && !memFile.isEmpty()) {
 			if(m.getmRenameImage() != null) {
 				deleteFile(m.getmRenameImage(),request);
@@ -94,6 +95,8 @@ public class MypageController {
 			if(renameFileName != null) {
 				m.setmImage(memFile.getOriginalFilename());
 				m.setmRenameImage(renameFileName);
+				Member mSesison = (Member)session.getAttribute("loginUser");
+				mSesison.setmRenameImage(renameFileName);
 			}
 		}
 		
@@ -108,6 +111,7 @@ public class MypageController {
 			mv.addObject("loginUser", m);
 			mv.addObject("mNo", m.getmNo());
 			mv.setViewName("redirect:goMypage.do");
+			
 			
 			return mv;
 		} else {

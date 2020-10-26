@@ -36,7 +36,7 @@
                            	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                             <c:if test="${ empty loginUser.mRenameImage }">
-                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">${ empty loginUser.mRenameImage }&nbsp;&nbsp;&nbsp;
                             </c:if>
                         </div>
                         <div id="mp_profile_info">
