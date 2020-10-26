@@ -72,12 +72,14 @@
 	<c:forEach var="f" items="${ feed }" varStatus="status">
 		<div id="feed">
 			<div id="writer_submenu">
+				<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
 					id="feed_profile_img">
 				<div id="user_time">
 					<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 					<h6><c:out value="${ f.fCreateDate }" /></h6>
 				</div>
+				</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
 			</div>
 		<c:choose>
@@ -193,6 +195,11 @@
         $('.MyTab_tab2').on('click', function(){
             $('.MyTab_box').hide();
             $('.MyTab_box2').show();
+        });
+        
+        $('.MyTab_tab3').on('click', function(){
+            $('.MyTab_box').hide();
+            $('.MyTab_box3').show();
         });
 
         $('#goMypage').click(function(){

@@ -1,23 +1,24 @@
 package com.kh.spring.feed.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
-import com.kh.spring.feed.model.vo.Reply;
 
+@SessionAttributes("feedPost")
 @Controller
 public class FeedController {
 	
@@ -41,11 +42,10 @@ public class FeedController {
 				f.setfRenameFile(renameFileName);
 			}
 		}
-		System.out.println(f);
 		int result = fService.insertPost(f);
 		
 		if(result > 0) {
-			return "redirect:fList.do";
+			return "redirect:home.do";
 			
 		}else {
 			return "../common/errorPage";

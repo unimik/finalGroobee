@@ -2,48 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
 	<resultMap id="GroupResultSet" type="Group">
-		<id property="gNo" column="G_NO"/>
-		<result property="gCreator" column="G_CREATOR"/>
-		<result property="gName" column="G_NAME"/>
-		<result property="gCategory" column="G_CATEGORY"/>
-		<result property="gMax" column="G_MAX"/>
-		<result property="gDate" column="G_DATE"/>
-		<result property="gOpenScope" column="G_OPENSCOPE"/>
-		<result property="gJoinSet" column="G_JOINSET"/>
-		<result property="gQset" column="G_QSET"/>
-		<result property="q1" column="Q1"/>
-		<result property="q2" column="Q2"/>
-		<result property="q3" column="Q3"/>
-		<result property="gIntro" column="G_INTRO"/>
-		<result property="gTag" column="G_TAG"/>
-		<result property="gStatus" column="G_STATUS"/>
-		<result property="gNotice" column="G_NOTICE"/>
-		<result property="gProfile" column="G_PROFILE"/>
-		<result property="gImage" column="G_IMAGE"/>
-		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
-		<result property="gRenameImage" column="G_RENAME_IMAGE"/>
+		<id property="gNo" column="G_NO" />
+		<result property="gCreator" column="G_CREATOR" />
+		<result property="gName" column="G_NAME" />
+		<result property="gCategory" column="G_CATEGORY" />
+		<result property="gMax" column="G_MAX" />
+		<result property="gDate" column="G_DATE" />
+		<result property="gOpenScope" column="G_OPENSCOPE" />
+		<result property="gJoinSet" column="G_JOINSET" />
+		<result property="gQset" column="G_QSET" />
+		<result property="q1" column="Q1" />
+		<result property="q2" column="Q2" />
+		<result property="q3" column="Q3" />
+		<result property="gIntro" column="G_INTRO" />
+		<result property="gTag" column="G_TAG" />
+		<result property="gStatus" column="G_STATUS" />
+		<result property="gNotice" column="G_NOTICE" />
+		<result property="gProfile" column="G_PROFILE" />
+		<result property="gImage" column="G_IMAGE" />
+		<result property="gRenameProfile" column="G_RENAME_PROFILE" />
+		<result property="gRenameImage" column="G_RENAME_IMAGE" />
 	</resultMap>
 
-  	
+
 	<select id="groupList" resultMap="GroupResultSet">
 		SELECT *
 		FROM GROUPS
-		WHERE G_STATUS='Y'
+		WHERE
+		G_STATUS='Y'
 	</select>
-	
-	<insert id="insertGroup"  useGeneratedKeys="true"  keyProperty="gNo" keyColumn="G_NO" parameterType="Group">	
-		<selectKey keyProperty="gNo" keyColumn="G_NO" resultType="int" order="BEFORE">
+
+	<insert id="insertGroup" useGeneratedKeys="true"
+		keyProperty="gNo" keyColumn="G_NO" parameterType="Group">
+		<selectKey keyProperty="gNo" keyColumn="G_NO"
+			resultType="int" order="BEFORE">
 			SELECT SEQ_GNO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO GROUPS
-		VALUES(#{ gNo }, #{ gCreator }, #{ gName }, #{ gCategory }, #{ gMax }, 
-			SYSDATE, #{ gOpenScope }, #{ gJoinSet }, #{ gQset }, #{ q1 }, #{ q2 }, #{ q3 },
-			#{ gIntro }, #{ gTag }, DEFAULT, #{ gNotice }, #{ gProfile },
-			#{ gRenameProfile }, #{ gImage }, #{ gRenameImage })
+		VALUES(#{ gNo }, #{ gCreator }, #{ gName }, #{
+		gCategory }, #{ gMax },
+		SYSDATE, #{ gOpenScope }, #{ gJoinSet }, #{ gQset }, #{ q1 }, #{ q2 }, #{ q3
+		},
+		#{ gIntro }, #{ gTag }, DEFAULT, #{ gNotice }, #{ gProfile },
+		#{ gRenameProfile }, #{ gImage }, #{ gRenameImage })
 	</insert>
-	
+
 	<select id="selectGroup" resultMap="GroupResultSet">
-		SELECT * 
+		SELECT *
 		FROM GROUPS
 		WHERE G_NO=#{ gNo }
 		AND G_STATUS='Y'
@@ -52,27 +57,32 @@
 	<update id="groupUpdate" parameterType="Group">
 		UPDATE GROUPS
 		SET
-			G_NO=#{gNo}
-		,	G_NAME=#{gName}
-		,	G_CATEGORY=#{gCategory}
-		,	G_MAX=#{gMax}
-		,	G_DATE=SYSDATE
-		,	G_OPENSCOPE=#{gOpenScope}
-		,	G_JOINSET=#{gJoinSet}
-		,	G_QSET=#{gQset}
-		,	Q1=#{q1}
-		,	Q2=#{q2}
-		,	Q3=#{q3}
-		,	G_INTRO=#{gIntro}
-		,	G_TAG=#{gTag}
-		,	G_STATUS=DEFAULT
-		,	G_NOTICE=#{gNotice}
-		,	G_PROFILE=#{gProfile}
-		,	G_RENAME_PROFILE=#{gRenameProfile}
-		,	G_IMAGE=#{gImage}
-		,	G_RENAME_IMAGE=#{gRenameImage}
+		G_NO=#{gNo}
+		, G_NAME=#{gName}
+		, G_CATEGORY=#{gCategory}
+		, G_MAX=#{gMax}
+		,
+		G_DATE=SYSDATE
+		, G_OPENSCOPE=#{gOpenScope}
+		, G_JOINSET=#{gJoinSet}
+		,
+		G_QSET=#{gQset}
+		, Q1=#{q1}
+		, Q2=#{q2}
+		, Q3=#{q3}
+		, G_INTRO=#{gIntro}
+		,
+		G_TAG=#{gTag}
+		, G_STATUS=DEFAULT
+		, G_NOTICE=#{gNotice}
+		,
+		G_PROFILE=#{gProfile}
+		, G_RENAME_PROFILE=#{gRenameProfile}
+		,
+		G_IMAGE=#{gImage}
+		, G_RENAME_IMAGE=#{gRenameImage}
 		WHERE
-			G_NO=#{gNo}
+		G_NO=#{gNo}
 	</update>
 
 	<select id="totalGroups" resultType="_int">
@@ -80,20 +90,40 @@
 		FROM GROUPS
 		WHERE G_STATUS ='Y'
 	</select>
-	
+
 	<update id="deleteGroup" parameterType="Group">
 		UPDATE GROUPS
 		SET
-			G_STATUS = 'N'
+		G_STATUS = 'N'
 		WHERE
-			G_NO=#{ gNo }
+		G_NO=#{ gNo }
 	</update>
-	
+
 	<update id="gCreatorChange" parameterType="Group">
 		UPDATE GROUPS
 		SET
-			G_CREATOR=#{ gCreator }
+		G_CREATOR=#{ gCreator }
 		WHERE
-			G_NO=#{ gNo }
+		G_NO=#{ gNo }
 	</update>
+
+	<select id="groupSearchList" parameterType="Group"
+		resultMap="GroupResultSet">
+		SELECT *
+		FROM GROUPS
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="gName != null">
+				G_NAME like '%'||#{gName}||'%'
+			</if>
+			<if test="gCategory != null">
+				AND G_CATEGORY like '%'||#{gCategory}||'%'
+			</if>
+			<if test="gDate != null">
+				AND G_DATE like '%'||#{gDate}||'%'
+			</if>
+			<if test="gTag != null">
+				AND G_TAG like '%'||#{gTag}||'%'
+			</if>
+		</trim>
+	</select>
 </mapper>
