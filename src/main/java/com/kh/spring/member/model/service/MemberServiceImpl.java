@@ -72,10 +72,6 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public ArrayList<Member> memberSearchList(Member m) {
-		return mDao.memberSearchList(m);
-	}
-	@Override
 	public int selectOriginalPwdCheck(Member m) {
 		return mDao.selectOriginalPwdCheck(m);
 	}

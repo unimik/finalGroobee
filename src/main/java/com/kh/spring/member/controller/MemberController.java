@@ -231,11 +231,6 @@ public class MemberController {
 		return "home";
 	}
 	
-	@RequestMapping("adminmember.do")
-	public String goAdmin() {
-		return "adminmember";
-	}
-	
 	@RequestMapping("goMemberJoinForm.do")
 	public String goMemberJoinForm() {
 		return "member/memberJoinForm";
@@ -247,93 +242,6 @@ public class MemberController {
 	}
 	
 
-//	@RequestMapping(value="memberSearch.do")
-//	public void memberSearchList(String userName, String userId, String mStatus,Date cDate ,HttpServletResponse response) throws IOException {
-//		response.setContentType("application/json; charset=utf-8");
-//		System.out.println("ajax로받은 이름"+userName.toString());
-//		Member m = new Member();
-//		m.setcDate(cDate);
-//		m.setmStatus(mStatus);
-//		m.setUserId(userId);
-//		m.setUserName(userName);
-//		
-//		
-//		System.out.println("넘겨받아 저장한 이름" +m.getUserName());
-//		ArrayList<Member> memberList = mService.memberSearchList(m);
-//		
-//		System.out.println("돌아왔니?");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		JSONArray jArr = new JSONArray();
-//		
-//		
-//		for(Member m2: memberList) {
-//			JSONObject jObj = new JSONObject();
-//
-//			System.out.println("여기 들어오니?");
-//			jObj.put("mNo", m2.getmNo());
-//			jObj.put("userId", m2.getUserId());
-//			jObj.put("userName", m2.getUserName());
-//			jObj.put("eMail", m2.getEmail());
-//			jObj.put("cDate", sdf.format(m2.getcDate()));
-//			jObj.put("mstatus",m2.getmStatus());
-//			
-//			jArr.add(jObj);
-//		}
-//		
-//		PrintWriter out = response.getWriter();
-//		out.print(jArr);
-//	}
 	
-	@ResponseBody
-	@RequestMapping(value="memberSearch.do", method=RequestMethod.POST)
-	public void memberSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
-		response.setContentType("application/json; charset=utf-8");
-		
-//		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println(request.getParameter("enrolldate"));
-		Member m = new Member(); // 받아온 파라미터를 정보를 담을 객체
-		
-		if(!request.getParameter("id").equals("")) {
-			m.setUserId(request.getParameter("id"));
-		}
-		if(!request.getParameter("name").equals("")) {
-			m.setUserName(request.getParameter("name"));
-		}
-		if(!request.getParameter("getOut").equals("")) {
-			m.setmStatus(request.getParameter("getOut"));			
-		}
-		
-		if(!request.getParameter("enrolldate").equals("")) {
-		Date todate = java.sql.Date.valueOf((request.getParameter("enrolldate")));
-		m.setcDate(todate);
-		}
-		
-		System.out.println(m);
-		ArrayList<Member> memberList = mService.memberSearchList(m);
-		
-		System.out.println("컨트롤러로 돌아왔니?");
 
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(memberList,response.getWriter());
-		
-		
-		//		JSONArray jArr = new JSONArray();
-		
-//		for(Member m2: memberList) {
-//			JSONObject jObj = new JSONObject();
-//			System.out.println("for문 안으로 들어오니?");
-//			
-//			jObj.put("mNo", m2.getmNo());
-//			jObj.put("userId", m2.getUserId());
-//			jObj.put("userName", m2.getUserName());
-//			jObj.put("eMail", m2.getEmail());
-//			jObj.put("cDate", sdf.format(m2.getcDate()));
-//			jObj.put("status",m2.getmStatus());
-//			
-//			jArr.add(jObj);
-//		}
-//		
-//		PrintWriter out = response.getWriter();
-//		out.print(jArr);
-	}
 }

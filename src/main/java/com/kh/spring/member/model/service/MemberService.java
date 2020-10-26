@@ -57,8 +57,6 @@ public interface MemberService {
 	int deleteAccount(int mNo);
 	
 	Member selectNo(String userId);
-
-	ArrayList<Member> memberSearchList(Member m);
 	
 	int selectOriginalPwdCheck(Member m);
 

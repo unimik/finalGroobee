@@ -58,10 +58,6 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.memberUpdate", m);
 	}
 
-	public ArrayList<Member> memberSearchList(Member m) {
-		return (ArrayList)sqlSession.selectList("memberMapper.memberSearchList", m);
-	}
-
 	public int selectOriginalPwdCheck(Member m) {
 		return sqlSession.selectOne("memberMapper.selectOriginalPwdCheck",m);
 	}
