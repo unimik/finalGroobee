@@ -18,6 +18,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
+import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.member.controller.MemberController;
 import com.kh.spring.member.model.vo.Member;
 
@@ -66,10 +67,14 @@ public class EchoHandler extends TextWebSocketHandler{
         	int crNo = Integer.parseInt(crno);
         	
         	if(sendType.equals("chatting")) {
-        		int result = cController.sendMessage(fromId,toId,Rmsg,crNo);
+        		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
         		WebSocketSession toSession =  userSessions.get(toId);
-        		session.sendMessage(new TextMessage(Rmsg+"|sender"));
-        		toSession.sendMessage(new TextMessage(Rmsg));
+        		if(toSession == null) {
+        			session.sendMessage(new TextMessage(Rmsg+"|sender"));
+        		} else {
+        			session.sendMessage(new TextMessage(Rmsg+"|sender"));
+        			toSession.sendMessage(new TextMessage(Rmsg));
+        		}
         	} else if(sendType.equals("alarm")) {
         		
         	}

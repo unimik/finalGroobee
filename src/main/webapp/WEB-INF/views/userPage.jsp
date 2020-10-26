@@ -12,6 +12,15 @@
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
+   <style>
+   		#myPage_feed{
+   			width:640px;
+   		}
+   		.feedPost{
+   			border-bottom:2px solid #47c6a3;
+   			transition:0.5s all;
+   		}
+   </style>
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
@@ -23,21 +32,30 @@
                 <!-- 프로필 시작 -->
                     <div id="myPage_profile">
                         <div id="mp_profile_img">
-                           <c:if test="${ !empty loginUser.mRenameImage }">
-                           	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+                           <c:if test="${ !empty memberInfo.mRenameImage }">
+                           	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ memberInfo.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
-                            <c:if test="${ empty loginUser.mRenameImage }">
+                            <c:if test="${ empty memberInfo.mRenameImage }">
                             <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                         </div>
                         <div id="mp_profile_info">
-                            <h3>${ loginUser.userId }</h3>
+                            <h3>${ memberInfo.userId }</h3>
                         </div>
                         <div id="mp_profile_edit">
-                            <input type="button" id="profile_edit_btn" name="profile_edit_btn" value="프로필 편집">
-                            <%-- <input type="button" id="follow_btn" name="follow_btn" value="팔로우">
-                            <input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
-                            <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn"> --%>
+                        <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
+                        <input type="hidden" id="follow" value="${ memberInfo.mNo }"/>
+                        <input type="hidden" id="followYN" value="${followYN}"/>
+                       
+                        <c:choose>
+                        	<c:when test="${followYN ne 'N'}">
+                        		<input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
+                        	</c:when>
+                        	<c:otherwise>
+                        		<input type="button" id="follow_btn" name="follow_btn" value="팔로우">                        	
+                        	</c:otherwise>
+                        </c:choose>          
+                            <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn">
                         </div>
 
                     <!-- 다른 사람이 내 피드를 방문했을 때 -->
@@ -51,19 +69,6 @@
                                 </ul>
                             </div>
                         </div>
-
-                    <!-- 내 피드에서 프로필 편집을 누를 경우 -->
-                        <div class="myFeed_popup_myEdit">
-                            <div id="myFeed_myEdit_list">
-                        <c:url var="mupdateView" value="mupdateView.do"/>
-                        <c:url var="updatePwd" value="updatePwdView.do"/>
-                                <ul>
-                                <li><a href="${ mupdateView }" id="edit_profile">기본 정보 수정</a></li> 
-                                <li><a href="${ updatePwd }" id="edit_password">비밀번호 변경</a></li> 
-                                <li><a id="close_btn">취소</a></li>
-                                </ul>
-                            </div>
-                        </div> 
 
                     <!-- 신고했을 경우 -->
                         <div class="feed_report">
@@ -117,9 +122,7 @@
                 <div id="myPage_feedList">
                     <table id="myPage_feed">
                         <tr>
-                            <th><div type="button" class="feedPost_btn">게시글</div></th>
-                            <th><div type="button" class="feedStorageBox_btn">보관함</div></th>
-                            <th><div type="button" class="feedMyGroup_btn">내 그룹</div></th>
+                            <th colspan="3"><div class="feedPost">게시글</div></th>
                         </tr>
 
                     <!-- 게시글 -->
@@ -170,17 +173,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!-- 내가 쓴 글 볼 때 피드 메뉴
-                                <div class="pop_Mymenu">
-                                    <div id="feed_Mymenu_list">
-                                        <ul>
-                                        <li><a id="feed_menu1_btn">수정</a></li> 
-                                        <li><a>삭제</a></li> 
-                                        <li><a id="close">취소</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            -->
                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고 사유</p>
@@ -279,17 +271,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!-- 내가 쓴 글 볼 때 피드 메뉴
-                                <div class="pop_Mymenu">
-                                    <div id="feed_Mymenu_list">
-                                        <ul>
-                                        <li><a id="feed_menu1_btn">수정</a></li> 
-                                        <li><a>삭제</a></li> 
-                                        <li><a id="close">취소</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            -->
                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고 사유</p>
@@ -364,94 +345,10 @@
                                 </div> 
                             </div>
                         </div>
-
-                    <!-- 보관함 -->
-                      <tr class="storagebox">
-                            <td></td>
-                            <td></td>
-                            
-                            <td id="storageBox" colspan="3">
-                                <div id="sb_menu">
-                                    <div type="button" class="storageBox_subBtn1"><img src="<%=request.getContextPath()%>/resources/icons/add.png"></div>
-                                    <div type="button" class="storageBox_subBtn2"><img src="<%=request.getContextPath()%>/resources/icons/correct_folder.png"></div>
-                                    <div type="button" class="storageBox_subBtn3"><img src="<%=request.getContextPath()%>/resources/icons/delete.png"></div>
-                                    <div type="button" class="storageBox_subBtn4"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
-                                </div>
-                            </td>
-                        </tr>
-                     <input type="hidden" value="${ loginUser.mNo }" id="mNo">
-                        <tr class="storagebox">
-                            <div id="box">보관함새폴더생성</div>
-                            <td class="fstorageBox_folder"><img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
-                               <div id="box2">폴더명</div>
-                            </td>
-                   <%--    <c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
-                            <table>
-                               <tr class="storagebox">
-                        <!-- 기존 상태 -->
-                            <td class="folder_default" align="center">
-                                <label class="current_folder">${ storagebox.sbName }</label>
-                            </td>
-                        <!-- 폴더명 수정 시 -->
-                            <td class="folder_correct" align="center">
-                                <input type="text" id="rename_folder${i.index}" class="rename_folder${i.index}" value="${ storagebox.sbName }" maxlength="10">
-                            </td>
-                        <!-- 폴더 삭제 시 -->
-                            <td class="folder_delete" align="center" id="folder_delete">
-                                <input type="checkbox" id="delete_folder${i.index}">
-                                <label for="delete_folder1" class="dltfolder">${ storagebox.sbName }</label>
-                            </td>
-                        </tr>
-                            </table>
-                            </td>
-                   </c:forEach> --%>
-                        </tr>
-                        
-               
-                        
-                        <!-- empty-space -->
-                            <tr class="group">
-                                <td class="empty-space" colspan="3"></td>
-                            </tr>
-                             
-                        <!-- 내 그룹 목록 -->
-                        <c:forEach var="groupList" items="${ groupList }">
-                            <tr id="groupList" colspan="1" class="group">
-                                <td class="groupImg" align="center">
-                                   <c:url var="gdetail" value="gdetail.do">
-                              <c:param name="gNo" value="${ groupList.gNo }"/>
-                            </c:url>
-                                   <c:if test="${ !empty groupList.gImage }">
-                                      <a href="${ gdetail }">
-                                           <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
-                                       </a>
-                              </c:if>
-                              <c:if test="${ empty groupList.gImage }">
-                                 <a href="${ gdetail }">
-                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
-                                 </a>
-                              </c:if>
-                                </td>
-                                <td class="groupInfo" colspan="3">
-                                    <a href="${ gdetail }">
-                                        <h3>${ groupList.gName }</h3>
-                                    </a>
-                                        <div>
-                                            <div>
-                                                <h5 class="group_interests">${ groupList.gCategory }</h5>
-                                                <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
-                                            </div>
-                                            <input type="button" class="leaveBtn" value="탈퇴">
-                                        </div>
-                                </td>
-                            </tr>
-                         </c:forEach>
-
                     </table>
                 </div>
             </div>
         </div>
-    </div>
 
 
     <script>
@@ -512,13 +409,47 @@
         /************ 팔로우 언팔로우 script ************/
 
         $('#follow_btn').click(function() {
-            $(this).hide();
-            $('#followCancle_btn').show();
+            
+            var mNo = $('#mNo').val();
+            var follow = $('#follow').val();
+            
+            $.ajax({
+ 	       		 url: 'insertFollow.do',
+ 	      		  	 type: 'post',
+ 	      		   	 data: {follow:follow,mNo:mNo},
+ 	      		   	 datatype:"text",
+ 	      		   	 success: function(data){
+ 		      		   	if(data == 'success'){
+ 		      		 	  	window.location.reload();
+ 		  		   		 }else{
+ 		  		   			alert("팔로우 실패했습니다.");
+ 		  		   		 }
+ 	      		   	 },error: function(error){
+ 	      		   		 alert(error+"팔로우 에러");
+ 	      		   	 }
+ 	       	 });
         });
 
         $('#followCancle_btn').click(function() {
-            $(this).hide();
-            $('#follow_btn').show();
+           
+            var mNo = $('#mNo').val();
+            var follow = $('#follow').val();
+            
+            $.ajax({
+ 	       		 url: 'deleteFollow.do',
+ 	      		  	 type: 'post',
+ 	      		   	 data: {follow:follow,mNo:mNo},
+ 	      		   	 datatype:"text",
+ 	      		   	 success: function(data){
+ 		      		   	if(data == 'success'){
+ 		      		   		window.location.reload();
+ 		  		   		 }else{
+ 		  		   			alert("팔로우 취소 실패했습니다.");
+ 		  		   		 }
+ 	      		   	 },error: function(error){
+ 	      		   		 alert(error+"팔로우 에러");
+ 	      		   	 }
+ 	       	 });
         });
 
 

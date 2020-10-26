@@ -31,6 +31,18 @@
 			border-radius:10px;
 			height: 30px;
 		}
+		#checkbox_interest{
+			margin-top:10px;
+			position: relative;
+			left:150px;
+			top:auto;
+			background:#daf4ed;
+			border:none;
+			border-radius:10px;
+			font-size:small;
+			width:350px;
+			padding:5px;
+		}
     </style>
 </head>
 <body>
@@ -49,7 +61,17 @@
 	                
 	                <div id="edit_body">
 	                    <div id="myProfileImg" style="padding: 40px 0; display:block;">
-	                    	<div id="imgView" class="filebox"></div>
+	                    	<input type="hidden" name="mNo" value="${ loginUser.mNo }">
+                        	<input type="hidden" name="userId" value="${ loginUser.userId }">
+                        	<input type="hidden" name="interestes" id="interestes" value="${ loginUser.interestes }">
+	                    	<div id="imgView" class="filebox">
+	                    		<c:if test="${ !empty loginUser.mRenameImage }">
+	                           	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="">
+	                            </c:if>
+	                            <c:if test="${ empty loginUser.mRenameImage }">
+	                            <img src="resources/icons/pro_default.png" alt="" >
+	                            </c:if>
+	                    	</div>
 	                        <div class="change_myImg">
 	                            <p>${ loginUser.userId }</p>
 	                            <label for="imgScript">프로필 사진 바꾸기
@@ -60,11 +82,11 @@
 	                    <div id="info_edit">
 	                        <div class="info_name">
 	                            <p>이름</p>
-	                            <input type="text" id="name" name="name" value="${ loginUser.userName}">
+	                            <input type="text" id="name" name="userName" value="${ loginUser.userName}">
 	                        </div>
 	                        <div class="info_selfIntro">
 	                            <p>소개</p>
-	                            <textarea id="selfIntro" cols="35" rows="6"></textarea>
+	                            <textarea id="selfIntro" name="mIntro" cols="35" rows="6">${ loginUser.mIntro}</textarea>
 	                        </div>
 		                    <div class="info_email">
 	                            <p>이메일</p>
@@ -95,103 +117,42 @@
                             </div>
                             <div id="interests_box">
 		                        <p>관심사</p>
-                            	<div class="info_interests">
-		                            <input type="checkbox" id="interests_literature" class="interests" name="interests">
-		                            <label for="interests_literature">문학·책</label>
-		                            <input type="checkbox" id="interests_movie" class="interests" name="interests">
-		                            <label for="interests_movie">영화</label>
-		                            <input type="checkbox" id="interests_artDesign" class="interests" name="interests">
-		                            <label for="interests_artDesign">미술·디자인</label>
-		                            <input type="checkbox" id="interests_perform" class="interests" name="interests">
-		                            <label for="interests_perform">공연·전시</label>
+		                        <div id="checkbox_interest">                        
+									<input type="checkbox" name="interest" class="checkBox" value="문학＊책">
+	                                <label for="checkbox">문학＊책</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="영화">
+	                                <label for="checkbox">영화</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="미술＊디자인">
+	                                <label for="checkbox">미술＊디자인</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="공연＊전시">
+	                                <label for="checkbox">공연＊전시</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="외국어">
+	                                <label for="checkbox">외국어</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="맛집">
+	                                <label for="checkbox">맛집</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="요리＊레시피">
+	                                <label for="checkbox">요리＊레시피</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="음악">
+	                                <label for="checkbox">음악</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="여행">
+	                                <label for="checkbox">여행</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="반려동물">
+	                                <label for="checkbox">반려동물</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="엔터테인먼트">
+	                                <label for="checkbox">엔터테이먼트</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="육아＊결혼">
+	                                <label for="checkbox">육아＊결혼</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="지역">
+	                                <label for="checkbox">지역</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="스포츠">
+	                                <label for="checkbox">스포츠</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="인테리어＊DIY">
+	                                <label for="checkbox">인테리어＊DIY</label>
 		                        </div>
-		                        <div class="info_interests">
-		                            <input type="checkbox" id="interests_music" class="interests" name="interests">
-		                            <label for="interests_music">음악</label>
-		                            <input type="checkbox" id="interests_entertainment" class="interests" name="interests">
-		                            <label for="interests_entertainment">엔터테인먼트</label>
-		                            <input type="checkbox" id="interests_pets" class="interests" name="interests">
-		                            <label for="interests_pets">반려동물</label>
-		                            <input type="checkbox" id="interests_travel" class="interests" name="interests">
-		                            <label for="interests_travel">여행</label>
-		                        </div>
-		                        <div class="info_interests">
-		                            <input type="checkbox" id="interests_language" class="interests" name="interests">
-		                            <label for="interests_language">외국어</label>
-		                            <input type="checkbox" id="interests_famousRestaurant" class="interests" name="interests">
-		                            <label for="interests_famousRestaurant">맛집</label>
-		                            <input type="checkbox" id="interests_cooking" class="interests" name="interests">
-		                            <label for="interests_cooking">요리·레시피</label>
-		                            <input type="checkbox" id="interests_DIY" class="interests" name="interests">
-		                            <label for="interests_DIY">인테리어·DIY</label>
-		                        </div>
-		                        <div class="info_interests">
-		                            <input type="checkbox" id="interests_marriage" class="interests" name="interests">
-		                            <label for="interests_marriage">육아·결혼</label>
-		                            <input type="checkbox" id="interests_sports" class="interests" name="interests">
-		                            <label for="interests_sports">스포츠</label>
-		                            <input type="checkbox" id="interests_local" class="interests" name="interests">
-		                            <label for="interests_local">지역</label>
-		                        </div>
+
                             </div>
 	                        
 	                    </div>
-<!-- 	                        <div class="info_email">
-	                            <p>이메일</p>
-	                            <input type="text" id="email1" name="email1">@
-	                            <input type="text" id="email2" name="email2">
-								<input type="hidden" name="random" id="random">
-                                <select name="selectEmail" id="selectEmail">
-                                    <option value="직접입력">직접입력</option>
-                                    <option value="naver.com">naver.com</option>
-                                    <option value="daum.net">daum.net</option>
-                                    <option value="gmail.com">gmail.com</option>
-                                    <option value="nate.com">nate.com</option>
-                                </select>
-	                        </div>
-	                        <div id="check_email">
-	                        	<p></p>
-                                <input type="text" name="confirmText" id="confirmText">&nbsp;&nbsp;
-                                <input type="button" value="인증번호보내기" id="emailConfirmBtn">
-                                <input type="button" value="인증확인" id="emailConfirmResultBtn">
-                                <input type="hidden" id="emailHidden" value="0">
-                            </div>
-	                        
-                            <div id="info_interests">
-                                <p>관심사</p>
-                                <div id="con7Box">
-                                    <input type="checkbox" name="interest" class="checkBox" value="문학＊책">
-                                    <label for="checkbox">문학＊책</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="영화">
-                                    <label for="checkbox">영화</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="미술＊디자인">
-                                    <label for="checkbox">미술＊디자인</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="공연＊전시">
-                                    <label for="checkbox">공연＊전시</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="외국어">
-                                    <label for="checkbox">외국어</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="맛집">
-                                    <label for="checkbox">맛집</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="요리＊레시피">
-                                    <label for="checkbox">요리＊레시피</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="인테리어＊DIY">
-                                    <label for="checkbox">인테리어＊DIY</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="음악">
-                                    <label for="checkbox">음악</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="엔터테인먼트">
-                                    <label for="checkbox">엔터테이먼트</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="반려동물">
-                                    <label for="checkbox">반려동물</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="여행">
-                                    <label for="checkbox">여행</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="육아＊결혼">
-                                    <label for="checkbox">육아＊결혼</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="스포츠">
-                                    <label for="checkbox">스포츠</label>
-                                    <input type="checkbox" name="interest" class="checkBox" value="지역">
-                                    <label for="checkbox">지역</label>
-                                </div>  
-                            </div> -->
 	                </div>
 	            <!-- 버튼 만들기 -->
 	                <div id="edit_body2">
@@ -206,19 +167,33 @@
      </div>
 </div>
 	    <script>
+	    
 	    $(function(){
 		    $("input[name=interests]:checked").each(function() { var test = $(this).val(); });	    	
 	    });
 	    	
 	    $(function(){
-	    	var filterArr = '${ loginUser.interestes }'.split(', ');
+	    	var filterArr = '${ loginUser.interestes }'.split(',');
 			$('input:checkbox').each(function(){
 				if($.inArray($(this).val(),filterArr) > -1)
 					$(this).prop('checked', true);
 			});	    	
 	    });
 	    
-		    function sethumbnail(event){
+	    function sethumbnail(event){
+		    var reader = new FileReader();
+			
+			reader.onload = function(event){
+				var img = document.createElement('img');
+				img.setAttribute("src",event.target.result);
+				document.querySelector("div#imgView>img").remove();
+				document.querySelector("div#imgView").appendChild(img);
+			};
+			
+			reader.readAsDataURL(event.target.files[0]);
+		};
+	    
+/* 		    function sethumbnail(event){
 				var reader = new FileReader();
 				var x = document.getElementById("imgScript");
 		    	var txt = "";
@@ -230,7 +205,7 @@
 					
 				};
 				reader.readAsDataURL(event.target.files[0]);
-			};
+			}; */
 	    
 	        $(document).ready(function(){
 	            $('#chat_icon').click(function(){

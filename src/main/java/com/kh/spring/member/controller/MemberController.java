@@ -2,6 +2,7 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
@@ -64,7 +67,7 @@ public class MemberController {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
 			if(loginUser.getUserId().equals("admin")) {
-				return "adminmember.do";
+				return "admin/adminmember";
 			}else {
 				return "home";
 			}
@@ -228,11 +231,6 @@ public class MemberController {
 		return "home";
 	}
 	
-	@RequestMapping("adminmain.do")
-	public String goAdmin() {
-		return "adminmain";
-	}
-	
 	@RequestMapping("goMemberJoinForm.do")
 	public String goMemberJoinForm() {
 		return "member/memberJoinForm";
@@ -242,6 +240,8 @@ public class MemberController {
 	public String goMemberFindForm() {
 		return "member/memberFindForm";
 	}
+	
 
 	
+
 }

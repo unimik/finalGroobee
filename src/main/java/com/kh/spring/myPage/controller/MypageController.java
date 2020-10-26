@@ -14,10 +14,10 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,11 +26,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MemberService;
+import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
-import com.kh.spring.setting.model.vo.NotificationSetting;
-import com.kh.spring.setting.model.vo.PersonalSetting;
 
 @Controller
 public class MypageController {
@@ -43,6 +42,9 @@ public class MypageController {
 	
 	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@RequestMapping(value="goMypage.do")
 	public ModelAndView goMypage(ModelAndView mv,int mNo) {
@@ -69,12 +71,12 @@ public class MypageController {
 		return "myPageEdit";
 	}
 	
-	@RequestMapping(value="mupdate.do", method=RequestMethod.POST)
+	@RequestMapping(value="mupdate.do")
 	public String memberUpdate(Member m, HttpServletRequest request
-			,Model model,String email1,String email2,String interests
+			,Model model,String email1,String email2,String interest
 			,MultipartHttpServletRequest memFiles) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\mUploadFiles";
+		String savePath = root + "\\memberProfileFiles";
 		String fileName = "";
 		
 		File folder = new File(savePath);
@@ -93,7 +95,7 @@ public class MypageController {
 		ArrayList memImgFiles = new ArrayList();
 		
 		List<MultipartFile> fileList = memFiles.getFiles("file");
-		for( MultipartFile mfile : fileList) {
+		for(MultipartFile mfile : fileList) {
 			fileName = mfile.getOriginalFilename();
 			System.out.println("실제 파일 이름 : " + fileName);
 			long fileSize = mfile.getSize();
@@ -129,23 +131,59 @@ public class MypageController {
 		} 		
 		
 		
-		System.out.println(m.getmImage()+", " +m.getmRenameImage());
+		System.out.println(m.getmImage()+", " +m.getmRenameImage()+"savePath"+savePath);
 		
 		
 		m.setEmail(email1+"@"+email2);
-		m.setInterestes(interests);
+		m.setInterestes(interest);
 		
 		System.out.println(m);
 		int result = mService.memberUpdate(m);
 		
 		if(result > 0) {
 			model.addAttribute("loginUser", m);
+			model.addAttribute("mNo", m.getmNo() );
 			return "redirect:goMypage.do";
 		} else {
 			model.addAttribute("msg","회원 정보 수정 실패!");
 			return "common/errorPage";
 		}
 	}
+	
+	@RequestMapping("updatePwdView.do")
+	public String myPagePassEditView() {
+		return "myPagePassEdit";
+	}
+	
+	@RequestMapping(value="mPwdUpdate.do")
+	public String memberUpdate(Member m, Model model, String userPwd,String userPwdeny, String userPwd1 ) {
+
+		    
+		boolean result1 = bcryptPasswordEncoder.matches(userPwd,userPwdeny);
+		System.out.println(userPwd);
+		System.out.println(userPwdeny);
+		System.out.println(result1);
+		if(!result1) {
+			model.addAttribute("msg","현재 비밀 번호를 확인해주세요");
+			return "common/errorPage";
+		} 
+		
+		String encPwd1 = bcryptPasswordEncoder.encode(userPwd1);
+		m.setUserPwd(encPwd1);
+		int result = mService.updatePwd(m);
+		
+		System.out.println(m);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", m);
+			model.addAttribute("mNo", m.getmNo() );
+			return "redirect:loginView.do";
+		} else {
+			model.addAttribute("msg","비밀번호 수정 실패!");
+			return "common/errorPage";
+		}
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value="insertBox.do",produces="application/json;charset=utf-8")
@@ -178,8 +216,60 @@ public class MypageController {
 		
 		return job.toString();
 	}
-	
-	
 
+	@RequestMapping(value="goUserpage.do")
+	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
+		
+		Member memberInfo = mService.selectUserInfo(userId);
+		
+		Follow fw = new Follow();
+		fw.setmNo(mNo);
+		fw.setFollows(memberInfo.getmNo());
+		String followYN = myService.selectFollowYN(fw);
+		Mypage followInfo = myService.selectFollowInfo(memberInfo.getmNo());
+		ArrayList<Feed> feedList = myService.selectFeedInfo(memberInfo.getmNo());
+		
+		mv.addObject("memberInfo", memberInfo);
+		mv.addObject("followInfo", followInfo);
+		mv.addObject("feedList", feedList);
+		mv.addObject("feedCnt", feedList.size());
+		mv.addObject("followYN", followYN);
+		mv.setViewName("userPage");
+		
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertFollow.do")
+	public String insertFollow(@RequestParam("follow") int follow,@RequestParam("mNo") int mNo) {
+		
+		Follow fw = new Follow();
+		fw.setmNo(mNo);
+		fw.setFollows(follow);
+		int result = myService.insertFollow(fw);
+		
+		
+		if(result > 0) {
+			return "success";				
+		} else {
+			return"server error";			
+		}
+	}
 
+	@ResponseBody
+	@RequestMapping("deleteFollow.do")
+	public String deleteFollow(@RequestParam("follow") int follow,@RequestParam("mNo") int mNo) {
+		
+		Follow fw = new Follow();
+		fw.setmNo(mNo);
+		fw.setFollows(follow);
+		int result = myService.deleteFollow(fw);
+		
+		
+		if(result > 0) {
+			return "success";				
+		} else {
+			return"server error";			
+		}
+	}
 }
