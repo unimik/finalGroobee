@@ -149,6 +149,63 @@
                     </div>
                 </div>
 	     </div>
+	     
+	     
+	     
+	     
+	     
+	     <div class="myAccount">
+				<div id="myId">
+					<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="myProfile" id="myProfile">
+					</c:if>
+					<c:if test="${ empty loginUser.mRenameImage }">
+						<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" alt="myProfile" id="myProfile">
+					</c:if>
+					<p>${ loginUser.userId }</p>
+				</div>
+				<div id="MyTab">
+					<button class="MyTab_tab1 MyTab_tab on">팔로워</button>
+					<button class="MyTab_tab2 MyTab_tab">팔로잉</button>
+					<button class="MyTab_tab3 MyTab_tab">그룹</button>
+					<div id="MyTab_container">
+						<!-- 팔로워 -->
+						<div class="MyTab_box1 MyTab_box on">
+							<div id="My_follower_list">
+								<ul id="follower_info">
+									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
+										id="follower_list_img"></li>
+									<li>user02</li>
+									<li><button id="follower" name="follower">삭제</button></li>
+								</ul>
+							</div>
+						</div>
+						<!-- 팔로잉 -->
+						<div class="MyTab_box2 MyTab_box">
+							<div id="My_following_list">
+								<ul id="following_info">
+									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
+										id="following_list_img"></li>
+									<li>user02</li>
+									<li><button id="following" name="following">팔로잉</button></li>
+								</ul>
+							</div>
+						</div>
+						<!-- 그룹 -->
+						<div class="MyTab_box3 MyTab_box">
+							<div id="My_fgroup_list">
+								<ul id="fgroup_info">
+									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
+										id="fgroup_list_img"></li>
+									<li>user02</li>
+									<li><button id="del_group" name="del_group">탈퇴</button></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	     
 	     <div id="menubar">
 	     	 <c:url var="goHome" value="home.do"/>
 	     	 <c:url var="glist" value="glist.do"/>
@@ -304,6 +361,48 @@
  	 function onClose(evt) {
  		 $("#chatArea").append("연결 끊김");
  	 }
+ 	 
+ 	 
+ 	 
+ 	/************* 내계정 자세히보기 script **************/
+
+     $(document).ready(function(){
+         $('#detailInfo').click(function(){
+        	 var mNo = ${ loginUser.mNo };
+        	 var mId = ${ loginUser.userId };
+        	 $.ajax({
+        		url:"getList.do",
+        		data:{mNo:mNo, gmId:mId},
+        		
+        	 });
+             $(".myAccount").animate({width:"toggle"},250);
+         });
+     });
+
+     $('.MyTab_tab').on("click",function(){
+         $('.MyTab_tab').removeClass('on');
+         $(this).addClass('on')
+     });
+
+     $('.MyTab_tab1').on('click', function(){
+         $('.MyTab_box').hide();
+         $('.MyTab_box1').show();
+     });
+
+     $('.MyTab_tab2').on('click', function(){
+         $('.MyTab_box').hide();
+         $('.MyTab_box2').show();
+     });
+     
+     $('.MyTab_tab3').on('click', function(){
+         $('.MyTab_box').hide();
+         $('.MyTab_box3').show();
+     });
+
+     $('#goMypage').click(function(){
+         location.href="../views/myPage_Main.html";
+     });
+
      </script>
 </body>
 </html>

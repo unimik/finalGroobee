@@ -8,7 +8,7 @@ p{ margin: 0; }
 #groupImage{height: 300px;}
 #groupImage > img{ width:100%;height: 300px; }
 
-#groupInfo{height: 180px; border-top: 2px solid #E5E5E5; }
+#groupInfo{height: 50px; border-top: 2px solid #E5E5E5; }
 #groupmenubar{height: 40px; border-top: 2px solid #E5E5E5;}
 #groupNameAndInterest{ float: left; width: 500px; height: 40px; margin-top: 10px; margin-left: 20px;margin-right: 20px;}
 #groupName,#groupInterest{float: left; font-size: 20px; }
@@ -30,10 +30,6 @@ p{ margin: 0; }
 .conBox{ display: none; margin-bottom: 200px;}
 .conBox.on{display: block;}
 
-#cancel2{margin-left: 14px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
-#report-submit{margin-left:50px; float:left; width:100px; background:#daf4ed;}
-#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
-#reportContent{margin-top:13px;margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 /* 
 
 .pop_menu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}

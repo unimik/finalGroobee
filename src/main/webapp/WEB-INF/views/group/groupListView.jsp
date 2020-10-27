@@ -12,6 +12,12 @@
 <body>
 <c:import url="../common/menubar.jsp"/>
 		<input type="button" id="create_group" name="create_group" value="그룹생성">
+		<div class="gListopen">
+                <ul>
+                    <li>All Group List</li>
+                    <li><a id="showList">보기</a></li>
+                </ul>
+        </div>
 		<c:if test="${ !empty glist }">
 		<div id="groupAllList">
 	       <c:forEach var="g" items="${ glist }">
@@ -44,7 +50,15 @@
 			location.href="gInsertView.do";
 		});
 		
-
+		$('#showList').on('click',function(){
+            if( $('#showList').text() == '보기'){
+                $('#groupAllList').show();
+                $('#showList').text('닫기');
+            }else{
+                $('#groupAllList').hide();
+                $('#showList').text('보기');
+            }
+        });
 	</script>
 	<div id="feedArea">
     	<div id="feed">

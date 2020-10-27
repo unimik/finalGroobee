@@ -106,6 +106,14 @@
 		WHERE
 			G_NO=#{ gNo }
 	</update>
+	
+	<update id="gManagerDelete" parameterType="Group">
+		UPDATE GROUPS
+		SET
+			G_MANAGER=NULL
+		WHERE
+			G_NO=#{ gNo }
+	</update>
 
 	<select id="groupSearchList" parameterType="Group"
 		resultMap="GroupResultSet">

@@ -42,13 +42,29 @@
 
                        <!--회원 정보 출력-->
                        <div class="member main" id="member_main">
-	                           <table class="member select">
+	                           <div class="member select">
                            			
-                           			
-	                           </table>
+	                           </div>
                        </div>
                    </div> 
-
+					<div class="feed_report">
+                        <div id="feed_report_con">
+                            <p>신고사유</p>
+                            <select id="reportType" class="selectRtype">
+                                <option value="unacceptfeed">부적절한 게시글</option>
+                                <option value="insult">욕설</option>
+                                <option value="ad">광고</option>
+                                <option value="spam">도배</option>
+                            </select>
+                            	<textarea class="sendreport" id="reportContent" cols="28" rows="4"></textarea>
+                            <br>
+                            <input class="selectRtype" id="selectRtype"type="button" value="확인" style="cursor:pointer;">
+                            <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+                            <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
+                            <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+                        </div>
+                    </div>
+					
                    <!--2. info-->
                    <div class="container second" id="info_container">
 
@@ -204,6 +220,9 @@
                     
                 });
                 
+                $(document).on("click","#gm_report",function(){
+                    $('.feed_report').show();
+                });
                 
                 $(".group_permit").on("click",function(){
                 	 getNgmList();
@@ -241,72 +260,109 @@
 					data:{gNo:gNo},
 					dataType:"json",
 					success:function(data){
-						$table = $('.member table');
-						$table.html("");
-						
-						var $tr;
-						var $gmLevel;
-						var $gmId;
-						var $Profile;
-						var $menuImg;
+						$divAll = $('.select');
+            			$divAll.html("");
+            		    console.log(data);
+            		    
+            		    var $ul;
+            		    var $li;
+            		    var $gmLevel;
+            		    var $profile;
+            		    var $gmId;
+            		    var $gmL;
+            		    var $gmI;
+            		    var $menuImg;
 						var $div_back;
 						var $div_popback;
-						var $ul;
+						var $ul2;
 						var $menu1;
 						var $menu2;
 						var $menu3;
 						var $menu4;
 						var $menu5;
-						var $gmL;
-						var $gmI;
+						
+						
 						
 						if(data.length > 0){
 							for(var i in data){
 								if( data[i].gmLevel == '그룹장'){
 										
-										$tr = $('<tr>');
-										$gmLevel = $("<td>").text(data[i].gmLevel);
-										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/data[i].mRenameImage">');
-										$gmId = $('<td id="gmId">').html(data[i].gmId);
-										$gmL = $("<td>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
+										$ul = $('<ul id="gm">');
+										$gmLevel = $("<li>").text(data[i].gmLevel);
+										$Profile = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png">');
+										$gmId = $('<li id="gmId">').html(data[i].gmId);
+										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
 										
 										
-										$tr.append($gmLevel);
-										$tr.append($Profile);
-										$tr.append($gmId);
-										$tr.append($gmL);
-										$table.append($tr);
-								}else{
-										$tr= $('<tr>');
-										$gmLevel = $("<td>").text(data[i].gmLevel);
-										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/data[i].mRenameImage">');
-										$gmId = $('<td id="gmId">').html(data[i].gmId);
-										$menuImg = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
+										$ul.append($gmLevel);
+										$ul.append($Profile);
+										$ul.append($gmId);
+										$ul.append($gmL);
+										$ul.append($gmI);
+										$divAll.append($ul);
+										
+								} else if( data[i].gmLevel == '매니저'){
+										$ul = $('<ul id="gm">');
+										$gmLevel = $("<li>").text(data[i].gmLevel);
+										$Profile = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png">');
+										$gmId = $('<li>').html(data[i].gmId);
+										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
+										$menuImg = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
 										$div_back = $('<div class="pop_menu_gmList">');
 										$div_popback = $('<div id="feed_menu_gmlist">');
-										$ul = $('<ul>').html("<input type='hidden' id='g_gm' name='g_gm' value='" + data[i].gmId+ "'>");
+										$ul2 = $('<ul id="popGm">').html("<input type='hidden' id='g_gmI' name='g_gmI' value='"+ data[i].gmId + "'>");
 										$menu1 = $('<li>').html('<a id="entrust">그룹장 위임</a>');
-										$menu2 = $('<li>').html('<a id="changeManager">매니저 임명</a>');
+										$menu2 = $('<li>').html('<a id="changeMember">멤버로 변경</a>');
 										$menu3 = $('<li>').html('<a id="del_gm">내보내기</a>');
-										$menu4 = $('<li>').html('<a>신고</a>');
+										$menu4 = $('<li>').html('<a id="gm_report">신고</a>');
 										$menu5 = $('<li>').html('<a class="close">취소</a>');
-										$gmI = $("<li>").html("<input type='hidden' id='g_gmI' name='g_gmI' value='" + data[i].gmId + "'>");
 										
-										
-										$tr.append($gmLevel);
-										$tr.append($Profile);
-										$tr.append($gmId);
-										$tr.append($menuImg);
-										$ul.append($menu1);
-										$ul.append($menu2);
-										$ul.append($menu3);
-										$ul.append($menu4);
-										$ul.append($menu5);
-										$ul.append($gmI);
-										$div_popback.append($ul);
+										$ul.append($gmLevel);
+										$ul.append($Profile);
+										$ul.append($gmId);
+										$ul.append($gmL);
+										$ul.append($menuImg);
+										$ul2.append($menu1);
+										$ul2.append($menu2);
+										$ul2.append($menu3);
+										$ul2.append($menu4);
+										$ul2.append($menu5);
+										$div_popback.append($ul2);
 										$div_back.append($div_popback);
-										$tr.append($div_back);
-										$table.append($tr);
+										$divAll.append($div_back);
+										$divAll.append($ul);
+								
+								}else{
+										$ul = $('<ul id="gm">');
+										$gmLevel = $("<li>").text(data[i].gmLevel);
+										$Profile = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png">');
+										$gmId = $('<li>').html(data[i].gmId);
+										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
+										$menuImg = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
+										$div_back = $('<div class="pop_menu_gmList">');
+										$div_popback = $('<div id="feed_menu_gmlist">');
+										$ul2 = $('<ul id="popGm">').html("<input type='hidden' id='g_gmI' name='g_gmI' value='"+ data[i].gmId + "'>");
+										$menu1 = $('<li>').html('<a id="entrust">그룹장 위임</a>');
+										$menu2 = $('<li>').html('<a id="changeManager">매니저 지정</a>');
+										$menu3 = $('<li>').html('<a id="del_gm">내보내기</a>');
+										$menu4 = $('<li>').html('<a id="gm_report">신고</a>');
+										$menu5 = $('<li>').html('<a class="close">취소</a>');
+											
+											
+										$ul.append($gmLevel);
+										$ul.append($Profile);
+										$ul.append($gmId);
+										$ul.append($gmL);
+										$ul.append($menuImg);
+										$ul2.append($menu1);
+										$ul2.append($menu2);
+										$ul2.append($menu3);
+										$ul2.append($menu4);
+										$ul2.append($menu5);
+										$div_popback.append($ul2);
+										$div_back.append($div_popback);
+										$divAll.append($div_back);
+										$divAll.append($ul);
 								}
 							}
 						}
@@ -448,6 +504,9 @@
     		
     		 $(document).ready(function(){
     			 
+    			 
+    			//*******************  그룹장 변경 
+    			
     		    $(document).on("click","#entrust",function(){
    	            	var gmL = $("#g_gmL").val();
     				var gNo = ${g.gNo};
@@ -467,9 +526,10 @@
    	            	});
    			 	});
    			 	
-   			 	
+    		    
+    			//*******************  그룹장 변경 
 				function gmChangeMaster(){
-    	            	var gmId = $('#g_gm').val();
+    	            	var gmId = $('#g_gmI').val();
     	            	var gNo = ${ g.gNo };
     	            	console.log(gmId);
     	            	console.log(gNo);
@@ -494,6 +554,7 @@
     	            };
     	         
     	            
+        			//*******************  그룹의 그룹장 아이디 변경 
     	            function gCreatorChange(){
     	            	var gNo = ${g.gNo};
     	            	var gmI = $('#g_gmI').val();
@@ -503,7 +564,8 @@
       	            };
       	            
       	            
-      	            
+      	          
+        		  //*******************  그룹 매니저 지정 
       	          $(document).on("click", "#changeManager", function(){
 	   	            	var gNo = ${g.gNo};
 	 	            	var gmI = $('#g_gmI').val();
@@ -522,25 +584,69 @@
 	   	            		}
 	   	            	});
 	   	            }); 
-      	            
-      	        function gManagerChange(){
-  	            	var gNo = ${g.gNo};
-  	            	var gmI = $('#g_gmI').val();
-  	            	
-  	            	$.ajax({
-  	            		url:"gManagerChange.do",
-  	            		data:{ gNo:gNo, gmI:gmI},
-  	            		type:"post",
-  	            		success:function(data){
-  	            			if(data > 0){
-  	            				alert("매니저를 지정하셨습니다.");
-  	            				getgmList();
-  	            			}
-  	            		},error:function(){
-  	            			alert("오류");
-  	            		}
-  	            	});
-  	            };
+        		  
+	      	      		//*******************  그룹 매니저 지정 후 gmList 다시 불러오기
+	        	        function gManagerChange(){
+	    	            	var gNo = ${g.gNo};
+	    	            	var gmI = $('#g_gmI').val();
+	    	            	
+	    	            	$.ajax({
+	    	            		url:"gManagerChange.do",
+	    	            		data:{ gNo:gNo, gmI:gmI},
+	    	            		type:"post",
+	    	            		success:function(data){
+	    	            			if(data > 0){
+	    	            				alert("매니저를 지정하셨습니다.");
+	    	            				getgmList();
+	    	            			}
+	    	            		},error:function(){
+	    	            			alert("오류");
+	    	            		}
+	    	            	});
+	    	            };
+    	            
+      	          
+        		  	//*************** 매니저 -> 멤버로 변경
+	      	        $(document).on("click", "#changeMember", function(){
+	   	            	var gNo = ${g.gNo};
+	 	            	var gmI = $('#g_gmI').val();
+	 	            	$.ajax({
+		            		url:"changeMember.do",
+		            		data:{ gNo:gNo, gmI:gmI},
+		            		type:"post",
+		            		success:function(data){
+		            			if(data > 0){
+		            				gmChangeMember();
+		            			}else {
+	   	            				alert("멤버로 변경할 수 없습니다.");
+		            			}
+		            		},error:function(){
+		            			alert("오류");
+		            		}
+		            	});
+	   	            }); 
+	      	      
+			      	  //*************** 매니저 -> 멤버로 변경 후 gmList 다시 불러오기
+		  	        function gmChangeMember(){
+			            	var gNo = ${g.gNo};
+			            	var gmI = $('#g_gmI').val();
+			            	$.ajax({
+		   	            		url:"gManagerDelete.do",
+		   	            		data:{gmI:gmI, gNo:gNo},
+		   	            		type:"post",
+		   	            		success:function(data){
+		   	            			console.log(data);
+		   	            			if(data>0){
+		   	            				alert("멤버로 변경하였습니다.");
+		   	            				getgmList();
+		   	            			}
+		   	            		}, error:function(){
+		   	            			alert("오류");
+		   	            		}
+		   	            	});
+			            };
+			            
+			            
     	        	var gNo = ${ g.gNo }; 
     		        // 회원 승인
     		        $(document).on("click", "#user_Y", function(event){
@@ -579,7 +685,7 @@
    		            });
     		            
     		       $(document).on("click","#del_gm",function(){
-    		            	var gmId= $('#g_gm').val();
+    		            	var gmId= $('#g_gmI').val();
     		            	var gNo = ${ g.gNo };
     	         		$.ajax({
     	         			url:"gmDeleteCheck.do",
@@ -599,7 +705,9 @@
     	         	});
     		            
     		            
-    		            $(document).on("click","#groupMemberMenu",function(event){
+    		            $(document).on("click","#groupMemberMenu",function(){
+    		            	var id = $('#g_gmI').val();
+    		            	console.log(id);
     	                    $(".pop_menu_gmList").show();
     	                });
     	                
@@ -610,7 +718,44 @@
     		           
     		        });
     		 	
-    		 
+    		 /**************** 그룹 신고 관련*******************/ 
+     		$(document).on('click',"#report-submit",function(){
+     			
+     			if($("#reportContent").val() == ""){
+     				alert('신고 사유를 입력해 주세요.')
+     			}else{
+     				
+     				$.ajax({
+     					url:'/spring/report.do',
+     					data:{
+     						reportType : $("#reportType").val(),
+     						feedType : "groop",
+     						content : $("#reportContent").val()
+     					},
+     					success: function(){
+     						$(".feed_report").css('display','none');
+     						$(".selectRtype").css("display","inline-block");
+     			      		$(".sendreport").css("display","none");
+     			      		$("#reportContent").val('')
+     						alert('신고완료');
+     					},error:function(){
+     						alert('신고 실패!');
+     					}
+     				});
+     				
+     			};
+     		});
+           	 
+           	$("#cancel2").on('click',function(){
+           		$(".feed_report").css('display','none');
+     			$(".selectRtype").css("display","inline-block");
+           		$(".sendreport").css("display","none");
+           	})
+           	
+           	$("#selectRtype").on('click',function(){
+           		$(".selectRtype").css("display","none");
+           		$(".sendreport").css("display","block");
+           	}); 
         </script>
 </body>
 </html>

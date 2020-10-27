@@ -11,7 +11,7 @@
   		<result property="a3" column="A3"/>
   		<result property="gJoinDate" column="G_JOINDATE"/>
   	</resultMap>
-  	
+ 	
   	<insert id="insertGroupMaster" parameterType="GroupMember">
 		INSERT INTO GROUP_MEMBER
 		VALUES(
@@ -51,6 +51,7 @@
 		UPDATE GROUP_MEMBER
 		SET
 			GM_STATUS='D'
+		,	GM_LEVEL='멤버'	
 		WHERE
 			G_NO=#{ gNo }
 		AND GM_ID=#{ gmId }
@@ -58,18 +59,20 @@
 	
 	<select id="SelectGmList" parameterType="GroupMember" resultMap="GroupMemberResultSet">
 		SELECT * FROM GROUP_MEMBER A
-		JOIN
+		LEFT JOIN
 		MEMBER B ON (A.GM_ID = B.M_ID)
 		WHERE A.G_NO=#{ gNo }
 		AND A.GM_STATUS='Y'
+		ORDER BY G_JOINDATE
 	</select>
 	
 	<select id="selectNgmList" parameterType="GroupMember" resultMap="GroupMemberResultSet">
 		SELECT * FROM GROUP_MEMBER A
-		JOIN
+		LEFT JOIN
 		MEMBER B ON (A.GM_ID = B.M_ID)
 		WHERE A.G_NO=#{ gNo }
 		AND A.GM_STATUS='N'
+		ORDER BY G_JOINDATE
 	</select>
 	
 	<update id="groupMemberUpdate" parameterType="GroupMember">
@@ -103,6 +106,15 @@
 		UPDATE GROUP_MEMBER
 		SET
 			GM_LEVEL='매니저'
+		WHERE
+			G_NO=#{gNo}
+		AND GM_ID=#{gmId}
+	</update>
+	
+	<update id="gmChangeMember" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET
+			GM_LEVEL='멤버'
 		WHERE
 			G_NO=#{gNo}
 		AND GM_ID=#{gmId}

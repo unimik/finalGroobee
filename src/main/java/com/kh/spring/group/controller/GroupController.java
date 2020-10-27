@@ -292,6 +292,17 @@ public class GroupController{
 		return result;
 	}
 	
+	@ResponseBody
+	@RequestMapping("gManagerDelete.do")
+	public int gManagerDelete(Group g, String gmI, int gNo, HttpServletRequest request) {
+		g.setgNo(gNo);
+		g.setgManager(gmI);
+		
+		int result = gService.gManagerDelete(g);
+		
+		return result;
+	}
+	
 	
 	
 	
@@ -431,6 +442,18 @@ public class GroupController{
 		gm.setGmId(gmId);
 		
 		int result = gService.gmChangeManager(gm);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("changeMember.do")
+	public int gmChangeMember(GroupMember gm, String gmI, int gNo, HttpServletRequest request) {
+		gm.setgNo(gNo);
+		gm.setGmId(gmI);
+		System.out.println(gNo);
+		System.out.println(gmI);
+		int result = gService.gmChangeMember(gm);
 		
 		return result;
 	}
