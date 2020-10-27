@@ -4,6 +4,7 @@
 	<resultMap id="GroupResultSet" type="Group">
 		<id property="gNo" column="G_NO"/>
 		<result property="gCreator" column="G_CREATOR"/>
+		<result property="gManager" column="G_MANAGER"/>
 		<result property="gName" column="G_NAME"/>
 		<result property="gCategory" column="G_CATEGORY"/>
 		<result property="gMax" column="G_MAX"/>
@@ -36,7 +37,7 @@
 			SELECT SEQ_GNO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO GROUPS
-		VALUES(#{ gNo }, #{ gCreator }, #{ gName }, #{ gCategory }, #{ gMax }, 
+		VALUES(#{ gNo }, #{ gCreator }, NULL, #{ gName }, #{ gCategory }, #{ gMax }, 
 			SYSDATE, #{ gOpenScope }, #{ gJoinSet }, #{ gQset }, #{ q1 }, #{ q2 }, #{ q3 },
 			#{ gIntro }, #{ gTag }, DEFAULT, #{ gNotice }, #{ gProfile },
 			#{ gRenameProfile }, #{ gImage }, #{ gRenameImage })
@@ -52,11 +53,9 @@
 	<update id="groupUpdate" parameterType="Group">
 		UPDATE GROUPS
 		SET
-			G_NO=#{gNo}
-		,	G_NAME=#{gName}
+			G_NAME=#{gName}
 		,	G_CATEGORY=#{gCategory}
 		,	G_MAX=#{gMax}
-		,	G_DATE=SYSDATE
 		,	G_OPENSCOPE=#{gOpenScope}
 		,	G_JOINSET=#{gJoinSet}
 		,	G_QSET=#{gQset}
@@ -93,6 +92,14 @@
 		UPDATE GROUPS
 		SET
 			G_CREATOR=#{ gCreator }
+		WHERE
+			G_NO=#{ gNo }
+	</update>
+	
+	<update id="gManagerChange" parameterType="Group">
+		UPDATE GROUPS
+		SET
+			G_MANAGER=#{ gManager }
 		WHERE
 			G_NO=#{ gNo }
 	</update>

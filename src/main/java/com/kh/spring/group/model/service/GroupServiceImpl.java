@@ -114,4 +114,9 @@ public class GroupServiceImpl implements GroupService{
 	public int gmChangeManager(GroupMember gm) {
 		return gDao.gmChangeManager(gm);
 	}
+
+	@Override
+	public int gManagerChange(Group g) {
+		return gDao.gManagerChange(g);
+	}
 }
