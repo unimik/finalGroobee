@@ -104,4 +104,8 @@ public class GroupDao {
 	public int gmChangeManager(GroupMember gm) {
 		return sqlSession.update("gmMapper.gmChangeManager", gm);
 	}
+
+	public int gManagerChange(Group g) {
+		return sqlSession.update("groupMapper.gManagerChange", g);
+	}
 }

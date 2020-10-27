@@ -266,7 +266,7 @@
 										
 										$tr = $('<tr>');
 										$gmLevel = $("<td>").text(data[i].gmLevel);
-										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }">');
+										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/data[i].mRenameImage">');
 										$gmId = $('<td id="gmId">').html(data[i].gmId);
 										$gmL = $("<td>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
 										
@@ -279,7 +279,7 @@
 								}else{
 										$tr= $('<tr>');
 										$gmLevel = $("<td>").text(data[i].gmLevel);
-										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }">');
+										$Profile = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/data[i].mRenameImage">');
 										$gmId = $('<td id="gmId">').html(data[i].gmId);
 										$menuImg = $("<td>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
 										$div_back = $('<div class="pop_menu_gmList">');
@@ -291,6 +291,7 @@
 										$menu4 = $('<li>').html('<a>신고</a>');
 										$menu5 = $('<li>').html('<a class="close">취소</a>');
 										$gmI = $("<li>").html("<input type='hidden' id='g_gmI' name='g_gmI' value='" + data[i].gmId + "'>");
+										
 										
 										$tr.append($gmLevel);
 										$tr.append($Profile);
@@ -502,6 +503,7 @@
       	            };
       	            
       	            
+      	            
       	          $(document).on("click", "#changeManager", function(){
 	   	            	var gNo = ${g.gNo};
 	 	            	var gmI = $('#g_gmI').val();
@@ -511,8 +513,7 @@
 	   	            		type:"post",
 	   	            		success:function(data){
 	   	            			if(data>0){
-	   	            				alert("매니저를 지정하셨습니다.");
-	   	            				getgmList();
+	   	            				gManagerChange();
 	   	            			}else{
 	   	            				alert("매니저를 지정할 수 없습니다.");
 	   	            			}
@@ -522,7 +523,24 @@
 	   	            	});
 	   	            }); 
       	            
-      	            
+      	        function gManagerChange(){
+  	            	var gNo = ${g.gNo};
+  	            	var gmI = $('#g_gmI').val();
+  	            	
+  	            	$.ajax({
+  	            		url:"gManagerChange.do",
+  	            		data:{ gNo:gNo, gmI:gmI},
+  	            		type:"post",
+  	            		success:function(data){
+  	            			if(data > 0){
+  	            				alert("매니저를 지정하셨습니다.");
+  	            				getgmList();
+  	            			}
+  	            		},error:function(){
+  	            			alert("오류");
+  	            		}
+  	            	});
+  	            };
     	        	var gNo = ${ g.gNo }; 
     		        // 회원 승인
     		        $(document).on("click", "#user_Y", function(event){

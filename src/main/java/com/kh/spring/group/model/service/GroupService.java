@@ -144,6 +144,13 @@ public interface GroupService {
 	 * @return
 	 */
 	int gmChangeManager(GroupMember gm);
+
+	/**
+	 * 20. 그룹 매니저 변경
+	 * @param g
+	 * @return
+	 */
+	int gManagerChange(Group g);
 	
 
 }
