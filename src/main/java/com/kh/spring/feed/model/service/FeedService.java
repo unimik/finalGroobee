@@ -22,6 +22,4 @@ public interface FeedService {
 	 *
 	 */
 	ArrayList<Feed> selectFeed();
-
-
 }

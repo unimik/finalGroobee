@@ -10,6 +10,8 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
+<link rel="stylesheet" href="resources/css/alarmPop.css">
+<link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
@@ -21,7 +23,6 @@
 <style>
 	a{text-decoration:none;}
 </style>
-
 </head>
 <body>
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
@@ -39,8 +40,12 @@
                             <input type="search" id="f_list" name="f_list" placeholder="친구 검색">
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
-                        <div id="mcList">
-                        <!-- 채팅목록 공간 -->
+                        <div id="myChat_list">
+                            <ul id="list">
+                                <li><img src="#" alt="" id="chat_back"></li>
+                                <li>채팅 상대 아이디</li>
+                                <li>마지막 대화 내용</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="tab_box2 tab_box">
@@ -49,11 +54,11 @@
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
                         <div id="myGroupChat_list">
-                            <!-- <ul id="list">
+                            <ul id="list">
                                 <li><img src="#" alt="" id="chat_back"></li>
                                 <li>그룹 이름</li>
                                 <li>그룹 대화 마지막 내용</li>
-                            </ul> -->
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -95,10 +100,54 @@
 	                   		</a>
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
-	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
+	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
 	                   <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
 	               </ul>
 	           </div>
+	           <div class="user_alarm" style="display:none; cursor:pointer;">
+                    <div id="alarmList">
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                    </div>
+                </div>
 	     </div>
 	     <div id="menubar">
 	     	 <c:url var="goHome" value="home.do"/>
@@ -112,72 +161,7 @@
 	         </ul>
 	     </div>
      <script type="text/javascript">
-     /* 채팅방 채팅내용 불러오기 */
-     $(document).on("click",".chRoom",function(){
-    	 
-    	 $("#inputArea").keydown(function(key){
-    		if(key.keyCode == 13) {
-   	 			sendMessage();
-   	 			$('#inputArea').val('')
-    		} 
-    	 });
-    	 
-		var crNo = $(this).children("input").val();
-		$.ajax({
-			url:"oneChatContentList.do",
-			data:{crNo:crNo},
-         	type:"post",
-    		dataType:"json",
-    		success:function(data){
-    			console.log("ok");
-    			var userId = '<c:out value="${loginUser.userId}"/>';
-    			$("#chatArea").children().remove();
-    			$.each(data,function(index,value){
-	    			if(value.fromId == userId) {
-	    				$div1 = $("<div class='myChating'>");
-	    				$div = $("<div>");
-	    				$p = $("<p id='myChatt'>").text(value.cContent);
-	    				
-	    				$div.append($p);
-	    				$div1.append($div);
-	    				
-	    				$("#chatArea").append($div1);
-	    			} else {
-	    				$div3 = $("<div class='chating'>");
-	    				$inputId = $("<input type='hidden' class='1'>").val(value.fromId);
-	    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
-	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
-	    				$div = $("<div>");
-	        			$img = $("<img src='#'>");
-	        			$p = $("<p id='chatId'>").text(value.fromId);
-	        			$div1 = $("<div>");
-	        			$a = $("<a id='chatText'>").text(value.cContent);
-	        			$userName = $("#chatUser").text(value.fromId);
-	        			
-	        			$div.append($img);
-	        			$div.append($p);
-	        			$div1.append($a);
-	        			$div.append($div1);
-	        			$div3.append($div);
-	        			
-	        			$("#chatArea").append($div3);
-	        			$("#chatArea").append($inputId);
-	        			$("#chatArea").append($inputType);
-	        			$("#chatArea").append($inputCrNo);
-	    			}
-    			});
-    			$(".chat_room").show();
-    			$("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
-    		},
-    		error:function(){
-    			console.log('에러');
-    		}
-		});
-		
-		var msg = $("#inputArea").val();
-		
-	 });
-     /* 채팅 창 여는 스크립트 */	
+     /* 채팅 창 여는 스크립트 */		
      $(function(){
     	 $('#chat_icon').on("click",function(){
              var state = $(".chat").css('display');
@@ -190,10 +174,11 @@
                  	success:function(data){
                  		$("#mcList").children().remove();
                  		$.each(data,function(index,value){
+                 			console.log(value.chatImage);
                  			var $div = $('<div class="chRoom">');
     						var $ul = $('<ul>');
     						var $img = $("<li>");
-    						var $rImg = $('<img src="#">');
+    						var $rImg = $('<img src="resources/'+value.chatImage+'">');
     						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
     						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
 	    						var $id = $("<li>").text(value.toId);
@@ -220,7 +205,7 @@
                  $('.chat').hide();
              }
          });
-    	
+
          $('.tab_menu_btn').on('click',function(){
              $('.tab_menu_btn').removeClass('on');
              $(this).addClass('on')
@@ -235,14 +220,39 @@
              $('.tab_box').hide();
              $('.tab_box2').show();
          });
+
+         $("#list").on("click",function(){
+             $(".chat_room").show();
+         });
+
          $('#goList').on("click",function(){
              $(".chat_room").hide();
          });
      });
      
+     /**************알림창 열기 ****************/
+     $('#alarmIcon').on("click",function(){
+       
+    	/*  $.ajax({
+    		 url: "getNotification.do",
+    		 success: function(data){
+    			 
+    		 },error: function(error){
+    			 
+    		 }
+    	 })
+    	 */ 
+    	 
+    	 $('.user_alarm').slideToggle();
+                    
+       });
+     
      /* 채팅 관련(sockJs) */
      $(function(){
- 		
+ 		$("#send").on("click",function(){
+ 			sendMessage();
+ 			$('#inputArea').val('');
+ 		});
  	 });
      
 	 var sock = new SockJS("http://localhost:8787/spring/echo");
@@ -292,7 +302,7 @@
  	 }
  	 // 서버와 연결을 끊었을 때
  	 function onClose(evt) {
- 		 $("#messageArea").append("연결 끊김");
+ 		 $("#chatArea").append("연결 끊김");
  	 }
      </script>
 </body>

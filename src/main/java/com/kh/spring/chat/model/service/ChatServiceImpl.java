@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.chat.model.dao.ChatDao;
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.member.model.vo.Member;
 
 @Service("cService")
 public class ChatServiceImpl implements ChatService {
@@ -27,6 +28,11 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int insertChat(Chat c) {
 		return cDao.insertChat(c);
+	}
+
+	@Override
+	public ArrayList<Member> getChatImage(ArrayList<Member> mList) {
+		return cDao.getChatImage(mList);
 	}
 
 }

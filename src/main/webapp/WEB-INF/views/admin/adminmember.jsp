@@ -110,12 +110,7 @@
 			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
 			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
 			
-			var userName = $("#name").val();
-			var userId = $("#id").val();
-			var cDate = $("#enrolldate").val();
-			var mStatus= $("#getOut").val();
-			console.log(cDate);
-			console.log("전달되는 값"+$("#memberSearch_form").serialize());
+			
 			$.ajax({
 				url:"memberSearch.do",
 				type:'post',

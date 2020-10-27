@@ -127,4 +127,10 @@
 				</if>
 		</trim>
 	</select>
+	
+	<select id="getChatImage" parameterType="string" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{userId}
+	</select>
 </mapper>

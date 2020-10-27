@@ -42,7 +42,7 @@
                                 <p id="groupInterest">${ g.gCategory }</p>
                             </div>
                             <!-- ... 버튼 -->
-                            <button id="groupdotbtn">
+                            <button id="groupdotbtn" style="cursor:pointer;">
                                 <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" id="group_menuBtn" name="group_menuBtn">
                             </button>
                             <div class="pop_menu">
@@ -73,11 +73,10 @@
                                 		<c:param name="gNo" value="${ g.gNo }"/>
                                 		<c:param name="gmId" value="${ loginUser.userId }"/>
                                 	</c:url>
-                                    <c:url var="gdelete" value="gdelete.do">
-                                    	<c:param name="gNo" value="${ g.gNo }"/>
-                                    </c:url>
+                                    <c:url var="gdelete" value="gdelete.do"/>
                                     <ul>
-                                        <li><a href="${ gUpdateView }">그룹관리</a></li>
+                                        <li><a href="${ gUpdateView }">그룹관리</a></li> 
+                                        <li><a>그룹탈퇴</a></li> 
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
                                         <li><a>채팅방생성</a></li>
                                         <li><a id="close_master">취소</a></li>
@@ -100,6 +99,7 @@
                                     <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
                                     <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
                                 </div>
+                               </div>
                             </div>
 
                             <!-- 그룹 가입 팝업 -->
@@ -197,7 +197,34 @@
         
         <script>
 
+        /************** 채팅 팝업 *****************/
+
         $(document).ready(function(){
+           /*  $('#chat_icon').click(function(){
+                var state = $(".chat").css('display');
+                if(state=='none'){
+                    $('.chat').show();
+                }else{
+                    $('.chat').hide();
+                }
+
+                $('.tab_menu_btn').on('click',function(){
+                    $('.tab_menu_btn').removeClass('on');
+                    $(this).addClass('on')
+                });
+
+                $('.tab_menu_btn1').on('click',function(){
+                    $('.tab_box').hide();
+                    $('.tab_box1').show();
+                });
+
+                $('.tab_menu_btn2').on('click',function(){
+                    $('.tab_box').hide();
+                    $('.tab_box2').show();
+                });
+
+
+            }); */
 
 
             /************  팝업 메뉴 script *********** */
@@ -205,7 +232,7 @@
             $('#group_menuBtn').on("click",function(){
             	$.ajax({
             		url:"gmSelect.do",
-            		data:{ userId:"${loginUser.userId}", gNo:${ g.gNo }},
+            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo}},
             		type:"post",
             		success:function(data){
             			console.log(data);
@@ -279,6 +306,30 @@
 
 
 
+        /************* 내계정 자세히보기 script **************/
+
+        $(document).ready(function(){
+            $('#detailInfo').click(function(){
+                $(".myAccount").animate({width:"toggle"},250);
+            });
+        });
+
+        $('.MyTab_tab').on("click",function(){
+            $('.MyTab_tab').removeClass('on');
+            $(this).addClass('on')
+        });
+
+        $('.MyTab_tab1').on('click', function(){
+            $('.MyTab_box').hide();
+            $('.MyTab_box1').show();
+        });
+
+        $('.MyTab_tab2').on('click', function(){
+            $('.MyTab_box').hide();
+            $('.MyTab_box2').show();
+        });
+
+
          /*********** 뉴피드 / 핫피드 *************/
 
          $('.feedbtns').on('click', function(){
@@ -295,7 +346,7 @@
                 $('.conBox').hide();
                 $('.hotConBox').show();
             });
-
+            
             /**************** 그룹 신고 관련*******************/ 
     		$(document).on('click',"#report-submit",function(){
     			
@@ -334,7 +385,6 @@
           		$(".selectRtype").css("display","none");
           		$(".sendreport").css("display","block");
           	}); 
-
     </script>
 </body>
 </html>
