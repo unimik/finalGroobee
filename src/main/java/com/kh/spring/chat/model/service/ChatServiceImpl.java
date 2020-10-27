@@ -35,4 +35,9 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.getChatImage(mList);
 	}
 
+	@Override
+	public int insertChatRoom(String myId, String otherId) {
+		return cDao.insertChatRoom(myId,otherId);
+	}
+
 }
