@@ -233,7 +233,7 @@
      /**************알림창 열기 ****************/
      $('#alarmIcon').on("click",function(){
        
-    	 $.ajax({
+    	/*  $.ajax({
     		 url: "getNotification.do",
     		 success: function(data){
     			 
@@ -241,7 +241,7 @@
     			 
     		 }
     	 })
-    	 
+    	 */ 
     	 
     	 $('.user_alarm').slideToggle();
                     

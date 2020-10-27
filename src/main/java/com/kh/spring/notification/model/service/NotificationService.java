@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.notification.model.vo.Notification;
 
-@Service("nService")
+
 public interface NotificationService {
 
 	List<Notification> getNotification(int mNo);

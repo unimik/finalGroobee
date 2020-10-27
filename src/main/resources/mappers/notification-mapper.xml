@@ -12,7 +12,7 @@
  		<result property="dReportDate" column="D_REPORTDATE"/>
  	</resultMap>
  	
-	<insert id="insertReport" parameterType="Declaration">
+	<insert id="insertReport" parameterType="Notification">
 		INSERT INTO DECLARATION VALUES(SEQ_DNO.NEXTVAL,#{dDiv},#{dType},#{dContent},DEFAULT,NULL,#{mNo},SYSDATE)
 	</insert>
  	
