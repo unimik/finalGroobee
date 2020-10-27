@@ -9,7 +9,7 @@
   		<result property="a1" column="A1"/>
   		<result property="a2" column="A2"/>
   		<result property="a3" column="A3"/>
-  		<result property="gJoinDate" column="G_JOINDATE"/>	
+  		<result property="gJoinDate" column="G_JOINDATE"/>
   	</resultMap>
   	
   	<insert id="insertGroupMaster" parameterType="GroupMember">
@@ -56,16 +56,20 @@
 		AND GM_ID=#{ gmId }
 	</update>
 	
-	<select id="SelectGmList" resultMap="GroupMemberResultSet">
-		SELECT * FROM GROUP_MEMBER
-		WHERE G_NO=#{ gNo }
-		AND GM_STATUS='Y'
+	<select id="SelectGmList" parameterType="GroupMember" resultMap="GroupMemberResultSet">
+		SELECT * FROM GROUP_MEMBER A
+		JOIN
+		MEMBER B ON (A.GM_ID = B.M_ID)
+		WHERE A.G_NO=#{ gNo }
+		AND A.GM_STATUS='Y'
 	</select>
 	
-	<select id="selectNgmList" resultMap="GroupMemberResultSet">
-		SELECT * FROM GROUP_MEMBER
-		WHERE G_NO=#{ gNo }
-		AND GM_STATUS='N'
+	<select id="selectNgmList" parameterType="GroupMember" resultMap="GroupMemberResultSet">
+		SELECT * FROM GROUP_MEMBER A
+		JOIN
+		MEMBER B ON (A.GM_ID = B.M_ID)
+		WHERE A.G_NO=#{ gNo }
+		AND A.GM_STATUS='N'
 	</select>
 	
 	<update id="groupMemberUpdate" parameterType="GroupMember">

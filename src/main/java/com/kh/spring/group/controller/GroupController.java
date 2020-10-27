@@ -134,8 +134,9 @@ public class GroupController{
 	@RequestMapping("gdetail.do")
 	public ModelAndView groupDetail(ModelAndView mv, int gNo) {
 		Group g = gService.selectGroup(gNo);
-		
+		ArrayList<GroupMember> gm = gService.selectGmList(gNo);
 		if(g != null) {
+			mv.addObject("gm",gm);
 			mv.addObject("g",g).setViewName("group/groupDetail");
 		} else {
 			mv.addObject("msg","그룹 상세조회에 실패하셨습니다.").setViewName("common/errerPage");
@@ -147,6 +148,7 @@ public class GroupController{
 	@RequestMapping("gUpdateView.do")
 	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		
 		mv.addObject("gmList",gmList);
 		mv.addObject("g", gService.selectUpdateGroup(gNo));
 		mv.setViewName("group/groupUpdateView");
@@ -278,6 +280,20 @@ public class GroupController{
 			return "common/errorPage";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping("gManagerChange.do")
+	public int gManagerChange(Group g, String gmI, int gNo, HttpServletRequest request) {
+		g.setgNo(gNo);
+		g.setgManager(gmI);
+		
+		int result = gService.gManagerChange(g);
+		
+		return result;
+	}
+	
+	
+	
 	
 	
 	/*********여기서부터 그룹멤버 **************/

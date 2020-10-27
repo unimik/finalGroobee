@@ -10,6 +10,8 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
+<link rel="stylesheet" href="resources/css/alarmPop.css">
+<link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
@@ -21,7 +23,6 @@
 <style>
 	a{text-decoration:none;}
 </style>
-
 </head>
 <body>
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
@@ -40,7 +41,7 @@
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
                         <div id="mcList">
-                        <!-- 채팅목록 공간 -->
+                            <!-- 채팅목록 공간 냅둬주세요 -->
                         </div>
                     </div>
                     <div class="tab_box2 tab_box">
@@ -49,11 +50,11 @@
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
                         <div id="myGroupChat_list">
-                            <!-- <ul id="list">
+                           <!--  <ul id="list">
                                 <li><img src="#" alt="" id="chat_back"></li>
                                 <li>그룹 이름</li>
                                 <li>그룹 대화 마지막 내용</li>
-                            </ul> -->
+                            </ul> 여기 냅둬주세여 -->
                         </div>
                     </div>
                 </div>
@@ -66,7 +67,7 @@
                     <p id="chatUser"></p>
                 </div>
                 <div id="chatArea">
-                   	<!-- 채팅방 안 -->
+                   	<!-- 채팅방 안 여기도 -->
                 </div>
                 <div id="input_chat">
                     <input type="text" id="inputArea" name="inputArea">
@@ -95,10 +96,54 @@
 	                   		</a>
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
-	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
+	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
 	                   <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
 	               </ul>
 	           </div>
+	           <div class="user_alarm" style="display:none; cursor:pointer;">
+                    <div id="alarmList">
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                    </div>
+                </div>
 	     </div>
 	     <div id="menubar">
 	     	 <c:url var="goHome" value="home.do"/>
@@ -258,7 +303,7 @@
     			}
     		});
     	 });
-    	
+
          $('.tab_menu_btn').on('click',function(){
              $('.tab_menu_btn').removeClass('on');
              $(this).addClass('on')
@@ -273,10 +318,32 @@
              $('.tab_box').hide();
              $('.tab_box2').show();
          });
+
+         $("#list").on("click",function(){
+             $(".chat_room").show();
+         });
+
          $('#goList').on("click",function(){
              $(".chat_room").hide();
          });
      });
+     
+     /**************알림창 열기 ****************/
+     $('#alarmIcon').on("click",function(){
+       
+    	/*  $.ajax({
+    		 url: "getNotification.do",
+    		 success: function(data){
+    			 
+    		 },error: function(error){
+    			 
+    		 }
+    	 })
+    	 */ 
+    	 
+    	 $('.user_alarm').slideToggle();
+                    
+       });
      
      /* 채팅 관련(sockJs) */
      $(function(){
