@@ -34,6 +34,8 @@ public class GroupController{
 	@Autowired
 	private GroupService gService;
 	
+	/******* 그룹 **********/
+	
 	@RequestMapping("glist.do")
 	public ModelAndView gList(ModelAndView mv) {
 		ArrayList<Group> glist = gService.selectList();
@@ -142,109 +144,11 @@ public class GroupController{
 		return mv;
 	}
 	
-	@ResponseBody
-	@RequestMapping("gmSelect.do")
-	public int gmSelect(GroupMember gm, String userId, int gNo, HttpServletRequest request) {
-		
-		gm.setgNo(gNo);
-		gm.setGmId(userId);
-		System.out.println(gm.getGmId());
-		System.out.println(gm.getgNo());
-		
-		int result = gService.gmSelectId(gm);
-		return result;
-	}
-	
-	@ResponseBody
-	@RequestMapping("gmCheckId.do")
-	public int gmCheckId(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
-		gm.setgNo(gNo);
-		gm.setGmId(gmId);
-		
-		int result = gService.gmCheckId(gm);
-		return result;
-	}
-	
-	@RequestMapping(value="gmInsert.do", method=RequestMethod.POST)
-	public String gmInsert(Group g, GroupMember gm, String mId, HttpServletRequest request) {
-				
-		gm.setgNo(g.getgNo());
-		gm.setGmId(mId);
-		
-		
-		int result = gService.gmInsert(gm);
-		
-		if(result > 0) {
-			return "redirect:gdetail.do?gNo="+g.getgNo();
-		}else {
-			return "common/errorPage";
-		}
-	}
-	
-	@ResponseBody
-	@RequestMapping("gmUpdate.do")
-	public int gmUpdate( GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
-		
-		gm.setgNo(gNo);
-		gm.setGmId(gmId);
-		System.out.println(gm.getgNo());
-		System.out.println(gm.getGmId());
-		
-		int result = gService.gmUpdate(gm);
-		
-		return result;
-	}
-	
-	@ResponseBody
-	@RequestMapping("gmDeleteCheck.do")
-	public int gmDeleteCheck(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
-		
-		
-		gm.setgNo(gNo);
-		gm.setGmId(gmId);
-		int result = gService.gmDeleteCheck(gm);
-		
-		return result;
-	}
-	
-	@RequestMapping("NgmList.do")
-	public void getNgmList(HttpServletResponse response, int gNo) throws JsonIOException, IOException {
-		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
-		
-		response.setContentType("application/json; charset=UTF-8");
-		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(NgmList,response.getWriter());
-	}
-	
-	@RequestMapping("gmDelete.do")
-	public String gmDelete(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
-		
-		gm.setgNo(gNo);
-		gm.setGmId(gmId);
-		
-		int result = gService.gmDelete(gm);
-		
-		if(result > 0) {
-			return "redirect:gdetail.do?gNo="+gNo;
-		}else {
-			return "common/errorPage";
-		}
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
-	public int totalGroups(HttpServletResponse response) throws IOException{
-		
-		int totalGroups = gService.totalGroups();
-		return totalGroups;
-	}
-	
 	@RequestMapping("gUpdateView.do")
 	public ModelAndView gUpdateView(ModelAndView mv, int gNo) {
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		mv.addObject("gmList",gmList);
 		mv.addObject("g", gService.selectUpdateGroup(gNo));
-		mv.addObject("gmList", gmList);
 		mv.setViewName("group/groupUpdateView");
 		return mv;
 	}
@@ -342,5 +246,186 @@ public class GroupController{
 		}
 	}
 
+	@RequestMapping("gdelete.do")
+	public String groupDelete(int gNo, HttpServletRequest request) {
+		Group g = gService.selectGroup(gNo);
+		
+		if(g.getgRenameImage() != null && g.getgRenameProfile() != null) {
+			deleteFile(g.getgRenameImage(), g.getgRenameProfile(),request);
+		}
+		
+		int result = gService.groupDelete(gNo);
+		
+		if(result > 0) {
+			return "redirect:glist.do";
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+	
+	@RequestMapping("gCreatorChange.do")
+	public String gCreatorChange(Group g, String gmI, int gNo, HttpServletRequest request) {
+		
+		g.setgNo(gNo);
+		g.setgCreator(gmI);
+		System.out.println("그룹크리에이터 : " + g.getgCreator());
+		int result = gService.gCreatorChange(g);
+		
+		if(result > 0) {
+			return "redirect:gdetail.do?gNo="+gNo;
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+	
+	/*********여기서부터 그룹멤버 **************/
+	
+	@ResponseBody
+	@RequestMapping("gmSelect.do")
+	public int gmSelect(GroupMember gm, String userId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(userId);
+		System.out.println(gm.getGmId());
+		System.out.println(gm.getgNo());
+		
+		int result = gService.gmSelectId(gm);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("gmCheckId.do")
+	public int gmCheckId(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmCheckId(gm);
+		return result;
+	}
+	
+	@RequestMapping(value="gmInsert.do", method=RequestMethod.POST)
+	public String gmInsert(Group g, GroupMember gm, String mId, HttpServletRequest request) {
+				
+		gm.setgNo(g.getgNo());
+		gm.setGmId(mId);
+		
+		
+		int result = gService.gmInsert(gm);
+		
+		if(result > 0) {
+			return "redirect:gdetail.do?gNo="+g.getgNo();
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("gmUpdate.do")
+	public int gmUpdate( GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		System.out.println(gm.getgNo());
+		System.out.println(gm.getGmId());
+		
+		int result = gService.gmUpdate(gm);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("gmDeleteCheck.do")
+	public int gmDeleteCheck(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		int result = gService.gmDeleteCheck(gm);
+		
+		return result;
+	}
+	
+	@RequestMapping("gmList.do")
+	public void getgmList(HttpServletResponse response, int gNo) throws JsonIOException, IOException {
+		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(gmList,response.getWriter());
+		
+	}
+	
+	@RequestMapping("NgmList.do")
+	public void getNgmList(HttpServletResponse response, int gNo) throws JsonIOException, IOException {
+		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(NgmList,response.getWriter());
+	}
+	
+	@RequestMapping("gmDelete.do")
+	public String gmDelete(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmDelete(gm);
+		
+		if(result > 0) {
+			return "redirect:gdetail.do?gNo="+gNo;
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("gmChangeMaster.do")
+	public int gmChangeMaster(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		System.out.println("그룹장 위임 : "+gm.getgNo());
+		System.out.println("그룹장 위임 : "+gm.getGmId());
+		int result = gService.gmChangeMaster(gm);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("gmChangeLevel.do")
+	public int gmChangeLevel(GroupMember gm, String gmL, int gNo, HttpServletRequest request) {
+		gm.setgNo(gNo);
+		gm.setGmLevel(gmL);
+
+		System.out.println("그룹장 레벨변경 : "+gm.getgNo());
+		System.out.println("그룹장 레벨변경 : "+gm.getGmLevel());
+		int result = gService.gmChangeLevel(gm);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("changeManager.do")
+	public int gmChangeManager(GroupMember gm, String gmId, int gNo, HttpServletRequest request) {
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmChangeManager(gm);
+		
+		return result;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
+	public int totalGroups(HttpServletResponse response) throws IOException{
+		
+		int totalGroups = gService.totalGroups();
+		return totalGroups;
+	}
 
 }

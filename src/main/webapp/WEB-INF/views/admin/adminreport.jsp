@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>adminPage4</title>
+<title>adminreportPage</title>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="resources/css/admincommon.css">
 <link rel="stylesheet" href="resources/css/admin4.css">

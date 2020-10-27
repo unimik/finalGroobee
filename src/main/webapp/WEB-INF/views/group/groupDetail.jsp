@@ -42,7 +42,7 @@
                                 <p id="groupInterest">${ g.gCategory }</p>
                             </div>
                             <!-- ... 버튼 -->
-                            <button id="groupdotbtn" style="cursor:pointer;">
+                            <button id="groupdotbtn">
                                 <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" id="group_menuBtn" name="group_menuBtn">
                             </button>
                             <div class="pop_menu">
@@ -73,10 +73,11 @@
                                 		<c:param name="gNo" value="${ g.gNo }"/>
                                 		<c:param name="gmId" value="${ loginUser.userId }"/>
                                 	</c:url>
-                                    <c:url var="gdelete" value="gdelete.do"/>
+                                    <c:url var="gdelete" value="gdelete.do">
+                                    	<c:param name="gNo" value="${ g.gNo }"/>
+                                    </c:url>
                                     <ul>
-                                        <li><a href="${ gUpdateView }">그룹관리</a></li> 
-                                        <li><a>그룹탈퇴</a></li> 
+                                        <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
                                         <li><a>채팅방생성</a></li>
                                         <li><a id="close_master">취소</a></li>
@@ -86,19 +87,16 @@
                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
-                                    <select id="reportType" class="selectRtype">
-                                        <option value="unacceptfeed">부적절한 게시글</option>
-                                        <option value="insult">욕설</option>
-                                        <option value="ad">광고</option>
-                                        <option value="spam">도배</option>
+                                    <select style=>
+                                        <option>부적절한 게시글</option>
+                                        <option>욕설</option>
+                                        <option>광고</option>
+                                        <option>도배</option>
                                     </select>
-	                                    <textarea class="sendreport" id="reportContent" cols="25" rows="4"></textarea>
                                     <br>
-                                    <input class="selectRtype" id="selectRtype"type="button" value="확인" style="cursor:pointer;">
-                                    <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
-                                    <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
-                                    <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
-                               </div>
+                                    <input type="button" id="submit" name="submit" value="확인">
+                                    <button id="cancel">취소</button>
+                                </div>
                             </div>
 
                             <!-- 그룹 가입 팝업 -->
@@ -196,34 +194,7 @@
         
         <script>
 
-        /************** 채팅 팝업 *****************/
-
         $(document).ready(function(){
-           /*  $('#chat_icon').click(function(){
-                var state = $(".chat").css('display');
-                if(state=='none'){
-                    $('.chat').show();
-                }else{
-                    $('.chat').hide();
-                }
-
-                $('.tab_menu_btn').on('click',function(){
-                    $('.tab_menu_btn').removeClass('on');
-                    $(this).addClass('on')
-                });
-
-                $('.tab_menu_btn1').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box1').show();
-                });
-
-                $('.tab_menu_btn2').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box2').show();
-                });
-
-
-            }); */
 
 
             /************  팝업 메뉴 script *********** */
@@ -231,7 +202,7 @@
             $('#group_menuBtn').on("click",function(){
             	$.ajax({
             		url:"gmSelect.do",
-            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo}},
+            		data:{ userId:"${loginUser.userId}", gNo:${ g.gNo }},
             		type:"post",
             		success:function(data){
             			console.log(data);
@@ -304,30 +275,6 @@
 
 
 
-        /************* 내계정 자세히보기 script **************/
-
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
-
-        $('.MyTab_tab').on("click",function(){
-            $('.MyTab_tab').removeClass('on');
-            $(this).addClass('on')
-        });
-
-        $('.MyTab_tab1').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box1').show();
-        });
-
-        $('.MyTab_tab2').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box2').show();
-        });
-
-
          /*********** 뉴피드 / 핫피드 *************/
 
          $('.feedbtns').on('click', function(){
@@ -344,45 +291,7 @@
                 $('.conBox').hide();
                 $('.hotConBox').show();
             });
-            
-      	/**************** 그룹 신고 관련*******************/ 
-		$("#report-submit").on('click',function(){
-			
-			if($("#reportContent").val() == ""){
-				alert('신고 사유를 입력해 주세요.')
-			}else{
-				
-				$.ajax({
-					url:'/spring/report.do',
-					data:{
-						reportType : $("#reportType").val(),
-						feedType : "groop",
-						content : $("#reportContent").val()
-					},
-					success: function(){
-						$(".feed_report").css('display','none');
-						$(".selectRtype").css("display","inline-block");
-			      		$(".sendreport").css("display","none");
-			      		$("#reportContent").val('')
-						alert('신고완료');
-					},error:function(){
-						alert('신고 실패!');
-					}
-				});
-				
-			};
-		});
-      	 
-      	$("#cancel2").on('click',function(){
-      		$(".feed_report").css('display','none');
-			$(".selectRtype").css("display","inline-block");
-      		$(".sendreport").css("display","none");
-      	})
-      	
-      	$("#selectRtype").on('click',function(){
-      		$(".selectRtype").css("display","none");
-      		$(".sendreport").css("display","block");
-      	}); 
+
 
     </script>
 </body>

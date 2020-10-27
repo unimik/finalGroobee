@@ -41,6 +41,33 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 		return tsDao.relatedSearch(srch);
 	}
 
+	@Override
+	public ArrayList<Group> tagSearchGroup(String[] rlist) {
+		return tsDao.tagSearchGroup(rlist);
+	}
+
+//	@Override
+//	public ArrayList<Feed> tagsearchFeed(ArrayList rlist) {
+//		return tsDao.tagsearchFeed(rlist);
+//	}
+
+	@Override
+	public ArrayList<Feed> tagSearchFeed(String[] rlist) {
+		return tsDao.tagSearchFeed(rlist);
+	}
+
+	@Override
+	public ArrayList tagSearchRs(String[] rlist) {
+		return tsDao.tagSearchRs(rlist);
+	}
+
+	@Override
+	public ArrayList<Member> tagSearchMember(String[] rlist) {
+		return tsDao.tagSearchMember(rlist);
+	}
+
+
+
 
 
 }

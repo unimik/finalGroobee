@@ -18,8 +18,8 @@
 	<div id="menubar">
 		<ul id="menu">
 			<li><a href="adminmember.do">회원</a></li>
-			<li><a href="adminboard.do">게시글</a></li>
-			<li><a href="admingroups.do">그룹</a></li>
+			<li><a href="adminfeed.do">게시글</a></li>
+			<li><a href="admingroup.do">그룹</a></li>
 			<li><a href="adminreport.do">신고</a></li>
 		</ul>
 	</div>

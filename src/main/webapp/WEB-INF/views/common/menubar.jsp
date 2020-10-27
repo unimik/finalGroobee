@@ -13,6 +13,13 @@
 <link rel="stylesheet" href="resources/css/alarmPop.css">
 <link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+
+<script>
+	
+</script>
+
 <style>
 	a{text-decoration:none;}
 </style>
@@ -61,19 +68,10 @@
             <div class="chatRoomContainer">
                 <div id="chat_top">
                     <button id="goList"><img src="${ contextPath }/resources/icons/goList.png"></button>
-                    <p>user02</p>
+                    <p id="chatUser"></p>
                 </div>
                 <div id="chatArea">
-                    <div id="chating">
-                        <img src="${ contextPath }/resources/images/IMG_7273.JPEG">
-                        <p id="chatId">상대방 아이디</p>
-                        <div id="chatBox">
-                            <a id="chatText">상대 채팅 내용내용내용내용내용내용내용</a>
-                        </div>
-                    </div>
-                    <div id="myChating">
-                        <p>내꺼 내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-                    </div>
+                   	<!-- 채팅방 안 -->
                 </div>
                 <div id="input_chat">
                     <input type="text" id="inputArea" name="inputArea">
@@ -92,9 +90,10 @@
 	               <ul>
 	                   <li id="goMypage">
 	                   		<a href="goMypage.do?mNo=${ loginUser.mNo }">
-		                   		<c:if test="${ !empty loginUser.mImage }">
+		                   		<c:if test="${ !empty loginUser.mRenameImage }">
+		                   		<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
 		                   		</c:if>
-		                   		<c:if test="${ empty loginUser.mImage }">
+		                   		<c:if test="${ empty loginUser.mRenameImage }">
 		                   		<img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
 		                   		</c:if>
 		                   		<p>${ loginUser.userId }</p>
@@ -166,8 +165,42 @@
      $(function(){
     	 $('#chat_icon').on("click",function(){
              var state = $(".chat").css('display');
-             if(state=='none'){
-                 $('.chat').show();
+             if(state =='none'){
+            	 $.ajax({
+                 	url:"oneChatList.do",
+                 	data:{userId:'<c:out value="${loginUser.userId}"/>'},
+                 	type:"post",
+            		dataType:"json",
+                 	success:function(data){
+                 		$("#mcList").children().remove();
+                 		$.each(data,function(index,value){
+                 			console.log(value.chatImage);
+                 			var $div = $('<div class="chRoom">');
+    						var $ul = $('<ul>');
+    						var $img = $("<li>");
+    						var $rImg = $('<img src="resources/'+value.chatImage+'">');
+    						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
+    						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
+	    						var $id = $("<li>").text(value.toId);
+    						} else {
+    							var $id = $("<li>").text(value.fromId);
+    						}
+    						var $cContent = $("<li>").text(value.cContent);
+    						
+    						$img.append($rImg);
+    						$ul.append($img);
+    						$ul.append($id);
+    						$ul.append($cContent);
+    						$div.append($ul);
+    						$div.append($inputt);
+    						$("#mcList").append($div);
+    					});
+                 		$('.chat').show();
+                 	},
+                 	error:function(){
+                 		console.log("에러");
+                 	}
+                  });
              }else{
                  $('.chat').hide();
              }
@@ -213,6 +246,64 @@
     	 $('.user_alarm').slideToggle();
                     
        });
+     
+     /* 채팅 관련(sockJs) */
+     $(function(){
+ 		$("#send").on("click",function(){
+ 			sendMessage();
+ 			$('#inputArea').val('');
+ 		});
+ 	 });
+     
+	 var sock = new SockJS("http://localhost:8787/spring/echo");
+ 	 sock.onmessage = onMessage;
+ 	 sock.onclose = onClose;
+ 	 
+ 	 // 메시지 전송
+ 	 function sendMessage() {
+ 	 	 var toId = $("#chatArea").children(".1").val();
+ 		 var sendType = $("#chatArea").children(".2").val();
+ 		 var crNo = $("#chatArea").children(".3").val();
+ 		 console.log(toId+","+sendType+","+crNo);
+ 		 sock.send( $("#inputArea").val() +"|"+toId+"|"+sendType+"|"+crNo);
+ 	 }
+ 	 // 서버로부터 메시지를 받았을 때
+ 	 function onMessage(msg) {
+ 		 var data = msg.data;
+ 		 var dArr = data.split('|');
+ 		 if(dArr.length == 2) {
+ 			$div1 = $("<div class='myChating'>");
+			$div = $("<div>");
+			$p = $("<p id='myChatt'>").text(dArr[0]);
+			
+			$div.append($p);
+			$div1.append($div);
+			
+			$("#chatArea").append($div1);
+ 		 } else {
+ 			var toId = $("#chatArea").children(".1").val();
+ 			$div3 = $("<div class='chating'>");
+			$div = $("<div>");
+			$img = $("<img src='#'>");
+			$p = $("<p id='chatId'>").text(toId);
+			$div1 = $("<div>");
+			$a = $("<a id='chatText'>").text(data);
+			$userName = $("#chatUser").text(toId);
+			
+			$div.append($img);
+			$div.append($p);
+			$div1.append($a);
+			$div.append($div1);
+			$div3.append($div);
+			
+			$("#chatArea").append($div3);
+ 		 }
+ 		 $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+ 	 }
+ 	 // 서버와 연결을 끊었을 때
+ 	 function onClose(evt) {
+ 		 $("#chatArea").append("연결 끊김");
+ 	 }
      </script>
 </body>
 </html>

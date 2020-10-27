@@ -1,6 +1,7 @@
 package com.kh.spring.feed.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Feed {
 
@@ -20,6 +21,8 @@ public class Feed {
 	private String fShareSet;
 	private int fLikeCnt;
 	private int fReplyCnt;
+	
+	private ArrayList<Reply> replyList;
 
 	public Feed() {
 	}
@@ -45,6 +48,31 @@ public class Feed {
 		this.fLikeCnt = fLikeCnt;
 		this.fReplyCnt = fReplyCnt;
 	}
+
+	public Feed(int fNo, int mNo, String fContent, String fWriter, String fFile, String fRenameFile, Date fCreateDate,
+			Date fModifyDate, String fStatus, String fLocation, String fOpenScope, String fLikeSet, String fReplySet,
+			String fShareSet, int fLikeCnt, int fReplyCnt, ArrayList<Reply> replyList) {
+		super();
+		this.fNo = fNo;
+		this.mNo = mNo;
+		this.fContent = fContent;
+		this.fWriter = fWriter;
+		this.fFile = fFile;
+		this.fRenameFile = fRenameFile;
+		this.fCreateDate = fCreateDate;
+		this.fModifyDate = fModifyDate;
+		this.fStatus = fStatus;
+		this.fLocation = fLocation;
+		this.fOpenScope = fOpenScope;
+		this.fLikeSet = fLikeSet;
+		this.fReplySet = fReplySet;
+		this.fShareSet = fShareSet;
+		this.fLikeCnt = fLikeCnt;
+		this.fReplyCnt = fReplyCnt;
+		this.replyList = replyList;
+	}
+
+
 
 	public int getfNo() {
 		return fNo;
@@ -173,6 +201,14 @@ public class Feed {
 	public void setfReplyCnt(int fReplyCnt) {
 		this.fReplyCnt = fReplyCnt;
 	}
+	
+	public ArrayList<Reply> getReplyList() {
+		return replyList;
+	}
+
+	public void setReplyList(ArrayList<Reply> replyList) {
+		this.replyList = replyList;
+	}
 
 	@Override
 	public String toString() {
@@ -180,9 +216,8 @@ public class Feed {
 				+ fFile + ", fRenameFile=" + fRenameFile + ", fCreateDate=" + fCreateDate + ", fModifyDate="
 				+ fModifyDate + ", fStatus=" + fStatus + ", fLocation=" + fLocation + ", fOpenScope=" + fOpenScope
 				+ ", fLikeSet=" + fLikeSet + ", fReplySet=" + fReplySet + ", fShareSet=" + fShareSet + ", fLikeCnt="
-				+ fLikeCnt + ", fReplyCnt=" + fReplyCnt + "]";
+				+ fLikeCnt + ", fReplyCnt=" + fReplyCnt + ", replyList=" + replyList + "]";
 	}
-	
 	
 	
 }

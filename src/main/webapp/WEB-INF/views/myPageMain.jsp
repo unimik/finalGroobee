@@ -12,6 +12,15 @@
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
+   <style>
+    .sbNameBox{
+    border:none;
+    background: #fcfcfc;
+    font-size:16px;
+    color: #555555;
+    readonly="readonly";
+    }
+   </style>
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
@@ -23,10 +32,11 @@
                 <!-- 프로필 시작 -->
                     <div id="myPage_profile">
                         <div id="mp_profile_img">
-                           <c:if test="${ !empty loginUser.mImage }">
+                           <c:if test="${ !empty loginUser.mRenameImage }">
+                           	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
-                            <c:if test="${ empty loginUser.mImage }">
-                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
+                            <c:if test="${ empty loginUser.mRenameImage }">
+                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">${ empty loginUser.mRenameImage }&nbsp;&nbsp;&nbsp;
                             </c:if>
                         </div>
                         <div id="mp_profile_info">
@@ -122,7 +132,7 @@
                         </tr>
 
                     <!-- 게시글 -->
-                                           	<%! int i = 0; %>
+                        <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
@@ -378,12 +388,25 @@
                                 </div>
                             </td>
                         </tr>
-                     <input type="hidden" value="${ loginUser.mNo }" id="mNo">
+                     <input type="hidden" value="${ loginUser.mNo }" id="mNo"/>
+                        <%! int  j = 0; %>
+                        <c:forEach var="sb" items="${ storageBoxList }">
+                       	<% if (j%3 == 0){ %>
                         <tr class="storagebox">
-                            <div id="box">보관함새폴더생성</div>
-                            <td class="fstorageBox_folder"><img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
-                               <div id="box2">폴더명</div>
+                       	<%} %>
+                            <!-- <div id="box">보관함새폴더생성</div>-->
+                            <td class="fstorageBox_folder">
+                            <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <div id="box2">폴더명</div>--%>
+                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
+                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+                            <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
+                   		 <% if (j%3==2){ %>
+                        </tr>
+                  		 <%} j++;%>
+                         </c:forEach>
                    <%--    <c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
                             <table>
                                <tr class="storagebox">
@@ -404,7 +427,6 @@
                             </table>
                             </td>
                    </c:forEach> --%>
-                        </tr>
                         
                
                         
@@ -455,302 +477,316 @@
 
     <script>
 
-        $('div[type = button]').css({'cursor' : 'pointer'});
-        $('input[type = button]').css({'cursor' : 'pointer'});
-        $('img[type = button]').css({'cursor' : 'pointer'});
+    $('div[type = button]').css({'cursor' : 'pointer'});
+    $('input[type = button]').css({'cursor' : 'pointer'});
+    $('img[type = button]').css({'cursor' : 'pointer'});
 
 
-        $(document).ready(function(){
-            $('#chat_icon').click(function(){
-                var state = $(".chat").css('display');
-                if(state=='none'){
-                    $('.chat').show();
-                }else{
-                    $('.chat').hide();
-                }
-            });
+    $(document).ready(function(){
+        $('#chat_icon').click(function(){
+            var state = $(".chat").css('display');
+            if(state=='none'){
+                $('.chat').show();
+            }else{
+                $('.chat').hide();
+            }
         });
+    });
 
-       $('.tab_menu_btn').on('click',function(){
-            $('.tab_menu_btn').removeClass('on');
-            $(this).addClass('on')
+   $('.tab_menu_btn').on('click',function(){
+        $('.tab_menu_btn').removeClass('on');
+        $(this).addClass('on')
+    });
+
+    $('.tab_menu_btn1').on('click',function(){
+        $('.tab_box').hide();
+        $('.tab_box1').show();
+    });
+
+    $('.tab_menu_btn2').on('click',function(){
+        $('.tab_box').hide();
+        $('.tab_box2').show();
+    });
+
+    $(document).ready(function(){
+        $('#detailInfo').click(function(){
+            $(".myAccount").animate({width:"toggle"},250);
         });
+    });
 
-        $('.tab_menu_btn1').on('click',function(){
-            $('.tab_box').hide();
-            $('.tab_box1').show();
-        });
+    $('.MyTab_tab').on("click",function(){
+        $('.MyTab_tab').removeClass('on');
+        $(this).addClass('on')
+    });
 
-        $('.tab_menu_btn2').on('click',function(){
-            $('.tab_box').hide();
-            $('.tab_box2').show();
-        });
+    $('.MyTab_tab1').on('click', function(){
+        $('.MyTab_box').hide();
+        $('.MyTab_box1').show();
+    });
 
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
+    $('.MyTab_tab2').on('click', function(){
+        $('.MyTab_box').hide();
+        $('.MyTab_box2').show();
+    });
+    
+    /************ 팔로우 언팔로우 script ************/
 
-        $('.MyTab_tab').on("click",function(){
-            $('.MyTab_tab').removeClass('on');
-            $(this).addClass('on')
-        });
+    $('#follow_btn').click(function() {
+        $(this).hide();
+        $('#followCancle_btn').show();
+    });
 
-        $('.MyTab_tab1').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box1').show();
-        });
+    $('#followCancle_btn').click(function() {
+        $(this).hide();
+        $('#follow_btn').show();
+    });
 
-        $('.MyTab_tab2').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box2').show();
-        });
+    /************ 게시글, 보관함, 내 그룹 전환 시 script ************/
 
-        
-        /************ 팔로우 언팔로우 script ************/
+    $('.feedPost_btn').click(function() {
+        $(this).css({'border-bottom' : '2px solid #47c6a3'});
+        $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #daf4ed'});
+        $('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
+        $('.post').show();
+        $('.storagebox').hide();
+        $('.group').hide();
+    });
 
-        $('#follow_btn').click(function() {
-            $(this).hide();
-            $('#followCancle_btn').show();
-        });
+    $('.feedStorageBox_btn').click(function() {
+        $(this).css({'border-bottom' : '2px solid #47c6a3'});
+        $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
+        $('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
+        $('.post').hide();
+        $('.storagebox').show();
+        $('.group').hide();
+    });
 
-        $('#followCancle_btn').click(function() {
-            $(this).hide();
-            $('#follow_btn').show();
-        });
+    $('.feedMyGroup_btn').click(function() {
+        $(this).css({'border-bottom' : '2px solid #47c6a3'});
+        $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
+        $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #daf4ed'});
+        $('.post').hide();
+        $('.storagebox').hide();
+        $('.group').show();
+    }); 
+    /********* 보관함 수정 및 삭제 script ************/
+    /*보관함 만들기*/
+     $('.storageBox_subBtn1').click(function() {
+        var mNo = $('#mNo').val();
+     $.ajax({
+        url:"insertBox.do",
+        dataType:"json",
+        data:{mNo: mNo},
+        type:"post",
+        success:function(data){
+           if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
+           alert("되냐");
+              /* $('.folder_default').show();
+                 $('.folder_correct').hide();
+                 $('.folder_delete').hide();
 
+                 $('.storageBox_subBtn3').hide();
+                 $('.storageBox_subBtn4').show(); */
+                 
+                 var input="";
+                 input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
+                 input += "<table>";
+                 input += "<tr class='storagebox'>";
+                    input += "<td class='folder_default' align='center'>";
+                  input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
+                  input += "</td>";
+                  input += "<td class='folder_correct' align='center'>";
+                  input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
+                  input += "</td>";
+                  input += "<td class='folder_delete' align='center' id='folder_delete'>";
+                  input += "<input type='checkbox' id='delete_folder'>";
+                  input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
+                  input += "</td>";
+                  input += "</tr>";
+                  input += "</table>";
+                 input += "</td>";
+                 
+                 $("#box").append(input);
+                /*  $("#box").html(input); */
 
-        /************ 게시글, 보관함, 내 그룹 전환 시 script ************/
+           }else if(data.msg != null && data.msg != 'undefined'){
+              alert(data.msg);
+           }else{
+              alert("시스템 오류입니다.");
+           }
 
-        $('.feedPost_btn').click(function() {
-            $(this).css({'border-bottom' : '2px solid #47c6a3'});
-            $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #daf4ed'});
-            $('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
-            $('.post').show();
-            $('.storagebox').hide();
-            $('.group').hide();
-        });
+        },
+         error:function(request,jqXHR,exception){
+           var msg="";
+           if(request.status == 0){
+              msg = 'Not Connect. \n Verify Network.';
+           } else if(request.status == 404){
+              msg = 'Requested page not fount [404]';
+           } else if(request.status == 500){
+              msg = 'Internal Server Error [500]';
+           } else if(request.status == 'parsererror'){
+              msg = 'Requested JSON parse failed';
+           } else if(exception == 'timeout'){
+              msg = 'Time out error';
+           } else if(exception == 'abort'){
+              msg = 'Ajax request aborted';
+           } else {
+              msg = 'Error. \n' + jqXHR.responseText;
+           }
+           alert(msg);
+        } 
+     });
+       
+    });
+    
+    $('#close_btn').on('click',function(){
+       $('.myFeed_popup_myEdit').hide();
+     });
+    
+    /*보관함 이름 수정*/
+    $('.storageBox_subBtn2').click(function() {
+        $('.folder_default').hide();
+        $('.folder_correct').show();
+        $('.folder_delete').hide();
 
-        $('.feedStorageBox_btn').click(function() {
-            $(this).css({'border-bottom' : '2px solid #47c6a3'});
-            $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
-            $('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
-            $('.post').hide();
-            $('.storagebox').show();
-            $('.group').hide();
-        });
+        $('.storageBox_subBtn3').hide();
+        $('.storageBox_subBtn4').show();
+ 		
+        $('.sbNameBox').css('border','1px solid #555555');
+		$('.sbNameBox').removeAttr('readonly');
 
-        $('.feedMyGroup_btn').click(function() {
-            $(this).css({'border-bottom' : '2px solid #47c6a3'});
-            $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
-            $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #daf4ed'});
-            $('.post').hide();
-            $('.storagebox').hide();
-            $('.group').show();
-        });
+    });
+    
+	/*수정 완료 */
+	$('.storageBox_subBtn4').click(function() {
+	
+	    $('.folder_default').show();
+	    $('.folder_correct').hide();
+	    $('.folder_delete').hide();
+	
+	    $('.storageBox_subBtn4').hide();
+	    $('.storageBox_subBtn2').show();
+	    $('.storageBox_subBtn3').show();
+	    
+		$('.sbNameBox').css('border','none');
+		$('.sbNameBox').attr('readonly', 'readonly');
+		//맵객체로 만들것
+		var sbname = $('.sbNameBox')[0].value;
+		var sbno = $('.sbNo')[0].value;
+		
+		var arr = [[1,폴더명],[2,폴더명],[]];
+		console.log( $('.sbNo').value );
+		
+	});
+    /* 보관함 삭제 */
+    $('.storageBox_subBtn3').click(function() {
+		
+           var rename_folderId = 
+           $.ajax({
+              url:"updateBox.do",
+              data:{
+                 id: rename_folder0   
+              },
+              type:"post",
+              success:function(data){
+                 console.log(data);
+                    $('.folder_default').hide();
+                    $('.folder_correct').hide();
+                    $('.folder_delete').show();
 
+                    $('.storageBox_subBtn2').hide();
+                    $('.storageBox_subBtn4').show();
+              },
+               error:function(request,jqXHR,exception){
+                 var msg="";
+                 if(request.status == 0){
+                    msg = 'Not Connect. \n Verify Network.';
+                 } else if(request.status == 404){
+                    msg = 'Requested page not fount [404]';
+                 } else if(request.status == 500){
+                    msg = 'Internal Server Error [500]';
+                 } else if(request.status == 'parsererror'){
+                    msg = 'Requested JSON parse failed';
+                 } else if(exception == 'timeout'){
+                    msg = 'Time out error';
+                 } else if(exception == 'abort'){
+                    msg = 'Ajax request aborted';
+                 } else {
+                    msg = 'Error. \n' + jqXHR.responseText;
+                 }
+                 alert(msg);
+              } 
+           });
 
-
-        /********* 보관함 수정 및 삭제 script ************/
-        
-         $('.storageBox_subBtn1').click(function() {
-            var mNo = $('#mNo').val();
-         $.ajax({
-            url:"insertBox.do",
-            dataType:"json",
-            data:{mNo: mNo},
-            type:"post",
-            success:function(data){
-               if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
-               alert("되냐");
-                  /* $('.folder_default').show();
-                     $('.folder_correct').hide();
-                     $('.folder_delete').hide();
-
-                     $('.storageBox_subBtn3').hide();
-                     $('.storageBox_subBtn4').show(); */
-                     
-                     var input="";
-                     input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
-                     input += "<table>";
-                     input += "<tr class='storagebox'>";
-                        input += "<td class='folder_default' align='center'>";
-                      input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
-                      input += "</td>";
-                      input += "<td class='folder_correct' align='center'>";
-                      input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
-                      input += "</td>";
-                      input += "<td class='folder_delete' align='center' id='folder_delete'>";
-                      input += "<input type='checkbox' id='delete_folder'>";
-                      input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
-                      input += "</td>";
-                      input += "</tr>";
-                      input += "</table>";
-                     input += "</td>";
-                     
-                     $("#box").append(input);
-                    /*  $("#box").html(input); */
-
-               }else if(data.msg != null && data.msg != 'undefined'){
-                  alert(data.msg);
-               }else{
-                  alert("시스템 오류입니다.");
-               }
-
-            },
-             error:function(request,jqXHR,exception){
-               var msg="";
-               if(request.status == 0){
-                  msg = 'Not Connect. \n Verify Network.';
-               } else if(request.status == 404){
-                  msg = 'Requested page not fount [404]';
-               } else if(request.status == 500){
-                  msg = 'Internal Server Error [500]';
-               } else if(request.status == 'parsererror'){
-                  msg = 'Requested JSON parse failed';
-               } else if(exception == 'timeout'){
-                  msg = 'Time out error';
-               } else if(exception == 'abort'){
-                  msg = 'Ajax request aborted';
-               } else {
-                  msg = 'Error. \n' + jqXHR.responseText;
-               }
-               alert(msg);
-            } 
-         });
-           
-        });
-        
-        $('#close_btn').on('click',function(){
-           $('.myFeed_popup_myEdit').hide();
-         });
-
-        $('.storageBox_subBtn2').click(function() {
-            $('.folder_default').hide();
-            $('.folder_correct').show();
-            $('.folder_delete').hide();
-
-            $('.storageBox_subBtn3').hide();
-            $('.storageBox_subBtn4').show();
-        });
-
-        $('.storageBox_subBtn3').click(function() {
-               var rename_folderId = 
-               $.ajax({
-                  url:"updateBox.do",
-                  data:{
-                     id: rename_folder0   
-                  },
-                  type:"post",
-                  success:function(data){
-                     console.log(data);
-                        $('.folder_default').hide();
-                        $('.folder_correct').hide();
-                        $('.folder_delete').show();
-
-                        $('.storageBox_subBtn2').hide();
-                        $('.storageBox_subBtn4').show();
-                  },
-                   error:function(request,jqXHR,exception){
-                     var msg="";
-                     if(request.status == 0){
-                        msg = 'Not Connect. \n Verify Network.';
-                     } else if(request.status == 404){
-                        msg = 'Requested page not fount [404]';
-                     } else if(request.status == 500){
-                        msg = 'Internal Server Error [500]';
-                     } else if(request.status == 'parsererror'){
-                        msg = 'Requested JSON parse failed';
-                     } else if(exception == 'timeout'){
-                        msg = 'Time out error';
-                     } else if(exception == 'abort'){
-                        msg = 'Ajax request aborted';
-                     } else {
-                        msg = 'Error. \n' + jqXHR.responseText;
-                     }
-                     alert(msg);
-                  } 
-               });
-            
-            
-        });
-
-        $('.storageBox_subBtn4').click(function() {
-            $('.folder_default').show();
-            $('.folder_correct').hide();
-            $('.folder_delete').hide();
-
-            $('.storageBox_subBtn4').hide();
-            $('.storageBox_subBtn2').show();
-            $('.storageBox_subBtn3').show();
-        });
+    });
 
 
-        /************ 포스트 박스 클릭 시 script ************/
+	 
+	/************ 포스트 박스 클릭 시 script ************/
+	/* 이새끼 때문에 스크립트 안먹어서 일단 주석 처리..
+    $('#pb1').click(function() {
+        $(".pop_feed").show();
+    });
 
-        $('#pb1').click(function() {
-            $(".pop_feed").show();
-        });
+    $('#pb2').mouseover(function() {
+        $(this).css({'background' : '#daf4eda1'});
+    }).mouseleave(function() {
+        $(this).css({'background' : 'none'});
+    }).click(function() {
+        $(".pop_feed2").show();
+    });
 
-        $('#pb2').mouseover(function() {
-            $(this).css({'background' : '#daf4eda1'});
-        }).mouseleave(function() {
-            $(this).css({'background' : 'none'});
-        }).click(function() {
-            $(".pop_feed2").show();
-        });
+    $('.feed_delete').click(function() {
+        $(".pop_feed2").hide();
+        $(".pop_feed").hide();
+    });
 
-        $('.feed_delete').click(function() {
-            $(".pop_feed2").hide();
-            $(".pop_feed").hide();
-        });
+    $ajax.({
+    	
+    })
+    */
+    /************* 팝업 메뉴 script *************/
 
+    $('#details_btn').on("click", function(){
+        $('.myFeed_popup_others').show();
+    });
 
+    $('#close').on('click', function(){
+        $('.myFeed_popup_others').hide();
+    });
 
-        /************* 팝업 메뉴 script *************/
+    $('#myFeed_report_btn').on("click", function(){
+        $('.feed_report').show();
+    });
 
-        $('#details_btn').on("click", function(){
-            $('.myFeed_popup_others').show();
-        });
+    $('#cancel').on("click", function(){
+        $('.feed_report').hide();
+    });
 
-        $('#close').on('click', function(){
-            $('.myFeed_popup_others').hide();
-        });
+    $('#myFeed_block_btn').on('click', function(){
+        $('.feed_block').show();
+    });
 
-        $('#myFeed_report_btn').on("click", function(){
-            $('.feed_report').show();
-        });
+    $('#block_pop').on("click", function(){
+        $('.feed_block').hide();
+        $('.myFeed_popup_others').hide();
+    });
 
-        $('#cancel').on("click", function(){
-            $('.feed_report').hide();
-        });
+    $('#profile_edit_btn').on("click", function(){
+        $('.myFeed_popup_myEdit').show();
+    });
 
-        $('#myFeed_block_btn').on('click', function(){
-            $('.feed_block').show();
-        });
+    $('#close').on("click", function(){
+        $('.myFeed_popup_myEdit').hide();
+    });
 
-        $('#block_pop').on("click", function(){
-            $('.feed_block').hide();
-            $('.myFeed_popup_others').hide();
-        });
+    $('#updateBtn').on("click", function(){
+        $('.reply_menu').show();
+    });
 
-        $('#profile_edit_btn').on("click", function(){
-            $('.myFeed_popup_myEdit').show();
-        });
-
-        $('#close').on("click", function(){
-            $('.myFeed_popup_myEdit').hide();
-        });
-
-        $('#updateBtn').on("click", function(){
-            $('.reply_menu').show();
-        });
-
-        $('#re_close').on("click", function(){
-            $('.reply_menu').hide();
-        });
-
+    $('#re_close').on("click", function(){
+        $('.reply_menu').hide();
+    });
     </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>adminPage</title>
+<title>adminmemberPage</title>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="resources/css/admincommon.css">
 <link rel="stylesheet" href="resources/css/admin1.css">
@@ -29,13 +29,13 @@
 						<p>현재 GROOBEE 회원 수는 <b id="total" style="color: red;"></b> 명입니다.</p>
 					</div>
 					<div id="search">
-						<form>
+						<form id="memberSearch_form" name="memberSearch_form">
 							<label>회원이름</label><input type="text" id="name" name="name">
 							<label>아 이 디</label><input type="text" id="id" name="id"><br>
-							<br> <label>탈퇴여부</label><select>
-								<option>전체</option>
-								<option>N</option>
+							<br> <label>탈퇴여부</label>
+							<select id="getOut" name="getOut">								
 								<option>Y</option>
+								<option>N</option>
 							</select> <label>가 입 일</label><input type="date" id="enrolldate"
 								name="enrolldate"><br> <input type="button"
 								id="searchBtn" name="searchBtn" value="검색"> <input
@@ -52,33 +52,13 @@
 							<td>아이디</td>
 							<td>이름</td>
 							<td>이메일</td>
-							<td>전화번호</td>
 							<td>가입일</td>
 							<td>탈퇴여부</td>
 							<td>삭제</td>
 						</tr>
 					</thead>
 					<tbody>
-						<tr id="user_info">
-							<td>1</td>
-							<td>user01</td>
-							<td>김유저</td>
-							<td>user01@naver.com</td>
-							<td>01011111111</td>
-							<td>2020-10-07</td>
-							<td>N</td>
-							<td><button id="user_delete">탈퇴</button></td>
-						</tr>
-						<tr id="user_info">
-							<td>2</td>
-							<td>user02</td>
-							<td>박유저</td>
-							<td>user02@naver.com</td>
-							<td>01012345678</td>
-							<td>2020-10-07</td>
-							<td>N</td>
-							<td><button id="user_delete">탈퇴</button></td>
-						</tr>
+						
 					</tbody>
 				</table>
 			</div>
@@ -121,9 +101,59 @@
 			$('.close_pop').on("click", function() {
 				$('.alarm_pop').hide();
 			});
-			
-			
 		});
+		
+		// 회원 검색 버튼 클릭 이벤트
+		 $('#searchBtn').on("click",function(){
+			console.log("클릭했엉?");
+			
+			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
+			
+			
+			$.ajax({
+				url:"memberSearch.do",
+				type:'post',
+				data:$("#memberSearch_form").serialize(),
+				dataType:"json",
+				success:function(data){
+					console.log(data);
+					
+					$tableBody = $("#user_table tbody");
+					$tableBody.html("");
+					
+					for(var i in data){
+						var $tr = $("<tr>");
+						var $mNo = $("<td>").text(data[i].mNo);
+						var $userId = $("<td>").text(data[i].userId);
+						var $userName = $("<td>").text(data[i].userName);
+						var $email = $("<td>").text(data[i].email);	
+						var $cDate = $("<td>").text(data[i].cDate);
+						var $mStatus = $("<td>").text(data[i].mStatus);
+						if(data[i].mStatus==='Y'){
+							var $getOutBtn = $("<td>").html(dynamicBtnY);//회원의 상태가 Y일 때
+						}else{
+							var $getOutBtn = $("<td>").html(dynamicBtnN);//회원의 상태가 N일 때
+						}
+						
+							$tr.append($mNo);
+							$tr.append($userId);
+							$tr.append($userName);
+							$tr.append($email);
+							$tr.append($cDate);
+							$tr.append($mStatus);
+							$tr.append($getOutBtn);
+							
+							$tableBody.append($tr);
+					}
+				},
+				error:function(request,status,error){
+					alert("code : "+request.status+"\n"
+							+"message : "+request.responseText+"\n"
+							+"error : "+ error);		
+				}
+			});
+		}); 
 	</script>
 </body>
 </html>

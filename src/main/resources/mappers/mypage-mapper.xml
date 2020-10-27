@@ -23,7 +23,7 @@
  		<result property="gCategory" column="g_Category"/>
  	</resultMap>
  	
- 		<resultMap id="feedResultSet" type="Feed">
+ 	<resultMap id="feedResultSet" type="Feed">
 		<id property="fNo" column="F_NO"/>
 		<result property="mNo" column="M_NO"/>
 		<result property="fContent" column="F_CONTENT"/>
@@ -42,6 +42,13 @@
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
 	</resultMap>
 	
+	<resultMap id="sbResultSet" type="sBox">
+		<id property="sbNo" column="SB_NO"/>
+		<result property="sbName" column="SB_NAME"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="fNo" column="F_NO"/>
+	</resultMap>
+	
 
 	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
 		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
@@ -54,7 +61,7 @@
 	<select id="selectFeedInfo" parameterType="Mypage" resultMap="feedResultSet">
 		select * from feed where m_no=#{mNo} order by f_no desc
 	</select>
-	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="mypageResultSet">
+	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="sbResultSet">
 		select * from storage_box where m_no=#{mNo}
 	</select>
 	<insert id="insertBox" parameterType="Mypage">
@@ -69,5 +76,17 @@
 		on (g.g_no=gm.g_no)
 		where m_no=#{mNo}
 	</select>
+	<select id="selectFollowYN" parameterType="Follow" resultType="string">
+		select decode(count(FOLLOWS),0,'N','Y')
+		from follow 
+		where m_No=#{mNo}
+		and FOLLOWS=#{follows}
+	</select>
+	<insert id="insertFollow" parameterType="Follow">
+		INSERT INTO FOLLOW VALUES(#{mNo},#{follows})
+	</insert>
+	<delete id="deleteFollow" parameterType="Follow">
+		DELETE FOLLOW WHERE M_NO=#{mNo} AND FOLLOWS=#{follows}
+	</delete>
 
 </mapper>

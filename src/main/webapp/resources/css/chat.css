@@ -13,14 +13,15 @@
 #search_g{ width: 100%; height: 50px; border-bottom: 1px solid #e5e5e5; }
 #g_list{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #e5e5e5; margin:8px 0 0 20px; background: #e5e5e5; }
 
-#myChat_list{ border-bottom: 1px solid #e5e5e5;}
-#myChat_list:hover{ background: #ecf9f6}
-#myChat_list #list{ padding:0;margin:0;padding: 15px 0 15px 0;}
-#list li{ list-style: none;}
-#list li:nth-child(1){float: left; margin: 0 20px 0 20px;}
-#list li:nth-child(2){ font-weight: 500; color: #555555; }
-#list li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
-#chat_back{ width: 35px; height: 35px; border-radius: 10px;}
+
+#mcList>div{ border-bottom: 1px solid #e5e5e5;}
+#mcList>div:hover{ background: #ecf9f6}
+#mcList>div>ul{ padding:0;margin:0;padding: 15px 0 15px 0;}
+#mcList>div>ul>li{ list-style: none;}
+#mcList>div>ul>li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#mcList>div>ul>li:nth-child(2){ font-weight: 500; color: #555555; }
+#mcList>div>ul>li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
+#mcList>div>ul>li>img{ width: 35px; height: 35px; border-radius: 10px;}
 
 #myGroupChat_list{border-bottom: 1px solid #e5e5e5;}
 #myGroupChat_list:hover{background: #ecf9f6;}
@@ -42,16 +43,20 @@ input:focus{ outline:none;}
 #chatArea::-webkit-scrollbar{width: 7px;}
 #chatArea::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
 #chatArea::-webkit-scrollbar-track{ background-color: #daf4ed;}
+#mcList::-webkit-scrollbar{width: 7px;}
+#mcList::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
+#mcList::-webkit-scrollbar-track{ background-color: #daf4ed;}
 
-#chating{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
 
-#chatId{ margin:0; margin: -5px 0 0 10px; font-size: 12px; float: left;}
-#chating img{ width: 40px; height: 40px; border-radius: 15px; float: left;}
+.chating>div{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
 
-#chating #chatBox{margin:0; font-size: 14px; padding:10px; margin-left: 0; border-radius: 10px; background: #daf4ed; width: 60%; margin:15px 0 0 45px; }
-#chatBox #chatText{ margin:0;}
-#myChating{ width: 100%; padding: 5px 0 5px 0; margin-left: 60px; }
-#myChating p{ font-size: 14px; padding: 8px; border-radius: 10px; background:white; border: 2px solid #47c6a3; width: 70%;  margin: 0; }
+.chating>div>p{ margin:0; margin: -5px 0 0 10px; font-size: 12px; float: left;}
+.chating>div>img{ width: 40px; height: 40px; border-radius: 15px; float: left;}
+
+.chating>div>div{margin:0; font-size: 14px; padding:10px; margin-left: 0; border-radius: 10px; background: #daf4ed; width: 60%; margin:15px 0 0 45px; }
+.chating>div>div>a{ margin:0;}
+.myChating>div{ width: 100%; padding: 5px 0 5px 0; margin-left: 60px; }
+.myChating>div>p{ font-size: 14px; padding: 8px; border-radius: 10px; background:white; border: 2px solid #47c6a3; width: 70%;  margin: 0; }
 
 #input_chat{ width: 320px; height: 45px; border-top: 1px solid #e5e5e5;}
 #inputArea{ margin: 12px 5px 0 12px; width: 200px; height: 28px; border-radius: 10px; border: 1px solid #e5e5e5;}

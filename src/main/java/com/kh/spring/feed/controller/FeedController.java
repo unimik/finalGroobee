@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,11 +42,10 @@ public class FeedController {
 				f.setfRenameFile(renameFileName);
 			}
 		}
-		System.out.println(f);
 		int result = fService.insertPost(f);
 		
 		if(result > 0) {
-			return "redirect:fList.do";
+			return "redirect:home.do";
 			
 		}else {
 			return "../common/errorPage";
@@ -80,19 +80,4 @@ public class FeedController {
 		return renameFileName;
 	}
 	
-	@RequestMapping("fList.do")
-	public ModelAndView feedList(ModelAndView mv) {
-		System.out.println("ㅡㅏㅡㅏㅡㅏ");
-		ArrayList<Feed> f = fService.selectFeed();
-		System.out.println(f);
-		
-		if(f != null) {
-			mv.addObject("f", f).setViewName("home");
-		}else {
-			mv.addObject("msg", "에러 발생").setViewName("common/errorPage");
-		}
-		
-		return mv;
-	}
-
 }

@@ -11,14 +11,16 @@
 		<typeAlias type="com.kh.spring.setting.model.vo.PersonalSetting" alias="PersonalSetting"/>
 		<typeAlias type="com.kh.spring.setting.model.vo.Question" alias="Question"/>
 		<typeAlias type="com.kh.spring.myPage.model.vo.Mypage" alias="Mypage"/>
+		<typeAlias type="com.kh.spring.myPage.model.vo.StorageBox" alias="sBox"/>
 		<typeAlias type="com.kh.spring.feed.model.vo.Feed" alias="Feed"/>
 		<typeAlias type="com.kh.spring.feed.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.spring.search.model.vo.Search" alias="Search"/>
 		<typeAlias type="com.kh.spring.search.model.vo.RelatedSearch" alias="RelatedSearch"/>
 		<typeAlias type="com.kh.spring.group.model.vo.Group" alias="Group"/>
 		<typeAlias type="com.kh.spring.group.model.vo.GroupMember" alias="GroupMember"/>
+		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.spring.declaration.model.vo.Declaration" alias="Declaration"/>
-		
+		<typeAlias type="com.kh.spring.member.model.vo.Follow" alias="Follow"/>
 	</typeAliases>
 	
 	<mappers>
@@ -29,6 +31,7 @@
 		<mapper resource="mappers/group-mapper.xml"/>
 		<mapper resource="mappers/gm-mapper.xml"/>
 		<mapper resource="mappers/feed-mapper.xml"/>
+		<mapper resource="mappers/chat-mapper.xml"/>
 		<mapper resource="mappers/declaration-mapper.xml"/>
 	</mappers>
 </configuration>

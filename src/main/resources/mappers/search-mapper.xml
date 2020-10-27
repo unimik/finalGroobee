@@ -69,8 +69,7 @@
 	
 	<select id="searchMember" parameterType="Search" resultMap="memberResultSet">
 		SELECT * FROM MEMBER
-		WHERE M_STATUS='Y'
-		AND M_LEVEL='M'
+		WHERE M_LEVEL='M'
 		<if test="searchType=='@' and search!=null">
 		AND M_ID LIKE '%' || #{search}  || '%'
 		</if>
@@ -98,6 +97,7 @@
 		AND F_CONTENT LIKE '%' || #{search}  || '%'
 		</if>
 	</select>
+	<!-- 
 	<select id="relatedSearch" parameterType="Search" resultMap="relatedSearchSet">
 	<![CDATA[
 	SELECT ROWNUM, TC.*
@@ -116,6 +116,112 @@
 	WHERE ROWNUM < 10
 	]]>
 	</select>	
-
-
+ -->
+	<select id="relatedSearch" parameterType="Search" resultType="String" >
+	<![CDATA[
+	SELECT RTAG.TATG FROM(
+		SELECT ROWNUM, TC.*
+		FROM (
+		    SELECT TB.TATG, SUM(CNT) SUMC
+		    FROM(
+		        SELECT TA.F_TAG AS TATG, COUNT(TA.F_TAG) CNT
+		        FROM TAG TA
+		        WHERE TA.F_NO IN(SELECT F_NO 
+		                        FROM TAG
+		                        WHERE F_TAG= #{search} )
+		        AND NOT TA.F_TAG = #{search} 
+		        GROUP BY TA.F_NO, TA.F_TAG) TB
+		    GROUP BY TB.TATG
+		    ORDER BY SUMC DESC) TC
+		WHERE ROWNUM < 10 ) RTAG
+	]]>
+	</select>
+	
+	<!-- 
+	<select id="tagsearchFeed" parameterType="arraylist" resultMap="feedResultSet">
+	SELECT FD.*
+	FROM FEED FD
+	WHERE F_NO IN(SELECT F_NO 
+	            	FROM FEED
+	            	WHERE
+	            	F_STATUS ='Y'
+	            	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	            	<if test="list != null">
+	            	AND 
+	            	</if>
+	            	F_CONTENT LIKE '%'|| #{list.item} ||'%'
+	            	</foreach>
+					);
+	</select>
+	 -->
+	 
+	<select id="tagSearchFeed" parameterType="String" resultMap="feedResultSet">
+	SELECT FD.*
+	FROM FEED FD
+	WHERE F_NO IN(SELECT F_NO 
+	            	FROM FEED
+	            	WHERE
+	            	F_STATUS ='Y'
+	            	<foreach collection="array" item="arr" open="" close="" separator="">
+	            	<if test="array != null">
+	            	AND 
+	            	</if>
+	            	F_CONTENT LIKE '%'|| #{arr} ||'%'
+	            	</foreach>
+					)
+	</select>
+	
+	<select id="tagSearchRs" parameterType="String" resultType="String">
+	SELECT RCRT.F_TAG
+	FROM(SELECT ROWNUM, TC.F_TAG
+	    FROM( SELECT TB.F_TAG, COUNT(TB.F_TAG) CNT
+	            FROM TAG TB
+	            WHERE TB.F_NO IN(SELECT F_NO 
+	                            FROM FEED
+	   							WHERE 
+	   							F_STATUS ='Y'
+	   							<if test="array != null">
+				            	AND 
+				            	</if>
+	            				<foreach collection="array" item="arr" open="" close="" separator="AND">
+	                            F_CONTENT LIKE '%'||#{arr}||'%'
+	                            </foreach>
+	                            )
+				<if test="array != null">
+            	AND 
+            	</if>
+				<foreach collection="array" item="arr" open="" close="" separator="AND">
+	            NOT TB.F_TAG=#{arr}
+                </foreach>
+	            GROUP BY TB.F_NO, TB.F_TAG
+	            ORDER BY CNT DESC) TC
+	<![CDATA[
+	WHERE ROWNUM < 10) RCRT
+	]]>
+	</select>
+	
+	<select id="tagSearchGroup" parameterType="String" resultMap="GroupResultSet">
+	SELECT *
+	FROM GROUPS
+	WHERE G_STATUS='Y'
+	<if test="array != null">
+    AND 
+    </if>
+	<foreach collection="array" item="arr" open="" close="" separator="AND">
+	G_TAG LIKE '%'||#{arr}||'%'
+	</foreach>
+	
+	</select>
+	
+	<select id="tagSearchMember" parameterType="String" resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	WHERE
+	M_LEVEL ='M'
+	<if test="array != null">
+    AND 
+    </if>
+	<foreach collection="array" item="arr" open="" close="" separator="AND">
+	M_INTRO LIKE  '%'||#{ arr }||'%'
+	</foreach>
+	</select>
 </mapper>

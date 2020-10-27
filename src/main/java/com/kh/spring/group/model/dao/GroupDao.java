@@ -84,4 +84,24 @@ public class GroupDao {
 	public int groupDeleteCheck(GroupMember gm) {
 		return sqlSession.update("gmMapper.groupMemberDeleteCheck", gm);
 	}
+
+	public int deleteGroup(int gNo) {
+		return sqlSession.update("groupMapper.deleteGroup", gNo);
+	}
+
+	public int gmChangeMaster(GroupMember gm) {
+		return sqlSession.update("gmMapper.gmChangeMaster", gm);
+	}
+
+	public int gmChangeLevel(GroupMember gm) {
+		return sqlSession.update("gmMapper.gmChangeLevel",gm);
+	}
+
+	public int gCreatorChange(Group g) {
+		return sqlSession.update("groupMapper.gCreatorChange",g);
+	}
+
+	public int gmChangeManager(GroupMember gm) {
+		return sqlSession.update("gmMapper.gmChangeManager", gm);
+	}
 }

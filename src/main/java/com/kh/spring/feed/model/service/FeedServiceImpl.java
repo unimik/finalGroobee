@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.feed.model.dao.FeedDao;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Reply;
 
 @Service("fService")
 public class FeedServiceImpl implements FeedService {
@@ -23,5 +24,6 @@ public class FeedServiceImpl implements FeedService {
 	public ArrayList<Feed> selectFeed() {
 		return fDao.selectFeed();
 	}
+
 
 }

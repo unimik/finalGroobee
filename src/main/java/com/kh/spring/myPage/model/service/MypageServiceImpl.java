@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.dao.MypageDao;
 import com.kh.spring.myPage.model.vo.Mypage;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 
 @Service("myService")
@@ -33,7 +35,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public ArrayList<Mypage> selectStorageBoxInfo(int mNo) {
+	public ArrayList<StorageBox> selectStorageBoxInfo(int mNo) {
 		return myDao.selectStorageBoxInfo(mNo);
 	}
 
@@ -45,6 +47,21 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public ArrayList<Mypage> selectGroupInfo(int mNo) {
 		return myDao.selectGroupInfo(mNo);
+	}
+
+	@Override
+	public String selectFollowYN(Follow fw) {
+		return myDao.selectFollowYN(fw);
+	}
+
+	@Override
+	public int insertFollow(Follow fw) {
+		return myDao.insertFollow(fw);
+	}
+
+	@Override
+	public int deleteFollow(Follow fw) {
+		return myDao.deleteFollow(fw);
 	}
 	
 
