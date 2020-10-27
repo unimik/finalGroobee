@@ -22,8 +22,11 @@
 .containar.on{display:block;}
 .containar{display:none;}
 
-#searchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
-#resetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
+#f_searchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
+#f_resetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
+#re_searchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
+#re_resetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
+
 #containar{ width: 100%;}
 .feed_table{ text-align: center; width: 100%; margin-top: 30px; font-size: 14px; table-layout:fixed;}
 thead tr{ background: #daf4ed; height: 35px;}

@@ -81,4 +81,23 @@
 		INSERT INTO REPLY VALUES
 		(SEQ_RNO.NEXTVAL, ${mNo}, ${fNo}, ${rWriterImg}, ${rWriter}, ${rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
+	
+	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
+		SELECT *
+		FROM REPLY
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rNo != 0">
+				R_NO like '%'||#{rNo}||'%'
+			</if>
+			<if test="rWriter != null">
+				AND R_WRITER like '%'||#{rWriter}||'%'
+			</if>
+			<if test="rContent != null">
+				AND R_STATUS like '%'||#{rContent}||'%'
+			</if>
+			<if test="rCreateDate != null">
+				AND R_CREATE_DATE like '%'||#{rCreateDate}||'%'
+			</if>
+		</trim>
+	</select>
 </mapper>
