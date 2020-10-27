@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonArray;
 import com.kh.spring.chat.model.service.ChatService;
@@ -36,25 +37,26 @@ public class ChatController {
 		ArrayList<Chat> cList = cService.getChatList(userId);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		Member m = null;
+		System.out.println(userId);
 		for(Chat c : cList) {
 			if(c.getFromId().equals(userId)) {
 				m = new Member();
 				m.setUserId(c.getToId());
 				mList.add(m);
+			} else if(!c.getFromId().equals(userId) && !c.getToId().equals(userId)) {
 			} else {
 				m = new Member();
 				m.setUserId(c.getFromId());
 				mList.add(m);
 			}
 		}
-		mList = cService.getChatImage(mList);
+		ArrayList<Member> rmList = cService.getChatImage(mList);
 		JSONObject job = null;
 		JSONArray result = new JSONArray();
 		for(Chat c : cList) {
 			job = new JSONObject();
-			for(Member m2 : mList) {
-				if(c.getToId().equals(m2.getUserId())) {
-					System.out.println(m2);
+			for(Member m2 : rmList) {
+				if(c.getFromId().equals(m2.getUserId()) || c.getToId().equals(m2.getUserId())) {
 					job.put("crNo", c.getCrNo());
 					job.put("fromId", c.getFromId());
 					job.put("toId", c.getToId());
@@ -69,7 +71,6 @@ public class ChatController {
 						job.put("chatImage", "memberProfileFiles/"+m2.getmRenameImage());
 					}
 				result.add(job);
-				break;
 				}
 			}
 		}
@@ -101,7 +102,6 @@ public class ChatController {
 			job = new JSONObject();
 			for(Member m2 : resultList) {
 				if(c.getFromId().equals(m2.getUserId())) {
-					System.out.println(m2);
 					job.put("crNo", c.getCrNo());
 					job.put("fromId", c.getFromId());
 					job.put("toId", c.getToId());
@@ -122,6 +122,20 @@ public class ChatController {
 		}
 		PrintWriter out = response.getWriter();
 		out.print(result);
+	}
+	
+	@RequestMapping("insertChatRoom.do")
+	public void insertChatRoom(String myId, String otherId,HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset=UTF-8");
+		System.out.println(myId + ":" + otherId);
+		int crNo = cService.insertChatRoom(myId,otherId);
+		JSONObject job = new JSONObject();
+		if(crNo > 0) {
+			job.put("toId", otherId);
+			job.put("crNo", crNo);
+		}
+		PrintWriter out = response.getWriter();
+		out.print(job);
 	}
 
 	/**

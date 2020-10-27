@@ -35,4 +35,12 @@ public interface ChatService {
 	 */
 	ArrayList<Member> getChatImage(ArrayList<Member> mList);
 
+	/**
+	 * 5. 1대1 채팅방 생성
+	 * @param myId
+	 * @param otherId
+	 * @return
+	 */
+	int insertChatRoom(String myId, String otherId);
+
 }
