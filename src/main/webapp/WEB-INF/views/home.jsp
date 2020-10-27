@@ -9,7 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="resources/css/home.css">
-<link rel="stylesheet" href="resources/css/myAccount.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 	#feed{ height: fit-content; margin-bottom: 50px; }

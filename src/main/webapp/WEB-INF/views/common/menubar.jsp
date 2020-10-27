@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="resources/css/chat.css">
 <link rel="stylesheet" href="resources/css/alarmPop.css">
 <link rel="stylesheet" href="resources/css/user_alarmPop.css">
+<link rel="stylesheet" href="resources/css/myAccount.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
