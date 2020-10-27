@@ -10,6 +10,8 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
+<link rel="stylesheet" href="resources/css/alarmPop.css">
+<link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 	a{text-decoration:none;}
@@ -99,10 +101,54 @@
 	                   		</a>
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
-	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
+	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
 	                   <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
 	               </ul>
 	           </div>
+	           <div class="user_alarm" style="display:none; cursor:pointer;">
+                    <div id="alarmList">
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                    </div>
+                </div>
 	     </div>
 	     <div id="menubar">
 	     	 <c:url var="goHome" value="home.do"/>
@@ -150,6 +196,23 @@
              $(".chat_room").hide();
          });
      });
+     
+     /**************알림창 열기 ****************/
+     $('#alarmIcon').on("click",function(){
+       
+    	 $.ajax({
+    		 url: "getNotification.do",
+    		 success: function(data){
+    			 
+    		 },error: function(error){
+    			 
+    		 }
+    	 })
+    	 
+    	 
+    	 $('.user_alarm').slideToggle();
+                    
+       });
      </script>
 </body>
 </html>
