@@ -98,7 +98,7 @@
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
 	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
-	                   <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
+	                   <li><a><img src="resources/icons/open.png" alt="" id="detailInfo"></a></li>
 	               </ul>
 	           </div>
 	           <div class="user_alarm" style="display:none; cursor:pointer;">
@@ -169,34 +169,19 @@
 						<!-- 팔로워 -->
 						<div class="MyTab_box1 MyTab_box on">
 							<div id="My_follower_list">
-								<ul id="follower_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="follower_list_img"></li>
-									<li>user02</li>
-									<li><button id="follower" name="follower">삭제</button></li>
-								</ul>
+							
 							</div>
 						</div>
 						<!-- 팔로잉 -->
 						<div class="MyTab_box2 MyTab_box">
 							<div id="My_following_list">
-								<ul id="following_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="following_list_img"></li>
-									<li>user02</li>
-									<li><button id="following" name="following">팔로잉</button></li>
-								</ul>
+							
 							</div>
 						</div>
 						<!-- 그룹 -->
 						<div class="MyTab_box3 MyTab_box">
 							<div id="My_fgroup_list">
-								<ul id="fgroup_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="fgroup_list_img"></li>
-									<li>user02</li>
-									<li><button id="del_group" name="del_group">탈퇴</button></li>
-								</ul>
+								
 							</div>
 						</div>
 					</div>
@@ -476,42 +461,206 @@
  	/************* 내계정 자세히보기 script **************/
 
      $(document).ready(function(){
-         $('#detailInfo').click(function(){
-        	 var mNo = ${ loginUser.mNo };
-        	 var mId = ${ loginUser.userId };
-        	 $.ajax({
-        		url:"getList.do",
-        		data:{mNo:mNo, gmId:mId},
-        		
-        	 });
-             $(".myAccount").animate({width:"toggle"},250);
+    	 $('.MyTab_tab').on("click",function(){
+             $('.MyTab_tab').removeClass('on');
+             $(this).addClass('on')
          });
-     });
+    	 
+    	 
+         $("#detailInfo").on("click",function(){
+        	 getFollowerList();
+        	 $(".myAccount").animate({width:"toggle"},250);
+         });
 
-     $('.MyTab_tab').on("click",function(){
-         $('.MyTab_tab').removeClass('on');
-         $(this).addClass('on')
-     });
-
-     $('.MyTab_tab1').on('click', function(){
-         $('.MyTab_box').hide();
-         $('.MyTab_box1').show();
-     });
-
-     $('.MyTab_tab2').on('click', function(){
-         $('.MyTab_box').hide();
-         $('.MyTab_box2').show();
-     });
+	     $('.MyTab_tab1').on('click', function(){
+	    	 getFollowerList();
+	    	 $('.MyTab_box').hide();
+     		 $('.MyTab_box1').show();
+    	 });
+	     
+	     $('.MyTab_tab2').on('click', function(){
+	    	 getFollowList();
+	    	 $('.MyTab_box').hide();
+     		 $('.MyTab_box2').show();
+	     });
      
-     $('.MyTab_tab3').on('click', function(){
-         $('.MyTab_box').hide();
-         $('.MyTab_box3').show();
-     });
+	     $('.MyTab_tab3').on("click", function(){
+    	 	 getGroupList();
+       		 $('.MyTab_box').hide();
+             $('.MyTab_box3').show();
+	     });
 
-     $('#goMypage').click(function(){
-         location.href="../views/myPage_Main.html";
+	     
+	     $(document).on("click","#goDetail",function(){
+	    	var gNo = $('#gNo').val();
+	    	location.href="gdetail.do?gNo="+ gNo;
+	     });
+	     
+	     $(document).on("click","#goUserPage",function(){
+	    	 var userId = $('#id').text();
+	    	 var mNo = $("#mNo").val();
+	    	 location.href="goUserpage.do?userId=" + userId + "&mNo=" + mNo;
+	     });
+	     
+	     
+	     /* $(document).on("click","#follower", function(){
+	    	var mNo = $('#mNo').val();
+	    	 
+	     });*/
+     
+	     
+	     $(document).on("click","#following", function(){
+	    	 var mNo = ${ loginUser.mNo };
+	    	 var follows = $('#mNo').val();
+	    	 console.log(follows);
+	    	 $.ajax({
+	    		 url:"delFollow.do",
+	    		 data:{ mNo:mNo, foNo:follows},
+	    		 type:"post",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 	if(data> 0){
+	    			 		getFollowList();
+	    			 	}else{
+	    			 		alert("실패했습니다.");
+	    			 	}
+		    		 	
+		    		 },error:function(){
+		    			 alert("불러오기 실패..");
+		    		 }
+	    	 });
+	     });
      });
-
+ 		
+ 		function getFollowerList(){
+ 			var mNo = ${ loginUser.mNo };
+	    	 $.ajax({
+	    		 url:"getFollowerList.do",
+	    		 data:{mNo:mNo},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_follower_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $userId;
+	        		 var $btn;
+	        		 var $mNo;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0 ){
+	        			 for(var i in data){
+	        				 console.log(data[i].mImage);
+	        				 $ul = $("<ul id='follower_info'>").html('<input type="hidden" id="mNo" value="'+ data[i].mNo+'">');
+	        				 $img = $("<li>").html('<img src="resources/'+ data[i].mImage + '" id="follower_list_img">');
+	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+data[i].userId);
+	        				 $btn = $("<li>").html('<button id="follower" name="follower">삭제</button>');
+	        				 $mNo = $("<li>").html('<input type="hidden" id="mNo" name="mNo" value="'+ data[i].mNo+'">');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($userId);
+	        				 $ul.append($btn);
+	        				 $ul.append($mNo);
+	        				 $div.append($ul);
+	        			 }
+	        		 }else{
+	        			 $p = $('<p id="textP">').text("나를 팔로우한 회원이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+ 		
+ 		function getFollowList(){
+ 			var mNo = ${ loginUser.mNo };
+	    	 $.ajax({
+	    		 url:"getFollowList.do",
+	    		 data:{mNo:mNo},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_following_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $userId;
+	        		 var $btn;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0){
+		        		 $.each(data, function(index,value){
+		        			 console.log(value.mImage);
+	        				 $ul = $("<ul id='following_info'>").html('<input type="hidden" id="mNo" name="mNo" value="'+ value.mNo+'">');
+	        				 $img = $("<li>").html('<img src="resources/'+ value.mImage + '" id="following_list_img">');
+	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+value.userId);
+	        				 $btn = $("<li>").html('<button id="following" name="following">팔로우 취소</button>');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($userId);
+	        				 $ul.append($btn);
+	        				 $div.append($ul);
+		        		 });
+		        	}else{
+	        			 $p = $('<p id="textP">').text("팔로우한 회원이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+ 	
+ 		function getGroupList(){
+ 			$.ajax({
+	    		 url:"getGroupList.do",
+	    		 data:{mId:"${ loginUser.userId }"},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_fgroup_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $gName;
+	        		 var $btn;
+	        		 var $gNo;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0 ){
+	        			 for(var i in data){
+	        				 console.log(data[i].gName);
+	        				 console.log(data[i].gImage);
+	        				 $ul = $("<ul id='fgroup_info'>");
+	        				 $img = $("<li>").html('<img src="resources/'+ data[i].gImage + '" id="fgroup_list_img"">');
+	        				 $gName = $("<li>").html('<a id="goDetail">'+data[i].gName);
+	        				 $gNo = $("<li>").html('<input type="hidden" id="gNo" name="gNo" value="' + data[i].gNo + '">');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($gName);
+	        				 $ul.append($gNo);
+	        				 $div.append($ul);
+	        			 }
+	        		 }else{
+	        			 $p = $('<p id="textP">').text("가입한 그룹이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	        		 $('.MyTab_box').hide();
+	                 $('.MyTab_box3').show();
+	                 
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
      </script>
 </body>
 </html>
