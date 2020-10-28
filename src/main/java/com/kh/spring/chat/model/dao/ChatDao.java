@@ -26,8 +26,13 @@ public class ChatDao {
 		return cList;
 	}
 
-	public ArrayList<Chat> getChatContentList(int crNo) {
-		return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",crNo);
+	public ArrayList<Chat> getChatContentList(Chat readC) {
+		int updateResult = sqlSession.update("chatMapper.readChat",readC); 
+		if(updateResult > 0) {
+			return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",readC);
+		} else {
+			return new ArrayList<Chat>();
+		}
 	}
 
 	public int insertChat(Chat c) {
@@ -62,6 +67,10 @@ public class ChatDao {
 		} else {
 			return 0;
 		}
+	}
+
+	public int countChat(String myId) {
+		return sqlSession.selectOne("chatMapper.countChat",myId);
 	}
 
 }

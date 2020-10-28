@@ -208,13 +208,88 @@
 	     	 <c:url var="glist" value="glist.do"/>
 	         <ul id="menu">
 	             <li><a href="${ goHome }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
-	             <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
-	
+             	 <li></li>
+             	 
 	             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
 	         </ul>
 	     </div>
      <script type="text/javascript">
+     /* 채팅 읽음 처리  */
+     function countChatRead() {
+    	var myId = '<c:out value="${loginUser.userId}"/>';
+    	$.ajax({
+    		url:"countChat.do",
+    		data:{myId:myId},
+    		dataType:"json",
+    		success:function(data){
+    			$("#menu li:nth-child(2)").children().remove();
+    			if(data.countChat > 0) {
+	    			var $img = '<img src="resources/icons/menu_chat_new.png" alt="CHAT" id="chat_icon" name="chat_icon">';
+    			} else {
+    				var $img = '<img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon">';
+    			}
+    			$("#menu li:nth-child(2)").append($img);
+    		},
+    		error:function(){
+    			console.log("에러");
+    		}
+    	});
+     }
+     /* 채팅 창 여는 스크립트 */	
+     function openChat() {
+        	 $.ajax({
+             	url:"oneChatList.do",
+             	data:{userId:'<c:out value="${loginUser.userId}"/>'},
+             	type:"post",
+        		dataType:"json",
+             	success:function(data){
+             		$("#mcList").children().remove();
+             		$.each(data,function(index,value){
+             			var $div = $('<div class="chRoom">');
+						var $ul = $('<ul>');
+						var $img = $("<li>");
+						var $rImg = $('<img src="resources/'+value.chatImage+'">');
+						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
+						if(value.read == 'N') {
+							if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
+								var $nImg = $('<img class="chat_read" src="resources/icons/chat_new.png" style="width: 10px; height:10px;">');
+	    						var $id = $("<li>").text(value.toId+"  ");
+	    						$id.append($nImg);
+	    						var $inputId = $('<input type="hidden" class="readId">').val(value.toId);
+    						} else {
+    							var $nImg = $('<img class="chat_read" src="resources/icons/chat_new.png" style="width: 10px; height:10px;">');
+    							var $id = $("<li>").text(value.fromId);
+    							$id.append($nImg);
+    							var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+    						}
+						} else {
+							if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
+	    						var $id = $("<li>").text(value.toId);
+	    						var $inputId = $('<input type="hidden" class="readId">').val(value.toId);
+    						} else {
+    							var $id = $("<li>").text(value.fromId);
+    							var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+    						}
+						}
+						var $cContent = $("<li>").text(value.cContent);
+						
+						$img.append($rImg);
+						$ul.append($img);
+						$ul.append($id);
+						$ul.append($cContent);
+						$div.append($ul);
+						$div.append($inputt);
+						$div.append($inputId);
+						$("#mcList").append($div);
+					});
+             	},
+             	error:function(){
+             		console.log("에러");
+             	}
+              });
+     }
+     
      /* 채팅방 채팅내용 불러오기 */
      $(document).on("click",".chRoom",function(){
     	 
@@ -224,10 +299,11 @@
     		} 
     	 });
     	 
-		var crNo = $(this).children("input").val();
+		var crNo = $(this).children(".crNo").val();
+		var readId = $(this).children(".readId").val();
 		$.ajax({
 			url:"oneChatContentList.do",
-			data:{crNo:crNo},
+			data:{crNo:crNo, readId:readId},
          	type:"post",
     		dataType:"json",
     		success:function(data){
@@ -272,6 +348,7 @@
     			});
     			$(".chat_room").show();
     			$("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+    			countChatRead();
     		},
     		error:function(){
     			console.log('에러');
@@ -280,50 +357,25 @@
 		var msg = $("#inputArea").val();
 	 });
 
-     /* 채팅 창 여는 스크립트 */	
+     
      $(function(){
-    	 $('#chat_icon').on("click",function(){
-             var state = $(".chat").css('display');
-             if(state =='none'){
-            	 $.ajax({
-                 	url:"oneChatList.do",
-                 	data:{userId:'<c:out value="${loginUser.userId}"/>'},
-                 	type:"post",
-            		dataType:"json",
-                 	success:function(data){
-                 		$("#mcList").children().remove();
-                 		$.each(data,function(index,value){
-                 			console.log(value.chatImage);
-                 			var $div = $('<div class="chRoom">');
-    						var $ul = $('<ul>');
-    						var $img = $("<li>");
-    						var $rImg = $('<img src="resources/'+value.chatImage+'">');
-    						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
-    						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
-	    						var $id = $("<li>").text(value.toId);
-    						} else {
-    							var $id = $("<li>").text(value.fromId);
-    						}
-    						var $cContent = $("<li>").text(value.cContent);
-    						
-    						$img.append($rImg);
-    						$ul.append($img);
-    						$ul.append($id);
-    						$ul.append($cContent);
-    						$div.append($ul);
-    						$div.append($inputt);
-    						$("#mcList").append($div);
-    					});
-                 		$('.chat').show();
-                 	},
-                 	error:function(){
-                 		console.log("에러");
-                 	}
-                  });
-             }else{
-                 $('.chat').hide();
-             }
-         });
+    	 countChatRead();
+    	 $('#menu li:nth-child(2)').on("click",function(){
+    		 var state = $(".chat").css('display');
+    		 var state2 = $(".chat_room").css("display");
+    		 if(state2 == 'none') {
+    			 if(state =='none'){
+    	             openChat();
+    	             $('.chat').show();
+                 } else {
+                	 $(".chat").hide();
+                 }
+    		 } else {
+    			 $(".chat_room").hide();
+    			 $(".chat").hide();
+    		 }
+             
+     	 });
     	 
     	 /* 채팅방 만들기 */
     	 $("#myFeed_message_btn").on("click",function(){
@@ -383,6 +435,7 @@
 
          $('#goList').on("click",function(){
              $(".chat_room").hide();
+        	 openChat();
          });
      });
      
@@ -465,6 +518,8 @@
  			}
  		 }
  		 $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+ 		 countChatRead();
+ 		 openChat();
  	 }
  	 // 서버와 연결을 끊었을 때
  	 function onClose(evt) {
