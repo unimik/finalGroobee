@@ -87,7 +87,7 @@
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
                                     <select id="reportType" class="selectRtype">
-                                        <option value="unacceptfeed">부적절한 게시글</option>
+                                        <option value="unacceptfeed" selected>부적절한 게시글</option>
                                         <option value="insult">욕설</option>
                                         <option value="ad">광고</option>
                                         <option value="spam">도배</option>

@@ -109,43 +109,7 @@
                         <div id="list">
                             <img src="resources/images/mp_profile_sample.jpg">
                             <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
 	     </div>
@@ -233,15 +197,26 @@
      /**************알림창 열기 ****************/
      $('#alarmIcon').on("click",function(){
        
-    	/*  $.ajax({
+    	 $.ajax({
     		 url: "getNotification.do",
+    		 datatype:'json',
     		 success: function(data){
-    			 
+    			 console.log(data);
+    			  var i =0;
+    			  while(data[i] != null){
+    				  console.log(data[i]);
+    				  i++;
+    				 /*  $('#alarmList').append('<p>'+ data[i].alramContent+'추가 확인.</p><br>'); */
+    				  
+    				  $('#alarmList').append('<div id="list">'+
+                      data[i].alramContent+'</div>');
+    				  
+    			  }
     		 },error: function(error){
-    			 
+    			 alert('에러');
     		 }
     	 })
-    	 */ 
+    	 
     	 
     	 $('.user_alarm').slideToggle();
                     
