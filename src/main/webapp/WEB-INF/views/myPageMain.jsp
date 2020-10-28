@@ -20,6 +20,9 @@
     color: #555555;
     readonly="readonly";
     }
+    .sbBoxCheck{
+    display:none;
+    }
    </style>
 </head>
 <body>
@@ -385,10 +388,11 @@
                                     <div type="button" class="storageBox_subBtn2"><img src="<%=request.getContextPath()%>/resources/icons/correct_folder.png"></div>
                                     <div type="button" class="storageBox_subBtn3"><img src="<%=request.getContextPath()%>/resources/icons/delete.png"></div>
                                     <div type="button" class="storageBox_subBtn4"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
+                                    <div type="button" class="storageBox_subBtn5"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                 </div>
                             </td>
                         </tr>
-                     <input type="hidden" value="${ loginUser.mNo }" id="mNo"/>
+                     <input type="hidden" value="${ loginUser.mNo }" id="mNoInput"/>
                         <%! int  j = 0; %>
                         <c:forEach var="sb" items="${ storageBoxList }">
                        	<% if (j%3 == 0){ %>
@@ -399,8 +403,11 @@
                             <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
                             <div id="box2">폴더명</div>--%>
                             <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <label>
+                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+                            </label>
                             <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
@@ -670,55 +677,99 @@
 	    
 		$('.sbNameBox').css('border','none');
 		$('.sbNameBox').attr('readonly', 'readonly');
-		//맵객체로 만들것
-		var sbname = $('.sbNameBox')[0].value;
-		var sbno = $('.sbNo')[0].value;
 		
-		var arr = [[1,폴더명],[2,폴더명],[]];
-		console.log( $('.sbNo').value );
+		
+		//맵객체로 만들것
+		var sbBoxMap = new Map();
+		for(var i =0; i < $('.sbNo').length; i++ ){
+			sbBoxMap.set($('.sbNo')[i].value,$('.sbNameBox')[i].value);
+		}
+		
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		//맵 만들어졌는지 확인용
+		console.log(sbBoxMap);
+		
+		//수정완료 에이작스
+		$.ajax({
+			url:'updateBox.do',
+			dataType:'json',
+			type:'post',
+			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
+			contentType :'application/json; charset=UTF-8',
+	        success: function(data) {
+	            alert('수정 완료되었습니다');
+	        },
+	        error: function(request) {
+	        	 alert('안됨');
+	        }
+		});
 		
 	});
+
     /* 보관함 삭제 */
     $('.storageBox_subBtn3').click(function() {
-		
-           var rename_folderId = 
-           $.ajax({
-              url:"updateBox.do",
-              data:{
-                 id: rename_folder0   
-              },
-              type:"post",
-              success:function(data){
-                 console.log(data);
-                    $('.folder_default').hide();
-                    $('.folder_correct').hide();
-                    $('.folder_delete').show();
-
-                    $('.storageBox_subBtn2').hide();
-                    $('.storageBox_subBtn4').show();
-              },
-               error:function(request,jqXHR,exception){
-                 var msg="";
-                 if(request.status == 0){
-                    msg = 'Not Connect. \n Verify Network.';
-                 } else if(request.status == 404){
-                    msg = 'Requested page not fount [404]';
-                 } else if(request.status == 500){
-                    msg = 'Internal Server Error [500]';
-                 } else if(request.status == 'parsererror'){
-                    msg = 'Requested JSON parse failed';
-                 } else if(exception == 'timeout'){
-                    msg = 'Time out error';
-                 } else if(exception == 'abort'){
-                    msg = 'Ajax request aborted';
-                 } else {
-                    msg = 'Error. \n' + jqXHR.responseText;
-                 }
-                 alert(msg);
-              } 
-           });
+    	
+    	$('.storageBox_subBtn3').hide();
+    	$('.storageBox_subBtn4').hide();
+    	$('.storageBox_subBtn5').show();
+    	 $('.sbBoxCheck').css('display','block');
 
     });
+   
+    /*보관함 삭제 완료..*/
+    $('.storageBox_subBtn5').click(function(){
+    	$('.sbBoxCheck').css('display','none');
+    	
+        var sbBoxMap = new Map();
+        var j = 0;
+		for(var i =0; i < $('.sbBoxCheck').length; i++ ){
+			if($('.sbBoxCheck')[i].checked == true){
+				sbBoxMap.set(j,$('.sbBoxCheck')[i].value);
+				j++;
+			}
+		}
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		
+		//맵 만들어졌는지 확인용
+		console.log(sbBoxMap);
+
+    	$('.storageBox_subBtn3').show();
+    	$('.storageBox_subBtn4').show();
+    	
+         $.ajax({
+            url:"deleteBox.do",
+        	dataType:'json',
+			type:'post',
+			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
+			contentType :'application/json; charset=UTF-8',
+	        success:function(data){
+               console.log(data);
+           	$('.storageBox_subBtn3').show();
+        	$('.storageBox_subBtn4').show();
+            },
+             error:function(request,jqXHR,exception){
+               var msg="";
+               if(request.status == 0){
+                  msg = 'Not Connect. \n Verify Network.';
+               } else if(request.status == 404){
+                  msg = 'Requested page not fount [404]';
+               } else if(request.status == 500){
+                  msg = 'Internal Server Error [500]';
+               } else if(request.status == 'parsererror'){
+                  msg = 'Requested JSON parse failed';
+               } else if(exception == 'timeout'){
+                  msg = 'Time out error';
+               } else if(exception == 'abort'){
+                  msg = 'Ajax request aborted';
+               } else {
+                  msg = 'Error. \n' + jqXHR.responseText;
+               }
+               alert(msg);
+            } 
+         });
+         
+    });
+
 
 
 	 

@@ -3,11 +3,14 @@ package com.kh.spring.myPage.controller;
 
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -227,7 +231,73 @@ public class MypageController {
 		
 		return job.toString();
 	}
+	
+	//보관함 이름 수정
+	@RequestMapping(value="updateBox.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> updateBox(@RequestBody Map<String, Object> sbBoxMap) {
+		int mno = 0;
+		ArrayList<StorageBox> sblist = new ArrayList<StorageBox>();
+	
+		for(String key : sbBoxMap.keySet()) {
+			if( key.equals("mno")) {
+				mno = (int)sbBoxMap.get(key);
+			}
+		}
+		
+		for(String key : sbBoxMap.keySet()) {
+			if( !key.equals("mno")) {			
+				StorageBox sb = new StorageBox();
+				String value = (String) sbBoxMap.get(key); 
+				sb.setSbNo(Integer.parseInt(key));
+				sb.setSbName(value);
+				sb.setmNo(mno);
+				sblist.add(sb);
+			}
+		}
+//		System.out.println("mno : "+mno);
+//		System.out.println(sblist);
+		
+		if(mno !=0) {
+		int result = myService.updateBox(sblist);
+		System.out.println("결과값 어캐나옴"+ result);
+		}
+		return sbBoxMap;
+		
+	}
+	
+	//보관함 삭제
+	@RequestMapping(value="deleteBox.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> deleteBox(@RequestBody Map<String, Object> sbBoxMap) {
+		int mno = 0;
+		StorageBox sb = new StorageBox();
+		
+		for(String key : sbBoxMap.keySet()) {
+			if( key.equals("mno")) {
+				mno = (int)sbBoxMap.get(key);
+			}
+		}
+		String[] str = new String[sbBoxMap.size()-1];
+		int i = 0;
+		for(String key : sbBoxMap.keySet()) {
+			if( !key.equals("mno")) {			
+				String value = (String)sbBoxMap.get(key); 
+				str[i] = value;
+				i++;	
+			}
+		}
+		sb.setmNo(mno);
+		sb.setSbNos(str);
+		System.out.println(sb);
+		if(mno !=0) {
+			//이거 트라이 캐치구문으로 감쌀것...
+			int result = myService.deleteteBox(sb);
+			System.out.println("결과값 어캐나옴"+ result);
+			}
 
+		return sbBoxMap;
+		
+	}
+	
 
 	@RequestMapping(value="goUserpage.do")
 	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
