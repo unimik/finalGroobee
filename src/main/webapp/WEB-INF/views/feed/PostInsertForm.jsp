@@ -18,82 +18,8 @@
     <div class="wapper">
         <c:import url="../common/menubar.jsp"/>
         <div class="content">
-            <div id="chat" name="chat" class="chat">
-                <div class="tab_menu">
-                    <button class="tab_menu_btn1 tab_menu_btn on">내 채팅</button>
-                    <button class="tab_menu_btn2 tab_menu_btn">그룹</button>
-                    <div class="tab_box_container">
-                        <div class="tab_box1 tab_box on">
-                            <div id="search_f">
-                                <input type="search" id="f_list" name="f_list" placeholder="친구 검색">
-                                <input type="button" id="searchBtn" name="searchBtn" value="검색">
-                            </div>
-                            <div id="myChat_list">
-                                <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="chat_back"></li>
-                                    <li>user02</li>
-                                    <li>그래서 어떻게 됐음?</li>
-                                </ul>
-                            </div>
-                            <div id="myChat_list">
-                                <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
-                                    <li>user03</li>
-                                    <li>나는 낼 들어온다 안녕~</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="tab_box2 tab_box">
-                            <div id="search_g">
-                                <input type="search" id="g_list" name="g_list" placeholder="그룹 검색">
-                                <input type="button" id="searchBtn" name="searchBtn" value="검색">
-                            </div>
-                            <div id="myGroupChat_list">
-                                <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/group_sample.png" alt="" id="chat_back"></li>
-                                    <li>강남 사람</li>
-                                    <li>오늘 날씨 좋지 않나요?</li>
-                                </ul>
-                            </div>
-                            <div id="myGroupChat_list">
-                                <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
-                                    <li>떠나자 여행</li>
-                                    <li>거기 여행지로 추천!!</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="search_userInfo">
-                <div class="myAccount">
-                    <div id="myId">
-                        <img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="myProfile" id="myProfile">
-                        <p>${ loginUser.userId }</p>
-                    </div>
-                    <div id="MyTab">
-                        <button class="MyTab_tab1 MyTab_tab on">친구</button>
-                        <button class="MyTab_tab2 MyTab_tab">그룹</button>
-                        <div id="MyTab_container">
-                            <div class="MyTab_box1 MyTab_box on">
-                                <div id="My_f_list">
-                                    <ul id="f_info">
-                                        <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="f_list_img"></li>
-                                        <li>${ userId }</li>
-	                                        <c:if test="${ followUser.follows eq mNo }">
-	                                        <li><button id="following" name="following">팔로잉</button></li>                                        	
-	                                        </c:if>
-	                                	<li><button id="follow" name="follow">팔로우</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="MyTab_box2 MyTab_box">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <!--피드 영역 스크롤 필요해서 position 인라인으로 변경해둠-->
             <div id="feedArea" style="position: relative;">

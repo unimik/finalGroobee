@@ -61,7 +61,7 @@ public class MypageController {
 		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
 		ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
-		
+			
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
@@ -80,10 +80,11 @@ public class MypageController {
 	
 	@RequestMapping(value="mupdate.do",method=RequestMethod.POST)
 	public ModelAndView memberUpdate(ModelAndView mv, Member m, HttpServletRequest request
-			,String email1,String email2,String interest
+			,String email1,String email2,String interest, String mIntro, String userName
 			,@RequestParam(value="file", required=false) MultipartFile  memFile) {
 		
 		
+		Member mSesison = (Member)session.getAttribute("loginUser");
 		
 		if( memFile != null && !memFile.isEmpty()) {
 			if(m.getmRenameImage() != null) {
@@ -95,14 +96,18 @@ public class MypageController {
 			if(renameFileName != null) {
 				m.setmImage(memFile.getOriginalFilename());
 				m.setmRenameImage(renameFileName);
-				Member mSesison = (Member)session.getAttribute("loginUser");
 				mSesison.setmRenameImage(renameFileName);
 			}
 		}
 		
-		
 		m.setEmail(email1+"@"+email2);
 		m.setInterestes(interest);
+		m.setmIntro(mIntro);
+		m.setUserName(userName);
+		mSesison.setEmail(email1+"@"+email2);
+		mSesison.setInterestes(interest);
+		mSesison.setmIntro(mIntro);
+		mSesison.setUserName(userName);
 		
 		System.out.println(m);
 		int result = mService.memberUpdate(m);
