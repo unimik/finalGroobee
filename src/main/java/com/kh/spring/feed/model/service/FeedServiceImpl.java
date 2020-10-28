@@ -25,5 +25,10 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.selectFeed();
 	}
 
+	@Override
+	public int updatePost(Feed f) {
+		return 0;
+	}
+
 
 }

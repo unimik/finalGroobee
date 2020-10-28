@@ -22,4 +22,6 @@ public interface FeedService {
 	 *
 	 */
 	ArrayList<Feed> selectFeed();
+
+	int updatePost(Feed f);
 }

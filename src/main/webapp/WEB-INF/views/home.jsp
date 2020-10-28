@@ -1,3 +1,4 @@
+
 <%@page import="com.kh.spring.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -14,6 +15,8 @@
 <style>
 	#feed{ height: fit-content; margin-bottom: 50px; }
 	#footer{ height: 200px; text-align: center; }
+	.pop_menu{ background: #00000005; }
+	a{ color: black; }
 </style>
 </head>
 <body>
@@ -83,9 +86,9 @@
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
 			</div>
 		<c:choose>
-			<c:when test="${ !loginUser.userId }">
+			<c:when test="${ loginUser.userId ne f.fWriter }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
-				<div class="pop_menu">
+<!-- 				<div class="pop_menu">
 					<div id="feed_menu_list">
 						<ul>
 							<li><a id="feed_report_btn">신고</a></li>
@@ -94,10 +97,10 @@
 							<li><a id="close">취소</a></li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 			</c:when>
 			<c:otherwise>
-				<!-- 내가 쓴 글 볼 때 피드메뉴 -->
+				<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
                 <div class="pop_menu">
                     <div id="feed_Mymenu_list">
                         <ul>
@@ -124,7 +127,9 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-				<img src="${ contextPath }/resources/images/IMG_7572.JPG" alt="" id="input_img">
+				<c:if test="${ !empty f.fFile }">
+				<img src="${ contextPath }/resources/pUploadFiles/${ f.fRenameFile }" alt="" id="input_img">
+				</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
@@ -173,7 +178,82 @@
 	</div>
 	</div>
 	
-	<script>
+    <script>
+
+        /*************** 채팅 ****************/
+
+        $(document).ready(function(){
+            $('#chat_icon').click(function(){
+                var state = $(".chat").css('display');
+                if(state=='none'){
+                    $('.chat').show();
+                }else{
+                    $('.chat').hide();
+                }
+            });
+
+            $('.tab_menu_btn').on('click',function(){
+                $('.tab_menu_btn').removeClass('on');
+                $(this).addClass('on')
+            });
+
+            $('.tab_menu_btn1').on('click',function(){
+                $('.tab_box').hide();
+                $('.tab_box1').show();
+            });
+
+            $('.tab_menu_btn2').on('click',function(){
+                $('.tab_box').hide();
+                $('.tab_box2').show();
+            });
+
+            $("#list").on("click",function(){
+                $(".chat_room").show();
+            });
+
+            $('#goList').on("click",function(){
+                $(".chat_room").hide();
+            });
+
+
+            /************  팝업 메뉴 script *********** */
+
+            $('#feed_menu').on("click",function(){
+                $('.pop_menu').show();
+            });
+
+            $('#close').on('click',function(){
+                $('.pop_menu').hide();
+            });
+
+            $('#feed_report_btn').on("click",function(){
+                $('.feed_report').show();
+            });
+
+            $('#cancel').on("click",function(){
+                $('.feed_report').hide();
+            });
+
+            $('#updateBtn').on("click",function(){
+                $('.reply_menu').show();
+            });
+
+            $('#re_close').on("click",function(){
+                $('.reply_menu').hide();
+            });
+
+
+            /***** 알림 팝업 *******/
+
+            $('#alarmIcon').on("click",function(){
+                    $('.user_alarm').slideToggle();
+            });
+
+
+        });
+
+    
+
         /************* 내계정 자세히보기 script **************/
 
         $(document).ready(function(){
@@ -195,11 +275,6 @@
         $('.MyTab_tab2').on('click', function(){
             $('.MyTab_box').hide();
             $('.MyTab_box2').show();
-        });
-        
-        $('.MyTab_tab3').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box3').show();
         });
 
         $('#goMypage').click(function(){

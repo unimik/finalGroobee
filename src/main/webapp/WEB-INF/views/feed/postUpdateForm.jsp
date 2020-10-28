@@ -30,14 +30,14 @@
                             </div>
                             <div id="myChat_list">
                                 <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/IMG_7273.JPEG" alt="" id="chat_back"></li>
+                                    <li><img src="../resources/images/IMG_7273.JPEG" alt="" id="chat_back"></li>
                                     <li>user02</li>
                                     <li>그래서 어떻게 됐음?</li>
                                 </ul>
                             </div>
                             <div id="myChat_list">
                                 <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
+                                    <li><img src="../resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
                                     <li>user03</li>
                                     <li>나는 낼 들어온다 안녕~</li>
                                 </ul>
@@ -50,14 +50,14 @@
                             </div>
                             <div id="myGroupChat_list">
                                 <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/group_sample.png" alt="" id="chat_back"></li>
+                                    <li><img src="../resources/images/group_sample.png" alt="" id="chat_back"></li>
                                     <li>강남 사람</li>
                                     <li>오늘 날씨 좋지 않나요?</li>
                                 </ul>
                             </div>
                             <div id="myGroupChat_list">
                                 <ul id="list">
-                                    <li><img src="${ contextPath }/resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
+                                    <li><img src="../resources/images/IMG_7460.JPG" alt="" id="chat_back"></li>
                                     <li>떠나자 여행</li>
                                     <li>거기 여행지로 추천!!</li>
                                 </ul>
@@ -95,20 +95,28 @@
                     </div>
                 </div>
             </div>
+            <div id="menubar">
+                <ul id="menu">
+                    <li><a href="../views/home.html"><img src="../resources/icons/menu_home.png" alt="HOME"></a></li>
+                    <li><img src="../resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
+                    <li><a href="../views/groupPage.html"><img src="../resources/icons/menu_group.png" alt="GROUP"></a></li>
+                    <li><img src="../resources/icons/menu_set.png" alt="SET"></li>
+                </ul>
+            </div>
             <!--피드 영역 스크롤 필요해서 position 인라인으로 변경해둠-->
             <div id="feedArea" style="position: relative;">
                 <!-- 전체 감싸는 div 영역 -->
                 <div id="postingForm">
                     <h4>새 피드 작성</h4>
                     <hr>
-                    <form action="pInsert.do" method="post" id="postInsert" enctype="multipart/form-data">
+                    <form action="서블릿이름" method="post" enctype="multipart/form-data">
                     	<input type="hidden" name="fWriter" value="${ loginUser.userId }">
 						<input type="hidden" name="mNo" value="${ loginUser.mNo }">
                         <table id="tbb">
                             <!--글 쓰는 영역-->
                             <tr>
                                 <td>
-                                    <textarea cols="60" rows="7" name="fContent"></textarea>
+                                    <textarea cols="50" rows="7" name="fContent"></textarea>
                                 </td>    
                             </tr>
                             <!-- 파일 첨부 영역 + 버튼 누르면 최대 5개까지 첨부파일 넣을 수 있게 해야함 ** 수정 할것-->
@@ -117,7 +125,7 @@
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" multiple="multiple" id="input_file" name="uploadFile">
+                                    <input type="file" id="input_file" name="uploadFile">
                                 </td>
                             </tr>
                             <tr>
@@ -150,7 +158,7 @@
                                 <td class="checkList tdfi">공개여부</td>
                                 <td class="tdfi">
                                     <select>
-                                        <option id="public" name="public">전체공개</option>
+										<option id="public" name="public">전체공개</option>
                                         <option id="friends" name="friends">친구만</option>
                                         <option id="private" name="private">비공개</option>
                                     </select>
@@ -189,11 +197,11 @@
                             <tr>
                                 <td id="btnstd">
                                     <button id="btns1">
-                                        <a id="page_back" href="home.do">이전</a>
+                                        <a id="page_back" href="javascript:history.go(-1);">이전</a>
                                     </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input id="btns2" type="submit" value="작성">
+                                    <input id="btns2" type="submit" value="수정">
                                 </td>
-                            </tr>
+                            </tr>                            
                         </table>
                     </form>
                 </div>
@@ -240,17 +248,7 @@
                 $('.reply_menu').hide();
             });
 
-            /*************** 그룹 선택 옵션 *****************/
 
-            $('#select_board').change(function(){
-                var state = $("#select_board option:selected").val();
-                
-                if(state == 'group'){
-                    $('#myGroupList').css("display","block");
-                } else{
-                    $('#myGroupList').hide();
-                }
-            })
         });
 
 
@@ -293,33 +291,6 @@
             $('.MyTab_box2').show();
         });
 
-        
-        /************* 파일 다중 업로드 Ajax 
-        
-        function UploadBtn() {
-        	
-        	var form = $("#postInsert")[0];
-        	var formData = new FormData(form);
-        	
-        	$.ajax({
-        		type: 'post',
-        		url: 'MultiUpload.do',
-        		data: formData,
-        		processData: false,
-        		contentType: false,
-        		success: function(data) {
-        			alert("포스트 업로드에 성공하였습니다.");
-        			$
-        		},
-        		error: function(html) {
-        			alert("포스트 업로드에 실패하였습니다.");
-        			console.log(error);
-        			console.log(error.status);
-        		}
-        	});
-        }
-        
-        **************/
 
     </script>
 </body>
