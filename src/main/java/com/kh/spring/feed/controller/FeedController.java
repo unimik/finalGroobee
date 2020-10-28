@@ -93,8 +93,6 @@ public class FeedController {
 			return renameFileName;
 		}
 		
-		return src;
-		
 	}
 	
 	@RequestMapping("pUpdate.do")					//	 ↓ 제외 가능

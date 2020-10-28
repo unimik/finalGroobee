@@ -163,7 +163,7 @@
 						var $gStatus = $("<td>").text(data[i].gStatus); // 활성화 여부
 						
 						// 정지 버튼
-						if(data[i].mStatus==='Y'){
+						if(data[i].gStatus==='Y'){
 							var $getOutBtn = $("<td>").html(dynamicBtnY); // 활성화 상태가 Y일 때 
 						}else{
 							var $getOutBtn = $("<td>").html(dynamicBtnN); // 활성화 상태가 N일 때

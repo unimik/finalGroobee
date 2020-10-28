@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.admin.service.AdminService;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
 
@@ -67,7 +67,6 @@ public class adminController {
 	public void memberSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
 		response.setContentType("application/json; charset=utf-8");
 		
-		System.out.println(request.getParameter("enrolldate"));
 		Member m = new Member(); // 받아온 파라미터를 정보를 담을 객체
 		
 		if(!request.getParameter("id").equals("")) {
@@ -85,18 +84,20 @@ public class adminController {
 		m.setcDate(todate);
 		}
 		
-		System.out.println(m);
 		ArrayList<Member> memberList = aService.memberSearchList(m);
 		
-		System.out.println("컨트롤러로 돌아왔니?");
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(memberList,response.getWriter());
 	}
 	
-	@ResponseBody
+	/** 2-1. group 정보 조회
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
 	@RequestMapping(value="groupSearch.do", method=RequestMethod.POST)
-	public void groupsSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
+	public void groupSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
 		response.setContentType("application/json; charset=utf-8");
 		
 		Group g= new Group(); // 받아온 파라미터를 정보를 담을 객체
@@ -108,7 +109,7 @@ public class adminController {
 			g.setgCategory(request.getParameter("category"));
 		}
 		if(!request.getParameter("tag").equals("")) {
-			g.setgTag(request.getParameter("tag"));			
+			g.setgTag(request.getParameter("tag"));
 		}
 		
 		if(!request.getParameter("enrolldate").equals("")) {
@@ -116,13 +117,50 @@ public class adminController {
 			g.setgDate(todate);
 		}
 		
-		System.out.println(g);
 		ArrayList<Group> groupList = aService.groupSearchList(g);
 		
-		System.out.println("컨트롤러로 돌아왔니?");
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(groupList,response.getWriter());
+	}
+
+	/** 3-1. 댓글 정보 조회
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
+	@RequestMapping(value="replySearch.do", method=RequestMethod.POST)
+	public void replySearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
+		response.setContentType("application/json; charset=utf-8");
+				
+		Reply re =  new Reply(); // 받아온 파라미터를 정보를 담을 객체
+		
+		String id = request.getParameter("re_id");
+		String num = request.getParameter("re_num");
+		String content =request.getParameter("re_Content");
+		String date= request.getParameter("re_writedate");
+		
+		
+		if(!id.equals("")||!num.equals("")||!content.equals("")||!date.equals("")) {
+			System.out.println("if문으로 들어오니?");
+			if(!id.equals("")) {
+				re.setrWriter(id);
+			}
+			if(!num.equals("")) {
+				re.setrNo(Integer.parseInt(num));
+			}
+			if(!content.equals("")) {
+				re.setrContent(content);
+			}
+			if(!date.equals("")) {
+				re.setrCreateDate(date); // 스트링으로 저장해야하네??
+			}
+		}
+			
+		ArrayList<Reply> replyList = aService.replySearchList(re);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(replyList,response.getWriter());
 	}
 	
 }

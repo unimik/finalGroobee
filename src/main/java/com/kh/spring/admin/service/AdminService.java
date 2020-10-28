@@ -2,6 +2,7 @@ package com.kh.spring.admin.service;
 
 import java.util.ArrayList;
 
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
 
@@ -20,5 +21,11 @@ public interface AdminService {
 	 * @return
 	 */
 	ArrayList<Group> groupSearchList(Group g);
+
+	/** 3. 댓글 리스트 조회
+	 * @param re
+	 * @return
+	 */
+	ArrayList<Reply> replySearchList(Reply re);
 
 }

@@ -3,6 +3,8 @@ package com.kh.spring.group.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import com.kh.spring.member.model.vo.Member;
+
 public class GroupMember implements Serializable{
 
 	/**

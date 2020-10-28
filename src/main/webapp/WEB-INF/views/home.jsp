@@ -10,7 +10,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="resources/css/home.css">
-<link rel="stylesheet" href="resources/css/myAccount.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 	#feed{ height: fit-content; margin-bottom: 50px; }
@@ -23,54 +22,7 @@
 	<div class="wapper">
 		<c:import url="common/menubar.jsp" />
 		<div class="content">
-			<div class="myAccount">
-				<div id="myId">
-					<img src="../resources/images/IMG_7502.JPG" alt="myProfile"
-						id="myProfile">
-					<p>user01</p>
-				</div>
-				<div id="MyTab">
-					<button class="MyTab_tab1 MyTab_tab on">팔로워</button>
-					<button class="MyTab_tab2 MyTab_tab">팔로잉</button>
-					<button class="MyTab_tab3 MyTab_tab">그룹</button>
-					<div id="MyTab_container">
-						<!-- 팔로워 -->
-						<div class="MyTab_box1 MyTab_box on">
-							<div id="My_follower_list">
-								<ul id="follower_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="follower_list_img"></li>
-									<li>user02</li>
-									<li><button id="follower" name="follower">삭제</button></li>
-								</ul>
-							</div>
-						</div>
-						<!-- 팔로잉 -->
-						<div class="MyTab_box2 MyTab_box">
-							<div id="My_following_list">
-								<ul id="following_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="following_list_img"></li>
-									<li>user02</li>
-									<li><button id="following" name="following">팔로잉</button></li>
-								</ul>
-							</div>
-						</div>
-						<!-- 그룹 -->
-						<div class="MyTab_box3 MyTab_box">
-							<div id="My_fgroup_list">
-								<ul id="fgroup_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="fgroup_list_img"></li>
-									<li>user02</li>
-									<li><button id="del_group" name="del_group">탈퇴</button></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		</div>	
 	<div id="feedArea">
 	<c:forEach var="f" items="${ feed }" varStatus="status">
 		<div id="feed">
@@ -178,6 +130,7 @@
 	</div>
 	</div>
 	
+<<<<<<< HEAD
     <script>
 
         /*************** 채팅 ****************/
@@ -281,6 +234,10 @@
             location.href="../views/myPage_Main.html";
         });
 
+=======
+	<script>
+        
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
     </script>
 </body>
 </html>

@@ -144,6 +144,27 @@ public interface GroupService {
 	 * @return
 	 */
 	int gmChangeManager(GroupMember gm);
+
+	/**
+	 * 20. 그룹 매니저 변경
+	 * @param g
+	 * @return
+	 */
+	int gManagerChange(Group g);
+
+	/**
+	 * 21. 매니저 -> 멤버로 변경
+	 * @param gm
+	 * @return
+	 */
+	int gmChangeMember(GroupMember gm);
+
+	/**
+	 * 22. 그룹매니저 삭제
+	 * @param g
+	 * @return
+	 */
+	int gManagerDelete(Group g);
 	
 
 }

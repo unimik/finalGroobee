@@ -43,4 +43,25 @@ public class ChatDao {
 		return rmList;
 	}
 
+	public int insertChatRoom(String myId, String otherId) {
+		Chat c1 = new Chat();
+		Chat c2 = new Chat();
+		c1.setFromId(myId);
+		c2.setFromId(otherId);
+		int insertChatRoomResult = sqlSession.insert("chatMapper.insertChatRoom");
+		if(insertChatRoomResult > 0) {
+			int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
+			c1.setCrNo(crNo);
+			c2.setCrNo(crNo);
+			int insertJoinResult1 = sqlSession.insert("chatMapper.insertJoinRoom",c1);
+			int insertJoinResult2 = sqlSession.insert("chatMapper.insertJoinRoom",c2);
+			if(insertJoinResult1 > 0 && insertJoinResult2 > 0) {
+				return crNo;
+			} else 
+				return 0;
+		} else {
+			return 0;
+		}
+	}
+
 }

@@ -19,6 +19,5 @@ public class NotificationDao {
 	public List<Notification> getNotification(int mNo) {
 		return sqlSession.selectList("NotificationMapper.getNotification",mNo);
 	}
-	//"settingMapper.disableblock",p);
 
 }
