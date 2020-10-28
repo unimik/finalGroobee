@@ -86,7 +86,7 @@
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
                                     <select id="reportType" class="selectRtype">
-                                        <option value="unacceptfeed">부적절한 게시글</option>
+                                        <option value="unacceptfeed" selected>부적절한 게시글</option>
                                         <option value="insult">욕설</option>
                                         <option value="ad">광고</option>
                                         <option value="spam">도배</option>
@@ -199,33 +199,7 @@
         /************** 채팅 팝업 *****************/
 
         $(document).ready(function(){
-           /*  $('#chat_icon').click(function(){
-                var state = $(".chat").css('display');
-                if(state=='none'){
-                    $('.chat').show();
-                }else{
-                    $('.chat').hide();
-                }
-
-                $('.tab_menu_btn').on('click',function(){
-                    $('.tab_menu_btn').removeClass('on');
-                    $(this).addClass('on')
-                });
-
-                $('.tab_menu_btn1').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box1').show();
-                });
-
-                $('.tab_menu_btn2').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box2').show();
-                });
-
-
-            }); */
-
-
+          
             /************  팝업 메뉴 script *********** */
 
             $('#group_menuBtn').on("click",function(){
@@ -301,32 +275,8 @@
                 $('.joinPop_back').hide();
             });
         });
-	
 
-
-
-        /************* 내계정 자세히보기 script **************/
-
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
-
-        $('.MyTab_tab').on("click",function(){
-            $('.MyTab_tab').removeClass('on');
-            $(this).addClass('on')
-        });
-
-        $('.MyTab_tab1').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box1').show();
-        });
-
-        $('.MyTab_tab2').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box2').show();
-        });
+        
 
 
          /*********** 뉴피드 / 핫피드 *************/

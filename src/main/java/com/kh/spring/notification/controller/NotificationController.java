@@ -26,11 +26,16 @@ public class NotificationController {
 	
 	@ResponseBody
 	@RequestMapping("getNotification.do")
-	public String getNotification() {
+	public List getNotification() {
 	
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		List<Notification> nt = nService.getNotification(m.getmNo());
-		return"null";
+		int i = 0;
+		System.out.println(nt);
+		while(nt.isEmpty()) {
+			System.out.println(nt);
+		}
+		return nt;
 	}
 }

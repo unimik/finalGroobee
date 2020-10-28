@@ -20,6 +20,29 @@
     color: #555555;
     readonly="readonly";
     }
+    #interests{
+    font-size:smaller;
+    color:grey;
+    }
+    #myPage_introduction{
+    padding-top: 20px;
+    }
+    #mp_profile_info>h5{
+    color:#555555;
+	margin: 0px;
+	height:15px;
+	margin-left:20px;
+	font-weight:500;
+    }
+    #mp_profile_info>h3{
+    margin-bottom:5px;
+    }
+    #mp_profile_follow{
+    margin-top:10px;
+    }
+    #self-introduction{
+    margin:0 40px 30px 30px;
+    }
    </style>
 </head>
 <body>
@@ -41,12 +64,10 @@
                         </div>
                         <div id="mp_profile_info">
                             <h3>${ loginUser.userId }</h3>
+                            <h5>${ loginUser.userName }</h5>
                         </div>
                         <div id="mp_profile_edit">
                             <input type="button" id="profile_edit_btn" name="profile_edit_btn" value="프로필 편집">
-                            <%-- <input type="button" id="follow_btn" name="follow_btn" value="팔로우">
-                            <input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
-                            <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn"> --%>
                         </div>
 
                     <!-- 다른 사람이 내 피드를 방문했을 때 -->
@@ -115,10 +136,10 @@
                 <!-- 소개 부분 -->
                     <div id="myPage_introduction">
                         <div id="self-introduction">
-                            ${ memberInfo.mIntro }
+                            ${ loginUser.mIntro }
                         </div>
                         <div id="interests">
-                             ${ memberInfo.interestes }
+                             ${ loginUser.interestes }
                         </div>
                     </div>
                     
@@ -462,7 +483,7 @@
                                                 <h5 class="group_interests">${ groupList.gCategory }</h5>
                                                 <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
                                             </div>
-                                            <input type="button" class="leaveBtn" value="탈퇴">
+                                            <input type="button" class="leaveBtn" value="탈퇴" onclick="leave();">
                                         </div>
                                 </td>
                             </tr>
@@ -597,6 +618,10 @@
     $('#close_btn').on('click',function(){
        $('.myFeed_popup_myEdit').hide();
      });
+    /*그룹 탈퇴 이동*/
+    $('.leaveBtn').click(function(){
+    	gdelete.do
+    });
     
     /*보관함 이름 수정*/
     $('.storageBox_subBtn2').click(function() {
