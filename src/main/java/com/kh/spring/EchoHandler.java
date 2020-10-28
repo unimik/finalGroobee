@@ -67,14 +67,25 @@ public class EchoHandler extends TextWebSocketHandler{
         	int crNo = Integer.parseInt(crno);
         	
         	if(sendType.equals("chatting")) {
-        		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
         		WebSocketSession toSession =  userSessions.get(toId);
-        		if(toSession == null) {
-        			session.sendMessage(new TextMessage(Rmsg+"|sender"));
-        		} else {
-        			session.sendMessage(new TextMessage(Rmsg+"|sender"));
-        			toSession.sendMessage(new TextMessage(Rmsg));
-        		}
+        		if(Rmsg == null || Rmsg.equals("")) {
+            		Rmsg = " ";
+            		if(toSession == null) {
+            			session.sendMessage(new TextMessage(Rmsg+"|sender"));
+            		} else {
+            			session.sendMessage(new TextMessage(Rmsg+"|sender"));
+            			toSession.sendMessage(new TextMessage(Rmsg));
+            		}
+            	} else {
+            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+            		if(toSession == null) {
+            			session.sendMessage(new TextMessage(Rmsg+"|sender"));
+            		} else {
+            			session.sendMessage(new TextMessage(Rmsg+"|sender"));
+            			toSession.sendMessage(new TextMessage(Rmsg));
+            		}
+            	}
+        		
         	} else if(sendType.equals("alarm")) {
         		
         	}

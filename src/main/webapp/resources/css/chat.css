@@ -43,6 +43,10 @@ input:focus{ outline:none;}
 #chatArea::-webkit-scrollbar{width: 7px;}
 #chatArea::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
 #chatArea::-webkit-scrollbar-track{ background-color: #daf4ed;}
+#mcList::-webkit-scrollbar{width: 7px;}
+#mcList::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
+#mcList::-webkit-scrollbar-track{ background-color: #daf4ed;}
+
 
 .chating>div{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
 

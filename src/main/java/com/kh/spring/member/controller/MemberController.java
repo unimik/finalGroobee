@@ -64,10 +64,9 @@ public class MemberController {
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed();
-//		for(Feed ff : feed) {
-//			System.out.println(ff);
-//		}
-		ArrayList<Feed> f = fService.selectFeed();
+		for(Feed ff : feed) {
+			System.out.println(ff);
+		}
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);

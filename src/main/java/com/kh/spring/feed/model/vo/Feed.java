@@ -29,6 +29,28 @@ public class Feed {
 
 	public Feed(int fNo, int mNo, String fContent, String fWriter, String fFile, String fRenameFile, Date fCreateDate,
 			Date fModifyDate, String fStatus, String fLocation, String fOpenScope, String fLikeSet, String fReplySet,
+			String fShareSet, int fLikeCnt, int fReplyCnt) {
+		super();
+		this.fNo = fNo;
+		this.mNo = mNo;
+		this.fContent = fContent;
+		this.fWriter = fWriter;
+		this.fFile = fFile;
+		this.fRenameFile = fRenameFile;
+		this.fCreateDate = fCreateDate;
+		this.fModifyDate = fModifyDate;
+		this.fStatus = fStatus;
+		this.fLocation = fLocation;
+		this.fOpenScope = fOpenScope;
+		this.fLikeSet = fLikeSet;
+		this.fReplySet = fReplySet;
+		this.fShareSet = fShareSet;
+		this.fLikeCnt = fLikeCnt;
+		this.fReplyCnt = fReplyCnt;
+	}
+
+	public Feed(int fNo, int mNo, String fContent, String fWriter, String fFile, String fRenameFile, Date fCreateDate,
+			Date fModifyDate, String fStatus, String fLocation, String fOpenScope, String fLikeSet, String fReplySet,
 			String fShareSet, int fLikeCnt, int fReplyCnt, ArrayList<Reply> replyList) {
 		super();
 		this.fNo = fNo;

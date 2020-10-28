@@ -3,6 +3,7 @@ package com.kh.spring.chat.model.service;
 import java.util.ArrayList;
 
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.member.model.vo.Member;
 
 public interface ChatService {
 
@@ -15,10 +16,10 @@ public interface ChatService {
 
 	/**
 	 * 2. 채팅방 내용 불러오기
-	 * @param crNo
+	 * @param readC
 	 * @return
 	 */
-	ArrayList<Chat> getChatContentList(int crNo);
+	ArrayList<Chat> getChatContentList(Chat readC);
 
 	/**
 	 * 3. 채팅내용 인서트
@@ -26,5 +27,27 @@ public interface ChatService {
 	 * @return
 	 */
 	int insertChat(Chat c);
+
+	/**
+	 * 4. 채팅목록 이미지 가져오기
+	 * @param mList
+	 * @return
+	 */
+	ArrayList<Member> getChatImage(ArrayList<Member> mList);
+
+	/**
+	 * 5. 1대1 채팅방 생성
+	 * @param myId
+	 * @param otherId
+	 * @return
+	 */
+	int insertChatRoom(String myId, String otherId);
+
+	/**
+	 * 6. 읽지않은 채팅 카운트
+	 * @param myId
+	 * @return
+	 */
+	int countChat(String myId);
 
 }

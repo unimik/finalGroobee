@@ -1,10 +1,17 @@
 #create_group{position:absolute; outline:none; width: 80px; height: 40px; border-radius: 10px; border: 0; margin: 320px 0 0 -80px; background: #daf4ed; font-size:14px;color: #555555; cursor: pointer; }
 
-#groupAllList{ width: 630px; height: 300px; margin-left: 100px; overflow-x: scroll; overflow: auto; margin-bottom:20px;}
+.gListopen{ width: 630px; height: 30px; border-radius: 10px; margin:0 0 10px 102px; background: #47c6a3; color: white; font-size: 14px; font-weight: 600;}
+.gListopen ul{ margin:0; padding: 0;}
+.gListopen li{ list-style: none; float: left; margin-top: 6px;}
+.gListopen li a{ text-decoration: none; cursor: pointer;}
+.gListopen li:nth-child(1){ padding-left: 20px;}
+.gListopen li:nth-child(2){ float: right; padding-right: 20px;}
+
+#groupAllList{ display:none; width: 630px; height: 260px; margin-left: 100px; overflow-x: scroll; overflow: auto; margin-bottom:20px;}
 #groupAllList::-webkit-scrollbar{ width: 7px;}
 #groupAllList::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
 #groupAllList::-webkit-scrollbar-track{ background-color: #daf4ed;}
-#groupBox{position: relative; float: left;   border: 1px solid #e5e5e5; width: 180px; height: 250px; margin:25px 12px 0 12px;}
+#groupBox{position: relative; float: left;   border: 1px solid #e5e5e5; width: 180px; height: 250px; margin:10px 12px 0 12px;}
 #groupBox a{ text-decoration:none;}
 #groupBack{position: absolute; opacity: 45%; width: 180px; height: 60%; }
 #groupProfile{position: absolute; width: 80px; height: 80px; border-radius: 15px; margin:80px 0 10px 50px; }

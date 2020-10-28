@@ -35,7 +35,7 @@
 		ORDER BY C_NO DESC
 	</select>
 	
-	<select id="getChatContentList" parameterType="_int" resultMap="chatResultSet">
+	<select id="getChatContentList" parameterType="Chat" resultMap="chatResultSet">
 		SELECT *
 		FROM CHAT
 		WHERE CR_NO = #{crNo}
@@ -46,5 +46,36 @@
 		INSERT INTO CHAT
 		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N')
 	</insert>
+	
+	<insert id="insertChatRoom" parameterType="Chat">
+		INSERT INTO CHATROOM
+		VALUES(SEQ_CRNO.NEXTVAL,2)
+	</insert>
+	
+	<select id="getFirstCrno" resultType="_int">
+		SELECT CR_NO
+		FROM CHATROOM
+		WHERE ROWNUM = 1
+		ORDER BY CR_NO DESC
+	</select>
+	
+	<insert id="insertJoinRoom">
+		INSERT INTO JOIN_CHATROOM
+		VALUES(SEQ_JCNO.NEXTVAL,#{crNo},#{fromId})
+	</insert>
+	
+	<update id="readChat" parameterType="Chat">
+		UPDATE CHAT
+		SET C_READ = 'Y'
+		WHERE FROM_ID = #{fromId}
+		AND CR_NO = #{crNo}
+	</update>
+	
+	<select id="countChat" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM CHAT
+		WHERE TO_ID = #{myId}
+		AND C_READ = 'N'
+	</select>
 
 </mapper>

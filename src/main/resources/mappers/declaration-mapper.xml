@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="declarationMapper">
- 	<resultMap id="notificationResultSet" type="NotificationSetting">
+ 	<resultMap id="declarationResultSet" type="Declaration">
  		<id property="dNo" column="D_NO"/>
  		<result property="dDiv" column="D_DIV"/>
  		<result property="dType" column="D_TYPE"/>

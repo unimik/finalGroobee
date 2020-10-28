@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="NotificationMapper">
+ 	<resultMap id="notificationResultSet" type="Notification">
+ 		<id property="mNo" column="M_NO"/>
+ 		<result property="alramContent" column="ALRAM_CONTENT"/>
+ 	</resultMap>
+ 	
+	<select id="getNotification" parameterType="int" resultMap="notificationResultSet"> 
+		SELECT * FROM NOTIFICATION WHERE M_NO = #{mNo}
+	</select>
+ 	
+ 	
+</mapper>

@@ -18,6 +18,7 @@
  		<result property="mIntro" column="M_INTRO"/>
  	</resultMap>
 
+
 	<!-- 로그인 -->
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT *
@@ -126,5 +127,11 @@
 					AND CREATE_DATE like '%'||#{cDate}||'%'
 				</if>
 		</trim>
+	</select>
+	
+	<select id="getChatImage" parameterType="string" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_ID = #{userId}
 	</select>
 </mapper>

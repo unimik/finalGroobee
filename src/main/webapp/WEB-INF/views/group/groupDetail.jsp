@@ -11,10 +11,10 @@
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<style>
-	#cancel2{margin-left: 14px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
-	#report-submit{margin-left:50px; float:left; width:100px; background:#daf4ed;}
-	#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
-	#reportContent{margin-top:13px;margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
+		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
+		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 	</style>
 </head>
 <body>
@@ -42,7 +42,7 @@
                                 <p id="groupInterest">${ g.gCategory }</p>
                             </div>
                             <!-- ... 버튼 -->
-                            <button id="groupdotbtn">
+                            <button id="groupdotbtn" style="cursor:pointer;">
                                 <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" id="group_menuBtn" name="group_menuBtn">
                             </button>
                             <div class="pop_menu">
@@ -73,9 +73,7 @@
                                 		<c:param name="gNo" value="${ g.gNo }"/>
                                 		<c:param name="gmId" value="${ loginUser.userId }"/>
                                 	</c:url>
-                                    <c:url var="gdelete" value="gdelete.do">
-                                    	<c:param name="gNo" value="${ g.gNo }"/>
-                                    </c:url>
+                                    <c:url var="gdelete" value="gdelete.do"/>
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
@@ -87,16 +85,20 @@
                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
-                                    <select style=>
-                                        <option>부적절한 게시글</option>
-                                        <option>욕설</option>
-                                        <option>광고</option>
-                                        <option>도배</option>
+                                    <select id="reportType" class="selectRtype">
+                                        <option value="unacceptfeed" selected>부적절한 게시글</option>
+                                        <option value="insult">욕설</option>
+                                        <option value="ad">광고</option>
+                                        <option value="spam">도배</option>
                                     </select>
+                                    	<textarea class="sendreport" id="reportContent" cols="28" rows="4"></textarea>
                                     <br>
-                                    <input type="button" id="submit" name="submit" value="확인">
-                                    <button id="cancel">취소</button>
+                                    <input class="selectRtype" id="selectRtype"type="button" value="확인" style="cursor:pointer;">
+                                    <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+                                    <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
+                                    <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
                                 </div>
+                               </div>
                             </div>
 
                             <!-- 그룹 가입 팝업 -->
@@ -194,24 +196,27 @@
         
         <script>
 
+        /************** 채팅 팝업 *****************/
+
         $(document).ready(function(){
-
-
+          
             /************  팝업 메뉴 script *********** */
 
             $('#group_menuBtn').on("click",function(){
             	$.ajax({
             		url:"gmSelect.do",
-            		data:{ userId:"${loginUser.userId}", gNo:${ g.gNo }},
+            		data:{ userId:"${loginUser.userId}", gNo:${g.gNo}},
             		type:"post",
             		success:function(data){
             			console.log(data);
             			if(data > 0){
-            				if("${g.gCreator}" != "${loginUser.userId}"){
-            					$('.pop_menu_gm').show();
-            				}else {
+            				if("${g.gManager}" == "${loginUser.userId}"){
             					$('.pop_menu_master').show();
-            				} 
+            				} else if("${g.gCreator}" != "${loginUser.userId}"){
+            					$('.pop_menu_gm').show();
+            				} else {
+            					$('.pop_menu_master').show();
+            				}
             			} else {
            		            $('.pop_menu').show();
             			}
@@ -264,15 +269,14 @@
               			alert("오류");
               		}
                   });
-              	
               });	
            	
             $("#close_joinPop").on("click",function(){
                 $('.joinPop_back').hide();
             });
         });
-	
 
+        
 
 
          /*********** 뉴피드 / 핫피드 *************/
@@ -291,8 +295,45 @@
                 $('.conBox').hide();
                 $('.hotConBox').show();
             });
-
-
+            
+            /**************** 그룹 신고 관련*******************/ 
+    		$(document).on('click',"#report-submit",function(){
+    			
+    			if($("#reportContent").val() == ""){
+    				alert('신고 사유를 입력해 주세요.')
+    			}else{
+    				
+    				$.ajax({
+    					url:'/spring/report.do',
+    					data:{
+    						reportType : $("#reportType").val(),
+    						feedType : "groop",
+    						content : $("#reportContent").val()
+    					},
+    					success: function(){
+    						$(".feed_report").css('display','none');
+    						$(".selectRtype").css("display","inline-block");
+    			      		$(".sendreport").css("display","none");
+    			      		$("#reportContent").val('')
+    						alert('신고완료');
+    					},error:function(){
+    						alert('신고 실패!');
+    					}
+    				});
+    				
+    			};
+    		});
+          	 
+          	$("#cancel2").on('click',function(){
+          		$(".feed_report").css('display','none');
+    			$(".selectRtype").css("display","inline-block");
+          		$(".sendreport").css("display","none");
+          	})
+          	
+          	$("#selectRtype").on('click',function(){
+          		$(".selectRtype").css("display","none");
+          		$(".sendreport").css("display","block");
+          	}); 
     </script>
 </body>
 </html>

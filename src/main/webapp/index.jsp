@@ -10,5 +10,3 @@
 	<jsp:forward page="loginView.do"/>
 </body>
 </html>
-
-

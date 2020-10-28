@@ -33,7 +33,8 @@
 							<label>회원이름</label><input type="text" id="name" name="name">
 							<label>아 이 디</label><input type="text" id="id" name="id"><br>
 							<br> <label>탈퇴여부</label>
-							<select id="getOut" name="getOut">								
+							<select id="getOut" name="getOut">														
+								<option disabled="disabled" selected="selected">------------</option>
 								<option>Y</option>
 								<option>N</option>
 							</select> <label>가 입 일</label><input type="date" id="enrolldate"
@@ -110,12 +111,7 @@
 			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
 			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
 			
-			var userName = $("#name").val();
-			var userId = $("#id").val();
-			var cDate = $("#enrolldate").val();
-			var mStatus= $("#getOut").val();
-			console.log(cDate);
-			console.log("전달되는 값"+$("#memberSearch_form").serialize());
+			
 			$.ajax({
 				url:"memberSearch.do",
 				type:'post',
