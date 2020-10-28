@@ -46,5 +46,22 @@
 		INSERT INTO CHAT
 		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N')
 	</insert>
+	
+	<insert id="insertChatRoom" parameterType="Chat">
+		INSERT INTO CHATROOM
+		VALUES(SEQ_CRNO.NEXTVAL,2)
+	</insert>
+	
+	<select id="getFirstCrno" resultType="_int">
+		SELECT CR_NO
+		FROM CHATROOM
+		WHERE ROWNUM = 1
+		ORDER BY CR_NO DESC
+	</select>
+	
+	<insert id="insertJoinRoom">
+		INSERT INTO JOIN_CHATROOM
+		VALUES(SEQ_JCNO.NEXTVAL,#{crNo},#{fromId})
+	</insert>
 
 </mapper>
