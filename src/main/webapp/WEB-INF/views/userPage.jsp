@@ -20,6 +20,29 @@
    			border-bottom:2px solid #47c6a3;
    			transition:0.5s all;
    		}
+   		#interests{
+	    font-size:smaller;
+	    color:grey;
+	    }
+	    #myPage_introduction{
+	    padding-top: 20px;
+	    }
+	    #mp_profile_info>h5{
+	    color:#555555;
+		margin: 0px;
+		height:15px;
+		margin-left:20px;
+		font-weight:500;
+	    }
+	    #mp_profile_info>h3{
+	    margin-bottom:5px;
+	    }
+	    #mp_profile_follow{
+	    margin-top:10px;
+	    }
+	    #self-introduction{
+	    margin:0 40px 30px 30px;
+	    }
    </style>
 </head>
 <body>
@@ -41,6 +64,7 @@
                         </div>
                         <div id="mp_profile_info">
                             <h3>${ memberInfo.userId }</h3>
+                            <h5>${ memberInfo.userName }</h5>
                         </div>
                         <div id="mp_profile_edit">
                         <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
