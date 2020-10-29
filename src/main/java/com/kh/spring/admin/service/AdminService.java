@@ -16,6 +16,13 @@ public interface AdminService {
 	 */
 	ArrayList<Member> memberSearchList(Member m);
 
+	/** 1-1. 회원 상태 변경
+	 * @param member
+	 * @return
+	 */
+	int memberStatusChange(Member m);
+	
+
 	/** 2. 그룹 리스트 조회
 	 * @param g
 	 * @return
@@ -27,5 +34,6 @@ public interface AdminService {
 	 * @return
 	 */
 	ArrayList<Reply> replySearchList(Reply re);
+
 
 }

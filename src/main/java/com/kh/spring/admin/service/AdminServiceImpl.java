@@ -30,4 +30,9 @@ public class AdminServiceImpl implements AdminService{
 	public ArrayList<Reply> replySearchList(Reply re) {
 		return aDao.replySearchList(re);
 	}
+
+	@Override
+	public int memberStatusChange(Member m) {
+		return aDao.memberStatusChange(m);
+	}
 }
