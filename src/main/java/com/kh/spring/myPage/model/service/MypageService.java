@@ -30,6 +30,21 @@ public interface MypageService {
 
 	int deleteFollow(Follow fw);
 
+	/**
+	 * 보관함 이름 수정
+	 * @param sblist
+	 * @return
+	 */
+	int updateBox(ArrayList<StorageBox> sblist);
+
+	/**
+	 * 보관함 삭제
+	 * @param sblist
+	 * @return
+	 */
+	int deleteteBox(StorageBox sb);
+
+
 
 
 
