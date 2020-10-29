@@ -31,7 +31,6 @@
                         <form id="groupSearch_form" name="groupSearch_form">
                             <label>그 룹 명</label><input type="text" id="name" name="name">
                             <label>관 심 사</label><select id="category" name="category">
-								<option disabled="disabled" selected="selected">---------</option>
                                 <option>문화/책</option>
                                 <option>영화</option>
                                 <option>미술/디자인</option>
@@ -137,7 +136,6 @@
 			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
 			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
 			
-
 			console.log("전달되는 값"+$("#groupSearch_form").serialize());
 			
 			$.ajax({

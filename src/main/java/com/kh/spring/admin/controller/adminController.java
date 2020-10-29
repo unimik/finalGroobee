@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -69,18 +71,22 @@ public class adminController {
 		
 		Member m = new Member(); // 받아온 파라미터를 정보를 담을 객체
 		
-		if(!request.getParameter("id").equals("")) {
-			m.setUserId(request.getParameter("id"));
-		}
-		if(!request.getParameter("name").equals("")) {
-			m.setUserName(request.getParameter("name"));
-		}
-		if(!request.getParameter("getOut").equals("")) {
-			m.setmStatus(request.getParameter("getOut"));			
-		}
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String getOut = request.getParameter("getOut");
+		String date =request.getParameter("enrolldate");
 		
-		if(!request.getParameter("enrolldate").equals("")) {
-		Date todate = java.sql.Date.valueOf((request.getParameter("enrolldate")));
+		if(!id.equals("")) {
+			m.setUserId(id);
+		}
+		if(!name.equals("")) {
+			m.setUserName(name);
+		}
+		if(!getOut.equals("")) {
+			m.setmStatus(getOut);			
+		}
+		if(!date.equals("")) {
+		Date todate = java.sql.Date.valueOf(date);
 		m.setcDate(todate);
 		}
 		
@@ -90,6 +96,36 @@ public class adminController {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(memberList,response.getWriter());
 	}
+	
+	/** 1-2. 회원 상태변경 ( Y, N) 
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
+	@RequestMapping(value="memberStatusChange.do", method=RequestMethod.POST)
+	public String memberStatusChange(String id,String status){
+		Member m = new Member();
+		
+		// 회원 상태를 Y-> N  , N -> Y로 만드는 구문
+		if(status.equals("Y")) {	
+			m.setmStatus("N");
+		}else {
+			m.setmStatus("Y");			
+		}
+		
+		
+		m.setUserId(id);
+		int result = aService.memberStatusChange(m);
+		
+		System.out.println("result의 값 : "+result);
+		
+		if(result>0) {
+			 return "redirect:adminmember.do";
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
 	
 	/** 2-1. group 정보 조회
 	 * @param response
@@ -102,23 +138,28 @@ public class adminController {
 		
 		Group g= new Group(); // 받아온 파라미터를 정보를 담을 객체
 		
-		if(!request.getParameter("name").equals("")) {
-			g.setgName(request.getParameter("name"));
-		}
-		if(!request.getParameter("category").equals("")) {
-			g.setgCategory(request.getParameter("category"));
-		}
-		if(!request.getParameter("tag").equals("")) {
-			g.setgTag(request.getParameter("tag"));
-		}
+		String name = request.getParameter("name");
+		String category = request.getParameter("category");
+		String tag = request.getParameter("tag");
+		String date = request.getParameter("enrolldate");
 		
-		if(!request.getParameter("enrolldate").equals("")) {
-		Date todate = java.sql.Date.valueOf((request.getParameter("enrolldate")));
-			g.setgDate(todate);
+		if(!name.equals("")||!category.equals("")||!tag.equals("")||!date.equals("")) {
+			if(!name.equals("")) {
+				g.setgName(name);
+			}
+			if(!category.equals("")) {
+				g.setgCategory(category);
+			}
+			if(!tag.equals("")) {
+				g.setgTag(tag);
+			}
+			if(!date.equals("")) {
+				Date todate = java.sql.Date.valueOf(date);
+				g.setgDate(todate);
+			}
 		}
 		
 		ArrayList<Group> groupList = aService.groupSearchList(g);
-		
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(groupList,response.getWriter());
@@ -142,7 +183,6 @@ public class adminController {
 		
 		
 		if(!id.equals("")||!num.equals("")||!content.equals("")||!date.equals("")) {
-			System.out.println("if문으로 들어오니?");
 			if(!id.equals("")) {
 				re.setrWriter(id);
 			}
@@ -162,5 +202,4 @@ public class adminController {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(replyList,response.getWriter());
 	}
-	
 }
