@@ -157,7 +157,7 @@
 	     	 <c:url var="glist" value="glist.do"/>
 	         <ul id="menu">
 	             <li><a href="${ goHome }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
-             	 <li></li>
+             	 <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
              	 
 	             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
@@ -250,6 +250,7 @@
     	 
 		var crNo = $(this).children(".crNo").val();
 		var readId = $(this).children(".readId").val();
+		console.log(crNo +":"+readId);
 		$.ajax({
 			url:"oneChatContentList.do",
 			data:{crNo:crNo, readId:readId},
@@ -264,11 +265,18 @@
 	    				$div1 = $("<div class='myChating'>");
 	    				$div = $("<div>");
 	    				$p = $("<p id='myChatt'>").text(value.cContent);
+	    				$inputId = $("<input type='hidden' class='1'>").val(value.toId);
+	    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
 	    				
 	    				$div.append($p);
 	    				$div1.append($div);
 	    				
 	    				$("#chatArea").append($div1);
+	    				$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputType);
+	        			$("#chatArea").append($inputCrNo);
+	    				
 	    			} else {
 	    				$div3 = $("<div class='chating'>");
 	    				$inputId = $("<input type='hidden' class='1'>").val(value.fromId);
@@ -306,7 +314,7 @@
 		var msg = $("#inputArea").val();
 	 });
 
-     
+     /* 페이지 로딩 시 실행되는 것들 */
      $(function(){
     	 countChatRead();
     	 $('#menu li:nth-child(2)').on("click",function(){
@@ -337,9 +345,9 @@
     			success:function(data){
     				console.log("ok");
     				$('.myFeed_popup_others').hide();
-    				
+    				$("#chatUser").text(nId2);
     				$div3 = $("<div class='chating'>");
-    				$inputId = $("<input type='hidden' class='1'>").val(data.toId);
+    				$inputId = $("<input type='hidden' class='1'>").val(nId2);
     				$inputType = $("<input type='hidden' class='2'>").val("chatting");
     				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
     				console.log(data.toId +":" + data.crNo);
@@ -361,6 +369,11 @@
     				console.log("에러");
     			}
     		});
+    	 });
+    	 /* 그룹 채팅방 만들기 */
+    	 $("#isnertGroupChat").on("click",function(){
+    		$('.pop_menu_master').hide();
+    		alert("ㅎㅇ"); 
     	 });
 
          $('.tab_menu_btn').on('click',function(){

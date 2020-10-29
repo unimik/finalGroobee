@@ -28,11 +28,7 @@ public class ChatDao {
 
 	public ArrayList<Chat> getChatContentList(Chat readC) {
 		int updateResult = sqlSession.update("chatMapper.readChat",readC); 
-		if(updateResult > 0) {
-			return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",readC);
-		} else {
-			return new ArrayList<Chat>();
-		}
+		return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",readC);
 	}
 
 	public int insertChat(Chat c) {
