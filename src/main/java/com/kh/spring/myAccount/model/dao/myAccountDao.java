@@ -29,4 +29,8 @@ public class myAccountDao {
 	public int delFollow(myAccount ma) {
 		return sqlSession.delete("myAccountMapper.deleteFollow", ma);
 	}
+
+	public int delFollower(myAccount ma) {
+		return sqlSession.delete("myAccountMapper.deleteFollower", ma);
+	}
 }

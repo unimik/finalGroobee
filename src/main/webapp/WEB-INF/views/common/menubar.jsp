@@ -106,7 +106,43 @@
                         <div id="list">
                             <img src="resources/images/mp_profile_sample.jpg">
                             <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>                        
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
+                        <div id="list">
+                            <img src="resources/images/mp_profile_sample.jpg">
+                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                        </div>
                     </div>
                 </div>
 	     </div>
@@ -338,26 +374,15 @@
      /**************알림창 열기 ****************/
      $('#alarmIcon').on("click",function(){
        
-    	 $.ajax({
+    	/*  $.ajax({
     		 url: "getNotification.do",
-    		 datatype:'json',
     		 success: function(data){
-    			 console.log(data);
-    			  var i =0;
-    			  while(data[i] != null){
-    				  console.log(data[i]);
-    				  i++;
-    				 /*  $('#alarmList').append('<p>'+ data[i].alramContent+'추가 확인.</p><br>'); */
-    				  
-    				  $('#alarmList').append('<div id="list">'+
-                      data[i].alramContent+'</div>');
-    				  
-    			  }
+    			 
     		 },error: function(error){
-    			 alert('에러');
+    			 
     		 }
     	 })
-    	 
+    	 */ 
     	 
     	 $('.user_alarm').slideToggle();
                     
@@ -467,26 +492,44 @@
 
 	     
 	     $(document).on("click","#goDetail",function(){
-	    	var gNo = $('#gNo').val();
-	    	location.href="gdetail.do?gNo="+ gNo;
+		     var gNo =$(this).parents().children('input').val();
+	    	 console.log(gNo);
+	    	 location.href="gdetail.do?gNo="+ gNo;
 	     });
 	     
 	     $(document).on("click","#goUserPage",function(){
-	    	 var userId = $('#id').text();
-	    	 var mNo = $("#mNo").val();
+	    	 var userId = $(this).parents().children('a').text();
+	    	 var mNo = $(this).parents().children('input').val();
 	    	 location.href="goUserpage.do?userId=" + userId + "&mNo=" + mNo;
 	     });
 	     
 	     
-	     /* $(document).on("click","#follower", function(){
-	    	var mNo = $('#mNo').val();
+	     $(document).on("click","#follower", function(){
+	    	 var mNo = ${ loginUser.mNo };
+	    	 var follower = $(this).parents().children('input').val();
+	    	 console.log(follower);
+	    	 $.ajax({
+	    		url:"delFollower.do",
+	    		data:{mNo:mNo, foNo:follower},
+	    		type:"post",
+	    		success:function(data){
+	    			if(data>0){
+	    				alert("삭제하였습니다.");
+	    				getFollowerList();
+	    			}else{
+	    				alert("삭제 실패하였습니다.");
+	    			}
+	    		},error:function(){
+	    			alert("삭제오류");
+	    		}
+	    	 });
 	    	 
-	     });*/
+	     });
      
 	     
 	     $(document).on("click","#following", function(){
 	    	 var mNo = ${ loginUser.mNo };
-	    	 var follows = $('#mNo').val();
+	    	 var follows = $(this).parents().children('input').val();
 	    	 console.log(follows);
 	    	 $.ajax({
 	    		 url:"delFollow.do",
@@ -495,6 +538,7 @@
 	    		 success:function(data){
 	    			 console.log(data);
 	    			 	if(data> 0){
+	    			 		alert("팔로우를 취소하였습니다.");
 	    			 		getFollowList();
 	    			 	}else{
 	    			 		alert("실패했습니다.");
@@ -596,6 +640,7 @@
  			$.ajax({
 	    		 url:"getGroupList.do",
 	    		 data:{mId:"${ loginUser.userId }"},
+	    		 async:false,
 	    		 dataType:"json",
 	    		 success:function(data){
 	    			 console.log(data);
@@ -603,24 +648,21 @@
 	        		 $div.html("");
 	        		 
 	        		 var $ul;
+	        		 var $gNo;
 	        		 var $img;
 	        		 var $gName;
 	        		 var $btn;
-	        		 var $gNo;
 	        		 var $p;
 	        		 
 	        		 if(data.length > 0 ){
 	        			 for(var i in data){
-	        				 console.log(data[i].gName);
-	        				 console.log(data[i].gImage);
-	        				 $ul = $("<ul id='fgroup_info'>");
+	        				 $ul = $("<ul id='fgroup_info'>").html('<input type="hidden" id="gNo" name="gNo" value="' + data[i].gNo + '">');
 	        				 $img = $("<li>").html('<img src="resources/'+ data[i].gImage + '" id="fgroup_list_img"">');
 	        				 $gName = $("<li>").html('<a id="goDetail">'+data[i].gName);
-	        				 $gNo = $("<li>").html('<input type="hidden" id="gNo" name="gNo" value="' + data[i].gNo + '">');
+	        				 
 	        				 
 	        				 $ul.append($img);
 	        				 $ul.append($gName);
-	        				 $ul.append($gNo);
 	        				 $div.append($ul);
 	        			 }
 	        		 }else{
