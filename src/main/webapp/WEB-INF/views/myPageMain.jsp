@@ -416,7 +416,6 @@
                                 </div>
                             </td>
                         </tr>
-                     <input type="hidden" value="${ loginUser.mNo }" id="mNoInput"/>
                         <%! int  j = 0; %>
                         <c:forEach var="sb" items="${ storageBoxList }">
                        	<% if (j%3 == 0){ %>
@@ -426,12 +425,14 @@
                             <td class="fstorageBox_folder">
                             <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
                             <div id="box2">폴더명</div>--%>
+                            <div id ="sbBoxxx">
                             <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
                             <label>
                             <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
-                            </label>
+                            </label>                            
+                            </div>
                             <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
@@ -725,9 +726,10 @@
 			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
 			contentType :'application/json; charset=UTF-8',
 	        success:function(data){
-               console.log(data);
-           	$('.storageBox_subBtn3').show();
-        	$('.storageBox_subBtn4').show();
+            	$('.storagebox').show();
+           		$('.storageBox_subBtn3').show();
+        		$('.storageBox_subBtn4').show();
+        		alert('보관함이 삭제되었습니다');
             },
              error:function(request,jqXHR,exception){
                var msg="";

@@ -30,11 +30,18 @@ public interface myAccountService {
 	ArrayList<myAccount> selectGroupList(String mId);
 
 	/**
-	 * 4. 팔로우한 아이디 삭제
+	 * 4. 내가 팔로우한 아이디 삭제( 팔로우 취소 )
 	 * @param ma
 	 * @return
 	 */
 	int delFollow(myAccount ma);
+
+	/**
+	 * 5. 나를 팔로우한 아이디 삭제
+	 * @param ma
+	 * @return
+	 */
+	int delFollwer(myAccount ma);
 
 	
 	

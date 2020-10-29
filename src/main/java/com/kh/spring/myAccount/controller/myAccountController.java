@@ -104,15 +104,20 @@ public class myAccountController {
 		out.print(jArr);
 	}
 	
-//	@RequestMapping("delFollower.do")
-//	public void delFollower(int mNo, HttpServletResponse response) {
-//		
-//	}
+	@ResponseBody
+	@RequestMapping("delFollower.do")
+	public int delFollower(myAccount ma, int mNo, int foNo, HttpServletResponse response) {
+		ma.setmNo(mNo);
+		ma.setFollowers(foNo);
+		
+		int result = maService.delFollwer(ma);
+		
+		return result;
+	}
 	
 	@ResponseBody
 	@RequestMapping("delFollow.do")
-	public int delFollow(myAccount ma, int mNo, int foNo, HttpServletResponse response) throws IOException {
-		response.setContentType("appliction/json; charset=UTF-8");
+	public int delFollow(myAccount ma, int mNo, int foNo, HttpServletResponse response) {
 		
 		ma.setFollows(foNo);
 		ma.setmNo(mNo);

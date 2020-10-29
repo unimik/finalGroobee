@@ -35,5 +35,10 @@ public class myAccountServiceImpl implements myAccountService{
 		return maDao.delFollow(ma);
 	}
 
+	@Override
+	public int delFollwer(myAccount ma) {
+		return maDao.delFollower(ma);
+	}
+
 	
 }

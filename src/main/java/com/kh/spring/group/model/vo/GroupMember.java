@@ -20,6 +20,7 @@ public class GroupMember implements Serializable{
 	private String a2;
 	private String a3;
 	private Date gJoinDate;
+	private String gmImage;
 	
 	public GroupMember() {
 		super();
@@ -36,6 +37,21 @@ public class GroupMember implements Serializable{
 		this.a2 = a2;
 		this.a3 = a3;
 		this.gJoinDate = gJoinDate;
+	}
+
+	
+	public GroupMember(int gNo, String gmId, String gmStatus, String gmLevel, String a1, String a2, String a3,
+			Date gJoinDate, String gmImage) {
+		super();
+		this.gNo = gNo;
+		this.gmId = gmId;
+		this.gmStatus = gmStatus;
+		this.gmLevel = gmLevel;
+		this.a1 = a1;
+		this.a2 = a2;
+		this.a3 = a3;
+		this.gJoinDate = gJoinDate;
+		this.gmImage = gmImage;
 	}
 
 	public int getgNo() {
@@ -101,13 +117,21 @@ public class GroupMember implements Serializable{
 	public void setgJoinDate(Date gJoinDate) {
 		this.gJoinDate = gJoinDate;
 	}
+	
+	public String getGmImage() {
+		return gmImage;
+	}
+
+	public void setGmImage(String gmImage) {
+		this.gmImage = gmImage;
+	}
 
 	@Override
 	public String toString() {
 		return "GroupMember [gNo=" + gNo + ", gmId=" + gmId + ", gmStatus=" + gmStatus + ", gmLevel=" + gmLevel
-				+ ", a1=" + a1 + ", a2=" + a2 + ", a3=" + a3 + ", gJoinDate=" + gJoinDate + "]";
+				+ ", a1=" + a1 + ", a2=" + a2 + ", a3=" + a3 + ", gJoinDate=" + gJoinDate + ", gmImage=" + gmImage
+				+ "]";
 	}
 
-	
 	
 }
