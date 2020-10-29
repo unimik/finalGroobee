@@ -31,4 +31,9 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("feedMapper.replySearchList", re);
 	}
 
+
+	public int memberStatusChange(Member m) {
+		return sqlSession.update("memberMapper.memberStatusChange", m);
+	}
+
 }
