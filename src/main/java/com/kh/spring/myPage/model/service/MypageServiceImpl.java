@@ -63,6 +63,16 @@ public class MypageServiceImpl implements MypageService {
 	public int deleteFollow(Follow fw) {
 		return myDao.deleteFollow(fw);
 	}
+
+	@Override
+	public int updateBox(ArrayList<StorageBox> sblist) {
+		return myDao.updateBox(sblist);
+	}
+
+	@Override
+	public int deleteteBox(StorageBox sb) {
+		return myDao.deleteBox(sb);
+	}
 	
 
 }

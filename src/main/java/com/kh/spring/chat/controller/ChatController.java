@@ -61,6 +61,9 @@ public class ChatController {
 					job.put("fromId", c.getFromId());
 					job.put("toId", c.getToId());
 					job.put("cContent",c.getcContent());
+					if(!c.getFromId().equals(userId)) {
+						job.put("read",c.getcRead());
+					}
 					if(m2.getmRenameImage() == null || m2.getmRenameImage().equals("")) {
 						if(m2.getmImage() == null || m2.getmImage().equals("")) {
 							job.put("chatImage", "icons/logo.png");
@@ -85,10 +88,13 @@ public class ChatController {
 	 * @throws IOException
 	 */
 	@RequestMapping("oneChatContentList.do")
-	public void oneChatContentList(String crNo, HttpServletResponse response) throws IOException {
+	public void oneChatContentList(String crNo,String readId, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		int rcrNo = Integer.parseInt(crNo);
-		ArrayList<Chat> cList = cService.getChatContentList(rcrNo);
+		Chat readC = new Chat();
+		readC.setCrNo(rcrNo);
+		readC.setFromId(readId);
+		ArrayList<Chat> cList = cService.getChatContentList(readC);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat c : cList) {
 			Member m = new Member();
@@ -124,16 +130,32 @@ public class ChatController {
 		out.print(result);
 	}
 	
+	/**
+	 * - 채팅방 생성
+	 * @param myId
+	 * @param otherId
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("insertChatRoom.do")
 	public void insertChatRoom(String myId, String otherId,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println(myId + ":" + otherId);
 		int crNo = cService.insertChatRoom(myId,otherId);
 		JSONObject job = new JSONObject();
 		if(crNo > 0) {
 			job.put("toId", otherId);
 			job.put("crNo", crNo);
 		}
+		PrintWriter out = response.getWriter();
+		out.print(job);
+	}
+	
+	@RequestMapping("countChat.do")
+	public void countChat(String myId,HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset=UTF-8");
+		int count = cService.countChat(myId);
+		JSONObject job = new JSONObject();
+		job.put("countChat", count);
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
