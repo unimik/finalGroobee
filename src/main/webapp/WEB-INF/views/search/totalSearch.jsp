@@ -104,28 +104,45 @@
                         <p id="title"><b>게시물</b> </p>
                     </div>
                     <div id="con_feed">
+                    <table>
                     <c:choose>
 	                    <c:when test="${empty fList}">
-	       					<div id="nouser">게시글이 존재하지 않습니다</div>
+	                    <tr>
+	                    	<td>
+		       					<div id="nouser">게시글이 존재하지 않습니다</div>	                    	
+	                    	</td>
+	                    </tr>
 	       				</c:when>
 	       				<c:otherwise>
+		       				 <% int  j = 0; %>
 	                    	<c:forEach var="f" items="${ fList }">
+		       				 <% if (j%3 == 0){ %>
+	                    	<tr>
+	                    	 <%} %>
 	                    	<c:choose>
 	                   			<c:when test="${ empty f.fFile }">
-	                   			<div class="post" style=" cursor: pointer;;">
-		                             <p>${f.fContent} </p>
-		                        </div>
+		                    		<td>
+		                   			<div class="post" style=" cursor: pointer;">
+			                             <p>${f.fContent} </p>
+			                        </div>
+			                        </td>
 	                   			</c:when>
+	                   		
 	                   			<c:otherwise>
-	                   			<div class="post" style=" cursor: pointer;">
-		                            <img src="resources/feedUpFiles/${f.fRenameFile}" alt="" id="post_con">
-		                        </div>
+		                   			<td>
+		                   			<div class="post" style=" cursor: pointer;">
+			                            <img src="resources/feedUpFiles/${f.fRenameFile}" alt="" id="post_con">
+			                        </div>
+			                        <td>
 	                   			</c:otherwise>
 	                   		</c:choose>							                 		
+	                   		 <% if (j%3==2){ %>
+	                   		<tr>
+	                   		 <%} j++;%>
 	                   		</c:forEach>
 		                </c:otherwise>
 					</c:choose>
-                   		
+                   	</table>	
                     </div>
                 </div>
                 
