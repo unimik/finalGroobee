@@ -306,15 +306,15 @@
 						var $menu5;
 						
 						if(data.length > 0){
-						$.each(data,function(index,value){
+							for(var i in data){
 						
-								if( value.gmLevel == '그룹장'){
+								if( data[i].gmLevel == '그룹장'){
 										
 										$ul = $('<ul id="gmMaster">');
-										$gmLevel = $("<li>").text(value.gmLevel);
-										$Profile = $("<li>").html('<img src="${ contextPath }/resources/'+ value.gmImage + '">');
-										$gmId = $('<li id="gmId">').html(value.gmId);
-										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + value.gmLevel + "'>");
+										$gmLevel = $("<li>").text(data[i].gmLevel);
+										$Profile = $("<li>").html('<img src="${ contextPath }/resources/'+ data[i].gmImage + '">');
+										$gmId = $('<li id="gmId">').html(data[i].gmId);
+										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + data[i].gmLevel + "'>");
 										
 										
 										$ul.append($gmLevel);
@@ -324,42 +324,37 @@
 										$ul.append($gmI);
 										$divAll.append($ul);
 										
-								} else if( value.gmLevel == '매니저'){
-										$ul = $('<ul id="gmMaster">');
-										$gmLevel = $('<li id="level">').text(value.gmLevel);
-										$Profile = $("<li>").html('<img src="${ contextPath }/resources/'+ value.gmImage + '">');
-										$gmId = $('<li>').html(value.gmId);
-										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + value.gmLevel + "'>");
+								} else if( data[i].gmLevel == '매니저'){
+										$ul = $('<ul id="gm">').html("<input type='hidden' id='g_gmI' name='g_gmI' value='" + data[i].gmId + "'>");
+										$gmLevel = $('<li id="level">').text(data[i].gmLevel);
+										$Profile = $("<li>").html('<img src="${ contextPath }/resources/'+ data[i].gmImage + '">');
+										$gmId = $('<li id="id"'+i+'>').html(data[i].gmId);
 										$menuImg = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
 										
 										
 										$ul.append($gmLevel);
 										$ul.append($Profile);
 										$ul.append($gmId);
-										$ul.append($gmL);
 										$ul.append($menuImg);
 										$divAll.append($ul);
 										
 								
 								}else{
-										$ul = $('<ul id="gm">').html("<input type='hidden' id='g_gmI' name='g_gmI' value='" + value.gmId + "'>");
-										$gmLevel = $('<li id="level">').text(value.gmLevel);
-										$Profile = $("<li>").html('<img src="${ contextPath }/resources/'+ value.gmImage + '">');
-										$gmId = $('<li class="id">').html(value.gmId);
-										$gmL = $("<li>").html("<input type='hidden' id='g_gmL' name='g_gmL' value='" + value.gmLevel + "'>");
+										$ul = $('<ul id="gm">').html("<input type='hidden' id='g_gmI' name='g_gmI' value='" + data[i].gmId + "'>");
+										$gmLevel = $('<li id="level">').text(data[i].gmLevel);
+										$Profile = $("<li>").html('<img src="${ contextPath }/resources/'+ data[i].gmImage + '">');
+										$gmId = $('<li class="id"'+i+'>').html(data[i].gmId);
 										$menuImg = $("<li>").html('<img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="groupMemberMenu" class="groupMemberMenu">');
 											
 											
 										$ul.append($gmLevel);
 										$ul.append($Profile);
 										$ul.append($gmId);
-										$ul.append($gmL);
 										$ul.append($menuImg);
 										$divAll.append($ul);
 								}
 							
-						
-							});
+							}
 						}
 					},error:function(){
 						alert("오류");
@@ -399,15 +394,15 @@
             		    	for(var i in data){
             		    		$ul = $('<ul class="permit_userInfo">');
             		    		$gmLevel = $('<li>').text(data[i].gmLevel);
-            		    		$img = $('<li>').html('<img src="${ contextPath }/resources/'+ value.gmImage + '">');
+            		    		$img = $('<li>').html('<img src="${ contextPath }/resources/'+ data[i].gmImage + '">');
             		    		$gmId = $('<li id="NgmId" name="NgmId">').text(data[i].gmId);
             		    		$inputAnswer = $('<li>').html('<input type="button" class="showAnswer" id="showAnswer" name="showAnswer" value="답변보기">');
             		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="user_Y" value="승인">');
             		    		$inputN =$('<li>').html('<input type="button" class="user_N" id="user_N" name="user_N" value="거절">');
             		    		$div = $('<div class="permit_answer" id="permit_answer">');
-            		    		$a1 = $('<p>').text(data[i].a1);
-            		    		$a2 = $('<p>').text(data[i].a2);
-            		    		$a3 = $('<p>').text(data[i].a3);
+            		    		$a1 = $('<p> A :').text(data[i].a1);
+            		    		$a2 = $('<p> A :').text(data[i].a2);
+            		    		$a3 = $('<p> A :').text(data[i].a3);
             		    		
             		    		$ul.append($gmLevel);
             		    		$ul.append($img);
@@ -502,7 +497,7 @@
     			 
     			//*******************  그룹장 변경 
     			
-    		    $("#entrust").on("click",function(){
+    		    $(document).on("click","#entrust",function(){
    	            	var gmL = $("#g_gmL").val();
     				var gNo = ${g.gNo};
    	            	console.log(gmL);
@@ -563,7 +558,7 @@
         		  //*******************  그룹 매니저 지정 
       	          $("#changeManager").on("click", function(){
 	   	            	var gNo = ${g.gNo};
-	 	            	var gmI = $('#g_gmI').val();
+	 	            	var gmI = $(this).parents().children('input#inid').val();
 	   	            	$.ajax({
 	   	            		url:"changeManager.do",
 	   	            		data:{gmId:gmI, gNo:gNo},
@@ -583,7 +578,7 @@
 	      	      		//*******************  그룹 매니저 지정 후 gmList 다시 불러오기
 	        	        function gManagerChange(){
 	    	            	var gNo = ${g.gNo};
-	    	            	var gmI = $('#g_gmI').val();
+	    	            	var gmI = $(this).parents().children('input#inid').val();
 	    	            	
 	    	            	$.ajax({
 	    	            		url:"gManagerChange.do",
@@ -605,7 +600,7 @@
         		  	//*************** 매니저 -> 멤버로 변경
 	      	        $("#changeMember").on("click", function(){
 	   	            	var gNo = ${g.gNo};
-	 	            	var gmI = $('#g_gmI').val();
+	 	            	var gmI = $(this).parents().children('input#inid').val();
 	 	            	$.ajax({
 		            		url:"changeMember.do",
 		            		data:{ gNo:gNo, gmI:gmI},
@@ -625,7 +620,7 @@
 			      	  //*************** 매니저 -> 멤버로 변경 후 gmList 다시 불러오기
 		  	        function gmChangeMember(){
 			            	var gNo = ${g.gNo};
-			            	var gmI = $('#g_gmI').val();
+			            	var gmI = $(this).parents().children('input#inid').val();
 			            	$.ajax({
 		   	            		url:"gManagerDelete.do",
 		   	            		data:{gmI:gmI, gNo:gNo},
@@ -647,9 +642,11 @@
     	        	var gNo = ${ g.gNo }; 
     		        // 회원 승인
     		        $(document).on("click", "#user_Y", function(event){
+    		        	var gmId = $(this).parents().children("li#NgmId").text();
+    		        	console.log(gmId);
     		              	$.ajax({
     		              		url:"gmUpdate.do",
-    		              		data:{ gmId:$('#NgmId').text(), gNo:gNo },
+    		              		data:{ gmId:gmId, gNo:gNo },
     		              		type:"post",
     		              		async:false,
     		              		success:function(data){
@@ -665,9 +662,11 @@
    		            	
    		            	
    		            $(document).on("click","#user_N",function(event){
+   		            	var gmId = $(this).parents().children("li#NgmId").text();
+   		            	console.log(gmId);
   		            		$.ajax({
   		            			url:"gmDeleteCheck.do",
-  		            			data:{ gmId:$('#NgmId').text(), gNo:gNo },
+  		            			data:{ gmId:gmId, gNo:gNo },
   		            			type:"post",
   		            			async:false,
   		            			success:function(data){
@@ -681,15 +680,14 @@
   		            		});
    		            });
     		            
-    		       $("#del_gm").on("click",function(){
-    		            	var gmId= $(this).parents().children('#hiddenId').val();
+    		       $(document).on("click","#del_gm",function(){
+    		            	var gmId= $(this).parents().children('input#inid').val();
     		            	var gNo = ${ g.gNo };
     		            	console.log(gmId);
     	         		$.ajax({
     	         			url:"gmDeleteCheck.do",
     	         			data:{ gmId:gmId, gNo:gNo },
     	         			type:"post",
-    	         			async:false,
     	         			success:function(data){
     	         				if(data > 0){
     	         					alert("강퇴하셨습니다.");
@@ -704,14 +702,19 @@
     		            
     		       		
     		            $(document).on("click","#groupMemberMenu",function(){
-    		            	var id = $(this).parents().children('input').val();
-    	            		console.log(id);
+    		            	var maId = $('<input type="hidden" id="inid" name="inid" value="' + $(this).parents().children('input').val()+ '">');
+    		            	var id = $('<input type="hidden" id="inid" name="inid" value="' + $(this).parents().children('input').val()+ '">');
+    		            	console.log(maId);
+    		            	console.log(id);
+    	            		
     	            		var level = $(this).parents().children('li#level').text()
     		            	console.log(level);
     	            		
     		            	if( level == "매니저" ){
+    		            		$('.pop_menu_gmMasterList').append(maId);
     		            		$('.pop_menu_gmMasterList').show();
     		            	} else {
+    		            		$(".pop_menu_gmList").append(id);
     		            		 $(".pop_menu_gmList").show();
     		            	}
     		            	
@@ -719,10 +722,13 @@
     	                });
     	                
     	                $('.close').on('click',function(){
-    	                	var gmId= $(this).parents().children('#hiddenId').val();
+    	                	var gmId= $(this).parents().children('input#inid').val();
     	                	console.log(gmId);
+    	                	
     	                    $('.pop_menu_gmList').hide();
     	                    $('.pop_menu_gmMasterList').hide();
+    	                    $('#inid').remove();
+    	                    $('#inid').remove();
     	                });
     	                
     		           
