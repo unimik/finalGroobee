@@ -61,28 +61,13 @@
 							<td>피드번호</td>
 							<td>아이디</td>
 							<td>내용</td>
-							<td>게시물 구분</td>
 							<td>작성일</td>
-							<td>첨부파일</td>
+							<td>좋아요</td>
 							<td>게시물 유효</td>
-							<td>삭제</td>
+							<td>게시금지</td>
 						</tr>
 					</thead>
 					<tbody>
-						<tr id="feed_info">
-							<td>1</td>
-							<td>user01</td>
-							<td><nobr>오늘의 일상 오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상</nobr></td>
-							<td>개인</td>
-							<td>2020-10-07</td>
-							<td>◎</td>
-							<td>Y</td>
-							<td><button id="f_delete">삭제</button></td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -98,19 +83,10 @@
 							<td>내용</td>
 							<td>작성일</td>
 							<td>게시유효</td>
-							<td>삭제</td>
+							<td>게시금지</td>
 						</tr>
 					</thead>
 					<tbody>
-						<tr id="feed_info">
-							<td>1</td>
-							<td>1</td>
-							<td>user01</td>
-							<td><nobr>이거 잘 찍었다!!</nobr></td>
-							<td>2020-10-07</td>
-							<td>Y</td>
-							<td><button id="f_delete">삭제</button></td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -118,6 +94,11 @@
 	</div>
 
 	<script>
+	// 리프래시를 위한 메소드
+	 function refresh(){
+			location.reload();
+		}
+	
         $(document).ready(function(){
             $('.tab_menuBtn').on("click",function(){
                 $('.tab_menuBtn').removeClass("on");
@@ -163,47 +144,49 @@
                 });
         });
         
-     // 피드 작성글 검색 버튼 클릭 이벤트
-		 $('#feedSearchBtn').on("click",function(){
-			console.log("클릭했엉?");
+    
+		// feed 검색 버튼 클릭 이벤트
+		 $('#f_SearchBtn').on("click",function(){
 			
-			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
-			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
+			var dynamicBtnY = '<input type="button" class="f_btn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" class="f_btn" value="IN"/>';
 			
-
-			console.log(cDate);
-			console.log("전달되는 값"+$("#feedSearch_form").serialize());
+			console.log($('feedSearch_form').serialize());
+			
 			$.ajax({
 				url:"feedSearch.do",
 				type:'post',
 				data:$("#feedSearch_form").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
 					
 					$tableBody = $("#feedTable tbody");
 					$tableBody.html("");
 					
 					for(var i in data){
+						
 						var $tr = $("<tr>");
-						var $fNo = $("<td>").text(data[i].fNo);
-						var $userId = $("<td>").text(data[i].userId);
-						var $fContent = $("<td>").text(data[i].fContent);
-						var $email = $("<td>").text(data[i].email);	
-						var $cDate = $("<td>").text(data[i].cDate);
-						var $mStatus = $("<td>").text(data[i].mStatus);
+						var $fNo = $("<td>").text(data[i].fNo);	// 피드번호
+						var $fWriter = $("<td>").text(data[i].fWriter); // 작성자
+						var $fContent = $("<td>").text(data[i].fContent);	// 내용
+						//var $rNo = $("<td>").text(data[i].rNo);	// 구분 (아직 미구현)
+						var $fCreateDate = $("<td>").text(data[i].fCreateDate);// 작성일
+						var $fLikeCnt = $("<td>").text(data[i].fLikeCnt);// 좋아요 갯수
+						var $fStatus = $("<td>").text(data[i].fStatus); // 상태
+						
+						// 정지 버튼
 						if(data[i].fStatus==='Y'){
-							var $getOutBtn = $("<td>").html(dynamicBtnY);//회원의 상태가 Y일 때
+							var $getOutBtn = $("<td>").html(dynamicBtnY); // 활성화 상태가 Y일 때 
 						}else{
-							var $getOutBtn = $("<td>").html(dynamicBtnN);//회원의 상태가 N일 때
+							var $getOutBtn = $("<td>").html(dynamicBtnN); // 활성화 상태가 N일 때
 						}
 						
-							$tr.append($mNo);
-							$tr.append($userId);
-							$tr.append($userName);
-							$tr.append($email);
-							$tr.append($cDate);
-							$tr.append($mStatus);
+							$tr.append($fNo);
+							$tr.append($fWriter);
+							$tr.append($fContent);
+							$tr.append($fCreateDate);
+							$tr.append($fLikeCnt);
+							$tr.append($fStatus);
 							$tr.append($getOutBtn);
 							
 							$tableBody.append($tr);
@@ -216,13 +199,13 @@
 				}
 			});
 		}); 
-        
+		
 		// 댓글 검색 버튼 클릭 이벤트
 		 $('#re_searchBtn').on("click",function(){
 			console.log("클릭했엉?");
 			
-			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
-			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
+			var dynamicBtnY = '<input type="button" class="re_btn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" class="re_btn" value="IN"/>';
 			
 
 			console.log("전달되는 값"+$("#replySearch_form").serialize());
@@ -233,7 +216,6 @@
 				data:$("#replySearch_form").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
 					
 					$tableBody = $("#reply_table tbody");
 					$tableBody.html("");
@@ -273,7 +255,55 @@
 				}
 			});
 		}); 
-        
+		// feed 상태 변경을 위한 이벤트
+			$(document).on('click','.f_btn',function(){
+				
+				var no = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+				var status = $(this).parent().prev().text();
+
+				 $.ajax({
+					url:"feedStatusChange.do",
+					type:'post',
+					data:{no:no
+						,status:status
+										},
+					success:function(data){
+						alert("피드정보가 업데이트 되었습니다");
+						refresh();
+					},
+					error:function(request,status,error){
+						alert("code : "+request.status+"\n"
+								+"message : "+request.responseText+"\n"
+								+"error : "+ error);
+					}
+				});
+				
+			});
+		
+			// 댓글 상태 변경을 위한 이벤트
+			$(document).on('click','.re_btn',function(){
+				
+				var no = $(this).parent().prev().prev().prev().prev().prev().text();
+				var status = $(this).parent().prev().text();
+
+				 $.ajax({
+					url:"replyStatusChange.do",
+					type:'post',
+					data:{no:no
+						,status:status
+										},
+					success:function(data){
+						alert("댓글정보가 업데이트 되었습니다");
+						refresh();
+					},
+					error:function(request,status,error){
+						alert("code : "+request.status+"\n"
+								+"message : "+request.responseText+"\n"
+								+"error : "+ error);
+					}
+				});
+				
+			});
     </script>
 </body>
 </html>

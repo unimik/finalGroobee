@@ -54,11 +54,10 @@
 							<td>이메일</td>
 							<td>가입일</td>
 							<td>탈퇴여부</td>
-							<td>삭제</td>
+							<td>회원정지</td>
 						</tr>
 					</thead>
-					<tbody>
-						
+					<tbody>	
 					</tbody>
 				</table>
 			</div>
@@ -162,8 +161,6 @@
 			var id = $(this).parent().prev().prev().prev().prev().prev().text();
 			var status = $(this).parent().prev().text();
 						
-			console.log("현재 상태 : "+$(this).parent().prev().text());
-			console.log("현재 누른 버튼의 아이디 : " +name);
 
 			 $.ajax({
 				url:"memberStatusChange.do",
