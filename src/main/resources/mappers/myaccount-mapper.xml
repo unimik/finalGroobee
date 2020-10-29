@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="myAccountMapper">
+	<resultMap id="myAccountResultSet" type="MyAccount">
+		<id property="mNo" column="M_NO"/>
+		<result property="mId" column="M_ID"/>
+		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
+		<result property="follows" column="FOLLOWS"/>
+		<result property="followers" column="FOLLOWERS"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
+	</resultMap>
+	
+	
+	<select id="selectFollowers" parameterType="MyAccount" resultMap="myAccountResultSet">
+		SELECT
+			M_NO,
+			M_ID,
+			M_RENAME_IMAGE
+		FROM
+			MEMBER
+		WHERE
+			M_NO IN ( SELECT 
+						M_NO
+					  FROM
+					  	FOLLOW
+					  WHERE
+					    FOLLOWS = #{ mNo })
+	</select>
+	
+	<select id="selectFollows" parameterType="MyAccount" resultMap="myAccountResultSet">
+		SELECT
+			M_NO,
+			M_ID,
+			M_RENAME_IMAGE
+		FROM
+			MEMBER
+		WHERE M_NO IN (SELECT 
+							FOLLOWS 
+					   FROM 
+					   		FOLLOW 
+					   WHERE 
+					   		M_NO=#{ mNo })
+		ORDER BY M_NO
+	</select>
+	
+	
+	<select id="selectGroupList" parameterType="MyAccount" resultMap="myAccountResultSet">
+		SELECT *
+		FROM GROUP_MEMBER GM
+		LEFT JOIN MEMBER M
+		ON (GM.GM_ID = M.M_ID)
+		LEFT JOIN GROUPS G
+		ON (G.G_NO = GM.G_NO)
+		WHERE M_ID=#{ mId }
+	</select>
+	
+	<delete id="deleteFollow" parameterType="MyAccount">
+		DELETE FOLLOW
+		WHERE M_NO=#{mNo}
+		AND FOLLOWS=#{follows}
+	</delete>
+</mapper>

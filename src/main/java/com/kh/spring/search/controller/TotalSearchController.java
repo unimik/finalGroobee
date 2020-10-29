@@ -109,7 +109,7 @@ public class TotalSearchController {
 		String searchKey = search;
 		String[] srch = search.split(" ");
 		String[] rlist = new String[srch.length];	//검색하러 갈 리스트
-//		ArrayList rlist = new ArrayList(); //검색하러 갈 리스트...
+
 //		System.out.println("srch 길이"+srch.length);
 //		System.out.println("rlist 길이"+rlist.length);
 		

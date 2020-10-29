@@ -21,6 +21,7 @@
 		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.spring.declaration.model.vo.Declaration" alias="Declaration"/>
 		<typeAlias type="com.kh.spring.member.model.vo.Follow" alias="Follow"/>
+		<typeAlias type="com.kh.spring.myAccount.model.vo.myAccount" alias="MyAccount"/>
 		<typeAlias type="com.kh.spring.notification.model.vo.Notification" alias="Notification"/>
 	</typeAliases>
 	
@@ -34,6 +35,7 @@
 		<mapper resource="mappers/feed-mapper.xml"/>
 		<mapper resource="mappers/chat-mapper.xml"/>
 		<mapper resource="mappers/declaration-mapper.xml"/>
+		<mapper resource="mappers/myaccount-mapper.xml"/>
 		<mapper resource="mappers/notification-mapper.xml"/>
 	</mappers>
 </configuration>

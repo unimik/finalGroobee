@@ -16,10 +16,10 @@ public interface ChatService {
 
 	/**
 	 * 2. 채팅방 내용 불러오기
-	 * @param crNo
+	 * @param readC
 	 * @return
 	 */
-	ArrayList<Chat> getChatContentList(int crNo);
+	ArrayList<Chat> getChatContentList(Chat readC);
 
 	/**
 	 * 3. 채팅내용 인서트
@@ -42,5 +42,12 @@ public interface ChatService {
 	 * @return
 	 */
 	int insertChatRoom(String myId, String otherId);
+
+	/**
+	 * 6. 읽지않은 채팅 카운트
+	 * @param myId
+	 * @return
+	 */
+	int countChat(String myId);
 
 }

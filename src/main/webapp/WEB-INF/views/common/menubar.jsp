@@ -98,7 +98,7 @@
 	                   </li>
 	                   <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
 	                   <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
-	                   <li><img src="resources/icons/open.png" alt="" id="detailInfo"></li>
+	                   <li><a><img src="resources/icons/open.png" alt="" id="detailInfo"></a></li>
 	               </ul>
 	           </div>
 	           <div class="user_alarm" style="display:none; cursor:pointer;">
@@ -133,34 +133,19 @@
 						<!-- 팔로워 -->
 						<div class="MyTab_box1 MyTab_box on">
 							<div id="My_follower_list">
-								<ul id="follower_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="follower_list_img"></li>
-									<li>user02</li>
-									<li><button id="follower" name="follower">삭제</button></li>
-								</ul>
+							
 							</div>
 						</div>
 						<!-- 팔로잉 -->
 						<div class="MyTab_box2 MyTab_box">
 							<div id="My_following_list">
-								<ul id="following_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="following_list_img"></li>
-									<li>user02</li>
-									<li><button id="following" name="following">팔로잉</button></li>
-								</ul>
+							
 							</div>
 						</div>
 						<!-- 그룹 -->
 						<div class="MyTab_box3 MyTab_box">
 							<div id="My_fgroup_list">
-								<ul id="fgroup_info">
-									<li><img src="../resources/images/IMG_7273.JPEG" alt=""
-										id="fgroup_list_img"></li>
-									<li>user02</li>
-									<li><button id="del_group" name="del_group">탈퇴</button></li>
-								</ul>
+								
 							</div>
 						</div>
 					</div>
@@ -172,13 +157,88 @@
 	     	 <c:url var="glist" value="glist.do"/>
 	         <ul id="menu">
 	             <li><a href="${ goHome }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
-	             <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
-	
+             	 <li></li>
+             	 
 	             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
 	         </ul>
 	     </div>
      <script type="text/javascript">
+     /* 채팅 읽음 처리  */
+     function countChatRead() {
+    	var myId = '<c:out value="${loginUser.userId}"/>';
+    	$.ajax({
+    		url:"countChat.do",
+    		data:{myId:myId},
+    		dataType:"json",
+    		success:function(data){
+    			$("#menu li:nth-child(2)").children().remove();
+    			if(data.countChat > 0) {
+	    			var $img = '<img src="resources/icons/menu_chat_new.png" alt="CHAT" id="chat_icon" name="chat_icon">';
+    			} else {
+    				var $img = '<img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon">';
+    			}
+    			$("#menu li:nth-child(2)").append($img);
+    		},
+    		error:function(){
+    			console.log("에러");
+    		}
+    	});
+     }
+     /* 채팅 창 여는 스크립트 */	
+     function openChat() {
+        	 $.ajax({
+             	url:"oneChatList.do",
+             	data:{userId:'<c:out value="${loginUser.userId}"/>'},
+             	type:"post",
+        		dataType:"json",
+             	success:function(data){
+             		$("#mcList").children().remove();
+             		$.each(data,function(index,value){
+             			var $div = $('<div class="chRoom">');
+						var $ul = $('<ul>');
+						var $img = $("<li>");
+						var $rImg = $('<img src="resources/'+value.chatImage+'">');
+						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
+						if(value.read == 'N') {
+							if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
+								var $nImg = $('<img class="chat_read" src="resources/icons/chat_new.png" style="width: 10px; height:10px;">');
+	    						var $id = $("<li>").text(value.toId+"  ");
+	    						$id.append($nImg);
+	    						var $inputId = $('<input type="hidden" class="readId">').val(value.toId);
+    						} else {
+    							var $nImg = $('<img class="chat_read" src="resources/icons/chat_new.png" style="width: 10px; height:10px;">');
+    							var $id = $("<li>").text(value.fromId);
+    							$id.append($nImg);
+    							var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+    						}
+						} else {
+							if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
+	    						var $id = $("<li>").text(value.toId);
+	    						var $inputId = $('<input type="hidden" class="readId">').val(value.toId);
+    						} else {
+    							var $id = $("<li>").text(value.fromId);
+    							var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+    						}
+						}
+						var $cContent = $("<li>").text(value.cContent);
+						
+						$img.append($rImg);
+						$ul.append($img);
+						$ul.append($id);
+						$ul.append($cContent);
+						$div.append($ul);
+						$div.append($inputt);
+						$div.append($inputId);
+						$("#mcList").append($div);
+					});
+             	},
+             	error:function(){
+             		console.log("에러");
+             	}
+              });
+     }
+     
      /* 채팅방 채팅내용 불러오기 */
      $(document).on("click",".chRoom",function(){
     	 
@@ -188,10 +248,11 @@
     		} 
     	 });
     	 
-		var crNo = $(this).children("input").val();
+		var crNo = $(this).children(".crNo").val();
+		var readId = $(this).children(".readId").val();
 		$.ajax({
 			url:"oneChatContentList.do",
-			data:{crNo:crNo},
+			data:{crNo:crNo, readId:readId},
          	type:"post",
     		dataType:"json",
     		success:function(data){
@@ -236,6 +297,7 @@
     			});
     			$(".chat_room").show();
     			$("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+    			countChatRead();
     		},
     		error:function(){
     			console.log('에러');
@@ -244,50 +306,25 @@
 		var msg = $("#inputArea").val();
 	 });
 
-     /* 채팅 창 여는 스크립트 */	
+     
      $(function(){
-    	 $('#chat_icon').on("click",function(){
-             var state = $(".chat").css('display');
-             if(state =='none'){
-            	 $.ajax({
-                 	url:"oneChatList.do",
-                 	data:{userId:'<c:out value="${loginUser.userId}"/>'},
-                 	type:"post",
-            		dataType:"json",
-                 	success:function(data){
-                 		$("#mcList").children().remove();
-                 		$.each(data,function(index,value){
-                 			console.log(value.chatImage);
-                 			var $div = $('<div class="chRoom">');
-    						var $ul = $('<ul>');
-    						var $img = $("<li>");
-    						var $rImg = $('<img src="resources/'+value.chatImage+'">');
-    						var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
-    						if('<c:out value="${loginUser.userId}"/>' == value.fromId) {
-	    						var $id = $("<li>").text(value.toId);
-    						} else {
-    							var $id = $("<li>").text(value.fromId);
-    						}
-    						var $cContent = $("<li>").text(value.cContent);
-    						
-    						$img.append($rImg);
-    						$ul.append($img);
-    						$ul.append($id);
-    						$ul.append($cContent);
-    						$div.append($ul);
-    						$div.append($inputt);
-    						$("#mcList").append($div);
-    					});
-                 		$('.chat').show();
-                 	},
-                 	error:function(){
-                 		console.log("에러");
-                 	}
-                  });
-             }else{
-                 $('.chat').hide();
-             }
-         });
+    	 countChatRead();
+    	 $('#menu li:nth-child(2)').on("click",function(){
+    		 var state = $(".chat").css('display');
+    		 var state2 = $(".chat_room").css("display");
+    		 if(state2 == 'none') {
+    			 if(state =='none'){
+    	             openChat();
+    	             $('.chat').show();
+                 } else {
+                	 $(".chat").hide();
+                 }
+    		 } else {
+    			 $(".chat_room").hide();
+    			 $(".chat").hide();
+    		 }
+             
+     	 });
     	 
     	 /* 채팅방 만들기 */
     	 $("#myFeed_message_btn").on("click",function(){
@@ -347,6 +384,7 @@
 
          $('#goList').on("click",function(){
              $(".chat_room").hide();
+        	 openChat();
          });
      });
      
@@ -440,6 +478,8 @@
  			}
  		 }
  		 $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+ 		 countChatRead();
+ 		 openChat();
  	 }
  	 // 서버와 연결을 끊었을 때
  	 function onClose(evt) {
@@ -451,42 +491,206 @@
  	/************* 내계정 자세히보기 script **************/
 
      $(document).ready(function(){
-         $('#detailInfo').click(function(){
-        	 var mNo = ${ loginUser.mNo };
-        	 var mId = ${ loginUser.userId };
-        	 $.ajax({
-        		url:"getList.do",
-        		data:{mNo:mNo, gmId:mId},
-        		
-        	 });
-             $(".myAccount").animate({width:"toggle"},250);
+    	 $('.MyTab_tab').on("click",function(){
+             $('.MyTab_tab').removeClass('on');
+             $(this).addClass('on')
          });
-     });
+    	 
+    	 
+         $("#detailInfo").on("click",function(){
+        	 getFollowerList();
+        	 $(".myAccount").animate({width:"toggle"},250);
+         });
 
-     $('.MyTab_tab').on("click",function(){
-         $('.MyTab_tab').removeClass('on');
-         $(this).addClass('on')
-     });
-
-     $('.MyTab_tab1').on('click', function(){
-         $('.MyTab_box').hide();
-         $('.MyTab_box1').show();
-     });
-
-     $('.MyTab_tab2').on('click', function(){
-         $('.MyTab_box').hide();
-         $('.MyTab_box2').show();
-     });
+	     $('.MyTab_tab1').on('click', function(){
+	    	 getFollowerList();
+	    	 $('.MyTab_box').hide();
+     		 $('.MyTab_box1').show();
+    	 });
+	     
+	     $('.MyTab_tab2').on('click', function(){
+	    	 getFollowList();
+	    	 $('.MyTab_box').hide();
+     		 $('.MyTab_box2').show();
+	     });
      
-     $('.MyTab_tab3').on('click', function(){
-         $('.MyTab_box').hide();
-         $('.MyTab_box3').show();
-     });
+	     $('.MyTab_tab3').on("click", function(){
+    	 	 getGroupList();
+       		 $('.MyTab_box').hide();
+             $('.MyTab_box3').show();
+	     });
 
-     $('#goMypage').click(function(){
-         location.href="../views/myPage_Main.html";
+	     
+	     $(document).on("click","#goDetail",function(){
+	    	var gNo = $('#gNo').val();
+	    	location.href="gdetail.do?gNo="+ gNo;
+	     });
+	     
+	     $(document).on("click","#goUserPage",function(){
+	    	 var userId = $('#id').text();
+	    	 var mNo = $("#mNo").val();
+	    	 location.href="goUserpage.do?userId=" + userId + "&mNo=" + mNo;
+	     });
+	     
+	     
+	     /* $(document).on("click","#follower", function(){
+	    	var mNo = $('#mNo').val();
+	    	 
+	     });*/
+     
+	     
+	     $(document).on("click","#following", function(){
+	    	 var mNo = ${ loginUser.mNo };
+	    	 var follows = $('#mNo').val();
+	    	 console.log(follows);
+	    	 $.ajax({
+	    		 url:"delFollow.do",
+	    		 data:{ mNo:mNo, foNo:follows},
+	    		 type:"post",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 	if(data> 0){
+	    			 		getFollowList();
+	    			 	}else{
+	    			 		alert("실패했습니다.");
+	    			 	}
+		    		 	
+		    		 },error:function(){
+		    			 alert("불러오기 실패..");
+		    		 }
+	    	 });
+	     });
      });
-
+ 		
+ 		function getFollowerList(){
+ 			var mNo = ${ loginUser.mNo };
+	    	 $.ajax({
+	    		 url:"getFollowerList.do",
+	    		 data:{mNo:mNo},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_follower_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $userId;
+	        		 var $btn;
+	        		 var $mNo;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0 ){
+	        			 for(var i in data){
+	        				 console.log(data[i].mImage);
+	        				 $ul = $("<ul id='follower_info'>").html('<input type="hidden" id="mNo" value="'+ data[i].mNo+'">');
+	        				 $img = $("<li>").html('<img src="resources/'+ data[i].mImage + '" id="follower_list_img">');
+	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+data[i].userId);
+	        				 $btn = $("<li>").html('<button id="follower" name="follower">삭제</button>');
+	        				 $mNo = $("<li>").html('<input type="hidden" id="mNo" name="mNo" value="'+ data[i].mNo+'">');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($userId);
+	        				 $ul.append($btn);
+	        				 $ul.append($mNo);
+	        				 $div.append($ul);
+	        			 }
+	        		 }else{
+	        			 $p = $('<p id="textP">').text("나를 팔로우한 회원이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+ 		
+ 		function getFollowList(){
+ 			var mNo = ${ loginUser.mNo };
+	    	 $.ajax({
+	    		 url:"getFollowList.do",
+	    		 data:{mNo:mNo},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_following_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $userId;
+	        		 var $btn;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0){
+		        		 $.each(data, function(index,value){
+		        			 console.log(value.mImage);
+	        				 $ul = $("<ul id='following_info'>").html('<input type="hidden" id="mNo" name="mNo" value="'+ value.mNo+'">');
+	        				 $img = $("<li>").html('<img src="resources/'+ value.mImage + '" id="following_list_img">');
+	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+value.userId);
+	        				 $btn = $("<li>").html('<button id="following" name="following">팔로우 취소</button>');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($userId);
+	        				 $ul.append($btn);
+	        				 $div.append($ul);
+		        		 });
+		        	}else{
+	        			 $p = $('<p id="textP">').text("팔로우한 회원이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+ 	
+ 		function getGroupList(){
+ 			$.ajax({
+	    		 url:"getGroupList.do",
+	    		 data:{mId:"${ loginUser.userId }"},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_fgroup_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $gName;
+	        		 var $btn;
+	        		 var $gNo;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0 ){
+	        			 for(var i in data){
+	        				 console.log(data[i].gName);
+	        				 console.log(data[i].gImage);
+	        				 $ul = $("<ul id='fgroup_info'>");
+	        				 $img = $("<li>").html('<img src="resources/'+ data[i].gImage + '" id="fgroup_list_img"">');
+	        				 $gName = $("<li>").html('<a id="goDetail">'+data[i].gName);
+	        				 $gNo = $("<li>").html('<input type="hidden" id="gNo" name="gNo" value="' + data[i].gNo + '">');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($gName);
+	        				 $ul.append($gNo);
+	        				 $div.append($ul);
+	        			 }
+	        		 }else{
+	        			 $p = $('<p id="textP">').text("가입한 그룹이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	        		 $('.MyTab_box').hide();
+	                 $('.MyTab_box3').show();
+	                 
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
      </script>
 </body>
 </html>
