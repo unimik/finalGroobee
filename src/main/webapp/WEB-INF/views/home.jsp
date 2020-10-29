@@ -129,8 +129,6 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
 	</div>
-	
-<<<<<<< HEAD
     <script>
 
         /*************** 채팅 ****************/

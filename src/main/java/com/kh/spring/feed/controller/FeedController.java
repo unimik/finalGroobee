@@ -1,16 +1,17 @@
 package com.kh.spring.feed.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,20 +34,57 @@ public class FeedController {
 		return "feed/PostInsertForm";
 	}
 	
+	// @RequestParam(value="uploadFile", required=false) MultipartHttpServletRequest multi
 	@RequestMapping("pInsert.do")
-	public String insertPost(Feed f,
-			@RequestParam(value="uploadFile", required=false) MultipartHttpServletRequest multi) {
-		System.out.println("들어오니?");
-		if(!((MultipartFile) multi).getOriginalFilename().equals("")) {
+	public String insertPost(Feed f, MultipartHttpServletRequest multi) {
+		
+		List<MultipartFile> fileList = multi.getFiles("uploadFile");
+		String root = multi.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\pUploadFiles";
+		
+		File folder = new File(savePath);	// 저장 폴더
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		for(MultipartFile mf : fileList) {
+			String originalFileName = mf.getOriginalFilename(); // 원본 파일명
+			long fileSize = mf.getSize();		// 파일 사이즈
 			
-			String renameFileName = MultiUpload(multi);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			//						[		20200929191422.											]
+			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
+					//						[		20200929191422.png										]
+										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			
-			if(renameFileName != null) {	// 파일이 잘 저장된 경우
-				f.setfFile(((MultipartFile) multi).getOriginalFilename());
-				f.setfRenameFile(renameFileName);
+			String saveFile = savePath + "\\" +  renameFileName;
+			
+			try {
+				mf.transferTo(new File(saveFile));
+			}catch(IOException e) {
+				e.printStackTrace();
 			}
 		}
 		
+		System.out.println(savePath);
+		
+		
+//		if(!fileList.isEmpty()) {
+//			
+//			// 서버에 업로드 진행하기
+//			// MultiUpload 메소드 : 저장하고자 하는 Request를 전달해서 서버에 업로드시키고 저장된 파일명을 반환해 주는 메소드
+//			String renameFileName = multi.getSession().
+//			
+//			if(renameFileName != null) {	// 파일이 잘 저장된 경우
+//				f.setfFile();
+//				f.setfRenameFile(renameFileName);
+//			}
+//			
+//		}
+		
+		System.out.println("fileList : " + fileList);
+		System.out.println("들어오니?");
 		int result = fService.insertPost(f);
 		
 		if(result > 0) {
@@ -57,64 +95,77 @@ public class FeedController {
 		}
 	}
 	
-	@RequestMapping("/upload")
-	public String MultiUpload(Model model,
-			@RequestParam(required=false) List<MultipartFile> fileList) {
-		
-		// 저장 경로 설정
-		String root = ((HttpServletRequest) fileList).getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\pUploadFiles";
-		File folder = new File(savePath);
-		
-		if(!folder.exists()) {
-			folder.mkdirs();
-		}
-		
-		
-		for(MultipartFile filePart : fileList) {
-			String originalFileName = filePart.getOriginalFilename();	// 원본 파일명
-			System.out.println("실제 파일명 : " + originalFileName);
-			long fileSize = filePart.getSize();		// 파일 사이즈
-			System.out.println("파일 사이즈 : " + fileSize);
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			//						[		20200929191422.											]
-			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
-					//						[		20200929191422.png										]
-										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-			String renamePath = folder + "\\" + originalFileName;
-
-			try {
-				filePart.transferTo(new File(renamePath));
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return renameFileName;
-		}
-		
-	}
+//	@RequestMapping(value = "/PostInsertForm", method = RequestMethod.GET)
+//	public String upload(Locale locale, Model model) {
+//
+//		return "feed/PostInsertForm";
+//	}
 	
-	@RequestMapping("pUpdate.do")					//	 ↓ 제외 가능
-	public ModelAndView boardUpdate(ModelAndView mv, @ModelAttribute Feed f, 
-			@RequestParam(value="reloadFile", required=false) MultipartHttpServletRequest multi) {
-			
-			String renameFileName = MultiUpload(multi);
-			
-			if(renameFileName != null) {
-				f.setfFile(((MultipartFile) multi).getOriginalFilename());
-				f.setfRenameFile(renameFileName);
-			}
-			
-		int result = fService.updatePost(f);
-		
-		if(result > 0) {
-			mv.addObject("fNo", f.getfNo()).setViewName("redirect:home.do");
-		}else {
-			mv.addObject("msg", "수정 실패").setViewName("common/errorPage");
-		}
-		
-		return mv;
-	}
+//	public String MultiUpload(MultipartHttpServletRequest multi) {
+//		
+//		
+//		
+//		// 저장 경로 설정
+//		String root = multi.getSession().getServletContext().getRealPath("resources");
+//		String savePath = root + "\\pUploadFiles";
+//		
+//		File folder = new File(savePath);	// 저장 폴더
+//		
+//		if(!folder.exists()) {
+//			folder.mkdirs();
+//		}
+//		
+//		
+//		for(MultipartFile filePart : fileList) {
+//			
+//			String originalFileName = filePart.getOriginalFilename();	// 원본 파일명
+//			System.out.println("실제 파일명 : " + originalFileName);
+//			
+//			long fileSize = filePart.getSize();		// 파일 사이즈
+//			System.out.println("파일 사이즈 : " + fileSize);
+//			
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//			//						[		20200929191422.											]
+//			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
+//					//						[		20200929191422.png										]
+//										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+//			String renamePath = folder + "\\" + renameFileName;
+//
+//			try {
+//				filePart.transferTo(new File(renamePath));
+//			}catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return renameFileName;
+//			
+//		}
+//		
+//		return "";
+//		
+//		
+//	}
+	
+//	@RequestMapping("pUpdate.do")					//	 ↓ 제외 가능
+//	public ModelAndView boardUpdate(ModelAndView mv, @ModelAttribute Feed f, 
+//			@RequestParam(value="reloadFile", required=false) MultipartHttpServletRequest multi) {
+//			
+////			String renameFileName = MultiUpload(multi);
+//			
+//			if(renameFileName != null) {
+//				f.setfFile(((MultipartFile) multi).getOriginalFilename());
+//				f.setfRenameFile(renameFileName);
+//			}
+//			
+//		int result = fService.updatePost(f);
+//		
+//		if(result > 0) {
+//			mv.addObject("fNo", f.getfNo()).setViewName("redirect:home.do");
+//		}else {
+//			mv.addObject("msg", "수정 실패").setViewName("common/errorPage");
+//		}
+//		
+//		return mv;
+//	}
 	
 }

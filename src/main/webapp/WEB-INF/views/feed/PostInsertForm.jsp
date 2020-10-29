@@ -117,7 +117,8 @@
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" multiple="multiple" id="input_file" name="uploadFile">
+                                    <input type="file" multiple="multiple" id="input_file" name="upFile"
+                                     accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
                                 </td>
                             </tr>
                             <tr>
