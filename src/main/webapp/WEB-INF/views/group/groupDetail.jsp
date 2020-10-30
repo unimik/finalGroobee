@@ -77,7 +77,7 @@
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
-                                        <li><a>채팅방생성</a></li>
+                                        <li><a id="isnertGroupChat">채팅방생성</a></li>
                                         <li><a id="close_master">취소</a></li>
                                     </ul>
                                 </div>
