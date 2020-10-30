@@ -34,7 +34,6 @@
 							<label>아 이 디</label><input type="text" id="id" name="id"><br>
 							<br> <label>탈퇴여부</label>
 							<select id="getOut" name="getOut">														
-								<option disabled="disabled" selected="selected">------------</option>
 								<option>Y</option>
 								<option>N</option>
 							</select> <label>가 입 일</label><input type="date" id="enrolldate"
@@ -55,11 +54,10 @@
 							<td>이메일</td>
 							<td>가입일</td>
 							<td>탈퇴여부</td>
-							<td>삭제</td>
+							<td>회원정지</td>
 						</tr>
 					</thead>
-					<tbody>
-						
+					<tbody>	
 					</tbody>
 				</table>
 			</div>
@@ -106,10 +104,9 @@
 		
 		// 회원 검색 버튼 클릭 이벤트
 		 $('#searchBtn').on("click",function(){
-			console.log("클릭했엉?");
 			
-			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
-			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
+			var dynamicBtnY = '<input type="button" class="btnyn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" class="btnyn" value="IN"/>';
 			
 			
 			$.ajax({
@@ -118,8 +115,7 @@
 				data:$("#memberSearch_form").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
-					
+
 					$tableBody = $("#user_table tbody");
 					$tableBody.html("");
 					
@@ -128,7 +124,7 @@
 						var $mNo = $("<td>").text(data[i].mNo);
 						var $userId = $("<td>").text(data[i].userId);
 						var $userName = $("<td>").text(data[i].userName);
-						var $email = $("<td>").text(data[i].email);	
+						var $email = $("<td>").text(data[i].email);
 						var $cDate = $("<td>").text(data[i].cDate);
 						var $mStatus = $("<td>").text(data[i].mStatus);
 						if(data[i].mStatus==='Y'){
@@ -155,6 +151,35 @@
 				}
 			});
 		}); 
+		// 리프래시를 위한 메소드
+		 function refresh(){
+				location.reload();
+			}
+		// member 상태 변경을 위한 이벤트
+		$(document).on('click','.btnyn',function(){
+			
+			var id = $(this).parent().prev().prev().prev().prev().prev().text();
+			var status = $(this).parent().prev().text();
+						
+
+			 $.ajax({
+				url:"memberStatusChange.do",
+				type:'post',
+				data:{id:id
+					,status:status
+									},
+				success:function(data){
+					alert("회원정보가 업데이트 되었습니다");
+					refresh();
+				},
+				error:function(request,status,error){
+					alert("code : "+request.status+"\n"
+							+"message : "+request.responseText+"\n"
+							+"error : "+ error);
+				}
+			});
+			
+		});
 	</script>
 </body>
 </html>

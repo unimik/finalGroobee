@@ -557,6 +557,7 @@
        		 $('.MyTab_box').hide();
              $('.MyTab_box3').show();
 	     });
+<<<<<<< HEAD
 
 	     
 	     $(document).on("click","#goDetail",function(){
@@ -618,11 +619,202 @@
 	    	 });
 	     });
      });
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 
-     $('#goMypage').click(function(){
-         location.href="../views/myPage_Main.html";
+	     
+	     $(document).on("click","#goDetail",function(){
+		     var gNo =$(this).parents().children('input').val();
+	    	 console.log(gNo);
+	    	 location.href="gdetail.do?gNo="+ gNo;
+	     });
+	     
+	     $(document).on("click","#goUserPage",function(){
+	    	 var userId = $(this).parents().children('a').text();
+	    	 var mNo = $(this).parents().children('input').val();
+	    	 location.href="goUserpage.do?userId=" + userId + "&mNo=" + mNo;
+	     });
+	     
+	     
+	     $(document).on("click","#follower", function(){
+	    	 var mNo = ${ loginUser.mNo };
+	    	 var follower = $(this).parents().children('input').val();
+	    	 console.log(follower);
+	    	 $.ajax({
+	    		url:"delFollower.do",
+	    		data:{mNo:mNo, foNo:follower},
+	    		type:"post",
+	    		success:function(data){
+	    			if(data>0){
+	    				alert("삭제하였습니다.");
+	    				getFollowerList();
+	    			}else{
+	    				alert("삭제 실패하였습니다.");
+	    			}
+	    		},error:function(){
+	    			alert("삭제오류");
+	    		}
+	    	 });
+	    	 
+	     });
+     
+	     
+	     $(document).on("click","#following", function(){
+	    	 var mNo = ${ loginUser.mNo };
+	    	 var follows = $(this).parents().children('input').val();
+	    	 console.log(follows);
+	    	 $.ajax({
+	    		 url:"delFollow.do",
+	    		 data:{ mNo:mNo, foNo:follows},
+	    		 type:"post",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 	if(data> 0){
+	    			 		alert("팔로우를 취소하였습니다.");
+	    			 		getFollowList();
+	    			 	}else{
+	    			 		alert("실패했습니다.");
+	    			 	}
+		    		 	
+		    		 },error:function(){
+		    			 alert("불러오기 실패..");
+		    		 }
+	    	 });
+	     });
      });
+<<<<<<< HEAD
 </script>
    
+=======
+ 		
+ 		function getFollowerList(){
+ 			var mNo = ${ loginUser.mNo };
+	    	 $.ajax({
+	    		 url:"getFollowerList.do",
+	    		 data:{mNo:mNo},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_follower_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $userId;
+	        		 var $btn;
+	        		 var $mNo;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0 ){
+	        			 for(var i in data){
+	        				 console.log(data[i].mImage);
+	        				 $ul = $("<ul id='follower_info'>").html('<input type="hidden" id="mNo" value="'+ data[i].mNo+'">');
+	        				 $img = $("<li>").html('<img src="resources/'+ data[i].mImage + '" id="follower_list_img">');
+	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+data[i].userId);
+	        				 $btn = $("<li>").html('<button id="follower" name="follower">삭제</button>');
+	        				 $mNo = $("<li>").html('<input type="hidden" id="mNo" name="mNo" value="'+ data[i].mNo+'">');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($userId);
+	        				 $ul.append($btn);
+	        				 $ul.append($mNo);
+	        				 $div.append($ul);
+	        			 }
+	        		 }else{
+	        			 $p = $('<p id="textP">').text("나를 팔로우한 회원이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+ 		
+ 		function getFollowList(){
+ 			var mNo = ${ loginUser.mNo };
+	    	 $.ajax({
+	    		 url:"getFollowList.do",
+	    		 data:{mNo:mNo},
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_following_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $img;
+	        		 var $userId;
+	        		 var $btn;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0){
+		        		 $.each(data, function(index,value){
+		        			 console.log(value.mImage);
+	        				 $ul = $("<ul id='following_info'>").html('<input type="hidden" id="mNo" name="mNo" value="'+ value.mNo+'">');
+	        				 $img = $("<li>").html('<img src="resources/'+ value.mImage + '" id="following_list_img">');
+	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+value.userId);
+	        				 $btn = $("<li>").html('<button id="following" name="following">팔로우 취소</button>');
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($userId);
+	        				 $ul.append($btn);
+	        				 $div.append($ul);
+		        		 });
+		        	}else{
+	        			 $p = $('<p id="textP">').text("팔로우한 회원이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+ 	
+ 		function getGroupList(){
+ 			$.ajax({
+	    		 url:"getGroupList.do",
+	    		 data:{mId:"${ loginUser.userId }"},
+	    		 async:false,
+	    		 dataType:"json",
+	    		 success:function(data){
+	    			 console.log(data);
+	    			 $div=$("#My_fgroup_list");
+	        		 $div.html("");
+	        		 
+	        		 var $ul;
+	        		 var $gNo;
+	        		 var $img;
+	        		 var $gName;
+	        		 var $btn;
+	        		 var $p;
+	        		 
+	        		 if(data.length > 0 ){
+	        			 for(var i in data){
+	        				 $ul = $("<ul id='fgroup_info'>").html('<input type="hidden" id="gNo" name="gNo" value="' + data[i].gNo + '">');
+	        				 $img = $("<li>").html('<img src="resources/'+ data[i].gImage + '" id="fgroup_list_img"">');
+	        				 $gName = $("<li>").html('<a id="goDetail">'+data[i].gName);
+	        				 
+	        				 
+	        				 $ul.append($img);
+	        				 $ul.append($gName);
+	        				 $div.append($ul);
+	        			 }
+	        		 }else{
+	        			 $p = $('<p id="textP">').text("가입한 그룹이 없습니다.");
+	        			 
+	        			 $div.append($p);
+	        		 }
+	        		 $('.MyTab_box').hide();
+	                 $('.MyTab_box3').show();
+	                 
+	    		 },error:function(){
+	    			 alert("불러오기 실패..");
+	    		 }
+	    	 }); 
+ 		};
+     </script>
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 </body>
 </html>
