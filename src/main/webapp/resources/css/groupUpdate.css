@@ -24,13 +24,24 @@ p{margin:0;}
 #member_main{height: 100%; width: 100%;}
 .select{ height: 55px; font-size:14px; color:#555555; }
 .select #gm{ height: 55px;padding: 0; margin:0;border-bottom: 1px solid #e5e5e5;}
+.select #gmMaster{ height: 55px;padding: 0; margin:0;border-bottom: 1px solid #e5e5e5;}
+
+#gmMaster li{ list-style:none; float:left;}
+#gmMaster li:nth-child(1){width: 80px; text-align: center; margin-top: 17px;}
+#gmMaster li:nth-child(2) img{ width: 35px; height: 35px; border-radius:10px; }
+#gmMaster li:nth-child(2){width: 80px; margin-top: 10px;}
+#gmMaster li:nth-child(3){ width:380px; font-size: 20px; margin-top: 11px; }
+
+
+
 #gm li{ list-style:none; float:left;}
-#gm li:nth-child(1){width: 80px; text-align: center; margin-top: 17px;}
-#gm li:nth-child(2) img{ width: 35px; height: 35px; border-radius:10px; }
-#gm li:nth-child(2){width: 45px; margin-top: 10px;}
-#gm li:nth-child(3){ width:350px; font-size: 20px; margin-top: 11px; }
+#gm li:nth-child(2){width: 80px; text-align: center; margin-top: 17px;}
+#gm li:nth-child(3) img{ width: 35px; height: 35px; border-radius:10px; }
+#gm li:nth-child(3){width: 80px; margin-top: 10px;}
+#gm li:nth-child(4){ width:380px; font-size: 20px; margin-top: 11px; }
 #g_gmL{ width:0; padding:0; margin:0; }
-#groupMemberMenu{ float:right; margin:25px 10px 0 100px;}
+#g_gmI{ width:0; padding:0; margin:0;}
+#groupMemberMenu{ float:right; margin:25px 10px 0 30px;}
 .page{height: 10%; text-align: center;}
 
 

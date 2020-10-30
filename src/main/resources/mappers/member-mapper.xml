@@ -108,7 +108,8 @@
 		FROM MEMBER
 		WHERE M_ID = #{userId}
 	</select>
-
+	
+	<!-- 회원정보 불러오기 -->
 	<select id="memberSearchList" parameterType="Member"
 		resultMap="memberResultSet">
 		SELECT *
@@ -134,4 +135,13 @@
 		FROM MEMBER
 		WHERE M_ID = #{userId}
 	</select>
+	
+	<!-- 회원상태 변경 -->
+	<update id="memberStatusChange" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+			M_STATUS = #{mStatus}
+		WHERE 
+			M_ID = #{userId}
+	</update>
 </mapper>

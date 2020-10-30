@@ -23,7 +23,7 @@
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 	</resultMap>
 	
-	<resultMap id="postInsertSet" type="Feed">
+<!-- 	<resultMap id="postInsertSet" type="Feed">
 		<id property="fNo" column="F_NO"/>
 		<result property="mNo" column="M_NO"/>
 		<result property="fContent" column="F_CONTENT"/>
@@ -40,7 +40,7 @@
 		<result property="fShareSet" column="F_SHARE_SET"/>
 		<result property="fLikeCnt" column="F_LIKECNT"/>
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<resultMap id="replyResultSet" type="Reply">
 		<id property="rNo" column="R_NO"/>
@@ -100,4 +100,41 @@
 			</if>
 		</trim>
 	</select>
+	
+	<select id="feedSearchList" parameterType="Feed"  resultMap="postResultSet">
+		SELECT *
+		FROM FEED
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="fNo != 0">
+				F_NO like '%'||#{fNo}||'%'
+			</if>
+			<if test="fContent != null">
+				AND F_CONTENT like '%'||#{fContent}||'%'
+			</if>
+			<if test="fWriter != null">
+				AND fWriter like '%'||#{fWriter}||'%'
+			</if>
+			<if test="fCreateDate != null">
+				AND F_CREATE_DATE like '%'||#{fCreateDate}||'%'
+			</if>
+		</trim>
+	</select>
+	
+		<!-- feed 상태 변경 -->
+	<update id="feedStatusChange" parameterType="Feed">
+		UPDATE FEED 
+		SET
+			F_STATUS = #{fStatus}
+		WHERE 
+			F_NO = #{fNo}
+	</update>
+	
+	<!-- reply 상태 변경 -->
+	<update id="replyStatusChange" parameterType="Reply">
+		UPDATE REPLY 
+		SET
+			R_STATUS = #{rStatus}
+		WHERE 
+			R_NO = #{rNo}
+	</update>
 </mapper>

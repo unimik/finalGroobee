@@ -42,7 +42,6 @@
 					   		FOLLOW 
 					   WHERE 
 					   		M_NO=#{ mNo })
-		ORDER BY M_NO
 	</select>
 	
 	
@@ -60,5 +59,11 @@
 		DELETE FOLLOW
 		WHERE M_NO=#{mNo}
 		AND FOLLOWS=#{follows}
+	</delete>
+	
+	<delete id="deleteFollower" parameterType="MyAccount">
+		DELETE FOLLOW
+		WHERE M_NO=#{followers}
+		AND FOLLOWS=#{mNo}
 	</delete>
 </mapper>

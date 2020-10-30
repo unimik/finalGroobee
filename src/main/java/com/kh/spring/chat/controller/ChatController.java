@@ -37,8 +37,8 @@ public class ChatController {
 		ArrayList<Chat> cList = cService.getChatList(userId);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		Member m = null;
-		System.out.println(userId);
 		for(Chat c : cList) {
+			if(c.getCrNo() > 0 && (c.getcContent() == null || c.getcContent().equals(""))) {  }
 			if(c.getFromId().equals(userId)) {
 				m = new Member();
 				m.setUserId(c.getToId());
@@ -94,6 +94,7 @@ public class ChatController {
 		Chat readC = new Chat();
 		readC.setCrNo(rcrNo);
 		readC.setFromId(readId);
+		System.out.println(readId);
 		ArrayList<Chat> cList = cService.getChatContentList(readC);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat c : cList) {
@@ -105,6 +106,7 @@ public class ChatController {
 		JSONObject job = null;
 		JSONArray result = new JSONArray();
 		for(Chat c : cList) {
+			System.out.println(c);
 			job = new JSONObject();
 			for(Member m2 : resultList) {
 				if(c.getFromId().equals(m2.getUserId())) {
@@ -123,7 +125,7 @@ public class ChatController {
 					}
 				result.add(job);
 				break;
-				}
+				} 
 			}
 		}
 		PrintWriter out = response.getWriter();
