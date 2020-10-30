@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -19,8 +17,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
 import com.kh.spring.chat.model.vo.Chat;
-import com.kh.spring.member.controller.MemberController;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.notification.controller.NotificationController;
+import com.kh.spring.notification.model.vo.PushAlram;
 
 
 @RequestMapping("/echo")
@@ -35,6 +34,8 @@ public class EchoHandler extends TextWebSocketHandler{
     
     @Autowired
     private ChatController cController;
+    @Autowired
+	private NotificationController nController;
     
     //클라이언트가 연결 되었을 때 실행
     @Override
@@ -43,6 +44,16 @@ public class EchoHandler extends TextWebSocketHandler{
         String senderId = getId(session);
         userSessions.put(senderId, session);
         logger.info("{} 연결됨", session.getId()); 
+        
+        Object[] x = sessionList.toArray();
+        for(int i=0;i<x.length;i++) {
+        	System.out.println("session :"+ x[i]);
+        	
+        }
+        
+        System.out.println("몇명 접속중인가? " + userSessions.size());
+        System.out.println(userSessions.toString());
+        
     }
 
 	//클라이언트가 웹소켓 서버로 메시지를 전송했을 때 실행
@@ -58,6 +69,7 @@ public class EchoHandler extends TextWebSocketHandler{
 			String toId = "";
 			String sendType = "";
 			String crno = "";
+			System.out.println(fromId+Rmsg+Rmsg+sendType+crno);
         	for (int i = 0; i < strs.length; i++) {
 				Rmsg = strs[0];
 				toId = strs[1];
@@ -86,8 +98,26 @@ public class EchoHandler extends TextWebSocketHandler{
             		}
             	}
         		
-        	} else if(sendType.equals("alarm")) {
-        		
+        	} else{
+        		//작성자가 로그인 해서 있다면
+				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
+				System.out.println("이게뭐지? "+boardWriterSession);
+				System.out.println("왜 아무것도 안들어옴?"+fromId+Rmsg+Rmsg+sendType+crno);
+				//int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+				int result = nController.sendAlram(new PushAlram(),fromId,toId,sendType,crNo);
+				if(sendType.equals("reply") && boardWriterSession != null) {
+					TextMessage tmpMsg = new TextMessage(fromId + "님이 " + 
+										"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
+					boardWriterSession.sendMessage(tmpMsg);
+				
+				}else if("follow".equals(sendType) && boardWriterSession != null) {
+					TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님을 팔로우를 시작했습니다.");
+					boardWriterSession.sendMessage(tmpMsg);
+					
+				}else if("like".equals(sendType) && boardWriterSession != null) {
+					TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님의 게시물을 좋아합니다.");
+					boardWriterSession.sendMessage(tmpMsg);
+				}
         	}
         }
         

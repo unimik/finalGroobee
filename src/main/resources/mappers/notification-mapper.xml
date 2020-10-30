@@ -6,9 +6,20 @@
  		<result property="alramContent" column="ALRAM_CONTENT"/>
  	</resultMap>
  	
+ 	<resultMap id="PushAlramResultSet" type="PushAlram">
+ 		<id property="pNo" column="P_NO"/>
+ 		<result property="toId" column="TO_ID"/>
+ 		<result property="fromId" column="FROM_ID"/>
+ 		<result property="type" column="TYPE"/>
+ 		<result property="typeNo" column="TYPE_NO"/>
+ 	</resultMap> 
+ 	
 	<select id="getNotification" parameterType="int" resultMap="notificationResultSet"> 
 		SELECT * FROM NOTIFICATION WHERE M_NO = #{mNo}
 	</select>
  	
+ 	<insert id="insertPushAlram" parameterType="PushAlram">
+ 		INSERT INTO PUSH_ALRAM VALUES(SEQ_PNO.NEXTVAL,#{toId},#{fromId},#{type},#{typeNo})
+ 	</insert> 
  	
 </mapper>

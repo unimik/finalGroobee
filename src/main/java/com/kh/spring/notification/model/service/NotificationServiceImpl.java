@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.notification.model.dao.NotificationDao;
 import com.kh.spring.notification.model.vo.Notification;
+import com.kh.spring.notification.model.vo.PushAlram;
 @Service("nService")
 public class NotificationServiceImpl implements NotificationService {
 
@@ -16,6 +17,11 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public List<Notification> getNotification(int mNo) {
 		return nDao.getNotification(mNo);
+	}
+
+	@Override
+	public int insertAlram(PushAlram a) {
+		return nDao.insertAlram(a);
 	}
 
 }
