@@ -79,8 +79,10 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-				<c:if test="${ !empty f.fFile }">
-				<img src="${ contextPath }/resources/pUploadFiles/${ f.fRenameFile }" alt="" id="input_img">
+				<c:if test="${ !empty f.photoList }">
+					<c:forEach var="p" items="${ f.photoList }">
+					<img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img">
+					</c:forEach>
 				</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">

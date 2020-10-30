@@ -4,22 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Photo;
 
 
 @SessionAttributes("feedPost")
@@ -34,11 +29,10 @@ public class FeedController {
 		return "feed/PostInsertForm";
 	}
 	
-	// @RequestParam(value="uploadFile", required=false) MultipartHttpServletRequest multi
 	@RequestMapping("pInsert.do")
-	public String insertPost(Feed f, MultipartHttpServletRequest multi) {
+	public String insertPost(Feed f, Photo p, MultipartHttpServletRequest multi) {
 		
-		List<MultipartFile> fileList = multi.getFiles("uploadFile");
+		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
 		
@@ -60,33 +54,27 @@ public class FeedController {
 			
 			String saveFile = savePath + "\\" +  renameFileName;
 			
+			if(!fileList.isEmpty()) {
+				
+				// 서버에 업로드 진행하기
+				if(renameFileName != null) {	// 파일이 잘 저장된 경우
+					p.setOriginName(mf.getOriginalFilename());
+					p.setChangeName(renameFileName);
+				}
+			}
+			
 			try {
+				int photo = fService.insertPhoto(p);
 				mf.transferTo(new File(saveFile));
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println(originalFileName);
 		}
 		
-		System.out.println(savePath);
 		
-		
-//		if(!fileList.isEmpty()) {
-//			
-//			// 서버에 업로드 진행하기
-//			// MultiUpload 메소드 : 저장하고자 하는 Request를 전달해서 서버에 업로드시키고 저장된 파일명을 반환해 주는 메소드
-//			String renameFileName = multi.getSession().
-//			
-//			if(renameFileName != null) {	// 파일이 잘 저장된 경우
-//				f.setfFile();
-//				f.setfRenameFile(renameFileName);
-//			}
-//			
-//		}
-		
-		System.out.println("fileList : " + fileList);
-		System.out.println("들어오니?");
 		int result = fService.insertPost(f);
-		
 		if(result > 0) {
 			return "redirect:home.do";
 			
