@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.group.model.vo.Group;
+import com.kh.spring.group.model.vo.GroupMember;
 
 public interface FeedService {
 
@@ -25,5 +27,13 @@ public interface FeedService {
 	ArrayList<Feed> selectFeed();
 
 	int updatePost(Feed f);
+	
+	/**
+	 *  가입한 그룹 조회
+	 * @param userId
+	 * @return
+	 */
+	ArrayList<GroupMember> selectGroupMemberId(String userId);
+	ArrayList<Group> selectGroupName(int gNo);
 
 }

@@ -10,12 +10,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="resources/css/home.css">
-<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <style>
 	#feed{ height: fit-content; margin-bottom: 50px; }
 	#footer{ height: 200px; text-align: center; }
 	.pop_menu{ background: #00000005; }
 	a{ color: black; }
+	#imgList{ margin:0; padding:0;}
+	#imgList li{ list-style:none;}
 </style>
 </head>
 <body>
@@ -80,9 +82,11 @@
 		<div id="con">
 			<div id="feed_content">
 				<c:if test="${ !empty f.photoList }">
-					<c:forEach var="p" items="${ f.photoList }">
-					<img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img">
-					</c:forEach>
+						<ul id="imgList">
+						<c:forEach var="p" items="${ f.photoList }">
+							<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+						</c:forEach>
+						</ul>
 				</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
@@ -94,20 +98,18 @@
 			<div id="replyArea">
 				<div id="replyList" style="display: none;">
 				</div>
-					<c:if test="${ f.replyList[2] eq f.fNo }">
-						<div id="replyList" style="display: block;">
-						<c:forEach var="r" items="${ f.replyList }">
-						<ul id="re_list">
-							<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-								id="reply_img">&nbsp;&nbsp;&nbsp;
-								<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-							<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
-							<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-							<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-						</ul>
-						</c:forEach>
-						</div>
-					</c:if>
+					<div id="replyList" style="display: block;">
+					<c:forEach var="r" items="${ f.replyList }">
+					<ul id="re_list">
+						<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
+							id="reply_img">&nbsp;&nbsp;&nbsp;
+							<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+						<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
+						<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
+						<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+					</ul>
+					</c:forEach>
+					</div>
 
 				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
 				<div class="reply_menu">
