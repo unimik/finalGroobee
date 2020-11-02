@@ -1,6 +1,7 @@
 package com.kh.spring.myPage.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,14 @@ public class MypageDao {
 
 	public int deleteBox(StorageBox sb) {
 		return sqlSession.delete("mypageMapper.deleteBox", sb);
+	}
+
+	public List<Object> sBoxfnoList(StorageBox sb) {
+		return sqlSession.selectList("mypageMapper.sBoxfnoList", sb);
+	}
+
+	public ArrayList<Feed> sBoxfList(List fnos) {
+		return  (ArrayList) sqlSession.selectList("mypageMapper.sBoxFeedList",fnos);
 	}
 	
 }

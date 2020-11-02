@@ -47,6 +47,37 @@
     margin:0 40px 30px 30px;
     }
    </style>
+   <script>
+  
+	function getParameterByName(name) {
+       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+               results = regex.exec(location.search);
+       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+   }
+	
+   $(function(){
+	 	var getType = getParameterByName("type");
+		//alert(getType);	 
+		if( getType == 1 ){
+		
+		$('.storageBox_subBtn3').show();
+		$('.storageBox_subBtn4').hide();
+		$('.storageBox_subBtn5').hide();
+
+	    $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #47c6a3'});  
+		$('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
+		$('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
+		$('.post').hide();
+		$('.storagebox').show();
+		$('.group').hide(); 
+		
+		}
+   });
+   </script>
+   
+   
+   
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
@@ -405,7 +436,7 @@
                       <tr class="storagebox">
                             <td></td>
                             <td></td>
-                            
+                            <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
                             <td id="storageBox" colspan="3">
                                 <div id="sb_menu">
                                     <div type="button" class="storageBox_subBtn1"><img src="<%=request.getContextPath()%>/resources/icons/add.png"></div>
@@ -425,14 +456,12 @@
                             <td class="fstorageBox_folder">
                             <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
                             <div id="box2">폴더명</div>--%>
-                            <div id ="sbBoxxx">
-                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
                             <label>
                             <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
                             </label>                            
-                            </div>
                             <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
@@ -538,6 +567,7 @@
         $('.group').hide();
     });
 
+    //보관함 클릭시
     $('.feedStorageBox_btn').click(function() {
         $(this).css({'border-bottom' : '2px solid #47c6a3'});
         $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
@@ -545,6 +575,8 @@
         $('.post').hide();
         $('.storagebox').show();
         $('.group').hide();
+        $('.storageBox_subBtn4').hide();
+		$('.storageBox_subBtn5').hide();
     });
 
     $('.feedMyGroup_btn').click(function() {
@@ -565,42 +597,42 @@
         data:{mNo: mNo},
         type:"post",
         success:function(data){
-           if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
+           <%--if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
            alert("되냐");
-              /* $('.folder_default').show();
+              
+              	$('.folder_default').show();
                  $('.folder_correct').hide();
                  $('.folder_delete').hide();
-
                  $('.storageBox_subBtn3').hide();
-                 $('.storageBox_subBtn4').show(); */
-                 
+                 $('.storageBox_subBtn4').show(); 
                  var input="";
-                 input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
-                 input += "<table>";
-                 input += "<tr class='storagebox'>";
-                    input += "<td class='folder_default' align='center'>";
-                  input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
-                  input += "</td>";
-                  input += "<td class='folder_correct' align='center'>";
-                  input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
-                  input += "</td>";
-                  input += "<td class='folder_delete' align='center' id='folder_delete'>";
-                  input += "<input type='checkbox' id='delete_folder'>";
-                  input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
-                  input += "</td>";
-                  input += "</tr>";
-                  input += "</table>";
-                 input += "</td>";
-                 
+				input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>";
+				input += "<table>";
+				input += "<tr class='storagebox'>";
+				input += "<td class='folder_default' align='center'>";
+				input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
+				input += "</td>";
+				input += "<td class='folder_correct' align='center'>";
+				input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
+				input += "</td>";
+				input += "<td class='folder_delete' align='center' id='folder_delete'>";
+				input += "<input type='checkbox' id='delete_folder'>";
+				input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
+				input += "</td>";
+				input += "</tr>";
+				input += "</table>";
+				input += "</td>";
                  $("#box").append(input);
-                /*  $("#box").html(input); */
+                 $("#box").html(input);
+                 
 
            }else if(data.msg != null && data.msg != 'undefined'){
               alert(data.msg);
            }else{
               alert("시스템 오류입니다.");
-           }
-
+           }--%>
+           location.href ='goMypage.do?mNo=${ loginUser.mNo }&type=1';
+           alert("보관함을 생성하였습니다");
         },
          error:function(request,jqXHR,exception){
            var msg="";
@@ -683,7 +715,7 @@
 	            alert('수정 완료되었습니다');
 	        },
 	        error: function(request) {
-	        	 alert('안됨');
+	        	 alert('에러');
 	        }
 		});
 		
@@ -695,30 +727,29 @@
     	$('.storageBox_subBtn3').hide();
     	$('.storageBox_subBtn4').hide();
     	$('.storageBox_subBtn5').show();
-    	 $('.sbBoxCheck').css('display','block');
+    	$('.sbBoxCheck').css('display','block');
 
     });
    
     /*보관함 삭제 완료..*/
     $('.storageBox_subBtn5').click(function(){
     	$('.sbBoxCheck').css('display','none');
+    	$('.storageBox_subBtn3').show();
+    	$('.storageBox_subBtn4').show();
     	
         var sbBoxMap = new Map();
-        var j = 0;
-		for(var i =0; i < $('.sbBoxCheck').length; i++ ){
+        var j = 0;		
+        for(var i =0; i < $('.sbBoxCheck').length; i++ ){
 			if($('.sbBoxCheck')[i].checked == true){
 				sbBoxMap.set(j,$('.sbBoxCheck')[i].value);
 				j++;
 			}
 		}
-		sbBoxMap.set('mno',${ loginUser.mNo });
-		
-		//맵 만들어졌는지 확인용
-		console.log(sbBoxMap);
 
-    	$('.storageBox_subBtn3').show();
-    	$('.storageBox_subBtn4').show();
-    	
+		if(j > 0 ){	
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		//맵 만들어졌는지 확인용
+		//console.log(sbBoxMap);
          $.ajax({
             url:"deleteBox.do",
         	dataType:'json',
@@ -726,10 +757,8 @@
 			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
 			contentType :'application/json; charset=UTF-8',
 	        success:function(data){
-            	$('.storagebox').show();
-           		$('.storageBox_subBtn3').show();
-        		$('.storageBox_subBtn4').show();
-        		alert('보관함이 삭제되었습니다');
+        		location.href ='goMypage.do?mNo=${ loginUser.mNo }&type=1';
+                alert('보관함이 '+j+'개 삭제되었습니다');
             },
              error:function(request,jqXHR,exception){
                var msg="";
@@ -752,10 +781,53 @@
             } 
          });
          
+		}
+         
     });
 
-
-
+	//보관함 눌러서 내가 보관한 피드 볼 때
+	$('.sbButton').click(function() {
+		var sbNo = $(this).attr("id");
+		var mNo = $('#mNo').val();
+		//alert(num+'누름');
+		if(sbNo > 0){
+			$.ajax({
+				url:"goStorageBox",
+	        	dataType:'json',
+				type:'post',
+				data:{mno: mNo,
+					sbno:sbNo},
+		        success:function(data){
+	                alert('된당');
+	            },
+	             error:function(request,jqXHR,exception){
+	               var msg="";
+	               if(request.status == 0){
+	                  msg = 'Not Connect. \n Verify Network.';
+	               } else if(request.status == 404){
+	                  msg = 'Requested page not fount [404]';
+	               } else if(request.status == 500){
+	                  msg = 'Internal Server Error [500]';
+	               } else if(request.status == 'parsererror'){
+	                  msg = 'Requested JSON parse failed';
+	               } else if(exception == 'timeout'){
+	                  msg = 'Time out error';
+	               } else if(exception == 'abort'){
+	                  msg = 'Ajax request aborted';
+	               } else {
+	                  msg = 'Error. \n' + jqXHR.responseText;
+	               }
+	               alert(msg);
+	            } 
+				
+			});
+		}else{
+			alert('보관함을 불러올 수 없습니다');
+		}
+		
+		
+		
+	});
 	 
 	/************ 포스트 박스 클릭 시 script ************/
 	/* 이새끼 때문에 스크립트 안먹어서 일단 주석 처리..

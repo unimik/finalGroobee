@@ -57,7 +57,7 @@
 	</select>
 	
 	<select id="selectMemInfo" parameterType="Mypage" resultMap="mypageResultSet">
-		select * from member where m_no=#{mNo}
+		select * from member where m_no=#{mNo} 
 	</select>
 	
 	<select id="selectFeedInfo" parameterType="Mypage" resultMap="feedResultSet">
@@ -65,7 +65,7 @@
 	</select>
 	
 	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="sbResultSet">
-		select * from storage_box where m_no=#{mNo}
+		select * from storage_box where m_no=#{mNo} AND F_NO IS NULL
 	</select>
 	
 	<insert id="insertBox" parameterType="Mypage">
@@ -114,6 +114,24 @@
 		#{sbNos} 
    		</foreach>
 	</delete>
+	
+	<select id="sBoxfnoList" parameterType="sBox" resultType="_int">
+	SELECT F_NO 
+	FROM STORAGE_BOX
+	WHERE M_NO = #{mNo}
+		AND SB_NO = #{sbNo}
+		AND F_NO IS NOT NULL
+	</select>
+	
+	<select id="sBoxFeedList" resultType="Feed" >
+	SELECT *
+	FROM FEED 
+	WHERE F_STATUS ='Y'
+	AND F_NO IN
+	<foreach collection="list" item="sbNos" open="(" close=")" separator="," >
+	#{sbNos} 
+	</foreach>
+	</select>
 	
 	
 </mapper>

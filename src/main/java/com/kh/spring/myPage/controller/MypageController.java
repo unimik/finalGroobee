@@ -259,12 +259,10 @@ public class MypageController {
 				sblist.add(sb);
 			}
 		}
-//		System.out.println("mno : "+mno);
-//		System.out.println(sblist);
 		
 		if(mno !=0) {
 		int result = myService.updateBox(sblist);
-		System.out.println("결과값 어캐나옴"+ result);
+		//System.out.println("결과값 어캐나옴"+ result);
 		}
 		return sbBoxMap;
 		
@@ -303,7 +301,28 @@ public class MypageController {
 		
 	}
 	
-
+	@ResponseBody
+	@RequestMapping(value="goStorageBox",produces="application/json;charset=utf-8")
+	public String goStorageBox(int mno, int sbno){
+		JSONObject job = new JSONObject();
+		//객체로 옮기는게 나은가 번호 두개로 가서 옮기는게 나은가?
+		StorageBox sb = new StorageBox();
+		sb.setmNo(mno);
+		sb.setSbNo(sbno);
+//		int mNo = mno;
+//		int sbNo = sbno;
+		System.out.println("회원번호" +mno+"보관함 번호"+sbno);
+//		int[] fnos = myService.sBoxfnoList(mNo,sbno);
+//		ArrayList fnos = myService.sBoxfnoList(sb);
+		List fnos = myService.sBoxfnoList(sb);
+		System.out.println("보관함에 있는 게시글번호들"+fnos);
+		ArrayList<Feed> flist = new ArrayList<Feed>();
+		flist = myService.sBoxfList(fnos);
+		System.out.println(flist);
+		
+		return  "";
+	}
+	
 	@RequestMapping(value="goUserpage.do")
 	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
 		
