@@ -266,9 +266,9 @@
              
 
                 //******* 멤버 회원가입 답변 보기
-                $('.showAnswer').on("click",function(){
+                $(document).on("click",".showAnswer",function(){
                 // $(this).next('p').slideDown();
-                    $('.permit_answer').slideToggle(300,function(){
+                    $(this).parents().next('div').slideToggle(300,function(){
                         console.log('slideToggle() 실행');
                     });
                 });
@@ -400,9 +400,14 @@
             		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="user_Y" value="승인">');
             		    		$inputN =$('<li>').html('<input type="button" class="user_N" id="user_N" name="user_N" value="거절">');
             		    		$div = $('<div class="permit_answer" id="permit_answer">');
-            		    		$a1 = $('<p> A :').text(data[i].a1);
-            		    		$a2 = $('<p> A :').text(data[i].a2);
-            		    		$a3 = $('<p> A :').text(data[i].a3);
+            		    		if( data[i].a1 != null ){
+            		    			$a1 = $('<p>').html("A : "+data[i].a1);
+            		    		}
+            		    		if( data[i].a2 != null ){
+            		    			$a1 = $('<p>').html("A : "+data[i].a2);
+            		    		}if( data[i].a3 != null ){
+            		    			$a1 = $('<p>').html("A : "+data[i].a3);
+            		    		}
             		    		
             		    		$ul.append($gmLevel);
             		    		$ul.append($img);

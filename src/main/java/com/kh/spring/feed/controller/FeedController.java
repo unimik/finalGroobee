@@ -3,6 +3,7 @@ package com.kh.spring.feed.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,12 @@ public class FeedController {
 	
 	@RequestMapping("pInsert.do")
 	public String insertPost(Feed f, Photo p, MultipartHttpServletRequest multi) {
+		int result = fService.insertPost(f);
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
-		
+		ArrayList<Photo> photoList = null;
 		File folder = new File(savePath);	// 저장 폴더
 		
 		if(!folder.exists()) {
@@ -48,7 +50,8 @@ public class FeedController {
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			//						[		20200929191422.											]
-			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
+			int rdv = (int)(Math.random()*1000);
+			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + rdv
 					//						[		20200929191422.png										]
 										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			
@@ -64,6 +67,7 @@ public class FeedController {
 			}
 			
 			try {
+				p.setfNo(f.getfNo());
 				int photo = fService.insertPhoto(p);
 				mf.transferTo(new File(saveFile));
 			}catch(IOException e) {
@@ -74,10 +78,8 @@ public class FeedController {
 		}
 		
 		
-		int result = fService.insertPost(f);
 		if(result > 0) {
 			return "redirect:home.do";
-			
 		}else {
 			return "../common/errorPage";
 		}
