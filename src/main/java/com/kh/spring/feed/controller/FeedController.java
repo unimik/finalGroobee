@@ -64,7 +64,6 @@ public class FeedController {
 		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
-		ArrayList<Photo> photoList = null;
 		File folder = new File(savePath);	// 저장 폴더
 		
 		if(!folder.exists()) {

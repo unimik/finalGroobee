@@ -17,10 +17,6 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 
-<script>
-	
-</script>
-
 <style>
 	a{text-decoration:none;}
 </style>
@@ -51,11 +47,7 @@
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
                         <div id="myGroupChat_list">
-                           <!--  <ul id="list">
-                                <li><img src="#" alt="" id="chat_back"></li>
-                                <li>그룹 이름</li>
-                                <li>그룹 대화 마지막 내용</li>
-                            </ul> 여기 냅둬주세여 -->
+                           
                         </div>
                     </div>
                 </div>
@@ -274,6 +266,47 @@
              	}
               });
      }
+     /* 그룹 채팅창 여는 스크립트 */
+     function openGruopChat(){
+    	 $.ajax({
+          	url:"GroupChatList.do",
+          	data:{userId:'<c:out value="${loginUser.userId}"/>'},
+          	type:"post",
+     		dataType:"json",
+          	success:function(data){
+          		$("#myGroupChat_list").children().remove();
+          		$.each(data,function(index,value){
+          			var $div = $('<div class="chRoom2">');
+					var $ul = $('<ul>');
+					var $img = $("<li>");
+					var $rImg = $('<img src="resources/'+value.chatImage+'">');
+					var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
+					if(value.read == 'N') {
+						var $nImg = $('<img class="chat_read" src="resources/icons/chat_new.png" style="width: 10px; height:10px;">');
+						var $id = $("<li>").text(value.gName);
+						$id.append($nImg);
+						var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+					} else {
+							var $id = $("<li>").text(value.gName);
+							var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+					}
+					var $cContent = $("<li>").text(value.cContent);
+					
+					$img.append($rImg);
+					$ul.append($img);
+					$ul.append($id);
+					$ul.append($cContent);
+					$div.append($ul);
+					$div.append($inputt);
+					$div.append($inputId);
+					$("#myGroupChat_list").append($div);
+				});
+          	},
+          	error:function(){
+          		console.log("에러");
+          	}
+           });
+     }
      
      /* 채팅방 채팅내용 불러오기 */
      $(document).on("click",".chRoom",function(){
@@ -370,6 +403,7 @@
              
      	 });
     	 
+    	 
     	 /* 채팅방 만들기 */
     	 $("#myFeed_message_btn").on("click",function(){
     		var nId1 = '${loginUser.userId}';
@@ -408,8 +442,39 @@
     	 });
     	 /* 그룹 채팅방 만들기 */
     	 $("#isnertGroupChat").on("click",function(){
-    		$('.pop_menu_master').hide();
-    		alert("ㅎㅇ"); 
+    		var createId = '${loginUser.userId}';
+    		var gNo = '${param.gNo}';
+    		var gName = $("#groupName").children("b").text();
+    		console.log(createId +":"+gNo + ":" + gName);
+    		$.ajax({
+    			url:'insertGroupChatRoom.do',
+    			data:{createId:createId,gNo:gNo},
+    			success:function(data){
+    				$('.pop_menu_master').hide();
+    				$("#chatUser").text(gName);
+    				$div3 = $("<div class='chating'>");
+    				$inputgNo = $("<input type='hidden' class='1'>").val(gNo);
+    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+    				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
+    				console.log(data.toId +":" + data.crNo);
+    				$("#chatArea").append($div3);
+        			$("#chatArea").append($inputgNo);
+        			$("#chatArea").append($inputType);
+        			$("#chatArea").append($inputCrNo);
+        			
+        			$("#inputArea").keydown(function(key){
+        	    		if(key.keyCode == 13) {
+        	   	 			sendMessage();
+        	   	 			$('#inputArea').val('');
+        	    		} 
+        	    	 });
+    				
+    				$(".chat_room").show();
+    			},
+    			error:function(){
+    				console.log("에러");
+    			}
+    		});
     	 });
 
          $('.tab_menu_btn').on('click',function(){
@@ -420,11 +485,13 @@
          $('.tab_menu_btn1').on('click',function(){
              $('.tab_box').hide();
              $('.tab_box1').show();
+             openChat();
          });
 
          $('.tab_menu_btn2').on('click',function(){
              $('.tab_box').hide();
              $('.tab_box2').show();
+             openGruopChat();
          });
 
          $("#list").on("click",function(){
@@ -470,9 +537,10 @@
  	 	 var toId = $("#chatArea").children(".1").val();
  		 var sendType = $("#chatArea").children(".2").val();
  		 var crNo = $("#chatArea").children(".3").val();
- 		 console.log(toId+","+sendType+","+crNo);
- 		 sock.send($("#inputArea").val() +"|"+toId+"|"+sendType+"|"+crNo);
- 		 $('#inputArea').val('');
+ 		 if(sendType == 'chatting' || sendType == 'groupChatting') {
+	 		 sock.send($("#inputArea").val() +"|"+toId+"|"+sendType+"|"+crNo);
+	 		 $('#inputArea').val('');
+ 		 }
  	 }
  	 // 서버로부터 메시지를 받았을 때
  	 function onMessage(msg) {
