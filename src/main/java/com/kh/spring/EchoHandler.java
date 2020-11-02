@@ -18,6 +18,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.group.controller.GroupController;
+import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
 
 
@@ -33,6 +35,9 @@ public class EchoHandler extends TextWebSocketHandler{
     
     @Autowired
     private ChatController cController;
+    
+    @Autowired
+    private GroupController gController;
     
     //클라이언트가 연결 되었을 때 실행
     @Override
@@ -84,6 +89,28 @@ public class EchoHandler extends TextWebSocketHandler{
             		}
             	}
         		
+        	} else if(sendType.equals("groupChatting")) {
+        		ArrayList<GroupMember> list = gController.getGroupList(toId);
+        		WebSocketSession toSession = null;
+        		for(GroupMember g : list) {
+        			toSession = userSessions.get(g.getGmId());
+        			if(Rmsg == null || Rmsg.equals("")) {
+	        			if(toSession == null) {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	        			} else {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	            			toSession.sendMessage(new TextMessage(Rmsg));
+	        			}
+        			} else {
+        				int result = cController.sendMessage(new Chat(), fromId, toId, Rmsg, crNo);
+        				if(toSession == null) {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	        			} else {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	            			toSession.sendMessage(new TextMessage(Rmsg));
+	        			}
+        			}
+        		}
         	} else if(sendType.equals("alarm")) {
         		
         	}
