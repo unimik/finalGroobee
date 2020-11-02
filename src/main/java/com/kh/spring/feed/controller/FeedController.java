@@ -64,7 +64,10 @@ public class FeedController {
 			}
 			
 			try {
-				int photo = fService.insertPhoto(p);
+				
+				if(!mf.isEmpty()) {
+					int photo = fService.insertPhoto(p);
+				}
 				mf.transferTo(new File(saveFile));
 			}catch(IOException e) {
 				e.printStackTrace();

@@ -23,6 +23,30 @@
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 	</resultMap>
 	
+	<resultMap id="GroupResultSet" type="Group">
+		<id property="gNo" column="G_NO"/>
+		<result property="gCreator" column="G_CREATOR"/>
+		<result property="gManager" column="G_MANAGER"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gCategory" column="G_CATEGORY"/>
+		<result property="gMax" column="G_MAX"/>
+		<result property="gDate" column="G_DATE"/>
+		<result property="gOpenScope" column="G_OPENSCOPE"/>
+		<result property="gJoinSet" column="G_JOINSET"/>
+		<result property="gQset" column="G_QSET"/>
+		<result property="q1" column="Q1"/>
+		<result property="q2" column="Q2"/>
+		<result property="q3" column="Q3"/>
+		<result property="gIntro" column="G_INTRO"/>
+		<result property="gTag" column="G_TAG"/>
+		<result property="gStatus" column="G_STATUS"/>
+		<result property="gNotice" column="G_NOTICE"/>
+		<result property="gProfile" column="G_PROFILE"/>
+		<result property="gImage" column="G_IMAGE"/>
+		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
+		<result property="gRenameImage" column="G_RENAME_IMAGE"/>
+	</resultMap>
+	
 <!-- 	<resultMap id="postInsertSet" type="Feed">
 		<id property="fNo" column="F_NO"/>
 		<result property="mNo" column="M_NO"/>
@@ -60,20 +84,24 @@
 		<result property="changeName" column="CHANGENAME"/>
 	</resultMap>
 	
-	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
+	<insert id="insertPhoto" parameterType="Photo" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO PHOTO
+			VALUES(
+				#{fNo}, #{originName}, #{changeName})
+	</insert>
+	
+	<insert id="insertPost" parameterType="Feed">
+		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
+            SELECT SQL_FNO.CURRVAL
+            FROM DUAL
 		</selectKey>
 		INSERT INTO FEED
 		VALUES(
 			#{fNo}, #{mNo}, #{fContent}, #{fWriter}, SYSDATE, SYSDATE, DEFAULT, #{fLocation},
 			#{fOpenScope}, #{fLikeSet}, #{fReplySet}, #{fShareSet}, #{fLikeCnt}, #{fReplyCnt}, #{gNo})
-	</insert>
-	
-	<insert id="insertPhoto" parameterType="Photo" keyProperty="fNo" keyColumn="F_NO">
-		INSERT INTO PHOTO
-		VALUES(
-			#{fNo}, #{originName}, #{changeName})
 	</insert>
 
 	
