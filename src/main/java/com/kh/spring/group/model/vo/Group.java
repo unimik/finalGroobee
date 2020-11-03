@@ -35,7 +35,7 @@ public class Group implements Serializable{
 	public Group() {
 		super();
 	}
-	
+
 	
 	public Group(int gNo, String gCreator, String gManager, String gName, String gCategory, int gMax, Date gDate,
 			String gOpenScope, String gJoinSet, String gQset, String q1, String q2, String q3, String gIntro,

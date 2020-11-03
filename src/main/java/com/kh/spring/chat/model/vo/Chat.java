@@ -14,6 +14,10 @@ public class Chat implements Serializable{
 	private int crNo;
 	private int jcNo;
 	private int crMax;
+	private int gNo;
+	private String gImage;
+	private String gReImage;
+	private String gName;
 	private String fromId;
 	private String toId;
 	private String joinId;
@@ -25,13 +29,17 @@ public class Chat implements Serializable{
 		super();
 	}
 
-	public Chat(int cNo, int crNo, int jcNo, int crMax, String fromId, String toId, String joinId, String cContent,
-			Date chatDate, String cRead) {
+	public Chat(int cNo, int crNo, int jcNo, int crMax, int gNo, String gImage, String gReImage, String gName,
+			String fromId, String toId, String joinId, String cContent, Date chatDate, String cRead) {
 		super();
 		this.cNo = cNo;
 		this.crNo = crNo;
 		this.jcNo = jcNo;
 		this.crMax = crMax;
+		this.gNo = gNo;
+		this.gImage = gImage;
+		this.gReImage = gReImage;
+		this.gName = gName;
 		this.fromId = fromId;
 		this.toId = toId;
 		this.joinId = joinId;
@@ -70,6 +78,38 @@ public class Chat implements Serializable{
 
 	public void setCrMax(int crMax) {
 		this.crMax = crMax;
+	}
+
+	public int getgNo() {
+		return gNo;
+	}
+
+	public void setgNo(int gNo) {
+		this.gNo = gNo;
+	}
+
+	public String getgImage() {
+		return gImage;
+	}
+
+	public void setgImage(String gImage) {
+		this.gImage = gImage;
+	}
+
+	public String getgReImage() {
+		return gReImage;
+	}
+
+	public void setgReImage(String gReImage) {
+		this.gReImage = gReImage;
+	}
+
+	public String getgName() {
+		return gName;
+	}
+
+	public void setgName(String gName) {
+		this.gName = gName;
 	}
 
 	public String getFromId() {
@@ -122,7 +162,8 @@ public class Chat implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Chat [cNo=" + cNo + ", crNo=" + crNo + ", jcNo=" + jcNo + ", crMax=" + crMax + ", fromId=" + fromId
+		return "Chat [cNo=" + cNo + ", crNo=" + crNo + ", jcNo=" + jcNo + ", crMax=" + crMax + ", gNo=" + gNo
+				+ ", gImage=" + gImage + ", gReImage=" + gReImage + ", gName=" + gName + ", fromId=" + fromId
 				+ ", toId=" + toId + ", joinId=" + joinId + ", cContent=" + cContent + ", chatDate=" + chatDate
 				+ ", cRead=" + cRead + "]";
 	}

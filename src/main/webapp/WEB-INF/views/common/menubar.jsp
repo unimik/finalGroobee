@@ -367,6 +367,7 @@
              
      	 });
     	 
+    	 
     	 /* 채팅방 만들기 */
     	 $("#myFeed_message_btn").on("click",function(){
     		var nId1 = '${loginUser.userId}';
