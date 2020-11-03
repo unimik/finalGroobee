@@ -23,9 +23,15 @@
 #mcList>div>ul>li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
 #mcList>div>ul>li>img{ width: 35px; height: 35px; border-radius: 10px;}
 
-#myGroupChat_list{border-bottom: 1px solid #e5e5e5;}
-#myGroupChat_list:hover{background: #ecf9f6;}
-#myGroupChat_list #list{ padding:0;margin:0;padding: 15px 0 15px 0;}
+#myGroupChat_list>div{ border-bottom: 1px solid #e5e5e5;}
+#myGroupChat_list>div:hover{ background: #ecf9f6}
+#myGroupChat_list>div>ul{ padding:0;margin:0;padding: 15px 0 15px 0;}
+#myGroupChat_list>div>ul>li{ list-style: none;}
+#myGroupChat_list>div>ul>li:nth-child(1){float: left; margin: 0 20px 0 20px;}
+#myGroupChat_list>div>ul>li:nth-child(2){ font-weight: 500; color: #555555; }
+#myGroupChat_list>div>ul>li:nth-child(3){ color: #C4C4C4; font-size: 12px;}
+#myGroupChat_list>div>ul>li>img{ width: 35px; height: 35px; border-radius: 10px;}
+
 
 input::placeholder{ padding-left: 10px;}
 input[type="search"]{ padding-left: 15px; }
@@ -43,10 +49,10 @@ input:focus{ outline:none;}
 #chatArea::-webkit-scrollbar{width: 7px;}
 #chatArea::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
 #chatArea::-webkit-scrollbar-track{ background-color: #daf4ed;}
+#mcList{height: 425px; overflow-y: scroll; overflow: auto; overflow-x:hidden;}
 #mcList::-webkit-scrollbar{width: 7px;}
 #mcList::-webkit-scrollbar-thumb{border-radius: 10px; background-color: #47c6a3;}
 #mcList::-webkit-scrollbar-track{ background-color: #daf4ed;}
-
 
 .chating>div{ width: 100%; margin-left: 15px; padding: 10px 0 5px 0;}
 

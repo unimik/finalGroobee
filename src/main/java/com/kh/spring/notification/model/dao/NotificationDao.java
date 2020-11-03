@@ -25,4 +25,8 @@ public class NotificationDao {
 		return sqlSession.insert("NotificationMapper.insertPushAlram",a);
 	}
 
+	public int alramLike(PushAlram pa) {
+		return sqlSession.insert("NotificationMapper.insertLike",pa);
+	}
+
 }

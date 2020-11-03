@@ -3,6 +3,7 @@ package com.kh.spring.group.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,6 +12,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -376,23 +379,56 @@ public class GroupController{
 	
 	@RequestMapping("gmList.do")
 	public void getgmList(HttpServletResponse response, int gNo) throws JsonIOException, IOException {
-		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
 		
 		response.setContentType("application/json; charset=UTF-8");
+		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		JSONObject job = null;
+		JSONArray jArr = new JSONArray();
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(gmList,response.getWriter());
-		
+		for( GroupMember gl : gmList) {
+			System.out.println(gl.getGmImage());
+			
+			job = new JSONObject();
+			job.put("gmLevel", gl.getGmLevel());
+			job.put("gmId", gl.getGmId());
+			if(gl.getGmImage()!= null) {
+				job.put("gmImage","memberProfileFiles/"+gl.getGmImage());
+			}else {
+				job.put("gmImage", "icons/logo.png");
+			}
+			
+			jArr.add(job);
+		}
+		PrintWriter out = response.getWriter();
+		out.print(jArr);
 	}
 	
 	@RequestMapping("NgmList.do")
 	public void getNgmList(HttpServletResponse response, int gNo) throws JsonIOException, IOException {
-		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
-		
 		response.setContentType("application/json; charset=UTF-8");
-		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(NgmList,response.getWriter());
+		ArrayList<GroupMember> NgmList = gService.selectNgmList(gNo);
+		JSONObject job = null;
+		JSONArray jArr = new JSONArray();
+
+		for( GroupMember Ngl : NgmList) {
+			System.out.println(Ngl.getGmImage());
+			
+			job = new JSONObject();
+			job.put("gmLevel", Ngl.getGmLevel());
+			job.put("gmId", Ngl.getGmId());
+			job.put("a1", Ngl.getA1());
+			job.put("a2", Ngl.getA2());
+			job.put("a3", Ngl.getA3());
+			if(Ngl.getGmImage()!= null) {
+				job.put("gmImage","memberProfileFiles/"+Ngl.getGmImage());
+			}else {
+				job.put("gmImage", "icons/logo.png");
+			}
+			
+			jArr.add(job);
+		}
+		PrintWriter out = response.getWriter();
+		out.print(jArr);
 	}
 	
 	@RequestMapping("gmDelete.do")
@@ -465,6 +501,13 @@ public class GroupController{
 		
 		int totalGroups = gService.totalGroups();
 		return totalGroups;
+	}
+
+	public ArrayList<GroupMember> getGroupList(String toId) {
+		int gNo = Integer.parseInt(toId);
+		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
+		System.out.println(gmList);
+		return gmList;
 	}
 
 }

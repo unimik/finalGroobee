@@ -22,4 +22,7 @@
  		INSERT INTO PUSH_ALRAM VALUES(SEQ_PNO.NEXTVAL,#{toId},#{fromId},#{type},#{typeNo})
  	</insert> 
  	
+ 	<insert id="insertLike" parameterType="PushAlram">
+ 		INSERT INTO PUSH_ALRAM VALUES(SEQ_PNO.NEXTVAL,#{toId},#{fromId},#{type},#{typeNo})
+ 	</insert>
 </mapper>

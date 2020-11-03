@@ -17,10 +17,6 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 
-<script>
-	
-</script>
-
 <style>
 	a{text-decoration:none;}
 </style>
@@ -51,11 +47,7 @@
                             <input type="button" id="searchBtn" name="searchBtn" value="검색">
                         </div>
                         <div id="myGroupChat_list">
-                           <!--  <ul id="list">
-                                <li><img src="#" alt="" id="chat_back"></li>
-                                <li>그룹 이름</li>
-                                <li>그룹 대화 마지막 내용</li>
-                            </ul> 여기 냅둬주세여 -->
+                           
                         </div>
                     </div>
                 </div>
@@ -103,42 +95,6 @@
 	           </div>
 	           <div class="user_alarm" style="display:none; cursor:pointer;">
                     <div id="alarmList">
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
                         <div id="list">
                             <img src="resources/images/mp_profile_sample.jpg">
                             <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
@@ -201,7 +157,7 @@
 	     </div>
      <script type="text/javascript">
      /* 채팅 읽음 처리  */
-     function countChatRead() {
+    /*  function countChatRead() {
     	var myId = '<c:out value="${loginUser.userId}"/>';
     	$.ajax({
     		url:"countChat.do",
@@ -220,7 +176,7 @@
     			console.log("에러");
     		}
     	});
-     }
+     } */
      /* 채팅 창 여는 스크립트 */	
      function openChat() {
         	 $.ajax({
@@ -273,6 +229,47 @@
              		console.log("에러");
              	}
               });
+     }
+     /* 그룹 채팅창 여는 스크립트 */
+     function openGruopChat(){
+    	 $.ajax({
+          	url:"GroupChatList.do",
+          	data:{userId:'<c:out value="${loginUser.userId}"/>'},
+          	type:"post",
+     		dataType:"json",
+          	success:function(data){
+          		$("#myGroupChat_list").children().remove();
+          		$.each(data,function(index,value){
+          			var $div = $('<div class="chRoom2">');
+					var $ul = $('<ul>');
+					var $img = $("<li>");
+					var $rImg = $('<img src="resources/'+value.chatImage+'">');
+					var $inputt = $('<input type="hidden" class="crNo">').val(value.crNo);
+					if(value.read == 'N') {
+						var $nImg = $('<img class="chat_read" src="resources/icons/chat_new.png" style="width: 10px; height:10px;">');
+						var $id = $("<li>").text(value.gName);
+						$id.append($nImg);
+						var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+					} else {
+							var $id = $("<li>").text(value.gName);
+							var $inputId = $('<input type="hidden" class="readId">').val(value.fromId);
+					}
+					var $cContent = $("<li>").text(value.cContent);
+					
+					$img.append($rImg);
+					$ul.append($img);
+					$ul.append($id);
+					$ul.append($cContent);
+					$div.append($ul);
+					$div.append($inputt);
+					$div.append($inputId);
+					$("#myGroupChat_list").append($div);
+				});
+          	},
+          	error:function(){
+          		console.log("에러");
+          	}
+           });
      }
      
      /* 채팅방 채팅내용 불러오기 */
@@ -408,8 +405,39 @@
     	 });
     	 /* 그룹 채팅방 만들기 */
     	 $("#isnertGroupChat").on("click",function(){
-    		$('.pop_menu_master').hide();
-    		alert("ㅎㅇ"); 
+    		var createId = '${loginUser.userId}';
+    		var gNo = '${param.gNo}';
+    		var gName = $("#groupName").children("b").text();
+    		console.log(createId +":"+gNo + ":" + gName);
+    		$.ajax({
+    			url:'insertGroupChatRoom.do',
+    			data:{createId:createId,gNo:gNo},
+    			success:function(data){
+    				$('.pop_menu_master').hide();
+    				$("#chatUser").text(gName);
+    				$div3 = $("<div class='chating'>");
+    				$inputgNo = $("<input type='hidden' class='1'>").val(gNo);
+    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+    				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
+    				console.log(data.toId +":" + data.crNo);
+    				$("#chatArea").append($div3);
+        			$("#chatArea").append($inputgNo);
+        			$("#chatArea").append($inputType);
+        			$("#chatArea").append($inputCrNo);
+        			
+        			$("#inputArea").keydown(function(key){
+        	    		if(key.keyCode == 13) {
+        	   	 			sendMessage();
+        	   	 			$('#inputArea').val('');
+        	    		} 
+        	    	 });
+    				
+    				$(".chat_room").show();
+    			},
+    			error:function(){
+    				console.log("에러");
+    			}
+    		});
     	 });
 
          $('.tab_menu_btn').on('click',function(){
@@ -420,11 +448,13 @@
          $('.tab_menu_btn1').on('click',function(){
              $('.tab_box').hide();
              $('.tab_box1').show();
+             openChat();
          });
 
          $('.tab_menu_btn2').on('click',function(){
              $('.tab_box').hide();
              $('.tab_box2').show();
+             openGruopChat();
          });
 
          $("#list").on("click",function(){
@@ -439,19 +469,9 @@
      
      /**************알림창 열기 ****************/
      $('#alarmIcon').on("click",function(){
-       
-    	/*  $.ajax({
-    		 url: "getNotification.do",
-    		 success: function(data){
-    			 
-    		 },error: function(error){
-    			 
-    		 }
-    	 })
-    	 */ 
-    	 
+        
     	 $('.user_alarm').slideToggle();
-                    
+    	 $("#alarmIcon").attr('src',"resources/icons/alarm.png")           
        });
      
      /* 채팅 관련(sockJs) */
@@ -470,9 +490,10 @@
  	 	 var toId = $("#chatArea").children(".1").val();
  		 var sendType = $("#chatArea").children(".2").val();
  		 var crNo = $("#chatArea").children(".3").val();
- 		 console.log(toId+","+sendType+","+crNo);
- 		 sock.send($("#inputArea").val() +"|"+toId+"|"+sendType+"|"+crNo);
- 		 $('#inputArea').val('');
+ 		 if(sendType == 'chatting' || sendType == 'groupChatting') {
+	 		 sock.send($("#inputArea").val() +"|"+toId+"|"+sendType+"|"+crNo);
+	 		 $('#inputArea').val('');
+ 		 }
  	 }
  	 // 서버로부터 메시지를 받았을 때
  	 function onMessage(msg) {
@@ -557,7 +578,7 @@
        		 $('.MyTab_box').hide();
              $('.MyTab_box3').show();
 	     });
-<<<<<<< HEAD
+
 
 	     
 	     $(document).on("click","#goDetail",function(){
@@ -619,8 +640,7 @@
 	    	 });
 	     });
      });
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
 
 	     
 	     $(document).on("click","#goDetail",function(){
@@ -681,140 +701,13 @@
 		    		 }
 	    	 });
 	     });
-     });
-<<<<<<< HEAD
+	     
+	    
+     
+
 </script>
    
-=======
- 		
- 		function getFollowerList(){
- 			var mNo = ${ loginUser.mNo };
-	    	 $.ajax({
-	    		 url:"getFollowerList.do",
-	    		 data:{mNo:mNo},
-	    		 dataType:"json",
-	    		 success:function(data){
-	    			 console.log(data);
-	    			 $div=$("#My_follower_list");
-	        		 $div.html("");
-	        		 
-	        		 var $ul;
-	        		 var $img;
-	        		 var $userId;
-	        		 var $btn;
-	        		 var $mNo;
-	        		 var $p;
-	        		 
-	        		 if(data.length > 0 ){
-	        			 for(var i in data){
-	        				 console.log(data[i].mImage);
-	        				 $ul = $("<ul id='follower_info'>").html('<input type="hidden" id="mNo" value="'+ data[i].mNo+'">');
-	        				 $img = $("<li>").html('<img src="resources/'+ data[i].mImage + '" id="follower_list_img">');
-	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+data[i].userId);
-	        				 $btn = $("<li>").html('<button id="follower" name="follower">삭제</button>');
-	        				 $mNo = $("<li>").html('<input type="hidden" id="mNo" name="mNo" value="'+ data[i].mNo+'">');
-	        				 
-	        				 $ul.append($img);
-	        				 $ul.append($userId);
-	        				 $ul.append($btn);
-	        				 $ul.append($mNo);
-	        				 $div.append($ul);
-	        			 }
-	        		 }else{
-	        			 $p = $('<p id="textP">').text("나를 팔로우한 회원이 없습니다.");
-	        			 
-	        			 $div.append($p);
-	        		 }
-	    		 },error:function(){
-	    			 alert("불러오기 실패..");
-	    		 }
-	    	 }); 
- 		};
- 		
- 		function getFollowList(){
- 			var mNo = ${ loginUser.mNo };
-	    	 $.ajax({
-	    		 url:"getFollowList.do",
-	    		 data:{mNo:mNo},
-	    		 dataType:"json",
-	    		 success:function(data){
-	    			 console.log(data);
-	    			 $div=$("#My_following_list");
-	        		 $div.html("");
-	        		 
-	        		 var $ul;
-	        		 var $img;
-	        		 var $userId;
-	        		 var $btn;
-	        		 var $p;
-	        		 
-	        		 if(data.length > 0){
-		        		 $.each(data, function(index,value){
-		        			 console.log(value.mImage);
-	        				 $ul = $("<ul id='following_info'>").html('<input type="hidden" id="mNo" name="mNo" value="'+ value.mNo+'">');
-	        				 $img = $("<li>").html('<img src="resources/'+ value.mImage + '" id="following_list_img">');
-	        				 $userId = $("<li id='id'>").html('<a id="goUserPage">'+value.userId);
-	        				 $btn = $("<li>").html('<button id="following" name="following">팔로우 취소</button>');
-	        				 
-	        				 $ul.append($img);
-	        				 $ul.append($userId);
-	        				 $ul.append($btn);
-	        				 $div.append($ul);
-		        		 });
-		        	}else{
-	        			 $p = $('<p id="textP">').text("팔로우한 회원이 없습니다.");
-	        			 
-	        			 $div.append($p);
-	        		 }
-	    		 },error:function(){
-	    			 alert("불러오기 실패..");
-	    		 }
-	    	 }); 
- 		};
- 	
- 		function getGroupList(){
- 			$.ajax({
-	    		 url:"getGroupList.do",
-	    		 data:{mId:"${ loginUser.userId }"},
-	    		 async:false,
-	    		 dataType:"json",
-	    		 success:function(data){
-	    			 console.log(data);
-	    			 $div=$("#My_fgroup_list");
-	        		 $div.html("");
-	        		 
-	        		 var $ul;
-	        		 var $gNo;
-	        		 var $img;
-	        		 var $gName;
-	        		 var $btn;
-	        		 var $p;
-	        		 
-	        		 if(data.length > 0 ){
-	        			 for(var i in data){
-	        				 $ul = $("<ul id='fgroup_info'>").html('<input type="hidden" id="gNo" name="gNo" value="' + data[i].gNo + '">');
-	        				 $img = $("<li>").html('<img src="resources/'+ data[i].gImage + '" id="fgroup_list_img"">');
-	        				 $gName = $("<li>").html('<a id="goDetail">'+data[i].gName);
-	        				 
-	        				 
-	        				 $ul.append($img);
-	        				 $ul.append($gName);
-	        				 $div.append($ul);
-	        			 }
-	        		 }else{
-	        			 $p = $('<p id="textP">').text("가입한 그룹이 없습니다.");
-	        			 
-	        			 $div.append($p);
-	        		 }
-	        		 $('.MyTab_box').hide();
-	                 $('.MyTab_box3').show();
-	                 
-	    		 },error:function(){
-	    			 alert("불러오기 실패..");
-	    		 }
-	    	 }); 
- 		};
-     </script>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
+
 </body>
 </html>

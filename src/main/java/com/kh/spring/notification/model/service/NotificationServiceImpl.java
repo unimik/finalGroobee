@@ -24,4 +24,9 @@ public class NotificationServiceImpl implements NotificationService {
 		return nDao.insertAlram(a);
 	}
 
+	@Override
+	public int alramLike(PushAlram pa) {
+		return nDao.alramLike(pa);
+	}
+
 }

@@ -14,6 +14,11 @@
 	<result property="cContent" column="C_CONTENT"/>
 	<result property="chatDate" column="C_DATE"/>
 	<result property="cRead" column="C_READ"/>
+	<result property="cRead" column="C_READ"/>
+	<result property="gNo" column="G_NO"/>
+	<result property="gImage" column="G_PROFILE"/>
+	<result property="gReImage" column="G_RENAME_PROFILE"/>
+	<result property="gName" column="G_NAME"/>
 </resultMap>
 <resultMap  id="chatJoinResultMap" type="Chat">
 	<id property="jcNo" column="JC_NO"/>
@@ -35,7 +40,7 @@
 		ORDER BY C_NO DESC
 	</select>
 	
-	<select id="getChatContentList" parameterType="_int" resultMap="chatResultSet">
+	<select id="getChatContentList" parameterType="Chat" resultMap="chatResultSet">
 		SELECT *
 		FROM CHAT
 		WHERE CR_NO = #{crNo}
@@ -63,5 +68,31 @@
 		INSERT INTO JOIN_CHATROOM
 		VALUES(SEQ_JCNO.NEXTVAL,#{crNo},#{fromId})
 	</insert>
+	
+	<update id="readChat" parameterType="Chat">
+		UPDATE CHAT
+		SET C_READ = 'Y'
+		WHERE FROM_ID = #{fromId}
+		AND CR_NO = #{crNo}
+	</update>
+	
+	<select id="countChat" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM CHAT
+		WHERE TO_ID = #{myId}
+		AND C_READ = 'N'
+	</select>
+	
+	<select id="getGroupChatList" parameterType="Chat" resultMap="chatResultSet">
+		SELECT C.C_NO,C.CR_NO,C.FROM_ID,C.TO_ID,C.C_CONTENT,C.C_DATE,C.C_READ,C.G_NO,G.G_PROFILE,G.G_RENAME_PROFILE,G.G_NAME
+		FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO)
+		WHERE CR_NO = #{crNo}
+		AND ROWNUM = 1
+		ORDER BY C_NO DESC
+	</select>
 
+	<insert id="insertGroupChat" parameterType="Chat">
+		INSERT INTO CHAT
+		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',#{gNo})
+	</insert>
 </mapper>

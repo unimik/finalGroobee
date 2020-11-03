@@ -39,7 +39,9 @@ public class NotificationController {
 		return nt;
 	}
 	
-	public int sendAlram(PushAlram a,String fromId, String toId, String rmsg, int crNo) {
+	@ResponseBody
+	@RequestMapping("insertAlram.do")
+	public int sendAlram(PushAlram a,String toId,String fromId, String rmsg, int crNo) {
 		a.setFromId(fromId);
 		a.setToId(toId);
 		a.setType(rmsg);
@@ -50,6 +52,11 @@ public class NotificationController {
 		} else {
 			return -1;
 		}
+	}
+
+	public int alramLike(PushAlram pa) {
+
+		return nService.alramLike(pa);
 	}
 
 }

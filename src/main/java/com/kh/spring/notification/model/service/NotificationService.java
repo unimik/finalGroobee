@@ -15,4 +15,6 @@ public interface NotificationService {
 
 	int insertAlram(PushAlram a);
 
+	int alramLike(PushAlram pa);
+
 }

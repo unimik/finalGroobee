@@ -37,8 +37,8 @@ public class ChatController {
 		ArrayList<Chat> cList = cService.getChatList(userId);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		Member m = null;
-		System.out.println(userId);
 		for(Chat c : cList) {
+			System.out.println(userId);
 			if(c.getFromId().equals(userId)) {
 				m = new Member();
 				m.setUserId(c.getToId());

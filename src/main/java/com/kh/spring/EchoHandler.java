@@ -17,6 +17,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.group.controller.GroupController;
+import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.controller.NotificationController;
 import com.kh.spring.notification.model.vo.PushAlram;
@@ -36,6 +38,9 @@ public class EchoHandler extends TextWebSocketHandler{
     private ChatController cController;
     @Autowired
 	private NotificationController nController;
+    
+    @Autowired
+    private GroupController gController;
     
     //클라이언트가 연결 되었을 때 실행
     @Override
@@ -102,21 +107,28 @@ public class EchoHandler extends TextWebSocketHandler{
         		//작성자가 로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
 				System.out.println("이게뭐지? "+boardWriterSession);
-				System.out.println("왜 아무것도 안들어옴?"+fromId+Rmsg+Rmsg+sendType+crno);
-				//int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
-				int result = nController.sendAlram(new PushAlram(),fromId,toId,sendType,crNo);
-				if(sendType.equals("reply") && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(fromId + "님이 " + 
-										"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
-					boardWriterSession.sendMessage(tmpMsg);
+				System.out.println("왜 아무것도 안들어옴?"+fromId+Rmsg+sendType+crno);
+				// 테스트용
+				//int result = nController.sendAlram(new PushAlram(),toId,fromId,sendType,crNo);
 				
-				}else if("follow".equals(sendType) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님을 팔로우를 시작했습니다.");
-					boardWriterSession.sendMessage(tmpMsg);
+				if(boardWriterSession != null) {
+					if(sendType.equals("reply") ) {
+						TextMessage tmpMsg = new TextMessage(fromId + "님이 " + 
+											"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
+						boardWriterSession.sendMessage(tmpMsg);
 					
-				}else if("like".equals(sendType) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님의 게시물을 좋아합니다.");
-					boardWriterSession.sendMessage(tmpMsg);
+					}else if("follow".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님을 팔로우를 시작했습니다.");
+						System.out.println(boardWriterSession.toString());
+						System.out.println(boardWriterSession.getId() +"여기맞음"+ tmpMsg.toString());
+						boardWriterSession.sendMessage(tmpMsg);
+						
+					}else if("like".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님의 게시물을 좋아합니다.");
+						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
+						int result = nController.alramLike(pa);
+						boardWriterSession.sendMessage(tmpMsg);
+					}
 				}
         	}
         }
