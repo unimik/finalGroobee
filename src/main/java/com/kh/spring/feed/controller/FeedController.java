@@ -19,12 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
-import com.kh.spring.group.model.vo.Group;
-import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
 
-@SessionAttributes("feedPost")
 @Controller
 public class FeedController {
 	
@@ -32,34 +30,20 @@ public class FeedController {
 	private FeedService fService;
 		
 	@RequestMapping("pInsertView.do")
-	public ModelAndView postInsertView(ModelAndView mv, ArrayList<GroupMember> gm, ArrayList<Group> g, HttpSession session) {
+	public ModelAndView postInsertView(ModelAndView mv, ArrayList<GroupName> gn, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
-		gm = fService.selectGroupMemberId(mem.getUserId());
-		g = fService.selectGroupName(mem.getgNo());
+		gn = fService.selectGroupMemberId(mem.getUserId());
 		
-		for(GroupMember groupM : gm) {
-			System.out.println(groupM);
-			System.out.println(groupM.getGmId());
-		}
-		
-		for(Group group : g) {
-			System.out.println(group);
-			System.out.println(group.getgName());
-		}
-		
-		mv.addObject("gm", gm);
-		mv.addObject("g", g);
+		mv.addObject("gn", gn);
 		mv.setViewName("feed/PostInsertForm");
 		return mv;
 	}
 	
 	@RequestMapping("pInsert.do")
-	public String insertPost(Feed f, Photo p, MultipartHttpServletRequest multi) {
+	public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
 
-		//f.setgNo(gm.getgNo());
-		System.out.println(f.getgNo());
+		System.out.println(gn.getgNo());
 		int result = fService.insertPost(f);
-		
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");

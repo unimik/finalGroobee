@@ -59,14 +59,14 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select id="myGroupList">
-                                    	<c:forEach var="g" items="${ gm }">
+                                    <select id="myGroupList" name="gNo">
+                                    	<c:forEach var="g" items="${ gn }">
                                     	<c:if test="${ empty g.gmId }">
                                         	<option>가입된 그룹이 없습니다.</option>
                                     	</c:if>
                                     	
                                     	<c:if test="${ loginUser.userId eq g.gmId }">
-											<option>hh</option>
+											<option value="${ g.gNo }">${ g.gName }</option>
 										</c:if>
 										</c:forEach>
                                     </select>
@@ -130,7 +130,13 @@
     </div>
     
     <script>
+    	
+    
         $(document).ready(function(){
+        	$("#btns1").click(function(){
+        		history.go(-1);
+        	});
+        	
             $('#chat_icon').click(function(){
                 var state = $(".chat").css('display');
                 if(state=='none'){

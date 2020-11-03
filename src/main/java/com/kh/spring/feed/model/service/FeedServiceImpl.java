@@ -10,6 +10,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.group.model.vo.GroupName;
 
 @Service("fService")
 public class FeedServiceImpl implements FeedService {
@@ -38,14 +39,11 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public ArrayList<GroupMember> selectGroupMemberId(String userId) {
+	public ArrayList<GroupName> selectGroupMemberId(String userId) {
 		return fDao.selectGroupMemberId(userId);
 	}
 
-	@Override
-	public ArrayList<Group> selectGroupName(int gNo) {
-		return fDao.selectGroupName(gNo);
-	}
+
 
 
 

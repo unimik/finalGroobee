@@ -98,6 +98,12 @@
 		<result property="changeName" column="CHANGENAME"/>
 	</resultMap>
 	
+	<resultMap type="GroupName" id="groupNameReulstSet">
+		<result property="gNo" column="G_NO"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gmId" column="GM_ID"/>
+	</resultMap>
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -125,7 +131,7 @@
 		ORDER BY F.F_NO DESC
 	</select>
 	
-	<select id="selectGroupMemberId" resultMap="GroupMemberResultSet" parameterType="string">
+	<select id="selectGroupMemberId" resultMap="groupNameReulstSet" parameterType="string">
 	    SELECT 
 	           GM.G_NO
 	         , G.G_NAME
@@ -139,22 +145,7 @@
          WHERE GM.GM_ID = #{userId}
          ORDER BY G_JOINDATE DESC
 	</select>
-	
-	<select id="selectGroupName" resultMap="GroupResultSet" parameterType="_int">
-	    SELECT 
-	           GM.G_NO
-	         , G.G_NAME
-	         , GM.GM_ID
-          FROM 
-        	   GROUPS G
-          LEFT JOIN MEMBER M 
-            ON (M.G_NO = G.G_NO)
-          LEFT JOIN GROUP_MEMBER GM 
-            ON (G.G_NO = GM.G_NO)
-         WHERE G.G_NO = #{gNo}
-         ORDER BY G_JOINDATE DESC
-	</select>
-	
+
  	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY

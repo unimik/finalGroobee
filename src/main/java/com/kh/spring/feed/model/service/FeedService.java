@@ -6,6 +6,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.group.model.vo.GroupName;
 
 public interface FeedService {
 
@@ -33,7 +34,6 @@ public interface FeedService {
 	 * @param userId
 	 * @return
 	 */
-	ArrayList<GroupMember> selectGroupMemberId(String userId);
-	ArrayList<Group> selectGroupName(int gNo);
+	ArrayList<GroupName> selectGroupMemberId(String userId);
 
 }
