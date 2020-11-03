@@ -34,14 +34,20 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public int updatePost(Feed f) {
-		return 0;
-	}
-
-	@Override
 	public ArrayList<GroupName> selectGroupMemberId(String userId) {
 		return fDao.selectGroupMemberId(userId);
 	}
+
+//	@Override
+//	public ArrayList<Feed> selectUpdateFeed() {
+//		return fDao.selectFeed();
+//	}
+	
+	@Override
+	public ArrayList<Feed> selectUpdateFeed(int fNo) {
+		return fDao.selectUpdateFeed(fNo);
+	}
+
 
 
 

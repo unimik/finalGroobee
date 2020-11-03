@@ -37,7 +37,7 @@
 					<h6><c:out value="${ f.fCreateDate }" /></h6>
 				</div>
 				</a>
-				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
+				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 			</div>
 
 		<c:choose>
@@ -59,9 +59,9 @@
                 <div class="pop_menu">
                     <div id="feed_Mymenu_list">
                         <ul>
-                        <li><a href="../views/PostUpdateForm.html" id="feed_menu1_btn">수정</a></li> 
+                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
                         <li><a>삭제</a></li> 
-                        <li><a id="close">취소</a></li>
+                        <li><a id="close" class="close">취소</a></li>
                         </ul>
                     </div>
                 </div>
@@ -134,12 +134,12 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
-
-            $('#feed_menu').on("click", function(){
-                $('.pop_menu').show();
+			
+            $('.test').on("click", function(){
+	              $('.pop_menu').show();
             });
 
-            $('#close').on('click',function(){
+            $('.close').on('click',function(){
                 $('.pop_menu').hide();
             });
 

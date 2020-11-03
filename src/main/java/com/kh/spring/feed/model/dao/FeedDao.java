@@ -34,6 +34,10 @@ public class FeedDao {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectGroupMemberId", userId);
 	}
 
+	public ArrayList<Feed> selectUpdateFeed(int fNo) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectUpdateFeed", fNo);
+	}
+
 
 	
 

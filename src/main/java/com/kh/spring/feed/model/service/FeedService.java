@@ -26,8 +26,14 @@ public interface FeedService {
 	 *
 	 */
 	ArrayList<Feed> selectFeed();
-
-	int updatePost(Feed f);
+	
+	/**
+	 * 2_2. 포스트 수정(게시글)
+	 * @return
+	 *
+	 */
+//	ArrayList<Feed> selectUpdateFeed();
+	ArrayList<Feed> selectUpdateFeed(int fNo);
 	
 	/**
 	 *  가입한 그룹 조회

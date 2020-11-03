@@ -95,56 +95,21 @@ public class FeedController {
 		}
 	}
 	
-//	@RequestMapping(value = "/PostInsertForm", method = RequestMethod.GET)
-//	public String upload(Locale locale, Model model) {
-//
-//		return "feed/PostInsertForm";
-//	}
-	
-//	public String MultiUpload(MultipartHttpServletRequest multi) {
-//		
-//		
-//		
-//		// 저장 경로 설정
-//		String root = multi.getSession().getServletContext().getRealPath("resources");
-//		String savePath = root + "\\pUploadFiles";
-//		
-//		File folder = new File(savePath);	// 저장 폴더
-//		
-//		if(!folder.exists()) {
-//			folder.mkdirs();
-//		}
-//		
-//		
-//		for(MultipartFile filePart : fileList) {
-//			
-//			String originalFileName = filePart.getOriginalFilename();	// 원본 파일명
-//			System.out.println("실제 파일명 : " + originalFileName);
-//			
-//			long fileSize = filePart.getSize();		// 파일 사이즈
-//			System.out.println("파일 사이즈 : " + fileSize);
-//			
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//			//						[		20200929191422.											]
-//			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
-//					//						[		20200929191422.png										]
-//										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-//			String renamePath = folder + "\\" + renameFileName;
-//
-//			try {
-//				filePart.transferTo(new File(renamePath));
-//			}catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//			return renameFileName;
-//			
-//		}
-//		
-//		return "";
-//		
-//		
-//	}
+	@RequestMapping("pUpdateView.do")
+	public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
+		Member mem = (Member)session.getAttribute("loginUser");
+		ArrayList<Feed> feed = fService.selectFeed();
+		gn = fService.selectGroupMemberId(mem.getUserId());
+		
+		for(Feed f : feed) {
+			System.out.println(f.getfNo());
+		}
+
+		mv.addObject("gn", gn);
+		mv.addObject("f", fService.selectUpdateFeed(fNo));
+		mv.setViewName("feed/PostUpdateForm");
+		return mv;
+	}
 	
 //	@RequestMapping("pUpdate.do")					//	 ↓ 제외 가능
 //	public ModelAndView boardUpdate(ModelAndView mv, @ModelAttribute Feed f, 
