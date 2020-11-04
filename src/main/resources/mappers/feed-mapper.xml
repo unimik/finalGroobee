@@ -23,6 +23,44 @@
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 	</resultMap>
 	
+	<resultMap id="GroupResultSet" type="Group">
+		<id property="gNo" column="G_NO"/>
+		<result property="gCreator" column="G_CREATOR"/>
+		<result property="gManager" column="G_MANAGER"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gCategory" column="G_CATEGORY"/>
+		<result property="gMax" column="G_MAX"/>
+		<result property="gDate" column="G_DATE"/>
+		<result property="gOpenScope" column="G_OPENSCOPE"/>
+		<result property="gJoinSet" column="G_JOINSET"/>
+		<result property="gQset" column="G_QSET"/>
+		<result property="q1" column="Q1"/>
+		<result property="q2" column="Q2"/>
+		<result property="q3" column="Q3"/>
+		<result property="gIntro" column="G_INTRO"/>
+		<result property="gTag" column="G_TAG"/>
+		<result property="gStatus" column="G_STATUS"/>
+		<result property="gNotice" column="G_NOTICE"/>
+		<result property="gProfile" column="G_PROFILE"/>
+		<result property="gImage" column="G_IMAGE"/>
+		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
+		<result property="gRenameImage" column="G_RENAME_IMAGE"/>
+	</resultMap>
+	
+	<resultMap id="GroupMemberResultSet" type="GroupMember">
+  		<id property="gNo" column="G_NO"/>
+  		<result property="gmId" column="GM_ID"/>
+  		<result property="gmStatus" column="GM_STATUS"/>
+  		<result property="gmLevel" column="GM_LEVEL"/>
+  		<result property="a1" column="A1"/>
+  		<result property="a2" column="A2"/>
+  		<result property="a3" column="A3"/>
+  		<result property="gJoinDate" column="G_JOINDATE"/>
+  		<result property="gmImage" column="M_RENAME_IMAGE"/>
+  	</resultMap>
+	
+	
+	
 <!-- 	<resultMap id="postInsertSet" type="Feed">
 		<id property="fNo" column="F_NO"/>
 		<result property="mNo" column="M_NO"/>
@@ -60,10 +98,17 @@
 		<result property="changeName" column="CHANGENAME"/>
 	</resultMap>
 	
+	<resultMap type="GroupName" id="groupNameReulstSet">
+		<result property="gNo" column="G_NO"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gmId" column="GM_ID"/>
+	</resultMap>
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
 		</selectKey>
+
 		INSERT INTO FEED
 		VALUES(
 			#{fNo}, #{mNo}, #{fContent}, #{fWriter}, SYSDATE, SYSDATE, DEFAULT, #{fLocation},
@@ -86,6 +131,31 @@
 		ORDER BY F.F_NO DESC
 	</select>
 	
+	<select id="selectUpdateFeed" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		WHERE F.F_STATUS='Y'
+		  AND F.F_NO = #{fNo}
+		ORDER BY F.F_NO DESC
+	</select>
+	
+	<select id="selectGroupMemberId" resultMap="groupNameReulstSet" parameterType="string">
+	    SELECT 
+	           GM.G_NO
+	         , G.G_NAME
+	         , GM.GM_ID
+          FROM 
+        	   GROUPS G
+          LEFT JOIN MEMBER M 
+            ON (M.G_NO = G.G_NO)
+          LEFT JOIN GROUP_MEMBER GM 
+            ON (G.G_NO = GM.G_NO)
+         WHERE GM.GM_ID = #{userId}
+         ORDER BY G_JOINDATE DESC
+	</select>
+
  	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY

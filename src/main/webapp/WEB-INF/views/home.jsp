@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <title>G R O O B E E</title>
@@ -11,6 +10,7 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 	#feed{ height: fit-content; margin-bottom: 50px; }
+	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	.pop_menu{ background: #00000005; }
 	a{ color: black; }
@@ -27,7 +27,8 @@
 	<c:import url="common/menubar.jsp" />
 	<div id="feedArea">
 	<c:forEach var="f" items="${ feed }" varStatus="status">
-		<div id="feed">
+		<c:set var="i" value="${ i + 1 }"/>
+		<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
 				<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
@@ -36,46 +37,47 @@
 					<h6><c:out value="${ f.fCreateDate }" /></h6>
 				</div>
 				</a>
-				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
+				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 			</div>
 			<c:choose>
-				<c:when test="${ loginUser.userId ne f.fWriter }">
-					<!-- 다른 회원 글 볼 때 피드메뉴 -->
-	 				<div class="pop_menu">
-						<div id="feed_menu_list">
-							<ul>
-								<li><a id="feed_report_btn">신고</a></li>
-								<li><a>공유하기</a></li>
-								<li><a>보관함</a></li>
-								<li><a id="close">취소</a></li>
-							</ul>
-						</div>
-					</div> 
-				</c:when>
-				<c:otherwise>
-					<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-	                <div class="pop_menu">
-	                    <div id="feed_Mymenu_list">
-	                        <ul>
-	                        <li><a href="../views/PostUpdateForm.html" id="feed_menu1_btn">수정</a></li> 
-	                        <li><a>삭제</a></li> 
-	                        <li><a id="close">취소</a></li>
-	                        </ul>
-	                    </div>
-	                </div>
-				</c:otherwise>
-			</c:choose>
+			<c:when test="${ loginUser.userId ne f.fWriter }">
+				<!-- 다른 회원 글 볼 때 피드메뉴 -->
+<!-- 				<div class="pop_menu">
+					<div id="feed_menu_list">
+						<ul>
+							<li><a id="feed_report_btn">신고</a></li>
+							<li><a>공유하기</a></li>
+							<li><a>보관함</a></li>
+							<li><a id="close">취소</a></li>
+						</ul>
+					</div>
+				</div> -->
+			</c:when>
+			<c:otherwise>
+				<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+                <div class="pop_menu">
+                    <div id="feed_Mymenu_list">
+                        <ul>
+                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
+                        <li><a>삭제</a></li> 
+                        <li><a id="close" class="close">취소</a></li>
+                        </ul>
+                    </div>
+                </div>
+			</c:otherwise>
+		</c:choose>
 			<div class="feed_report">
 				<div id="feed_report_con">
-					<p>신고사유</p>
-						<select style=>
-							<option>부적절한 게시글</option>
-							<option>욕설</option>
-							<option>광고</option>
-							<option>도배</option>
-						</select> <br> <input type="button" id="submit" name="submit" value="확인">
-					<button id="cancel">취소</button>
-				</div>
+				<p>신고사유</p>
+				<select style=>
+					<option>부적절한 게시글</option>
+					<option>욕설</option>
+					<option>광고</option>
+					<option>도배</option>
+				</select> <br> <input type="button" id="submit" name="submit"
+					value="확인">
+				<button id="cancel">취소</button>
+			</div>
 			</div>
 		
 			<div id="con">
@@ -136,8 +138,8 @@
 	</div>
 	</div>
     <script>
-		$(document).ready(function(){
-            $('#feed_menu').on("click", function(){
+
+            $('.test').on("click", function(){
                 $('.pop_menu').show();
             });
 
@@ -175,7 +177,7 @@
 			  			$(this).nextAll('#imgList li:hidden').css("left","633px");
 			  			$(this).nextAll("#imgList li:eq("+idx+i+")").animate({left:"-= 633px"},300);
 			  			idx = idx+i;
-		  			}
+		  			};
 	  			}	
 	  			});
 	  		});
