@@ -77,7 +77,7 @@
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
-                                        <li><a>채팅방생성</a></li>
+                                        <li><a id="isnertGroupChat">채팅방생성</a></li>
                                         <li><a id="close_master">취소</a></li>
                                     </ul>
                                 </div>
@@ -199,33 +199,7 @@
         /************** 채팅 팝업 *****************/
 
         $(document).ready(function(){
-           /*  $('#chat_icon').click(function(){
-                var state = $(".chat").css('display');
-                if(state=='none'){
-                    $('.chat').show();
-                }else{
-                    $('.chat').hide();
-                }
-
-                $('.tab_menu_btn').on('click',function(){
-                    $('.tab_menu_btn').removeClass('on');
-                    $(this).addClass('on')
-                });
-
-                $('.tab_menu_btn1').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box1').show();
-                });
-
-                $('.tab_menu_btn2').on('click',function(){
-                    $('.tab_box').hide();
-                    $('.tab_box2').show();
-                });
-
-
-            }); */
-
-
+          
             /************  팝업 메뉴 script *********** */
 
             $('#group_menuBtn').on("click",function(){
@@ -301,32 +275,8 @@
                 $('.joinPop_back').hide();
             });
         });
-	
 
-
-
-        /************* 내계정 자세히보기 script **************/
-
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
-
-        $('.MyTab_tab').on("click",function(){
-            $('.MyTab_tab').removeClass('on');
-            $(this).addClass('on')
-        });
-
-        $('.MyTab_tab1').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box1').show();
-        });
-
-        $('.MyTab_tab2').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box2').show();
-        });
+        
 
 
          /*********** 뉴피드 / 핫피드 *************/

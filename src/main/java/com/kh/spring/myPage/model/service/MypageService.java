@@ -30,10 +30,13 @@ public interface MypageService {
 
 	int deleteFollow(Follow fw);
 
+<<<<<<< HEAD
 	ArrayList<Mypage> selectFollowerList(int mNo);
 
 	ArrayList<Mypage> selectFollowingList(int mNo);
 
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	/**
 	 * 보관함 이름 수정
 	 * @param sblist

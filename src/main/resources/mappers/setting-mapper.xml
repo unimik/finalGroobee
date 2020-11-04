@@ -69,4 +69,6 @@
  	<update id="disableblock" parameterType="PersonalSetting">
  		UPDATE PERSON_SET SET BLOCKED_NO = #{blockedNo} WHERE M_NO = #{mNo}
  	</update>
+ 	
+
 </mapper>

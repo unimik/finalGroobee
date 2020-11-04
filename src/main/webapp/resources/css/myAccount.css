@@ -1,4 +1,6 @@
 button{padding: 0;}
+#goDetail{ padding:15px 0 0 20px; color:#555555; font-size:14px; display:inline-block; position:relative; cursor:pointer;}
+#goUserPage{padding:15px 0 0 20px; color:#555555; font-size:14px; display:inline-block; position:relative; cursor:pointer;}
 .myAccount{ position:absolute; width: 320px; height: 800px; margin-left: 750px; top: 60px; display: none; background-color: white; border-left: 1px solid #47c6a3; border-right: 1px solid #47c6a3;}
 #myId img{ width: 60px; height: 60px; border-radius: 15px; border: 3px double #47c6a3; float: left; margin:20px 20px 0 30px;}
 #myId p{ padding: 0; margin: 0; font-size: 20px; font-weight: 600; padding-top: 35px;}
@@ -8,28 +10,33 @@ button{padding: 0;}
 
 .MyTab_box{ display: none;}
 .MyTab_box.on{display: block;}
+#MyTab_container #textP{ font-size:14px; color:#c5c5c5; text-align:center;}
+#MyTab_container{ height:620px; overflow-x:scroll; overflow:auto; }
+#MyTab_container::-webkit-scrollbar{ width: 7px;}
+#MyTab_container::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+#MyTab_container::-webkit-scrollbar-track{ background-color: #daf4ed;}
 
-#My_follower_list{ border-bottom: 1px solid #e5e5e5; height: 60px; margin-top: 20px;}
-#My_follower_list ul{ padding:0;margin:0;}
+#My_follower_list{ ; margin-top: 20px;}
+#My_follower_list ul{ padding:0; margin:0; padding-top:7px; width:100%; height:55px; border-bottom: 1px solid #e5e5e5;}
 #follower_info li{ list-style: none;}
 #follower_info li:nth-child(1){float: left; margin: 0 20px 0 20px;}
-#follower_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin-top: 10px;}
-#follower_info li #follower{float:right; width: 70px; height: 35px; border-radius: 10px; background:white; color:#47c6a3; border: 2px solid #47c6a3;  margin: 4px 20px 0 0;}
+#follower_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin: 5px 0 10px 20px;}
+#follower_info li #follower{float:right; width: 70px; height: 35px; border-radius: 10px; background:white; color:#47c6a3; border: 2px solid #47c6a3;  margin: -24px 20px 0 0;}
 #follower_list_img{ width: 40px; height: 40px; border-radius: 10px;}
 
 
-#My_following_list{ border-bottom: 1px solid #e5e5e5; height: 60px; margin-top: 20px;}
-#My_following_list ul{ padding:0;margin:0;}
+#My_following_list{ margin-top: 20px;}
+#My_following_list ul{ padding:0;margin:0;padding-top:7px; width:100%; height:55px; border-bottom: 1px solid #e5e5e5;}
 #following_info li{ list-style: none;}
 #following_info li:nth-child(1){float: left; margin: 0 20px 0 20px;}
-#following_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin-top: 10px;}
-#following_info li #following{float:right; width: 70px; height: 35px; border-radius: 10px; background:#daf4ed;; margin: 4px 20px 0 0; }
+#following_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin: 5px 0 10px 20px;}
+#following_info li #following{float:right; width: 90px; height: 35px; color:#555555; border-radius: 10px; background:#daf4ed;; margin: -24px 20px 0 0; }
 #following_list_img{ width: 40px; height: 40px; border-radius: 10px;}
 
-#My_fgroup_list{ border-bottom: 1px solid #e5e5e5; height: 60px; margin-top: 20px;}
-#My_fgroup_list ul{ padding:0;margin:0;}
+#My_fgroup_list{ margin-top: 20px;}
+#My_fgroup_list ul{ padding:0;margin:0;padding-top:7px; width:100%; height:50px; border-bottom: 1px solid #e5e5e5;}
 #fgroup_info li{ list-style: none;}
 #fgroup_info li:nth-child(1){float: left; margin: 0 20px 0 20px;}
-#fgroup_info li:nth-child(2){float: left; font-weight: 500; color: #555555; margin-top: 10px;}
+#fgroup_info li:nth-child(2){float: left; font-size:12px; font-weight: 500; color: #555555; margin: 5px 0 10px 20px;}
 #fgroup_info li #del_group{float:right; width: 70px; height: 35px; border-radius: 10px; background:#e5e5e5; margin: 4px 20px 0 0; }
 #fgroup_list_img{ width: 40px; height: 40px; border-radius: 10px;}

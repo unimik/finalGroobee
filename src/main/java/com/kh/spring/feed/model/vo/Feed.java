@@ -9,8 +9,6 @@ public class Feed {
 	private int mNo;
 	private String fContent;
 	private String fWriter;
-	private String fFile;
-	private String fRenameFile;
 	private Date fCreateDate;
 	private Date fModifyDate;
 	private String fStatus;
@@ -21,22 +19,22 @@ public class Feed {
 	private String fShareSet;
 	private int fLikeCnt;
 	private int fReplyCnt;
+	private int gNo;
 	
 	private ArrayList<Reply> replyList;
+	private ArrayList<Photo> photoList;
 
 	public Feed() {
 	}
 
-	public Feed(int fNo, int mNo, String fContent, String fWriter, String fFile, String fRenameFile, Date fCreateDate,
-			Date fModifyDate, String fStatus, String fLocation, String fOpenScope, String fLikeSet, String fReplySet,
-			String fShareSet, int fLikeCnt, int fReplyCnt) {
+	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
+			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
+			int fReplyCnt, int gNo) {
 		super();
 		this.fNo = fNo;
 		this.mNo = mNo;
 		this.fContent = fContent;
 		this.fWriter = fWriter;
-		this.fFile = fFile;
-		this.fRenameFile = fRenameFile;
 		this.fCreateDate = fCreateDate;
 		this.fModifyDate = fModifyDate;
 		this.fStatus = fStatus;
@@ -47,18 +45,17 @@ public class Feed {
 		this.fShareSet = fShareSet;
 		this.fLikeCnt = fLikeCnt;
 		this.fReplyCnt = fReplyCnt;
+		this.gNo = gNo;
 	}
 
-	public Feed(int fNo, int mNo, String fContent, String fWriter, String fFile, String fRenameFile, Date fCreateDate,
-			Date fModifyDate, String fStatus, String fLocation, String fOpenScope, String fLikeSet, String fReplySet,
-			String fShareSet, int fLikeCnt, int fReplyCnt, ArrayList<Reply> replyList) {
+	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
+			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
+			int fReplyCnt, int gNo, ArrayList<Reply> replyList, ArrayList<Photo> photoList) {
 		super();
 		this.fNo = fNo;
 		this.mNo = mNo;
 		this.fContent = fContent;
 		this.fWriter = fWriter;
-		this.fFile = fFile;
-		this.fRenameFile = fRenameFile;
 		this.fCreateDate = fCreateDate;
 		this.fModifyDate = fModifyDate;
 		this.fStatus = fStatus;
@@ -69,10 +66,10 @@ public class Feed {
 		this.fShareSet = fShareSet;
 		this.fLikeCnt = fLikeCnt;
 		this.fReplyCnt = fReplyCnt;
+		this.gNo = gNo;
 		this.replyList = replyList;
+		this.photoList = photoList;
 	}
-
-
 
 	public int getfNo() {
 		return fNo;
@@ -104,22 +101,6 @@ public class Feed {
 
 	public void setfWriter(String fWriter) {
 		this.fWriter = fWriter;
-	}
-
-	public String getfFile() {
-		return fFile;
-	}
-
-	public void setfFile(String fFile) {
-		this.fFile = fFile;
-	}
-
-	public String getfRenameFile() {
-		return fRenameFile;
-	}
-
-	public void setfRenameFile(String fRenameFile) {
-		this.fRenameFile = fRenameFile;
 	}
 
 	public Date getfCreateDate() {
@@ -209,15 +190,30 @@ public class Feed {
 	public void setReplyList(ArrayList<Reply> replyList) {
 		this.replyList = replyList;
 	}
+			
+	public int getgNo() {
+		return gNo;
+	}
+
+	public void setgNo(int gNo) {
+		this.gNo = gNo;
+	}
+
+	public ArrayList<Photo> getPhotoList() {
+		return photoList;
+	}
+
+	public void setPhotoList(ArrayList<Photo> photoList) {
+		this.photoList = photoList;
+	}
 
 	@Override
 	public String toString() {
-		return "Feed [fNo=" + fNo + ", mNo=" + mNo + ", fContent=" + fContent + ", fWriter=" + fWriter + ", fFile="
-				+ fFile + ", fRenameFile=" + fRenameFile + ", fCreateDate=" + fCreateDate + ", fModifyDate="
-				+ fModifyDate + ", fStatus=" + fStatus + ", fLocation=" + fLocation + ", fOpenScope=" + fOpenScope
-				+ ", fLikeSet=" + fLikeSet + ", fReplySet=" + fReplySet + ", fShareSet=" + fShareSet + ", fLikeCnt="
-				+ fLikeCnt + ", fReplyCnt=" + fReplyCnt + ", replyList=" + replyList + "]";
+		return "Feed [fNo=" + fNo + ", mNo=" + mNo + ", fContent=" + fContent + ", fWriter=" + fWriter
+				+ ", fCreateDate=" + fCreateDate + ", fModifyDate=" + fModifyDate + ", fStatus=" + fStatus
+				+ ", fLocation=" + fLocation + ", fOpenScope=" + fOpenScope + ", fLikeSet=" + fLikeSet + ", fReplySet="
+				+ fReplySet + ", fShareSet=" + fShareSet + ", fLikeCnt=" + fLikeCnt + ", fReplyCnt=" + fReplyCnt
+				+ ", gNo=" + gNo + ", replyList=" + replyList + ", photoList=" + photoList + "]";
 	}
-	
-	
+
 }

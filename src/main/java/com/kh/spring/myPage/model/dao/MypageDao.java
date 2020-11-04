@@ -57,6 +57,7 @@ public class MypageDao {
 		return sqlSession.delete("mypageMapper.deleteFollow",fw);
 	}
 
+<<<<<<< HEAD
 	public ArrayList<Mypage> selectFollowerList(int mNo) {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectFollowerList", mNo);
 	}
@@ -65,6 +66,8 @@ public class MypageDao {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectFollowingList", mNo);
 	}
 
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	public int updateBox(ArrayList<StorageBox> sblist) {
 		return sqlSession.update("mypageMapper.updateBox",sblist);
 	}

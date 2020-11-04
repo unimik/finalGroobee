@@ -6,6 +6,7 @@ body{margin:0; background: #fcfcfc;}
 .content{ width: 730px; margin:auto;}
 .adminInfo{ width: 730px; height:80px;}
 
+
 #adminInfo{ float: right;}
 #adminInfo ul{padding:0; margin:0;}
 #adminInfo li{ float: left; list-style: none;}

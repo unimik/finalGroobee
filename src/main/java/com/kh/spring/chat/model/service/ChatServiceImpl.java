@@ -21,8 +21,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ArrayList<Chat> getChatContentList(int crNo) {
-		return cDao.getChatContentList(crNo);
+	public ArrayList<Chat> getChatContentList(Chat readC) {
+		return cDao.getChatContentList(readC);
 	}
 
 	@Override
@@ -38,6 +38,26 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int insertChatRoom(String myId, String otherId) {
 		return cDao.insertChatRoom(myId,otherId);
+	}
+
+	@Override
+	public int countChat(String myId) {
+		return cDao.countChat(myId);
+	}
+
+	@Override
+	public int insertGroupChatRoom(String createId) {
+		return cDao.insertGroupChatRoom(createId);
+	}
+
+	@Override
+	public ArrayList<Chat> getGroupChatList(String userId) {
+		return cDao.getGroupChatList(userId);
+	}
+
+	@Override
+	public int insertGroupChat(Chat c) {
+		return cDao.insertGroupChat(c);
 	}
 
 }

@@ -92,6 +92,9 @@
                         </div>
                         <div id="mp_profile_edit">
                             <input type="button" id="profile_edit_btn" name="profile_edit_btn" value="프로필 편집">
+                            <%-- <input type="button" id="follow_btn" name="follow_btn" value="팔로우">
+                            <input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
+                            <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn"> --%>
                         </div>
 
                     <!-- 다른 사람이 내 피드를 방문했을 때 -->

@@ -61,29 +61,15 @@
 							<td>피드번호</td>
 							<td>아이디</td>
 							<td>내용</td>
-							<td>게시물 구분</td>
 							<td>작성일</td>
-							<td>첨부파일</td>
+							<td>좋아요</td>
 							<td>게시물 유효</td>
-							<td>삭제</td>
+							<td>게시금지</td>
 						</tr>
 					</thead>
 					<tbody>
-						<tr id="feed_info">
-							<td>1</td>
-							<td>user01</td>
-							<td><nobr>오늘의 일상 오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의
-									일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상오늘의 일상</nobr></td>
-							<td>개인</td>
-							<td>2020-10-07</td>
-							<td>◎</td>
-							<td>Y</td>
-							<td><button id="f_delete">삭제</button></td>
-						</tr>
 					</tbody>
+					<tfoot></tfoot>
 				</table>
 			</div>
 			
@@ -98,116 +84,124 @@
 							<td>내용</td>
 							<td>작성일</td>
 							<td>게시유효</td>
-							<td>삭제</td>
+							<td>게시금지</td>
 						</tr>
 					</thead>
 					<tbody>
-						<tr id="feed_info">
-							<td>1</td>
-							<td>1</td>
-							<td>user01</td>
-							<td><nobr>이거 잘 찍었다!!</nobr></td>
-							<td>2020-10-07</td>
-							<td>Y</td>
-							<td><button id="f_delete">삭제</button></td>
-						</tr>
 					</tbody>
+					<tfoot></tfoot>
 				</table>
 			</div>
 		</div>
 	</div>
 
 	<script>
-        $(document).ready(function(){
+
+	
+		// 리프래시를 위한 메소드
+		function refresh(){
+				location.reload();
+			}
+		
+        $(document).ready(function(){     	
             $('.tab_menuBtn').on("click",function(){
                 $('.tab_menuBtn').removeClass("on");
                 $(this).addClass("on");
             });
 
-            $('.feed').on("click",function(){
-                    $('.search_box').hide();
-                    $('.search_feed').show();
-                    $('.containar').hide();
-                    $('.containar1').show();
-                });
-
-            $('.reply').on("click",function(){
-                $('.search_box').hide();
-                $('.search_reply').show();
-                $('.containar').hide();
-                $('.containar2').show();
-            });
-
-
-            $('#alarmIcon').on("click",function(){
-                    $('.alarm_pop').show();
-                });
-
-                $('.alarm_menubtn').on("click",function(){
-                    $('.alarm_menubtn').removeClass('on');
-                    $(this).addClass('on')
-                });
-
-                $('.alarmBtn').on('click', function(){
-                    $('.conBox').hide();
-                    $('.alarmCon').show();
-                });
-
-                $('.enquiryBtn').on('click', function(){
-                    $('.conBox').hide();
-                    $('.enquiryCon').show();
-                });
-
-                $('.close_pop').on("click",function(){
-                    $('.alarm_pop').hide();
-                });
+	        $('.feed').on("click",function(){
+	                $('.search_box').hide();
+	                $('.search_feed').show();
+	                $('.containar').hide();
+	                $('.containar1').show();
+	            });
+	
+	        $('.reply').on("click",function(){
+	            $('.search_box').hide();
+	            $('.search_reply').show();
+	            $('.containar').hide();
+	            $('.containar2').show();
+	        });
+	
+	
+	        $('#alarmIcon').on("click",function(){
+	                $('.alarm_pop').show();
+	            });
+	
+	        $('.alarm_menubtn').on("click",function(){
+	            $('.alarm_menubtn').removeClass('on');
+	            $(this).addClass('on')
+	        });
+	
+	        $('.alarmBtn').on('click', function(){
+	            $('.conBox').hide();
+	            $('.alarmCon').show();
+	        });
+					
+	       
+	        $('.enquiryBtn alarm_menubtn').on('click', function(){
+	        	 $('.conBox').hide();
+				 $('.enquiryCon').show(); 
+	        });
+	
+	         $('.close_pop').on("click",function(){
+	             $('.alarm_pop').hide();
+	         });
         });
         
-     // 피드 작성글 검색 버튼 클릭 이벤트
-		 $('#feedSearchBtn').on("click",function(){
-			console.log("클릭했엉?");
-			
-			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
-			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
-			
 
-			console.log(cDate);
-			console.log("전달되는 값"+$("#feedSearch_form").serialize());
+		// feed 검색 버튼 클릭 이벤트
+		 $('#f_SearchBtn').on("click",function(){
+			
+			var dynamicBtnY = '<input type="button" class="f_btn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" class="f_btn" value="IN"/>';
+			
+			
 			$.ajax({
 				url:"feedSearch.do",
 				type:'post',
 				data:$("#feedSearch_form").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
 					
 					$tableBody = $("#feedTable tbody");
 					$tableBody.html("");
 					
+					var $tr2 = $("<tr>");
+					$tableFoot = $("#feedTable tfoot");
+					
 					for(var i in data){
+						
 						var $tr = $("<tr>");
-						var $fNo = $("<td>").text(data[i].fNo);
-						var $userId = $("<td>").text(data[i].userId);
-						var $fContent = $("<td>").text(data[i].fContent);
-						var $email = $("<td>").text(data[i].email);	
-						var $cDate = $("<td>").text(data[i].cDate);
-						var $mStatus = $("<td>").text(data[i].mStatus);
+						var $fNo = $("<td>").text(data[i].fNo);	// 피드번호
+						var $fWriter = $("<td>").text(data[i].fWriter); // 작성자
+						var $fContent = $("<td>").text(data[i].fContent);	// 내용
+						//var $rNo = $("<td>").text(data[i].rNo);	// 구분 (아직 미구현)
+						var $fCreateDate = $("<td>").text(data[i].fCreateDate);// 작성일
+						var $fLikeCnt = $("<td>").text(data[i].fLikeCnt);// 좋아요 갯수
+						var $fStatus = $("<td>").text(data[i].fStatus); // 상태
+						
+						// 정지 버튼
 						if(data[i].fStatus==='Y'){
-							var $getOutBtn = $("<td>").html(dynamicBtnY);//회원의 상태가 Y일 때
+							var $getOutBtn = $("<td>").html(dynamicBtnY); // 활성화 상태가 Y일 때 
 						}else{
-							var $getOutBtn = $("<td>").html(dynamicBtnN);//회원의 상태가 N일 때
+							var $getOutBtn = $("<td>").html(dynamicBtnN); // 활성화 상태가 N일 때
 						}
 						
-							$tr.append($mNo);
-							$tr.append($userId);
-							$tr.append($userName);
-							$tr.append($email);
-							$tr.append($cDate);
-							$tr.append($mStatus);
+							$tr.append($fNo);
+							$tr.append($fWriter);
+							$tr.append($fContent);
+							$tr.append($fCreateDate);
+							$tr.append($fLikeCnt);
+							$tr.append($fStatus);
 							$tr.append($getOutBtn);
 							
 							$tableBody.append($tr);
 					}
+					var $pageBox = $('<td colspan="7" id="pagination" class="pagination">');
+					$tr2.append($pageBox);
+					$tableFoot.append($tr2);
+					page();
 				},
 				error:function(request,status,error){
 					alert("code : "+request.status+"\n"
@@ -216,13 +210,13 @@
 				}
 			});
 		}); 
-        
+		
 		// 댓글 검색 버튼 클릭 이벤트
 		 $('#re_searchBtn').on("click",function(){
 			console.log("클릭했엉?");
 			
-			var dynamicBtnY = '<input type="button" name="btn" value="OUT"/>';
-			var dynamicBtnN = '<input type="button" name="btn" value="IN"/>';
+			var dynamicBtnY = '<input type="button" class="re_btn" value="OUT"/>';
+			var dynamicBtnN = '<input type="button" class="re_btn" value="IN"/>';
 			
 
 			console.log("전달되는 값"+$("#replySearch_form").serialize());
@@ -233,10 +227,12 @@
 				data:$("#replySearch_form").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
 					
 					$tableBody = $("#reply_table tbody");
 					$tableBody.html("");
+					
+					$tableFoot = $("#reply_table tfoot");
+					var $tr2 = $("<tr>");
 					
 					for(var i in data){
 						
@@ -265,6 +261,10 @@
 							
 							$tableBody.append($tr);
 					}
+					var $pageBox = $('<td colspan="7" id="pagination" class="pagination">');
+					$tr2.append($pageBox);
+					$tableFoot.append($tr2);
+					page1();
 				},
 				error:function(request,status,error){
 					alert("code : "+request.status+"\n"
@@ -273,7 +273,315 @@
 				}
 			});
 		}); 
-        
+		// feed 상태 변경을 위한 이벤트
+			$(document).on('click','.f_btn',function(){
+				
+				var no = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+				var status = $(this).parent().prev().text();
+
+				 $.ajax({
+					url:"feedStatusChange.do",
+					type:'post',
+					data:{no:no
+						,status:status
+										},
+					success:function(data){
+						alert("피드정보가 업데이트 되었습니다");
+						refresh();
+					},
+					error:function(request,status,error){
+						alert("code : "+request.status+"\n"
+								+"message : "+request.responseText+"\n"
+								+"error : "+ error);
+					}
+				});
+				
+			});
+		
+			// 댓글 상태 변경을 위한 이벤트
+			$(document).on('click','.re_btn',function(){
+				
+				var no = $(this).parent().prev().prev().prev().prev().prev().text();
+				var status = $(this).parent().prev().text();
+
+				 $.ajax({
+					url:"replyStatusChange.do",
+					type:'post',
+					data:{no:no
+						,status:status
+										},
+					success:function(data){
+						alert("댓글정보가 업데이트 되었습니다");
+						refresh();
+					},
+					error:function(request,status,error){
+						alert("code : "+request.status+"\n"
+								+"message : "+request.responseText+"\n"
+								+"error : "+ error);
+					}
+				});
+				
+			});
+			
+			// 페이지 마우스 오버 효과
+			$(document).on('mouseover','.pageNum',function(){
+				$(this).css("color","red").css("cursor","pointer");
+			});
+			$(document).on('mouseout','.pageNum',function(){
+				$(this).css("color","black");
+			});
+			
+			
+
+			// 페이징 처리
+			function page(){ 
+				
+			    $('#feedTable').each(function() {
+
+				console.log("page()가 실행됨");		   
+				
+			    var pagination = $("#pagination"); // 페이징을 표시할 곳
+			    
+			    var pagesu = 10;  //페이지 번호 갯수 
+			    var currentPage = 0;    
+			    var numPerPage = 10;  //목록의 수   
+			    var $table = $(this);      // table을 가르킴 
+			    console.log(this); // this => tbody
+			    
+			    //length로 원래 리스트의 전체길이구함   
+			    var numRows = $table.find('tbody tr').length;
+			    console.log("numRows : "+numRows); // 출력될 행의 갯수
+			     
+			    //Math.ceil를 이용하여 반올림   
+			    var numPages = Math.ceil(numRows / numPerPage);
+			    console.log("numPages의 갯수 : "+ numPages);
+			    
+			    //리스트가 없으면 종료   
+			    if (numPages==0) return;
+			        
+			    //pager라는 클래스의 div엘리먼트 작성  
+			    var $pager = $('<div class="pager"></div>'); 
+			    var nowp = currentPage;
+			    var endp = nowp+10;
+			    
+			    //페이지를 클릭하면 다시 셋팅 
+			    $table.on('click', function() {
+				    //기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다 
+				    $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();   
+				    $("#pagination").html("");
+				  
+				    if (numPages > 1) {     // 페이지가 하나이상 생성될 때   
+				    	
+				    	// 현재 5페이지 이하이면    
+					    if (currentPage < 5 && numPages-currentPage >= 5) {  
+						    nowp = 0;     // 1부터  
+						    endp = pagesu;    // 10까지
+					    
+					    }else{
+						    nowp = currentPage -5;  // 6넘어가면 2부터 찍고	 
+						    endp = nowp+pagesu;   // 10까지
+						    pi = 1;	    
+					    }
+						// 10페이지 이하일 때 
+					    if (numPages < endp) {    
+						    endp = numPages;   // 마지막페이지를 갯수 만큼    
+						    nowp = numPages-pagesu;  // 시작페이지를   갯수 -10
+					    }
+					    
+						// 시작이 음수 or 0 이면
+					    if (nowp < 1) {         
+					    	nowp = 0;     // 1페이지부터 시작
+				    	}
+				    
+				    }else{       // 한페이지 이하이면    
+					    nowp = 0;      // 한번만 페이징 생성  
+					    endp = numPages;    
+				    }
+			    
+			    
+					    // [처음]    
+					    $('<span class="pageNum first" > [처음] </span>').on('click', {newPage: page},function(event) { 
+					    currentPage = 0;       
+					    $table.trigger('click');      
+					    $($(".pageNum")[2]).addClass('active').siblings().removeClass('active');    
+					    }).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    
+					    // [이전]    
+					    $('<span class="pageNum back"> [이전] </span>').on('click', {newPage: page},function(event) {  
+					
+					    	if(currentPage == 0) return; 
+					    	 currentPage = currentPage-1;
+					    	 $table.trigger('click'); 
+					    	 $($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+					   		}).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    // [1,2,3,4,5,6,7,8]
+					    for (var page = nowp ; page < endp; page++) {    
+						    $('<span class="pageNum"></span>').text( page + 1 ).on('click', {newPage: page}, function(event) {
+						    	currentPage = event.data['newPage']; 
+						    	
+						    	$table.trigger('click');	    
+						    	
+						    	$($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+						    }).appendTo(pagination).addClass('clickable');    
+					    } 
+					        
+					    // [다음]
+					    $('<span class="pageNum next"> [다음] </span>').on('click', {newPage: page},function(event) {
+						    if(currentPage == numPages-1) return;
+					   	    currentPage = currentPage+1;    
+						    $table.trigger('click');
+						    $($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');	    
+						    }).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    // [끝]
+					    $('<span class="pageNum last"> [끝] </span>').on('click', {newPage: page},function(event) {    
+					    currentPage = numPages-1;
+					    $table.trigger('click');
+					    $($(".pageNum")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
+					    }).appendTo(pagination).addClass('clickable');    
+					    $($(".pageNum")[2]).addClass('active');    
+					    });
+					    
+					    
+					    $pager.insertAfter($table).find('span.pageNum:first').next().next().addClass('active');   
+					    
+					    $pager.appendTo(pagination);
+					    
+					    $table.trigger('click');
+					    
+					    });
+			    
+			    }
+				
+				// reply page처리
+				function page1(){ 
+				
+			    $('#reply_table').each(function() {
+
+				console.log("page()가 실행됨");		   
+				
+			    var pagination = $("#pagination"); // 페이징을 표시할 곳
+			    
+			    var pagesu = 10;  //페이지 번호 갯수 
+			    var currentPage = 0;    
+			    var numPerPage = 10;  //목록의 수   
+			    var $table = $(this);      // table을 가르킴 
+			    console.log(this); // this => tbody
+			    
+			    //length로 원래 리스트의 전체길이구함   
+			    var numRows = $table.find('tbody tr').length;
+			    console.log("numRows : "+numRows); // 출력될 행의 갯수
+			     
+			    //Math.ceil를 이용하여 반올림   
+			    var numPages = Math.ceil(numRows / numPerPage);
+			    console.log("numPages의 갯수 : "+ numPages);
+			    
+			    //리스트가 없으면 종료   
+			    if (numPages==0) return;
+			        
+			    //pager라는 클래스의 div엘리먼트 작성  
+			    var $pager = $('<div class="pager" style="color:black;font-size:30px;"></div>'); 
+			    var nowp = currentPage;
+			    var endp = nowp+10;
+			    
+			    //페이지를 클릭하면 다시 셋팅 
+			    $table.on('click', function() {
+				    //기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다 
+				    $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();   
+				    $("#pagination").html("");
+				  
+				    if (numPages > 1) {     // 페이지가 하나이상 생성될 때   
+				    	
+				    	// 현재 5페이지 이하이면    
+					    if (currentPage < 5 && numPages-currentPage >= 5) {  
+						    nowp = 0;     // 1부터  
+						    endp = pagesu;    // 10까지
+					    
+					    }else{
+						    nowp = currentPage -5;  // 6넘어가면 2부터 찍고	 
+						    endp = nowp+pagesu;   // 10까지
+						    pi = 1;	    
+					    }
+						// 10페이지 이하일 때 
+					    if (numPages < endp) {    
+						    endp = numPages;   // 마지막페이지를 갯수 만큼    
+						    nowp = numPages-pagesu;  // 시작페이지를   갯수 -10
+					    }
+					    
+						// 시작이 음수 or 0 이면
+					    if (nowp < 1) {         
+					    	nowp = 0;     // 1페이지부터 시작
+				    	}
+				    
+				    }else{       // 한페이지 이하이면    
+					    nowp = 0;      // 한번만 페이징 생성  
+					    endp = numPages;    
+				    }
+			    
+			    
+					    // [처음]    
+					    $('<span class="pageNum first" > [처음] </span>').on('click', {newPage: page},function(event) { 
+					    currentPage = 0;       
+					    $table.trigger('click');      
+					    $($(".pageNum")[2]).addClass('active').siblings().removeClass('active');    
+					    }).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    
+					    // [이전]    
+					    $('<span class="pageNum back"> [이전] </span>').on('click', {newPage: page},function(event) {  
+					
+					    	if(currentPage == 0) return; 
+					    	 currentPage = currentPage-1;
+					    	 $table.trigger('click'); 
+					    	 $($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+					   		}).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    // [1,2,3,4,5,6,7,8]
+					    for (var page = nowp ; page < endp; page++) {    
+						    $('<span class="pageNum"></span>').text( page + 1 ).on('click', {newPage: page}, function(event) {
+						    	currentPage = event.data['newPage']; 
+						    	
+						    	$table.trigger('click');	    
+						    	
+						    	$($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+						    }).appendTo(pagination).addClass('clickable');    
+					    } 
+					        
+					    // [다음]
+					    $('<span class="pageNum next"> [다음] </span>').on('click', {newPage: page},function(event) {
+						    if(currentPage == numPages-1) return;
+					   	    currentPage = currentPage+1;    
+						    $table.trigger('click');
+						    $($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');	    
+						    }).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    // [끝]
+					    $('<span class="pageNum last"> [끝] </span>').on('click', {newPage: page},function(event) {    
+					    currentPage = numPages-1;
+					    $table.trigger('click');
+					    $($(".pageNum")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
+					    }).appendTo(pagination).addClass('clickable');    
+					    $($(".pageNum")[2]).addClass('active');    
+					    });
+					    
+					    
+					    $pager.insertAfter($table).find('span.pageNum:first').next().next().addClass('active');   
+					    
+					    $pager.appendTo(pagination);
+					    
+					    $table.trigger('click');
+					    
+					    });
+			    
+			    }
     </script>
 </body>
 </html>

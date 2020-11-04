@@ -26,8 +26,9 @@ public class ChatDao {
 		return cList;
 	}
 
-	public ArrayList<Chat> getChatContentList(int crNo) {
-		return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",crNo);
+	public ArrayList<Chat> getChatContentList(Chat readC) {
+		int updateResult = sqlSession.update("chatMapper.readChat",readC); 
+		return (ArrayList)sqlSession.selectList("chatMapper.getChatContentList",readC);
 	}
 
 	public int insertChat(Chat c) {
@@ -62,6 +63,48 @@ public class ChatDao {
 		} else {
 			return 0;
 		}
+	}
+
+	public int countChat(String myId) {
+		return sqlSession.selectOne("chatMapper.countChat",myId);
+	}
+
+	public int insertGroupChatRoom(String createId) {
+		int insertGroupChatRoomResult = sqlSession.insert("chatMapper.insertChatRoom");
+		if(insertGroupChatRoomResult > 0) {
+			int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
+			Chat c = new Chat();
+			c.setCrNo(crNo);
+			c.setFromId(createId);
+			int insertJoinResult = sqlSession.insert("chatMapper.insertJoinRoom",c);
+			if(insertJoinResult > 0) {
+				return crNo;
+			} else {
+				return 0;
+			}
+		} else {
+			return 0;
+		}
+	}
+
+	public ArrayList<Chat> getGroupChatList(String userId) {
+		ArrayList<Chat> crNoList = (ArrayList)sqlSession.selectList("chatMapper.getCrNo",userId);
+		ArrayList<Chat> cList = new ArrayList<Chat>();
+		for (Chat c : crNoList) {
+		   Chat result = sqlSession.selectOne("chatMapper.getGroupChatList",c);
+		   if(result == null) {
+			   continue;
+		   } else {
+			   if(result.getgNo() != 0) {
+				   cList.add(result);
+			   }
+		   }
+		}
+		return cList;
+	}
+
+	public int insertGroupChat(Chat c) {
+		return sqlSession.insert("chatMapper.insertGroupChat",c);
 	}
 
 }

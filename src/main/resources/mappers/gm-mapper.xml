@@ -10,6 +10,7 @@
   		<result property="a2" column="A2"/>
   		<result property="a3" column="A3"/>
   		<result property="gJoinDate" column="G_JOINDATE"/>
+  		<result property="gmImage" column="M_RENAME_IMAGE"/>
   	</resultMap>
  	
   	<insert id="insertGroupMaster" parameterType="GroupMember">

@@ -5,7 +5,6 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
-
 public class Member implements Serializable{
 
 	/**
