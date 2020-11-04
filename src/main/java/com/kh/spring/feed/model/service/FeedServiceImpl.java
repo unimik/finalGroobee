@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.feed.model.dao.FeedDao;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.group.model.vo.Group;
+import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.group.model.vo.GroupName;
 
 @Service("fService")
 public class FeedServiceImpl implements FeedService {
@@ -31,9 +34,22 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public int updatePost(Feed f) {
-		return 0;
+	public ArrayList<GroupName> selectGroupMemberId(String userId) {
+		return fDao.selectGroupMemberId(userId);
 	}
+
+//	@Override
+//	public ArrayList<Feed> selectUpdateFeed() {
+//		return fDao.selectFeed();
+//	}
+	
+	@Override
+	public ArrayList<Feed> selectUpdateFeed(int fNo) {
+		return fDao.selectUpdateFeed(fNo);
+	}
+
+
+
 
 
 
