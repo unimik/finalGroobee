@@ -65,7 +65,6 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public ArrayList<Mypage> selectFollowerList(int mNo) {
 		return myDao.selectFollowerList(mNo);
 	}
@@ -76,8 +75,6 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	public int updateBox(ArrayList<StorageBox> sblist) {
 		return myDao.updateBox(sblist);
 	}

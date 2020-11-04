@@ -98,7 +98,6 @@
 		DELETE FOLLOW WHERE M_NO=#{mNo} AND FOLLOWS=#{follows}
 	</delete>
 	
-<<<<<<< HEAD
 	<select id="selectFollowerList" parameterType="Mypage" resultMap="mypageResultSet">
 		select m.m_id
 		from follow f
@@ -133,28 +132,5 @@
 		#{sbNos} 
    		</foreach>
 	</delete>
-=======
-	<update id="updateBox" parameterType="list">
-		<foreach collection="list" item="sb" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
-			UPDATE 
-			       STORAGE_BOX 
-			   SET SB_NAME=#{sb.sbName}
-			 WHERE
-			       M_NO = #{sb.mNo}
-			   AND SB_NO = #{sb.sbNo}
-		</foreach>
-	</update>
-	
-	<delete id="deleteBox" parameterType="sBox">
-		DELETE 
-		FROM STORAGE_BOX
-		WHERE M_NO=#{mNo} 
-		AND SB_NO in
-		<foreach collection="sbNos" item="sbNos" open="(" close=")" separator="," >
-		#{sbNos} 
-   		</foreach>
-	</delete>
-	
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	
 </mapper>
