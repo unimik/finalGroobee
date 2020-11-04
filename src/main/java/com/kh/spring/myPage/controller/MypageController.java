@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.group.model.service.GroupService;
+import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
@@ -50,6 +52,9 @@ public class MypageController {
 
 	@Autowired
 	MemberService mService;
+
+	@Autowired
+	GroupService gService;
 	
 	@Autowired
 	HttpSession session;
@@ -65,13 +70,17 @@ public class MypageController {
 		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
 		ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
-			
+		ArrayList<Mypage> followerList = myService.selectFollowerList(mNo);
+		ArrayList<Mypage> followingList = myService.selectFollowingList(mNo);
+		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("storageBoxList", storageBoxList);
 		mv.addObject("groupList", groupList);
+		mv.addObject("followerList", followerList);
+		mv.addObject("followingList", followingList);
 		mv.setViewName("myPageMain");
 		
 		return mv;
@@ -301,42 +310,7 @@ public class MypageController {
 		
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="goStorageBox",produces="application/json;charset=utf-8")
-	public String goStorageBox(int mno, int sbno){
-		//객체로 옮기는게 나은가 번호 두개로 가서 옮기는게 나은가?
-		StorageBox sb = new StorageBox();
-		sb.setmNo(mno);
-		sb.setSbNo(sbno);
-//		int mNo = mno;
-//		int sbNo = sbno;
-//		System.out.println("회원번호" +mno+"  보관함 번호"+sbno);
-		// 보관함 안에 있는 게시글  가져오가ㅣ
-		ArrayList<Feed> flist = myService.sBoxfList(sb); 
-//		System.out.println("보관함에 있는 게시글들"+flist);	//보관함 게시글 
-		if(flist.isEmpty()) {
-			System.out.println("보관함에 게시물 없음");
-		}else {
-			JSONObject job = new JSONObject();
-			JSONArray jArr = new JSONArray();
-			for(int i=0; i <flist.size(); i++) {
-				JSONObject jObj = new JSONObject();
-				jObj.put("fno", flist.get(i).getfNo());
-				jObj.put("fno", flist.get(i).getfContent());
-				jObj.put("fno", flist.get(i).getfWriter());
-				jObj.put("fno", flist.get(i).getfWriter());
-				jObj.put("fno", flist.get(i).getfCreateDate());
-				jObj.put("fno", flist.get(i).getfCreateDate());
-				jArr.add(jObj);
-			}
-			job.put("storageBoxList", jArr);
-			return job.toString();
 
-//			System.out.println("게시물 있을유");
-		}
-		return  "";
-	}
-	
 	@RequestMapping(value="goUserpage.do")
 	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
 		
@@ -348,12 +322,16 @@ public class MypageController {
 		String followYN = myService.selectFollowYN(fw);
 		Mypage followInfo = myService.selectFollowInfo(memberInfo.getmNo());
 		ArrayList<Feed> feedList = myService.selectFeedInfo(memberInfo.getmNo());
+		ArrayList<Mypage> followerList = myService.selectFollowerList(memberInfo.getmNo());
+		ArrayList<Mypage> followingList = myService.selectFollowingList(memberInfo.getmNo());
 		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("followYN", followYN);
+		mv.addObject("followerList", followerList);
+		mv.addObject("followingList", followingList);
 		mv.setViewName("userPage");
 		
 		return mv;
@@ -390,6 +368,21 @@ public class MypageController {
 			return "success";				
 		} else {
 			return"server error";			
+		}
+	}
+	
+	@RequestMapping("myGmDelete.do")
+	public String myGmDelete(GroupMember gm, String gmId, int gNo, int mNo,HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmDelete(gm);
+		
+		if(result > 0) {
+			return "redirect:goMypage.do?mNo="+mNo;
+		}else {
+			return "common/errorPage";
 		}
 	}
 }

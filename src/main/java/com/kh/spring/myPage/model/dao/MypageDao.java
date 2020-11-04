@@ -58,6 +58,14 @@ public class MypageDao {
 		return sqlSession.delete("mypageMapper.deleteFollow",fw);
 	}
 
+	public ArrayList<Mypage> selectFollowerList(int mNo) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectFollowerList", mNo);
+	}
+
+	public ArrayList<Mypage> selectFollowingList(int mNo) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectFollowingList", mNo);
+	}
+
 	public int updateBox(ArrayList<StorageBox> sblist) {
 		return sqlSession.update("mypageMapper.updateBox",sblist);
 	}
