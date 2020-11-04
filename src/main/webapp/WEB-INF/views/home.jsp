@@ -12,7 +12,6 @@
 	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
-	.pop_menu{ background: #00000005; }
 	a{ color: black; }
 	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
@@ -21,6 +20,10 @@
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
 	#nextBtn{ position: absolute; margin: 300px 570px; }
 	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
+	#replyList{ width: 100%; height: 0px; }
+	#replySub::-webkit-scrollbar{ width: 7px;}
+	#replySub::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+	#replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
 </style>
 
 </head>
@@ -86,11 +89,11 @@
 		<div id="con">
 			<div id="feed_content">
 					<c:forEach var="p" items="${ f.photoList }">
-					<ul id="imgList">
-						<c:if test="${ !empty f.photoList }">
-						<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+						<c:if test="${ !empty p.originName}">
+						<ul id="imgList">
+							<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+						</ul>
 						</c:if>
-					</ul>
 					</c:forEach>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
@@ -100,20 +103,22 @@
 
 			</div>
 			<div id="replyArea">
-				<div id="replyList" style="display: none;">
+				<div id="replyList" style="display: block;">
+				<c:forEach var="r" items="${ f.replyList }">
+				<c:if test="${ !empty r.rContent }">
+				<div id="replySub" style="display: block; height: 150px; overflow: auto;">
+				<ul id="re_list">
+					<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
+						id="reply_img">&nbsp;&nbsp;&nbsp;
+						<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+					<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
+					<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
+					<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+				</ul>
 				</div>
-					<div id="replyList" style="display: block;">
-					<c:forEach var="r" items="${ f.replyList }">
-					<ul id="re_list">
-						<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-							id="reply_img">&nbsp;&nbsp;&nbsp;
-							<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-						<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
-						<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-						<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-					</ul>
-					</c:forEach>
-					</div>
+				</c:if>
+				</c:forEach>
+				</div>
 
 				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
 				<div class="reply_menu">

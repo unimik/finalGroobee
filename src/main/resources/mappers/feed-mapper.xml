@@ -121,23 +121,12 @@
 			#{fNo}, #{originName}, #{changeName})
 	</insert>
 
-	
 	<select id="selectFeed" resultMap="postResultSet">
 		SELECT *
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
 		WHERE F.F_STATUS='Y'
-		ORDER BY F.F_NO DESC
-	</select>
-	
-	<select id="selectUpdateFeed" resultMap="postResultSet">
-		SELECT *
-		FROM FEED F
-        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
-		WHERE F.F_STATUS='Y'
-		  AND F.F_NO = #{fNo}
 		ORDER BY F.F_NO DESC
 	</select>
 	
@@ -155,7 +144,29 @@
          WHERE GM.GM_ID = #{userId}
          ORDER BY G_JOINDATE DESC
 	</select>
-
+	
+ 	<select id="selectUpdateFeed" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		WHERE F.F_STATUS='Y'
+		  AND F.F_NO = #{fNo}
+	</select>
+	
+	<update id="updatePost" parameterType="Feed">
+		UPDATE
+		    FEED
+		SET F_CONTENT = #{fContent}
+		  , F_MODIFY_DATE = SYSDATE
+		  , F_LOCATION = #{fLocation}
+		  , F_OPEN_SCOPE = #{fOpenScope}
+		  , F_LIKE_SET = #{fLikeSet}
+		  , F_REPLY_SET = #{fReplySet}
+		  , F_SHARE_SET = #{fShareSet}
+		  , G_NO = #{gNo}
+		WHERE F_NO = #{fNo}
+	</update>
+	
  	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY

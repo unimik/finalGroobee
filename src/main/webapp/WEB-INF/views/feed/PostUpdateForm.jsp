@@ -25,26 +25,31 @@
             <div id="feedArea" style="position: relative;">
                 <!-- 전체 감싸는 div 영역 -->
                 <div id="postingForm">
-                    <h4>새 피드 작성</h4>
+                    <h4>피드 수정하기</h4>
                     <hr>
-                    <form action="pInsert.do" method="post" id="postInsert" enctype="multipart/form-data">
+                    <form action="pUpdate.do" method="post" id="postInsert" enctype="multipart/form-data">
                     	<input type="hidden" name="fWriter" value="${ loginUser.userId }">
 						<input type="hidden" name="mNo" value="${ loginUser.mNo }">
+						<input type="hidden" name="originName" value="${ p.originName }">
+						<input type="hidden" name="changeName" value="${ p.changeName }">
                         <table id="tbb">
-                            <!--글 쓰는 영역-->
+                            <!-- 글 쓰는 영역 -->
                             <tr>
                                 <td>
-                                    <textarea cols="60" rows="7" name="fContent"></textarea>
+                                    <textarea cols="60" rows="7" name="fContent">${ f.fContent }</textarea>
                                 </td>    
                             </tr>
-                            <!-- 파일 첨부 영역 + 버튼 누르면 최대 5개까지 첨부파일 넣을 수 있게 해야함 ** 수정 할것-->
+                            <!-- 파일 첨부 영역 -->
                             <tr>
                                 <td>
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" multiple="multiple" id="input_file" name="upFile"
+                                    <input type="file" multiple="multiple" id="input_file" name="reloadFile"
                                      accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
+                                    <c:if test="${ !empty p.originName }">
+                                    	<a href="${ contextPath }/resources/pUploadFiles/${ p.changeName }"></a>
+                                    </c:if>
                                 </td>
                             </tr>
                             <tr>
@@ -77,7 +82,7 @@
                             <tr height="50px">
                                 <td class="checkList tdfi">공개여부</td>
                                 <td class="tdfi">
-                                    <select name="fNo">
+                                    <select>
                                     	<c:forEach var="open" items="feed">
                                         <option id="public" value="Y">전체공개</option>
                                         <option id="friends" value="F">친구만</option>
@@ -132,12 +137,8 @@
     </div>
     
     <script>
-    	
-    
+
         $(document).ready(function(){
-        	$("#btns1").click(function(){
-        		history.go(-1);
-        	});
         	
             $('#chat_icon').click(function(){
                 var state = $(".chat").css('display');
@@ -146,33 +147,6 @@
                 }else{
                     $('.chat').hide();
                 }
-            });
-
-
-            /************  팝업 메뉴 script *********** */
-
-            $('#feed_menu').on("click",function(){
-                $('.pop_menu').show();
-            });
-
-            $('#close').on('click',function(){
-                $('.pop_menu').hide();
-            });
-
-            $('#feed_report_btn').on("click",function(){
-                $('.feed_report').show();
-            });
-
-            $('#cancel').on("click",function(){
-                $('.feed_report').hide();
-            });
-
-            $('#updateBtn').on("click",function(){
-                $('.reply_menu').show();
-            });
-
-            $('#re_close').on("click",function(){
-                $('.reply_menu').hide();
             });
 
             /*************** 그룹 선택 옵션 *****************/
