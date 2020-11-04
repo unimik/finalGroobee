@@ -702,6 +702,13 @@
     $('#close_btn').on('click',function(){
        $('.myFeed_popup_myEdit').hide();
      });
+<<<<<<< HEAD
+=======
+    /*그룹 탈퇴 이동*/
+    $('.leaveBtn').click(function(){
+
+    });
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
     
     /*보관함 이름 수정*/
     $('.storageBox_subBtn2').click(function() {

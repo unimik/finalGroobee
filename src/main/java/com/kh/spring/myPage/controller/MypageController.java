@@ -268,12 +268,10 @@ public class MypageController {
 				sblist.add(sb);
 			}
 		}
-//		System.out.println("mno : "+mno);
-//		System.out.println(sblist);
 		
 		if(mno !=0) {
 		int result = myService.updateBox(sblist);
-		System.out.println("결과값 어캐나옴"+ result);
+		//System.out.println("결과값 어캐나옴"+ result);
 		}
 		return sbBoxMap;
 		

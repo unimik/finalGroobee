@@ -29,7 +29,6 @@
 		<result property="fContent" column="F_CONTENT"/>
 		<result property="fWriter" column="F_WRITER"/>
 		<result property="fFile" column="F_FILE"/>
-		<result property="fRenameFile" column="F_RENAMEFILE"/>
 		<result property="fCreateDate" column="F_CREATE_DATE"/>
 		<result property="fModifyDate" column="F_MODIFY_DATE"/>
 		<result property="fStatus" column="F_STATUS"/>
@@ -40,6 +39,9 @@
 		<result property="fShareSet" column="F_SHARE_SET"/>
 		<result property="fLikeCnt" column="F_LIKECNT"/>
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="thumbnail" column="thumbnail"/>
+		
 	</resultMap>
 	
 	<resultMap id="sbResultSet" type="sBox">
@@ -57,15 +59,22 @@
 	</select>
 	
 	<select id="selectMemInfo" parameterType="Mypage" resultMap="mypageResultSet">
-		select * from member where m_no=#{mNo}
+		select * from member where m_no=#{mNo} 
 	</select>
 	
 	<select id="selectFeedInfo" parameterType="Mypage" resultMap="feedResultSet">
-		select * from feed where m_no=#{mNo} order by f_no desc
+	SELECT F.*, P.CHANGENAME AS thumbnail
+	FROM FEED F
+	LEFT JOIN (SELECT * FROM (SELECT F_NO, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO, PHOTO.CHANGENAME DESC) AS NUM, CHANGENAME
+	                            FROM PHOTO)
+	            WHERE NUM =1)P ON (F.F_NO = P.F_NO)
+	WHERE F.M_NO= #{mNo}
+	AND F.F_STATUS='Y'
+	ORDER BY F.F_CREATE_DATE DESC
 	</select>
 	
 	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="sbResultSet">
-		select * from storage_box where m_no=#{mNo}
+		select * from storage_box where m_no=#{mNo} AND F_NO IS NULL
 	</select>
 	
 	<insert id="insertBox" parameterType="Mypage">
@@ -133,4 +142,16 @@
    		</foreach>
 	</delete>
 	
+	<select id="sBoxfList" parameterType="sBox" resultMap="feedResultSet">
+	SELECT
+    F.*, P.CHANGENAME AS thumbnail
+	FROM STORAGE_BOX B
+	INNER JOIN FEED F ON(B.F_NO = F.F_NO)
+    LEFT JOIN (SELECT * FROM (SELECT F_NO, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO, PHOTO.CHANGENAME DESC) AS NUM, CHANGENAME
+                                FROM PHOTO)
+                WHERE NUM =1)P ON (B.F_NO = P.F_NO)
+    WHERE B.M_NO = #{mNo} AND B.SB_NO = #{sbNo}
+	AND F.F_STATUS ='Y'
+	</select>
+
 </mapper>
