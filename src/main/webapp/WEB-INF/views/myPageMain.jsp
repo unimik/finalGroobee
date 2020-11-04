@@ -190,12 +190,12 @@
                         </tr>
 
                     <!-- 게시글 -->
-                        <%! int i = 0; %>
+                          <%--<%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
                         <%} %>
-                              <c:choose>
+                            <c:choose>
                                  <c:when test="${!empty feedlist.fRenameFile }">
                                      <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
                                  </c:when>
@@ -212,7 +212,7 @@
 	                      </tr>
 	                      <%} i++; %>
                           </c:forEach>
-                        
+                         --%>
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
                             <div class="feed_delete">

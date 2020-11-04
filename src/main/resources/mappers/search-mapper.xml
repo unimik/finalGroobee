@@ -156,7 +156,7 @@
 	 -->
 	 
 	<select id="tagSearchFeed" parameterType="String" resultMap="feedResultSet">
-	SELECT FD.*,()
+	SELECT FD.*
 	FROM FEED FD
 	WHERE F_NO IN(SELECT F_NO 
 	            	FROM FEED

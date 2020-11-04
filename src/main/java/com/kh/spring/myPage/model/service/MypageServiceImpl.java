@@ -76,14 +76,14 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public List<Object> sBoxfnoList(StorageBox sb) {
-		return myDao.sBoxfnoList(sb);
+	public ArrayList<Feed> sBoxfList(StorageBox sb) {
+		return myDao.sBoxfList(sb);
 	}
 
-	@Override
-	public ArrayList<Feed> sBoxfList(List fnos) {
-		return myDao.sBoxfList(fnos);
-	}
+
+
+
+
 	
 
 }

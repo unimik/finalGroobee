@@ -66,12 +66,13 @@ public class MypageDao {
 		return sqlSession.delete("mypageMapper.deleteBox", sb);
 	}
 
-	public List<Object> sBoxfnoList(StorageBox sb) {
-		return sqlSession.selectList("mypageMapper.sBoxfnoList", sb);
+	public ArrayList<Feed> sBoxfList(StorageBox sb) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.sBoxfList", sb);
 	}
 
-	public ArrayList<Feed> sBoxfList(List fnos) {
-		return  (ArrayList) sqlSession.selectList("mypageMapper.sBoxFeedList",fnos);
-	}
+
+
+
+
 	
 }

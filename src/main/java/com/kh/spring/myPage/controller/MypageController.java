@@ -304,22 +304,36 @@ public class MypageController {
 	@ResponseBody
 	@RequestMapping(value="goStorageBox",produces="application/json;charset=utf-8")
 	public String goStorageBox(int mno, int sbno){
-		JSONObject job = new JSONObject();
 		//객체로 옮기는게 나은가 번호 두개로 가서 옮기는게 나은가?
 		StorageBox sb = new StorageBox();
 		sb.setmNo(mno);
 		sb.setSbNo(sbno);
 //		int mNo = mno;
 //		int sbNo = sbno;
-		System.out.println("회원번호" +mno+"보관함 번호"+sbno);
-//		int[] fnos = myService.sBoxfnoList(mNo,sbno);
-//		ArrayList fnos = myService.sBoxfnoList(sb);
-		List fnos = myService.sBoxfnoList(sb);
-		System.out.println("보관함에 있는 게시글번호들"+fnos);
-		ArrayList<Feed> flist = new ArrayList<Feed>();
-		flist = myService.sBoxfList(fnos);
-		System.out.println(flist);
-		
+//		System.out.println("회원번호" +mno+"  보관함 번호"+sbno);
+		// 보관함 안에 있는 게시글  가져오가ㅣ
+		ArrayList<Feed> flist = myService.sBoxfList(sb); 
+//		System.out.println("보관함에 있는 게시글들"+flist);	//보관함 게시글 
+		if(flist.isEmpty()) {
+			System.out.println("보관함에 게시물 없음");
+		}else {
+			JSONObject job = new JSONObject();
+			JSONArray jArr = new JSONArray();
+			for(int i=0; i <flist.size(); i++) {
+				JSONObject jObj = new JSONObject();
+				jObj.put("fno", flist.get(i).getfNo());
+				jObj.put("fno", flist.get(i).getfContent());
+				jObj.put("fno", flist.get(i).getfWriter());
+				jObj.put("fno", flist.get(i).getfWriter());
+				jObj.put("fno", flist.get(i).getfCreateDate());
+				jObj.put("fno", flist.get(i).getfCreateDate());
+				jArr.add(jObj);
+			}
+			job.put("storageBoxList", jArr);
+			return job.toString();
+
+//			System.out.println("게시물 있을유");
+		}
 		return  "";
 	}
 	
