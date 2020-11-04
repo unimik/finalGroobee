@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/home.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
@@ -18,8 +19,8 @@
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	#nextBtn{ position: absolute; margin: 300px 570px; }
-	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
+	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 </style>
 
 </head>
@@ -82,13 +83,15 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-					<c:forEach var="p" items="${ f.photoList }">
-					<ul id="imgList">
-						<c:if test="${ !empty f.photoList }">
-						<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
-						</c:if>
-					</ul>
-					</c:forEach>
+					<c:if test="${ !empty f.photoList }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList">
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
+						</ul>
+					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
@@ -96,7 +99,7 @@
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 
 			</div>
-			<div id="replyArea">
+			<%-- <div id="replyArea">
 				<div id="replyList" style="display: none;">
 				</div>
 					<div id="replyList" style="display: block;">
@@ -127,14 +130,44 @@
 					<input type="text" id="textArea" name="textArea">
 					<input type="button" id="replyBtn" name="replyBtn" value="등록">
 				</div>
-			</div>
+			</div> --%>
 		</div>
 	</div>
 	</c:forEach>
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
+	    $(function(){
+	        
+	        var size;
+	        var idx = 0;
+	        var count = $(".feed").length;
+	        var imgCount;
+	        
+	        
+			for (i = 1; i >= count; i++){
+				imgCount += $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+				
+				if( imgCount > 1){
+	        		$('#nextBtn'+i).css({display:"block"});
+	        	}
+	   			
+			}
 			
+			/* $('.nextBtn').on("click",function(){
+	  			size = $(this).nextAll().children('li').length;
+	  			console.log(size);
+	  			console.log(count);
+	  			console
+	  			if(size > 1){
+	  				
+	  			}	
+	  		}); */
+	    });
+    
+    
+    
+    
             $('.test').on("click", function(){
 	              $('.pop_menu').show();
             });
@@ -158,19 +191,8 @@
             $('#re_close').on("click",function(){
                 $('.reply_menu').hide();
             });
-
-
-    	$(document).ready(function(){
-    	   var count;
-            
-  	   	   if(count > 0 ){
-  	   			$('#nextBtn').css("display","block");
-  	   	   }
-  	   		
-	  	   $('#nextBtn').on("click",function(){
-	  		   alert("버튼확인");
-	  	 	});
-    	});
+			
+           
     </script>
     
 </body>
