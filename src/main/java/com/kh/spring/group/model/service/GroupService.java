@@ -165,6 +165,8 @@ public interface GroupService {
 	 * @return
 	 */
 	int gManagerDelete(Group g);
+
+	
 	
 
 }

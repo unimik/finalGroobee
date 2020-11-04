@@ -358,15 +358,7 @@
    
     <script>
         $(document).ready(function(){
-            $('#chat_icon').click(function(){
-                var state = $(".chat").css('display');
-                if(state=='none'){
-                    $('.chat').show();
-                }else{
-                    $('.chat').hide();
-                }
-            });
-            
+                      
            
                 if(document.getElementById('set').checked == true){
                     $("#setting-detail").css("background","none");
@@ -383,41 +375,7 @@
            
         });
 
-       $('.tab_menu_btn').on('click',function(){
-            $('.tab_menu_btn').removeClass('on');
-            $(this).addClass('on')
-        });
-
-        $('.tab_menu_btn1').on('click',function(){
-            $('.tab_box').hide();
-            $('.tab_box1').show();
-        });
-
-        $('.tab_menu_btn2').on('click',function(){
-            $('.tab_box').hide();
-            $('.tab_box2').show();
-        });
-
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
-
-        $('.MyTab_tab').on("click",function(){
-            $('.MyTab_tab').removeClass('on');
-            $(this).addClass('on')
-        });
-
-        $('.MyTab_tab1').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box1').show();
-        });
-
-        $('.MyTab_tab2').on('click', function(){
-            $('.MyTab_box').hide();
-            $('.MyTab_box2').show();
-        });
+      
 
         // 정보 메뉴선택시 효과 설정
         $('.notification').on('click',function(){

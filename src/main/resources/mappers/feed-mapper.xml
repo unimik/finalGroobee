@@ -7,8 +7,6 @@
 		<result property="mNo" column="M_NO"/>
 		<result property="fContent" column="F_CONTENT"/>
 		<result property="fWriter" column="F_WRITER"/>
-		<result property="fFile" column="F_FILE"/>
-		<result property="fRenameFile" column="F_RENAMEFILE"/>
 		<result property="fCreateDate" column="F_CREATE_DATE"/>
 		<result property="fModifyDate" column="F_MODIFY_DATE"/>
 		<result property="fStatus" column="F_STATUS"/>
@@ -19,9 +17,49 @@
 		<result property="fShareSet" column="F_SHARE_SET"/>
 		<result property="fLikeCnt" column="F_LIKECNT"/>
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
+		<result property="gNo" column="G_NO"/>
 		
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
+		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 	</resultMap>
+	
+	<resultMap id="GroupResultSet" type="Group">
+		<id property="gNo" column="G_NO"/>
+		<result property="gCreator" column="G_CREATOR"/>
+		<result property="gManager" column="G_MANAGER"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gCategory" column="G_CATEGORY"/>
+		<result property="gMax" column="G_MAX"/>
+		<result property="gDate" column="G_DATE"/>
+		<result property="gOpenScope" column="G_OPENSCOPE"/>
+		<result property="gJoinSet" column="G_JOINSET"/>
+		<result property="gQset" column="G_QSET"/>
+		<result property="q1" column="Q1"/>
+		<result property="q2" column="Q2"/>
+		<result property="q3" column="Q3"/>
+		<result property="gIntro" column="G_INTRO"/>
+		<result property="gTag" column="G_TAG"/>
+		<result property="gStatus" column="G_STATUS"/>
+		<result property="gNotice" column="G_NOTICE"/>
+		<result property="gProfile" column="G_PROFILE"/>
+		<result property="gImage" column="G_IMAGE"/>
+		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
+		<result property="gRenameImage" column="G_RENAME_IMAGE"/>
+	</resultMap>
+	
+	<resultMap id="GroupMemberResultSet" type="GroupMember">
+  		<id property="gNo" column="G_NO"/>
+  		<result property="gmId" column="GM_ID"/>
+  		<result property="gmStatus" column="GM_STATUS"/>
+  		<result property="gmLevel" column="GM_LEVEL"/>
+  		<result property="a1" column="A1"/>
+  		<result property="a2" column="A2"/>
+  		<result property="a3" column="A3"/>
+  		<result property="gJoinDate" column="G_JOINDATE"/>
+  		<result property="gmImage" column="M_RENAME_IMAGE"/>
+  	</resultMap>
+	
+	
 	
 <!-- 	<resultMap id="postInsertSet" type="Feed">
 		<id property="fNo" column="F_NO"/>
@@ -54,30 +92,82 @@
 		<result property="rStatus" column="R_STATUS"/>
 	</resultMap>
 	
-	<insert id="insertPost" parameterType="Feed">
+	<resultMap id="photoResultSet" type="Photo">
+		<id property="fNo" column="fNo"/>
+		<result property="originName" column="ORIGINNAME"/>
+		<result property="changeName" column="CHANGENAME"/>
+	</resultMap>
+	
+	<resultMap type="GroupName" id="groupNameReulstSet">
+		<result property="gNo" column="G_NO"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gmId" column="GM_ID"/>
+	</resultMap>
+	
+	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
+		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
+			SELECT SEQ_FNO.NEXTVAL FROM DUAL
+		</selectKey>
+
 		INSERT INTO FEED
 		VALUES(
-			SEQ_FNO.NEXTVAL, #{mNo}, #{fContent}, #{fWriter}, #{fFile}, #{fRenameFile}, SYSDATE, SYSDATE, DEFAULT,
-			#{fLocation}, #{fOpenScope}, #{fLikeSet}, #{fReplySet}, #{fShareSet}, #{fLikeCnt}, #{fReplyCnt})
+			#{fNo}, #{mNo}, #{fContent}, #{fWriter}, SYSDATE, SYSDATE, DEFAULT, #{fLocation},
+			#{fOpenScope}, #{fLikeSet}, #{fReplySet}, #{fShareSet}, #{fLikeCnt}, #{fReplyCnt}, #{gNo})
 	</insert>
+	
+	<insert id="insertPhoto" parameterType="Photo" keyProperty="fNo" keyColumn="F_NO">
+		INSERT INTO PHOTO
+		VALUES(
+			#{fNo}, #{originName}, #{changeName})
+	</insert>
+
 	
 	<select id="selectFeed" resultMap="postResultSet">
 		SELECT *
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
 		WHERE F.F_STATUS='Y'
 		ORDER BY F.F_NO DESC
 	</select>
 	
-<!-- 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+	<select id="selectUpdateFeed" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		WHERE F.F_STATUS='Y'
+		  AND F.F_NO = #{fNo}
+		ORDER BY F.F_NO DESC
+	</select>
+	
+	<select id="selectGroupMemberId" resultMap="groupNameReulstSet" parameterType="string">
+	    SELECT 
+	           GM.G_NO
+	         , G.G_NAME
+	         , GM.GM_ID
+          FROM 
+        	   GROUPS G
+          LEFT JOIN MEMBER M 
+            ON (M.G_NO = G.G_NO)
+          LEFT JOIN GROUP_MEMBER GM 
+            ON (G.G_NO = GM.G_NO)
+         WHERE GM.GM_ID = #{userId}
+         ORDER BY G_JOINDATE DESC
+	</select>
+
+ 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY
 		WHERE F_NO=#{fNo}
 		AND R_STATUS='Y'
 		ORDER BY R_NO DESC
-	</select> -->
+	</select>
 	
-	<insert id="insertReply" parameterType="Reply">
+ 	<insert id="insertReply" parameterType="Reply" keyProperty="fNo" keyColumn="F_NO">
+ 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
+			SELECT F_NO FROM FEED WHERE F_NO=#{fNo}
+		</selectKey>
 		INSERT INTO REPLY VALUES
 		(SEQ_RNO.NEXTVAL, ${mNo}, ${fNo}, ${rWriterImg}, ${rWriter}, ${rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>

@@ -45,4 +45,19 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.countChat(myId);
 	}
 
+	@Override
+	public int insertGroupChatRoom(String createId) {
+		return cDao.insertGroupChatRoom(createId);
+	}
+
+	@Override
+	public ArrayList<Chat> getGroupChatList(String userId) {
+		return cDao.getGroupChatList(userId);
+	}
+
+	@Override
+	public int insertGroupChat(Chat c) {
+		return cDao.insertGroupChat(c);
+	}
+
 }

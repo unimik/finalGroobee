@@ -50,4 +50,25 @@ public interface ChatService {
 	 */
 	int countChat(String myId);
 
+	/**
+	 * 7. 그룹 채팅방 생성
+	 * @param createId
+	 * @return
+	 */
+	int insertGroupChatRoom(String createId);
+
+	/**
+	 * 8. 그룹 채팅방 목록 불러오기
+	 * @param userId
+	 * @return
+	 */
+	ArrayList<Chat> getGroupChatList(String userId);
+
+	/**
+	 * 9. 그룹 채팅 보내기
+	 * @param c
+	 * @return
+	 */
+	int insertGroupChat(Chat c);
+
 }
