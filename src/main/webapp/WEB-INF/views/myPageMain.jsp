@@ -275,7 +275,7 @@
                         <%} %>
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
+                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
                                  </c:when>
                                  <c:otherwise>
                                      <td class="postbox" name="postbox">
@@ -702,13 +702,6 @@
     $('#close_btn').on('click',function(){
        $('.myFeed_popup_myEdit').hide();
      });
-<<<<<<< HEAD
-=======
-    /*그룹 탈퇴 이동*/
-    $('.leaveBtn').click(function(){
-
-    });
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
     
     /*보관함 이름 수정*/
     $('.storageBox_subBtn2').click(function() {
@@ -855,7 +848,7 @@
 	    						}
 	    						if(data.fList[i].thumbnail != null){	
 	    				input += "<td class='postbox' name='postbox'>";	
-	    				input += "<img src='/spring/resources/feedUpFiles/"+data.fList[i].thumbnail+"'>";	
+	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"'>";	
 	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
 	    				input += "</td>";		
 	    						}else{	
