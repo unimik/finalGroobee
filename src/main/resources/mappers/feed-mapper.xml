@@ -58,27 +58,25 @@
   		<result property="gJoinDate" column="G_JOINDATE"/>
   		<result property="gmImage" column="M_RENAME_IMAGE"/>
   	</resultMap>
-	
-	
-	
-<!-- 	<resultMap id="postInsertSet" type="Feed">
-		<id property="fNo" column="F_NO"/>
-		<result property="mNo" column="M_NO"/>
-		<result property="fContent" column="F_CONTENT"/>
-		<result property="fWriter" column="F_WRITER"/>
-		<result property="fFile" column="F_FILE"/>
-		<result property="fRenameFile" column="F_RENAMEFILE"/>
-		<result property="fCreateDate" column="F_CREATE_DATE"/>
-		<result property="fModifyDate" column="F_MODIFY_DATE"/>
-		<result property="fStatus" column="F_STATUS"/>
-		<result property="fLocation" column="F_LOCATION"/>
-		<result property="fOpenScope" column="F_OPEN_SCOPE"/>
-		<result property="fLikeSet" column="F_LIKE_SET"/>
-		<result property="fReplySet" column="F_REPLY_SET"/>
-		<result property="fShareSet" column="F_SHARE_SET"/>
-		<result property="fLikeCnt" column="F_LIKECNT"/>
-		<result property="fReplyCnt" column="F_REPLYCNT"/>
-	</resultMap> -->
+
+	<!-- <resultMap id="postInsertSet" type="Feed">
+			<id property="fNo" column="F_NO"/>
+			<result property="mNo" column="M_NO"/>
+			<result property="fContent" column="F_CONTENT"/>
+			<result property="fWriter" column="F_WRITER"/>
+			<result property="fFile" column="F_FILE"/>
+			<result property="fRenameFile" column="F_RENAMEFILE"/>
+			<result property="fCreateDate" column="F_CREATE_DATE"/>
+			<result property="fModifyDate" column="F_MODIFY_DATE"/>
+			<result property="fStatus" column="F_STATUS"/>
+			<result property="fLocation" column="F_LOCATION"/>
+			<result property="fOpenScope" column="F_OPEN_SCOPE"/>
+			<result property="fLikeSet" column="F_LIKE_SET"/>
+			<result property="fReplySet" column="F_REPLY_SET"/>
+			<result property="fShareSet" column="F_SHARE_SET"/>
+			<result property="fLikeCnt" column="F_LIKECNT"/>
+			<result property="fReplyCnt" column="F_REPLYCNT"/>
+		</resultMap> -->
 	
 	<resultMap id="replyResultSet" type="Reply">
 		<id property="rNo" column="R_NO"/>
@@ -121,23 +119,12 @@
 			#{fNo}, #{originName}, #{changeName})
 	</insert>
 
-	
 	<select id="selectFeed" resultMap="postResultSet">
 		SELECT *
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
 		WHERE F.F_STATUS='Y'
-		ORDER BY F.F_NO DESC
-	</select>
-	
-	<select id="selectUpdateFeed" resultMap="postResultSet">
-		SELECT *
-		FROM FEED F
-        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
-		WHERE F.F_STATUS='Y'
-		  AND F.F_NO = #{fNo}
 		ORDER BY F.F_NO DESC
 	</select>
 	
@@ -155,7 +142,29 @@
          WHERE GM.GM_ID = #{userId}
          ORDER BY G_JOINDATE DESC
 	</select>
-
+	
+ 	<select id="selectUpdateFeed" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		WHERE F.F_STATUS='Y'
+		  AND F.F_NO = #{fNo}
+	</select>
+	
+	<update id="updatePost" parameterType="Feed">
+		UPDATE
+		    FEED
+		SET F_CONTENT = #{fContent}
+		  , F_MODIFY_DATE = SYSDATE
+		  , F_LOCATION = #{fLocation}
+		  , F_OPEN_SCOPE = #{fOpenScope}
+		  , F_LIKE_SET = #{fLikeSet}
+		  , F_REPLY_SET = #{fReplySet}
+		  , F_SHARE_SET = #{fShareSet}
+		  , G_NO = #{gNo}
+		WHERE F_NO = #{fNo}
+	</update>
+	
  	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY

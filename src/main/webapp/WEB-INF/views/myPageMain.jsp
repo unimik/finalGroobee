@@ -66,7 +66,7 @@
    	 }
 	.follow_list::-webkit-scrollbar{display: none;}
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
-	#sbbackbtn{display: none;}
+	
    </style>
    <script>
   
