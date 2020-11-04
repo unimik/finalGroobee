@@ -17,10 +17,10 @@
 	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
-	#imgList img{ width: 100%; }
+	#imgList img{ width: 633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	#nextBtn{ position: absolute; margin: 300px 570px; }
-	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
+	button[name=nextBtn]{ position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 </style>
 
 </head>
