@@ -6,6 +6,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.setting.model.vo.Question;
 
 public interface AdminService {
 
@@ -62,5 +63,10 @@ public interface AdminService {
 	 * @return
 	 */
 	int feedStatusChange(Feed f);
+
+	/** 5-1. 모달 - 문의사항
+	 * @return
+	 */
+	ArrayList<Question> questionSearchList();
 
 }

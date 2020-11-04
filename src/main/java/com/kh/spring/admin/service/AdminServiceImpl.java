@@ -10,6 +10,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.setting.model.vo.Question;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService{
@@ -55,5 +56,10 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int groupStatusChange(Group g) {
 		return aDao.groupStatusChange(g);
+	}
+
+	@Override
+	public ArrayList<Question> questionSearchList() {
+		return aDao.questionSearchList();
 	}
 }

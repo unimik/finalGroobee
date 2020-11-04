@@ -17,9 +17,10 @@
 	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
+	#imgList img{ width: 633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	#nextBtn{ position: absolute; margin: 300px 570px; }
-	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
+	button[name=nextBtn]{ position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 </style>
 
 </head>
@@ -38,7 +39,6 @@
 				</div>
 				</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-			</div>
 
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
@@ -67,6 +67,9 @@
                 </div>
 			</c:otherwise>
 		</c:choose>
+	</div>
+		
+		
 			<div class="feed_report">
 			<div id="feed_report_con">
 				<p>신고사유</p>
@@ -82,13 +85,15 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-					<c:forEach var="p" items="${ f.photoList }">
-					<ul id="imgList">
-						<c:if test="${ !empty f.photoList }">
-						<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
-						</c:if>
-					</ul>
-					</c:forEach>
+					<c:if test="${ !empty f.photoList }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList">
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
+						</ul>
+					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
@@ -135,9 +140,11 @@
 	</div>
     <script>
 			
-            $('.test').on("click", function(){
-	              $('.pop_menu').show();
-            });
+			$('.test').on("click", function(event){
+			    var sample = $(event.target).siblings()[1];
+			    $(sample).show();
+			});
+
 
             $('.close').on('click',function(){
                 $('.pop_menu').hide();
@@ -160,17 +167,36 @@
             });
 
 
-    	$(document).ready(function(){
-    	   var count;
-            
-  	   	   if(count > 0 ){
-  	   			$('#nextBtn').css("display","block");
-  	   	   }
-  	   		
-	  	   $('#nextBtn').on("click",function(){
-	  		   alert("버튼확인");
-	  	 	});
-    	});
+            $(function(){
+    	        
+    	        var size;
+    	        var idx = 0;
+    	        var count = $(".feed").length;
+    	        var imgCount;
+    	        
+    	        
+    			for (i = 1; i >= count; i++){
+    				imgCount += $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+    				
+    				if( imgCount > 1){
+    	        		$('#nextBtn'+i).css({display:"block"});
+    	        	}
+    	   			
+    			}
+    			
+    			/* $('.nextBtn').on("click",function(){
+    	  			size = $(this).nextAll().children('li').length;
+    	  			console.log(size);
+    	  			console.log(count);
+    	  			console
+    	  			if(size > 1){
+    	  				
+    	  			}	
+    	  		}); */
+    	    });
+        
+    	
+    	
     </script>
     
 </body>
