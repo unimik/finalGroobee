@@ -66,6 +66,17 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 		return tsDao.tagSearchMember(rlist);
 	}
 
+	@Override
+	public String searchInterest(Search srch) {
+		return tsDao.searchInterest(srch);
+	}
+
+	@Override
+	public ArrayList<Group> searchInterestGroup(String[] itrst) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

@@ -70,11 +70,12 @@
         </div>
 	     <div class="search_userInfo">
 	           <div id="searchbar">
-	           	   <form action="search.do" method="post">
+	           <!-- <form action="search.do" method="post"> -->
 		               <input type="search" id="allSearch" name="allSearch">
-		               <input type="submit" id="allSearchBtn" name="allSearchBtn" value="검색">
-	           	</form>
+		               <input type="button" id="allSearchBtn" name="allSearchBtn" value="검색" onclick="search()"/>
+	           	<!--</form> -->
 	    	 </div>
+	           	
 	           <div id="userInfo">
 	               <ul>
 	                   <li id="goMypage">
@@ -814,6 +815,27 @@
 	    		 }
 	    	 }); 
  		};
+ 		
+
+       	function search() {
+			var allSearch = $('#allSearch').val();  //검색어
+       		var sign = allSearch.charAt(0);			//검색어 첫글자 - 기호
+			var slength = allSearch.length;			//검색어 길이
+			var keyword = allSearch.substr(1);		//키워드
+
+			if(sign == " "){
+				alert('검색어 첫글자를 띄어 쓸 수 없습니다');		
+			}else if(slength < 1){
+				location.href="search.do?type=recommend&key="+${ loginUser.mNo };
+			}else if(sign =='#'){
+				location.href="search.do?type=tag&key="+keyword;
+			}else if(sign =='@'){
+				location.href="search.do?type=user&key="+keyword;
+			}else{
+				location.href="search.do?type=all&key="+allSearch;
+			}
+		}
+
      </script>
 </body>
 </html>

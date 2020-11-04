@@ -310,6 +310,34 @@ public class MypageController {
 		
 	}
 	
+	//보관함 안에 게시글 보기
+	@ResponseBody
+	@RequestMapping(value="goStorageBox",produces="application/json;charset=utf-8")
+	public String goStorageBox(int mno, int sbno){
+		//객체로 옮기는게 나은가 번호 두개로 가서 옮기는게 나은가?
+		StorageBox sb = new StorageBox();
+		sb.setmNo(mno);
+		sb.setSbNo(sbno);
+		// 보관함 안에 있는 게시글  가져오가ㅣ
+		ArrayList<Feed> flist = myService.sBoxfList(sb); 
+//		System.out.println("보관함에 있는 게시글들"+flist);	//보관함 게시글 
+		JSONObject job = new JSONObject();
+		if(flist.isEmpty()) {
+			job.put("msg","보관함에 게시물이 없습니다");
+			return job.toString();
+		}else {
+			JSONArray jArr = new JSONArray();
+			for(int i=0; i <flist.size(); i++) {
+				JSONObject jObj = new JSONObject();
+				jObj.put("fno", flist.get(i).getfNo());
+				jObj.put("fcontent", flist.get(i).getfContent());
+				jObj.put("thumbnail", flist.get(i).getThumbnail());
+				jArr.add(jObj);				
+			}
+			job.put("fList", jArr);
+			return job.toString();
+		}
+	}
 
 	@RequestMapping(value="goUserpage.do")
 	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {

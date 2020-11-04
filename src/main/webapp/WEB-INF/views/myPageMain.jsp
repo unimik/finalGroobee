@@ -66,7 +66,7 @@
    	 }
 	.follow_list::-webkit-scrollbar{display: none;}
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
-	
+	#sbbackbtn{display: none;}
    </style>
    <script>
   
@@ -275,7 +275,7 @@
                         <%} %>
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
+                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
                                  </c:when>
                                  <c:otherwise>
                                      <td class="postbox" name="postbox">
@@ -817,17 +817,15 @@
                }
                alert(msg);
             } 
-         });
-         
+         });     
 		}
-         
+		
     });
 
 	//보관함 눌러서 내가 보관한 피드 볼 때
 	$('.sbButton').click(function() {
 		var sbNo = $(this).attr("id");
 		var mNo = $('#mNo').val();
-		//alert(num+'누름');
 		if(sbNo > 0){
 			$.ajax({
 				url:"goStorageBox",
@@ -836,23 +834,22 @@
 				data:{mno: mNo,
 					sbno:sbNo},
 		        success:function(data){
-		        	
-	    			<%--	for(i; i < data.fList.length; i++){
-	    					console.log(data.fList[i].fno);
-	    					console.log(data.fList[i].thumbnail);
-	    					console.log(data.fList[i].fcontent);
-	    				} --%>
-
+					if(data.fList != null){
 	    				var input="";
 	    				var i = 0;
 	    				var j = 0;
 	    				for(var i=0; i < data.fList.length; i++){;	
+	    					if(i == 0){
+	    						input +="<tr>";
+    							input +="<td><a><b>뒤로 </b></a></td>";
+	    						input +="</tr>";
+	    					}
 	    				 		if (j%3==0){ 
 	    				input +="<tr class='post' id='sbfeed'>";
 	    						}
 	    						if(data.fList[i].thumbnail != null){	
 	    				input += "<td class='postbox' name='postbox'>";	
-	    				input += "<img src='/spring/resources/feedUpFiles/"+data.fList[i].thumbnail+"'>";	
+	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()'>";	
 	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
 	    				input += "</td>";		
 	    						}else{	
@@ -872,7 +869,9 @@
 	                    //$("#myPage_feed").html(input);
 	                    $(".fstorageBox_folder").hide();
 	                    $("#storagebox").hide();
-	                
+					}else{
+						alert(data.msg);
+					}
 	            },
 	             error:function(request,jqXHR,exception){
 	               var msg="";
@@ -898,11 +897,12 @@
 		}else{
 			alert('보관함을 불러올 수 없습니다');
 		}
-		
-		
-		
 	});
-	 
+	//팝업창 띄울것....
+	 function sbPop() {
+		 alert('이제 팝업으로 게시글 불러와야하는데.. 이거 가능..?');
+		 $('.pop_feed2').show();
+	}
 	/************ 포스트 박스 클릭 시 script ************/
 	/* 이새끼 때문에 스크립트 안먹어서 일단 주석 처리..
     $('#pb1').click(function() {
