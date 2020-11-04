@@ -16,7 +16,7 @@ public interface ChatService {
 
 	/**
 	 * 2. 채팅방 내용 불러오기
-	 * @param crNo
+	 * @param readC
 	 * @return
 	 */
 	ArrayList<Chat> getChatContentList(Chat readC);

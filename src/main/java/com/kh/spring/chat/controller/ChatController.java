@@ -38,10 +38,6 @@ public class ChatController {
 		ArrayList<Member> mList = new ArrayList<Member>();
 		Member m = null;
 		for(Chat c : cList) {
-<<<<<<< HEAD
-			System.out.println(userId);
-			if(c.getFromId().equals(userId)) {
-=======
 			if(c == null) {
 				continue;
 			} else if(c.getCrNo() > 0 && (c.getcContent() == null || c.getcContent().equals(""))) {
@@ -49,7 +45,6 @@ public class ChatController {
 			} else if(c.getFromId().equals("group") || c.getToId().equals("group")) {
 				continue;
 			} else if(c.getFromId().equals(userId)) {
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 				m = new Member();
 				m.setUserId(c.getToId());
 				mList.add(m);
@@ -63,20 +58,6 @@ public class ChatController {
 		JSONObject job = null;
 		JSONArray result = new JSONArray();
 		for(Chat c : cList) {
-<<<<<<< HEAD
-			job = new JSONObject();
-			for(Member m2 : rmList) {
-				if(c.getFromId().equals(m2.getUserId()) || c.getToId().equals(m2.getUserId())) {
-					job.put("crNo", c.getCrNo());
-					job.put("fromId", c.getFromId());
-					job.put("toId", c.getToId());
-					job.put("cContent",c.getcContent());
-					if(m2.getmRenameImage() == null || m2.getmRenameImage().equals("")) {
-						if(m2.getmImage() == null || m2.getmImage().equals("")) {
-							job.put("chatImage", "icons/logo.png");
-						} else {
-							job.put("chatImage", "memberProfileFiles/"+m2.getmImage());
-=======
 			if(c == null) {
 				continue;
 			} else if(c.getCrNo() > 0 && (c.getcContent() == null || c.getcContent().equals(""))) {
@@ -93,7 +74,6 @@ public class ChatController {
 						job.put("cContent",c.getcContent());
 						if(!c.getFromId().equals(userId)) {
 							job.put("read",c.getcRead());
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 						}
 						if(m2.getmRenameImage() == null || m2.getmRenameImage().equals("")) {
 							if(m2.getmImage() == null || m2.getmImage().equals("")) {
@@ -122,17 +102,13 @@ public class ChatController {
 	 * @throws IOException
 	 */
 	@RequestMapping("oneChatContentList.do")
-	public void oneChatContentList(String crNo, HttpServletResponse response) throws IOException {
+	public void oneChatContentList(String crNo,String readId, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		int rcrNo = Integer.parseInt(crNo);
-<<<<<<< HEAD
-		ArrayList<Chat> cList = cService.getChatContentList(rcrNo);
-=======
 		Chat readC = new Chat();
 		readC.setCrNo(rcrNo);
 		readC.setFromId(readId);
 		ArrayList<Chat> cList = cService.getChatContentList(readC);
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat c : cList) {
 			Member m = new Member();
@@ -161,17 +137,23 @@ public class ChatController {
 					}
 				result.add(job);
 				break;
-				}
+				} 
 			}
 		}
 		PrintWriter out = response.getWriter();
 		out.print(result);
 	}
 	
+	/**
+	 * - 채팅방 생성
+	 * @param myId
+	 * @param otherId
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("insertChatRoom.do")
 	public void insertChatRoom(String myId, String otherId,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println(myId + ":" + otherId);
 		int crNo = cService.insertChatRoom(myId,otherId);
 		JSONObject job = new JSONObject();
 		if(crNo > 0) {
@@ -181,8 +163,6 @@ public class ChatController {
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * - 읽은 채팅 카운트
@@ -249,7 +229,6 @@ public class ChatController {
 		PrintWriter out = response.getWriter();
 		out.print(result);
 	}
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 
 	/**
 	 * - 메세지 보내기

@@ -16,7 +16,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
-import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.controller.GroupController;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
@@ -42,9 +41,7 @@ public class EchoHandler extends TextWebSocketHandler{
     @Autowired
     private GroupController gController;
     
-    @Autowired
-    private GroupController gController;
-    
+   
     //클라이언트가 연결 되었을 때 실행
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -97,7 +94,7 @@ public class EchoHandler extends TextWebSocketHandler{
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
             	} else {
-            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+//            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
             		if(toSession == null) {
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             		} else {
@@ -106,8 +103,30 @@ public class EchoHandler extends TextWebSocketHandler{
             		}
             	}
         		
-<<<<<<< HEAD
-        	} else{
+
+        	}else if(sendType.equals("groupChatting")) {
+        		ArrayList<GroupMember> list = gController.getGroupList(toId);
+        		WebSocketSession toSession = null;
+        		for(GroupMember g : list) {
+        			toSession = userSessions.get(g.getGmId());
+        			if(Rmsg == null || Rmsg.equals("")) {
+	        			if(toSession == null) {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	        			} else {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	            			toSession.sendMessage(new TextMessage(Rmsg));
+	        			}
+        			} else {
+//        				int result = cController.sendMessage(new Chat(), fromId, toId, Rmsg, crNo);
+        				if(toSession == null) {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	        			} else {
+	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+	            			toSession.sendMessage(new TextMessage(Rmsg));
+	        			}
+        			}
+        		}
+        	} else if(sendType.equals("alarm")) {
         		//작성자가 로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
 				System.out.println("이게뭐지? "+boardWriterSession);
@@ -134,32 +153,7 @@ public class EchoHandler extends TextWebSocketHandler{
 						boardWriterSession.sendMessage(tmpMsg);
 					}
 				}
-=======
-        	} else if(sendType.equals("groupChatting")) {
-        		ArrayList<GroupMember> list = gController.getGroupList(toId);
-        		WebSocketSession toSession = null;
-        		for(GroupMember g : list) {
-        			toSession = userSessions.get(g.getGmId());
-        			if(Rmsg == null || Rmsg.equals("")) {
-	        			if(toSession == null) {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	        			} else {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	            			toSession.sendMessage(new TextMessage(Rmsg));
-	        			}
-        			} else {
-        				int result = cController.sendMessage(new Chat(), fromId, toId, Rmsg, crNo);
-        				if(toSession == null) {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	        			} else {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	            			toSession.sendMessage(new TextMessage(Rmsg));
-	        			}
-        			}
-        		}
-        	} else if(sendType.equals("alarm")) {
-        		
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
         	}
         }
         

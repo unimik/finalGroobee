@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.admin.service.AdminService;
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
@@ -69,18 +72,22 @@ public class adminController {
 		
 		Member m = new Member(); // 받아온 파라미터를 정보를 담을 객체
 		
-		if(!request.getParameter("id").equals("")) {
-			m.setUserId(request.getParameter("id"));
-		}
-		if(!request.getParameter("name").equals("")) {
-			m.setUserName(request.getParameter("name"));
-		}
-		if(!request.getParameter("getOut").equals("")) {
-			m.setmStatus(request.getParameter("getOut"));			
-		}
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String getOut = request.getParameter("getOut");
+		String date =request.getParameter("enrolldate");
 		
-		if(!request.getParameter("enrolldate").equals("")) {
-		Date todate = java.sql.Date.valueOf((request.getParameter("enrolldate")));
+		if(!id.equals("")) {
+			m.setUserId(id);
+		}
+		if(!name.equals("")) {
+			m.setUserName(name);
+		}
+		if(!getOut.equals("")) {
+			m.setmStatus(getOut);			
+		}
+		if(!date.equals("")) {
+		Date todate = java.sql.Date.valueOf(date);
 		m.setcDate(todate);
 		}
 		
@@ -91,7 +98,37 @@ public class adminController {
 		gson.toJson(memberList,response.getWriter());
 	}
 	
-	/** 2-1. group 정보 조회
+	/** 1-2. 회원 상태 변경 
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
+	@RequestMapping(value="memberStatusChange.do", method=RequestMethod.POST)
+	public String memberStatusChange(String id,String status){
+		Member m = new Member();
+		
+		// 회원 상태를 Y-> N  , N -> Y로 만드는 구문
+		if(status.equals("Y")) {	
+			m.setmStatus("N");
+		}else {
+			m.setmStatus("Y");			
+		}
+		
+		
+		m.setUserId(id);
+		int result = aService.memberStatusChange(m);
+		
+		System.out.println("result의 값 : "+result);
+		
+		if(result>0) {
+			 return "redirect:adminmember.do";
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+
+	/** 2-1. 그룹 정보 조회
 	 * @param response
 	 * @param request
 	 * @throws IOException
@@ -102,28 +139,63 @@ public class adminController {
 		
 		Group g= new Group(); // 받아온 파라미터를 정보를 담을 객체
 		
-		if(!request.getParameter("name").equals("")) {
-			g.setgName(request.getParameter("name"));
-		}
-		if(!request.getParameter("category").equals("")) {
-			g.setgCategory(request.getParameter("category"));
-		}
-		if(!request.getParameter("tag").equals("")) {
-			g.setgTag(request.getParameter("tag"));
-		}
+		String name = request.getParameter("name");
+		String category = request.getParameter("category");
+		String tag = request.getParameter("tag");
+		String date = request.getParameter("enrolldate");
 		
-		if(!request.getParameter("enrolldate").equals("")) {
-		Date todate = java.sql.Date.valueOf((request.getParameter("enrolldate")));
-			g.setgDate(todate);
+		if(!name.equals("")||!category.equals("")||!tag.equals("")||!date.equals("")) {
+			if(!name.equals("")) {
+				g.setgName(name);
+			}
+			if(!category.equals("")) {
+				g.setgCategory(category);
+			}
+			if(!tag.equals("")) {
+				g.setgTag(tag);
+			}
+			if(!date.equals("")) {
+				Date todate = java.sql.Date.valueOf(date);
+				g.setgDate(todate);
+			}
 		}
 		
 		ArrayList<Group> groupList = aService.groupSearchList(g);
-		
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(groupList,response.getWriter());
 	}
 
+	/** 2-2. 그룹 상태 변경
+	 * @param no
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="groupStatusChange.do", method=RequestMethod.POST)
+	public String groupStatusChange(String no,String status){
+		Group g = new Group();
+		
+		// 회원 상태를 Y-> N  , N -> Y로 만드는 구문
+		if(status.equals("Y")) {	
+			g.setgStatus("N");
+		}else {
+			g.setgStatus("Y");			
+		}
+		
+		
+		g.setgNo(Integer.parseInt(no));
+		int result = aService.groupStatusChange(g);
+		
+		
+		if(result>0) {
+			 return "redirect:admingroup.do";
+		}else {
+			return "../common/errorPage";
+		}
+	}
+	
+	
+	
 	/** 3-1. 댓글 정보 조회
 	 * @param response
 	 * @param request
@@ -142,7 +214,6 @@ public class adminController {
 		
 		
 		if(!id.equals("")||!num.equals("")||!content.equals("")||!date.equals("")) {
-			System.out.println("if문으로 들어오니?");
 			if(!id.equals("")) {
 				re.setrWriter(id);
 			}
@@ -162,5 +233,99 @@ public class adminController {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(replyList,response.getWriter());
 	}
+	/** 3-2. reply Status 변경
+	 * @param no
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="replyStatusChange.do", method=RequestMethod.POST)
+	public String replyStatusChange(String no,String status){
+		Reply r = new Reply();
+		// 회원 상태를 Y-> N  , N -> Y로 만드는 구문
+		if(status.equals("Y")) {	
+			r.setrStatus("N");
+		}else {
+			r.setrStatus("Y");			
+		}
+		
+		
+		r.setrNo(Integer.parseInt(no));
+		int result = aService.replyStatusChange(r);
+		
+		
+		if(result>0) {
+			return "redirect:adminfeed.do";
+		}else {
+			return "../common/errorPage";
+		}
+	}
+	
+	
+	/** 4-1. 피드 정보 조회
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
+	@RequestMapping(value="feedSearch.do", method=RequestMethod.POST)
+	public void feedSearchList(HttpServletResponse response,HttpServletRequest request) throws IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		Feed f = new Feed(); // 받아온 파라미터를 정보를 담을 객체
+		
+		String num = request.getParameter("f_num"); // 숫자
+		String id = request.getParameter("f_id");
+		String content = request.getParameter("f_Content");
+		String date = request.getParameter("f_writedate");
+		
+		if(!num.equals("")||!id.equals("")||!content.equals("")||!date.equals("")) {
+			if(!num.equals("")) {
+				f.setfNo(Integer.parseInt(num));
+			}
+			if(!id.equals("")) {
+				f.setfWriter(id);
+			}
+			if(!content.equals("")) {
+				f.setfContent(content);
+			}
+			if(!date.equals("")) {
+				Date todate = java.sql.Date.valueOf(date);
+				f.setfCreateDate(todate);
+			}
+		}
+		
+		ArrayList<Feed> feedList = aService.feedSearchList(f);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(feedList,response.getWriter());
+	}
+	
+	/** 4-2. feed status 변경
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="feedStatusChange.do", method=RequestMethod.POST)
+	public String feedStatusChange(String no,String status){
+		Feed f = new Feed();
+		
+		// 회원 상태를 Y-> N  , N -> Y로 만드는 구문
+		if(status.equals("Y")) {	
+			f.setfStatus("N");
+		}else {
+			f.setfStatus("Y");			
+		}
+		
+		
+		f.setfNo(Integer.parseInt(no));
+		int result = aService.feedStatusChange(f);
+		
+		
+		if(result>0) {
+			 return "redirect:adminfeed.do";
+		}else {
+			return "../common/errorPage";
+		}
+	}
+
 	
 }

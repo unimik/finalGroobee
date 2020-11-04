@@ -20,6 +20,32 @@
     color: #555555;
     readonly="readonly";
     }
+    .sbBoxCheck{
+    display:none;
+    }
+    #interests{
+    font-size:smaller;
+    color:grey;
+    }
+    #myPage_introduction{
+    padding-top: 20px;
+    }
+    #mp_profile_info>h5{
+    color:#555555;
+	margin: 0px;
+	height:15px;
+	margin-left:20px;
+	font-weight:500;
+    }
+    #mp_profile_info>h3{
+    margin-bottom:5px;
+    }
+    #mp_profile_follow{
+    margin-top:10px;
+    }
+    #self-introduction{
+    margin:0 40px 30px 30px;
+    }
    </style>
 </head>
 <body>
@@ -41,6 +67,7 @@
                         </div>
                         <div id="mp_profile_info">
                             <h3>${ loginUser.userId }</h3>
+                            <h5>${ loginUser.userName }</h5>
                         </div>
                         <div id="mp_profile_edit">
                             <input type="button" id="profile_edit_btn" name="profile_edit_btn" value="프로필 편집">
@@ -115,10 +142,10 @@
                 <!-- 소개 부분 -->
                     <div id="myPage_introduction">
                         <div id="self-introduction">
-                            ${ memberInfo.mIntro }
+                            ${ loginUser.mIntro }
                         </div>
                         <div id="interests">
-                             ${ memberInfo.interestes }
+                             ${ loginUser.interestes }
                         </div>
                     </div>
                     
@@ -385,10 +412,10 @@
                                     <div type="button" class="storageBox_subBtn2"><img src="<%=request.getContextPath()%>/resources/icons/correct_folder.png"></div>
                                     <div type="button" class="storageBox_subBtn3"><img src="<%=request.getContextPath()%>/resources/icons/delete.png"></div>
                                     <div type="button" class="storageBox_subBtn4"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
+                                    <div type="button" class="storageBox_subBtn5"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                 </div>
                             </td>
                         </tr>
-                     <input type="hidden" value="${ loginUser.mNo }" id="mNo"/>
                         <%! int  j = 0; %>
                         <c:forEach var="sb" items="${ storageBoxList }">
                        	<% if (j%3 == 0){ %>
@@ -398,9 +425,14 @@
                             <td class="fstorageBox_folder">
                             <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
                             <div id="box2">폴더명</div>--%>
+                            <div id ="sbBoxxx">
                             <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <label>
+                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+                            </label>                            
+                            </div>
                             <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
@@ -462,7 +494,7 @@
                                                 <h5 class="group_interests">${ groupList.gCategory }</h5>
                                                 <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
                                             </div>
-                                            <input type="button" class="leaveBtn" value="탈퇴">
+                                            <input type="button" class="leaveBtn" value="탈퇴" onclick="leave();">
                                         </div>
                                 </td>
                             </tr>
@@ -482,52 +514,6 @@
     $('img[type = button]').css({'cursor' : 'pointer'});
 
 
-    $(document).ready(function(){
-        $('#chat_icon').click(function(){
-            var state = $(".chat").css('display');
-            if(state=='none'){
-                $('.chat').show();
-            }else{
-                $('.chat').hide();
-            }
-        });
-    });
-
-   $('.tab_menu_btn').on('click',function(){
-        $('.tab_menu_btn').removeClass('on');
-        $(this).addClass('on')
-    });
-
-    $('.tab_menu_btn1').on('click',function(){
-        $('.tab_box').hide();
-        $('.tab_box1').show();
-    });
-
-    $('.tab_menu_btn2').on('click',function(){
-        $('.tab_box').hide();
-        $('.tab_box2').show();
-    });
-
-    $(document).ready(function(){
-        $('#detailInfo').click(function(){
-            $(".myAccount").animate({width:"toggle"},250);
-        });
-    });
-
-    $('.MyTab_tab').on("click",function(){
-        $('.MyTab_tab').removeClass('on');
-        $(this).addClass('on')
-    });
-
-    $('.MyTab_tab1').on('click', function(){
-        $('.MyTab_box').hide();
-        $('.MyTab_box1').show();
-    });
-
-    $('.MyTab_tab2').on('click', function(){
-        $('.MyTab_box').hide();
-        $('.MyTab_box2').show();
-    });
     
     /************ 팔로우 언팔로우 script ************/
 
@@ -642,6 +628,10 @@
     $('#close_btn').on('click',function(){
        $('.myFeed_popup_myEdit').hide();
      });
+    /*그룹 탈퇴 이동*/
+    $('.leaveBtn').click(function(){
+    	gdelete.do
+    });
     
     /*보관함 이름 수정*/
     $('.storageBox_subBtn2').click(function() {
@@ -670,55 +660,100 @@
 	    
 		$('.sbNameBox').css('border','none');
 		$('.sbNameBox').attr('readonly', 'readonly');
-		//맵객체로 만들것
-		var sbname = $('.sbNameBox')[0].value;
-		var sbno = $('.sbNo')[0].value;
 		
-		var arr = [[1,폴더명],[2,폴더명],[]];
-		console.log( $('.sbNo').value );
+		
+		//맵객체로 만들것
+		var sbBoxMap = new Map();
+		for(var i =0; i < $('.sbNo').length; i++ ){
+			sbBoxMap.set($('.sbNo')[i].value,$('.sbNameBox')[i].value);
+		}
+		
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		//맵 만들어졌는지 확인용
+		console.log(sbBoxMap);
+		
+		//수정완료 에이작스
+		$.ajax({
+			url:'updateBox.do',
+			dataType:'json',
+			type:'post',
+			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
+			contentType :'application/json; charset=UTF-8',
+	        success: function(data) {
+	            alert('수정 완료되었습니다');
+	        },
+	        error: function(request) {
+	        	 alert('안됨');
+	        }
+		});
 		
 	});
+
     /* 보관함 삭제 */
     $('.storageBox_subBtn3').click(function() {
-		
-           var rename_folderId = 
-           $.ajax({
-              url:"updateBox.do",
-              data:{
-                 id: rename_folder0   
-              },
-              type:"post",
-              success:function(data){
-                 console.log(data);
-                    $('.folder_default').hide();
-                    $('.folder_correct').hide();
-                    $('.folder_delete').show();
-
-                    $('.storageBox_subBtn2').hide();
-                    $('.storageBox_subBtn4').show();
-              },
-               error:function(request,jqXHR,exception){
-                 var msg="";
-                 if(request.status == 0){
-                    msg = 'Not Connect. \n Verify Network.';
-                 } else if(request.status == 404){
-                    msg = 'Requested page not fount [404]';
-                 } else if(request.status == 500){
-                    msg = 'Internal Server Error [500]';
-                 } else if(request.status == 'parsererror'){
-                    msg = 'Requested JSON parse failed';
-                 } else if(exception == 'timeout'){
-                    msg = 'Time out error';
-                 } else if(exception == 'abort'){
-                    msg = 'Ajax request aborted';
-                 } else {
-                    msg = 'Error. \n' + jqXHR.responseText;
-                 }
-                 alert(msg);
-              } 
-           });
+    	
+    	$('.storageBox_subBtn3').hide();
+    	$('.storageBox_subBtn4').hide();
+    	$('.storageBox_subBtn5').show();
+    	 $('.sbBoxCheck').css('display','block');
 
     });
+   
+    /*보관함 삭제 완료..*/
+    $('.storageBox_subBtn5').click(function(){
+    	$('.sbBoxCheck').css('display','none');
+    	
+        var sbBoxMap = new Map();
+        var j = 0;
+		for(var i =0; i < $('.sbBoxCheck').length; i++ ){
+			if($('.sbBoxCheck')[i].checked == true){
+				sbBoxMap.set(j,$('.sbBoxCheck')[i].value);
+				j++;
+			}
+		}
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		
+		//맵 만들어졌는지 확인용
+		console.log(sbBoxMap);
+
+    	$('.storageBox_subBtn3').show();
+    	$('.storageBox_subBtn4').show();
+    	
+         $.ajax({
+            url:"deleteBox.do",
+        	dataType:'json',
+			type:'post',
+			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
+			contentType :'application/json; charset=UTF-8',
+	        success:function(data){
+            	$('.storagebox').show();
+           		$('.storageBox_subBtn3').show();
+        		$('.storageBox_subBtn4').show();
+        		alert('보관함이 삭제되었습니다');
+            },
+             error:function(request,jqXHR,exception){
+               var msg="";
+               if(request.status == 0){
+                  msg = 'Not Connect. \n Verify Network.';
+               } else if(request.status == 404){
+                  msg = 'Requested page not fount [404]';
+               } else if(request.status == 500){
+                  msg = 'Internal Server Error [500]';
+               } else if(request.status == 'parsererror'){
+                  msg = 'Requested JSON parse failed';
+               } else if(exception == 'timeout'){
+                  msg = 'Time out error';
+               } else if(exception == 'abort'){
+                  msg = 'Ajax request aborted';
+               } else {
+                  msg = 'Error. \n' + jqXHR.responseText;
+               }
+               alert(msg);
+            } 
+         });
+         
+    });
+
 
 
 	 
