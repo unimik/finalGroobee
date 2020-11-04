@@ -85,13 +85,15 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-					<c:forEach var="p" items="${ f.photoList }">
-					<ul id="imgList">
-						<c:if test="${ !empty f.photoList }">
-						<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
-						</c:if>
-					</ul>
-					</c:forEach>
+					<c:if test="${ !empty f.photoList }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList">
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
+						</ul>
+					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
@@ -165,17 +167,36 @@
             });
 
 
-    	$(document).ready(function(){
-    	   var count;
-            
-  	   	   if(count > 0 ){
-  	   			$('#nextBtn').css("display","block");
-  	   	   }
-  	   		
-	  	   $('#nextBtn').on("click",function(){
-	  		   alert("버튼확인");
-	  	 	});
-    	});
+            $(function(){
+    	        
+    	        var size;
+    	        var idx = 0;
+    	        var count = $(".feed").length;
+    	        var imgCount;
+    	        
+    	        
+    			for (i = 1; i >= count; i++){
+    				imgCount += $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+    				
+    				if( imgCount > 1){
+    	        		$('#nextBtn'+i).css({display:"block"});
+    	        	}
+    	   			
+    			}
+    			
+    			/* $('.nextBtn').on("click",function(){
+    	  			size = $(this).nextAll().children('li').length;
+    	  			console.log(size);
+    	  			console.log(count);
+    	  			console
+    	  			if(size > 1){
+    	  				
+    	  			}	
+    	  		}); */
+    	    });
+        
+    	
+    	
     </script>
     
 </body>
