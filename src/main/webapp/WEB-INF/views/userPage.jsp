@@ -43,6 +43,26 @@
 	    #self-introduction{
 	    margin:0 40px 30px 30px;
 	    }
+	    .follow_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
+    	background-color: rgba(0,0,0,0.5);}
+    	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
+   		background-color: rgba(0,0,0,0.5);}
+    	.follow_detail{ background: white; border-radius: 15px; -ms-overflow-style: none; width: 400px; height: 500px; position: fixed; top: 20%; left: 42%;}
+    	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
+    	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
+    	.follow_list{ height: 440px; overflow-y: scroll; }
+    	.follow_list>ul{ 
+		    margin: 30px;
+		    text-align: center;
+		    list-style: none;
+		    padding: unset;
+    	 }
+    	.follow_list>ul>li{ 
+		    height: 40px;
+		    margin-bottom: 10px;
+    	 }
+		.follow_list::-webkit-scrollbar{display: none;}
+		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
    </style>
 </head>
 <body>
@@ -121,15 +141,71 @@
                                 <li>게시물</li>
                                 <li class="post_num">${ feedCnt }</li>
                             </ul>
-                            <ul id="follow_follower">
+                            <a style="cursor:pointer;">
+                            	<ul id="follow_follower">
                                 <li>팔로워</li>
                                 <li class="follower_num">${ followInfo.followers }</li>
                             </ul>
+                            </a>
+                            <a style="cursor:pointer;">
                             <ul id="follow_following">
                                 <li>팔로잉</li>
                                 <li class="following_num">${ followInfo.follows }</li>
                             </ul>
+                            </a>
                         </div>
+                    </div>
+                    
+                    <!-- 팔로워,팔로우 리스트 -->
+                     <div class="follow_wrap">
+                    	<div class="close_popup">
+                            <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
+                    	</div>
+                    	<div class="follow_detail">
+	                    	<div class="follow_title">
+	                    		<p>팔로워</p>
+	                    	</div>
+	                    	<div class="follow_list">
+		                    	<c:forEach var="followerList" items="${ followerList }">
+	                    		<ul>
+	                    		   <c:url var="goUserPage" value="goUserpage.do">
+	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
+	                               </c:url>
+                                   <c:if test="${ !empty followerList.mNo }">
+	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   </c:if>
+                                   <c:if test="${ empty followerList.mNo }">
+	                    		   		<li>팔로워가 없습니다. </li>
+                                   </c:if>
+	                    		</ul>
+		                    	</c:forEach>
+	                    	</div>
+                    	</div>
+                    </div>
+                    <div class="following_wrap">
+                    	<div class="close_popup">
+                            <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
+                    	</div>
+                    	<div class="follow_detail">
+	                    	<div class="follow_title">
+	                    		<p>팔로우</p>
+	                    	</div>
+	                    	<div class="follow_list">
+		                    	<c:forEach var="followingList" items="${ followingList }">
+	                    		<ul>
+	                    		   <c:url var="goMypage" value="goMypage.do">
+	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
+	                               </c:url>
+                                   <c:if test="${ !empty followingList.mNo }">
+	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   </c:if>
+                                   <c:if test="${ empty followingList.mNo }">
+	                    		   		<li>팔로우가 없습니다. </li>
+                                   </c:if>
+	                    		</ul>
+		                    	</c:forEach>
+	                    	</div>
+                    	</div>
                     </div>
 
                 <!-- 소개 부분 -->
@@ -376,6 +452,19 @@
 
 
     <script>
+    	
+		/* 팔로우,팔로워 클릭 시 */
+	    $('#follow_following').click(function() {
+	        $('.following_wrap').show();
+	    });
+	    $('#follow_follower').click(function() {
+	        $('.follow_wrap').show();
+	    });
+	
+	    $('.close_popup').click(function() {
+	        $('.follow_wrap').hide();
+	        $('.following_wrap').hide();
+	    });
 
         $('div[type = button]').css({'cursor' : 'pointer'});
         $('input[type = button]').css({'cursor' : 'pointer'});

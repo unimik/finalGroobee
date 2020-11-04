@@ -21,6 +21,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.setting.model.vo.Question;
 
 
 @Controller
@@ -92,7 +93,6 @@ public class adminController {
 		}
 		
 		ArrayList<Member> memberList = aService.memberSearchList(m);
-		
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(memberList,response.getWriter());
@@ -327,5 +327,24 @@ public class adminController {
 		}
 	}
 
-	
+	/** 5-1. 모달 - 문의사항 불러오기
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
+	@RequestMapping(value="questionSearchList.do")
+	public void questionSearchList(HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		System.out.println("controller에 들어왔나?");
+				
+		ArrayList<Question> qList = aService.questionSearchList();
+		System.out.println("controller로 다시 왔낭요??");
+		System.out.println(qList);
+		
+		// qList에 담긴 mNo 값을 다시 보내어 아이디를 가지고 온다?
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(qList,response.getWriter());
+	}
 }

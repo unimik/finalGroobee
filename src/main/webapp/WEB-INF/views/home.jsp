@@ -9,16 +9,18 @@
 <link rel="stylesheet" href="resources/css/home.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
-	#feed{ height: fit-content; margin-bottom: 50px; }
+	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
+	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	.pop_menu{ background: #00000005; }
 	a{ color: black; }
 	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
+	#imgList img{ width: 633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	#nextBtn{ position: absolute; margin: 300px 570px; }
-	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
+	button[name=nextBtn]{ position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 </style>
 
 </head>
@@ -26,7 +28,8 @@
 	<c:import url="common/menubar.jsp" />
 	<div id="feedArea">
 	<c:forEach var="f" items="${ feed }" varStatus="status">
-		<div id="feed">
+		<c:set var="i" value="${ i + 1 }"/>
+		<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
 				<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
@@ -35,8 +38,8 @@
 					<h6><c:out value="${ f.fCreateDate }" /></h6>
 				</div>
 				</a>
-				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
-			</div>
+				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
@@ -56,14 +59,17 @@
                 <div class="pop_menu">
                     <div id="feed_Mymenu_list">
                         <ul>
-                        <li><a href="../views/PostUpdateForm.html" id="feed_menu1_btn">수정</a></li> 
+                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
                         <li><a>삭제</a></li> 
-                        <li><a id="close">취소</a></li>
+                        <li><a id="close" class="close">취소</a></li>
                         </ul>
                     </div>
                 </div>
 			</c:otherwise>
 		</c:choose>
+	</div>
+		
+		
 			<div class="feed_report">
 			<div id="feed_report_con">
 				<p>신고사유</p>
@@ -79,13 +85,15 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-				<c:if test="${ !empty f.photoList }">
+					<c:if test="${ !empty f.photoList }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 						<ul id="imgList">
-						<c:forEach var="p" items="${ f.photoList }">
-							<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
-						</c:forEach>
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
 						</ul>
-				</c:if>
+					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
@@ -123,6 +131,7 @@
 				<div id="reply">
 					<input type="text" id="textArea" name="textArea">
 					<input type="button" id="replyBtn" name="replyBtn" value="등록">
+<<<<<<< HEAD
 				</div>
 			</div>
 		
@@ -177,20 +186,24 @@
 						<input type="text" id="textArea" name="textArea">
 						<input type="button" id="replyBtn" name="replyBtn" value="등록">
 					</div>
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 				</div>
 			</div>
 		</div>
+	</div>
 	</c:forEach>
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
-	</div>
     <script>
+			
+			$('.test').on("click", function(event){
+			    var sample = $(event.target).siblings()[1];
+			    $(sample).show();
+			});
 
-            $('#feed_menu').on("click", function(){
-                $('.pop_menu').show();
-            });
 
-            $('#close').on('click',function(){
+            $('.close').on('click',function(){
                 $('.pop_menu').hide();
             });
 
@@ -211,17 +224,36 @@
             });
 
 
-    	$(document).ready(function(){
-    	   var count;
-            
-  	   	   if(count > 0 ){
-  	   			$('#nextBtn').css("display","block");
-  	   	   }
-  	   		
-	  	   $('#nextBtn').on("click",function(){
-	  		   alert("버튼확인");
-	  	 	});
-    	});
+            $(function(){
+    	        
+    	        var size;
+    	        var idx = 0;
+    	        var count = $(".feed").length;
+    	        var imgCount;
+    	        
+    	        
+    			for (i = 1; i >= count; i++){
+    				imgCount += $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+    				
+    				if( imgCount > 1){
+    	        		$('#nextBtn'+i).css({display:"block"});
+    	        	}
+    	   			
+    			}
+    			
+    			/* $('.nextBtn').on("click",function(){
+    	  			size = $(this).nextAll().children('li').length;
+    	  			console.log(size);
+    	  			console.log(count);
+    	  			console
+    	  			if(size > 1){
+    	  				
+    	  			}	
+    	  		}); */
+    	    });
+        
+    	
+    	
     </script>
     
 </body>

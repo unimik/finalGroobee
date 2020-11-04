@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.group.model.service.GroupService;
+import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
@@ -50,6 +52,9 @@ public class MypageController {
 
 	@Autowired
 	MemberService mService;
+
+	@Autowired
+	GroupService gService;
 	
 	@Autowired
 	HttpSession session;
@@ -65,13 +70,17 @@ public class MypageController {
 		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
 		ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
-			
+		ArrayList<Mypage> followerList = myService.selectFollowerList(mNo);
+		ArrayList<Mypage> followingList = myService.selectFollowingList(mNo);
+		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("storageBoxList", storageBoxList);
 		mv.addObject("groupList", groupList);
+		mv.addObject("followerList", followerList);
+		mv.addObject("followingList", followingList);
 		mv.setViewName("myPageMain");
 		
 		return mv;
@@ -259,12 +268,10 @@ public class MypageController {
 				sblist.add(sb);
 			}
 		}
-//		System.out.println("mno : "+mno);
-//		System.out.println(sblist);
 		
 		if(mno !=0) {
 		int result = myService.updateBox(sblist);
-		System.out.println("결과값 어캐나옴"+ result);
+		//System.out.println("결과값 어캐나옴"+ result);
 		}
 		return sbBoxMap;
 		
@@ -315,12 +322,16 @@ public class MypageController {
 		String followYN = myService.selectFollowYN(fw);
 		Mypage followInfo = myService.selectFollowInfo(memberInfo.getmNo());
 		ArrayList<Feed> feedList = myService.selectFeedInfo(memberInfo.getmNo());
+		ArrayList<Mypage> followerList = myService.selectFollowerList(memberInfo.getmNo());
+		ArrayList<Mypage> followingList = myService.selectFollowingList(memberInfo.getmNo());
 		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("followYN", followYN);
+		mv.addObject("followerList", followerList);
+		mv.addObject("followingList", followingList);
 		mv.setViewName("userPage");
 		
 		return mv;
@@ -357,6 +368,21 @@ public class MypageController {
 			return "success";				
 		} else {
 			return"server error";			
+		}
+	}
+	
+	@RequestMapping("myGmDelete.do")
+	public String myGmDelete(GroupMember gm, String gmId, int gNo, int mNo,HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmDelete(gm);
+		
+		if(result > 0) {
+			return "redirect:goMypage.do?mNo="+mNo;
+		}else {
+			return "common/errorPage";
 		}
 	}
 }

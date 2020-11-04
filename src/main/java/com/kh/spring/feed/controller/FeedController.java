@@ -19,12 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
-import com.kh.spring.group.model.vo.Group;
-import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
 
-@SessionAttributes("feedPost")
 @Controller
 public class FeedController {
 	
@@ -32,34 +30,20 @@ public class FeedController {
 	private FeedService fService;
 		
 	@RequestMapping("pInsertView.do")
-	public ModelAndView postInsertView(ModelAndView mv, ArrayList<GroupMember> gm, ArrayList<Group> g, HttpSession session) {
+	public ModelAndView postInsertView(ModelAndView mv, ArrayList<GroupName> gn, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
-		gm = fService.selectGroupMemberId(mem.getUserId());
-		g = fService.selectGroupName(mem.getgNo());
+		gn = fService.selectGroupMemberId(mem.getUserId());
 		
-		for(GroupMember groupM : gm) {
-			System.out.println(groupM);
-			System.out.println(groupM.getGmId());
-		}
-		
-		for(Group group : g) {
-			System.out.println(group);
-			System.out.println(group.getgName());
-		}
-		
-		mv.addObject("gm", gm);
-		mv.addObject("g", g);
+		mv.addObject("gn", gn);
 		mv.setViewName("feed/PostInsertForm");
 		return mv;
 	}
 	
 	@RequestMapping("pInsert.do")
-	public String insertPost(Feed f, Photo p, MultipartHttpServletRequest multi) {
+	public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
 
-		//f.setgNo(gm.getgNo());
-		System.out.println(f.getgNo());
+		System.out.println(gn.getgNo());
 		int result = fService.insertPost(f);
-		
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
@@ -111,56 +95,21 @@ public class FeedController {
 		}
 	}
 	
-//	@RequestMapping(value = "/PostInsertForm", method = RequestMethod.GET)
-//	public String upload(Locale locale, Model model) {
-//
-//		return "feed/PostInsertForm";
-//	}
-	
-//	public String MultiUpload(MultipartHttpServletRequest multi) {
-//		
-//		
-//		
-//		// 저장 경로 설정
-//		String root = multi.getSession().getServletContext().getRealPath("resources");
-//		String savePath = root + "\\pUploadFiles";
-//		
-//		File folder = new File(savePath);	// 저장 폴더
-//		
-//		if(!folder.exists()) {
-//			folder.mkdirs();
-//		}
-//		
-//		
-//		for(MultipartFile filePart : fileList) {
-//			
-//			String originalFileName = filePart.getOriginalFilename();	// 원본 파일명
-//			System.out.println("실제 파일명 : " + originalFileName);
-//			
-//			long fileSize = filePart.getSize();		// 파일 사이즈
-//			System.out.println("파일 사이즈 : " + fileSize);
-//			
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//			//						[		20200929191422.											]
-//			String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
-//					//						[		20200929191422.png										]
-//										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-//			String renamePath = folder + "\\" + renameFileName;
-//
-//			try {
-//				filePart.transferTo(new File(renamePath));
-//			}catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//			return renameFileName;
-//			
-//		}
-//		
-//		return "";
-//		
-//		
-//	}
+	@RequestMapping("pUpdateView.do")
+	public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
+		Member mem = (Member)session.getAttribute("loginUser");
+		ArrayList<Feed> feed = fService.selectFeed();
+		gn = fService.selectGroupMemberId(mem.getUserId());
+		
+		for(Feed f : feed) {
+			System.out.println(f.getfNo());
+		}
+
+		mv.addObject("gn", gn);
+		mv.addObject("f", fService.selectUpdateFeed(fNo));
+		mv.setViewName("feed/PostUpdateForm");
+		return mv;
+	}
 	
 //	@RequestMapping("pUpdate.do")					//	 ↓ 제외 가능
 //	public ModelAndView boardUpdate(ModelAndView mv, @ModelAttribute Feed f, 

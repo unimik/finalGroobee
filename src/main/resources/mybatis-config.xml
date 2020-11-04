@@ -18,6 +18,7 @@
 		<typeAlias type="com.kh.spring.search.model.vo.Search" alias="Search"/>
 		<typeAlias type="com.kh.spring.search.model.vo.RelatedSearch" alias="RelatedSearch"/>
 		<typeAlias type="com.kh.spring.group.model.vo.Group" alias="Group"/>
+		<typeAlias type="com.kh.spring.group.model.vo.GroupName" alias="GroupName"/>
 		<typeAlias type="com.kh.spring.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.spring.declaration.model.vo.Declaration" alias="Declaration"/>
@@ -38,5 +39,6 @@
 		<mapper resource="mappers/declaration-mapper.xml"/>
 		<mapper resource="mappers/myaccount-mapper.xml"/>
 		<mapper resource="mappers/notification-mapper.xml"/>
+		<mapper resource="mappers/adminAlert-mapper.xml"/>
 	</mappers>
 </configuration>

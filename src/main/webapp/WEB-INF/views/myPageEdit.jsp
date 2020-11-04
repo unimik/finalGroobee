@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Edit.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
     <style>
+    	#myProfileImg{ height: 250px; }
     	#edit_submitBtn{ margin-left:40px; }
     	#imgView{ width:150px; height:150px; float:left; margin:0 50px; border:1px solid #e5e5e5; border-radius:10px;} 
 		#imgView img{width:150px; height:150px; border-radius:10px;}
@@ -23,7 +24,6 @@
 		#check_email p{ position:absolute; margin-right:10px; top:auto; }
 		.info_email span{ left:149px; position: relative; }
 		#confirmText,#emailConfirmBtn,#emailConfirmResultBtn,#emailHidden{ 
-			margin-top:10px;
 			position: relative;
 			left:150px;
 			top:auto;
