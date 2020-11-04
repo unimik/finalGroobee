@@ -8,9 +8,12 @@ p{margin:0; padding:0}
 .alarm_menubtn.on{ color:#47c6a3; font-weight: 600; border-bottom: 2px solid #47c6a3;}
 .alarm_containar{ margin: 20px 0 0 30px; }
 .close_pop{ border: 0; float: right; width: 30px; height: 35px; font-weight: 400; font-size: 22px; margin:5px 30px 0 0; background: none; }
+
 #alarmList{height: 400px; overflow-y: scroll; overflow:auto; padding:0; margin-right: 30px;}
 #alarmList li{ list-style: none; margin-top: 5px; font-weight: 14px; color: #555555; height: 30px; border-bottom: 1px solid #e5e5e5;}
 #alarmList li b{ color: blue;}
+
 #enquiryList{height: 380px;overflow-y: scroll; overflow:auto; padding:0; margin-right: 30px; background: #f0f0f0; border-radius: 10px;}
 #enquiryBox{ padding: 10px; border-bottom: 1px solid #e5e5e5; }
+
 #id{ font-weight: 600; color: #555555; padding: 0; border: 0;}

@@ -1,6 +1,7 @@
 package com.kh.spring.myPage.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,16 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
+	public ArrayList<Mypage> selectFollowerList(int mNo) {
+		return myDao.selectFollowerList(mNo);
+	}
+
+	@Override
+	public ArrayList<Mypage> selectFollowingList(int mNo) {
+		return myDao.selectFollowingList(mNo);
+	}
+
+	@Override
 	public int updateBox(ArrayList<StorageBox> sblist) {
 		return myDao.updateBox(sblist);
 	}
@@ -73,6 +84,16 @@ public class MypageServiceImpl implements MypageService {
 	public int deleteteBox(StorageBox sb) {
 		return myDao.deleteBox(sb);
 	}
+
+	@Override
+	public ArrayList<Feed> sBoxfList(StorageBox sb) {
+		return myDao.sBoxfList(sb);
+	}
+
+
+
+
+
 	
 
 }

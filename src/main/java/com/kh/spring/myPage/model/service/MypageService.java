@@ -1,6 +1,7 @@
 package com.kh.spring.myPage.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.vo.Group;
@@ -30,6 +31,10 @@ public interface MypageService {
 
 	int deleteFollow(Follow fw);
 
+	ArrayList<Mypage> selectFollowerList(int mNo);
+
+	ArrayList<Mypage> selectFollowingList(int mNo);
+
 	/**
 	 * 보관함 이름 수정
 	 * @param sblist
@@ -43,6 +48,18 @@ public interface MypageService {
 	 * @return
 	 */
 	int deleteteBox(StorageBox sb);
+
+
+	/**
+	 * 게시글 가져오기
+	 * @param fnos
+	 * @return
+	 */
+	ArrayList<Feed> sBoxfList(StorageBox sb);
+
+
+
+
 
 
 
