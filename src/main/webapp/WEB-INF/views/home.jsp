@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="resources/css/home.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
-	#feed{ height: fit-content; margin-bottom: 50px; }
+	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	.pop_menu{ background: #00000005; }
@@ -39,7 +39,8 @@
 				</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 			</div>
-			<c:choose>
+
+		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
 <!-- 				<div class="pop_menu">
@@ -67,7 +68,7 @@
 			</c:otherwise>
 		</c:choose>
 			<div class="feed_report">
-				<div id="feed_report_con">
+			<div id="feed_report_con">
 				<p>신고사유</p>
 				<select style=>
 					<option>부적절한 게시글</option>
@@ -78,72 +79,67 @@
 					value="확인">
 				<button id="cancel">취소</button>
 			</div>
-			</div>
-		
-			<div id="con">
-				<div id="feed_content">
-					<c:if test="${ !empty f.photoList }">
-						<button id="nextBtn" name="nextBtn" class="imgbtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-						<button id="prevBtn" name="prevBtn" class="imgbtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-						<ul id="imgList">
-							<c:forEach var="p" items="${ f.photoList }">
-								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-							</c:forEach>
-						</ul>
-					</c:if>
-					<div id="heart_reply">
-						<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
-						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-					</div>
-					<p id="text"><c:out value="${ f.fContent }" /></p>
-				</div>
-				<%-- <div id="replyArea">
-					<div id="replyList" style="display: none;">
-					</div>
-						<c:if test="${ f.replyList[2] eq f.fNo }">
-							<div id="replyList" style="display: block;">
-							<c:forEach var="r" items="${ f.replyList }">
-							<ul id="re_list">
-								<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-									id="reply_img">&nbsp;&nbsp;&nbsp;
-									<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-								<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
-								<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-								<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-							</ul>
-							</c:forEach>
-							</div>
+		</div>
+		<div id="con">
+			<div id="feed_content">
+					<c:forEach var="p" items="${ f.photoList }">
+					<ul id="imgList">
+						<c:if test="${ !empty f.photoList }">
+						<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
 						</c:if>
-	
-					<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
-					<div class="reply_menu">
-						<div id="re_menu_list">
-							<ul>
-								<li><a>댓글 수정</a></li>
-								<li><a>댓글 삭제</a></li>
-								<li><a id="re_close">취소</a></li>
-							</ul>
-						</div>
+					</ul>
+					</c:forEach>
+				<div id="heart_reply">
+					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+				</div>
+				<p id="text"><c:out value="${ f.fContent }" /></p>
+
+			</div>
+			<div id="replyArea">
+				<div id="replyList" style="display: none;">
+				</div>
+					<div id="replyList" style="display: block;">
+					<c:forEach var="r" items="${ f.replyList }">
+					<ul id="re_list">
+						<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
+							id="reply_img">&nbsp;&nbsp;&nbsp;
+							<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+						<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
+						<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
+						<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+					</ul>
+					</c:forEach>
 					</div>
-	
-					<div id="reply">
-						<input type="text" id="textArea" name="textArea">
-						<input type="button" id="replyBtn" name="replyBtn" value="등록">
+
+				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
+				<div class="reply_menu">
+					<div id="re_menu_list">
+						<ul>
+							<li><a>댓글 수정</a></li>
+							<li><a>댓글 삭제</a></li>
+							<li><a id="re_close">취소</a></li>
+						</ul>
 					</div>
-				</div> --%>
+				</div>
+
+				<div id="reply">
+					<input type="text" id="textArea" name="textArea">
+					<input type="button" id="replyBtn" name="replyBtn" value="등록">
+				</div>
 			</div>
 		</div>
+	</div>
 	</c:forEach>
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
-	</div>
     <script>
-
+			
             $('.test').on("click", function(){
-                $('.pop_menu').show();
+	              $('.pop_menu').show();
             });
 
-            $('#close').on('click',function(){
+            $('.close').on('click',function(){
                 $('.pop_menu').hide();
             });
 
@@ -163,24 +159,18 @@
                 $('.reply_menu').hide();
             });
 
-			
-            var size;
-            var idx = 0;
-           
+
+    	$(document).ready(function(){
+    	   var count;
             
-   			$('#nextBtn').on("click",function(){
-	  			size = $(this).nextAll().children('li').length;
-	  			console.log(size);
-	  			if(size > 1){
-	  				for(var i=1; size<=i; i++){
-			  			idx+i = (idx + 1) % size;
-			  			$(this).nextAll('#imgList li:hidden').css("left","633px");
-			  			$(this).nextAll("#imgList li:eq("+idx+i+")").animate({left:"-= 633px"},300);
-			  			idx = idx+i;
-		  			};
-	  			}	
-	  			});
-	  		});
+  	   	   if(count > 0 ){
+  	   			$('#nextBtn').css("display","block");
+  	   	   }
+  	   		
+	  	   $('#nextBtn').on("click",function(){
+	  		   alert("버튼확인");
+	  	 	});
+    	});
     </script>
     
 </body>
