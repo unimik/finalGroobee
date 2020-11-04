@@ -3,11 +3,14 @@ package com.kh.spring.myPage.controller;
 
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.group.model.service.GroupService;
+import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
@@ -46,6 +52,9 @@ public class MypageController {
 
 	@Autowired
 	MemberService mService;
+
+	@Autowired
+	GroupService gService;
 	
 	@Autowired
 	HttpSession session;
@@ -61,13 +70,17 @@ public class MypageController {
 		ArrayList<Feed> feedList = myService.selectFeedInfo(mNo);
 		ArrayList<StorageBox> storageBoxList = myService.selectStorageBoxInfo(mNo);
 		ArrayList<Mypage> groupList = myService.selectGroupInfo(mNo);
-			
+		ArrayList<Mypage> followerList = myService.selectFollowerList(mNo);
+		ArrayList<Mypage> followingList = myService.selectFollowingList(mNo);
+		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("storageBoxList", storageBoxList);
 		mv.addObject("groupList", groupList);
+		mv.addObject("followerList", followerList);
+		mv.addObject("followingList", followingList);
 		mv.setViewName("myPageMain");
 		
 		return mv;
@@ -232,7 +245,73 @@ public class MypageController {
 		
 		return job.toString();
 	}
+	
+	//보관함 이름 수정
+	@RequestMapping(value="updateBox.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> updateBox(@RequestBody Map<String, Object> sbBoxMap) {
+		int mno = 0;
+		ArrayList<StorageBox> sblist = new ArrayList<StorageBox>();
+	
+		for(String key : sbBoxMap.keySet()) {
+			if( key.equals("mno")) {
+				mno = (int)sbBoxMap.get(key);
+			}
+		}
+		
+		for(String key : sbBoxMap.keySet()) {
+			if( !key.equals("mno")) {			
+				StorageBox sb = new StorageBox();
+				String value = (String) sbBoxMap.get(key); 
+				sb.setSbNo(Integer.parseInt(key));
+				sb.setSbName(value);
+				sb.setmNo(mno);
+				sblist.add(sb);
+			}
+		}
+//		System.out.println("mno : "+mno);
+//		System.out.println(sblist);
+		
+		if(mno !=0) {
+		int result = myService.updateBox(sblist);
+		System.out.println("결과값 어캐나옴"+ result);
+		}
+		return sbBoxMap;
+		
+	}
+	
+	//보관함 삭제
+	@RequestMapping(value="deleteBox.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> deleteBox(@RequestBody Map<String, Object> sbBoxMap) {
+		int mno = 0;
+		StorageBox sb = new StorageBox();
+		
+		for(String key : sbBoxMap.keySet()) {
+			if( key.equals("mno")) {
+				mno = (int)sbBoxMap.get(key);
+			}
+		}
+		String[] str = new String[sbBoxMap.size()-1];
+		int i = 0;
+		for(String key : sbBoxMap.keySet()) {
+			if( !key.equals("mno")) {			
+				String value = (String)sbBoxMap.get(key); 
+				str[i] = value;
+				i++;	
+			}
+		}
+		sb.setmNo(mno);
+		sb.setSbNos(str);
+		System.out.println(sb);
+		if(mno !=0) {
+			//이거 트라이 캐치구문으로 감쌀것...
+			int result = myService.deleteteBox(sb);
+			System.out.println("결과값 어캐나옴"+ result);
+			}
 
+		return sbBoxMap;
+		
+	}
+	
 
 	@RequestMapping(value="goUserpage.do")
 	public ModelAndView goUserpage(ModelAndView mv,String userId, int mNo) {
@@ -245,12 +324,16 @@ public class MypageController {
 		String followYN = myService.selectFollowYN(fw);
 		Mypage followInfo = myService.selectFollowInfo(memberInfo.getmNo());
 		ArrayList<Feed> feedList = myService.selectFeedInfo(memberInfo.getmNo());
+		ArrayList<Mypage> followerList = myService.selectFollowerList(memberInfo.getmNo());
+		ArrayList<Mypage> followingList = myService.selectFollowingList(memberInfo.getmNo());
 		
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
 		mv.addObject("feedCnt", feedList.size());
 		mv.addObject("followYN", followYN);
+		mv.addObject("followerList", followerList);
+		mv.addObject("followingList", followingList);
 		mv.setViewName("userPage");
 		
 		return mv;
@@ -287,6 +370,21 @@ public class MypageController {
 			return "success";				
 		} else {
 			return"server error";			
+		}
+	}
+	
+	@RequestMapping("myGmDelete.do")
+	public String myGmDelete(GroupMember gm, String gmId, int gNo, int mNo,HttpServletRequest request) {
+		
+		gm.setgNo(gNo);
+		gm.setGmId(gmId);
+		
+		int result = gService.gmDelete(gm);
+		
+		if(result > 0) {
+			return "redirect:goMypage.do?mNo="+mNo;
+		}else {
+			return "common/errorPage";
 		}
 	}
 }

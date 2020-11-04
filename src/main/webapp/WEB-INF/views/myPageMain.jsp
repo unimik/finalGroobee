@@ -20,6 +20,9 @@
     color: #555555;
     readonly="readonly";
     }
+    .sbBoxCheck{
+    display:none;
+    }
     #interests{
     font-size:smaller;
     color:grey;
@@ -43,6 +46,27 @@
     #self-introduction{
     margin:0 40px 30px 30px;
     }
+   	.follow_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
+   		background-color: rgba(0,0,0,0.5);}
+   	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
+   		background-color: rgba(0,0,0,0.5);}
+   	.follow_detail{ background: white; border-radius: 15px; -ms-overflow-style: none; width: 400px; height: 500px; position: fixed; top: 20%; left: 42%;}
+   	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
+   	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
+   	.follow_list{ height: 440px; overflow-y: scroll; }
+   	.follow_list>ul{ 
+	    margin: 30px;
+	    text-align: center;
+	    list-style: none;
+	    padding: unset;
+   	 }
+   	.follow_list>ul>li{ 
+	    height: 40px;
+	    margin-bottom: 10px;
+   	 }
+	.follow_list::-webkit-scrollbar{display: none;}
+	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
+	
    </style>
 </head>
 <body>
@@ -122,15 +146,71 @@
                                 <li>게시물</li>
                                 <li class="post_num">${ feedCnt }</li>
                             </ul>
-                            <ul id="follow_follower">
+                            <a style="cursor:pointer;">
+                            	<ul id="follow_follower">
                                 <li>팔로워</li>
                                 <li class="follower_num">${ followInfo.followers }</li>
                             </ul>
+                            </a>
+                            <a style="cursor:pointer;">
                             <ul id="follow_following">
                                 <li>팔로잉</li>
                                 <li class="following_num">${ followInfo.follows }</li>
                             </ul>
+                            </a>
                         </div>
+                    </div>
+                    
+                     <!-- 팔로워,팔로우 리스트 -->
+                    <div class="follow_wrap">
+                    	<div class="close_popup">
+                            <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
+                    	</div>
+                    	<div class="follow_detail">
+	                    	<div class="follow_title">
+	                    		<p>팔로워</p>
+	                    	</div>
+	                    	<div class="follow_list">
+		                    	<c:forEach var="followerList" items="${ followerList }">
+	                    		<ul>
+	                    		   <c:url var="goMypage" value="goMypage.do">
+	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
+	                               </c:url>
+                                   <c:if test="${ !empty followerList.mNo }">
+	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   </c:if>
+                                   <c:if test="${ empty followerList.mNo }">
+	                    		   		<li>팔로워가 없습니다. </li>
+                                   </c:if>
+	                    		</ul>
+		                    	</c:forEach>
+	                    	</div>
+                    	</div>
+                    </div>
+                    <div class="following_wrap">
+                    	<div class="close_popup">
+                            <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
+                    	</div>
+                    	<div class="follow_detail">
+	                    	<div class="follow_title">
+	                    		<p>팔로우</p>
+	                    	</div>
+	                    	<div class="follow_list">
+		                    	<c:forEach var="followingList" items="${ followingList }">
+	                    		<ul>
+	                    		   <c:url var="goMypage" value="goMypage.do">
+	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
+	                               </c:url>
+                                   <c:if test="${ !empty followingList.mNo }">
+	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   </c:if>
+                                   <c:if test="${ empty followingList.mNo }">
+	                    		   		<li>팔로우가 없습니다. </li>
+                                   </c:if>
+	                    		</ul>
+		                    	</c:forEach>
+	                    	</div>
+                    	</div>
                     </div>
 
                 <!-- 소개 부분 -->
@@ -406,10 +486,10 @@
                                     <div type="button" class="storageBox_subBtn2"><img src="<%=request.getContextPath()%>/resources/icons/correct_folder.png"></div>
                                     <div type="button" class="storageBox_subBtn3"><img src="<%=request.getContextPath()%>/resources/icons/delete.png"></div>
                                     <div type="button" class="storageBox_subBtn4"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
+                                    <div type="button" class="storageBox_subBtn5"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                 </div>
                             </td>
                         </tr>
-                     <input type="hidden" value="${ loginUser.mNo }" id="mNo"/>
                         <%! int  j = 0; %>
                         <c:forEach var="sb" items="${ storageBoxList }">
                        	<% if (j%3 == 0){ %>
@@ -419,9 +499,14 @@
                             <td class="fstorageBox_folder">
                             <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
                             <div id="box2">폴더명</div>--%>
+                            <div id ="sbBoxxx">
                             <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <label>
+                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+                            </label>                            
+                            </div>
                             <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
@@ -483,8 +568,13 @@
                                                 <h5 class="group_interests">${ groupList.gCategory }</h5>
                                                 <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
                                             </div>
-                                            <input type="button" class="leaveBtn" value="탈퇴" onclick="leave();">
-                                        </div>
+                                            <c:url var="myGmDelete" value="myGmDelete.do">
+			                                	<c:param name="gNo" value="${ groupList.gNo }"/>
+			                                	<c:param name="gmId" value="${ loginUser.userId }"/>
+			                                	<c:param name="mNo" value="${ loginUser.mNo }"/>
+			                                </c:url>
+	                                            <input type="button" class="leaveBtn" value="탈퇴" onclick="location.href='${ myGmDelete }'">
+	                                        </div>
                                 </td>
                             </tr>
                          </c:forEach>
@@ -497,58 +587,24 @@
 
 
     <script>
+	/* 팔로우,팔로워 클릭 시 */
+    $('#follow_following').click(function() {
+        $('.following_wrap').show();
+    });
+    $('#follow_follower').click(function() {
+        $('.follow_wrap').show();
+    });
+
+    $('.close_popup').click(function() {
+        $('.follow_wrap').hide();
+        $('.following_wrap').hide();
+    });
 
     $('div[type = button]').css({'cursor' : 'pointer'});
     $('input[type = button]').css({'cursor' : 'pointer'});
     $('img[type = button]').css({'cursor' : 'pointer'});
 
 
-    $(document).ready(function(){
-        $('#chat_icon').click(function(){
-            var state = $(".chat").css('display');
-            if(state=='none'){
-                $('.chat').show();
-            }else{
-                $('.chat').hide();
-            }
-        });
-    });
-
-   $('.tab_menu_btn').on('click',function(){
-        $('.tab_menu_btn').removeClass('on');
-        $(this).addClass('on')
-    });
-
-    $('.tab_menu_btn1').on('click',function(){
-        $('.tab_box').hide();
-        $('.tab_box1').show();
-    });
-
-    $('.tab_menu_btn2').on('click',function(){
-        $('.tab_box').hide();
-        $('.tab_box2').show();
-    });
-
-    $(document).ready(function(){
-        $('#detailInfo').click(function(){
-            $(".myAccount").animate({width:"toggle"},250);
-        });
-    });
-
-    $('.MyTab_tab').on("click",function(){
-        $('.MyTab_tab').removeClass('on');
-        $(this).addClass('on')
-    });
-
-    $('.MyTab_tab1').on('click', function(){
-        $('.MyTab_box').hide();
-        $('.MyTab_box1').show();
-    });
-
-    $('.MyTab_tab2').on('click', function(){
-        $('.MyTab_box').hide();
-        $('.MyTab_box2').show();
-    });
     
     /************ 팔로우 언팔로우 script ************/
 
@@ -695,55 +751,100 @@
 	    
 		$('.sbNameBox').css('border','none');
 		$('.sbNameBox').attr('readonly', 'readonly');
-		//맵객체로 만들것
-		var sbname = $('.sbNameBox')[0].value;
-		var sbno = $('.sbNo')[0].value;
 		
-		var arr = [[1,폴더명],[2,폴더명],[]];
-		console.log( $('.sbNo').value );
+		
+		//맵객체로 만들것
+		var sbBoxMap = new Map();
+		for(var i =0; i < $('.sbNo').length; i++ ){
+			sbBoxMap.set($('.sbNo')[i].value,$('.sbNameBox')[i].value);
+		}
+		
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		//맵 만들어졌는지 확인용
+		console.log(sbBoxMap);
+		
+		//수정완료 에이작스
+		$.ajax({
+			url:'updateBox.do',
+			dataType:'json',
+			type:'post',
+			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
+			contentType :'application/json; charset=UTF-8',
+	        success: function(data) {
+	            alert('수정 완료되었습니다');
+	        },
+	        error: function(request) {
+	        	 alert('안됨');
+	        }
+		});
 		
 	});
+
     /* 보관함 삭제 */
     $('.storageBox_subBtn3').click(function() {
-		
-           var rename_folderId = 
-           $.ajax({
-              url:"updateBox.do",
-              data:{
-                 id: rename_folder0   
-              },
-              type:"post",
-              success:function(data){
-                 console.log(data);
-                    $('.folder_default').hide();
-                    $('.folder_correct').hide();
-                    $('.folder_delete').show();
-
-                    $('.storageBox_subBtn2').hide();
-                    $('.storageBox_subBtn4').show();
-              },
-               error:function(request,jqXHR,exception){
-                 var msg="";
-                 if(request.status == 0){
-                    msg = 'Not Connect. \n Verify Network.';
-                 } else if(request.status == 404){
-                    msg = 'Requested page not fount [404]';
-                 } else if(request.status == 500){
-                    msg = 'Internal Server Error [500]';
-                 } else if(request.status == 'parsererror'){
-                    msg = 'Requested JSON parse failed';
-                 } else if(exception == 'timeout'){
-                    msg = 'Time out error';
-                 } else if(exception == 'abort'){
-                    msg = 'Ajax request aborted';
-                 } else {
-                    msg = 'Error. \n' + jqXHR.responseText;
-                 }
-                 alert(msg);
-              } 
-           });
+    	
+    	$('.storageBox_subBtn3').hide();
+    	$('.storageBox_subBtn4').hide();
+    	$('.storageBox_subBtn5').show();
+    	 $('.sbBoxCheck').css('display','block');
 
     });
+   
+    /*보관함 삭제 완료..*/
+    $('.storageBox_subBtn5').click(function(){
+    	$('.sbBoxCheck').css('display','none');
+    	
+        var sbBoxMap = new Map();
+        var j = 0;
+		for(var i =0; i < $('.sbBoxCheck').length; i++ ){
+			if($('.sbBoxCheck')[i].checked == true){
+				sbBoxMap.set(j,$('.sbBoxCheck')[i].value);
+				j++;
+			}
+		}
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		
+		//맵 만들어졌는지 확인용
+		console.log(sbBoxMap);
+
+    	$('.storageBox_subBtn3').show();
+    	$('.storageBox_subBtn4').show();
+    	
+         $.ajax({
+            url:"deleteBox.do",
+        	dataType:'json',
+			type:'post',
+			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
+			contentType :'application/json; charset=UTF-8',
+	        success:function(data){
+            	$('.storagebox').show();
+           		$('.storageBox_subBtn3').show();
+        		$('.storageBox_subBtn4').show();
+        		alert('보관함이 삭제되었습니다');
+            },
+             error:function(request,jqXHR,exception){
+               var msg="";
+               if(request.status == 0){
+                  msg = 'Not Connect. \n Verify Network.';
+               } else if(request.status == 404){
+                  msg = 'Requested page not fount [404]';
+               } else if(request.status == 500){
+                  msg = 'Internal Server Error [500]';
+               } else if(request.status == 'parsererror'){
+                  msg = 'Requested JSON parse failed';
+               } else if(exception == 'timeout'){
+                  msg = 'Time out error';
+               } else if(exception == 'abort'){
+                  msg = 'Ajax request aborted';
+               } else {
+                  msg = 'Error. \n' + jqXHR.responseText;
+               }
+               alert(msg);
+            } 
+         });
+         
+    });
+
 
 
 	 
