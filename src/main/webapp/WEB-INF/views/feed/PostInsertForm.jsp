@@ -77,7 +77,7 @@
                             <tr height="50px">
                                 <td class="checkList tdfi">공개여부</td>
                                 <td class="tdfi">
-                                    <select name="fNo">
+                                    <select>
                                     	<c:forEach var="open" items="feed">
                                         <option id="public" value="Y">전체공개</option>
                                         <option id="friends" value="F">친구만</option>

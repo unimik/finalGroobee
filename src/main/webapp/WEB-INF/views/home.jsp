@@ -17,6 +17,7 @@
 	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
+	#imgList img{ width: 100%; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
 	#nextBtn{ position: absolute; margin: 300px 570px; }
 	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
@@ -38,7 +39,6 @@
 				</div>
 				</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-			</div>
 
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
@@ -67,6 +67,9 @@
                 </div>
 			</c:otherwise>
 		</c:choose>
+	</div>
+		
+		
 			<div class="feed_report">
 			<div id="feed_report_con">
 				<p>신고사유</p>
@@ -135,9 +138,11 @@
 	</div>
     <script>
 			
-            $('.test').on("click", function(){
-	              $('.pop_menu').show();
-            });
+			$('.test').on("click", function(event){
+			    var sample = $(event.target).siblings()[1];
+			    $(sample).show();
+			});
+
 
             $('.close').on('click',function(){
                 $('.pop_menu').hide();
