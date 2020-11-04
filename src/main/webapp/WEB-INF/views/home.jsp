@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <title>G R O O B E E</title>
@@ -80,22 +81,21 @@
 			<div id="con">
 				<div id="feed_content">
 					<c:if test="${ !empty f.photoList }">
-							<button id="nextBtn" name="nextBtn" class="imgbtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-							<button id="prevBtn" name="prevBtn" class="imgbtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-							<ul id="imgList">
-								<c:forEach var="p" items="${ f.photoList }">
-									<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-								</c:forEach>
-							</ul>
+						<button id="nextBtn" name="nextBtn" class="imgbtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn" name="prevBtn" class="imgbtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList">
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
+						</ul>
 					</c:if>
 					<div id="heart_reply">
 						<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 					</div>
 					<p id="text"><c:out value="${ f.fContent }" /></p>
-	
 				</div>
-				<div id="replyArea">
+				<%-- <div id="replyArea">
 					<div id="replyList" style="display: none;">
 					</div>
 						<c:if test="${ f.replyList[2] eq f.fNo }">
@@ -128,7 +128,7 @@
 						<input type="text" id="textArea" name="textArea">
 						<input type="button" id="replyBtn" name="replyBtn" value="등록">
 					</div>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 	</c:forEach>
@@ -136,7 +136,7 @@
 	</div>
 	</div>
     <script>
-
+		$(document).ready(function(){
             $('#feed_menu').on("click", function(){
                 $('.pop_menu').show();
             });
@@ -161,18 +161,24 @@
                 $('.reply_menu').hide();
             });
 
-
-    	$(document).ready(function(){
-    	   var count;
+			
+            var size;
+            var idx = 0;
+           
             
-  	   	   if(count > 0 ){
-  	   			$('#nextBtn').css("display","block");
-  	   	   }
-  	   		
-	  	   $('#nextBtn').on("click",function(){
-	  		   alert("버튼확인");
-	  	 	});
-    	});
+   			$('#nextBtn').on("click",function(){
+	  			size = $(this).nextAll().children('li').length;
+	  			console.log(size);
+	  			if(size > 1){
+	  				for(var i=1; size<=i; i++){
+			  			idx+i = (idx + 1) % size;
+			  			$(this).nextAll('#imgList li:hidden').css("left","633px");
+			  			$(this).nextAll("#imgList li:eq("+idx+i+")").animate({left:"-= 633px"},300);
+			  			idx = idx+i;
+		  			}
+	  			}	
+	  			});
+	  		});
     </script>
     
 </body>
