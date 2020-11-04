@@ -1,7 +1,10 @@
 #admin_common{ box-sizing:border-box; width: 100%; height: 300px;}
 #menu li:nth-child(1){ border: 2px solid #47c6a3;width: 78px; height: 65.5px;}
 #menu li:nth-child(1)>a{color:#47c6a3; font-weight: 600;}
+
 .content #title{ font-size: 20px; color: #555555; padding:0; margin: 0; font-weight: 600; float: left; margin: 10px 0 10px 35px;}
+
+
 #searchBox{ border-radius: 10px; border: 1px solid #47c6a3;  float: left; margin-left:20px; width: 628px;}
 #all_user p{ background-color: #daf4ed ; margin: 0; padding: 15px; border-radius: 10px; text-align: center; font-size: 24px;}
 #search { margin: 23px 0 22px 45px; }
@@ -22,3 +25,4 @@ thead tr{ background: #daf4ed; height: 35px;}
 #user_table td:nth-child(7){ width: 80px;}
 tbody tr{ cursor: pointer;}
 tbody td{ border-bottom: 1px solid #e5e5e5; height: 35px;}
+

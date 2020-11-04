@@ -80,19 +80,37 @@
 		left join groups g
 		on (g.g_no=gm.g_no)
 		where m_no=#{mNo}
+		and G_STATUS='Y'
 	</select>
+	
 	<select id="selectFollowYN" parameterType="Follow" resultType="string">
 		select decode(count(FOLLOWS),0,'N','Y')
 		from follow 
 		where m_No=#{mNo}
 		and FOLLOWS=#{follows}
 	</select>
+	
 	<insert id="insertFollow" parameterType="Follow">
 		INSERT INTO FOLLOW VALUES(#{mNo},#{follows})
 	</insert>
+	
 	<delete id="deleteFollow" parameterType="Follow">
 		DELETE FOLLOW WHERE M_NO=#{mNo} AND FOLLOWS=#{follows}
 	</delete>
+	
+	<select id="selectFollowerList" parameterType="Mypage" resultMap="mypageResultSet">
+		select m.m_id
+		from follow f
+		left join member m on f.m_no=m.m_no
+		where f.follows=#{mNo}
+	</select>
+	
+	<select id="selectFollowingList" parameterType="Mypage" resultMap="mypageResultSet">
+		select m.m_id
+		from follow f
+		left join member m on f.follows=m.m_no
+		where f.m_no=#{mNo}
+	</select>
 	
 	<update id="updateBox" parameterType="list">
 		<foreach collection="list" item="sb" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
@@ -114,6 +132,5 @@
 		#{sbNos} 
    		</foreach>
 	</delete>
-	
 	
 </mapper>

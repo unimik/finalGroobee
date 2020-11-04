@@ -30,6 +30,10 @@ public interface MypageService {
 
 	int deleteFollow(Follow fw);
 
+	ArrayList<Mypage> selectFollowerList(int mNo);
+
+	ArrayList<Mypage> selectFollowingList(int mNo);
+
 	/**
 	 * 보관함 이름 수정
 	 * @param sblist

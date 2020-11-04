@@ -65,6 +65,16 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
+	public ArrayList<Mypage> selectFollowerList(int mNo) {
+		return myDao.selectFollowerList(mNo);
+	}
+
+	@Override
+	public ArrayList<Mypage> selectFollowingList(int mNo) {
+		return myDao.selectFollowingList(mNo);
+	}
+
+	@Override
 	public int updateBox(ArrayList<StorageBox> sblist) {
 		return myDao.updateBox(sblist);
 	}
