@@ -32,7 +32,11 @@ public class ChatDao {
 	}
 
 	public int insertChat(Chat c) {
-		return sqlSession.insert("chatMapper.insertChat",c);
+		if(c.getToId().equals("group")) {
+			return sqlSession.insert("chatMapper.insertChatGroup", c);
+		} else {
+			return sqlSession.insert("chatMapper.insertChat",c);
+		}
 	}
 
 	public ArrayList<Member> getChatImage(ArrayList<Member> mList) {
@@ -105,6 +109,18 @@ public class ChatDao {
 
 	public int insertGroupChat(Chat c) {
 		return sqlSession.insert("chatMapper.insertGroupChat",c);
+	}
+
+	public ArrayList<Chat> getGroupChatContentList(Chat c) {
+		return (ArrayList)sqlSession.selectList("chatMapper.getGroupChatContentList", c);
+	}
+
+	public int insertJoinChatRoom(Chat c) {
+		return sqlSession.insert("chatMapper.insertJoinRoom",c);
+	}
+
+	public ArrayList<Chat> getJoinMember(int gNo) {
+		return (ArrayList)sqlSession.selectList("chatMapper.getJoinMember",gNo);
 	}
 
 }

@@ -37,7 +37,6 @@
 				</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu">
 			</div>
-<<<<<<< HEAD
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
@@ -124,45 +123,6 @@
 				<div id="reply">
 					<input type="text" id="textArea" name="textArea">
 					<input type="button" id="replyBtn" name="replyBtn" value="등록">
-=======
-			<c:choose>
-				<c:when test="${ loginUser.userId ne f.fWriter }">
-					<!-- 다른 회원 글 볼 때 피드메뉴 -->
-	 				<div class="pop_menu">
-						<div id="feed_menu_list">
-							<ul>
-								<li><a id="feed_report_btn">신고</a></li>
-								<li><a>공유하기</a></li>
-								<li><a>보관함</a></li>
-								<li><a id="close">취소</a></li>
-							</ul>
-						</div>
-					</div> 
-				</c:when>
-				<c:otherwise>
-					<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-	                <div class="pop_menu">
-	                    <div id="feed_Mymenu_list">
-	                        <ul>
-	                        <li><a href="../views/PostUpdateForm.html" id="feed_menu1_btn">수정</a></li> 
-	                        <li><a>삭제</a></li> 
-	                        <li><a id="close">취소</a></li>
-	                        </ul>
-	                    </div>
-	                </div>
-				</c:otherwise>
-			</c:choose>
-			<div class="feed_report">
-				<div id="feed_report_con">
-					<p>신고사유</p>
-						<select style=>
-							<option>부적절한 게시글</option>
-							<option>욕설</option>
-							<option>광고</option>
-							<option>도배</option>
-						</select> <br> <input type="button" id="submit" name="submit" value="확인">
-					<button id="cancel">취소</button>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 				</div>
 			</div>
 		
