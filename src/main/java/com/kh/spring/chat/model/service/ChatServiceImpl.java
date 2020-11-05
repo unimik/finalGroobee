@@ -46,8 +46,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int insertGroupChatRoom(String createId) {
-		return cDao.insertGroupChatRoom(createId);
+	public int insertGroupChatRoom(Chat c) {
+		return cDao.insertGroupChatRoom(c);
 	}
 
 	@Override

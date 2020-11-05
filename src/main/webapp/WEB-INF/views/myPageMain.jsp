@@ -268,7 +268,7 @@
                         </tr>
 
                     <!-- 게시글 -->
-                        <%! int i = 0; %>
+                        <%-- <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
@@ -288,7 +288,7 @@
                           <% if (i%3==2){ %>
 	                      </tr>
 	                      <%} i++; %>
-                          </c:forEach>
+                          </c:forEach> --%>
 
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">

@@ -580,26 +580,30 @@
     			data:{myId:nId1,otherId:nId2},
     			success:function(data){
     				console.log("ok");
-    				$('.myFeed_popup_others').hide();
-    				$("#chatUser").text(nId2);
-    				$div3 = $("<div class='chating'>");
-    				$inputId = $("<input type='hidden' class='1'>").val(nId2);
-    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
-    				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
-    				console.log(data.toId +":" + data.crNo);
-    				$("#chatArea").append($div3);
-        			$("#chatArea").append($inputId);
-        			$("#chatArea").append($inputType);
-        			$("#chatArea").append($inputCrNo);
-        			
-        			$("#inputArea").keydown(function(key){
-        	    		if(key.keyCode == 13) {
-        	   	 			sendMessage();
-        	   	 			$('#inputArea').val('');
-        	    		} 
-        	    	 });
-    				
-    				$(".chat_room").show();
+    				if(data.crNo == -1) {
+    					alert("이미 채팅방이 존재합니다.");
+    				} else {
+	    				$('.myFeed_popup_others').hide();
+	    				$("#chatUser").text(nId2);
+	    				$div3 = $("<div class='chating'>");
+	    				$inputId = $("<input type='hidden' class='1'>").val(nId2);
+	    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
+	    				console.log(data.toId +":" + data.crNo);
+	    				$("#chatArea").append($div3);
+	        			$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputType);
+	        			$("#chatArea").append($inputCrNo);
+	        			
+	        			$("#inputArea").keydown(function(key){
+	        	    		if(key.keyCode == 13) {
+	        	   	 			sendMessage();
+	        	   	 			$('#inputArea').val('');
+	        	    		} 
+	        	    	 });
+	    				
+	    				$(".chat_room").show();
+    				}
     			},
     			error:function(){
     				console.log("에러");
@@ -617,25 +621,32 @@
     			data:{createId:createId,gNo:gNo},
     			success:function(data){
     				$('.pop_menu_master').hide();
-    				$("#chatUser").text(gName);
-    				$div3 = $("<div class='chating'>");
-    				$inputgNo = $("<input type='hidden' class='1'>").val(gNo);
-    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
-    				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
-    				console.log(data.toId +":" + data.crNo);
-    				$("#chatArea").append($div3);
-        			$("#chatArea").append($inputgNo);
-        			$("#chatArea").append($inputType);
-        			$("#chatArea").append($inputCrNo);
-        			
-        			$("#inputArea").keydown(function(key){
-        	    		if(key.keyCode == 13) {
-        	   	 			sendMessage();
-        	   	 			$('#inputArea').val('');
-        	    		} 
-        	    	 });
-    				
-    				$(".chat_room").show();
+    				if(data.crNo == -1) {
+    					alert("이미 채팅방이 존재합니다.");
+    				} else {
+	    				$("#chatUser").text(gName);
+	    				$("#plusChatUser").remove();
+	        			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
+	        			$("#chat_top").append($plusBtn);
+	    				$div3 = $("<div class='chating'>");
+	    				$inputgNo = $("<input type='hidden' class='1'>").val(gNo);
+	    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
+	    				console.log(data.gNo +":" + data.crNo);
+	    				$("#chatArea").append($div3);
+	        			$("#chatArea").append($inputgNo);
+	        			$("#chatArea").append($inputType);
+	        			$("#chatArea").append($inputCrNo);
+	        			
+	        			$("#inputArea").keydown(function(key){
+	        	    		if(key.keyCode == 13) {
+	        	   	 			sendMessage();
+	        	   	 			$('#inputArea').val('');
+	        	    		} 
+	        	    	 });
+	    				
+	    				$(".chat_room").show();
+    				}
     			},
     			error:function(){
     				console.log("에러");
@@ -731,7 +742,7 @@
  				
  			} else {
  				if(dArr[1] == 'sender') {
-	 				$("#chatArea").append($("<p class='closeServer'>"+dArr[0]+"<p/>"));
+	 				$("#chatArea").append($("<p class='closeServer'>"+dArr[0]+"님이 입장하셨습니다.<p/>"));
  				} else {
  	 				var toId = $("#chatArea").children(".1").val();
  	 	 			var inputChatImage = $("#chatArea").children(".4").val();
