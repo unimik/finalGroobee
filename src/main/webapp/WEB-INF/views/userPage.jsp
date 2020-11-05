@@ -225,7 +225,7 @@
                             <th colspan="3"><div class="feedPost">게시글</div></th>
                         </tr>
 
-                    <!-- 게시글 -->
+                    <!--게시글-->
                         <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
