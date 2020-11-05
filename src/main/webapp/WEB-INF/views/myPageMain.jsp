@@ -20,9 +20,9 @@
     color: #555555;
     readonly="readonly";
     }
-    .sbBoxCheck{
-    display:none;
-    }
+    .fstorageBox_folder,.sbBoxCheck{
+     display:none;
+    };
     #interests{
     font-size:smaller;
     color:grey;
@@ -68,6 +68,38 @@
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 	
    </style>
+   <script>
+  
+	function getParameterByName(name) {
+       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+               results = regex.exec(location.search);
+       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+   }
+	
+   $(function(){
+	 	var getType = getParameterByName("type");
+		//alert(getType);	 
+		if( getType == 1 ){
+		
+		$('.storageBox_subBtn3').show();
+		$('.storageBox_subBtn4').hide();
+		$('.storageBox_subBtn5').hide();
+
+	    $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #47c6a3'});  
+		$('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
+		$('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
+		$('.post').hide();
+		$('.storagebox').show();
+		$('.group').hide();
+        $('.fstorageBox_folder').show();
+		
+		}
+   });
+   </script>
+   
+   
+   
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
@@ -241,15 +273,14 @@
                         <% if (i%3==0){ %>
                         <tr class="post">
                         <%} %>
-                              <c:choose>
-                                 <c:when test="${!empty feedlist.fRenameFile }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
+                            <c:choose>
+                                 <c:when test="${!empty feedlist.thumbnail }">
+                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
                                  </c:when>
                                  <c:otherwise>
                                      <td class="postbox" name="postbox">
                                          <div type="button" id="pb2">
                                              <text>${ feedlist.fContent }</text>
-                                             <text class="hashtag">#피자 #치킨 #맥주 #콜라 #피자 #치킨 #맥주 #콜라 #피자 #치...</text>
                                          </div>
                                      </td>
                                  </c:otherwise>
@@ -258,7 +289,7 @@
 	                      </tr>
 	                      <%} i++; %>
                           </c:forEach>
-                        
+
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
                             <div class="feed_delete">
@@ -479,10 +510,10 @@
                         </div>
 
                     <!-- 보관함 -->
-                      <tr class="storagebox">
+                      <tr class="storagebox" id="storagebox">
                             <td></td>
                             <td></td>
-                            
+                            <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
                             <td id="storageBox" colspan="3">
                                 <div id="sb_menu">
                                     <div type="button" class="storageBox_subBtn1"><img src="<%=request.getContextPath()%>/resources/icons/add.png"></div>
@@ -496,49 +527,22 @@
                         <%! int  j = 0; %>
                         <c:forEach var="sb" items="${ storageBoxList }">
                        	<% if (j%3 == 0){ %>
-                        <tr class="storagebox">
+                    <tr class="storagebox">
                        	<%} %>
                             <!-- <div id="box">보관함새폴더생성</div>-->
                             <td class="fstorageBox_folder">
-                            <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
-                            <div id="box2">폴더명</div>--%>
-                            <div id ="sbBoxxx">
-                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
                             <label>
                             <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
                             </label>                            
-                            </div>
-                            <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
                         </tr>
                   		 <%} j++;%>
                          </c:forEach>
-                   <%--    <c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
-                            <table>
-                               <tr class="storagebox">
-                        <!-- 기존 상태 -->
-                            <td class="folder_default" align="center">
-                                <label class="current_folder">${ storagebox.sbName }</label>
-                            </td>
-                        <!-- 폴더명 수정 시 -->
-                            <td class="folder_correct" align="center">
-                                <input type="text" id="rename_folder${i.index}" class="rename_folder${i.index}" value="${ storagebox.sbName }" maxlength="10">
-                            </td>
-                        <!-- 폴더 삭제 시 -->
-                            <td class="folder_delete" align="center" id="folder_delete">
-                                <input type="checkbox" id="delete_folder${i.index}">
-                                <label for="delete_folder1" class="dltfolder">${ storagebox.sbName }</label>
-                            </td>
-                        </tr>
-                            </table>
-                            </td>
-                   </c:forEach> --%>
-                        
-               
-                        
+
                         <!-- empty-space -->
                             <tr class="group">
                                 <td class="empty-space" colspan="3"></td>
@@ -622,16 +626,19 @@
     });
 
     /************ 게시글, 보관함, 내 그룹 전환 시 script ************/
-
+	//게시글 클릭시
     $('.feedPost_btn').click(function() {
         $(this).css({'border-bottom' : '2px solid #47c6a3'});
         $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #daf4ed'});
         $('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
         $('.post').show();
         $('.storagebox').hide();
+        $('.fstorageBox_folder').hide();
         $('.group').hide();
+        $('#sbfeed').hide();
     });
 
+    //보관함 클릭시
     $('.feedStorageBox_btn').click(function() {
         $(this).css({'border-bottom' : '2px solid #47c6a3'});
         $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
@@ -639,8 +646,13 @@
         $('.post').hide();
         $('.storagebox').show();
         $('.group').hide();
+        $('.storageBox_subBtn4').hide();
+		$('.storageBox_subBtn5').hide();
+        $('.fstorageBox_folder').show();
+        $('#sbfeed').hide();
+        
     });
-
+	//그룹
     $('.feedMyGroup_btn').click(function() {
         $(this).css({'border-bottom' : '2px solid #47c6a3'});
         $('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
@@ -648,6 +660,8 @@
         $('.post').hide();
         $('.storagebox').hide();
         $('.group').show();
+        $('.fstorageBox_folder').hide();
+        $('#sbfeed').hide();
     }); 
     /********* 보관함 수정 및 삭제 script ************/
     /*보관함 만들기*/
@@ -659,42 +673,8 @@
         data:{mNo: mNo},
         type:"post",
         success:function(data){
-           if(data.storageBoxList != null && data.storageBoxList != 'undefined'){
-           alert("되냐");
-              /* $('.folder_default').show();
-                 $('.folder_correct').hide();
-                 $('.folder_delete').hide();
-
-                 $('.storageBox_subBtn3').hide();
-                 $('.storageBox_subBtn4').show(); */
-                 
-                 var input="";
-                 input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
-                 input += "<table>";
-                 input += "<tr class='storagebox'>";
-                    input += "<td class='folder_default' align='center'>";
-                  input += "<label class='current_folder'>"+data.storageBoxList.sbName+"</label>";
-                  input += "</td>";
-                  input += "<td class='folder_correct' align='center'>";
-                  input += "<input type='text' id='rename_folder' class='rename_folder' value='"+data.storageBoxList.sbName+"' maxlength='10'>";
-                  input += "</td>";
-                  input += "<td class='folder_delete' align='center' id='folder_delete'>";
-                  input += "<input type='checkbox' id='delete_folder'>";
-                  input += "<label for='delete_folder1' class='dltfolder'>"+data.storageBoxList.sbName+"</label>";
-                  input += "</td>";
-                  input += "</tr>";
-                  input += "</table>";
-                 input += "</td>";
-                 
-                 $("#box").append(input);
-                /*  $("#box").html(input); */
-
-           }else if(data.msg != null && data.msg != 'undefined'){
-              alert(data.msg);
-           }else{
-              alert("시스템 오류입니다.");
-           }
-
+           location.href ='goMypage.do?mNo=${ loginUser.mNo }&type=1';
+           alert("보관함을 생성하였습니다");
         },
          error:function(request,jqXHR,exception){
            var msg="";
@@ -724,7 +704,7 @@
      });
     /*그룹 탈퇴 이동*/
     $('.leaveBtn').click(function(){
-    	gdelete.do
+
     });
     
     /*보관함 이름 수정*/
@@ -754,15 +734,14 @@
 	    
 		$('.sbNameBox').css('border','none');
 		$('.sbNameBox').attr('readonly', 'readonly');
-		
-		
+
 		//맵객체로 만들것
 		var sbBoxMap = new Map();
 		for(var i =0; i < $('.sbNo').length; i++ ){
 			sbBoxMap.set($('.sbNo')[i].value,$('.sbNameBox')[i].value);
 		}
 		
-		sbBoxMap.set('mno',${ loginUser.mNo });
+		sbBoxMap.set('mno', ${ loginUser.mNo });
 		//맵 만들어졌는지 확인용
 		console.log(sbBoxMap);
 		
@@ -777,42 +756,38 @@
 	            alert('수정 완료되었습니다');
 	        },
 	        error: function(request) {
-	        	 alert('안됨');
+	        	 alert('에러');
 	        }
 		});
 		
 	});
 
     /* 보관함 삭제 */
-    $('.storageBox_subBtn3').click(function() {
-    	
+    $('.storageBox_subBtn3').click(function() {  	
     	$('.storageBox_subBtn3').hide();
     	$('.storageBox_subBtn4').hide();
     	$('.storageBox_subBtn5').show();
-    	 $('.sbBoxCheck').css('display','block');
-
+    	$('.sbBoxCheck').css('display','block');
     });
    
     /*보관함 삭제 완료..*/
     $('.storageBox_subBtn5').click(function(){
     	$('.sbBoxCheck').css('display','none');
-    	
+    	$('.storageBox_subBtn3').show();
+    	$('.storageBox_subBtn4').show();
         var sbBoxMap = new Map();
-        var j = 0;
-		for(var i =0; i < $('.sbBoxCheck').length; i++ ){
+        var j = 0;		
+        for(var i =0; i < $('.sbBoxCheck').length; i++ ){
 			if($('.sbBoxCheck')[i].checked == true){
 				sbBoxMap.set(j,$('.sbBoxCheck')[i].value);
 				j++;
 			}
 		}
-		sbBoxMap.set('mno',${ loginUser.mNo });
-		
-		//맵 만들어졌는지 확인용
-		console.log(sbBoxMap);
 
-    	$('.storageBox_subBtn3').show();
-    	$('.storageBox_subBtn4').show();
-    	
+		if(j > 0 ){	
+		sbBoxMap.set('mno',${ loginUser.mNo });
+		//맵 만들어졌는지 확인용
+		//console.log(sbBoxMap);
          $.ajax({
             url:"deleteBox.do",
         	dataType:'json',
@@ -820,10 +795,8 @@
 			data:JSON.stringify(Object.fromEntries(sbBoxMap)),
 			contentType :'application/json; charset=UTF-8',
 	        success:function(data){
-            	$('.storagebox').show();
-           		$('.storageBox_subBtn3').show();
-        		$('.storageBox_subBtn4').show();
-        		alert('보관함이 삭제되었습니다');
+        		location.href ='goMypage.do?mNo=${ loginUser.mNo }&type=1';
+                alert('보관함이 '+j+'개 삭제되었습니다');
             },
              error:function(request,jqXHR,exception){
                var msg="";
@@ -844,13 +817,92 @@
                }
                alert(msg);
             } 
-         });
-         
+         });     
+		}
+		
     });
 
-
-
-	 
+	//보관함 눌러서 내가 보관한 피드 볼 때
+	$('.sbButton').click(function() {
+		var sbNo = $(this).attr("id");
+		var mNo = $('#mNo').val();
+		if(sbNo > 0){
+			$.ajax({
+				url:"goStorageBox",
+	        	dataType:'json',
+				type:'post',
+				data:{mno: mNo,
+					sbno:sbNo},
+		        success:function(data){
+					if(data.fList != null){
+	    				var input="";
+	    				var i = 0;
+	    				var j = 0;
+	    				for(var i=0; i < data.fList.length; i++){;	
+	    					if(i == 0){
+	    						input +="<tr>";
+    							input +="<td><a><b>뒤로 </b></a></td>";
+	    						input +="</tr>";
+	    					}
+	    				 		if (j%3==0){ 
+	    				input +="<tr class='post' id='sbfeed'>";
+	    						}
+	    						if(data.fList[i].thumbnail != null){	
+	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()'>";	
+	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
+	    				input += "</td>";		
+	    						}else{	
+	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<div type='button' id='pb2'>";
+	    				input += "<text>"+data.fList[i].fcontent+"</text>";	
+	    				input += "</div>";
+	    				input += "</td>";
+	    						}	
+		    				if (j%3==2){ 
+		    					input +="</tr>"; 	
+		    				}
+	    				j++; 
+	    				}
+	    				
+	                    $("#myPage_feed").append(input);
+	                    //$("#myPage_feed").html(input);
+	                    $(".fstorageBox_folder").hide();
+	                    $("#storagebox").hide();
+					}else{
+						alert(data.msg);
+					}
+	            },
+	             error:function(request,jqXHR,exception){
+	               var msg="";
+	               if(request.status == 0){
+	                  msg = 'Not Connect. \n Verify Network.';
+	               } else if(request.status == 404){
+	                  msg = 'Requested page not fount [404]';
+	               } else if(request.status == 500){
+	                  msg = 'Internal Server Error [500]';
+	               } else if(request.status == 'parsererror'){
+	                  msg = 'Requested JSON parse failed';
+	               } else if(exception == 'timeout'){
+	                  msg = 'Time out error';
+	               } else if(exception == 'abort'){
+	                  msg = 'Ajax request aborted';
+	               } else {
+	                  msg = 'Error. \n' + jqXHR.responseText;
+	               }
+	               alert(msg);
+	            } 
+				
+			});
+		}else{
+			alert('보관함을 불러올 수 없습니다');
+		}
+	});
+	//팝업창 띄울것....
+	 function sbPop() {
+		 alert('이제 팝업으로 게시글 불러와야하는데.. 이거 가능..?');
+		 $('.pop_feed2').show();
+	}
 	/************ 포스트 박스 클릭 시 script ************/
 	/* 이새끼 때문에 스크립트 안먹어서 일단 주석 처리..
     $('#pb1').click(function() {

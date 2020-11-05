@@ -71,9 +71,10 @@ public class EchoHandler extends TextWebSocketHandler{
         	
         	if(sendType.equals("chatting")) {
         		WebSocketSession toSession =  userSessions.get(toId);
+        		System.out.println(toSession);
         		if(Rmsg == null || Rmsg.equals("")) {
             		Rmsg = " ";
-            		if(toSession == null) {
+            		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             		} else {
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
@@ -81,9 +82,11 @@ public class EchoHandler extends TextWebSocketHandler{
             		}
             	} else {
             		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
-            		if(toSession == null) {
+            		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
+            			System.out.println("값 XXX");
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             		} else {
+            			System.out.println("값 OOOOO");
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
@@ -92,23 +95,47 @@ public class EchoHandler extends TextWebSocketHandler{
         	} else if(sendType.equals("groupChatting")) {
         		ArrayList<GroupMember> list = gController.getGroupList(toId);
         		WebSocketSession toSession = null;
+        		int result = cController.sendMessageGroup(new Chat(), fromId, toId, Rmsg, crNo);
+        		String img = "";
+        		for(GroupMember gg : list) {
+        			if(gg.getGmId().equals(fromId)) {
+        				img = gg.getGmImage();
+        			}
+        		}
         		for(GroupMember g : list) {
         			toSession = userSessions.get(g.getGmId());
         			if(Rmsg == null || Rmsg.equals("")) {
-	        			if(toSession == null) {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	        			} else {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	            			toSession.sendMessage(new TextMessage(Rmsg));
-	        			}
+        				if(toSession.equals(fromId)) {
+            				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+            			} else {
+            				if(toSession.equals("") || toSession == null || !toSession.isOpen()) {
+            					continue;
+            				} else {
+            					toSession.sendMessage(new TextMessage(Rmsg));
+            				}
+            			}
         			} else {
-        				int result = cController.sendMessage(new Chat(), fromId, toId, Rmsg, crNo);
-        				if(toSession == null) {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	        			} else {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	            			toSession.sendMessage(new TextMessage(Rmsg));
-	        			}
+        				if(result == -1) {
+        					if(g.getGmId().equals(fromId)) {
+        						session.sendMessage(new TextMessage(Rmsg+"|sender|sender"));
+        					} else {
+        						if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
+        							continue;
+        						} else {
+        							toSession.sendMessage(new TextMessage(Rmsg+"|sender|sender"));
+        						}
+        					}
+        				} else {
+        					if(g.getGmId().equals(fromId)) {
+        						session.sendMessage(new TextMessage(Rmsg+"|sender"));
+        					} else {
+        						if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
+        							continue;
+        						} else {
+        							toSession.sendMessage(new TextMessage(Rmsg+"|"+fromId+"|memberProfileFiles/"+img));
+        						}
+        					}
+        				}
         			}
         		}
         	} else if(sendType.equals("alarm")) {

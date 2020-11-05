@@ -63,4 +63,9 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("adminAlertMapper.questionSearchList");
 	}
 
+
+	public ArrayList<Member> questionSearchListName() {
+		return (ArrayList)sqlSession.selectList("adminAlertMapper.questionSearchListName");
+	}
+
 }

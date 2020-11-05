@@ -71,4 +71,25 @@ public interface ChatService {
 	 */
 	int insertGroupChat(Chat c);
 
+	/**
+	 * 10. 그룹 채팅 내용 불러오기
+	 * @param c
+	 * @return
+	 */
+	ArrayList<Chat> getGroupChatContentList(Chat c);
+
+	/**
+	 * 11. 그룹 채팅멤버 추가
+	 * @param c
+	 * @return
+	 */
+	int insertJoinChatRoom(Chat c);
+
+	/**
+	 * 12. 같은 방 친구들 가져오기
+	 * @param gNo
+	 * @return
+	 */
+	ArrayList<Chat> getJoinMember(int gNo);
+
 }

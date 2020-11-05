@@ -49,7 +49,7 @@
 	
 	<insert id="insertChat" parameterType="Chat">
 		INSERT INTO CHAT
-		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N')
+		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',NULL)
 	</insert>
 	
 	<insert id="insertChatRoom" parameterType="Chat">
@@ -95,4 +95,20 @@
 		INSERT INTO CHAT
 		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',#{gNo})
 	</insert>
+	
+	<insert id="insertChatGroup" parameterType="Chat">
+		INSERT INTO CHAT
+		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',#{gNo})
+	</insert>
+	
+	<select id="getGroupChatContentList" parameterType="Chat" resultMap="chatResultSet">
+		SELECT C.C_NO,C.CR_NO,C.FROM_ID,C.TO_ID,C.C_CONTENT,C.C_DATE,C.C_READ,C.G_NO,G.G_PROFILE,G.G_RENAME_PROFILE,G.G_NAME
+		FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO)
+		WHERE CR_NO = #{crNo}
+		ORDER BY C_DATE
+	</select>
+	
+	<select id="getJoinMember" parameterType="_int" resultMap="chatResultSet">
+		SELECT FROM_ID FROM CHAT WHERE G_NO = #{gNo} GROUP BY FROM_ID
+	</select>
 </mapper>

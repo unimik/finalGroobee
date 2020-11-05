@@ -24,8 +24,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonIOException;
+
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
+
+import com.kh.spring.chat.model.service.ChatService;
+import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
@@ -36,7 +40,12 @@ public class GroupController{
 	
 	@Autowired
 	private GroupService gService;
+	
+	@Autowired
 	private FeedService fService;
+	
+	@Autowired
+	private ChatService cService;
 	
 	/******* 그룹 **********/
 	
@@ -510,7 +519,8 @@ public class GroupController{
 	public ArrayList<GroupMember> getGroupList(String toId) {
 		int gNo = Integer.parseInt(toId);
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
-		System.out.println(gmList);
+		ArrayList<Chat> cList = cService.getJoinMember(gNo);
+		ArrayList<GroupMember> list = new ArrayList<GroupMember>();
 		return gmList;
 	}
 

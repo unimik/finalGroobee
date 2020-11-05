@@ -32,8 +32,15 @@ public interface FeedService {
 	 * @return
 	 *
 	 */
-//	ArrayList<Feed> selectUpdateFeed();
-	ArrayList<Feed> selectUpdateFeed(int fNo);
+	Feed selectUpdateFeed(int fNo);
+	int updatePost(Feed f);
+
+	/**
+	 * 2_3. 포스트 삭제(게시글)
+	 * @return
+	 *
+	 */
+	int deletePost(int fNo);
 	
 	/**
 	 *  가입한 그룹 조회
@@ -42,6 +49,11 @@ public interface FeedService {
 	 */
 	ArrayList<GroupName> selectGroupMemberId(String userId);
 	
+
 	ArrayList<Feed> selectGfList();
+
+	
+	
+
 
 }

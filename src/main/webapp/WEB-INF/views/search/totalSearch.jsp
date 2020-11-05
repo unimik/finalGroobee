@@ -30,7 +30,7 @@
 	                        	<c:forEach var="m" items="${ mList }">
 	                            <c:choose>
 	                            <c:when test="${ empty m.mImage }">
-		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
+		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='goUserpage.do?userId=${ m.userId }&mNo=${ loginUser.mNo }'">
 		                                <img src="resources/images/IMG_7502.JPG" alt="" id="user_profile_img">
 		                                <p id="search_id">${ m.userId }</p>
 		                                <input type="hidden" id="mNo" name="mNo" value="${m.mNo} }"/>
@@ -38,7 +38,7 @@
 		                            </div>
 	                            </c:when>
 	                            <c:otherwise>
-	                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='';">
+	                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='goUserpage.do?userId=${ m.userId }&mNo=${ loginUser.mNo }'">
 	                                <img src="resources/memberProfileFiles/${ m.mRenameImage }" alt="" id="user_profile_img">
 	                                <p id="search_id">${ m.userId }</p>
 	                            </div>                            
@@ -120,7 +120,7 @@
 	                    	<tr>
 	                    	 <%} %>
 	                    	<c:choose>
-	                   			<c:when test="${ empty f.fFile }">
+	                   			<c:when test="${ empty f.thumbnail }">
 		                    		<td>
 		                   			<div class="post" style=" cursor: pointer;">
 			                             <p>${f.fContent} </p>
@@ -131,7 +131,7 @@
 	                   			<c:otherwise>
 		                   			<td>
 		                   			<div class="post" style=" cursor: pointer;">
-			                            <img src="resources/feedUpFiles/${f.fRenameFile}" alt="" id="post_con">
+			                            <img src="resources/pUploadFiles/${f.thumbnail}" alt="" id="post_con">
 			                        </div>
 			                        <td>
 	                   			</c:otherwise>

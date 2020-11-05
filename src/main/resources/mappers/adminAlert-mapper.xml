@@ -9,10 +9,10 @@
  		<result property="dComplete" column="D_COMPLETE"/>
  		<result property="dCompleteDate" column="D_COMPLETE_DATE"/>
  		<result property="mNo" column="M_NO"/>
- 		<result property="dReportDate" column="D_REPORTDATE"/>
- 		
+ 		<result property="dReportDate" column="D_REPORTDATE"/>	
  	</resultMap>
- 		<resultMap id="memberResultSet" type="Member">
+ 	
+ 	<resultMap id="memberResultSet" type="Member">
  		<id property="mNo" column="M_NO"/>
  		<result property="userId" column="M_ID"/>
  		<result property="userName" column="M_NAME"/>
@@ -27,19 +27,26 @@
  		<result property="mLevel" column="M_LEVEL"/>
  		<result property="mIntro" column="M_INTRO"/>
  	</resultMap>
+ 	
  	<resultMap id="qusetionResultSet" type="Question">
  		<id property="qNo" column="Q_NO"/>
  		<result property="qContent" column="Q_CONTENT"/>
- 		<result property="mNo" column="M_NO"/>
+ 		<result property="mNo" column="M_NO"/> 		
  	</resultMap>
   	
  	
 	<select id="questionSearchList" parameterType="Question" resultMap="qusetionResultSet">
 		SELECT *
  		FROM QUESTION 
- 		JOIN MEMBER USING(M_NO)
+ 		LEFT JOIN MEMBER USING(M_NO)
  		ORDER BY Q_NO
  	</select>
- 	
+
+	<select id="questionSearchListName" parameterType="Member" resultMap="memberResultSet">
+		SELECT *
+ 		FROM Member 
+ 		RIGHT JOIN QUESTION USING(M_NO)
+ 		ORDER BY Q_NO
+ 	</select>
  	
 </mapper>
