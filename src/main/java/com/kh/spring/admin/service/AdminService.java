@@ -64,9 +64,10 @@ public interface AdminService {
 	 */
 	int feedStatusChange(Feed f);
 
-	/** 5-1. 모달 - 문의사항
+	/** 5-1. 문의사항(모달)
 	 * @return
 	 */
 	ArrayList<Question> questionSearchList();
+	ArrayList<Member> questionSearchListName();
 
 }
