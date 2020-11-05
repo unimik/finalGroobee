@@ -23,10 +23,6 @@
     .fstorageBox_folder,.sbBoxCheck{
      display:none;
     };
-    #interests{
-    font-size:smaller;
-    color:grey;
-    }
     #myPage_introduction{
     padding-top: 20px;
     }
@@ -253,7 +249,7 @@
                         <div id="self-introduction">
                             ${ loginUser.mIntro }
                         </div>
-                        <div id="interests">
+                        <div id="interests" style="font-size:smaller; color:grey;">
                              ${ loginUser.interestes }
                         </div>
                     </div>
