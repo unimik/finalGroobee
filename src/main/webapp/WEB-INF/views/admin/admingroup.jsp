@@ -80,6 +80,7 @@
 					</thead>
 					<tbody>
 					</tbody>
+					<tfoot></tfoot>
 				</table>
 			</div>
 		</div>
@@ -146,6 +147,9 @@
 					$tableBody = $("#group_table  tbody");
 					$tableBody.html("");
 					
+					$tableFoot = $("#group_table tfoot");
+					var $tr2 = $("<tr>");
+					
 					for(var i in data){
 						
 						var $tr = $("<tr>");
@@ -175,6 +179,10 @@
 							
 							$tableBody.append($tr);
 					}
+					var $pageBox = $('<td colspan="7" id="pagination" class="pagination">');
+					$tr2.append($pageBox);
+					$tableFoot.append($tr2);
+					page();
 				},
 				error:function(request,status,error){
 					alert("code : "+request.status+"\n"
@@ -208,7 +216,141 @@
 				});
 				
 			});
-        
+			// 페이지 마우스 오버 효과
+			$(document).on('mouseover','.pageNum',function(){
+				$(this).css("color","red").css("cursor","pointer");
+			});
+			$(document).on('mouseout','.pageNum',function(){
+				$(this).css("color","black");
+			});
+			
+			
+	
+			// 페이징 처리
+			function page(){ 
+				
+			    $('#feedTable').each(function() {
+
+				console.log("page()가 실행됨");		   
+				
+			    var pagination = $("#pagination"); // 페이징을 표시할 곳
+			    
+			    var pagesu = 10;  //페이지 번호 갯수 
+			    var currentPage = 0;    
+			    var numPerPage = 10;  //목록의 수   
+			    var $table = $(this);      // table을 가르킴 
+			    console.log(this); // this => tbody
+			    
+			    //length로 원래 리스트의 전체길이구함   
+			    var numRows = $table.find('tbody tr').length;
+			    console.log("numRows : "+numRows); // 출력될 행의 갯수
+			     
+			    //Math.ceil를 이용하여 반올림   
+			    var numPages = Math.ceil(numRows / numPerPage);
+			    console.log("numPages의 갯수 : "+ numPages);
+			    
+			    //리스트가 없으면 종료   
+			    if (numPages==0) return;
+			        
+			    //pager라는 클래스의 div엘리먼트 작성  
+			    var $pager = $('<div class="pager"></div>'); 
+			    var nowp = currentPage;
+			    var endp = nowp+10;
+			    
+			    //페이지를 클릭하면 다시 셋팅 
+			    $table.on('click', function() {
+				    //기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다 
+				    $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();   
+				    $("#pagination").html("");
+				  
+				    if (numPages > 1) {     // 페이지가 하나이상 생성될 때   
+				    	
+				    	// 현재 5페이지 이하이면    
+					    if (currentPage < 5 && numPages-currentPage >= 5) {  
+						    nowp = 0;     // 1부터  
+						    endp = pagesu;    // 10까지
+					    
+					    }else{
+						    nowp = currentPage -5;  // 6넘어가면 2부터 찍고	 
+						    endp = nowp+pagesu;   // 10까지
+						    pi = 1;	    
+					    }
+						// 10페이지 이하일 때 
+					    if (numPages < endp) {    
+						    endp = numPages;   // 마지막페이지를 갯수 만큼    
+						    nowp = numPages-pagesu;  // 시작페이지를   갯수 -10
+					    }
+					    
+						// 시작이 음수 or 0 이면
+					    if (nowp < 1) {         
+					    	nowp = 0;     // 1페이지부터 시작
+				    	}
+				    
+				    }else{       // 한페이지 이하이면    
+					    nowp = 0;      // 한번만 페이징 생성  
+					    endp = numPages;    
+				    }
+			    
+			    
+					    // [처음]    
+					    $('<span class="pageNum first" > [처음] </span>').on('click', {newPage: page},function(event) { 
+					    currentPage = 0;       
+					    $table.trigger('click');      
+					    $($(".pageNum")[2]).addClass('active').siblings().removeClass('active');    
+					    }).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    
+					    // [이전]    
+					    $('<span class="pageNum back"> [이전] </span>').on('click', {newPage: page},function(event) {  
+					
+					    	if(currentPage == 0) return; 
+					    	 currentPage = currentPage-1;
+					    	 $table.trigger('click'); 
+					    	 $($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+					   		}).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    // [1,2,3,4,5,6,7,8]
+					    for (var page = nowp ; page < endp; page++) {    
+						    $('<span class="pageNum"></span>').text( page + 1 ).on('click', {newPage: page}, function(event) {
+						    	currentPage = event.data['newPage']; 
+						    	
+						    	$table.trigger('click');	    
+						    	
+						    	$($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+						    }).appendTo(pagination).addClass('clickable');    
+					    } 
+					        
+					    // [다음]
+					    $('<span class="pageNum next"> [다음] </span>').on('click', {newPage: page},function(event) {
+						    if(currentPage == numPages-1) return;
+					   	    currentPage = currentPage+1;    
+						    $table.trigger('click');
+						    $($(".pageNum")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');	    
+						    }).appendTo(pagination).addClass('clickable');
+					    
+					    
+					    // [끝]
+					    $('<span class="pageNum last"> [끝] </span>').on('click', {newPage: page},function(event) {    
+					    currentPage = numPages-1;
+					    $table.trigger('click');
+					    $($(".pageNum")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
+					    }).appendTo(pagination).addClass('clickable');    
+					    $($(".pageNum")[2]).addClass('active');    
+					    });
+					    
+					    
+					    $pager.insertAfter($table).find('span.pageNum:first').next().next().addClass('active');   
+					    
+					    $pager.appendTo(pagination);
+					    
+					    $table.trigger('click');
+					    
+					    });
+			    
+			   
+			    }
 </script>
 
 </body>

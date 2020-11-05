@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
@@ -27,42 +28,55 @@ public class TotalSearchController {
 	
 	//검색창에 검색 컨트롤러
 	@RequestMapping("search.do")
-	public ModelAndView searchList(ModelAndView mv, String allSearch) {
+	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="key") String key,@RequestParam(value="type") String type) {
+		//System.out.println("key :"+key+"   type: "+type);
 
-//		System.out.println("검색어 잘 들어오니?"+allSearch);
-//		System.out.println("맨 앞글자 구분: "+allSearch.charAt(0));
-		if(allSearch =="") { //아무것도 검색하지 않을 때
+		if(type.equals("recommend")) { //아무것도 검색하지 않을 때
+			Search srch = new Search('R', key);
+			String interest = tsService.searchInterest(srch);
+			System.out.println(interest);
+			String[] itrst = interest.split(",");
+			
+			/*
+			for(int i =0; i <itrst.length; i++) {
+				System.out.println(i+itrst[i]);
+			}
+			if (itrst.length > 0) {
+			ArrayList<Group> gList = tsService.searchInterestGroup(itrst);
+				
+			}
+			*/
+			
 			mv.setViewName("search/totalSearch");
 			return mv;
 			
-		}else if(allSearch.charAt(0) =='@') {	//@달고 검색했을 때 --> 아이디, 글에 달린 @아이디 검색	
+		}else if(type.equals("user")) {	//@달고 검색했을 때 --> 아이디, 글에 달린 @아이디 검색	
 			//유저 검색
-			Search srch = new Search(allSearch.charAt(0), allSearch.substring(1));
+			Search srch = new Search('@', key);
 			ArrayList<Member> mList = tsService.searcMember(srch);
 
 			//피드 검색
-			Search srch2 = new Search(allSearch.charAt(0), allSearch);
+			Search srch2 = new Search('@', '@'+key);
 			ArrayList<Feed> fList = tsService.searchFeed(srch2);
 
 			mv.addObject("mList", mList);
 			mv.addObject("fList", fList);
-
 			mv.setViewName("search/totalSearch");
 			return mv;
 			
-		}else if(allSearch.charAt(0) =='#') { //# 달고 검색 했을 때 -> 태그 검색
+		}else if(type.equals("tag")) { //# 달고 검색 했을 때 -> 태그 검색
+
 			//유저 검색
-			Search srch = new Search(allSearch.charAt(0), allSearch);
+			Search srch = new Search('#', '#'+key);
 			ArrayList<Member> mList = tsService.searcMember(srch);
 			
 			//그룹 검색, 피드 검색
-			Search srch2 = new Search(allSearch.charAt(0), allSearch);
-			ArrayList<Group> gList = tsService.searchGroup(srch2);
-			ArrayList<Feed> fList = tsService.searchFeed(srch2);
+			ArrayList<Group> gList = tsService.searchGroup(srch);
+			ArrayList<Feed> fList = tsService.searchFeed(srch);
 			
 			//연관 검색어
 //			ArrayList<RelatedSearch> rsList = tsService.relatedSearch(srch2); 
-			ArrayList raList = tsService.relatedSearch(srch2);
+			ArrayList raList = tsService.relatedSearch(srch);
 			ArrayList rbList = new ArrayList();
 
 //			ArrayList<RelatedSearch> rsList = new ArrayList<RelatedSearch>();
@@ -80,24 +94,31 @@ public class TotalSearchController {
 			mv.addObject("gList", gList);
 			mv.addObject("fList", fList);
 			mv.addObject("rsList",rbList);
-			mv.addObject("searchKey", allSearch.substring(1));
+			mv.addObject("searchKey", key);
 			
 			
 			mv.setViewName("search/totalSearch");
-			return mv;
-			
-		}else{								//@나 # 빼고 검색했을 때
-//			Search srch = new Search(allSearch.charAt(0), allSearch);
-//			ArrayList<Member> mList = tsService.searcMember("");
-//			ArrayList<Feed> gList = tsService.searchGroup(allSearch);
-//			ArrayList<Feed> fList = tsService.searchFeed(srch);
-//			ArrayList<Tag> 연관검색어 = 
 
+			return mv;
+		}else if(type.equals("all")){	//@나 # 빼고 검색했을 때
+			System.out.println("다 검색");
+
+			Search srch = new Search('N', key);
+			ArrayList<Member> mList = tsService.searcMember(srch);
+			ArrayList<Group> gList = tsService.searchGroup(srch);
+			ArrayList<Feed> fList = tsService.searchFeed(srch);
+
+			mv.addObject("mList", mList);
+			mv.addObject("gList", gList);
+			mv.addObject("fList", fList);
+			mv.setViewName("search/totalSearch");
+			
+
+			return mv;
+		}else {
 			mv.setViewName("search/totalSearch");
 			return mv;
-						
 		}
-		
 	}
 	
 	

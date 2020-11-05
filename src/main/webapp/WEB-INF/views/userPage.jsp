@@ -225,8 +225,13 @@
                             <th colspan="3"><div class="feedPost">게시글</div></th>
                         </tr>
 
+<<<<<<< HEAD
                     <!-- 게시글 -->
                          <%! int i = 0; %>
+=======
+                    <!--게시글-->
+                          <%! int i = 0; %>
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">

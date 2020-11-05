@@ -273,9 +273,9 @@
                         <% if (i%3==0){ %>
                         <tr class="post">
                         <%} %>
-                              <c:choose>
-                                 <c:when test="${!empty feedlist.fRenameFile }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
+                            <c:choose>
+                                 <c:when test="${!empty feedlist.thumbnail }">
+                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
                                  </c:when>
                                  <c:otherwise>
                                      <td class="postbox" name="postbox">
@@ -288,7 +288,8 @@
                           <% if (i%3==2){ %>
 	                      </tr>
 	                      <%} i++; %>
-                          </c:forEach> --%>
+
+                          </c:forEach>
 
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
@@ -508,12 +509,14 @@
                                 </div> 
                             </div>
                         </div>
-
+					<div class="pop_feed3">
+					
+					</div>
                     <!-- 보관함 -->
-                      <tr class="storagebox">
+                      <tr class="storagebox" id="storagebox">
                             <td></td>
                             <td></td>
-                            
+                            <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
                             <td id="storageBox" colspan="3">
                                 <div id="sb_menu">
                                     <div type="button" class="storageBox_subBtn1"><img src="<%=request.getContextPath()%>/resources/icons/add.png"></div>
@@ -527,49 +530,22 @@
                         <%! int  j = 0; %>
                         <c:forEach var="sb" items="${ storageBoxList }">
                        	<% if (j%3 == 0){ %>
-                        <tr class="storagebox">
+                    <tr class="storagebox">
                        	<%} %>
                             <!-- <div id="box">보관함새폴더생성</div>-->
                             <td class="fstorageBox_folder">
-                            <%--  <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
-                            <div id="box2">폴더명</div>--%>
-                            <div id ="sbBoxxx">
-                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type="button">
+                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
                             <label>
                             <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
                             <input type="hidden" class="sbNo" value="${ sb.sbNo }">
                             <input type="text" class="sbNameBox"  value="${ sb.sbName }">
                             </label>                            
-                            </div>
-                            <%-- <div id="box2">${ sb.sbName }</div>--%>
                             </td>
                    		 <% if (j%3==2){ %>
                         </tr>
                   		 <%} j++;%>
                          </c:forEach>
-                   <%--    <c:forEach var="storagebox" items="${ storageBoxList }" varStatus= "i">
-                            <table>
-                               <tr class="storagebox">
-                        <!-- 기존 상태 -->
-                            <td class="folder_default" align="center">
-                                <label class="current_folder">${ storagebox.sbName }</label>
-                            </td>
-                        <!-- 폴더명 수정 시 -->
-                            <td class="folder_correct" align="center">
-                                <input type="text" id="rename_folder${i.index}" class="rename_folder${i.index}" value="${ storagebox.sbName }" maxlength="10">
-                            </td>
-                        <!-- 폴더 삭제 시 -->
-                            <td class="folder_delete" align="center" id="folder_delete">
-                                <input type="checkbox" id="delete_folder${i.index}">
-                                <label for="delete_folder1" class="dltfolder">${ storagebox.sbName }</label>
-                            </td>
-                        </tr>
-                            </table>
-                            </td>
-                   </c:forEach> --%>
-                        
-               
-                        
+
                         <!-- empty-space -->
                             <tr class="group">
                                 <td class="empty-space" colspan="3"></td>

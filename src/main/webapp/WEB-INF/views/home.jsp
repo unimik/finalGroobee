@@ -121,18 +121,6 @@
 				</c:if>
 				</c:forEach>
 				</div>
-					<div id="replyList" style="display: block;">
-					<c:forEach var="r" items="${ f.replyList }">
-					<ul id="re_list">
-						<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-							id="reply_img">&nbsp;&nbsp;&nbsp;
-							<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-						<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
-						<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-						<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-					</ul>
-					</c:forEach>
-					</div>
 
 				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
 				<div class="reply_menu">

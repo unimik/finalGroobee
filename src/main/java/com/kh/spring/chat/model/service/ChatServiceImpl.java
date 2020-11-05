@@ -60,4 +60,20 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.insertGroupChat(c);
 	}
 
+	@Override
+	public ArrayList<Chat> getGroupChatContentList(Chat c) {
+		return cDao.getGroupChatContentList(c);
+	}
+
+	@Override
+	public int insertJoinChatRoom(Chat c) {
+		return cDao.insertJoinChatRoom(c);
+	}
+
+	@Override
+	public ArrayList<Chat> getJoinMember(int gNo) {
+		return cDao.getJoinMember(gNo);
+	}
+
+
 }

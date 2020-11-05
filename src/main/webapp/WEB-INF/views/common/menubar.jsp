@@ -16,6 +16,7 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 
 <style>
 	a{text-decoration:none;}
@@ -175,6 +176,7 @@
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
 	         </ul>
 	     </div>
+	     
      <script type="text/javascript">
      
      $(document).on("click",".plusChatUser",function(){
