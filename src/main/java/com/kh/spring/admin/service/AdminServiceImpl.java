@@ -62,4 +62,9 @@ public class AdminServiceImpl implements AdminService{
 	public ArrayList<Question> questionSearchList() {
 		return aDao.questionSearchList();
 	}
+
+	@Override
+	public ArrayList<Member> questionSearchListName() {
+		return aDao.questionSearchListName();
+	}
 }
