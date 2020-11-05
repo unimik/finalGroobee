@@ -12,14 +12,18 @@
 	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
-	.pop_menu{ background: #00000005; }
 	a{ color: black; }
 	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
+	#imgList img{ width: 633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	#nextBtn{ position: absolute; margin: 300px 570px; }
-	#prevBtn{display:none; position: absolute; margin: 300px 20px; }
+	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
+	#replyList{ width: 100%; height: 0px; }
+	#replySub::-webkit-scrollbar{ width: 7px;}
+	#replySub::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+	#replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
 </style>
 
 </head>
@@ -38,7 +42,6 @@
 				</div>
 				</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-			</div>
 
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
@@ -67,6 +70,9 @@
                 </div>
 			</c:otherwise>
 		</c:choose>
+	</div>
+		
+		
 			<div class="feed_report">
 			<div id="feed_report_con">
 				<p>신고사유</p>
@@ -83,21 +89,37 @@
 		<div id="con">
 			<div id="feed_content">
 					<c:forEach var="p" items="${ f.photoList }">
-					<ul id="imgList">
-						<c:if test="${ !empty f.photoList }">
-						<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+						<c:if test="${ !empty p.originName}">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList">
+							<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+						</ul>
 						</c:if>
-					</ul>
 					</c:forEach>
 				<div id="heart_reply">
-					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
-					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
+					<img src="${ contextPath }/resources/icons/bubble.png" alt=""  id="replyIcon">
 				</div>
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 
 			</div>
 			<div id="replyArea">
-				<div id="replyList" style="display: none;">
+				<div id="replyList" style="display: block;">
+				<c:forEach var="r" items="${ f.replyList }">
+				<c:if test="${ !empty r.rContent }">
+				<div id="replySub" style="display: block; height: 150px; overflow: auto;">
+				<ul id="re_list">
+					<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
+						id="reply_img">&nbsp;&nbsp;&nbsp;
+						<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+					<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
+					<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
+					<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+				</ul>
+				</div>
+				</c:if>
+				</c:forEach>
 				</div>
 					<div id="replyList" style="display: block;">
 					<c:forEach var="r" items="${ f.replyList }">
@@ -135,9 +157,11 @@
 	</div>
     <script>
 			
-            $('.test').on("click", function(){
-	              $('.pop_menu').show();
-            });
+			$('.test').on("click", function(event){
+			    var sample = $(event.target).siblings()[1];
+			    $(sample).show();
+			});
+
 
             $('.close').on('click',function(){
                 $('.pop_menu').hide();
@@ -160,17 +184,34 @@
             });
 
 
-    	$(document).ready(function(){
-    	   var count;
-            
-  	   	   if(count > 0 ){
-  	   			$('#nextBtn').css("display","block");
-  	   	   }
-  	   		
-	  	   $('#nextBtn').on("click",function(){
-	  		   alert("버튼확인");
-	  	 	});
-    	});
+    	        
+    	        var size;
+    	        var idx = 0;
+    	        var count = $(".feed").length;
+    	        var ul = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList");
+    	        console.log(ul);
+    	        var liCount;
+    	        
+    			for (var i = 1; i == count; i++){
+    				liCount = ul[i].childrenCount;
+    				console.log(liCount);
+    				if( liCount > 1){
+    	        		$('#nextBtn'+i).css("display","block");
+    	        	}
+    			}
+    			
+    			/* $('.nextBtn').on("click",function(){
+    	  			size = $(this).nextAll().children('li').length;
+    	  			console.log(size);
+    	  			console.log(count);
+    	  			console
+    	  			if(size > 1){
+    	  				
+    	  			}	
+    	  		}); */
+        
+    	
+    	
     </script>
     
 </body>

@@ -40,5 +40,6 @@
 		<mapper resource="mappers/declaration-mapper.xml"/>
 		<mapper resource="mappers/myaccount-mapper.xml"/>
 		<mapper resource="mappers/notification-mapper.xml"/>
+		<mapper resource="mappers/adminAlert-mapper.xml"/>
 	</mappers>
 </configuration>

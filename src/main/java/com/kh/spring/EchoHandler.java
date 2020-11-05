@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
+import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.controller.GroupController;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
@@ -81,13 +83,15 @@ public class EchoHandler extends TextWebSocketHandler{
 				sendType = strs[2];
 				crno = strs[3];
 			}
+        	System.out.println("Rmsg : " + Rmsg);
         	int crNo = Integer.parseInt(crno);
         	
         	if(sendType.equals("chatting")) {
         		WebSocketSession toSession =  userSessions.get(toId);
+        		System.out.println(toSession);
         		if(Rmsg == null || Rmsg.equals("")) {
             		Rmsg = " ";
-            		if(toSession == null) {
+            		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             		} else {
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
@@ -95,9 +99,11 @@ public class EchoHandler extends TextWebSocketHandler{
             		}
             	} else {
 //            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
-            		if(toSession == null) {
+            		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
+            			System.out.println("값 XXX");
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             		} else {
+            			System.out.println("값 OOOOO");
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
@@ -107,15 +113,25 @@ public class EchoHandler extends TextWebSocketHandler{
         	}else if(sendType.equals("groupChatting")) {
         		ArrayList<GroupMember> list = gController.getGroupList(toId);
         		WebSocketSession toSession = null;
+        		int result = cController.sendMessageGroup(new Chat(), fromId, toId, Rmsg, crNo);
+        		String img = "";
+        		for(GroupMember gg : list) {
+        			if(gg.getGmId().equals(fromId)) {
+        				img = gg.getGmImage();
+        			}
+        		}
         		for(GroupMember g : list) {
         			toSession = userSessions.get(g.getGmId());
         			if(Rmsg == null || Rmsg.equals("")) {
-	        			if(toSession == null) {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	        			} else {
-	        				session.sendMessage(new TextMessage(Rmsg+"|sender"));
-	            			toSession.sendMessage(new TextMessage(Rmsg));
-	        			}
+        				if(toSession.equals(fromId)) {
+            				session.sendMessage(new TextMessage(Rmsg+"|sender"));
+            			} else {
+            				if(toSession.equals("") || toSession == null || !toSession.isOpen()) {
+            					continue;
+            				} else {
+            					toSession.sendMessage(new TextMessage(Rmsg));
+            				}
+            			}
         			} else {
 //        				int result = cController.sendMessage(new Chat(), fromId, toId, Rmsg, crNo);
         				if(toSession == null) {
@@ -126,7 +142,7 @@ public class EchoHandler extends TextWebSocketHandler{
 	        			}
         			}
         		}
-        	} else if(sendType.equals("alarm")) {
+        	} else if(Rmsg.equals("alarm")) {
         		//작성자가 로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
 				System.out.println("이게뭐지? "+boardWriterSession);
@@ -136,18 +152,18 @@ public class EchoHandler extends TextWebSocketHandler{
 				
 				if(boardWriterSession != null) {
 					if(sendType.equals("reply") ) {
-						TextMessage tmpMsg = new TextMessage(fromId + "님이 " + 
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 " + 
 											"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
 						boardWriterSession.sendMessage(tmpMsg);
 					
 					}else if("follow".equals(sendType)) {
-						TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님을 팔로우를 시작했습니다.");
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님을 팔로우를 시작했습니다.");
 						System.out.println(boardWriterSession.toString());
 						System.out.println(boardWriterSession.getId() +"여기맞음"+ tmpMsg.toString());
 						boardWriterSession.sendMessage(tmpMsg);
 						
 					}else if("like".equals(sendType)) {
-						TextMessage tmpMsg = new TextMessage(fromId + "님이 회원님의 게시물을 좋아합니다.");
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
 						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
 						int result = nController.alramLike(pa);
 						boardWriterSession.sendMessage(tmpMsg);
