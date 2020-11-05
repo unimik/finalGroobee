@@ -19,6 +19,7 @@
 	<result property="gImage" column="G_PROFILE"/>
 	<result property="gReImage" column="G_RENAME_PROFILE"/>
 	<result property="gName" column="G_NAME"/>
+	<result property="joinId" column="JOIN_ID"/>
 </resultMap>
 <resultMap  id="chatJoinResultMap" type="Chat">
 	<id property="jcNo" column="JC_NO"/>
@@ -66,7 +67,7 @@
 	
 	<insert id="insertJoinRoom">
 		INSERT INTO JOIN_CHATROOM
-		VALUES(SEQ_JCNO.NEXTVAL,#{crNo},#{fromId})
+		VALUES(SEQ_JCNO.NEXTVAL,#{crNo},#{fromId},NULL)
 	</insert>
 	
 	<update id="readChat" parameterType="Chat">
@@ -109,6 +110,23 @@
 	</select>
 	
 	<select id="getJoinMember" parameterType="_int" resultMap="chatResultSet">
-		SELECT FROM_ID FROM CHAT WHERE G_NO = #{gNo} GROUP BY FROM_ID
+		SELECT JOIN_ID FROM JOIN_CHATROOM WHERE G_NO = #{gNo}
+	</select>
+	
+	<select id="checkChatRomm" parameterType="Chat" resultMap="chatResultSet">
+		SELECT *
+		FROM JOIN_CHATROOM
+		WHERE JOIN_ID = #{fromId}
+	</select>
+	
+	<insert id="insertJoinGroupRoom" parameterType="Chat">
+		INSERT INTO JOIN_CHATROOM
+		VALUES(SEQ_JCNO.NEXTVAL,#{crNo},#{fromId},#{gNo})
+	</insert>
+	
+	<select id="checkGroupChatRoom" parameterType="Chat" resultType="_int">
+		SELECT COUNT(*)
+		FROM JOIN_CHATROOM
+		WHERE G_NO = #{gNo}
 	</select>
 </mapper>

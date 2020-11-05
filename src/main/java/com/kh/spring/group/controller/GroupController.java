@@ -519,8 +519,6 @@ public class GroupController{
 	public ArrayList<GroupMember> getGroupList(String toId) {
 		int gNo = Integer.parseInt(toId);
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
-		ArrayList<Chat> cList = cService.getJoinMember(gNo);
-		ArrayList<GroupMember> list = new ArrayList<GroupMember>();
 		return gmList;
 	}
 
