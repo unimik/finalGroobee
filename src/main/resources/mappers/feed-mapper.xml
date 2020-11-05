@@ -244,4 +244,16 @@
 		WHERE 
 			R_NO = #{rNo}
 	</update>
+	
+	
+	
+	<select id="selectGfList" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		WHERE F.F_STATUS='Y'
+		AND F.G_NO IS NOT NULL
+		ORDER BY F.F_NO DESC
+	</select>
 </mapper>

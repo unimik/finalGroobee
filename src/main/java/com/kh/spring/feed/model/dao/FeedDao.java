@@ -38,6 +38,11 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectUpdateFeed", fNo);
 	}
 
+
+	public ArrayList<Feed> selectGfList() {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList");
+	}
+
 	public int updatePost(Feed f) {
 		return sqlSession.update("feedMapper.updatePost", f);
 	}
@@ -45,6 +50,7 @@ public class FeedDao {
 	public int updatePhoto(Photo p) {
 		return sqlSession.update("feedMapper.updatePhoto", p);
 	}
+
 
 
 

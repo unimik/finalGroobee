@@ -44,6 +44,11 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+
+	public ArrayList<Feed> selectGfList() {
+		return fDao.selectGfList();
+	}
+
 	public int deletePost(int fNo) {
 		// TODO Auto-generated method stub
 		return 0;

@@ -50,7 +50,11 @@ public interface FeedService {
 	 */
 	ArrayList<GroupName> selectGroupMemberId(String userId);
 	
+
+	ArrayList<Feed> selectGfList();
+
 	
 	
+
 
 }

@@ -225,21 +225,20 @@
                             <th colspan="3"><div class="feedPost">게시글</div></th>
                         </tr>
 
-                    <!-- 게시글 -->
+                    <!--게시글-->
                         <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
                         <%} %>
-                              <c:choose>
-                                 <c:when test="${!empty feedlist.fRenameFile }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/feedUpFiles/${ feedlist.fRenameFile }" type="button" id="pb1"></td>
+                            <c:choose>
+                                 <c:when test="${!empty feedlist.thumbnail }">
+                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
                                  </c:when>
                                  <c:otherwise>
                                      <td class="postbox" name="postbox">
                                          <div type="button" id="pb2">
                                              <text>${ feedlist.fContent }</text>
-                                             <text class="hashtag">#피자 #치킨 #맥주 #콜라 #피자 #치킨 #맥주 #콜라 #피자 #치...</text>
                                          </div>
                                      </td>
                                  </c:otherwise>

@@ -206,9 +206,13 @@ public class ChatController {
 		response.setContentType("application/json; charset=UTF-8");
 		int crNo = cService.insertChatRoom(myId,otherId);
 		JSONObject job = new JSONObject();
-		if(crNo > 0) {
-			job.put("toId", otherId);
-			job.put("crNo", crNo);
+		if(crNo == -1) {
+			job.put("crNo", -1);
+		} else {
+			if(crNo > 0) {
+				job.put("toId", otherId);
+				job.put("crNo", crNo);
+			}
 		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
@@ -240,11 +244,18 @@ public class ChatController {
 	@RequestMapping("insertGroupChatRoom.do")
 	public void insertGroupChatRoom(String createId, String gNo,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println(createId+":"+gNo);
-		int crNo = cService.insertGroupChatRoom(createId);
+		Chat c = new Chat();
+		int rgNo = Integer.parseInt(gNo);
+		c.setgNo(rgNo);
+		c.setFromId(createId);
+		int crNo = cService.insertGroupChatRoom(c);
 		JSONObject job = new JSONObject();
-		job.put("crNo", crNo);
-		job.put("gNo", gNo);
+		if(crNo == -1) {
+			job.put("crNo", -1);
+		} else {
+			job.put("crNo", crNo);
+			job.put("gNo", gNo);
+		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
@@ -291,8 +302,20 @@ public class ChatController {
 	public void findGroupMember(int gNo,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		ArrayList<GroupMember> gList = gService.selectGmList(gNo);
+		ArrayList<Chat> cList = cService.getJoinMember(gNo);
+		System.out.println(gNo);
 		JSONObject job = null;
 		JSONArray result = new JSONArray();
+		for(Chat c : cList) {
+			for(GroupMember g : gList) {
+				if(c.getJoinId().equals(g.getGmId())) {
+					gList.remove(g);
+					break;
+				} else {
+					continue;
+				}
+			}
+		}
 		for(GroupMember g : gList) {
 			job = new JSONObject();
 			job.put("gmId", g.getGmId());

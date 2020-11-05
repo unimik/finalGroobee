@@ -18,7 +18,7 @@
 	#imgList li:nth-child(1){display:block;}
 	#imgList img{ width: 633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	button[name=nextBtn]{ position: absolute; margin: 300px 570px; }
+	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 	#replyList{ width: 100%; height: 0px; }
 	#replySub::-webkit-scrollbar{ width: 7px;}
@@ -34,15 +34,28 @@
 		<c:set var="i" value="${ i + 1 }"/>
 		<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
-				<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-				<div id="user_time">
-					<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-					<h6><c:out value="${ f.fCreateDate }" /></h6>
-				</div>
-				</a>
-				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-
+				<c:choose>
+					<c:when test="${ loginUser.userId ne f.fWriter }">
+						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+						<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fCreateDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:when>
+					<c:otherwise>
+						<a href="goMypage.do?mNo=${ loginUser.mNo }">
+						<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fCreateDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:otherwise>
+				</c:choose>
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
@@ -172,21 +185,20 @@
             });
 
 
-            $(function(){
     	        
     	        var size;
     	        var idx = 0;
     	        var count = $(".feed").length;
-    	        var imgCount;
+    	        var ul = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList");
+    	        console.log(ul);
+    	        var liCount;
     	        
-    	        
-    			for (i = 1; i >= count; i++){
-    				imgCount += $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
-    				
-    				if( imgCount > 1){
-    	        		$('#nextBtn'+i).css({display:"block"});
+    			for (var i = 1; i == count; i++){
+    				liCount = ul[i].childrenCount;
+    				console.log(liCount);
+    				if( liCount > 1){
+    	        		$('#nextBtn'+i).css("display","block");
     	        	}
-    	   			
     			}
     			
     			/* $('.nextBtn').on("click",function(){
@@ -198,7 +210,6 @@
     	  				
     	  			}	
     	  		}); */
-    	    });
         
     	
     	
