@@ -18,7 +18,7 @@
 	#imgList li:nth-child(1){display:block;}
 	#imgList img{ width: 633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
-	button[name=nextBtn]{ position: absolute; margin: 300px 570px; }
+	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 	#replyList{ width: 100%; height: 0px; }
 	#replySub::-webkit-scrollbar{ width: 7px;}
@@ -172,21 +172,20 @@
             });
 
 
-            $(function(){
     	        
     	        var size;
     	        var idx = 0;
     	        var count = $(".feed").length;
-    	        var imgCount;
+    	        var ul = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList");
+    	        console.log(ul);
+    	        var liCount;
     	        
-    	        
-    			for (i = 1; i >= count; i++){
-    				imgCount += $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
-    				
-    				if( imgCount > 1){
-    	        		$('#nextBtn'+i).css({display:"block"});
+    			for (var i = 1; i == count; i++){
+    				liCount = ul[i].childrenCount;
+    				console.log(liCount);
+    				if( liCount > 1){
+    	        		$('#nextBtn'+i).css("display","block");
     	        	}
-    	   			
     			}
     			
     			/* $('.nextBtn').on("click",function(){
@@ -198,7 +197,6 @@
     	  				
     	  			}	
     	  		}); */
-    	    });
         
     	
     	
