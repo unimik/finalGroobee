@@ -111,4 +111,10 @@
 	<select id="getJoinMember" parameterType="_int" resultMap="chatResultSet">
 		SELECT FROM_ID FROM CHAT WHERE G_NO = #{gNo} GROUP BY FROM_ID
 	</select>
+	
+	<select id="checkChatRomm" parameterType="Chat" resultMap="chatResultSet">
+		SELECT *
+		FROM JOIN_CHATROOM
+		WHERE JOIN_ID = #{fromId}
+	</select>
 </mapper>

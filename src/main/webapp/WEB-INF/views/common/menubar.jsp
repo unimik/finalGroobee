@@ -214,7 +214,7 @@
 	     </div>
 	     
      <script type="text/javascript">
-     
+     /* 그룹 채팅방 사람 추가하기 */
      $(document).on("click",".plusChatUser",function(){
     	 $('#plusGroupUser').modal("show");
     	 var gNo = $(".1").val();

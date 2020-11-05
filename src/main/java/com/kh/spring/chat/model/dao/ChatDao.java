@@ -55,6 +55,15 @@ public class ChatDao {
 		c2.setFromId(otherId);
 		int insertChatRoomResult = sqlSession.insert("chatMapper.insertChatRoom");
 		if(insertChatRoomResult > 0) {
+			ArrayList<Chat> checkChatRomm1 = (ArrayList)sqlSession.selectList("chatMapper.checkChatRomm",c1);
+			ArrayList<Chat> checkChatRomm2 = (ArrayList)sqlSession.selectList("chatMapper.checkChatRomm",c1);
+			for(Chat cl1 : checkChatRomm1) {
+				for(Chat cl2 : checkChatRomm2) {
+					if(cl1.getCrNo() == cl2.getcNo()) {
+						return -1;
+					}
+				}
+			}
 			int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
 			c1.setCrNo(crNo);
 			c2.setCrNo(crNo);

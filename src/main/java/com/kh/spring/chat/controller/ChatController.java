@@ -205,13 +205,17 @@ public class ChatController {
 	public void insertChatRoom(String myId, String otherId,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		int crNo = cService.insertChatRoom(myId,otherId);
-		JSONObject job = new JSONObject();
-		if(crNo > 0) {
-			job.put("toId", otherId);
-			job.put("crNo", crNo);
+		if(crNo == -1) {
+			
+		} else {
+			JSONObject job = new JSONObject();
+			if(crNo > 0) {
+				job.put("toId", otherId);
+				job.put("crNo", crNo);
+			}
+			PrintWriter out = response.getWriter();
+			out.print(job);
 		}
-		PrintWriter out = response.getWriter();
-		out.print(job);
 	}
 	
 	/**
@@ -291,8 +295,17 @@ public class ChatController {
 	public void findGroupMember(int gNo,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		ArrayList<GroupMember> gList = gService.selectGmList(gNo);
+		ArrayList<Chat> cList = cService.getJoinMember(gNo);
 		JSONObject job = null;
 		JSONArray result = new JSONArray();
+		for(Chat c : cList) {
+			for(GroupMember g : gList) {
+				if(c.getFromId().equals(g.getGmId())) {
+					gList.remove(g);
+					break;
+				}
+			}
+		}
 		for(GroupMember g : gList) {
 			job = new JSONObject();
 			job.put("gmId", g.getGmId());
