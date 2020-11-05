@@ -34,6 +34,7 @@ public interface FeedService {
 	 */
 	Feed selectUpdateFeed(int fNo);
 	int updatePost(Feed f);
+	int updatePhoto(Photo p);
 
 	/**
 	 * 2_3. 포스트 삭제(게시글)
