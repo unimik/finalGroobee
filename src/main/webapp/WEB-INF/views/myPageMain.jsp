@@ -508,7 +508,9 @@
                                 </div> 
                             </div>
                         </div>
-
+					<div class="pop_feed3">
+					
+					</div>
                     <!-- 보관함 -->
                       <tr class="storagebox" id="storagebox">
                             <td></td>

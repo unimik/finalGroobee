@@ -40,7 +40,7 @@
                             	<p id="p_title">그룹 관심사</p>
                                 <select class="container third" id="container_main_first_second_second" name="gCategory">
                                 	<option selected disabled>---------------------</option>
-                                    <option value="문화/책">문화/책</option>
+                                    <option value="문학/책">문학/책</option>
                                     <option value="영화">영화</option>
                                     <option value="미술/디자인">미술/디자인</option>
                                     <option value="공연/전시">공연/전시</option>
