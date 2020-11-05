@@ -23,9 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.spring.feed.model.service.FeedService;
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
@@ -36,13 +36,17 @@ public class GroupController{
 	
 	@Autowired
 	private GroupService gService;
+	private FeedService fService;
 	
 	/******* 그룹 **********/
 	
 	@RequestMapping("glist.do")
 	public ModelAndView gList(ModelAndView mv) {
 		ArrayList<Group> glist = gService.selectList();
+		ArrayList<Feed> flist = fService.selectGfList();
+		
 		mv.addObject("glist", glist);
+		mv.addObject("flist", flist);
 		mv.setViewName("group/groupListView");
 		return mv;
 	}

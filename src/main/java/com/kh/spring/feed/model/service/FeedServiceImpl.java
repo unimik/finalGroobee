@@ -48,6 +48,11 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.selectUpdateFeed(fNo);
 	}
 
+	@Override
+	public ArrayList<Feed> selectGfList() {
+		return fDao.selectGfList();
+	}
+
 
 
 

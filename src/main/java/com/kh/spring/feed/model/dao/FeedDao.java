@@ -38,6 +38,10 @@ public class FeedDao {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectUpdateFeed", fNo);
 	}
 
+	public ArrayList<Feed> selectGfList() {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList");
+	}
+
 
 	
 
