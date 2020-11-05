@@ -58,4 +58,8 @@ public class TotalSearchDao {
 		return (ArrayList)sqlSession.selectList("searchMapper.tagSearchMember", rlist);
 	}
 
+	public String searchInterest(Search srch) {
+		return sqlSession.selectOne("searchMapper.searchInterest", srch);
+	}
+
 }

@@ -120,7 +120,7 @@
 	                    	<tr>
 	                    	 <%} %>
 	                    	<c:choose>
-	                   			<c:when test="${ empty f.fFile }">
+	                   			<c:when test="${ empty f.thumbnail }">
 		                    		<td>
 		                   			<div class="post" style=" cursor: pointer;">
 			                             <p>${f.fContent} </p>
@@ -131,7 +131,7 @@
 	                   			<c:otherwise>
 		                   			<td>
 		                   			<div class="post" style=" cursor: pointer;">
-			                            <img src="resources/feedUpFiles/${f.fRenameFile}" alt="" id="post_con">
+			                            <img src="resources/pUploadFiles/${f.thumbnail}" alt="" id="post_con">
 			                        </div>
 			                        <td>
 	                   			</c:otherwise>
