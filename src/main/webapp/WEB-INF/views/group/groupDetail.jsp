@@ -226,8 +226,8 @@
 							    <c:choose>
 									<c:when test="${ loginUser.userId ne f.fWriter }">
 							            <!-- 다른 회원 글 볼 때 피드메뉴 -->
-							            <div class="pop_menu" id="pop_menu${ i }">
-							                <div id="feed_menu_list">
+							            <div class="g_pop_menu" id="g_pop_menu${ i }">
+							                <div id="g_feed_menu_list">
 							                    <ul>
 							                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
 							                       <li><a>공유하기</a></li> 
@@ -239,8 +239,8 @@
 							        </c:when>
 									<c:otherwise>
 										<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-						                <div class="pop_Mymenu">
-						                    <div id="feed_Mymenu_list">
+						                <div class="g_pop_Mymenu">
+						                    <div id="g_feed_Mymenu_list">
 						                        <ul>
 						                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
 						                        <li><a>삭제</a></li> 
@@ -339,8 +339,8 @@
 							    <c:choose>
 									<c:when test="${ loginUser.userId ne f.fWriter }">
 							            <!-- 다른 회원 글 볼 때 피드메뉴 -->
-							            <div class="pop_menu" id="pop_menu${ i }">
-							                <div id="feed_menu_list">
+							            <div class="g_pop_menu" id="g_pop_menu${ i }">
+							                <div id="g_feed_menu_list">
 							                    <ul>
 							                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
 							                       <li><a>공유하기</a></li> 
@@ -352,8 +352,8 @@
 							        </c:when>
 									<c:otherwise>
 										<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-						                <div class="pop_Mymenu">
-						                    <div id="feed_Mymenu_list">
+						                <div class="g_pop_Mymenu">
+						                    <div id="g_feed_Mymenu_list">
 						                        <ul>
 						                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
 						                        <li><a>삭제</a></li> 
@@ -501,8 +501,32 @@
             });
         });
 
-        
-
+        $(document).ready(function(){
+			
+    		
+			var count = $(".feed").length;
+		
+			for(var i = 1; i <= count; i++){
+				console.log('.feed_menu'+i);
+				 $('.feed_menu'+i).on("click",function(){
+			         $(this).nextAll('div .g_pop_menu').show();
+			         $(this).nextAll('div .g_pop_Mymenu').show();
+			     });
+				 
+				  $('.close').on("click",function(){
+			         $('.g_pop_menu').hide();
+			         $('.g_pop_Mymenu').hide();
+			     });
+				  
+				  
+				  
+			 	$('.feed_report_btn').on("click",function(){
+			 		 $('.feed_report').show();
+	            });
+				 
+			 	
+			}
+        });
 
          /*********** 뉴피드 / 핫피드 *************/
 
