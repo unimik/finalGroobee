@@ -44,7 +44,11 @@ public class FeedDao {
 	}
 
 	public int updatePost(Feed f) {
-		return sqlSession.insert("feedMapper.updatePost", f);
+		return sqlSession.update("feedMapper.updatePost", f);
+	}
+
+	public int updatePhoto(Photo p) {
+		return sqlSession.update("feedMapper.updatePhoto", p);
 	}
 
 	public ArrayList<Feed> selectGfeed(int gNo) {

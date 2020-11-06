@@ -23,10 +23,6 @@
     .fstorageBox_folder,.sbBoxCheck{
      display:none;
     };
-    #interests{
-    font-size:smaller;
-    color:grey;
-    }
     #myPage_introduction{
     padding-top: 20px;
     }
@@ -253,7 +249,7 @@
                         <div id="self-introduction">
                             ${ loginUser.mIntro }
                         </div>
-                        <div id="interests">
+                        <div id="interests" style="font-size:smaller; color:grey;">
                              ${ loginUser.interestes }
                         </div>
                     </div>
@@ -268,7 +264,7 @@
                         </tr>
 
                     <!-- 게시글 -->
-                        <%! int i = 0; %>
+                        <%-- <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
@@ -288,7 +284,7 @@
                           <% if (i%3==2){ %>
 	                      </tr>
 	                      <%} i++; %>
-                          </c:forEach>
+                          </c:forEach> --%>
 
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
@@ -508,7 +504,9 @@
                                 </div> 
                             </div>
                         </div>
-
+					<div class="pop_feed3">
+					
+					</div>
                     <!-- 보관함 -->
                       <tr class="storagebox" id="storagebox">
                             <td></td>

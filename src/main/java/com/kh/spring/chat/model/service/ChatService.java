@@ -52,10 +52,10 @@ public interface ChatService {
 
 	/**
 	 * 7. 그룹 채팅방 생성
-	 * @param createId
+	 * @param c
 	 * @return
 	 */
-	int insertGroupChatRoom(String createId);
+	int insertGroupChatRoom(Chat c);
 
 	/**
 	 * 8. 그룹 채팅방 목록 불러오기

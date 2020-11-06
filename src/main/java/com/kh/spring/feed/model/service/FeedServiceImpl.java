@@ -58,7 +58,6 @@ public class FeedServiceImpl implements FeedService {
 	public int updatePost(Feed f) {
 		return fDao.updatePost(f);
 	}
-
 	@Override
 	public ArrayList<Feed> selectGfeed(int gNo) {
 		return fDao.selectGfeed(gNo);
@@ -69,6 +68,11 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.selectHGfeed(gNo);
 	}
 
+
+	@Override
+	public int updatePhoto(Photo p) {
+		return fDao.updatePhoto(p);
+	}
 
 
 

@@ -166,6 +166,14 @@
 		WHERE F_NO = #{fNo}
 	</update>
 	
+	<update id="updatePhoto" parameterType="Photo">
+		UPDATE
+		    PHOTO
+		SET ORIGINNAME = #{originName}
+		  , CHANGENAME = #{changeName}
+		WHERE F_NO = #{fNo}
+	</update>
+	
  	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY
