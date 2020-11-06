@@ -33,6 +33,9 @@ p{ margin: 0; }
 
 .newConBox{ height:100%;}
 .feedContainar{ width:100%; }
+#nOpen{width:90%; height:40px; background:rgba(71,198,163,0.9); margin:auto; margin-top:20px; border-radius:10px; position: absolute; top: 0;  left: 30px;}
+#nOpen p{ text-align:center; padding-top:8px; color:white;}
+
 
 #newfeedArea{width: 640px; height: 100%; overflow-y: scroll; -ms-overflow-style: none; padding-bottom:150px; }
 #newfeedArea::-webkit-scrollbar{display: none;}
