@@ -143,4 +143,12 @@ public class ChatDao {
 		return (ArrayList)sqlSession.selectList("chatMapper.getJoinMember",gNo);
 	}
 
+	public ArrayList<Chat> chatContentLoad(Chat c) {
+		return (ArrayList)sqlSession.selectList("chatMapper.chatContentLoad",c);
+	}
+
+	public ArrayList<Chat> groupChatContentLoad(Chat c) {
+		return (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
+	}
+
 }

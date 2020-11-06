@@ -75,5 +75,15 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.getJoinMember(gNo);
 	}
 
+	@Override
+	public ArrayList<Chat> chatContentLoad(Chat c) {
+		return cDao.chatContentLoad(c);
+	}
+
+	@Override
+	public ArrayList<Chat> groupChatContentLoad(Chat c) {
+		return cDao.groupChatContentLoad(c);
+	}
+
 
 }
