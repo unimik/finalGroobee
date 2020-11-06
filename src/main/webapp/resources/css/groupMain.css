@@ -6,7 +6,7 @@
 .gListopen li a{ text-decoration: none; cursor: pointer;}
 .gListopen li:nth-child(1){ padding-left: 20px;}
 .gListopen li:nth-child(2){ float: right; padding-right: 20px;}
-
+#showList{ color:white;}
 #groupAllList{ display:none; width: 630px; height: 260px; margin-left: 100px; overflow-x: scroll; overflow: auto; margin-bottom:20px;}
 #groupAllList::-webkit-scrollbar{ width: 7px;}
 #groupAllList::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
@@ -28,7 +28,6 @@
 #group_name{ padding:0; margin: 0; font-size: 14px; color: #47c6a3; padding-top: 12px; }
 #feed_menu{ float: right; margin:27px 20px 0 0; font-weight: 600;}
 #user_time{ float: left; width: 200px;}
-#feed h6{ color: #cccccc; margin: 0; padding:0 ; position: absolute; margin-top: 4px;}
 #input_img{ width: 630px; height: 630px;}
 
 #heart_reply{ border-bottom: 1px solid #e5e5e5; width: 100%; height: 40px;}
@@ -60,8 +59,25 @@
 #textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px;}
 #replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed;}
 
+.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
+.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 32px;}
+#footer{ height: 200px; text-align: center; }
+a{ color: black; }
+#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
+#imgList li:nth-child(1){display:block;}
+#imgList img{ width: 633px; }
+.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
+button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
+#replyList{ width: 100%; height: 0px; }
+#replySub::-webkit-scrollbar{ width: 7px;}
+#replySub::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+#replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
+#feed_gName{ float:left; position: absolute; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
 
-.pop_menu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+
+.pop_menu{ background-color: rgba(0,0,0,0.4); position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto;}
 #feed_menu_list{ background: white; width: 320px; margin: auto; height: 303px; border-radius: 15px; margin-top:300px;}
 #feed_menu_list ul{ padding:0; margin: 0; }
 #feed_menu_list li{ list-style: none; text-align: center; height: 60px;}
@@ -72,25 +88,32 @@
 #feed_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color:#555555;}
 
 
-.pop_Mymenu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+.pop_Mymenu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);}
 #feed_Mymenu_list{ background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
 #feed_Mymenu_list ul{ padding:0; margin: 0; }
+#feed_Mymenu_list li{list-style:none; text-align: center; height: 60px;}
 #feed_Mymenu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
 #feed_Mymenu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
-#feed_Mymenu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
+#feed_Mymenu_list li a{  display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color:#555555;}
 
 
-.feed_report{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+.feed_report{background-color: rgba(0,0,0,0.4); position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto;}
 #feed_report_con{ background: white; width: 320px; margin: auto; height: 220px; border-radius: 15px; margin-top:300px;}
 #feed_report_con p{ padding:0; margin:0; text-align: center; font-size: 16px; padding: 20px 0 20px 0; border-bottom: 1px solid #e5e5e5;}
 #feed_report_con select{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #555555; margin:30px 0 30px 50px;}
 #submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
 #cancel{ width: 100px; height: 35px; margin-left: 10px; border: 0; border-radius: 10px; background: #e5e5e5;}
 
-.reply_menu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+.reply_menu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);}
 #re_menu_list{ background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
 #re_menu_list ul{ padding:0; margin: 0;}
 #re_menu_list li{list-style: none; text-align: center; height: 60px; }
 #re_menu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
 #re_menu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
 #re_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
+
+
+#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;border:0; border-radius: 10px;width:100px;height: 35px;}
+#selectRtype{ width:100px; margin-left:50px; background:#daf4ed; border:0; border-radius: 10px;width:100px;height: 35px;}
+#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}

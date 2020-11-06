@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>groupMain</title>
+<title>G R O O B E E</title>
 	<link href="<%=request.getContextPath()%>/resources/css/groupMain.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
@@ -45,21 +45,6 @@
 	       </c:forEach>
 		</div>
 		</c:if>
-	<script>
-		$('#create_group').click(function(){
-			location.href="gInsertView.do";
-		});
-		
-		$('#showList').on('click',function(){
-            if( $('#showList').text() == '보기'){
-                $('#groupAllList').show();
-                $('#showList').text('닫기');
-            }else{
-                $('#groupAllList').hide();
-                $('#showList').text('보기');
-            }
-        });
-	</script>
 	<div id="feedArea">
 		<c:if test="${ !empty flist }">
 		<c:forEach var="f" items="${ flist }" varStatus="status">
@@ -71,28 +56,48 @@
 					<div id="user_time">
 						<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 						<h6><c:out value="${ f.fCreateDate }" /></h6>
+						<c:url var="godetail" value="gdetail.do">
+							<c:param name="gNo" value="${ f.gNo }"/>
+						</c:url>
+						<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 					</div>
 					</a>
-					<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-	                     
-	            <c:choose>
+					<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+		    <div class="feed_report">
+                   <div id="feed_report_con">
+                        <p>신고사유</p>
+                        <select id="reportType" class="selectRtype">
+                            <option value="unacceptfeed" selected>부적절한 게시글</option>
+                            <option value="insult">욕설</option>
+                            <option value="ad">광고</option>
+                            <option value="spam">도배</option>
+                        </select>
+                        	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
+                        <br>
+                        <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
+                        <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+                        <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
+                        <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+                </div>
+	        </div>
+		    <c:choose>
 				<c:when test="${ loginUser.userId ne f.fWriter }">
 		            <!-- 다른 회원 글 볼 때 피드메뉴 -->
-		            <div class="pop_menu">
+		            <div class="pop_menu" id="pop_menu${ i }">
 		                <div id="feed_menu_list">
 		                    <ul>
-		                       <li><a href="../views/groupDetail.html">그룹보기</a></li>
-		                       <li><a id="feed_report_btn">신고</a></li> 
+		                       <li><a href="${ godetail }">그룹보기</a></li>
+		                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
 		                       <li><a>공유하기</a></li> 
 		                       <li><a>보관함</a></li> 
-		                       <li><a id="close">취소</a></li>
+		                       <li><a id="close" class="close">취소</a></li>
 		                    </ul>
 		                </div>
 		            </div>
 		        </c:when>
 				<c:otherwise>
 					<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-	                <div class="pop_menu">
+	                <div class="pop_Mymenu">
 	                    <div id="feed_Mymenu_list">
 	                        <ul>
 	                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
@@ -103,20 +108,7 @@
 	                </div>
 				</c:otherwise>
 			</c:choose>
-		    	<div class="feed_report">
-	                <div id="feed_report_con">
-	                    <p>신고사유</p>
-	                    <select style=>
-	                        <option>부적절한 게시글</option>
-	                        <option>욕설</option>
-	                        <option>광구</option>
-	                        <option>도배</option>
-	                    </select>
-	                    <br>
-	                    <input type="button" id="submit" name="submit" value="확인">
-	                    <button id="cancel">취소</button>
-	                </div>
-	            </div>
+		    
 		    </div>
 	            <div id="con">
 	                <div id="feed_content">
@@ -134,17 +126,7 @@
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 						</div>
 						<p id="text"><c:out value="${ f.fContent }" /></p>
-	                    <ul id="tag">
-	                        <li>#피자</li>
-	                        <li>#강남역</li>
-	                        <li>#피자맛집</li>
-	                        <li>#피자</li>
-	                        <li>#강남역</li>
-	                        <li>#피자맛집</li>
-	                        <li>#피자</li>
-	                        <li>#강남역</li>
-	                        <li>#피자맛집</li>
-	                    </ul>
+	                    
 	                </div>
 	                <div id="replyArea">
 	                    <div id="replyList">
@@ -155,7 +137,6 @@
 	                            <li><img src="../resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
 	                        </ul>
 	                    </div>
-	                    남이 단 댓글 볼 때 댓글 메뉴
 	                    <div class="reply_menu">
 	                        <div id="re_menu_list">
 	                            <ul>
@@ -178,6 +159,92 @@
 	   </div>
     
 	</div>
+	<script>
+			 
 	
+		$('#create_group').click(function(){
+			location.href="gInsertView.do";
+		});
+		
+		$('#showList').on('click',function(){
+	        if( $('#showList').text() == '보기'){
+	            $('#groupAllList').show();
+	            $('#showList').text('닫기');
+	        }else{
+	            $('#groupAllList').hide();
+	            $('#showList').text('보기');
+	        }
+	    });
+		
+		$(document).ready(function(){
+			
+		
+			var count = $(".feed").length;
+		
+			for(var i = 1; i <= count; i++){
+				console.log('.feed_menu'+i);
+				 $('.feed_menu'+i).on("click",function(){
+			         $(this).nextAll('div .pop_menu').show();
+			         $(this).nextAll('div .pop_Mymenu').show();
+			     });
+				 
+				  $('.close').on("click",function(){
+			         $('.pop_menu').hide();
+			         $('.pop_Mymenu').hide();
+			     });
+				  
+				  
+				  
+			 	$('.feed_report_btn').on("click",function(){
+			 		 $('.feed_report').show();
+	            });
+				 
+			 	
+			}
+			     
+			$(document).on('click',".report-submit",function(){
+				
+				if($(".Rcontent").val() == ""){
+					alert('신고 사유를 입력해 주세요.')
+				}else{
+					
+					$.ajax({
+						url:'/spring/report.do',
+						data:{
+							reportType : $("#reportType").val(),
+							feedType : "feed",
+							content : $("#reportContent").val()
+						},
+						success: function(){
+							$(".feed_report").css('display','none');
+							$(".selectRtype").css("display","inline-block");
+				      		$(".sendreport").css("display","none");
+				      		$("#reportContent").val('')
+							alert('신고완료');
+						},error:function(){
+							alert('신고 실패!');
+						}
+					});
+					
+				};
+			});
+	   	 
+		   	$(".cancel2").on("click",function(){
+		   		$(".feed_report").css('display','none');
+					$(".selectRtype").css("display","inline-block");
+		   		$(".sendreport").css("display","none");
+		   	});
+		   	
+		   	$(".Rtype").on("click",function(){
+		   		$(".selectRtype").css("display","none");
+		   		$(".sendreport").css("display","block");
+		   	});        
+		   	
+		   	$('.cancel').on("click", function(){
+		 		$('.feed_report').hide();
+		 	});
+		});	
+		
+	</script>
 </body>
 </html>

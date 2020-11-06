@@ -40,7 +40,7 @@
     margin-top:10px;
     }
     #self-introduction{
-    margin:0 40px 30px 30px;
+    margin:30px 40px 30px 30px;
     }
    	.follow_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
    		background-color: rgba(0,0,0,0.5);}
@@ -111,7 +111,7 @@
                            	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                             <c:if test="${ empty loginUser.mRenameImage }">
-                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">${ empty loginUser.mRenameImage }&nbsp;&nbsp;&nbsp;
+                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                         </div>
                         <div id="mp_profile_info">
@@ -264,7 +264,7 @@
                         </tr>
 
                     <!-- 게시글 -->
-                        <%-- <%! int i = 0; %>
+                        <%! int i = 0; %>
                         <c:forEach var="feedlist" items="${ feedList }">
                         <% if (i%3==0){ %>
                         <tr class="post">
@@ -284,7 +284,7 @@
                           <% if (i%3==2){ %>
 	                      </tr>
 	                      <%} i++; %>
-                          </c:forEach> --%>
+                          </c:forEach>
 
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">

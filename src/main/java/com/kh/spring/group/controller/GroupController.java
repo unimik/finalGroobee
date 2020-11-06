@@ -151,8 +151,12 @@ public class GroupController{
 	public ModelAndView groupDetail(ModelAndView mv, int gNo) {
 		Group g = gService.selectGroup(gNo);
 		ArrayList<GroupMember> gm = gService.selectGmList(gNo);
+		ArrayList<Feed> ngflist = fService.selectGfeed(gNo);
+		ArrayList<Feed> hgflist = fService.selectHGfeed(gNo);
 		if(g != null) {
 			mv.addObject("gm",gm);
+			mv.addObject("ngflist", ngflist);
+			mv.addObject("hgflist", hgflist);
 			mv.addObject("g",g).setViewName("group/groupDetail");
 		} else {
 			mv.addObject("msg","그룹 상세조회에 실패하셨습니다.").setViewName("common/errerPage");
