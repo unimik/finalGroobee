@@ -47,6 +47,14 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.updatePost", f);
 	}
 
+	public ArrayList<Feed> selectGfeed(int gNo) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectGfeed", gNo);
+	}
+
+	public ArrayList<Feed> selectHGfeed(int gNo) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
+	}
+
 
 
 

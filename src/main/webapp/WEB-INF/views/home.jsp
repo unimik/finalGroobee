@@ -88,15 +88,15 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-					<c:forEach var="p" items="${ f.photoList }">
-						<c:if test="${ !empty p.originName}">
+					<c:if test="${ !empty f.photoList }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 						<ul id="imgList">
-							<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
 						</ul>
-						</c:if>
-					</c:forEach>
+					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
@@ -178,11 +178,14 @@
     	        var count = $(".feed").length;
     	        var ul = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList");
     	        console.log(ul);
+    	        console.log(count);
     	        var liCount;
     	        
-    			for (var i = 1; i == count; i++){
-    				liCount = ul[i].childrenCount;
+    			for (var i = 1; i <= count; i++){
+    				console.log(i);
+    				liCount = ul[i].childElementCount;
     				console.log(liCount);
+    				console.log(ul[i].childElementCount);
     				if( liCount > 1){
     	        		$('#nextBtn'+i).css("display","block");
     	        	}

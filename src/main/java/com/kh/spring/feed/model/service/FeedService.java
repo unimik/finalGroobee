@@ -50,7 +50,27 @@ public interface FeedService {
 	ArrayList<GroupName> selectGroupMemberId(String userId);
 	
 
+	/**
+	 *  전체 그룹피드 리스트
+	 * @return
+	 */
 	ArrayList<Feed> selectGfList();
+	
+	
+	
+	/**
+	 * 한 그룹의 피드 최신순 리스트
+	 * @param gNo
+	 * @return
+	 */
+	ArrayList<Feed> selectGfeed(int gNo);
+	
+	/**
+	 * 한 그룹의 피드 인기순 리스트
+	 * @param gNo
+	 * @return
+	 */
+	ArrayList<Feed> selectHGfeed(int gNo);
 
 	
 	

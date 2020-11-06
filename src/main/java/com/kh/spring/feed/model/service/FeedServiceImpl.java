@@ -59,6 +59,16 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.updatePost(f);
 	}
 
+	@Override
+	public ArrayList<Feed> selectGfeed(int gNo) {
+		return fDao.selectGfeed(gNo);
+	}
+
+	@Override
+	public ArrayList<Feed> selectHGfeed(int gNo) {
+		return fDao.selectHGfeed(gNo);
+	}
+
 
 
 
