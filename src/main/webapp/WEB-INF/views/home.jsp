@@ -13,10 +13,10 @@
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }
-	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow-x:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
-	#imgList img{ width: 633px; }
+	#imgList img{ width: 633px; height:633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
@@ -187,32 +187,62 @@
 
     	        
     	        var size;
-    	        var idx = 0;
-    	        var count = $(".feed").length;
-    	        var ul = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList");
-    	        console.log(ul);
+    	        var idx = idx1 = 0;
+    	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+    	        var ul;
     	        console.log(count);
     	        var liCount;
     	        
     			for (var i = 1; i <= count; i++){
-    				console.log(i);
-    				liCount = ul[i].childElementCount;
-    				console.log(liCount);
-    				console.log(ul[i].childElementCount);
-    				if( liCount > 1){
+    				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+    				
+    				console.log(ul);
+    				
+    				if( ul > 1){
     	        		$('#nextBtn'+i).css("display","block");
+    	        		$('#prevBtn'+i).css({"display":"block"});
     	        	}
+    				
+    				
+    				$('#prevBtn'+i).on("click",function(){
+        	  			size = $(this).nextAll().children('li').length;
+        	  			console.log(size);
+        	  			
+        	  			if(size > 1){
+        	  				idx1 = (idx-1) % size;
+        	  				if(idx1 < 0)
+        	  					idx1 = size - 1;
+        	  					
+        	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+        	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+        	  						$(this).css("display","none").css("left","-633px");
+        	  					});
+        	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+        	  					idx = idx1;
+        	  			}
+        	  		});
+    				
+    				$('#nextBtn'+i).on("click",function(){
+        	  			size = $(this).nextAll().children('li').length;
+        	  			console.log(size);
+        	  			
+        	  			if( size > 1){
+        	  				idx1 = (idx + 1) % size;
+        	  				$(this).nextAll().children('li:hidden').css("left","633px");
+        	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+        	  					$(this).css("display","none").css("left","633px");
+        	  				});
+        	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+        	  				idx = idx1;
+        	  			}
+        	  				
+        	  			
+        	  		});
+    				
+    				
     			}
     			
-    			/* $('.nextBtn').on("click",function(){
-    	  			size = $(this).nextAll().children('li').length;
-    	  			console.log(size);
-    	  			console.log(count);
-    	  			console
-    	  			if(size > 1){
-    	  				
-    	  			}	
-    	  		}); */
+    			
         
     	
     	

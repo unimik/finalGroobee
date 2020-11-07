@@ -141,6 +141,7 @@
           LEFT JOIN GROUP_MEMBER GM 
             ON (G.G_NO = GM.G_NO)
          WHERE GM.GM_ID = #{userId}
+         AND GM.GM_STATUS = 'Y'
          ORDER BY G_JOINDATE DESC
 	</select>
 	

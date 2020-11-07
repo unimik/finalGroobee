@@ -153,8 +153,17 @@ public class GroupController{
 		ArrayList<GroupMember> gm = gService.selectGmList(gNo);
 		ArrayList<Feed> ngflist = fService.selectGfeed(gNo);
 		ArrayList<Feed> hgflist = fService.selectHGfeed(gNo);
+		
+		System.out.println(gm);
+		String gmId = "";
+		for( GroupMember getId : gm) {
+			gmId += getId.getGmId() +", ";
+		}
+		System.out.println(gmId);
+		
 		if(g != null) {
 			mv.addObject("gm",gm);
+			mv.addObject("gmId", gmId);
 			mv.addObject("ngflist", ngflist);
 			mv.addObject("hgflist", hgflist);
 			mv.addObject("g",g).setViewName("group/groupDetail");

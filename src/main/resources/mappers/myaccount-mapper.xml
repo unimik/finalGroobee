@@ -53,6 +53,7 @@
 		LEFT JOIN GROUPS G
 		ON (G.G_NO = GM.G_NO)
 		WHERE M_ID=#{ mId }
+		AND GM.GM_STATUS = 'Y'
 	</select>
 	
 	<delete id="deleteFollow" parameterType="MyAccount">

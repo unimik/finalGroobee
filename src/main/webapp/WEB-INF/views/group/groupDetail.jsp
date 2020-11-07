@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,12 +176,20 @@
                     </div>
                  </div>
                  <c:set var="gOpenScope" value="${ g.gOpenScope }"/>
-                 <c:forEach var="gm" items="${ gm }">
+                 <c:set var="gmId" value="${gmId }"/>
                  <c:choose>
                  	<c:when test="${ 'N' eq gOpenScope }">
-	                 	<c:choose>
-	                 	<c:when test="${ g.gCreator eq loginUser.userId and gm.gmId eq loginUser.userId }">
-	                 	<div id="section2">
+                		<c:if test="${ not fn:contains(gmId, loginUser.userId) }">
+		                 	<div id="nOpen" style="display:block">
+	                			<p>비공개 그룹입니다. 가입신청을 하신 후 이용해주세요.</p>
+	                		</div>
+                		</c:if>
+                		<c:if test="${ fn:contains(gmId, loginUser.userId) }">
+		                 	<div id="nOpen" style="display:none">
+	                			<p>비공개 그룹입니다. 가입신청을 하신 후 이용해주세요.</p>
+	                		</div>
+                		
+                       	<div id="section2">
 		                    <div id="groupSearchbar">
 		                        <input type="search" id="groupSearch" name="groupSearch" placeholder="그룹 내 검색">
 		                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색">
@@ -369,7 +378,6 @@
 							                </div>
 										</c:otherwise>
 									</c:choose>
-								    
 								    </div>
 							            <div id="con">
 							                <div id="feed_content">
@@ -420,17 +428,8 @@
 							   </div>
 	                            </div>
 	                        </div>
-	                        </c:when>
-	                        <c:otherwise>
-	                        	<c:if test="${ gm.gmId ne loginUser.userId and g.gCreator ne loginUser.userId }">
-		                        	<div id="nOpen">
-		                 				<p>비공개 그룹입니다. 가입신청을 하신 후 이용해주세요.</p>
-		                 			</div>
-	                 			</c:if>
-	                        </c:otherwise>
-	                    </c:choose>
-                 	</c:when>
-                 	
+	                   </c:if>	
+	               </c:when>
                  	<c:otherwise>
 	                 	<div id="section2">
 	                    <div id="groupSearchbar">
@@ -674,7 +673,6 @@
 	                        </div>
                  	</c:otherwise>
                  </c:choose>
-                 </c:forEach>
                 	</div>
             </div>
         </div>
@@ -843,6 +841,62 @@
           		$(".selectRtype").css("display","none");
           		$(".sendreport").css("display","block");
           	}); 
+          	
+          	 var size;
+ 	        var idx = idx1 = 0;
+ 	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+ 	        var ul;
+ 	        console.log(count);
+ 	        var liCount;
+ 	        
+ 			for (var i = 1; i <= count; i++){
+ 				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+ 				
+ 				console.log(ul);
+ 				
+ 				if( ul > 1){
+ 	        		$('#nextBtn'+i).css("display","block");
+ 	        		$('#prevBtn'+i).css({"display":"block"});
+ 	        	}
+ 				
+ 				
+ 				$('#prevBtn'+i).on("click",function(){
+     	  			size = $(this).nextAll().children('li').length;
+     	  			console.log(size);
+     	  			
+     	  			if(size > 1){
+     	  				idx1 = (idx-1) % size;
+     	  				if(idx1 < 0)
+     	  					idx1 = size - 1;
+     	  					
+     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+     	  						$(this).css("display","none").css("left","-633px");
+     	  					});
+     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+     	  					idx = idx1;
+     	  			}
+     	  		});
+ 				
+ 				$('#nextBtn'+i).on("click",function(){
+     	  			size = $(this).nextAll().children('li').length;
+     	  			console.log(size);
+     	  			
+     	  			if( size > 1){
+     	  				idx1 = (idx + 1) % size;
+     	  				$(this).nextAll().children('li:hidden').css("left","633px");
+     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+     	  					$(this).css("display","none").css("left","633px");
+     	  				});
+     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+     	  				idx = idx1;
+     	  			}
+     	  				
+     	  			
+     	  		});
+ 				
+ 				
+ 			}
     </script>
 </body>
 </html>
