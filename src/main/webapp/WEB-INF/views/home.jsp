@@ -13,10 +13,10 @@
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }
-	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow-x:hidden;}
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
-	#imgList img{ width: 633px; }
+	#imgList img{ width: 633px; height:633px; }
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
@@ -34,15 +34,28 @@
 		<c:set var="i" value="${ i + 1 }"/>
 		<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
-				<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-				<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-				<div id="user_time">
-					<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-					<h6><c:out value="${ f.fCreateDate }" /></h6>
-				</div>
-				</a>
-				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-
+				<c:choose>
+					<c:when test="${ loginUser.userId ne f.fWriter }">
+						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+						<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fCreateDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:when>
+					<c:otherwise>
+						<a href="goMypage.do?mNo=${ loginUser.mNo }">
+						<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fCreateDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:otherwise>
+				</c:choose>
 		<c:choose>
 			<c:when test="${ loginUser.userId ne f.fWriter }">
 				<!-- 다른 회원 글 볼 때 피드메뉴 -->
@@ -88,15 +101,15 @@
 		</div>
 		<div id="con">
 			<div id="feed_content">
-					<c:forEach var="p" items="${ f.photoList }">
-						<c:if test="${ !empty p.originName}">
+					<c:if test="${ !empty f.photoList }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 						<ul id="imgList">
-							<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" id="input_img"></li>
+							<c:forEach var="p" items="${ f.photoList }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:forEach>
 						</ul>
-						</c:if>
-					</c:forEach>
+					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt=""  id="replyIcon">
@@ -174,29 +187,62 @@
 
     	        
     	        var size;
-    	        var idx = 0;
-    	        var count = $(".feed").length;
-    	        var ul = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList");
-    	        console.log(ul);
+    	        var idx = idx1 = 0;
+    	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+    	        var ul;
+    	        console.log(count);
     	        var liCount;
     	        
-    			for (var i = 1; i == count; i++){
-    				liCount = ul[i].childrenCount;
-    				console.log(liCount);
-    				if( liCount > 1){
+    			for (var i = 1; i <= count; i++){
+    				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+    				
+    				console.log(ul);
+    				
+    				if( ul > 1){
     	        		$('#nextBtn'+i).css("display","block");
+    	        		$('#prevBtn'+i).css({"display":"block"});
     	        	}
+    				
+    				
+    				$('#prevBtn'+i).on("click",function(){
+        	  			size = $(this).nextAll().children('li').length;
+        	  			console.log(size);
+        	  			
+        	  			if(size > 1){
+        	  				idx1 = (idx-1) % size;
+        	  				if(idx1 < 0)
+        	  					idx1 = size - 1;
+        	  					
+        	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+        	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+        	  						$(this).css("display","none").css("left","-633px");
+        	  					});
+        	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+        	  					idx = idx1;
+        	  			}
+        	  		});
+    				
+    				$('#nextBtn'+i).on("click",function(){
+        	  			size = $(this).nextAll().children('li').length;
+        	  			console.log(size);
+        	  			
+        	  			if( size > 1){
+        	  				idx1 = (idx + 1) % size;
+        	  				$(this).nextAll().children('li:hidden').css("left","633px");
+        	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+        	  					$(this).css("display","none").css("left","633px");
+        	  				});
+        	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+        	  				idx = idx1;
+        	  			}
+        	  				
+        	  			
+        	  		});
+    				
+    				
     			}
     			
-    			/* $('.nextBtn').on("click",function(){
-    	  			size = $(this).nextAll().children('li').length;
-    	  			console.log(size);
-    	  			console.log(count);
-    	  			console
-    	  			if(size > 1){
-    	  				
-    	  			}	
-    	  		}); */
+    			
         
     	
     	

@@ -9,6 +9,7 @@
 <link href="<%=request.getContextPath()%>/resources/css/groupUpdate.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="resources/js/Alarm.js"></script>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
@@ -51,7 +52,7 @@
 	                       		<ul id="popMaster">
 	                       			<li><a id="entrust">그룹장 위임</a></li>
 	                       			<li><a id="changeMember">멤버로 변경</a></li>
-	                       			<li><a id="del_gm">내보내기</a></li>
+	                       			<li><a class="del_gm" id="del_gm">내보내기</a></li>
 	                       			<li><a id="gm_report">신고</a></li>
 	                       			<li><a class="close">취소</a></li>
 	                       		</ul>
@@ -63,7 +64,7 @@
 	                       		<ul id="popGm">
 	                       			<li><a id="entrust">그룹장 위임</a></li>
 	                       			<li><a id="changeManager">매니저 지정</a></li>
-	                       			<li><a id="del_gm">내보내기</a></li>
+	                       			<li><a class="del_gm" id="del_gm">내보내기</a></li>
 	                       			<li><a id="gm_report">신고</a></li>
 	                       			<li><a class="close">취소</a></li>
 	                       		</ul>
@@ -397,7 +398,7 @@
             		    		$img = $('<li>').html('<img src="${ contextPath }/resources/'+ data[i].gmImage + '">');
             		    		$gmId = $('<li id="NgmId" name="NgmId">').text(data[i].gmId);
             		    		$inputAnswer = $('<li>').html('<input type="button" class="showAnswer" id="showAnswer" name="showAnswer" value="답변보기">');
-            		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="user_Y" value="승인">');
+            		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="'+data[i].gmId+'" value="승인">');
             		    		$inputN =$('<li>').html('<input type="button" class="user_N" id="user_N" name="user_N" value="거절">');
             		    		$div = $('<div class="permit_answer" id="permit_answer">');
             		    		if( data[i].a1 != null ){
@@ -663,6 +664,10 @@
     		              			alert("오류");
     		              		}
     		              	});
+    		              	
+    		              	//?????????????????????왜안되는지 이해를 할 수가없네;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    		              sendAlram($("#inputBox").val(),gmId,'groupAccept','${g.gNo}');
+    		              console.log($("#inputBox").val(),gmId,'groupAccept','${g.gNo}');
    		              });
    		            	
    		            	
@@ -777,6 +782,12 @@
            		$(".selectRtype").css("display","none");
            		$(".sendreport").css("display","block");
            	}); 
+           	
+           	// 그룹원 내보내기 알림
+           	$(".del_gm").on('click',function(e){
+           		console.log("e.target:"+e.target.getElementById());
+           		sendAlram();
+           	});
         </script>
 </body>
 </html>

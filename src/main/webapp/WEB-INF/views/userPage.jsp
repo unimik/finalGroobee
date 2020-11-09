@@ -63,6 +63,8 @@
     	 }
 		.follow_list::-webkit-scrollbar{display: none;}
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
+		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
+                    position: relative; right: 30px; /* display: none; */ }
    </style>
 </head>
 <body>
@@ -83,22 +85,29 @@
                             </c:if>
                         </div>
                         <div id="mp_profile_info">
-                            <h3 id="userId">${ memberInfo.userId }</h3>
+                            <h3>${ memberInfo.userId }</h3>
                             <h5>${ memberInfo.userName }</h5>
                         </div>
                         <div id="mp_profile_edit">
                         <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
                         <input type="hidden" id="follow" value="${ memberInfo.mNo }"/>
                         <input type="hidden" id="followYN" value="${followYN}"/>
-                       
-                        <c:choose>
-                        	<c:when test="${followYN ne 'N'}">
+                        <input type="hidden" id="openStatus" value="${userPs.openStatus}"/>
+                        
+                      
+                        	<c:if test="${followYN eq 'Y' && blockedYN eq 'N'}">
                         		<input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
-                        	</c:when>
-                        	<c:otherwise>
+                        	</c:if>
+                        	<c:if test="${blockedYN ne 'N'}">
+                        		<c:url var="myDisableBlock" value="myDisableBlock.do">
+                                	<c:param name="disblockId" value="${ memberInfo.mNo }"/>
+                                	<c:param name="userId" value="${ memberInfo.userId }"/>
+                                </c:url>
+                        		<input type="button" id="blockedCancle_btn" name="blockedCancle_btn" onclick="location.href='${ myDisableBlock }'" value="차단 해제">
+                        	</c:if>
+                        	<c:if test="${followYN eq 'N' && blockedYN eq 'N'}">
                         		<input type="button" id="follow_btn" name="follow_btn" value="팔로우">                        	
-                        	</c:otherwise>
-                        </c:choose>          
+                        	</c:if>       
                             <img src="<%=request.getContextPath()%>/resources/images/dot.png" type="button" id="details_btn">
                         </div>
 
@@ -107,7 +116,23 @@
                             <div id="myFeed_others_list">
                                 <ul>
                                 <li><a id="myFeed_report_btn">신고</a></li> 
-                                <li><a id="myFeed_block_btn">차단하기</a></li> 
+                                <c:choose>
+                                	<c:when test="${blockedYN ne 'N'}">
+	                                	<c:url var="myDisableBlock" value="myDisableBlock.do">
+		                                	<c:param name="disblockId" value="${ memberInfo.mNo }"/>
+		                                	<c:param name="userId" value="${ memberInfo.userId }"/>
+	                                	</c:url>
+                                		<li><a id="myFeed_block_btn" href="${ myDisableBlock }">차단해제</a></li> 
+                                	</c:when>
+                                	<c:otherwise>
+	                                	<c:url var="myBlockAccount" value="myBlockAccount.do">
+		                                	<c:param name="newblock" value="${ memberInfo.mNo }"/>
+		                                	<c:param name="userId" value="${ memberInfo.userId }"/>
+                                			<c:param name="follow" value="${ memberInfo.mNo }"/>
+	                                	</c:url>
+		                                <li><a id="myFeed_block_btn" href="${ myBlockAccount }">차단하기</a></li>                             	
+                                	</c:otherwise>
+                                </c:choose>
                                 <li><a id="myFeed_message_btn">메세지</a></li> 
                                 <li><a id="close">취소</a></li>
                                 </ul>
@@ -133,7 +158,7 @@
                     <!-- 차단했을 경우 -->
                         <div class="feed_block">
                             <div id="feed_block_pop">
-                                <input type="button" id="block_pop" value="user01 님을 차단하였습니다.">
+                                <input type="button" id="block_pop" value="${ memberInfo.userId } 님을 차단하였습니다.">
                             </div>
                         </div>
                         <div id="mp_profile_follow">
@@ -225,34 +250,37 @@
                             <th colspan="3"><div class="feedPost">게시글</div></th>
                         </tr>
 
-<<<<<<< HEAD
-                    <!-- 게시글 -->
-                         <%! int i = 0; %>
-=======
                     <!--게시글-->
-                          <%! int i = 0; %>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
-                        <c:forEach var="feedlist" items="${ feedList }">
-                        <% if (i%3==0){ %>
-                        <tr class="post">
-                        <%} %>
-                            <c:choose>
-                                 <c:when test="${!empty feedlist.thumbnail }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
-                                 </c:when>
-                                 <c:otherwise>
-                                     <td class="postbox" name="postbox">
-                                         <div type="button" id="pb2">
-                                             <text>${ feedlist.fContent }</text>
-                                         </div>
-                                     </td>
-                                 </c:otherwise>
-                              </c:choose>
-                          <% if (i%3==2){ %>
-	                      </tr>
-	                      <%} i++; %>
-                          </c:forEach> --%>
-                        
+                    	<c:if test="${blockedYN eq 'N'}">
+                    		<c:choose>
+	                    		<c:when test="${ userPs.openStatus eq 'F' && followYN eq 'N'}">
+		                    		<p>비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>
+	                    		</c:when>
+	                    		<c:otherwise>
+	                    			<%! int i = 0; %>
+			                        <c:forEach var="feedlist" items="${ feedList }">
+			                        <% if (i%3==0){ %>
+			                        <tr class="post">
+			                        <%} %>
+			                            <c:choose>
+			                                 <c:when test="${!empty feedlist.thumbnail }">
+			                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
+			                                 </c:when>
+			                                 <c:otherwise>
+			                                     <td class="postbox" name="postbox">
+			                                         <div type="button" id="pb2">
+			                                             <text>${ feedlist.fContent }</text>
+			                                         </div>
+			                                     </td>
+			                                 </c:otherwise>
+			                              </c:choose>
+			                          <% if (i%3==2){ %>
+				                      </tr>
+				                      <%} i++; %>
+			                          </c:forEach>
+	                    		</c:otherwise>
+                    		</c:choose>
+                    	</c:if>
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
                             <div class="feed_delete">
@@ -456,6 +484,8 @@
 
 
     <script>
+    
+    	/* 차단하기 */
     	
 		/* 팔로우,팔로워 클릭 시 */
 	    $('#follow_following').click(function() {
@@ -530,8 +560,8 @@
             var mNo = $('#mNo').val();
             var follow = $('#follow').val();
             
-            console.log("follow 클릭됨");
-     	  	sendAlram('follow');
+             console.log("follow 클릭됨");
+            sendAlram('${loginUser.userId}',$("#userId").html(),'follow','1');
             
             $.ajax({
  	       		 url: 'insertFollow.do',

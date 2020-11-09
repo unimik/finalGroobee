@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,16 +11,19 @@
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="resources/js/Alarm.js"></script>
 	<style>
 		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
 		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
 		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 	</style>
+	
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
 	<div id="feedArea">
+		<div id="section1">
                 <div id="infofeed">
                     <!--그룹 정보 나오는 칸-->
                     <div id="groupInfoArea" > 
@@ -82,7 +86,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="feed_report">
+                           <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고사유</p>
                                     <select id="reportType" class="selectRtype">
@@ -98,7 +102,7 @@
                                     <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
                                     <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
                                 </div>
-                               </div>
+                            </div>
                             </div>
 
                             <!-- 그룹 가입 팝업 -->
@@ -152,7 +156,7 @@
 	                                        	</c:choose>
 	                                            </div>
 	                                            <div id="btnBox">
-	                                                <input type="submit" id="joinBtn" name="joinBtn" value="가입하기">
+	                                                <input type="submit" onclick="sendAlarm()" id="joinBtn" name="joinBtn" value="가입하기">
 	                                                <input type="button" id="close_joinPop" name="close_joinPop" value="취소">
 	                                    	</div>
 	                                	</form>
@@ -188,12 +192,13 @@
                             <div class="hotConBox conBox">
                                 멍청이
                             </div>
+                            <p id="userId" style="display:none;">${ g.gName }</p>
                         </div>
                     </div>
                 </div>               
             </div>
         </div>
-        
+       
         <script>
 
         /************** 채팅 팝업 *****************/
@@ -276,8 +281,32 @@
             });
         });
 
-        
-
+        $(document).ready(function(){
+			
+    		
+			var count = $(".feed").length;
+		
+			for(var i = 1; i <= count; i++){
+				console.log('.feed_menu'+i);
+				 $('.feed_menu'+i).on("click",function(){
+			         $(this).nextAll('div .g_pop_menu').show();
+			         $(this).nextAll('div .g_pop_Mymenu').show();
+			     });
+				 
+				  $('.close').on("click",function(){
+			         $('.g_pop_menu').hide();
+			         $('.g_pop_Mymenu').hide();
+			     });
+				  
+				  
+				  
+			 	$('.feed_report_btn').on("click",function(){
+			 		 $('.feed_report').show();
+	            });
+				 
+			 	
+			}
+        });
 
          /*********** 뉴피드 / 핫피드 *************/
 
@@ -334,6 +363,14 @@
           		$(".selectRtype").css("display","none");
           		$(".sendreport").css("display","block");
           	}); 
+          	
+          	// 그룹 가입 알람
+          	function sendAlarm(){
+          		console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+          		sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');
+          		
+          		
+          	};
     </script>
 </body>
 </html>

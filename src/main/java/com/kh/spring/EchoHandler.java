@@ -137,12 +137,12 @@ public class EchoHandler extends TextWebSocketHandler{
 
         				if(result == -1) {
         					if(g.getGmId().equals(fromId)) {
-        						session.sendMessage(new TextMessage(Rmsg+"|sender|sender"));
+        						session.sendMessage(new TextMessage(Rmsg.substring(0, Rmsg.length()-4)+"|sender|sender"));
         					} else {
         						if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
         							continue;
         						} else {
-        							toSession.sendMessage(new TextMessage(Rmsg+"|sender|sender"));
+        							toSession.sendMessage(new TextMessage(Rmsg.substring(0, Rmsg.length()-4)+"|sender|sender"));
         						}
         					}
         				} else {
@@ -162,7 +162,7 @@ public class EchoHandler extends TextWebSocketHandler{
         		//작성자가 로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
 				System.out.println("이게뭐지? "+boardWriterSession);
-				System.out.println("왜 아무것도 안들어옴?"+fromId+Rmsg+sendType+crno);
+				System.out.println("왜 아무것도 안들어옴?"+fromId+toId+Rmsg+sendType+crno);
 				// 테스트용
 				//int result = nController.sendAlram(new PushAlram(),toId,fromId,sendType,crNo);
 				
@@ -183,6 +183,18 @@ public class EchoHandler extends TextWebSocketHandler{
 						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
 						int result = nController.alramLike(pa);
 						boardWriterSession.sendMessage(tmpMsg);
+					}else if("groupjoin".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 그룹 가입을 신청했습니다.");
+//						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
+//						int result = nController.alramLike(pa);
+						System.out.println("여기까지 오나?");
+						boardWriterSession.sendMessage(tmpMsg);
+					}else if("groupAccept".equals(sendType)){
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|그룹 "+fromId + "에서 회원님의 그룹 가입을 승인했습니다.");
+						System.out.println("alarm|"+sendType+"|"+fromId+"|그룹 "+fromId + "에서 "+toId+"님의 그룹 가입을 승인했습니다.");
+//						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
+//						int result = nController.alramLike(pa);
+						System.out.println("여기까지 오나?");
 					}
 				}
 
