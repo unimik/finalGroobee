@@ -506,15 +506,6 @@ public class GroupController{
 		
 		return result;
 	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
-	public int totalGroups(HttpServletResponse response) throws IOException{
-		
-		int totalGroups = gService.totalGroups();
-		return totalGroups;
-	}
 
 	public ArrayList<GroupMember> getGroupList(String toId) {
 		int gNo = Integer.parseInt(toId);

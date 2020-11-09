@@ -307,7 +307,7 @@
     					url:'/spring/report.do',
     					data:{
     						reportType : $("#reportType").val(),
-    						feedType : "groop",
+    						feedType : "group",
     						content : $("#reportContent").val()
     					},
     					success: function(){
