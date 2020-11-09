@@ -151,8 +151,21 @@ public class GroupController{
 	public ModelAndView groupDetail(ModelAndView mv, int gNo) {
 		Group g = gService.selectGroup(gNo);
 		ArrayList<GroupMember> gm = gService.selectGmList(gNo);
+		ArrayList<Feed> ngflist = fService.selectGfeed(gNo);
+		ArrayList<Feed> hgflist = fService.selectHGfeed(gNo);
+		
+		System.out.println(gm);
+		String gmId = "";
+		for( GroupMember getId : gm) {
+			gmId += getId.getGmId() +", ";
+		}
+		System.out.println(gmId);
+		
 		if(g != null) {
 			mv.addObject("gm",gm);
+			mv.addObject("gmId", gmId);
+			mv.addObject("ngflist", ngflist);
+			mv.addObject("hgflist", hgflist);
 			mv.addObject("g",g).setViewName("group/groupDetail");
 		} else {
 			mv.addObject("msg","그룹 상세조회에 실패하셨습니다.").setViewName("common/errerPage");
@@ -519,8 +532,6 @@ public class GroupController{
 	public ArrayList<GroupMember> getGroupList(String toId) {
 		int gNo = Integer.parseInt(toId);
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
-		ArrayList<Chat> cList = cService.getJoinMember(gNo);
-		ArrayList<GroupMember> list = new ArrayList<GroupMember>();
 		return gmList;
 	}
 

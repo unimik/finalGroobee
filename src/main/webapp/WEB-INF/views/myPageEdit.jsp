@@ -119,20 +119,20 @@
                             <div id="interests_box">
 		                        <p>관심사</p>
 		                        <div id="checkbox_interest">                        
-									<input type="checkbox" name="interest" class="checkBox" value="문학＊책">
-	                                <label for="checkbox">문학＊책</label>
+									<input type="checkbox" name="interest" class="checkBox" value="문학/책">
+	                                <label for="checkbox">문학/책</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="영화">
 	                                <label for="checkbox">영화</label>
-	                                <input type="checkbox" name="interest" class="checkBox" value="미술＊디자인">
-	                                <label for="checkbox">미술＊디자인</label>
-	                                <input type="checkbox" name="interest" class="checkBox" value="공연＊전시">
-	                                <label for="checkbox">공연＊전시</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="미술/디자인">
+	                                <label for="checkbox">미술/디자인</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="공연/전시">
+	                                <label for="checkbox">공연/전시</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="외국어">
 	                                <label for="checkbox">외국어</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="맛집">
 	                                <label for="checkbox">맛집</label>
-	                                <input type="checkbox" name="interest" class="checkBox" value="요리＊레시피">
-	                                <label for="checkbox">요리＊레시피</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="요리/레시피">
+	                                <label for="checkbox">요리/레시피</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="음악">
 	                                <label for="checkbox">음악</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="여행">
@@ -141,14 +141,14 @@
 	                                <label for="checkbox">반려동물</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="엔터테인먼트">
 	                                <label for="checkbox">엔터테이먼트</label>
-	                                <input type="checkbox" name="interest" class="checkBox" value="육아＊결혼">
-	                                <label for="checkbox">육아＊결혼</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="육아/결혼">
+	                                <label for="checkbox">육아/결혼</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="지역">
 	                                <label for="checkbox">지역</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="스포츠">
 	                                <label for="checkbox">스포츠</label>
-	                                <input type="checkbox" name="interest" class="checkBox" value="인테리어＊DIY">
-	                                <label for="checkbox">인테리어＊DIY</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="인테리어/DIY">
+	                                <label for="checkbox">인테리어/DIY</label>
 		                        </div>
 
                             </div>

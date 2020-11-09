@@ -55,15 +55,29 @@ public class ChatDao {
 		c2.setFromId(otherId);
 		int insertChatRoomResult = sqlSession.insert("chatMapper.insertChatRoom");
 		if(insertChatRoomResult > 0) {
-			int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
-			c1.setCrNo(crNo);
-			c2.setCrNo(crNo);
-			int insertJoinResult1 = sqlSession.insert("chatMapper.insertJoinRoom",c1);
-			int insertJoinResult2 = sqlSession.insert("chatMapper.insertJoinRoom",c2);
-			if(insertJoinResult1 > 0 && insertJoinResult2 > 0) {
-				return crNo;
-			} else 
-				return 0;
+			int result = 0;
+			ArrayList<Chat> checkChatRomm1 = (ArrayList)sqlSession.selectList("chatMapper.checkChatRomm",c1);
+			ArrayList<Chat> checkChatRomm2 = (ArrayList)sqlSession.selectList("chatMapper.checkChatRomm",c2);
+			for(Chat cl1 : checkChatRomm1) {
+				for(Chat cl2 : checkChatRomm2) {
+					if(cl1.getCrNo() == cl2.getCrNo()) {
+						result = -1;
+					}
+				}
+			}
+			if(result == -1) {
+				return result;
+			} else {
+				int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
+				c1.setCrNo(crNo);
+				c2.setCrNo(crNo);
+				int insertJoinResult1 = sqlSession.insert("chatMapper.insertJoinRoom",c1);
+				int insertJoinResult2 = sqlSession.insert("chatMapper.insertJoinRoom",c2);
+				if(insertJoinResult1 > 0 && insertJoinResult2 > 0) {
+					return crNo;
+				} else 
+					return 0;
+			}
 		} else {
 			return 0;
 		}
@@ -73,21 +87,27 @@ public class ChatDao {
 		return sqlSession.selectOne("chatMapper.countChat",myId);
 	}
 
-	public int insertGroupChatRoom(String createId) {
-		int insertGroupChatRoomResult = sqlSession.insert("chatMapper.insertChatRoom");
-		if(insertGroupChatRoomResult > 0) {
-			int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
-			Chat c = new Chat();
-			c.setCrNo(crNo);
-			c.setFromId(createId);
-			int insertJoinResult = sqlSession.insert("chatMapper.insertJoinRoom",c);
-			if(insertJoinResult > 0) {
-				return crNo;
+	public int insertGroupChatRoom(Chat c) {
+		int checkGroupChatRoom = sqlSession.selectOne("chatMapper.checkGroupChatRoom",c);
+		if(checkGroupChatRoom > 0) {
+			return -1;
+		} else {
+			int insertGroupChatRoomResult = sqlSession.insert("chatMapper.insertChatRoom");
+			if(insertGroupChatRoomResult > 0) {
+				int crNo = sqlSession.selectOne("chatMapper.getFirstCrno");
+				Chat c1 = new Chat();
+				c1.setCrNo(crNo);
+				c1.setFromId(c.getFromId());
+				c1.setgNo(c.getgNo());
+				int insertJoinResult = sqlSession.insert("chatMapper.insertJoinGroupRoom",c1);
+				if(insertJoinResult > 0) {
+					return crNo;
+				} else {
+					return 0;
+				}
 			} else {
 				return 0;
 			}
-		} else {
-			return 0;
 		}
 	}
 
@@ -116,11 +136,19 @@ public class ChatDao {
 	}
 
 	public int insertJoinChatRoom(Chat c) {
-		return sqlSession.insert("chatMapper.insertJoinRoom",c);
+		return sqlSession.insert("chatMapper.insertJoinGroupRoom",c);
 	}
 
 	public ArrayList<Chat> getJoinMember(int gNo) {
 		return (ArrayList)sqlSession.selectList("chatMapper.getJoinMember",gNo);
+	}
+
+	public ArrayList<Chat> chatContentLoad(Chat c) {
+		return (ArrayList)sqlSession.selectList("chatMapper.chatContentLoad",c);
+	}
+
+	public ArrayList<Chat> groupChatContentLoad(Chat c) {
+		return (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
 	}
 
 }

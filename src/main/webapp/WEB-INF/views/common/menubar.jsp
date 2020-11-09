@@ -551,6 +551,7 @@
 	    				$inputType = $("<input type='hidden' class='2'>").val("chatting");
 	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
 	    				$inputChatImage = $("<input type='hidden' class='4'>").val(value.chatImage);
+	    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
 	    				$div = $("<div>");
 	        			$img = $('<img src="resources/'+value.chatImage+'">');
 	        			$p = $("<p id='chatId'>").text(value.fromId);
@@ -839,6 +840,77 @@
  			console.log("dArr[2]"+dArr[2]);
  			console.log("dArr[3]"+dArr[3]);
  		 if(dArr[0] != 'alarm'){
+
+ 		 console.log(data);
+ 		 if(dArr.length == 2) {
+ 			if(dArr[0] == null || dArr[0] == ' ') {
+ 				
+ 			} else {
+ 				$div1 = $("<div class='myChating'>");
+ 				$div = $("<div>");
+ 				$p = $("<p id='myChatt'>").text(dArr[0]);
+ 				
+ 				$div.append($p);
+ 				$div1.append($div);
+ 				
+ 				$("#chatArea").append($div1);
+ 			}
+ 		 } else if(dArr.length == 3) {
+			if(dArr[0] == null || dArr[0] == ' ') {
+ 				
+ 			} else {
+ 				if(dArr[1] == 'sender') {
+	 				$("#chatArea").append($("<p class='closeServer'>"+dArr[0]+"님이 입장하셨습니다.<p/>"));
+ 				} else {
+ 	 				var toId = $("#chatArea").children(".1").val();
+ 	 	 			var inputChatImage = $("#chatArea").children(".4").val();
+ 	 	 			var sendType = $("#chatArea").children(".2").val();
+ 	 	 			console.log(toId+","+inputChatImage+","+sendType);
+ 	 	 			$div3 = $("<div class='chating'>");
+ 	 				$div = $("<div>");
+ 	 				$img = $('<img src="resources/'+dArr[2]+'">');
+ 					$p = $("<p id='chatId'>").text(dArr[1]);
+ 	 					
+ 	 				$div1 = $("<div>");
+ 	 				$a = $("<a id='chatText'>").text(dArr[0]);
+ 	 				
+ 	 				$div.append($img);
+ 	 				$div.append($p);
+ 	 				$div1.append($a);
+ 	 				$div.append($div1);
+ 	 				$div3.append($div);
+ 	 				
+ 	 				$("#chatArea").append($div3);
+ 				}
+ 			}
+ 		 } else if(dArr.length < 2){
+			if(data == null || data == ' ') {
+				
+ 			} else {
+ 				console.log("여기까진옴");
+ 				var toId = $("#chatArea").children(".1").val();
+ 	 			var inputChatImage = $("#chatArea").children(".4").val();
+ 	 			var sendType = $("#chatArea").children(".2").val();
+ 	 			console.log(toId+","+inputChatImage+","+sendType);
+ 	 			$div3 = $("<div class='chating'>");
+ 				$div = $("<div>");
+ 				$img = $('<img src="resources/'+inputChatImage+'">');
+				$p = $("<p id='chatId'>").text(toId);
+ 				
+ 				$div1 = $("<div>");
+ 				$a = $("<a id='chatText'>").text(data);
+ 				$userName = $("#chatUser").text(toId);
+ 				
+ 				$div.append($img);
+ 				$div.append($p);
+ 				$div1.append($a);
+ 				$div.append($div1);
+ 				$div3.append($div);
+ 				
+ 				$("#chatArea").append($div3);
+ 			}
+ 		 } 
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
  			 
 	 		 if(dArr.length == 2) {
 	 			if(dArr[0] == null || dArr[0] == ' ') {

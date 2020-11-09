@@ -46,8 +46,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int insertGroupChatRoom(String createId) {
-		return cDao.insertGroupChatRoom(createId);
+	public int insertGroupChatRoom(Chat c) {
+		return cDao.insertGroupChatRoom(c);
 	}
 
 	@Override
@@ -73,6 +73,16 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public ArrayList<Chat> getJoinMember(int gNo) {
 		return cDao.getJoinMember(gNo);
+	}
+
+	@Override
+	public ArrayList<Chat> chatContentLoad(Chat c) {
+		return cDao.chatContentLoad(c);
+	}
+
+	@Override
+	public ArrayList<Chat> groupChatContentLoad(Chat c) {
+		return cDao.groupChatContentLoad(c);
 	}
 
 

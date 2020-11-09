@@ -52,10 +52,10 @@ public interface ChatService {
 
 	/**
 	 * 7. 그룹 채팅방 생성
-	 * @param createId
+	 * @param c
 	 * @return
 	 */
-	int insertGroupChatRoom(String createId);
+	int insertGroupChatRoom(Chat c);
 
 	/**
 	 * 8. 그룹 채팅방 목록 불러오기
@@ -91,5 +91,19 @@ public interface ChatService {
 	 * @return
 	 */
 	ArrayList<Chat> getJoinMember(int gNo);
+
+	/**
+	 * 13. 채팅 내용 추가로 불러오기(20개씩 - 일대일)
+	 * @param loadC
+	 * @return
+	 */
+	ArrayList<Chat> chatContentLoad(Chat loadC);
+
+	/**
+	 * 14. 채팅 내용 추가로 불러오기(20개씩 - 그룹)
+	 * @param chat
+	 * @return
+	 */
+	ArrayList<Chat> groupChatContentLoad(Chat chat);
 
 }
