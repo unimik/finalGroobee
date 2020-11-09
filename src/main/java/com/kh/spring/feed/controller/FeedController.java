@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -105,8 +106,11 @@ public class FeedController {
 		// 가입한 그룹(Select Tag)
 		gn = fService.selectGroupMemberId(mem.getUserId());
 		
-		// fNo를 가지고 해당하는 피드정보 + 사진정보 가져오기 
+		// fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
 		Feed f = fService.selectUpdateFeed(fNo);
+		
+		System.out.println("view : " + f.getfNo());
+		System.out.println("photo : " + f.getPhotoList());
 		mv.addObject("gn", gn);
 		mv.addObject("f", f);
 		mv.setViewName("feed/PostUpdateForm");
@@ -114,10 +118,11 @@ public class FeedController {
 	}
 	
 	@RequestMapping("pUpdate.do")
-	public ModelAndView postUpdate(ModelAndView mv, @ModelAttribute Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
+	public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
 
-		System.out.println(f.getfNo());
 		int result = fService.updatePost(f);
+		System.out.println(f.getfNo());
+		System.out.println(result);
 		
 		
 		// 파일 업로드 부분
@@ -140,7 +145,7 @@ public class FeedController {
 			
 			String saveFile = savePath + "\\" +  renameFileName;
 			
-			if(!fileList.isEmpty()) {
+			if(!mf.isEmpty() && mf.getOriginalFilename() != "") {
 				
 				if(p.getChangeName() != null) {
 					deleteFile(p.getChangeName(), multi);
@@ -155,13 +160,20 @@ public class FeedController {
 			
 			try {
 				p.setfNo(f.getfNo());
-				int photo = fService.insertPhoto(p);
+				System.out.println("넘길 때 : " + fService.updatePhoto(p));
 				mf.transferTo(new File(saveFile));
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
 			
-			System.out.println(originalFileName);
+			// 파일이 추가됐을 때에는 insert Service로,
+			// 파일이 수정됐을 때에는 update Service로 보내기
+//			if() {
+//				
+//			}			
+			
+			int photo = fService.updatePhoto(p);
+			System.out.println("업데이트 : " + originalFileName);
 		}
 		
 		// 업로드 끝

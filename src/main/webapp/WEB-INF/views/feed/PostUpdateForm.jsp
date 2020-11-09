@@ -30,8 +30,9 @@
                     <form action="pUpdate.do" method="post" id="postInsert" enctype="multipart/form-data">
                     	<input type="hidden" name="fWriter" value="${ loginUser.userId }">
 						<input type="hidden" name="mNo" value="${ loginUser.mNo }">
-						<input type="hidden" name="originName" value="${ p.originName }">
-						<input type="hidden" name="changeName" value="${ p.changeName }">
+						<input type="hidden" name="fNo" value="${ f.fNo }">
+<%-- 						<input type="hidden" name="originName" value="${ p.originName }">
+						<input type="hidden" name="changeName" value="${ p.changeName }"> --%>
                         <table id="tbb">
                             <!-- 글 쓰는 영역 -->
                             <tr>
@@ -47,9 +48,13 @@
                                 <td class="filetb">
                                     <input type="file" multiple="multiple" id="input_file" name="reloadFile"
                                      accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
-                                    <c:if test="${ !empty p.originName }">
-                                    	<a href="${ contextPath }/resources/pUploadFiles/${ p.changeName }"></a>
-                                    </c:if>
+                                </td>
+                                <td>
+                                <c:forEach var="p" items="${ f.photoList }">
+                                <c:if test="${ !empty p.originName }">
+                                    <p>${ p.originName }</p>
+                                </c:if>
+                                </c:forEach>
                                 </td>
                             </tr>
                             <tr>
@@ -124,7 +129,7 @@
                             <tr>
                                 <td id="btnstd">
                                     <button id="btns1">
-                                        <a id="page_back" href="home.do">이전</a>
+                                        <a id="page_back" href="javascript:history.go(-1)">이전</a>
                                     </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input id="btns2" type="submit" value="작성">
                                 </td>

@@ -31,6 +31,7 @@
 		FROM GROUPS
 		WHERE
 		G_STATUS='Y'
+		ORDER BY G_DATE DESC
 	</select>
 
 	<insert id="insertGroup" useGeneratedKeys="true"
@@ -40,10 +41,8 @@
 			SELECT SEQ_GNO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO GROUPS
-		VALUES(#{ gNo }, #{ gCreator }, NULL, #{ gName }, #{ gCategory }, #{ gMax }, 
-			SYSDATE, #{ gOpenScope }, #{ gJoinSet }, #{ gQset }, #{ q1 }, #{ q2 }, #{ q3 },
-			#{ gIntro }, #{ gTag }, DEFAULT, #{ gNotice }, #{ gProfile },
-			#{ gRenameProfile }, #{ gImage }, #{ gRenameImage })
+		VALUES(#{ gNo }, #{ gCreator }, #{ gName }, #{ gCategory }, #{ gMax } , SYSDATE, #{ gOpenScope }, #{ gJoinSet }, #{ gQset }, #{ q1 }, #{ q2 }, #{ q3 }
+			,#{ gIntro }, #{ gTag }, DEFAULT, #{ gNotice }, #{ gProfile },#{ gRenameProfile }, #{ gImage }, #{ gRenameImage },NULL)
 	</insert>
 
 	<select id="selectGroup" resultMap="GroupResultSet">

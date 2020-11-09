@@ -117,12 +117,12 @@ public class EchoHandler extends TextWebSocketHandler{
         			} else {
         				if(result == -1) {
         					if(g.getGmId().equals(fromId)) {
-        						session.sendMessage(new TextMessage(Rmsg+"|sender|sender"));
+        						session.sendMessage(new TextMessage(Rmsg.substring(0, Rmsg.length()-4)+"|sender|sender"));
         					} else {
         						if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
         							continue;
         						} else {
-        							toSession.sendMessage(new TextMessage(Rmsg+"|sender|sender"));
+        							toSession.sendMessage(new TextMessage(Rmsg.substring(0, Rmsg.length()-4)+"|sender|sender"));
         						}
         					}
         				} else {

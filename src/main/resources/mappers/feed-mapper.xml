@@ -18,6 +18,7 @@
 		<result property="fLikeCnt" column="F_LIKECNT"/>
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
 		<result property="gNo" column="G_NO"/>
+		<result property="gName" column="G_NAME"/>
 		
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
@@ -140,6 +141,7 @@
           LEFT JOIN GROUP_MEMBER GM 
             ON (G.G_NO = GM.G_NO)
          WHERE GM.GM_ID = #{userId}
+         AND GM.GM_STATUS = 'Y'
          ORDER BY G_JOINDATE DESC
 	</select>
 	
@@ -162,6 +164,14 @@
 		  , F_REPLY_SET = #{fReplySet}
 		  , F_SHARE_SET = #{fShareSet}
 		  , G_NO = #{gNo}
+		WHERE F_NO = #{fNo}
+	</update>
+	
+	<update id="updatePhoto" parameterType="Photo">
+		UPDATE
+		    PHOTO
+		SET ORIGINNAME = #{originName}
+		  , CHANGENAME = #{changeName}
 		WHERE F_NO = #{fNo}
 	</update>
 	
@@ -244,8 +254,33 @@
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+        LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		ORDER BY F.F_NO DESC
+	</select>
+	
+	<select id="selectGfeed" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+        LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+		WHERE F.F_STATUS='Y'
+		AND F.G_NO IS NOT NULL
+		AND F.G_NO = #{ gNo }
+		ORDER BY F.F_CREATE_DATE DESC
+	</select>
+	
+	<select id="selectHGfeed" resultMap="postResultSet">
+		SELECT *
+		FROM FEED F
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+        LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+		WHERE F.F_STATUS='Y'
+		AND F.G_NO IS NOT NULL
+		AND F.G_NO = #{ gNo }
+		ORDER BY F.F_LIKECNT DESC
 	</select>
 </mapper>

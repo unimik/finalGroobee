@@ -127,6 +127,7 @@ public class ChatController {
 			job = new JSONObject();
 			for(Member m2 : resultList) {
 				if(c.getFromId().equals(m2.getUserId())) {
+					job.put("cNo",c.getcNo());
 					job.put("crNo", c.getCrNo());
 					job.put("fromId", c.getFromId());
 					job.put("toId", c.getToId());
@@ -171,6 +172,7 @@ public class ChatController {
 			job = new JSONObject();
 			for(Member m2 : resultList) {
 				if(c.getFromId().equals(m2.getUserId())) {
+					job.put("cNo",c.getcNo());
 					job.put("crNo", c.getCrNo());
 					job.put("fromId", c.getFromId());
 					job.put("gNo", c.getgNo());
@@ -206,9 +208,13 @@ public class ChatController {
 		response.setContentType("application/json; charset=UTF-8");
 		int crNo = cService.insertChatRoom(myId,otherId);
 		JSONObject job = new JSONObject();
-		if(crNo > 0) {
-			job.put("toId", otherId);
-			job.put("crNo", crNo);
+		if(crNo == -1) {
+			job.put("crNo", -1);
+		} else {
+			if(crNo > 0) {
+				job.put("toId", otherId);
+				job.put("crNo", crNo);
+			}
 		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
@@ -240,11 +246,18 @@ public class ChatController {
 	@RequestMapping("insertGroupChatRoom.do")
 	public void insertGroupChatRoom(String createId, String gNo,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println(createId+":"+gNo);
-		int crNo = cService.insertGroupChatRoom(createId);
+		Chat c = new Chat();
+		int rgNo = Integer.parseInt(gNo);
+		c.setgNo(rgNo);
+		c.setFromId(createId);
+		int crNo = cService.insertGroupChatRoom(c);
 		JSONObject job = new JSONObject();
-		job.put("crNo", crNo);
-		job.put("gNo", gNo);
+		if(crNo == -1) {
+			job.put("crNo", -1);
+		} else {
+			job.put("crNo", crNo);
+			job.put("gNo", gNo);
+		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
@@ -291,8 +304,20 @@ public class ChatController {
 	public void findGroupMember(int gNo,HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		ArrayList<GroupMember> gList = gService.selectGmList(gNo);
+		ArrayList<Chat> cList = cService.getJoinMember(gNo);
+		System.out.println(gNo);
 		JSONObject job = null;
 		JSONArray result = new JSONArray();
+		for(Chat c : cList) {
+			for(GroupMember g : gList) {
+				if(c.getJoinId().equals(g.getGmId())) {
+					gList.remove(g);
+					break;
+				} else {
+					continue;
+				}
+			}
+		}
 		for(GroupMember g : gList) {
 			job = new JSONObject();
 			job.put("gmId", g.getGmId());
@@ -306,6 +331,101 @@ public class ChatController {
 		PrintWriter out = response.getWriter();
 		out.print(result);
 		
+	}
+	
+	/**
+	 * - 스크롤 올리면 채팅내용 가져오기(1대1)
+	 * @param crNo
+	 * @param cNo
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("chatContentLoad.do")
+	public void chatContentLoad(int crNo, int cNo, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset=UTF-8");
+		Chat loadC = new Chat();
+		loadC.setCrNo(crNo);
+		loadC.setcNo(cNo);
+		ArrayList<Chat> cList = cService.chatContentLoad(loadC);
+		ArrayList<Member> mList = new ArrayList<Member>();
+		for(Chat c : cList) {
+			Member m = new Member();
+			m.setUserId(c.getFromId());
+			mList.add(m);
+		}
+		ArrayList<Member> resultList = cService.getChatImage(mList); 
+		JSONObject job = null;
+		JSONArray result = new JSONArray();
+		for(Chat c : cList) {
+			job = new JSONObject();
+			for(Member m2 : resultList) {
+				if(c.getFromId().equals(m2.getUserId())) {
+					job.put("cNo",c.getcNo());
+					job.put("crNo", c.getCrNo());
+					job.put("fromId", c.getFromId());
+					job.put("toId", c.getToId());
+					job.put("cContent",c.getcContent());
+					if(m2.getmRenameImage() == null || m2.getmRenameImage().equals("")) {
+						if(m2.getmImage() == null || m2.getmImage().equals("")) {
+							job.put("chatImage", "icons/logo.png");
+						} else {
+							job.put("chatImage", "memberProfileFiles/"+m2.getmImage());
+						}
+					} else {
+						job.put("chatImage", "memberProfileFiles/"+m2.getmRenameImage());
+					}
+				result.add(job);
+				break;
+				} 
+			}
+		}
+		PrintWriter out = response.getWriter();
+		out.print(result);
+	}
+	
+	@RequestMapping("groupChatContentLoad.do")
+	public void groupChatContentLoad(int gNo,int crNo, int cNo, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset=UTF-8");
+		Chat chat = new Chat();
+		chat.setCrNo(crNo);
+		chat.setgNo(gNo);
+		chat.setcNo(cNo);
+		ArrayList<Chat> cList = cService.groupChatContentLoad(chat);
+		ArrayList<Member> mList = new ArrayList<Member>();
+		for(Chat cc : cList) {
+			Member m = new Member();
+			m.setUserId(cc.getFromId());
+			mList.add(m);
+		}
+		ArrayList<Member> resultList = cService.getChatImage(mList); 
+		JSONObject job = null;
+		JSONArray result = new JSONArray();
+		for(Chat c : cList) {
+			job = new JSONObject();
+			for(Member m2 : resultList) {
+				if(c.getFromId().equals(m2.getUserId())) {
+					job.put("cNo",c.getcNo());
+					job.put("crNo", c.getCrNo());
+					job.put("fromId", c.getFromId());
+					job.put("gNo", c.getgNo());
+					job.put("cContent",c.getcContent());
+					job.put("gName",c.getgName());
+					if(m2.getmRenameImage() == null || m2.getmRenameImage().equals("")) {
+						if(m2.getmImage() == null || m2.getmImage().equals("")) {
+							job.put("chatImage", "icons/logo.png");
+						} else {
+							job.put("chatImage", "memberProfileFiles/"+m2.getmImage());
+						}
+					} else {
+						job.put("chatImage", "memberProfileFiles/"+m2.getmRenameImage());
+					}
+				result.add(job);
+				break;
+				} 
+			}
+		}
+		PrintWriter out = response.getWriter();
+		out.print(result);
 	}
 	
 	/**

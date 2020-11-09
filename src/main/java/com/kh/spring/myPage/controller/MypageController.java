@@ -3,13 +3,8 @@ package com.kh.spring.myPage.controller;
 
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
@@ -38,9 +32,8 @@ import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
 import com.kh.spring.myPage.model.vo.Mypage;
-
 import com.kh.spring.myPage.model.vo.StorageBox;
-import com.kh.spring.setting.model.vo.NotificationSetting;
+import com.kh.spring.setting.model.service.SettingService;
 import com.kh.spring.setting.model.vo.PersonalSetting;
 
 
@@ -55,6 +48,9 @@ public class MypageController {
 
 	@Autowired
 	GroupService gService;
+
+	@Autowired
+	SettingService sService;
 	
 	@Autowired
 	HttpSession session;
@@ -353,6 +349,32 @@ public class MypageController {
 		ArrayList<Mypage> followerList = myService.selectFollowerList(memberInfo.getmNo());
 		ArrayList<Mypage> followingList = myService.selectFollowingList(memberInfo.getmNo());
 		
+		PersonalSetting ps = sService.personalSetting(mNo);
+		PersonalSetting userPs = sService.personalSetting(memberInfo.getmNo());
+		
+		String blocked = ps.getBlockedNo();
+		String blockedYN = "N";
+		if(blocked != null) {
+			String[] blist = blocked.split(",");
+			
+			if(blist!=null) {
+				
+				for (String string : blist) {
+					Member blockedMember = mService.selectOne(string);
+					
+					if(blockedMember.getmNo() == memberInfo.getmNo()) {
+						blockedYN = "Y";
+						break;
+					} else {
+						blockedYN = "N";
+					}
+
+				}
+			}
+		}
+		
+		mv.addObject("blockedYN",blockedYN);
+		mv.addObject("userPs",userPs);
 		mv.addObject("memberInfo", memberInfo);
 		mv.addObject("followInfo", followInfo);
 		mv.addObject("feedList", feedList);
@@ -411,6 +433,80 @@ public class MypageController {
 			return "redirect:goMypage.do?mNo="+mNo;
 		}else {
 			return "common/errorPage";
+		}
+	}
+
+	@RequestMapping("myBlockAccount.do")
+	public String blockAccount(@RequestParam("newblock") String newblock,@RequestParam("userId") String userId,
+								@RequestParam("follow") int follow, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("loginUser");
+
+		int mNo = m.getmNo();
+		
+		PersonalSetting ps = sService.personalSetting(mNo);
+		String blocked = ps.getBlockedNo();
+		
+		String updateList = "";
+		
+		if(blocked == null) {
+			updateList = newblock;
+		} else {
+			updateList = blocked +","+newblock;
+		}
+		
+		PersonalSetting p = new PersonalSetting(m.getmNo(),updateList);
+		int result = sService.disableblock(p);
+		if(result > 0 ) {
+			Follow fw = new Follow();
+			fw.setmNo(mNo);
+			fw.setFollows(follow);
+			String followYN = myService.selectFollowYN(fw);
+			if("Y".equals(followYN.toString())) {
+				int result2 = myService.deleteFollow(fw);				
+				if(result2 > 0 ) {
+					return "redirect:goUserpage.do?userId="+userId+"&mNo="+mNo;		
+				}else {
+					return"common/errorPage";
+				}
+			} else {
+				return "redirect:goUserpage.do?userId="+userId+"&mNo="+mNo;	
+			}
+		}else {
+			return"common/errorPage";
+		}
+	}
+	
+	@RequestMapping("myDisableBlock.do")
+	public String disableBlock( @RequestParam("userId") String userId,
+								@RequestParam("disblockId") String disblockId ) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int mNo = m.getmNo();
+		
+		PersonalSetting blocked = sService.personalSetting(mNo);
+	
+			String[] bList = blocked.getBlockedNo().split(",");
+			String updateList =	null;
+			for (String b : bList) {
+				if(!b.equals(disblockId)) {
+					if(updateList == null) {
+						updateList = b;
+					}else {
+						updateList += "," + b;					
+					}
+				}
+			}
+			
+		PersonalSetting p = new PersonalSetting(m.getmNo(),updateList);
+		int result = sService.disableblock(p);
+			
+		if(result > 0 ) {
+			return "redirect:goUserpage.do?userId="+userId+"&mNo="+mNo;			
+		}else {
+			return"common/errorPage";
 		}
 	}
 }
