@@ -189,7 +189,7 @@
                                </div>
                                <div class="container" id="container_main_ninth">
                                    <input type="submit" id="submit" value=" 수정">
-                                   <input type="button" id="cancel" value="취소">
+                                   <input type="button" id="cancelUpdate" name="cancelUpdate" value="취소">
                                </div>
                            </form>
                        </div>
@@ -489,7 +489,7 @@
     		
     		
     		//************** 수정하지 않기
-    		$('#cancel').on("click",function(){
+    		$('#cancelUpdate').on("click",function(){
     			location.href="javascript:history.go(-1);";
     		});
     		

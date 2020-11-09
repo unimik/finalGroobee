@@ -106,7 +106,7 @@ select{ width: 210px; height: 34px; border: 1px solid #e5e5e5; border-radius: 10
 
 #container_main_ninth{height: 55px; text-align:center; margin-top: 40px;}
 #container_main_ninth input{ width: 150px; height: 45px; border: 0; border-radius: 10px; }
-#container_main_ninth #submit{ background: #daf4ed; margin-right: 10px;}
+#container_main_ninth #submit{ background: #daf4ed; margin-left:0; }
 
 #updateform{ margin-bottom:200px;}
 

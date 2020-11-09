@@ -129,7 +129,7 @@
                             <tr>
                                 <td id="btnstd">
                                     <button id="btns1">
-                                        <a id="page_back" href="home.do">이전</a>
+                                        <a id="page_back" href="javascript:history.go(-1)">이전</a>
                                     </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input id="btns2" type="submit" value="작성">
                                 </td>
