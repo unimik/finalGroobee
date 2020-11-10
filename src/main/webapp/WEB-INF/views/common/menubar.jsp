@@ -910,7 +910,6 @@
  				$("#chatArea").append($div3);
  			}
  		 } 
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
  			 
 	 		 if(dArr.length == 2) {
 	 			if(dArr[0] == null || dArr[0] == ' ') {
@@ -964,21 +963,16 @@
  				}else if(dArr[1] == 'groupAccept'){
  					alert("그룹가입승인함");
  					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
+ 				}else if(dArr[1] == 'like'){
+ 					alert("좋아요^^");
+ 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
  				};
-	 	 		
  				 
  		 };
  			 
  		 
  	 }
  	 
- 	 
-	 // 알람 클릭하면 알람가게
-     $(document).on("click",".likeIcon", function(){
-    	 console.log("like클릭됨");
-    	 $("#likeIcon").css('background','red');
-    	 sendAlram();
-     	}); 
    
  	
  	 // 서버와 연결을 끊었을 때

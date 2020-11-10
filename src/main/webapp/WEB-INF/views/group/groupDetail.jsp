@@ -698,7 +698,6 @@
                  	</c:otherwise>
                  </c:choose>
                 	</div>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
             </div>
         </div>
        
@@ -874,7 +873,7 @@
           	};
 
  				
- 				
+ 				/* 
  				$('#prevBtn'+i).on("click",function(){
      	  			size = $(this).nextAll().children('li').length;
      	  			console.log(size);
@@ -908,10 +907,9 @@
      	  			}
      	  				
      	  			
-     	  		});
+     	  		}); */
  				
- 				
- 			}
+ 			
 
     </script>
 </body>

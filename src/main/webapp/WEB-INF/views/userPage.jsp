@@ -561,7 +561,7 @@
             var follow = $('#follow').val();
             
              console.log("follow 클릭됨");
-            sendAlram('${loginUser.userId}',$("#userId").html(),'follow','1');
+            sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow','1');
             
             $.ajax({
  	       		 url: 'insertFollow.do',

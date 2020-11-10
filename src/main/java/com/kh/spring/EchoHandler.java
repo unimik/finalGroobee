@@ -163,6 +163,7 @@ public class EchoHandler extends TextWebSocketHandler{
 				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
 				System.out.println("이게뭐지? "+boardWriterSession);
 				System.out.println("왜 아무것도 안들어옴?"+fromId+toId+Rmsg+sendType+crno);
+				System.out.println(sendType);
 				// 테스트용
 				//int result = nController.sendAlram(new PushAlram(),toId,fromId,sendType,crNo);
 				
@@ -180,8 +181,8 @@ public class EchoHandler extends TextWebSocketHandler{
 						
 					}else if("like".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
-						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
-						int result = nController.alramLike(pa);
+						//PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
+						//int result = nController.alramLike(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 					}else if("groupjoin".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 그룹 가입을 신청했습니다.");

@@ -17,7 +17,7 @@
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
 	#imgList img{ width: 633px; height:633px; }
-	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
+	.imgbtn{  z-index:5;border: 0; background: none; cursor: pointer;outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 	#replyList{ width: 100%; height: 0px; }
@@ -111,8 +111,8 @@
 						</ul>
 					</c:if>
 				<div id="heart_reply">
-					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
-					<img src="${ contextPath }/resources/icons/bubble.png" alt=""  id="replyIcon">
+					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 				</div>
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 

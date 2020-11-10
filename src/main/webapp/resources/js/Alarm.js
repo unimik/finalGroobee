@@ -14,4 +14,18 @@
 	 
  }
  
+ // 좋아요 클릭시 알람
+ $(".likeIcon").on('click',function(e){
+	 console.log("like클릭됨");
+	 $("#"+e.target.id).css('background','red');
+	 $("#"+e.target.id).parent().children('input').val()
+	 console.log("상관없음",$("#"+e.target.id).parent().children('input').val(),'like',$("#"+e.target.id).parent().children('.fNo').val());
+	 sendAlram("상관없음",$("#"+e.target.id).parent().children('input').val(),'like',$("#"+e.target.id).parent().children('.fNo').val());
+ });
+
+//그룹원 내보내기 알림
+	$(".del_gm").on('click',function(e){
+		console.log("e.target:"+e.target.getElementById());
+		sendAlram();
+	});
  
