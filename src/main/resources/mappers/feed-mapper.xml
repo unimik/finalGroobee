@@ -121,20 +121,29 @@
 	</insert>
 
 	<select id="selectFeed" resultMap="postResultSet" parameterType="string">
-		SELECT
-		    DISTINCT F.* 
-		    , R.*
-		    , P.*
+		<!--
+		SELECT *
 		FROM FEED F
-		LEFT JOIN GROUP_MEMBER GM ON(F.G_NO = GM.G_NO)
+        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		WHERE F.F_STATUS='Y'
+		ORDER BY F.F_NO DESC
+		-->
+		SELECT
+			* 
+		FROM FEED F
 		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
 		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		<!--LEFT JOIN GROUP_MEMBER GM ON(F.G_NO = GM.G_NO) -->
 		WHERE
 		F.F_STATUS ='Y' 
 		AND
 		(F.F_WRITER =#{userId}
 		OR
-		GM.GM_ID=#{userId}
+		F.G_NO IN(SELECT
+			        G_NO
+			        FROM GROUP_MEMBER
+			        WHERE GM_ID=#{userId})
 		OR
 		F.M_NO IN (SELECT
 		                FOLLOWS
