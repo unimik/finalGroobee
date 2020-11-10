@@ -910,6 +910,8 @@
  				
  				
  			}
+ 			
+ 	/*그룸내 검색*/
 	function gsearch() {
 		var gsearch = $('#groupSearch').val();
    		var sign = gsearch.charAt(0);			//검색어 첫글자 - 기호

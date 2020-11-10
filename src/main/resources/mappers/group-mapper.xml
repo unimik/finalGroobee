@@ -159,9 +159,15 @@
 		WHERE 
 			G_NO = #{gNo}
 	</update>
-	
-<<<<<<< HEAD
 
+
+	<select id="loadGroup" resultMap="GroupResultSet">
+		SELECT *
+		FROM GROUPS
+		WHERE G_NO=#{ gNo }
+		AND G_STATUS='Y'
+	</select>
+	
 	<!-- 그룹 내  검색 -->
 	<select id="groupSearch" parameterType="Search" resultMap="feedResultSet">
 		SELECT 
@@ -169,33 +175,27 @@
 			, P.CHANGENAME AS thumbnail
 		FROM FEED F
 		LEFT JOIN (SELECT * FROM (SELECT F_NO
-										, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO
-										, PHOTO.CHANGENAME DESC) AS NUM
-										, CHANGENAME
+		                                , ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO
+		                                , PHOTO.CHANGENAME DESC) AS NUM
+		                                , CHANGENAME
 		                                FROM PHOTO)
 		                WHERE NUM =1)P ON (F.F_NO = P.F_NO)
 		WHERE
-		F.G_NO = #{sNum}
-		AND F.F_STATUS = 'Y'
+			F.G_NO = #{sNum}
+   			AND F.F_STATUS = 'Y'  
 		<choose>
 			<when test="searchType == '@'and search != null">
 			AND (F.F_WRITER = #{search}
-			OR F.F_CONTENT LIKE '%'|| #{searchall} ||'%')
+			OR F.F_CONTENT LIKE '%'|| #{ search } ||'%')
 			</when>
 			<when test="searchType == '#'and searchall != null">
-			AND F.F_CONTENT LIKE '%'|| #{searchall} ||'%'
+			AND F.F_CONTENT LIKE '%'|| #{ searchall } ||'%'
 			</when>		
 			<otherwise>
-			AND F.F_CONTENT LIKE '%'|| #{searchall} ||'%'
+			AND F.F_CONTENT LIKE '%'|| #{ searchall } ||'%'
 			</otherwise>
 		</choose>
-
-=======
-	<select id="loadGroup" resultMap="GroupResultSet">
-		SELECT *
-		FROM GROUPS
-		WHERE G_NO=#{ gNo }
-		AND G_STATUS='Y'
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
-	</select>
+		</select>
+	
+	
 </mapper>

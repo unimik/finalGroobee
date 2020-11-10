@@ -546,6 +546,7 @@ public class GroupController{
 		}else{
 			flist = gService.groupSearch(s);
 		}
+			System.out.println("검색타입"+s.getSearchType()+"  "+flist);
 		
 		JSONObject job = new JSONObject();
 		if(flist.isEmpty()) {
