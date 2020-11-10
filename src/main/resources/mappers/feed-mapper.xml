@@ -139,7 +139,9 @@
 		WHERE
 		F.F_STATUS ='Y' 
 		AND
-		(GM.GM_ID=#{userId}
+		(F.F_WRITER =#{userId}
+		OR
+		GM.GM_ID=#{userId}
 		OR
 		F.M_NO IN (SELECT
 		                FOLLOWS
