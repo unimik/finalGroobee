@@ -26,8 +26,8 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertPhoto", p);
 	}
 	
-	public ArrayList<Feed> selectFeed() {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed");
+	public ArrayList<Feed> selectFeed(String userId) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed",userId);
 	}
 
 	public ArrayList<GroupName> selectGroupMemberId(String userId) {
@@ -49,6 +49,10 @@ public class FeedDao {
 
 	public int updatePhoto(Photo p) {
 		return sqlSession.update("feedMapper.updatePhoto", p);
+	}
+
+	public int deletePost(int fNo) {
+		return sqlSession.update("feedMapper.deletePost", fNo);
 	}
 
 	public ArrayList<Feed> selectGfeed(int gNo) {

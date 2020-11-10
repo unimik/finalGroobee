@@ -76,7 +76,7 @@
                     <div id="feed_Mymenu_list">
                         <ul>
                         <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-                        <li><a>삭제</a></li> 
+                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
                         <li><a id="close" class="close">취소</a></li>
                         </ul>
                     </div>

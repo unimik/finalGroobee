@@ -29,8 +29,8 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public ArrayList<Feed> selectFeed() {
-		return fDao.selectFeed();
+	public ArrayList<Feed> selectFeed(String userId) {
+		return fDao.selectFeed(userId);
 	}
 
 	@Override
@@ -50,8 +50,7 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	public int deletePost(int fNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return fDao.deletePost(fNo);
 	}
 
 	@Override

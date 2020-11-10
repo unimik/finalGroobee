@@ -25,7 +25,7 @@ public interface FeedService {
 	 * @return
 	 *
 	 */
-	ArrayList<Feed> selectFeed();
+	ArrayList<Feed> selectFeed(String userId);
 	
 	/**
 	 * 2_2. 포스트 수정(게시글)
