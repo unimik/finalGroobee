@@ -91,7 +91,7 @@
 	</resultMap>
 	
 	<resultMap id="photoResultSet" type="Photo">
-		<id property="fNo" column="fNo"/>
+		<id property="fNo" column="F_NO"/>
 		<result property="originName" column="ORIGINNAME"/>
 		<result property="changeName" column="CHANGENAME"/>
 	</resultMap>
@@ -171,6 +171,12 @@
 		SET ORIGINNAME = #{originName}
 		  , CHANGENAME = #{changeName}
 		WHERE F_NO = #{fNo}
+	</update>
+	
+	<update id="deletePost" parameterType="_int">
+		UPDATE FEED
+		SET F_STATUS='N'
+		WHERE F_NO=#{fNo}
 	</update>
 	
  	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
