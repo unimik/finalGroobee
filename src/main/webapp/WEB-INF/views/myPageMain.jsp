@@ -836,12 +836,7 @@
 	    				var input="";
 	    				var i = 0;
 	    				var j = 0;
-	    				for(var i=0; i < data.fList.length; i++){;	
-	    					if(i == 0){
-	    						input +="<tr>";
-    							input +="<td><a><b>뒤로 </b></a></td>";
-	    						input +="</tr>";
-	    					}
+	    				for(var i=0; i < data.fList.length; i++){
 	    				 		if (j%3==0){ 
 	    				input +="<tr class='post' id='sbfeed'>";
 	    						}

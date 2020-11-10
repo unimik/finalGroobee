@@ -67,7 +67,7 @@
 	         				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="g" items="${ gList }">
-		                            <div id="search_group" style=" cursor: pointer;" onclick="location.href='';">
+		                            <div id="search_group" style=" cursor: pointer;" onclick="location.href='gdetail.do?gNo=${ g.gNo }';">
 		                                <img src="resources/gUploadFiles/${g.gRenameProfile} " alt="" id="group_profile_img">
 		                                <p id="search_id_group">${ g.gName} </p>
 		                            </div>                      
