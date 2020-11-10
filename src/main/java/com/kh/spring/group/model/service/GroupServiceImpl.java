@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.dao.GroupDao;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.search.model.vo.Search;
 
 @Service("gService")
 public class GroupServiceImpl implements GroupService{
@@ -124,4 +126,15 @@ public class GroupServiceImpl implements GroupService{
 	public int gManagerDelete(Group g) {
 		return gDao.gManagerDelete(g);
 	}
+
+	
+	@Override
+	public ArrayList<Feed> groupSearch(Search s) {
+		return gDao.groupSearch(s);
+	}
+
+
+
+
+
 }

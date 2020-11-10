@@ -481,8 +481,16 @@
 							var userId = '<c:out value="${loginUser.userId}"/>';
 			    			$.each(data,function(index,value){
 			    				var str = value.cContent;
-			    				if(str.slice(-8) == "입장하셨습니다.") {
+			    				if(data == null) {
+			    					console.log("값 X");
+			    				} else if(str.slice(-8) == "입장하셨습니다.") {
+			    					$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+				    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+				    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
 			    					$("#chatArea").prepend($("<p class='closeServer'>"+value.cContent+"<p/>"));
+			    					$("#chatArea").prepend($inputId);
+				        			$("#chatArea").prepend($inputCrNo);
+				        			$("#chatArea").prepend($inputcNo);
 			    				} else {
 					    			if(value.fromId == userId) {
 					    				$div1 = $("<div class='myChating'>");
@@ -644,9 +652,16 @@
     			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
     			$("#chat_top").append($plusBtn);
     			$.each(data,function(index,value){
+    				console.log(value);
     				var str = value.cContent;
     				if(str.slice(-8) == "입장하셨습니다.") {
+    					$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+	    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
     					$("#chatArea").append($("<p class='closeServer'>"+value.cContent+"<p/>"));
+    					$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputCrNo);
+	        			$("#chatArea").append($inputcNo);
     				} else {
 		    			if(value.fromId == userId) {
 		    				$div1 = $("<div class='myChating'>");

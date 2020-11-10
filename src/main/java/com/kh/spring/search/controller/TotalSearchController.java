@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
@@ -75,20 +76,13 @@ public class TotalSearchController {
 			ArrayList<Feed> fList = tsService.searchFeed(srch);
 			
 			//연관 검색어
-//			ArrayList<RelatedSearch> rsList = tsService.relatedSearch(srch2); 
 			ArrayList raList = tsService.relatedSearch(srch);
 			ArrayList rbList = new ArrayList();
 
-//			ArrayList<RelatedSearch> rsList = new ArrayList<RelatedSearch>();
-//			System.out.println(raList);
 			for( int i = 0; i<raList.size();i++) {
 				String str = (String) raList.get(i);
 				rbList.add(i,str.substring(1));
 			}
-//			System.out.println(rbList);
-//			ArrayList rsList = new ArrayList<>();
-//			System.out.println("태그로 검색했을 때 멤버 리스트"+mList);
-//			System.out.println("gList"+gList);
 
 			mv.addObject("mList", mList);
 			mv.addObject("gList", gList);
@@ -101,7 +95,6 @@ public class TotalSearchController {
 
 			return mv;
 		}else if(type.equals("all")){	//@나 # 빼고 검색했을 때
-			System.out.println("다 검색");
 
 			Search srch = new Search('N', key);
 			ArrayList<Member> mList = tsService.searcMember(srch);
@@ -168,8 +161,5 @@ public class TotalSearchController {
 		mv.setViewName("search/totalSearch");
 		return mv;
 	}
-	
-	
-	
 
 }
