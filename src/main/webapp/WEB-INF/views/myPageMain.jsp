@@ -46,20 +46,24 @@
    		background-color: rgba(0,0,0,0.5);}
    	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
    		background-color: rgba(0,0,0,0.5);}
-   	.follow_detail{ background: white; border-radius: 15px; -ms-overflow-style: none; width: 400px; height: 500px; position: fixed; top: 20%; left: 42%;}
+   	.follow_detail{ background: white; border-radius: 15px;  width: 400px; height: 400px; position: fixed; top: 20%; left: 42%;}
    	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
    	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
-   	.follow_list{ height: 440px; overflow-y: scroll; }
+   	.follow_list{ height: 320px; overflow-y: scroll; -ms-overflow-style: none; }
    	.follow_list>ul{ 
-	    margin: 30px;
-	    text-align: center;
+   		margin-left:130px;
+   		width:100%;
+   		height:40px;
 	    list-style: none;
 	    padding: unset;
    	 }
    	.follow_list>ul>li{ 
 	    height: 40px;
+	    margin:0;
 	    margin-bottom: 10px;
+	    float:left; 
    	 }
+   	.follow_list img{ width:40px; height:40px; border-radius:10px; float:left; margin-right:20px;}
 	.follow_list::-webkit-scrollbar{display: none;}
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 	
@@ -208,6 +212,12 @@
 	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
+                                   		<c:if test="${ !empty followerList.mRenameProfile }">
+                                   			<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followerList.mRenameProfile }"></a></li>
+	                    		   		</c:if>
+	                    		   		<c:if test="${ empty followerList.mRenameProfile }">
+	                    		   			<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></a></li>
+	                    		   		</c:if>
 	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
@@ -233,6 +243,12 @@
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followingList.mNo }">
+                                   		<c:if test="${ !empty followingList.mRenameProfile }">
+                                   			<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followingList.mRenameProfile }"></a></li>
+	                    		   		</c:if>
+	                    		   		<c:if test="${ empty followingList.mRenameProfile }">
+	                    		   			<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></a></li>
+	                    		   		</c:if>
 	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">

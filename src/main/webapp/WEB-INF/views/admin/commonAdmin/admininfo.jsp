@@ -13,7 +13,7 @@
 				<li><img src="resources/images/IMG_7502.JPG" alt=""
 					id="profile_img">&nbsp;&nbsp;&nbsp;
 					<p>admin</p></li>
-				<li><img src="resources/icons/write.png" alt="" id="writeIcon"></li>
+				<!-- <li><img src="resources/icons/write.png" alt="" id="writeIcon"></li> -->
 				<li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
 			</ul>
 		</div>

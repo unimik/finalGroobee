@@ -744,6 +744,10 @@
 
             
            	$('#groupJoin_btn').on("click",function(){
+           		if ( "${ g.gJoinSet }" == "N"){
+           			alert("멤버 가입이 불가능한 그룹입니다.");
+           		} else{
+           		
                   $.ajax({
                   	url:"gmCheckId.do",
                   	data:{ gNo:${g.gNo}, gmId:"${loginUser.userId}"},
@@ -758,6 +762,7 @@
               			alert("오류");
               		}
                   });
+           		}
               });	
            	
             $("#close_joinPop").on("click",function(){
@@ -822,7 +827,7 @@
     					url:'/spring/report.do',
     					data:{
     						reportType : $("#reportType").val(),
-    						feedType : "groop",
+    						feedType : "group",
     						content : $("#reportContent").val()
     					},
     					success: function(){

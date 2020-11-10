@@ -160,6 +160,7 @@
 			G_NO = #{gNo}
 	</update>
 	
+<<<<<<< HEAD
 
 	<!-- 그룹 내  검색 -->
 	<select id="groupSearch" parameterType="Search" resultMap="feedResultSet">
@@ -189,5 +190,12 @@
 			</otherwise>
 		</choose>
 
+=======
+	<select id="loadGroup" resultMap="GroupResultSet">
+		SELECT *
+		FROM GROUPS
+		WHERE G_NO=#{ gNo }
+		AND G_STATUS='Y'
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	</select>
 </mapper>

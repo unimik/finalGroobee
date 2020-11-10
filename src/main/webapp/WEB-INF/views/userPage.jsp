@@ -65,6 +65,7 @@
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
                     position: relative; right: 30px; /* display: none; */ }
+        .postbox_text{padding:30px 50px; font-weight: 600;}
    </style>
 </head>
 <body>
@@ -254,7 +255,11 @@
                     	<c:if test="${blockedYN eq 'N'}">
                     		<c:choose>
 	                    		<c:when test="${ userPs.openStatus eq 'F' && followYN eq 'N'}">
-		                    		<p>비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>
+		                    		<tr class="post">
+		                    			<td class="postbox_text" name="postbox">
+			                    			<p>비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>	                    			
+		                    			</td>
+		                    		</tr>
 	                    		</c:when>
 	                    		<c:otherwise>
 	                    			<%! int i = 0; %>

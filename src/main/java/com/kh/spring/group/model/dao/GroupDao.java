@@ -59,10 +59,6 @@ public class GroupDao {
 		return sqlSession.delete("gmMapper.gmDelete", gm);
 	}
 
-	public int totalGroups() {
-		return sqlSession.selectOne("groupMapper.totalGroups");
-	}
-
 	public ArrayList<GroupMember> selectGmList(int gNo) {
 		return (ArrayList)sqlSession.selectList("gmMapper.SelectGmList",gNo);
 	}

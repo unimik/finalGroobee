@@ -44,7 +44,7 @@
 	<select id="getChatContentList" parameterType="Chat" resultMap="chatResultSet">
 		<![CDATA[
 		SELECT *
-		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} AND ROWNUM <= 20 ORDER BY C_NO DESC)
+		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} AND ROWNUM <= 15 ORDER BY C_NO DESC)
 		ORDER BY C_NO
 		]]>
 	</select>
@@ -105,9 +105,12 @@
 	
 	<select id="getGroupChatContentList" parameterType="Chat" resultMap="chatResultSet">
 		<![CDATA[
-		SELECT C.C_NO,C.CR_NO,C.FROM_ID,C.TO_ID,C.C_CONTENT,C.C_DATE,C.C_READ,C.G_NO,G.G_PROFILE,G.G_RENAME_PROFILE,G.G_NAME
-		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} AND ROWNUM <= 20 ORDER BY C_NO DESC) C JOIN GROUPS G ON(C.G_NO = G.G_NO)
-		ORDER BY C_NO
+		SELECT *
+		FROM (SELECT C_NO,CR_NO,FROM_ID,TO_ID,C_CONTENT,C_DATE,C_READ,G_PROFILE,G_RENAME_PROFILE,G_NAME 
+		      FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO) 
+		      WHERE C.CR_NO = #{crNo} ORDER BY C.C_DATE DESC)
+		WHERE ROWNUM <= 15 
+		ORDER BY C_DATE
 		]]>
 	</select>
 	
@@ -118,7 +121,7 @@
 	<select id="checkChatRomm" parameterType="Chat" resultMap="chatResultSet">
 		SELECT *
 		FROM JOIN_CHATROOM
-		WHERE JOIN_ID = #{fromId}
+		WHERE JOIN_ID = #{fromId} 
 	</select>
 	
 	<insert id="insertJoinGroupRoom" parameterType="Chat">
@@ -141,8 +144,12 @@
 	
 	<select id="groupChatContentLoad" parameterType="Chat" resultMap="chatResultSet">
 		<![CDATA[
-		SELECT C.C_NO,C.CR_NO,C.FROM_ID,C.TO_ID,C.C_CONTENT,C.C_DATE,C.C_READ,C.G_NO,G.G_PROFILE,G.G_RENAME_PROFILE,G.G_NAME
-		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} AND ROWNUM <= 20 AND C_NO < #{cNo} ORDER BY C_NO DESC) C JOIN GROUPS G ON(C.G_NO = G.G_NO)
+		SELECT *
+		FROM (SELECT C_NO,CR_NO,FROM_ID,TO_ID,C_CONTENT,C_DATE,C_READ,G_PROFILE,G_RENAME_PROFILE,G_NAME 
+		      FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO) 
+		      WHERE C.CR_NO = #{crNo} ORDER BY C.C_DATE DESC)
+		WHERE ROWNUM <= 20 AND C_NO <= #{cNo}-1
+		ORDER BY C_DATE
 		]]>
 	</select>
 </mapper>

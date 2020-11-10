@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.spring.admin.dao.AdminDao;
+import com.kh.spring.declaration.model.vo.Declaration;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
@@ -67,4 +68,36 @@ public class AdminServiceImpl implements AdminService{
 	public ArrayList<Member> questionSearchListName() {
 		return aDao.questionSearchListName();
 	}
+
+	@Override
+	public int totalMember() {
+		// TODO Auto-generated method stub
+		return aDao.totalMember();
+	}
+
+	@Override
+	public int totalGroups() {
+		return aDao.totalGroups();
+	}
+
+	@Override
+	public int delayedReport() {
+		return aDao.delayedReport();
+	}
+
+	@Override
+	public ArrayList<Declaration> reportSearchList(Declaration d) {
+		return aDao.reportSearchList();
+	}
+
+	@Override
+	public Group loadgroup(int number) {
+		return aDao.loadGroup(number);
+	}
+
+	@Override
+	public int declarationStatusChange(String dNo) {
+		return aDao.declarationStatusChange(dNo);
+	}
+
 }

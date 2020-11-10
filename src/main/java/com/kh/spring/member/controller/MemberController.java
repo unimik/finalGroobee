@@ -116,7 +116,7 @@ public class MemberController {
 	}
 	
 	/**
-	 * - 입력받은 이메일로 인증버호 보내기
+	 * - 입력받은 이메일로 인증번호 보내기
 	 * @param email
 	 * @param random
 	 * @param request
@@ -224,13 +224,8 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.print(job);
 	}
-	@ResponseBody
-	@RequestMapping(value="totalMember.do", method = RequestMethod.GET)
-	public int totalMember(HttpServletResponse response) throws IOException{
-		
-		int totalMember = mService.totalMember();
-		return totalMember;
-	}
+	
+
 
 	
 	@RequestMapping("home.do")

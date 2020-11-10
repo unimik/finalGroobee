@@ -21,6 +21,7 @@
  		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
  		<result property="gJoinDate" column="g_JoinDate"/>
  		<result property="gCategory" column="g_Category"/>
+ 		<result property="mRenameProfile" column="M_RENAME_IMAGE"/>
  	</resultMap>
  	
  	<resultMap id="feedResultSet" type="Feed">
@@ -108,14 +109,14 @@
 	</delete>
 	
 	<select id="selectFollowerList" parameterType="Mypage" resultMap="mypageResultSet">
-		select m.m_id
+		select m.m_id, m.m_rename_image
 		from follow f
 		left join member m on f.m_no=m.m_no
 		where f.follows=#{mNo}
 	</select>
 	
 	<select id="selectFollowingList" parameterType="Mypage" resultMap="mypageResultSet">
-		select m.m_id
+		select m.m_id, m.m_rename_image
 		from follow f
 		left join member m on f.follows=m.m_no
 		where f.m_no=#{mNo}

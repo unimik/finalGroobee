@@ -151,13 +151,10 @@ public class ChatController {
 	}
 	
 	@RequestMapping("GroupChatContentList.do")
-	public void GroupChatContentList(String crNo,String readId, HttpServletResponse response) throws IOException {
+	public void GroupChatContentList(int crNo,int readId, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
-		int rcrNo = Integer.parseInt(crNo);
-		int gNo = Integer.parseInt(readId);
 		Chat chat = new Chat();
-		chat.setCrNo(rcrNo);
-		chat.setgNo(gNo);
+		chat.setCrNo(crNo);
 		ArrayList<Chat> cList = cService.getGroupChatContentList(chat);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat cc : cList) {
@@ -383,6 +380,14 @@ public class ChatController {
 		out.print(result);
 	}
 	
+	/**
+	 * - 스크롤 올리면 가져오기(그룹)
+	 * @param gNo
+	 * @param crNo
+	 * @param cNo
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("groupChatContentLoad.do")
 	public void groupChatContentLoad(int gNo,int crNo, int cNo, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=UTF-8");
@@ -390,6 +395,7 @@ public class ChatController {
 		chat.setCrNo(crNo);
 		chat.setgNo(gNo);
 		chat.setcNo(cNo);
+		System.out.println(cNo);
 		ArrayList<Chat> cList = cService.groupChatContentLoad(chat);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat cc : cList) {
