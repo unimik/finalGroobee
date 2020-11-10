@@ -19,11 +19,12 @@ public class Declaration implements Serializable {
 	private Date dCompleteDate;
 	private int mNo;
 	private Date dReportDate;
+	private int dNumber; // 그룹번호 or 회원번호 or 게시글번호 or 댓글번호
 	public Declaration() {
 		super();
 	}
 	public Declaration(int dNO, String dDiv, String dType, String dContent, String dComplete, Date dCompleteDate,
-			int mNo, Date dReportDate) {
+			int mNo, Date dReportDate, int dNumber) {
 		super();
 		this.dNO = dNO;
 		this.dDiv = dDiv;
@@ -33,8 +34,9 @@ public class Declaration implements Serializable {
 		this.dCompleteDate = dCompleteDate;
 		this.mNo = mNo;
 		this.dReportDate = dReportDate;
+		this.dNumber = dNumber;
 	}
-	public Declaration(String dDiv, String dType, String dContent, int mNo) {
+	public Declaration(String dDiv, String dType, String dContent, int mNo) { // 신고 대상의 번호(그룹 번호, 게시글번호, 댓글번호, 회원번호) 추가해야함
 		super();
 		this.dDiv = dDiv;
 		this.dType = dType;
@@ -90,11 +92,20 @@ public class Declaration implements Serializable {
 	public void setdReportDate(Date dReportDate) {
 		this.dReportDate = dReportDate;
 	}
+	
+	public int getdNumber() {
+		return dNumber;
+	}
+	public void setdNumber(int dNumber) {
+		this.dNumber = dNumber;
+	}
+	
 	@Override
 	public String toString() {
 		return "Declaration [dNO=" + dNO + ", dDiv=" + dDiv + ", dType=" + dType + ", dContent=" + dContent
-				+ ", dComplete=" + dComplete + ", dCompleteDate=" + dCompleteDate + ", mNo=" + mNo + "]";
+				+ ", dComplete=" + dComplete + ", dCompleteDate=" + dCompleteDate + ", mNo=" + mNo + ", dNumber=" + dNumber + "]";
 	}
+
 	
 	
 }

@@ -34,6 +34,8 @@ public class ChatDao {
 	public int insertChat(Chat c) {
 		if(c.getToId().equals("group")) {
 			return sqlSession.insert("chatMapper.insertChatGroup", c);
+		} else if(c.getcContent().equals("") || c.getcContent() == null){
+			return -1;
 		} else {
 			return sqlSession.insert("chatMapper.insertChat",c);
 		}
