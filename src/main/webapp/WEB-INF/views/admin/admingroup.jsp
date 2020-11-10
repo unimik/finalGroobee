@@ -22,7 +22,7 @@
 			<c:import url="commonAdmin/admininfo.jsp" />
 			<div id="admin_common">
 				<c:import url="commonAdmin/sidebar.jsp" />
-				<p id="title">GROOBEE 회원관리</p>
+				<p id="title">GROOBEE Group관리</p>
 				<div id="searchBox">
 					<div id="all_group">
 						<p>

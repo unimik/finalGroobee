@@ -2,6 +2,7 @@ package com.kh.spring.admin.service;
 
 import java.util.ArrayList;
 
+import com.kh.spring.declaration.model.vo.Declaration;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
@@ -24,7 +25,11 @@ public interface AdminService {
 	 */
 	int memberStatusChange(Member m);
 	
-
+	/**1-3. 전체 회원 수 조회
+	 * @return
+	 */
+	int totalMember();
+	
 	/** 2-1. 그룹 리스트 조회
 	 * @param g
 	 * @return
@@ -36,7 +41,12 @@ public interface AdminService {
 	 * @return
 	 */
 	int groupStatusChange(Group g);
-
+	
+	/** 2-3. 총 group 수 조회
+	 * @return
+	 */
+	int totalGroups();
+	
 	/** 3-1. 댓글 리스트 조회
 	 * @param re
 	 * @return
@@ -69,5 +79,35 @@ public interface AdminService {
 	 */
 	ArrayList<Question> questionSearchList();
 	ArrayList<Member> questionSearchListName();
+
+	/** 6-1. 신고 조회
+	 * @param d
+	 * @return
+	 */
+	ArrayList<Declaration> reportSearchList(Declaration d);
+
+	
+	/** 6-2. 신고된 그룹 상세보기
+	 * @param number
+	 * @return
+	 */
+	Group loadgroup(int number);
+
+	/** 6-3. 지연된 신고 수
+	 * @return
+	 */
+	int delayedReport();
+
+	/** 6-4. 신고 처리
+	 * @param dNo
+	 * @return
+	 */
+	int declarationStatusChange(String dNo);
+
+
+
+
+
+
 
 }
