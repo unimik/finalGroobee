@@ -150,6 +150,10 @@ public class ChatDao {
 	}
 
 	public ArrayList<Chat> groupChatContentLoad(Chat c) {
+		ArrayList<Chat> list = (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
+		for(Chat c1 : list) {
+			System.out.println(c1);
+		}
 		return (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
 	}
 
