@@ -80,6 +80,7 @@
 					console.log("전송실패!");
 				}				
 			});
+			
 			$('#alarmIcon').on("click", function() {
 				$('.alarm_pop').show();
 			});

@@ -49,4 +49,12 @@
  		ORDER BY Q_NO
  	</select>
  	
+ 	<update id="declarationStatusChange" parameterType="Declaration">
+ 		UPDATE DECLARATION 
+ 		SET 
+ 			D_COMPLETE = 'Y', D_COMPLETE_DATE=SYSDATE
+ 		WHERE 
+ 			D_NO = #{dNo}
+ 	</update>
+ 	
 </mapper>

@@ -15,12 +15,12 @@ a{text-decoration: none; color:black;}
 
 .setMenu{ border: 1px solid #e5e5e5; border-top: 0;; width: 150px;}
 .notification{border-left:none;}
-.settings{text-align: left; padding-top:10px;}
+.settings{text-align: left; padding:8px 0 8px 0;}
 #info-setting{display: none;}
 #privarcy-setting{display: none;}
 #blocked-accounts td{width:200px;text-align: left;}
 #notification-setting>div>table{margin-left: 20px; margin-right: 20px;}
-#setting-all{margin-bottom: 30px;}
+#setting-all{margin-bottom: 5px;}
 #setting-detail{border-radius: 5px;}
 #info-setting tr{width: 500px;}
 
@@ -62,14 +62,18 @@ a{text-decoration: none; color:black;}
 .modal label{margin-left: 130px;}
 #cancel{margin-left: 80px;}
 #delete_account{margin-left:140px}
-.line{width: 480px; border: 0.1px solid lightgray;}
+.line{width: 580px; border: 0.1px solid lightgray;}
+.line3{ width:480px; border: 0.1px solid lightgray;}
 th{font: bolder;}
+td{ padding-bottom:6px}
 td>div>img{margin-left: 10px; margin-right: 10px; width: 30px;border-radius: 30px;}
 .setMenu{cursor:pointer}
-#disable_btn{color:rgb(64, 123, 212)}
-#question-area{background: #daf4ed; border: 1px solid #f3f3f3; border-radius: 5px;}
+#disable_btn{color:rgb(64, 123, 212);}
+#question-area{background: #daf4ed; border: 1px solid #f3f3f3; border-radius: 5px; margin-top:20px; }
 .selected{border-left:2px solid #fcfcfc; background:#fcfcfc;}
-#question-btn{float:right;background: #47c6a3;color: white;border-radius: 3px;width: 90px;height: 20px;border: none;}
-#blockedList{height: 0; margin-left: 100px; padding-left:10px;background-color: #daf4ed; width:350px; border-radius: 2px; overflow: scroll;}
+#question-btn{float:right;background: #47c6a3;color: white;border-radius: 3px;width: 100px;height: 30px;border: none; margin:10px 30px 10px 0;}
+#blockedList{ height: 0; margin-left: 100px; margin-top: -30px; background-color: #daf4ed; width:350px; border-radius: 2px; overflow-y: scroll; overflow:hidden;}
 #blockedList span{vertical-align: super;}
 .disblock{float:right;}
+h5{ margin:0;}
+#info_groobee{ font-size:14px; margin:10px 0 20px 20px;}

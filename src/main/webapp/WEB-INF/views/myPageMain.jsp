@@ -40,26 +40,30 @@
     margin-top:10px;
     }
     #self-introduction{
-    margin:0 40px 30px 30px;
+    margin:30px 40px 30px 30px;
     }
    	.follow_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
    		background-color: rgba(0,0,0,0.5);}
    	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
    		background-color: rgba(0,0,0,0.5);}
-   	.follow_detail{ background: white; border-radius: 15px; -ms-overflow-style: none; width: 400px; height: 500px; position: fixed; top: 20%; left: 42%;}
+   	.follow_detail{ background: white; border-radius: 15px;  width: 400px; height: 400px; position: fixed; top: 20%; left: 42%;}
    	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
    	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
-   	.follow_list{ height: 440px; overflow-y: scroll; }
+   	.follow_list{ height: 320px; overflow-y: scroll; -ms-overflow-style: none; }
    	.follow_list>ul{ 
-	    margin: 30px;
-	    text-align: center;
+   		margin-left:130px;
+   		width:100%;
+   		height:40px;
 	    list-style: none;
 	    padding: unset;
    	 }
    	.follow_list>ul>li{ 
 	    height: 40px;
+	    margin:0;
 	    margin-bottom: 10px;
+	    float:left; 
    	 }
+   	.follow_list img{ width:40px; height:40px; border-radius:10px; float:left; margin-right:20px;}
 	.follow_list::-webkit-scrollbar{display: none;}
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 	
@@ -111,7 +115,7 @@
                            	<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                             <c:if test="${ empty loginUser.mRenameImage }">
-                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">${ empty loginUser.mRenameImage }&nbsp;&nbsp;&nbsp;
+                            <img src="resources/icons/pro_default.png" alt="" id="profile_img">&nbsp;&nbsp;&nbsp;
                             </c:if>
                         </div>
                         <div id="mp_profile_info">
@@ -208,6 +212,12 @@
 	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
+                                   		<c:if test="${ !empty followerList.mRenameProfile }">
+                                   			<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followerList.mRenameProfile }"></a></li>
+	                    		   		</c:if>
+	                    		   		<c:if test="${ empty followerList.mRenameProfile }">
+	                    		   			<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></a></li>
+	                    		   		</c:if>
 	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
@@ -233,6 +243,12 @@
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followingList.mNo }">
+                                   		<c:if test="${ !empty followingList.mRenameProfile }">
+                                   			<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followingList.mRenameProfile }"></a></li>
+	                    		   		</c:if>
+	                    		   		<c:if test="${ empty followingList.mRenameProfile }">
+	                    		   			<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }"><img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png"></a></li>
+	                    		   		</c:if>
 	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">
@@ -256,35 +272,32 @@
                     
             <!-- 내가 올린 피드 목록 -->
                 <div id="myPage_feedList">
-                    <table id="myPage_feed">
-                        <tr>
-                            <th><div type="button" class="feedPost_btn">게시글</div></th>
-                            <th><div type="button" class="feedStorageBox_btn">보관함</div></th>
-                            <th><div type="button" class="feedMyGroup_btn">내 그룹</div></th>
-                        </tr>
+                    <div id="myPage_feed">
+                        <ul id="myPageAllBtn">
+                            <li><div type="button" class="feedPost_btn">게시글</div></li>
+                            <li><div type="button" class="feedStorageBox_btn">보관함</div></li>
+                            <li><div type="button" class="feedMyGroup_btn">내 그룹</div></li>
+                        </ul>
 
                     <!-- 게시글 -->
-                        <%-- <%! int i = 0; %>
+                        <div class="post_all">
                         <c:forEach var="feedlist" items="${ feedList }">
-                        <% if (i%3==0){ %>
-                        <tr class="post">
-                        <%} %>
+                        <div class="post">
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
+                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1">
                                  </c:when>
                                  <c:otherwise>
-                                     <td class="postbox" name="postbox">
+                                     <div class="postbox" name="postbox">
                                          <div type="button" id="pb2">
                                              <text>${ feedlist.fContent }</text>
                                          </div>
-                                     </td>
+                                     </div>
                                  </c:otherwise>
                               </c:choose>
-                          <% if (i%3==2){ %>
-	                      </tr>
-	                      <%} i++; %>
-                          </c:forEach> --%>
+                          </div>    
+                          </c:forEach>
+                          </div>
 
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
@@ -508,11 +521,10 @@
 					
 					</div>
                     <!-- 보관함 -->
-                      <tr class="storagebox" id="storagebox">
-                            <td></td>
-                            <td></td>
+                      <div class="storagebox" id="storagebox">
+                      	<ul id="storageIconBox">
                             <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
-                            <td id="storageBox" colspan="3">
+                            <li id="storageBox" colspan="3">
                                 <div id="sb_menu">
                                     <div type="button" class="storageBox_subBtn1"><img src="<%=request.getContextPath()%>/resources/icons/add.png"></div>
                                     <div type="button" class="storageBox_subBtn2"><img src="<%=request.getContextPath()%>/resources/icons/correct_folder.png"></div>
@@ -520,73 +532,71 @@
                                     <div type="button" class="storageBox_subBtn4"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                     <div type="button" class="storageBox_subBtn5"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                 </div>
-                            </td>
-                        </tr>
-                        <%! int  j = 0; %>
-                        <c:forEach var="sb" items="${ storageBoxList }">
-                       	<% if (j%3 == 0){ %>
-                    <tr class="storagebox">
-                       	<%} %>
-                            <!-- <div id="box">보관함새폴더생성</div>-->
-                            <td class="fstorageBox_folder">
-                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
-                            <label>
-                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
-                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
-                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
-                            </label>                            
-                            </td>
-                   		 <% if (j%3==2){ %>
-                        </tr>
-                  		 <%} j++;%>
-                         </c:forEach>
-
+                            </li>
+                        </ul>
+	                        <div id="storageboxArea">
+		                        <c:forEach var="sb" items="${ storageBoxList }">
+		                    	<div class="storagebox">
+		                            <!-- <div id="box">보관함새폴더생성</div>-->
+		                            <div class="fstorageBox_folder">
+		                            	<img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
+			                            <label>
+			                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
+			                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
+			                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+			                            </label>                            
+		                            </div>
+		                        </div>
+		                        </c:forEach>
+	                        </div>
+						</div>
                         <!-- empty-space -->
-                            <tr class="group">
+                         <!--    <tr class="group">
                                 <td class="empty-space" colspan="3"></td>
                             </tr>
                              
                         <!-- 내 그룹 목록 -->
-                        <c:forEach var="groupList" items="${ groupList }">
-                            <tr id="groupList" colspan="1" class="group">
-                                <td class="groupImg" align="center">
+                       <div id="allGroupList">
+                       <c:forEach var="groupList" items="${ groupList }">
+                       <c:if test="${ !empty groupList }">
+                       <div id="groupList" class="group">
+                       		<div class="gOne">
+                              <div class="groupImg">
                                    <c:url var="gdetail" value="gdetail.do">
-                              <c:param name="gNo" value="${ groupList.gNo }"/>
-                            </c:url>
-                                   <c:if test="${ !empty groupList.gImage }">
-                                      <a href="${ gdetail }">
-                                           <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
-                                       </a>
-                              </c:if>
-                              <c:if test="${ empty groupList.gImage }">
-                                 <a href="${ gdetail }">
-                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
-                                 </a>
-                              </c:if>
-                                </td>
-                                <td class="groupInfo" colspan="3">
-                                    <a href="${ gdetail }">
-                                        <h3>${ groupList.gName }</h3>
-                                    </a>
-                                        <div>
-                                            <div>
-                                                <h5 class="group_interests">${ groupList.gCategory }</h5>
-                                                <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
-                                            </div>
-                                            <c:url var="myGmDelete" value="myGmDelete.do">
-			                                	<c:param name="gNo" value="${ groupList.gNo }"/>
-			                                	<c:param name="gmId" value="${ loginUser.userId }"/>
-			                                	<c:param name="mNo" value="${ loginUser.mNo }"/>
-			                                </c:url>
-	                                            <input type="button" class="leaveBtn" value="탈퇴" onclick="location.href='${ myGmDelete }'">
-	                                        </div>
-                                </td>
-                            </tr>
-                         </c:forEach>
+                              			<c:param name="gNo" value="${ groupList.gNo }"/>
+                            	   </c:url>
+	                              <c:if test="${ !empty groupList.gImage }">
+									<a href="${ gdetail }">
+									    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
+									</a>
+	                              </c:if>
+	                              <c:if test="${ empty groupList.gImage }">
+	                                 <a href="${ gdetail }">
+	                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
+	                                 </a>
+	                              </c:if>
+                              </div>
+                                <div class="groupInfo">
+                                	<div class="g_in">
+                                   		<a id="groupName" href="${ gdetail }">${ groupList.gName }</a>
+										<h5 class="group_interests">${ groupList.gCategory }</h5>
+										<h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
+									</div>
+									<c:url var="myGmDelete" value="myGmDelete.do">
+										<c:param name="gNo" value="${ groupList.gNo }"/>
+										<c:param name="gmId" value="${ loginUser.userId }"/>
+										<c:param name="mNo" value="${ loginUser.mNo }"/>
+									</c:url>
+									<input type="button" class="leaveBtn" value="탈퇴" onclick="location.href='${ myGmDelete }'">
+                                </div>
+                                </div>
+                                </c:if>
+                                </c:forEach>
+                           </div>
+                         </div>
 
-                    </table>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 
@@ -836,12 +846,7 @@
 	    				var input="";
 	    				var i = 0;
 	    				var j = 0;
-	    				for(var i=0; i < data.fList.length; i++){;	
-	    					if(i == 0){
-	    						input +="<tr>";
-    							input +="<td><a><b>뒤로 </b></a></td>";
-	    						input +="</tr>";
-	    					}
+	    				for(var i=0; i < data.fList.length; i++){
 	    				 		if (j%3==0){ 
 	    				input +="<tr class='post' id='sbfeed'>";
 	    						}

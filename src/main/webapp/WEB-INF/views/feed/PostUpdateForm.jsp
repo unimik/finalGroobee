@@ -173,6 +173,17 @@
                                     </ul>
                                 </td>
                             </tr>
+<<<<<<< HEAD
+=======
+                            <tr>
+                                <td id="btnstd">
+                                    <button id="btns1">
+                                        <a id="page_back" href="javascript:history.go(-1)">이전</a>
+                                    </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="btns2" type="submit" value="작성">
+                                </td>
+                            </tr>
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
                         </table>
                     </div>
 					<div id="btnstd">

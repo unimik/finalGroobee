@@ -2,8 +2,10 @@ package com.kh.spring.group.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.search.model.vo.Search;
 
 public interface GroupService {
 
@@ -55,11 +57,6 @@ public interface GroupService {
 	 * @return
 	 */
 	int gmDelete(GroupMember gm);
-
-	/**11. 총 그룹의 수
-	 * @return
-	 */
-	int totalGroups();
 
 	/**
 	 * 8. 그룹수정
@@ -165,6 +162,18 @@ public interface GroupService {
 	 * @return
 	 */
 	int gManagerDelete(Group g);
+
+
+
+	/**
+	 * 그룹내 검색 (유저)
+	 * @param s 
+	 * @return
+	 */
+	ArrayList<Feed> groupSearch(Search s);
+
+
+
 
 	
 	

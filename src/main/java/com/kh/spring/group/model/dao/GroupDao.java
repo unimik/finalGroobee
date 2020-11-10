@@ -7,8 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.search.model.vo.Search;
 
 @Repository("gDao")
 public class GroupDao {
@@ -55,10 +57,6 @@ public class GroupDao {
 
 	public int groupMemberDelete(GroupMember gm) {
 		return sqlSession.delete("gmMapper.gmDelete", gm);
-	}
-
-	public int totalGroups() {
-		return sqlSession.selectOne("groupMapper.totalGroups");
 	}
 
 	public ArrayList<GroupMember> selectGmList(int gNo) {
@@ -116,4 +114,12 @@ public class GroupDao {
 	public int gManagerDelete(Group g) {
 		return sqlSession.update("groupMapper.gManagerDelete", g);
 	}
+
+	public ArrayList<Feed> groupSearch(Search s) {
+		return (ArrayList)sqlSession.selectList("groupMapper.groupSearch",s);
+	}
+
+
+
+
 }

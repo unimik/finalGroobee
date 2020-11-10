@@ -3,10 +3,14 @@ package com.kh.spring.admin.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,11 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.admin.service.AdminService;
+import com.kh.spring.declaration.model.vo.Declaration;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
@@ -88,8 +92,8 @@ public class adminController {
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String getOut = request.getParameter("getOut");
-		String date = request.getParameter("enrolldate");
-
+		String date = request.getParameter("enrolldate");		
+		
 		if (!id.equals("")) {
 			m.setUserId(id);
 		}
@@ -103,7 +107,13 @@ public class adminController {
 			Date todate = java.sql.Date.valueOf(date);
 			m.setcDate(todate);
 		}
-
+		
+		// 신고 페이지에서 들어온 값을 받는 변수
+//		String no = request.getParameter("NO");
+//		if (!no.equals("")) {
+//			m.setmNo(Integer.parseInt(no));
+//		}			
+		
 		ArrayList<Member> memberList = aService.memberSearchList(m);
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -124,6 +134,10 @@ public class adminController {
 		// 회원 상태를 Y-> N , N -> Y로 만드는 구문
 		if (status.equals("Y")) {
 			m.setmStatus("N");
+			
+			// **********신고 처리할 구문 작성할 곳******************
+			
+			
 		} else {
 			m.setmStatus("Y");
 		}
@@ -139,7 +153,18 @@ public class adminController {
 			return "common/errorPage";
 		}
 	}
-
+	
+	/** 1-3. 총 회원 수 조회
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value="totalMember.do", method = RequestMethod.GET)
+	public int totalMember(HttpServletResponse response) throws IOException{			
+		return aService.totalMember();
+	}
+	
 	/**
 	 * 2-1. 그룹 정보 조회
 	 * 
@@ -199,7 +224,7 @@ public class adminController {
 		}
 
 		g.setgNo(Integer.parseInt(no));
-		int result = aService.groupStatusChange(g);
+		int result = aService.groupStatusChange(g);	
 
 		if (result > 0) {
 			return "redirect:admingroup.do";
@@ -207,7 +232,20 @@ public class adminController {
 			return "../common/errorPage";
 		}
 	}
-
+	
+	/** 2-3. 총 그룹 수 조회
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
+	public int totalGroups(HttpServletResponse response) throws IOException{ 
+		return aService.totalGroups();
+	}	
+	
+	
+	
 	/**
 	 * 3-1. 댓글 정보 조회
 	 * 
@@ -260,6 +298,9 @@ public class adminController {
 		// 회원 상태를 Y-> N , N -> Y로 만드는 구문
 		if (status.equals("Y")) {
 			r.setrStatus("N");
+			
+			// **********신고 처리할 구문 작성할 곳******************
+			
 		} else {
 			r.setrStatus("Y");
 		}
@@ -328,6 +369,10 @@ public class adminController {
 		// 회원 상태를 Y-> N , N -> Y로 만드는 구문
 		if (status.equals("Y")) {
 			f.setfStatus("N");
+			
+			// **********신고 처리할 구문 작성할 곳******************
+			
+			
 		} else {
 			f.setfStatus("Y");
 		}
@@ -383,6 +428,157 @@ public class adminController {
 		
 		PrintWriter out = response.getWriter(); 
 		out.print(jArr);
-		 
+		
 	}
+	
+	
+	/** 6-1. 신고내역 조회
+	 * @param response
+	 * @param request
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "reportSearchList.do", method = RequestMethod.POST)
+	public void reportSearchList(HttpServletResponse response, HttpServletRequest request) throws IOException {
+		response.setContentType("application/json; charset=utf-8");
+
+		Declaration d = new Declaration(); // 받아온 파라미터를 정보를 담을 객체
+
+		String state = request.getParameter("state");
+		String category = request.getParameter("category");
+		String report_category = request.getParameter("report_category");
+		String enrolldate = request.getParameter("enrolldate");
+		
+		// 처리상태
+		if (state.equals("보류")) {
+			d.setdComplete("N");
+		}else{
+			d.setdComplete("Y");	
+		}
+		
+		// 구분
+		if (category.equals("그룹")) {
+			d.setdDiv("group");
+		}else if(category.equals("회원")) {
+			d.setdDiv("member");
+		}else if(category.equals("게시글")) {
+			d.setdDiv("board");
+		}else if(category.equals("댓글")) {
+			d.setdDiv("reply");	
+		}
+		
+		// 신고사유
+		if (report_category.equals("욕설")) {
+			d.setdType("insult");
+		}else if(report_category.equals("광고")) {
+			d.setdType("ad");
+		}else if(report_category.equals("부적절한내용")) {
+			d.setdType("unacceptfeed");
+		}else if(report_category.equals("스팸")) {
+			d.setdType("spam");
+		}
+		
+		if (!enrolldate.equals("")) {
+			Date todate = java.sql.Date.valueOf(enrolldate);
+			d.setdReportDate(todate);
+		}
+		// 입력된 값은?
+		System.out.println("입력된 값은 : "+d.toString()); 
+		
+		ArrayList<Declaration> dList = aService.reportSearchList(d);
+		
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(dList, response.getWriter());
+	}
+	
+	/** 6-2 신고 상세보기
+	 * @param typeAndNumber
+	 * @param dNo
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "reportDetails.do", method = RequestMethod.POST)
+	public void reportDetails(HttpServletResponse response,String typeAndNumber, String dNo) throws IOException {
+		response.setContentType("application/json; charset=utf-8");
+		int startIdx = typeAndNumber.indexOf("."); // . 이 위치한 인덱스 번호를 반환
+		
+		String type = typeAndNumber.substring(0, startIdx); // type을 찾자
+		
+		int number = Integer.parseUnsignedInt(typeAndNumber.substring(startIdx+1, typeAndNumber.length()));
+		
+		Declaration d;
+		Group g;
+		Feed f;
+		Reply r;
+		Member m;
+		
+		SimpleDateFormat date = new SimpleDateFormat("yy-MM-dd");
+		
+		JSONObject job = null;
+		
+		// 타입의 종류에 따른 다른 실행
+		if(type.equals("group")){
+			g= new Group();
+			d= new Declaration();
+			g = aService.loadgroup(number);
+			job = new JSONObject(); 
+			
+			job.put("gNo", Integer.toString(g.getgNo()));
+			job.put("gName", g.getgName());
+			job.put("gCreator",g.getgCreator());
+			job.put("gDate",date.format(g.getgDate()));
+			job.put("gStatus",g.getgStatus()); // 상태 변경 및 메소드 재활용을 위해 가져옴
+		}else if(type.equals("feed")) {
+			f= new Feed();
+			d= new Declaration();
+		}else if(type.equals("reply")) {
+			r= new Reply();
+			d= new Declaration();
+		}else if(type.equals("member")) {
+			m = new Member();
+			d= new Declaration();
+		}
+		
+		System.out.println(job);
+		
+		PrintWriter out = response.getWriter(); 
+		out.print(job);
+		
+	}
+	
+	/** 6-3. 보류된 신고수 불러오기
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value="delayedReport.do", method = RequestMethod.GET)
+	public int delayedReport(HttpServletResponse response) throws IOException{ 
+		return aService.delayedReport();
+	}
+	
+	/** 6-4. 신고 처리하기
+	 * @param gNo
+	 * @param dNo
+	 * @return
+	 */
+	@RequestMapping(value = "groupAndDeclarationStatusChange.do", method = RequestMethod.POST)
+	public String groupAndDeclarationStatusChange(String gNo, String dNo) {
+		// 1. 신고 된 그룹 처리
+		Group g = new Group();
+		g.setgStatus("N");
+		g.setgNo(Integer.parseInt(gNo));
+		int gResult = aService.groupStatusChange(g);	
+		
+
+		// 2. 신고 처리 결과 반영
+		int rResult = aService.declarationStatusChange(dNo);	
+
+		if (gResult > 0 && rResult>0) {
+			return "redirect:adminreport.do";
+		} else {
+			return "../common/errorPage";
+		}
+	}
+	
 }

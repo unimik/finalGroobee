@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.declaration.model.vo.Declaration;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
@@ -68,4 +69,33 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("adminAlertMapper.questionSearchListName");
 	}
 
+
+	public int totalMember() {
+		return sqlSession.selectOne("memberMapper.totalMember");
+	}
+
+
+	public int totalGroups() {
+		return sqlSession.selectOne("groupMapper.totalGroups");
+	}
+
+	public int delayedReport() {
+		return sqlSession.selectOne("declarationMapper.delayedReport");
+	}
+
+
+	public ArrayList<Declaration> reportSearchList() {
+		return (ArrayList)sqlSession.selectList("declarationMapper.reportSearchList");
+	}
+
+
+	public Group loadGroup(int number) {
+		return sqlSession.selectOne("groupMapper.loadGroup",number);
+	}
+
+
+	public int declarationStatusChange(String dNo) {
+		return sqlSession.update("adminAlertMapper.declarationStatusChange", dNo);
+	}
+	
 }

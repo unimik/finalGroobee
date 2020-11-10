@@ -33,6 +33,7 @@ import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.search.model.vo.Search;
 
 
 @Controller
@@ -151,8 +152,21 @@ public class GroupController{
 	public ModelAndView groupDetail(ModelAndView mv, int gNo) {
 		Group g = gService.selectGroup(gNo);
 		ArrayList<GroupMember> gm = gService.selectGmList(gNo);
+		ArrayList<Feed> ngflist = fService.selectGfeed(gNo);
+		ArrayList<Feed> hgflist = fService.selectHGfeed(gNo);
+		
+		System.out.println(gm);
+		String gmId = "";
+		for( GroupMember getId : gm) {
+			gmId += getId.getGmId() +", ";
+		}
+		System.out.println(gmId);
+		
 		if(g != null) {
 			mv.addObject("gm",gm);
+			mv.addObject("gmId", gmId);
+			mv.addObject("ngflist", ngflist);
+			mv.addObject("hgflist", hgflist);
 			mv.addObject("g",g).setViewName("group/groupDetail");
 		} else {
 			mv.addObject("msg","그룹 상세조회에 실패하셨습니다.").setViewName("common/errerPage");
@@ -506,20 +520,54 @@ public class GroupController{
 		
 		return result;
 	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value="totalGroups.do", method = RequestMethod.GET)
-	public int totalGroups(HttpServletResponse response) throws IOException{
-		
-		int totalGroups = gService.totalGroups();
-		return totalGroups;
-	}
 
 	public ArrayList<GroupMember> getGroupList(String toId) {
 		int gNo = Integer.parseInt(toId);
 		ArrayList<GroupMember> gmList = gService.selectGmList(gNo);
 		return gmList;
 	}
+	
+	//그룹 내 검색
+	@ResponseBody
+	@RequestMapping(value="gSearch.do",produces="application/json;charset=utf-8")
+	public String groupSearch(int gNo, String gsearch) {
+		Search s = new Search();
+		s.setSearchType(gsearch.charAt(0));
+		s.setsNum(gNo);
+		s.setSearch(gsearch.substring(1)); // 키워드
+		s.setSearchall(gsearch);
+		//System.out.println("gno : "+s.getsNum()+"  searchall"+gsearch+"  SearchType: "+s.getSearchType()+"  key:"+s.getSearch());
+		ArrayList<Feed> flist = new ArrayList<Feed>();
+		//검색
+		if(s.getSearchType() == '#') {
+			flist = gService.groupSearch(s);
+		}else if(s.getSearchType() =='@') {
+			flist = gService.groupSearch(s);
+		}else{
+			flist = gService.groupSearch(s);
+		}
+			System.out.println("검색타입"+s.getSearchType()+"  "+flist);
+		
+		JSONObject job = new JSONObject();
+		if(flist.isEmpty()) {
+			//System.out.println("검색 결과 없음");
+			job.put("msg",gsearch+"로 검색되는 게시글이 없습니다");
+			return job.toString();
+		}else {
+			//System.out.println("검색타입"+s.getSearchType()+"  "+flist);
+			JSONArray jArr = new JSONArray();
+			for(int i=0; i < flist.size(); i++) {
+				JSONObject jObj = new JSONObject();
+				jObj.put("fno", flist.get(i).getfNo());
+				jObj.put("fcontent", flist.get(i).getfContent());
+				jObj.put("thumbnail", flist.get(i).getThumbnail());
+				jArr.add(jObj);			
+			}
+			job.put("flist", jArr);
+			return job.toString();
+		}
 
+		
+		
+	}
 }

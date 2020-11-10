@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="declarationMapper">
  	<resultMap id="declarationResultSet" type="Declaration">
- 		<id property="dNo" column="D_NO"/>
+ 		<id property="dNO" column="D_NO"/>
  		<result property="dDiv" column="D_DIV"/>
  		<result property="dType" column="D_TYPE"/>
  		<result property="dContent" column="D_CONTENT"/>
@@ -10,11 +10,35 @@
  		<result property="dCompleteDate" column="D_COMPLETE_DATE"/>
  		<result property="mNo" column="M_NO"/>
  		<result property="dReportDate" column="D_REPORTDATE"/>
+ 		<result property="dNumber" column="D_NUMBER"/>
  	</resultMap>
  	
 	<insert id="insertReport" parameterType="Declaration">
-		INSERT INTO DECLARATION VALUES(SEQ_DNO.NEXTVAL,#{dDiv},#{dType},#{dContent},DEFAULT,NULL,#{mNo},SYSDATE)
+		INSERT INTO DECLARATION VALUES(SEQ_DNO.NEXTVAL,#{dDiv},#{dType},#{dContent},DEFAULT,NULL,#{mNo},SYSDATE,NULL)
 	</insert>
  	
+ 	<select id="delayedReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM DECLARATION
+		WHERE D_COMPLETE ='N'
+	</select>
  	
+ 	<select id="reportSearchList" parameterType="Declaration" resultMap="declarationResultSet">
+		SELECT *
+		FROM DECLARATION
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+				<if test="dComplete != null">
+					D_COMPLETE like '%'||#{dComplete}||'%'
+				</if>
+				<if test="dType != null">
+					AND D_TYPE like '%'||#{dType}||'%'
+				</if>
+				<if test="dDiv != null">
+					AND D_DIV like '%'||#{dDiv}||'%'
+				</if>
+				<if test="dReportDate != null">
+					AND D_REPORTDATE like '%'||#{dReportDate}||'%'
+				</if>
+		</trim>
+	</select>
 </mapper>

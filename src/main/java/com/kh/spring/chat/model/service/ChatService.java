@@ -92,4 +92,18 @@ public interface ChatService {
 	 */
 	ArrayList<Chat> getJoinMember(int gNo);
 
+	/**
+	 * 13. 채팅 내용 추가로 불러오기(20개씩 - 일대일)
+	 * @param loadC
+	 * @return
+	 */
+	ArrayList<Chat> chatContentLoad(Chat loadC);
+
+	/**
+	 * 14. 채팅 내용 추가로 불러오기(20개씩 - 그룹)
+	 * @param chat
+	 * @return
+	 */
+	ArrayList<Chat> groupChatContentLoad(Chat chat);
+
 }

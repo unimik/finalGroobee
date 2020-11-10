@@ -36,7 +36,6 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectUpdateFeed", fNo);
 	}
 
-
 	public ArrayList<Feed> selectGfList() {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList");
 	}
@@ -53,6 +52,13 @@ public class FeedDao {
 		return sqlSession.update("feedMapper.deletePost", fNo);
 	}
 
+	public ArrayList<Feed> selectGfeed(int gNo) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectGfeed", gNo);
+	}
+
+	public ArrayList<Feed> selectHGfeed(int gNo) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
+	}
 
 
 

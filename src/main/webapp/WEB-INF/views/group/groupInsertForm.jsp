@@ -21,7 +21,7 @@
                    	<div class="container" id="container_main_first">
                     	<div class="container second" id="container_main_first_first">
                         	<div class="groupImg">
-                        		<div id="imgView"></div>
+                        		<div class="imgView" id="imgView"></div>
                         		<p id="p_title">그룹 프로필사진</p>
                         		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
                         	</div>
@@ -84,7 +84,7 @@
                         <div id="container_main_sixth_first">
                             <p id="p_title">대표 사진</p>
                             <input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
-                            <div id="imgBox"></div>
+                            <div class="imgBox" id="imgBox"></div>
                         </div>
                         <div id="container_main_seventh_first">
                             <p id="p_title">그룹 소개</p>
@@ -103,8 +103,9 @@
             </form>
         </div>
 	</div>
-	<script>
+	<script>	
 		$(document).ready(function(){
+			
             var i = 2;
             $('#add_question').on("click",function(){
                 $('#sub_question').show();
@@ -123,38 +124,51 @@
 
                 }
             });
-
 		});
 		
-        function sethumbnail(event){
-			var reader = new FileReader();
-			
-			reader.onload = function(event){
-				var img = document.createElement('img');
-				img.setAttribute("src",event.target.result);
-				document.querySelector("div#imgView>img").remove();
-				document.querySelector("div#imgView").appendChild(img);
-			};
-			
-			reader.readAsDataURL(event.target.files[0]);
-		} ;
-        
-        function sethumbnail2(event){
-			var reader = new FileReader();
-			
-			reader.onload = function(event){
-				var groupimg = document.createElement('img');
-				groupimg.setAttribute("src",event.target.result);
-				document.querySelector("div#imgBox>img").remove();
-				document.querySelector("div#imgBox").appendChild(groupimg);
-			};
-			
-			reader.readAsDataURL(event.target.files[0]);
-		};
 		
 		$('#cancel').on("click",function(){
 			location.href="javascript:history.go(-1);";
 		});
+	</script>
+	<script type="text/javascript">
+	function sethumbnail(event){
+		var reader = new FileReader();
+		
+		reader.onload = function(event){
+			var inimg = document.getElementById('imgView');
+			console.log(inimg.childElementCount);
+			var img = document.createElement('img');
+			img.setAttribute("src",event.target.result);
+			if( inimg.childElementCount > 0 ){
+				document.querySelector("div#imgView>img").remove();
+				document.querySelector("div#imgView").appendChild(img);
+			} else {
+				document.querySelector("div#imgView").appendChild(img);
+			}
+		};
+		
+		reader.readAsDataURL(event.target.files[0]);
+	}
+    
+    function sethumbnail2(event){
+		var reader = new FileReader();
+		
+		reader.onload = function(event){
+			var inimg = document.getElementById('imgBox');
+			var groupimg = document.createElement('img');
+			groupimg.setAttribute("src",event.target.result);
+			if( inimg.childElementCount > 0 ){
+				document.querySelector("div#imgBox>img").remove();
+				document.querySelector("div#imgBox").appendChild(groupimg);
+			} else {
+				document.querySelector("div#imgBox").appendChild(groupimg);
+			}
+			
+		};
+		
+		reader.readAsDataURL(event.target.files[0]);
+	}
 	</script>
 </body>
 </html>

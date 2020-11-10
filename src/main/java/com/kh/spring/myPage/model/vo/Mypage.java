@@ -22,6 +22,8 @@ public class Mypage {
 	private String gRenameProfile;
 	private Date gJoinDate;
 	private String gCategory;
+	private String mRenameProfile;
+	
 	public Mypage() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -51,6 +53,33 @@ public class Mypage {
 		this.gRenameProfile = gRenameProfile;
 		this.gJoinDate = gJoinDate;
 		this.gCategory = gCategory;
+	}
+
+	
+
+	public Mypage(int mNo, String userId, String mImage, String mIntro, String interestes, int follows, int followers,
+			int fNo, String fContent, String fFile, int sbNo, String sbName, int gNo, String gName, String gImage,
+			String gRenameProfile, Date gJoinDate, String gCategory, String mRenameProfile) {
+		super();
+		this.mNo = mNo;
+		this.userId = userId;
+		this.mImage = mImage;
+		this.mIntro = mIntro;
+		this.interestes = interestes;
+		this.follows = follows;
+		this.followers = followers;
+		this.fNo = fNo;
+		this.fContent = fContent;
+		this.fFile = fFile;
+		this.sbNo = sbNo;
+		this.sbName = sbName;
+		this.gNo = gNo;
+		this.gName = gName;
+		this.gImage = gImage;
+		this.gRenameProfile = gRenameProfile;
+		this.gJoinDate = gJoinDate;
+		this.gCategory = gCategory;
+		this.mRenameProfile = mRenameProfile;
 	}
 
 
@@ -159,17 +188,18 @@ public class Mypage {
 	public void setSbNo(int sbNo) {
 		this.sbNo = sbNo;
 	}
-
-
-
 	public String getgRenameProfile() {
 		return gRenameProfile;
 	}
-
-
-
 	public void setgRenameProfile(String gRenameProfile) {
 		this.gRenameProfile = gRenameProfile;
+	}
+
+	public String getmRenameProfile() {
+		return mRenameProfile;
+	}
+	public void setmRenameProfile(String mRenameProfile) {
+		this.mRenameProfile = mRenameProfile;
 	}
 
 
@@ -180,14 +210,8 @@ public class Mypage {
 				+ ", interestes=" + interestes + ", follows=" + follows + ", followers=" + followers + ", fNo=" + fNo
 				+ ", fContent=" + fContent + ", fFile=" + fFile + ", sbNo=" + sbNo + ", sbName=" + sbName + ", gNo="
 				+ gNo + ", gName=" + gName + ", gImage=" + gImage + ", gRenameProfile=" + gRenameProfile
-				+ ", gJoinDate=" + gJoinDate + ", gCategory=" + gCategory + "]";
+				+ ", gJoinDate=" + gJoinDate + ", gCategory=" + gCategory + ", mRenameProfile=" + mRenameProfile + "]";
 	}
-
-	
-
-	
-	
-	
 
 }
 
