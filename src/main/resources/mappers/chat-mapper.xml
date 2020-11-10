@@ -44,7 +44,7 @@
 	<select id="getChatContentList" parameterType="Chat" resultMap="chatResultSet">
 		<![CDATA[
 		SELECT *
-		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} AND ROWNUM <= 20 ORDER BY C_NO DESC)
+		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} AND ROWNUM <= 15 ORDER BY C_NO DESC)
 		ORDER BY C_NO
 		]]>
 	</select>
@@ -109,7 +109,7 @@
 		FROM (SELECT C_NO,CR_NO,FROM_ID,TO_ID,C_CONTENT,C_DATE,C_READ,G_PROFILE,G_RENAME_PROFILE,G_NAME 
 		      FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO) 
 		      WHERE C.CR_NO = #{crNo} ORDER BY C.C_DATE DESC)
-		WHERE ROWNUM <= 20 
+		WHERE ROWNUM <= 15 
 		ORDER BY C_DATE
 		]]>
 	</select>
@@ -121,7 +121,7 @@
 	<select id="checkChatRomm" parameterType="Chat" resultMap="chatResultSet">
 		SELECT *
 		FROM JOIN_CHATROOM
-		WHERE JOIN_ID = #{fromId}
+		WHERE JOIN_ID = #{fromId} 
 	</select>
 	
 	<insert id="insertJoinGroupRoom" parameterType="Chat">
