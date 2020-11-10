@@ -162,29 +162,21 @@
 			    var sample = $(event.target).siblings()[1];
 			    $(sample).show();
 			});
-
-
             $('.close').on('click',function(){
                 $('.pop_menu').hide();
             });
-
             $('#feed_report_btn').on("click",function(){
                 $('.feed_report').show();
             });
-
             $('#cancel').on("click",function(){
                 $('.feed_report').hide();
             });
-
             $('#updateBtn').on("click",function(){
                 $('.reply_menu').show();
             });
-
             $('#re_close').on("click",function(){
                 $('.reply_menu').hide();
             });
-
-
     	        
     	        var size;
     	        var idx = idx1 = 0;

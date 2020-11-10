@@ -60,8 +60,4 @@ public class FeedDao {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
 	}
 
-
-
-	
-
 }

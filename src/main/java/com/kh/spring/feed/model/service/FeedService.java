@@ -10,7 +10,6 @@ import com.kh.spring.group.model.vo.GroupName;
 
 public interface FeedService {
 
-	
 	/**
 	 * 1_1. 포스트 작성
 	 * @param f, p
@@ -72,9 +71,5 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Feed> selectHGfeed(int gNo);
-
-	
-	
-
 
 }

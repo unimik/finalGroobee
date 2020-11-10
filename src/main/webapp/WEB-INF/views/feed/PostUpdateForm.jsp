@@ -200,7 +200,6 @@
 
 	<script>
 		$(document).ready(function() {
-
 			$('#chat_icon').click(function() {
 				var state = $(".chat").css('display');
 				if (state == 'none') {
@@ -209,12 +208,9 @@
 					$('.chat').hide();
 				}
 			});
-
 			/*************** 그룹 선택 옵션 *****************/
-
 			$('#select_board').change(function() {
 				var state = $("#select_board option:selected").val();
-
 				if (state == 'group') {
 					$('#myGroupList').css("display", "block");
 				} else {
@@ -222,24 +218,19 @@
 				}
 			})
 		});
-
 		$('.tab_menu_btn').on('click', function() {
 			$('.tab_menu_btn').removeClass('on');
 			$(this).addClass('on')
 		});
-
 		$('.tab_menu_btn1').on('click', function() {
 			$('.tab_box').hide();
 			$('.tab_box1').show();
 		});
-
 		$('.tab_menu_btn2').on('click', function() {
 			$('.tab_box').hide();
 			$('.tab_box2').show();
 		});
-
 		/************* 내계정 자세히보기 script **************/
-
 		$(document).ready(function() {
 			$('#detailInfo').click(function() {
 				$(".myAccount").animate({
@@ -247,23 +238,18 @@
 				}, 250);
 			});
 		});
-
 		$('.MyTab_tab').on("click", function() {
 			$('.MyTab_tab').removeClass('on');
 			$(this).addClass('on')
 		});
-
 		$('.MyTab_tab1').on('click', function() {
 			$('.MyTab_box').hide();
 			$('.MyTab_box1').show();
 		});
-
 		$('.MyTab_tab2').on('click', function() {
 			$('.MyTab_box').hide();
 			$('.MyTab_box2').show();
 		});
-
-
 		
     	/***************** 이미지 미리보기 *****************/
     	
@@ -299,24 +285,17 @@
     				// 기존 파일이 있을 시에 갯수 체크해서 추가할 수 있는 만큼의 이미지 갯수만 올리기
     					
     				}
-
-
     				preview(arr);
-
     			}); // file change
-
     		function checkExtension(fileName, fileSize) {
-
     			var regex = new RegExp("(.*?)\.(bmp|gif|png|jpg|jpeg)$");
     			var maxSize = 20971520; // 20MB
-
     			if(fileSize >= maxSize) {
     				alert('파일 사이즈를 초과하였습니다.');
     				$('#input_file').val(""); // 파일 초기화
     				
     				return false;
     			}
-
     			if(!regex.test(fileName)) {
     				alert('이미지 확장자만 업로드 가능합니다.');
     				$('#input_file').val(""); // 파일 초기화
@@ -325,7 +304,6 @@
     			
     			return true;
     		}
-
     		function preview(arr) {
     			// 1
     			var index = 0;
@@ -343,7 +321,6 @@
     				if (fileName.length > 10) {
     					fileName = fileName.substring(0, 9) + "...";
     				}
-
     				// 이미지 파일 미리보기
     				if (fUp.type.match('image.*')) {
     					var reader = new FileReader(); // 파일을 읽기 위한 FileReader객체 생성
@@ -436,13 +413,7 @@
    			});
    			
    		}
-   		
-   		
-   		
-   		
-   		
-   		
-   		
+
    		
 	</script>
 </body>
