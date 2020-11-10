@@ -190,11 +190,11 @@ public class FeedController {
 				e.printStackTrace();
 			}
 			
-			// 파일이 추가됐을 때에는 insert Service로,
-			// 파일이 수정됐을 때에는 update Service로 보내기
+			// 새 파일이 추가됐을 때에는 insert Service로,
+			// 기존 파일이 수정됐을 때에는 update Service로 보내기
 //			if() {
 //				
-//			}			
+//			}
 			
 			int photo = fService.updatePhoto(p);
 			System.out.println("업데이트 : " + originalFileName);
@@ -241,5 +241,5 @@ public class FeedController {
 			return "common/errorPage";
 		}
 	}
-	
+
 }
