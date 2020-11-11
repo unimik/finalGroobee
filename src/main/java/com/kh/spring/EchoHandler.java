@@ -38,10 +38,13 @@ public class EchoHandler extends TextWebSocketHandler{
     
     @Autowired
     private ChatController cController;
+    @Autowired
+	private NotificationController nController;
     
     @Autowired
     private GroupController gController;
     
+   
     //클라이언트가 연결 되었을 때 실행
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -74,12 +77,14 @@ public class EchoHandler extends TextWebSocketHandler{
 			String toId = "";
 			String sendType = "";
 			String crno = "";
+			System.out.println(fromId+Rmsg+Rmsg+sendType+crno);
         	for (int i = 0; i < strs.length; i++) {
 				Rmsg = strs[0];
 				toId = strs[1];
 				sendType = strs[2];
 				crno = strs[3];
 			}
+        	System.out.println("Rmsg : " + Rmsg);
         	int crNo = Integer.parseInt(crno);
         	
         	if(sendType.equals("chatting")) {
@@ -94,7 +99,8 @@ public class EchoHandler extends TextWebSocketHandler{
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
             	} else {
-            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+//            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+
             		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
             			System.out.println("값 XXX");
             			session.sendMessage(new TextMessage(Rmsg+"|sender"));
@@ -105,7 +111,8 @@ public class EchoHandler extends TextWebSocketHandler{
             		}
             	}
         		
-        	} else if(sendType.equals("groupChatting")) {
+
+        	}else if(sendType.equals("groupChatting")) {
         		ArrayList<GroupMember> list = gController.getGroupList(toId);
         		WebSocketSession toSession = null;
         		int result = cController.sendMessageGroup(new Chat(), fromId, toId, Rmsg, crNo);
@@ -128,6 +135,7 @@ public class EchoHandler extends TextWebSocketHandler{
             				}
             			}
         			} else {
+
         				if(result == -1) {
         					if(g.getGmId().equals(fromId)) {
         						session.sendMessage(new TextMessage(Rmsg.substring(0, Rmsg.length()-4)+"|sender|sender"));
