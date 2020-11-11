@@ -87,7 +87,7 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public ArrayList<Declaration> reportSearchList(Declaration d) {
-		return aDao.reportSearchList();
+		return aDao.reportSearchList(d);
 	}
 
 	@Override

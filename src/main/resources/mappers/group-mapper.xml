@@ -161,11 +161,10 @@
 	</update>
 
 
-	<select id="loadGroup" resultMap="GroupResultSet">
+	<select id="loadGroup" parameterType="_int" resultMap="GroupResultSet">
 		SELECT *
 		FROM GROUPS
-		WHERE G_NO=#{ gNo }
-		AND G_STATUS='Y'
+		WHERE G_NO=#{ number }
 	</select>
 	
 	<!-- 그룹 내  검색 -->
