@@ -14,7 +14,7 @@
     
     <style>
     	#feedArea{ width: 633px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none; margin-top:-80px; }
-	#feedArea::-webkit-scrollbar{display: none;}
+		#feedArea::-webkit-scrollbar{display: none;}
     	#postingForm { height: 704px; margin-bottom: 100px; border: none; }
     	#photolistUpView { width: 100px; height: 100px; border: 1px solid #e5e5e5; 
     					   border-radius: 10px; margin: 20px 0px 0px 15px; }
@@ -24,7 +24,7 @@
     	#postingArea{ border: 2px #e5e5e5 solid; background: white; border-radius: 10px; width: 630px; }
     	#postingArea > h4{ text-align: center }
 		#postingArea > hr{ border: 1px solid #e5e5e5;}
-		#btnstd{ display: inline-flex; margin-bottom: 20px; }
+		#btnstd{ display: inline-flex; margin-bottom: 200px; }
     </style>
 </head>
 <body>
@@ -252,7 +252,7 @@
     					}
     					
     					if(files.length > 5) {
-    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.')
+    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.');
     						$('#input_file').val(""); // 파일 초기화
     						return false;
     					}
