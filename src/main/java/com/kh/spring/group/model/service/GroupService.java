@@ -165,7 +165,6 @@ public interface GroupService {
 
 	Group getManagerId(String fromId);
 
-
 	/**
 	 * 그룹내 검색 (유저)
 	 * @param s 
