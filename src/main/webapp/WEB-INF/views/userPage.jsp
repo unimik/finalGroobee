@@ -67,11 +67,13 @@
         .postbox_text{padding:30px 50px; font-weight: 600;}
         #showfeed{ margin:0;padding:0; text-align:center; height:40px;}
         #showfeed{ list-style:none;}
+
         
         #selectRtype{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
   		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
   		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 		#report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
+
    </style>
 </head>
 <body>

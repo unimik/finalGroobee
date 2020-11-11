@@ -504,6 +504,7 @@ public class ChatController {
 			c.setcContent(rmsg);
 		}
 		c.setCrNo(crNo);
+		System.out.println(c);
 		result = cService.insertChat(c);
 		if(rmsg.length() > 7) {
 			if(rmsg.substring((rmsg.length()-4), rmsg.length()).equals("!@#$")) {

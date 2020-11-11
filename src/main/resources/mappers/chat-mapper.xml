@@ -95,7 +95,7 @@
 
 	<insert id="insertGroupChat" parameterType="Chat">
 		INSERT INTO CHAT
-		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',#{gNo})
+		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'Y',#{gNo})
 	</insert>
 	
 	<insert id="insertChatGroup" parameterType="Chat">
