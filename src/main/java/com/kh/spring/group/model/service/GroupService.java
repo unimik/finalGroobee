@@ -163,9 +163,7 @@ public interface GroupService {
 	 */
 	int gManagerDelete(Group g);
 
-<<<<<<< HEAD
 	Group getManagerId(String fromId);
-=======
 
 
 	/**
@@ -177,7 +175,6 @@ public interface GroupService {
 
 
 
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 
 	
 	

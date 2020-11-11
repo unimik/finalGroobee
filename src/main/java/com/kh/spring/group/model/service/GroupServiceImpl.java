@@ -127,12 +127,10 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.gManagerDelete(g);
 	}
 
-<<<<<<< HEAD
 	@Override
 	public Group getManagerId(String fromId) {
 		return gDao.getManagerId(fromId);
 	}
-=======
 	
 	@Override
 	public ArrayList<Feed> groupSearch(Search s) {
@@ -143,5 +141,4 @@ public class GroupServiceImpl implements GroupService{
 
 
 
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 }

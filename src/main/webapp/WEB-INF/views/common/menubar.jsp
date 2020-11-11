@@ -159,69 +159,7 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
         </div>
-        
-        
-        
-        
-        
-        <div class="myAccount">
-            <div id="myId">
-               <c:if test="${ !empty loginUser.mRenameImage }">
-                  <img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="myProfile" id="myProfile">
-               </c:if>
-               <c:if test="${ empty loginUser.mRenameImage }">
-                  <img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" alt="myProfile" id="myProfile">
-               </c:if>
-               <p>${ loginUser.userId }</p>
-            </div>
-            <div id="MyTab">
-               <button class="MyTab_tab1 MyTab_tab on">팔로워</button>
-               <button class="MyTab_tab2 MyTab_tab">팔로잉</button>
-               <button class="MyTab_tab3 MyTab_tab">그룹</button>
-               <div id="MyTab_container">
-                  <!-- 팔로워 -->
-                  <div class="MyTab_box1 MyTab_box on">
-                     <div id="My_follower_list">
-                     
-                     </div>
-                  </div>
-                  <!-- 팔로잉 -->
-                  <div class="MyTab_box2 MyTab_box">
-                     <div id="My_following_list">
-                     
-                     </div>
-                  </div>
-                  <!-- 그룹 -->
-                  <div class="MyTab_box3 MyTab_box">
-                     <div id="My_fgroup_list">
-                        
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-        
-        <div id="menubar">
-            <c:url var="goHome" value="home.do"/>
-            <c:url var="glist" value="glist.do"/>
-            <ul id="menu">
-                <li><a href="${ goHome }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
-                 <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
-                 
-                <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>
-                <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
-            </ul>
-        </div>
-        
-    <script type="text/javascript">
-=======
-	     </div>
-	     
-	     
-	     
-	     
 	     
 	     <div class="myAccount">
 				<div id="myId">
@@ -273,7 +211,6 @@
 	     </div>
 	     
      <script type="text/javascript">
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      /* 그룹 채팅방 사람 추가하기 */
      $(document).on("click",".plusChatUser",function(){
         $('#plusGroupUser').modal("show");
@@ -526,7 +463,6 @@
      
      /* 스크롤 하면 그룹채팅 내용 불러오기 */
      function groupChatContentLoad() {
-<<<<<<< HEAD
         $("#chatArea").scroll(function(){
          var sT = $("#chatArea").scrollTop();
             if(sT == 0) {
@@ -597,7 +533,6 @@
                });
             }
          });
-=======
     	 $("#chatArea").scroll(function(){
 			var sT = $("#chatArea").scrollTop();
 				if(sT == 0) {
@@ -676,7 +611,6 @@
 					});
 				}
 			});
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      }
      
      
@@ -762,7 +696,6 @@
     });
      /* 그룹 채팅방 채팅내용 불러오기 */
      $(document).on("click",".chRoom2",function(){
-<<<<<<< HEAD
         
         $("#inputArea").keydown(function(key){
           if(key.keyCode == 13) {
@@ -845,8 +778,7 @@
              console.log('에러');
           }
       });
-    });
-=======
+    
     	 
     	 $("#inputArea").keydown(function(key){
     		if(key.keyCode == 13) {
@@ -937,7 +869,6 @@
     		}
 		});
 	 });
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      
      /* 페이지 로딩 시 실행되는 것들 */
      $(function(){
@@ -1193,13 +1124,10 @@
 		 			$("#alarmIcon").attr('src',"resources/icons/alarm_new.png")
 		 	 		$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 회원님을 팔로우합니다.</p></div>'); 					
 				}else if(dArr[1] == 'groupjoin'){
-					alert("그룹가입신청함");
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 그룹 가입을 신청했습니다.</p></div>');
 				}else if(dArr[1] == 'groupAccept'){
-					alert("그룹가입승인함");
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
 				}else if(dArr[1] == 'like'){
-					alert("좋아요^^");
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
 				};
 				 

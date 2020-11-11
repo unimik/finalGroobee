@@ -911,14 +911,13 @@
  			
  				
  			}
-<<<<<<< HEAD
+ 			
+ 			// 알림 기능
  			$("#joinBtn").on('click',function test(){
- 				alert("test");
  				console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
- 	  		sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
+ 	  			sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
  			});
  			
-=======
  			
  	/*그룸내 검색*/
 	function gsearch() {
@@ -1000,7 +999,6 @@
 		}
 		
 	}
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
     </script>
 </body>
 </html>
