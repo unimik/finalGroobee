@@ -11,6 +11,7 @@
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="resources/js/Alarm.js"></script>
 	<style>
 		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
@@ -157,7 +158,7 @@
 	                                        	</c:choose>
 	                                            </div>
 	                                            <div id="btnBox">
-	                                                <input type="submit" id="joinBtn" name="joinBtn" value="가입하기">
+	                                                <input type="submit"  id="joinBtn" name="joinBtn" value="가입하기">
 	                                                <input type="button" id="close_joinPop" name="close_joinPop" value="취소">
 	                                    	</div>
 	                                	</form>
@@ -909,9 +910,17 @@
      	  				
      	  			
      	  		});
+ 			
  				
  				
  			}
+ 			
+ 			// 알림 기능
+ 			$("#joinBtn").on('click',function test(){
+ 				console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+ 	  			sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
+ 			});
+ 			
  			
  	/*그룸내 검색*/
 	function gsearch() {
