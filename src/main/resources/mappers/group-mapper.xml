@@ -167,6 +167,9 @@
 		WHERE G_NO=#{ number }
 	</select>
 	
+	<select id="getManagerId" resultMap="GroupResultSet">
+	SELECT * FROM GROUPS WHERE G_CREATOR=#{fromId}
+	</select>
 	<!-- 그룹 내  검색 -->
 	<select id="groupSearch" parameterType="Search" resultMap="feedResultSet">
 		SELECT 
