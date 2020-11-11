@@ -9,9 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
     <link rel="stylesheet" href="${ contextPath }/resources/css/common.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/home.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/chat.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/myAccount.css">
     <link rel="stylesheet" href="${ contextPath }/resources/css/postInsertForm.css">
     <title>G R O O B E E</title>
     
@@ -143,7 +140,7 @@
                     </div>
 					<div id="btnstd">
 						<button id="btns1">
-							<a id="page_back" href="home.do">이전</a>
+							<a id="page_back" href="javascript:history.go(-1)">이전</a>
 						</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input id="btns2" type="submit" value="작성">
 					</div>
