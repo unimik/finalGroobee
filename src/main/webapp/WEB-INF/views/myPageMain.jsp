@@ -85,7 +85,6 @@
 		$('.storageBox_subBtn3').show();
 		$('.storageBox_subBtn4').hide();
 		$('.storageBox_subBtn5').hide();
-
 	    $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #47c6a3'});  
 		$('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
 		$('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
@@ -272,35 +271,32 @@
                     
             <!-- 내가 올린 피드 목록 -->
                 <div id="myPage_feedList">
-                    <table id="myPage_feed">
-                        <tr>
-                            <th><div type="button" class="feedPost_btn">게시글</div></th>
-                            <th><div type="button" class="feedStorageBox_btn">보관함</div></th>
-                            <th><div type="button" class="feedMyGroup_btn">내 그룹</div></th>
-                        </tr>
+                    <div id="myPage_feed">
+                        <ul id="myPageAllBtn">
+                            <li><div type="button" class="feedPost_btn">게시글</div></li>
+                            <li><div type="button" class="feedStorageBox_btn">보관함</div></li>
+                            <li><div type="button" class="feedMyGroup_btn">내 그룹</div></li>
+                        </ul>
 
                     <!-- 게시글 -->
-                        <%! int i = 0; %>
+                        <div class="post_all">
                         <c:forEach var="feedlist" items="${ feedList }">
-                        <% if (i%3==0){ %>
-                        <tr class="post">
-                        <%} %>
+                        <div class="post">
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
+                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1">
                                  </c:when>
                                  <c:otherwise>
-                                     <td class="postbox" name="postbox">
+                                     <div class="postbox" name="postbox">
                                          <div type="button" id="pb2">
                                              <text>${ feedlist.fContent }</text>
                                          </div>
-                                     </td>
+                                     </div>
                                  </c:otherwise>
                               </c:choose>
-                          <% if (i%3==2){ %>
-	                      </tr>
-	                      <%} i++; %>
+                          </div>    
                           </c:forEach>
+                          </div>
 
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
@@ -524,11 +520,10 @@
 					
 					</div>
                     <!-- 보관함 -->
-                      <tr class="storagebox" id="storagebox">
-                            <td></td>
-                            <td></td>
+                      <div class="storagebox" id="storagebox">
+                      	<ul id="storageIconBox">
                             <input type="hidden" id="mNo" value="${ loginUser.mNo }"/>
-                            <td id="storageBox" colspan="3">
+                            <li id="storageBox" colspan="3">
                                 <div id="sb_menu">
                                     <div type="button" class="storageBox_subBtn1"><img src="<%=request.getContextPath()%>/resources/icons/add.png"></div>
                                     <div type="button" class="storageBox_subBtn2"><img src="<%=request.getContextPath()%>/resources/icons/correct_folder.png"></div>
@@ -536,73 +531,71 @@
                                     <div type="button" class="storageBox_subBtn4"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                     <div type="button" class="storageBox_subBtn5"><img src="<%=request.getContextPath()%>/resources/icons/check.png"></div>
                                 </div>
-                            </td>
-                        </tr>
-                        <%! int  j = 0; %>
-                        <c:forEach var="sb" items="${ storageBoxList }">
-                       	<% if (j%3 == 0){ %>
-                    <tr class="storagebox">
-                       	<%} %>
-                            <!-- <div id="box">보관함새폴더생성</div>-->
-                            <td class="fstorageBox_folder">
-                            <img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
-                            <label>
-                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
-                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
-                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
-                            </label>                            
-                            </td>
-                   		 <% if (j%3==2){ %>
-                        </tr>
-                  		 <%} j++;%>
-                         </c:forEach>
-
+                            </li>
+                        </ul>
+	                        <div id="storageboxArea">
+		                        <c:forEach var="sb" items="${ storageBoxList }">
+		                    	<div class="storagebox">
+		                            <!-- <div id="box">보관함새폴더생성</div>-->
+		                            <div class="fstorageBox_folder">
+		                            	<img src="<%=request.getContextPath()%>/resources/icons/folder.png" class="sbButton" id="${ sb.sbNo }" type="button">
+			                            <label>
+			                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
+			                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
+			                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+			                            </label>                            
+		                            </div>
+		                        </div>
+		                        </c:forEach>
+	                        </div>
+						</div>
                         <!-- empty-space -->
-                            <tr class="group">
+                         <!--    <tr class="group">
                                 <td class="empty-space" colspan="3"></td>
                             </tr>
                              
                         <!-- 내 그룹 목록 -->
-                        <c:forEach var="groupList" items="${ groupList }">
-                            <tr id="groupList" colspan="1" class="group">
-                                <td class="groupImg" align="center">
+                       <div id="allGroupList">
+                       <c:forEach var="groupList" items="${ groupList }">
+                       <c:if test="${ !empty groupList }">
+                       <div id="groupList" class="group">
+                       		<div class="gOne">
+                              <div class="groupImg">
                                    <c:url var="gdetail" value="gdetail.do">
-                              <c:param name="gNo" value="${ groupList.gNo }"/>
-                            </c:url>
-                                   <c:if test="${ !empty groupList.gImage }">
-                                      <a href="${ gdetail }">
-                                           <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
-                                       </a>
-                              </c:if>
-                              <c:if test="${ empty groupList.gImage }">
-                                 <a href="${ gdetail }">
-                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
-                                 </a>
-                              </c:if>
-                                </td>
-                                <td class="groupInfo" colspan="3">
-                                    <a href="${ gdetail }">
-                                        <h3>${ groupList.gName }</h3>
-                                    </a>
-                                        <div>
-                                            <div>
-                                                <h5 class="group_interests">${ groupList.gCategory }</h5>
-                                                <h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
-                                            </div>
-                                            <c:url var="myGmDelete" value="myGmDelete.do">
-			                                	<c:param name="gNo" value="${ groupList.gNo }"/>
-			                                	<c:param name="gmId" value="${ loginUser.userId }"/>
-			                                	<c:param name="mNo" value="${ loginUser.mNo }"/>
-			                                </c:url>
-	                                            <input type="button" class="leaveBtn" value="탈퇴" onclick="location.href='${ myGmDelete }'">
-	                                        </div>
-                                </td>
-                            </tr>
-                         </c:forEach>
+                              			<c:param name="gNo" value="${ groupList.gNo }"/>
+                            	   </c:url>
+	                              <c:if test="${ !empty groupList.gImage }">
+									<a href="${ gdetail }">
+									    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ groupList.gRenameProfile }"></div>
+									</a>
+	                              </c:if>
+	                              <c:if test="${ empty groupList.gImage }">
+	                                 <a href="${ gdetail }">
+	                                    <div id="group_img"><img src="<%=request.getContextPath()%>/resources/images/group_logo1.png"></div>
+	                                 </a>
+	                              </c:if>
+                              </div>
+                                <div class="groupInfo">
+                                	<div class="g_in">
+                                   		<a id="groupName" href="${ gdetail }">${ groupList.gName }</a>
+										<h5 class="group_interests">${ groupList.gCategory }</h5>
+										<h5 class="group_subDate">가입일 ${ groupList.gJoinDate }</h5>
+									</div>
+									<c:url var="myGmDelete" value="myGmDelete.do">
+										<c:param name="gNo" value="${ groupList.gNo }"/>
+										<c:param name="gmId" value="${ loginUser.userId }"/>
+										<c:param name="mNo" value="${ loginUser.mNo }"/>
+									</c:url>
+									<input type="button" class="leaveBtn" value="탈퇴" onclick="location.href='${ myGmDelete }'">
+                                </div>
+                                </div>
+                                </c:if>
+                                </c:forEach>
+                           </div>
+                         </div>
 
-                    </table>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 
@@ -615,30 +608,23 @@
     $('#follow_follower').click(function() {
         $('.follow_wrap').show();
     });
-
     $('.close_popup').click(function() {
         $('.follow_wrap').hide();
         $('.following_wrap').hide();
     });
-
     $('div[type = button]').css({'cursor' : 'pointer'});
     $('input[type = button]').css({'cursor' : 'pointer'});
     $('img[type = button]').css({'cursor' : 'pointer'});
-
-
     
     /************ 팔로우 언팔로우 script ************/
-
     $('#follow_btn').click(function() {
         $(this).hide();
         $('#followCancle_btn').show();
     });
-
     $('#followCancle_btn').click(function() {
         $(this).hide();
         $('#follow_btn').show();
     });
-
     /************ 게시글, 보관함, 내 그룹 전환 시 script ************/
 	//게시글 클릭시
     $('.feedPost_btn').click(function() {
@@ -651,7 +637,6 @@
         $('.group').hide();
         $('#sbfeed').hide();
     });
-
     //보관함 클릭시
     $('.feedStorageBox_btn').click(function() {
         $(this).css({'border-bottom' : '2px solid #47c6a3'});
@@ -718,7 +703,6 @@
      });
     /*그룹 탈퇴 이동*/
     $('.leaveBtn').click(function(){
-
     });
     
     /*보관함 이름 수정*/
@@ -726,13 +710,11 @@
         $('.folder_default').hide();
         $('.folder_correct').show();
         $('.folder_delete').hide();
-
         $('.storageBox_subBtn3').hide();
         $('.storageBox_subBtn4').show();
  		
         $('.sbNameBox').css('border','1px solid #555555');
 		$('.sbNameBox').removeAttr('readonly');
-
     });
     
 	/*수정 완료 */
@@ -748,7 +730,6 @@
 	    
 		$('.sbNameBox').css('border','none');
 		$('.sbNameBox').attr('readonly', 'readonly');
-
 		//맵객체로 만들것
 		var sbBoxMap = new Map();
 		for(var i =0; i < $('.sbNo').length; i++ ){
@@ -775,7 +756,6 @@
 		});
 		
 	});
-
     /* 보관함 삭제 */
     $('.storageBox_subBtn3').click(function() {  	
     	$('.storageBox_subBtn3').hide();
@@ -797,7 +777,6 @@
 				j++;
 			}
 		}
-
 		if(j > 0 ){	
 		sbBoxMap.set('mno',${ loginUser.mNo });
 		//맵 만들어졌는지 확인용
@@ -835,7 +814,6 @@
 		}
 		
     });
-
 	//보관함 눌러서 내가 보관한 피드 볼 때
 	$('.sbButton').click(function() {
 		var sbNo = $(this).attr("id");
@@ -852,12 +830,7 @@
 	    				var input="";
 	    				var i = 0;
 	    				var j = 0;
-	    				for(var i=0; i < data.fList.length; i++){;	
-	    					if(i == 0){
-	    						input +="<tr>";
-    							input +="<td><a><b>뒤로 </b></a></td>";
-	    						input +="</tr>";
-	    					}
+	    				for(var i=0; i < data.fList.length; i++){
 	    				 		if (j%3==0){ 
 	    				input +="<tr class='post' id='sbfeed'>";
 	    						}
@@ -922,7 +895,6 @@
     $('#pb1').click(function() {
         $(".pop_feed").show();
     });
-
     $('#pb2').mouseover(function() {
         $(this).css({'background' : '#daf4eda1'});
     }).mouseleave(function() {
@@ -930,55 +902,43 @@
     }).click(function() {
         $(".pop_feed2").show();
     });
-
     $('.feed_delete').click(function() {
         $(".pop_feed2").hide();
         $(".pop_feed").hide();
     });
-
     $ajax.({
     	
     })
     */
     /************* 팝업 메뉴 script *************/
-
     $('#details_btn').on("click", function(){
         $('.myFeed_popup_others').show();
     });
-
     $('#close').on('click', function(){
         $('.myFeed_popup_others').hide();
     });
-
     $('#myFeed_report_btn').on("click", function(){
         $('.feed_report').show();
     });
-
     $('#cancel').on("click", function(){
         $('.feed_report').hide();
     });
-
     $('#myFeed_block_btn').on('click', function(){
         $('.feed_block').show();
     });
-
     $('#block_pop').on("click", function(){
         $('.feed_block').hide();
         $('.myFeed_popup_others').hide();
     });
-
     $('#profile_edit_btn').on("click", function(){
         $('.myFeed_popup_myEdit').show();
     });
-
     $('#close').on("click", function(){
         $('.myFeed_popup_myEdit').hide();
     });
-
     $('#updateBtn').on("click", function(){
         $('.reply_menu').show();
     });
-
     $('#re_close').on("click", function(){
         $('.reply_menu').hide();
     });

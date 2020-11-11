@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
-import com.kh.spring.group.model.vo.Group;
-import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Repository("fDao")
@@ -26,8 +24,8 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertPhoto", p);
 	}
 	
-	public ArrayList<Feed> selectFeed() {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed");
+	public ArrayList<Feed> selectFeed(String userId) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed",userId);
 	}
 
 	public ArrayList<GroupName> selectGroupMemberId(String userId) {
@@ -37,7 +35,6 @@ public class FeedDao {
 	public Feed selectUpdateFeed(int fNo) {
 		return sqlSession.selectOne("feedMapper.selectUpdateFeed", fNo);
 	}
-
 
 	public ArrayList<Feed> selectGfList() {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList");
@@ -51,6 +48,10 @@ public class FeedDao {
 		return sqlSession.update("feedMapper.updatePhoto", p);
 	}
 
+	public int deletePost(int fNo) {
+		return sqlSession.update("feedMapper.deletePost", fNo);
+	}
+
 	public ArrayList<Feed> selectGfeed(int gNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectGfeed", gNo);
 	}
@@ -58,10 +59,5 @@ public class FeedDao {
 	public ArrayList<Feed> selectHGfeed(int gNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
 	}
-
-
-
-
-	
 
 }

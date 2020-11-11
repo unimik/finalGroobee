@@ -225,6 +225,10 @@
 	</select>
 	
 	<select id="searchInterest" parameterType="Search" resultType="String">
-		SELECT INTERESTES FROM MEMBER WHERE M_NO=#{search}
+		SELECT 
+			INTERESTES 
+		FROM MEMBER
+		WHERE
+		M_NO=#{search}
 	</select>
 </mapper>

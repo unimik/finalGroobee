@@ -63,7 +63,7 @@ public class MemberController {
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
-		ArrayList<Feed> feed = fService.selectFeed();
+		ArrayList<Feed> feed = fService.selectFeed(userId);
 //		for(Feed ff : feed) {
 //			System.out.println(ff);
 //		}
@@ -227,10 +227,10 @@ public class MemberController {
 	
 
 
-	
+
 	@RequestMapping("home.do")
-	public String goHome(Model model) {
-		ArrayList<Feed> feed = fService.selectFeed();
+	public String goHome(Model model, String userId) {
+		ArrayList<Feed> feed = fService.selectFeed(userId);
 		model.addAttribute("feed", feed);
 		return "home";
 	}

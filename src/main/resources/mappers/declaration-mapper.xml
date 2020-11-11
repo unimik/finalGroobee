@@ -13,8 +13,8 @@
  		<result property="dNumber" column="D_NUMBER"/>
  	</resultMap>
  	
-	<insert id="insertReport" parameterType="Declaration">
-		INSERT INTO DECLARATION VALUES(SEQ_DNO.NEXTVAL,#{dDiv},#{dType},#{dContent},DEFAULT,NULL,#{mNo},SYSDATE,NULL)
+	<insert id="reportGInsert" parameterType="Declaration">
+		INSERT INTO DECLARATION VALUES(SEQ_DNO.NEXTVAL,#{dDiv},#{dType},#{dContent},DEFAULT,NULL,#{mNo},SYSDATE,#{dNumber})
 	</insert>
  	
  	<select id="delayedReport" resultType="_int">

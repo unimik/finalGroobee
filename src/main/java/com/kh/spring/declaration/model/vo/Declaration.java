@@ -36,12 +36,13 @@ public class Declaration implements Serializable {
 		this.dReportDate = dReportDate;
 		this.dNumber = dNumber;
 	}
-	public Declaration(String dDiv, String dType, String dContent, int mNo) { // 신고 대상의 번호(그룹 번호, 게시글번호, 댓글번호, 회원번호) 추가해야함
+	public Declaration(String dDiv, String dType, String dContent, int mNo, int dNumber) { // 신고 대상의 번호(그룹 번호, 게시글번호, 댓글번호, 회원번호) 추가해야함
 		super();
 		this.dDiv = dDiv;
 		this.dType = dType;
 		this.dContent = dContent;
 		this.mNo = mNo;
+		this.dNumber = dNumber;
 	}
 	public int getdNO() {
 		return dNO;

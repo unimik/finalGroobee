@@ -11,11 +11,15 @@
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="resources/js/Alarm.js"></script>
 	<style>
 		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
 		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
 		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+		#searchTable {display: none; width: 100%; margin-bottom: 100px;}
+		.postbox{ width: 200px; height: 200px; display: inline-block;}
+		.postbox > img {width: 200px; height: 200px;}
 	</style>
 </head>
 <body>
@@ -154,7 +158,7 @@
 	                                        	</c:choose>
 	                                            </div>
 	                                            <div id="btnBox">
-	                                                <input type="submit" id="joinBtn" name="joinBtn" value="가입하기">
+	                                                <input type="submit"  id="joinBtn" name="joinBtn" value="가입하기">
 	                                                <input type="button" id="close_joinPop" name="close_joinPop" value="취소">
 	                                    	</div>
 	                                	</form>
@@ -188,11 +192,11 @@
 		                 	<div id="nOpen" style="display:none">
 	                			<p>비공개 그룹입니다. 가입신청을 하신 후 이용해주세요.</p>
 	                		</div>
-                		
+                		<!-- 그룹 내 검색 -->
                        	<div id="section2">
 		                    <div id="groupSearchbar">
 		                        <input type="search" id="groupSearch" name="groupSearch" placeholder="그룹 내 검색">
-		                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색">
+		                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색" onclick="gsearch()"/>
 		                    </div>
 		                    <div id="groupFeedArea">
 		                        <div id="btnsbox">
@@ -258,7 +262,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -371,7 +375,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -427,14 +431,16 @@
 							   </c:if>
 							   </div>
 	                            </div>
+	                        	<table id="searchTable"></table>
 	                        </div>
 	                   </c:if>	
 	               </c:when>
                  	<c:otherwise>
+                	<!-- 그룹 내 검색 -->
 	                 	<div id="section2">
 	                    <div id="groupSearchbar">
 	                        <input type="search" id="groupSearch" name="groupSearch" placeholder="그룹 내 검색">
-	                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색">
+	                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색"  onclick="gsearch()">
 	                    </div>
 	                    <div id="groupFeedArea">
 	                        <div id="btnsbox">
@@ -444,6 +450,7 @@
 	                    </div>
 	                 </div>        
 	                        <div class="feedContainar">
+	                        	<table id="searchTable"></table>
 	                            <div class="newConBox conBox on">
 	                            <div id="newfeedArea">
 								<c:if test="${ !empty ngflist }">
@@ -500,7 +507,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -613,7 +620,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -801,11 +808,13 @@
             $("#newFeedBtn").on('click',function(){
                 $('.conBox').hide();
                 $('.newConBox').show();
+                $('#searchTable').hide();
             });
 
             $("#hotFeedBtn").on('click',function(){
                 $('.conBox').hide();
                 $('.hotConBox').show();
+                $('#searchTable').hide();
             });
             
             /**************** 그룹 신고 관련*******************/ 
@@ -816,17 +825,19 @@
     			}else{
     				
     				$.ajax({
-    					url:'/spring/report.do',
+    					url:'reportGInsert.do',
     					data:{
     						reportType : $("#reportType").val(),
     						feedType : "group",
-    						content : $("#reportContent").val()
+    						content : $("#reportContent").val(),
+    						gNo:${ g.gNo }
     					},
     					success: function(){
     						$(".feed_report").css('display','none');
     						$(".selectRtype").css("display","inline-block");
     			      		$(".sendreport").css("display","none");
     			      		$("#reportContent").val('')
+    			      		$(".pop_menu").css("display",'none');
     						alert('신고완료');
     					},error:function(){
     						alert('신고 실패!');
@@ -899,9 +910,98 @@
      	  				
      	  			
      	  		});
+ 			
  				
  				
  			}
+ 			
+ 			// 알림 기능
+ 			$("#joinBtn").on('click',function test(){
+ 				console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+ 	  			sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
+ 			});
+ 			
+ 			
+ 	/*그룸내 검색*/
+	function gsearch() {
+		var gsearch = $('#groupSearch').val();
+   		var sign = gsearch.charAt(0);			//검색어 첫글자 - 기호
+		var keyword = gsearch.substr(1);		//키워드
+		var gNo = ${ g.gNo };					//그룹번호
+		
+		if(gsearch.length == 0){
+			alert('검색어를 입력해주세요');			
+		}else if(sign == " "){
+			alert('검색어 첫글자를 띄어 쓸 수 없습니다');		
+		}else{
+			$.ajax({
+				url:'/spring/gSearch.do',
+				dataType:'json',
+				type:'post',
+				data:{gNo: gNo,
+					  gsearch:gsearch
+					  },
+		        success:function(data){
+					if(data.flist != null){
+						$('.conBox').hide();
+
+	    				var input="";
+	    				var j = 0;
+	    				for(var i=0; i < data.flist.length; i++){
+	    				 		if (j%3==0){ 
+	    				input +="<tr>";
+	    						}
+	    						if(data.flist[i].thumbnail != null){	
+	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<img src='/spring/resources/pUploadFiles/"+data.flist[i].thumbnail+"'>";	
+	    				input += "</td>";		
+	    						}else{	
+	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<div type='button' id='pb2'>";
+	    				input += "<text>"+data.flist[i].fcontent+"</text>";	
+	    				input += "</div>";
+	    				input += "</td>";
+	    						}	
+		    				if (j%3==2){ 
+		    					input +="</tr>"; 	
+		    				}
+	    				j++;
+	    				}
+	    				
+	    				$("#searchTable").append(input);
+	                    $("#searchTable").html(input);
+						$('#searchTable').show();
+
+					}else{
+						alert(data.msg);
+					}
+	            },
+	             error:function(request,jqXHR,exception){
+	               var msg="";
+	               if(request.status == 0){
+	                  msg = 'Not Connect. \n Verify Network.';
+	               } else if(request.status == 404){
+	                  msg = 'Requested page not fount [404]';
+	               } else if(request.status == 500){
+	                  msg = 'Internal Server Error [500]';
+	               } else if(request.status == 'parsererror'){
+	                  msg = 'Requested JSON parse failed';
+	               } else if(exception == 'timeout'){
+	                  msg = 'Time out error';
+	               } else if(exception == 'abort'){
+	                  msg = 'Ajax request aborted';
+	               } else {
+	                  msg = 'Error. \n' + jqXHR.responseText;
+	               }
+	               alert(msg);
+	            } 
+				
+			});
+			
+			
+		}
+		
+	}
     </script>
 </body>
 </html>

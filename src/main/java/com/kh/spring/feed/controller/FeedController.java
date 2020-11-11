@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,10 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
@@ -69,6 +69,8 @@ public class FeedController {
 			
 			String saveFile = savePath + "\\" +  renameFileName;
 			
+			System.out.println("" + f.getfNo());
+			
 			if(!mf.getOriginalFilename().equals("")) {
 				
 				System.out.println("mf : " + mf.getOriginalFilename());
@@ -111,15 +113,28 @@ public class FeedController {
 		
 		System.out.println("view : " + f.getfNo());
 		System.out.println("photo : " + f.getPhotoList());
+		
 		mv.addObject("gn", gn);
 		mv.addObject("f", f);
+		mv.addObject("pCount",f.getPhotoList().size());
 		mv.setViewName("feed/PostUpdateForm");
 		return mv;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="getPhotoList.do", produces="application/json; charset=utf-8")
+	public String getPhotoList(int fNo) {
+		
+		Feed f = fService.selectUpdateFeed(fNo);
+		
+		Gson gson = new Gson();
+		String photoList = gson.toJson(f);
+		return photoList;
+	}
+	
 	@RequestMapping("pUpdate.do")
 	public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
-
+		System.out.println("사진정보 : " + p);
 		int result = fService.updatePost(f);
 		System.out.println(f.getfNo());
 		System.out.println(result);
@@ -132,6 +147,15 @@ public class FeedController {
 		String savePath = root + "\\pUploadFiles";
 		File folder = new File(savePath);	// 저장 폴더
 
+		// insert -> , insert, update 
+//		for(int i=0; i<fileList.size(); i++) {
+//			for(int j=0; j<f.getPhotoList().size(); j++) {
+//				if(!fileList.get(i).getOriginalFilename().equals(fileList.get(j).getOriginalFilename())) {
+//				
+//				}
+//			}
+//		}
+//		
 		for(MultipartFile mf : fileList) {
 			String originalFileName = mf.getOriginalFilename(); // 원본 파일명
 			long fileSize = mf.getSize();		// 파일 사이즈
@@ -166,11 +190,11 @@ public class FeedController {
 				e.printStackTrace();
 			}
 			
-			// 파일이 추가됐을 때에는 insert Service로,
-			// 파일이 수정됐을 때에는 update Service로 보내기
+			// 새 파일이 추가됐을 때에는 insert Service로,
+			// 기존 파일이 수정됐을 때에는 update Service로 보내기
 //			if() {
 //				
-//			}			
+//			}
 			
 			int photo = fService.updatePhoto(p);
 			System.out.println("업데이트 : " + originalFileName);
@@ -193,17 +217,21 @@ public class FeedController {
 		String savePath = root + "\\pUploadFiles";
 		File f = new File(savePath + "\\"+ fileName);
 		
+		System.out.println("fileName : " + fileName);
+		
 		if(f.exists()) {
 			f.delete();
 		}
 	}
 	
-	@RequestMapping("fDelete.do")
+	@RequestMapping("pDelete.do")
 	public String postDelete(int fNo, Photo p, HttpServletRequest request) {
 		Feed f = fService.selectUpdateFeed(fNo);
+		System.out.println("f : " + fService.selectUpdateFeed(fNo));
+		System.out.println("p : " + p);
 		
-		if(p.getChangeName() != null) {
-			deleteFile(p.getChangeName(), request);
+		if(f.getPhotoList() != null) {	// 첨부파일이 있으면
+			deleteFile(p.getChangeName(), request);	// 첨부파일 삭제
 		}
 		int result = fService.deletePost(fNo);
 		
@@ -213,5 +241,15 @@ public class FeedController {
 			return "common/errorPage";
 		}
 	}
-	
+//	
+//	@RequestMapping("pReplyList.do")
+//	public void getReplyList(HttpServletResponse response, int fNo) throws JsonIOException, IOException {
+//		ArrayList<Reply> rList = bService.selectReplyList(bId);
+//		
+//		response.setContentType("application/json; charset=utf-8");
+//		
+//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//		gson.toJson(rList, response.getWriter());
+//	}
+
 }

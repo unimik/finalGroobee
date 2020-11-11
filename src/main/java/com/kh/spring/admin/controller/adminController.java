@@ -37,7 +37,7 @@ public class adminController {
 	private AdminService aService;
 
 	/**
-	 * 1.sidebar에서 adminmemberPage로 이동
+	 * 0-1.sidebar에서 adminmemberPage로 이동
 	 * 
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public class adminController {
 	}
 
 	/**
-	 * 2.sidebar에서 adminfeedPage로 이동
+	 * 0-2.sidebar에서 adminfeedPage로 이동
 	 * 
 	 * @return
 	 */
@@ -57,7 +57,7 @@ public class adminController {
 	}
 
 	/**
-	 * 3.sidebar에서 admingroupsPage로 이동
+	 * 0-3.sidebar에서 admingroupsPage로 이동
 	 * 
 	 * @return
 	 */
@@ -67,7 +67,7 @@ public class adminController {
 	}
 
 	/**
-	 * 4.sidebar에서 adminreportPage로 이동
+	 * 0-4.sidebar에서 adminreportPage로 이동
 	 * 
 	 * @return
 	 */
@@ -451,7 +451,7 @@ public class adminController {
 		// 처리상태
 		if (state.equals("보류")) {
 			d.setdComplete("N");
-		}else{
+		}else if(state.equals("완료")){
 			d.setdComplete("Y");	
 		}
 		
@@ -481,11 +481,9 @@ public class adminController {
 			Date todate = java.sql.Date.valueOf(enrolldate);
 			d.setdReportDate(todate);
 		}
-		// 입력된 값은?
-		System.out.println("입력된 값은 : "+d.toString()); 
+		
 		
 		ArrayList<Declaration> dList = aService.reportSearchList(d);
-		
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(dList, response.getWriter());
@@ -498,13 +496,14 @@ public class adminController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "reportDetails.do", method = RequestMethod.POST)
-	public void reportDetails(HttpServletResponse response,String typeAndNumber, String dNo) throws IOException {
+	public void reportDetails(HttpServletResponse response,String typeAndNumber) throws IOException {
 		response.setContentType("application/json; charset=utf-8");
 		int startIdx = typeAndNumber.indexOf("."); // . 이 위치한 인덱스 번호를 반환
 		
-		String type = typeAndNumber.substring(0, startIdx); // type을 찾자
 		
-		int number = Integer.parseUnsignedInt(typeAndNumber.substring(startIdx+1, typeAndNumber.length()));
+		String type = typeAndNumber.substring(0, startIdx); // type을 찾자
+		System.out.println("type : "+type);
+		int number = Integer.parseUnsignedInt(typeAndNumber.substring(startIdx+1, typeAndNumber.length())); // 타입의 기본 키 값
 		
 		Declaration d;
 		Group g;
@@ -515,13 +514,16 @@ public class adminController {
 		SimpleDateFormat date = new SimpleDateFormat("yy-MM-dd");
 		
 		JSONObject job = null;
-		
 		// 타입의 종류에 따른 다른 실행
 		if(type.equals("group")){
+			System.out.println("if문으로 들어오는가?");
 			g= new Group();
 			d= new Declaration();
-			g = aService.loadgroup(number);
 			job = new JSONObject(); 
+			
+			g = aService.loadgroup(number); // group의 기본키 값으로 그룹 정보를 불러오는 메소드
+
+			System.out.println("불러온 g의 값 : "+g); //null
 			
 			job.put("gNo", Integer.toString(g.getgNo()));
 			job.put("gName", g.getgName());
