@@ -46,6 +46,25 @@
                  </div>
              </div>
          </div>
+     <!-- 채팅 사람 추가 모달 -->
+	     <div class="modal fade" id="chatOption" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">그룹원 추가하기</h5>
+                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">x</span>
+                         </button>
+                     </div>
+                     <div class="modal-body" id="findIdResult">
+					 <!-- 추가할 멤버 -->                     	
+                     </div>
+                     <div class="modal-footer">
+                         <button class="btn" id="plusGroupChatBtn" type="button" data-dismiss="modal">추가</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
      <div class="content">
      	<div id="chat" name="chat" class="chat">
             <div class="tab_menu">
@@ -277,6 +296,12 @@
     		 });
 		 });
      });
+     
+     function deleteChat() {
+    	 $(".chatDeleteBtn").on("click",function(){
+    		console.log("ㅎㅇ"); 
+    	 });
+     }
      
      /* 채팅 읽음 처리  */
      function countChatRead() {
@@ -569,6 +594,12 @@
     			console.log("ok");
     			var userId = '<c:out value="${loginUser.userId}"/>';
     			$("#chatArea").children().remove();
+    			/* $(".chatDeleteBtn").remove();
+    			$btnImg = $("<img src='/spring/resources/icons/feed_menu.png'>");
+    			$btn = $("<button class='chatDeleteBtn'>");
+    			$btn.append($btnImg);
+    			$("#chat_top").append($btn);
+    			deleteChat(); */
     			$.each(data,function(index,value){
 	    			if(value.fromId == userId) {
 	    				$div1 = $("<div class='myChating'>");

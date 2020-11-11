@@ -105,3 +105,11 @@ input:focus{ outline:none;}
 .modal-body>div{height: 60px; border-bottom: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; width: 100%; text-align: center; padding-top: 10px; font-weight: 600;}
 .modal-footer>button{margin-top: 1px;padding-top: 4px;padding-bottom: 4px;background-color: #daf4ed;border: none;font-size: 13px;font-weight: 1000;color: #555555;font-weight: bold;padding-left: 5px;padding-right: 5px;}
 .closeServer{text-align:center; font-weight: bold; color: gray; font-size: 14px;}
+.chatDeleteBtn{margin-top: -4%;
+    margin-left: 285px;
+    width: 25px;
+    cursor: pointer;
+    float: left;
+    background-color: white;
+    border: none;}
+.chatDeleteBtn>img{width:25px;}
