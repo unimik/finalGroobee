@@ -22,13 +22,15 @@ public class DeclarationController {
 	DeclarationService dService;
 	
 	@ResponseBody
-	@RequestMapping("report.do")
-	public String insertReport(@RequestParam("feedType") String feedType,
+	@RequestMapping("reportGInsert.do")
+	public void insertReport(@RequestParam("feedType") String feedType,
 								@RequestParam("reportType") String reportType,
-								@RequestParam("content") String content) {
+								@RequestParam("content") String content,
+								@RequestParam("gNo")int gNo) {
+		// Group 정보를 가져와야 함
 		Member m = (Member)session.getAttribute("loginUser");
-		Declaration d = new Declaration(feedType,reportType,content,m.getmNo());
-		int result = dService.insertReport(d);
-		return "값을 넘겨라";
+		Declaration d = new Declaration(feedType,reportType,content,m.getmNo(), gNo);
+		int result = dService.insertGReport(d);
+
 	}
 }
