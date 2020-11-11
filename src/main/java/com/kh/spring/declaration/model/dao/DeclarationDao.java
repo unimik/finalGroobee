@@ -12,8 +12,8 @@ public class DeclarationDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	public int insertReport(Declaration d) {
-		return sqlSession.insert("declarationMapper.insertReport",d);
+	public int insertGReport(Declaration d) {
+		return sqlSession.insert("declarationMapper.reportGInsert",d);
 	}
 
 }
