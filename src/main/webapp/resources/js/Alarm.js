@@ -28,4 +28,27 @@
 		console.log("e.target:"+e.target.getElementById());
 		sendAlram();
 	});
- 
+	
+	//그룹 가입 신청 알람
+	$("#joinBtn").on('click',function(){
+		alert('그룹가입 신청');
+		// 그룹 가입 알람
+      	function sendAlarm(){
+      		console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+      		sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');          		
+      	};
+	});
+	// 팔로우 클릭
+	$('#follow_btn').click(function() {
+        
+         console.log("follow 클릭됨");
+        sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow','1');
+	});
+	
+	// 그룹가입알람 그룹디테일에 넣어야함
+	$("#joinBtn").on('click',function test(){
+			alert("test");
+			console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+  		sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
+		});
+	

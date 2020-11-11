@@ -560,7 +560,7 @@
             var mNo = $('#mNo').val();
             var follow = $('#follow').val();
             
-             console.log("follow 클릭됨");
+            console.log("follow 클릭됨");
             sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow','1');
             
             $.ajax({

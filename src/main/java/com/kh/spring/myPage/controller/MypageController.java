@@ -361,7 +361,6 @@ public class MypageController {
 				
 				for (String string : blist) {
 					Member blockedMember = mService.selectOne(string);
-					
 					if(blockedMember.getmNo() == memberInfo.getmNo()) {
 						blockedYN = "Y";
 						break;

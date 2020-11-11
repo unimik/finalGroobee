@@ -124,4 +124,9 @@ public class GroupServiceImpl implements GroupService{
 	public int gManagerDelete(Group g) {
 		return gDao.gManagerDelete(g);
 	}
+
+	@Override
+	public Group getManagerId(String fromId) {
+		return gDao.getManagerId(fromId);
+	}
 }

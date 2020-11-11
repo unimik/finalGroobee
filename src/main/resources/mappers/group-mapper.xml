@@ -149,4 +149,8 @@
 		WHERE G_NO=#{ gNo }
 		AND G_STATUS='Y'
 	</select>
+	
+	<select id="getManagerId" resultMap="GroupResultSet">
+	SELECT * FROM GROUPS WHERE G_CREATOR=#{fromId}
+	</select>
 </mapper>

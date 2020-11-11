@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +18,17 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.kh.spring.chat.controller.ChatController;
 import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.controller.GroupController;
+import com.kh.spring.group.model.service.GroupService;
+import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.controller.NotificationController;
-import com.kh.spring.notification.model.vo.PushAlram;
 
 
 @RequestMapping("/echo")
 public class EchoHandler extends TextWebSocketHandler{
-	
+	@Autowired
+	GroupService gService;
 	// httpSession과 webSocketSession 맵객체에 담기
 	private Map<String,WebSocketSession> userSessions = new HashMap<String, WebSocketSession>();
     //세션 리스트
@@ -191,11 +192,16 @@ public class EchoHandler extends TextWebSocketHandler{
 						System.out.println("여기까지 오나?");
 						boardWriterSession.sendMessage(tmpMsg);
 					}else if("groupAccept".equals(sendType)){
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|그룹 "+fromId + "에서 회원님의 그룹 가입을 승인했습니다.");
+						Group fromGroup = gService.getManagerId(fromId);
+						System.out.println(fromGroup.getgName());
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromGroup.getgName()+"|그룹 "+fromGroup.getgName() + "에서 회원님의 그룹 가입을 승인했습니다.");
 						System.out.println("alarm|"+sendType+"|"+fromId+"|그룹 "+fromId + "에서 "+toId+"님의 그룹 가입을 승인했습니다.");
 //						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
+						
+						
 //						int result = nController.alramLike(pa);
 						System.out.println("여기까지 오나?");
+						boardWriterSession.sendMessage(tmpMsg);
 					}
 				}
 

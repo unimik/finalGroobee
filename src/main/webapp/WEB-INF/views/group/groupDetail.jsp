@@ -18,7 +18,6 @@
 		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
 		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 	</style>
-	
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
@@ -156,7 +155,7 @@
 	                                        	</c:choose>
 	                                            </div>
 	                                            <div id="btnBox">
-	                                                <input type="submit" onclick="sendAlarm()" id="joinBtn" name="joinBtn" value="가입하기">
+	                                                <input type="submit"  id="joinBtn" name="joinBtn" value="가입하기">
 	                                                <input type="button" id="close_joinPop" name="close_joinPop" value="취소">
 	                                    	</div>
 	                                	</form>
@@ -176,28 +175,6 @@
                             </div> 
                         </div>
                     </div>
-
-                    <div id="groupSearchbar">
-                        <input type="search" id="groupSearch" name="groupSearch" placeholder="그룹 내 검색">
-                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색">
-                    </div>
-                    <div id="groupFeedArea">
-                        <div id="btnsbox">
-                            <button class="newFeedBtn feedbtns on" id="newFeedBtn" >최근 게시글</button>
-                            <button class="hotFeedBtn feedbtns" id="hotFeedBtn" >인기 게시글</button>
-                        </div>
-                        <div class="feedContainar">
-                            <div class="newConBox conBox on">
-                                바보똥개
-                            </div>
-                            <div class="hotConBox conBox">
-                                멍청이
-                            </div>
-                            <p id="userId" style="display:none;">${ g.gName }</p>
-                        </div>
-                    </div>
-                </div>               
-
                  </div>
                  <c:set var="gOpenScope" value="${ g.gOpenScope }"/>
                  <c:set var="gmId" value="${gmId }"/>
@@ -700,7 +677,7 @@
                 	</div>
             </div>
         </div>
-       
+        
         <script>
 
         /************** 채팅 팝업 *****************/
@@ -865,15 +842,25 @@
           		$(".selectRtype").css("display","none");
           		$(".sendreport").css("display","block");
           	}); 
- 
-          	// 그룹 가입 알람
-          	function sendAlarm(){
-          		console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
-          		sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');          		
-          	};
-
+          	
+          	 var size;
+ 	        var idx = idx1 = 0;
+ 	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+ 	        var ul;
+ 	        console.log(count);
+ 	        var liCount;
+ 	        
+ 			for (var i = 1; i <= count; i++){
+ 				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
  				
- 				/* 
+ 				console.log(ul);
+ 				
+ 				if( ul > 1){
+ 	        		$('#nextBtn'+i).css("display","block");
+ 	        		$('#prevBtn'+i).css({"display":"block"});
+ 	        	}
+ 				
+ 				
  				$('#prevBtn'+i).on("click",function(){
      	  			size = $(this).nextAll().children('li').length;
      	  			console.log(size);
@@ -907,10 +894,16 @@
      	  			}
      	  				
      	  			
-     	  		}); */
- 				
+     	  		});
  			
-
+ 				
+ 			}
+ 			$("#joinBtn").on('click',function test(){
+ 				alert("test");
+ 				console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+ 	  		sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
+ 			});
+ 			
     </script>
 </body>
 </html>
