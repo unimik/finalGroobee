@@ -18,6 +18,8 @@
     <title>G R O O B E E</title>
     
     <style>
+   		#feedArea{ width: 633px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none; margin-top:-80px; }
+		#feedArea::-webkit-scrollbar{display: none;}
     	#postingForm { height: 704px; margin-bottom: 100px; border: none; }
     	#photolistUpView { width: 100px; height: 100px; border: 1px solid #e5e5e5; 
     					   border-radius: 10px; margin: 20px 0px 0px 15px; }
@@ -33,10 +35,11 @@
 <body>
     <div class="wapper">
         <c:import url="../common/menubar.jsp"/>
-        <div class="content">
-            <div class="search_userInfo">
+        <div class="search_userInfo">
                 
             </div>
+        <div class="content">
+            
             <!--피드 영역 스크롤 필요해서 position 인라인으로 변경해둠-->
             <div id="feedArea" style="position: relative;">
             <form action="pUpdate.do" method="post" id="postInsert" enctype="multipart/form-data">
@@ -173,18 +176,7 @@
                                     </ul>
                                 </td>
                             </tr>
-<<<<<<< HEAD
-=======
-                            <tr>
-                                <td id="btnstd">
-                                    <button id="btns1">
-                                        <a id="page_back" href="javascript:history.go(-1)">이전</a>
-                                    </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input id="btns2" type="submit" value="작성">
-                                </td>
-                            </tr>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
-                        </table>
+						</table>
                     </div>
 					<div id="btnstd">
 						<button id="btns1">
@@ -200,6 +192,7 @@
 
 	<script>
 		$(document).ready(function() {
+
 			$('#chat_icon').click(function() {
 				var state = $(".chat").css('display');
 				if (state == 'none') {
@@ -208,9 +201,12 @@
 					$('.chat').hide();
 				}
 			});
+
 			/*************** 그룹 선택 옵션 *****************/
+
 			$('#select_board').change(function() {
 				var state = $("#select_board option:selected").val();
+
 				if (state == 'group') {
 					$('#myGroupList').css("display", "block");
 				} else {
@@ -218,19 +214,24 @@
 				}
 			})
 		});
+
 		$('.tab_menu_btn').on('click', function() {
 			$('.tab_menu_btn').removeClass('on');
 			$(this).addClass('on')
 		});
+
 		$('.tab_menu_btn1').on('click', function() {
 			$('.tab_box').hide();
 			$('.tab_box1').show();
 		});
+
 		$('.tab_menu_btn2').on('click', function() {
 			$('.tab_box').hide();
 			$('.tab_box2').show();
 		});
+
 		/************* 내계정 자세히보기 script **************/
+
 		$(document).ready(function() {
 			$('#detailInfo').click(function() {
 				$(".myAccount").animate({
@@ -238,18 +239,23 @@
 				}, 250);
 			});
 		});
+
 		$('.MyTab_tab').on("click", function() {
 			$('.MyTab_tab').removeClass('on');
 			$(this).addClass('on')
 		});
+
 		$('.MyTab_tab1').on('click', function() {
 			$('.MyTab_box').hide();
 			$('.MyTab_box1').show();
 		});
+
 		$('.MyTab_tab2').on('click', function() {
 			$('.MyTab_box').hide();
 			$('.MyTab_box2').show();
 		});
+
+
 		
     	/***************** 이미지 미리보기 *****************/
     	
@@ -285,17 +291,24 @@
     				// 기존 파일이 있을 시에 갯수 체크해서 추가할 수 있는 만큼의 이미지 갯수만 올리기
     					
     				}
+
+
     				preview(arr);
+
     			}); // file change
+
     		function checkExtension(fileName, fileSize) {
+
     			var regex = new RegExp("(.*?)\.(bmp|gif|png|jpg|jpeg)$");
     			var maxSize = 20971520; // 20MB
+
     			if(fileSize >= maxSize) {
     				alert('파일 사이즈를 초과하였습니다.');
     				$('#input_file').val(""); // 파일 초기화
     				
     				return false;
     			}
+
     			if(!regex.test(fileName)) {
     				alert('이미지 확장자만 업로드 가능합니다.');
     				$('#input_file').val(""); // 파일 초기화
@@ -304,6 +317,7 @@
     			
     			return true;
     		}
+
     		function preview(arr) {
     			// 1
     			var index = 0;
@@ -321,6 +335,7 @@
     				if (fileName.length > 10) {
     					fileName = fileName.substring(0, 9) + "...";
     				}
+
     				// 이미지 파일 미리보기
     				if (fUp.type.match('image.*')) {
     					var reader = new FileReader(); // 파일을 읽기 위한 FileReader객체 생성
@@ -391,7 +406,7 @@
    						var str = '<td class="plistView" id="pView_'+index+'"><div id="photolistUpView" class="photoView">';
 						var name = '<td class="plistName" id="pName_'+index+'">';
 						
-						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="spring/resources/pUploadFiles/'+data.photoList[index].originName+'" title="" style="width: 100px; height: 100px;" /></a>';
+						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="resources/pUploadFiles/'+data.photoList[index].changeName+'" title="" style="width: 100px; height: 100px;" /></a>';
 						str += '</div></td>';
 						
 						name += data.photoList[index].originName + '<div class="dltImg"><a href=\"javascript:void(0);\" onclick=\"deleteImageAction('+index+')\" id=\"dimg_id_'+index+'\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
@@ -402,18 +417,22 @@
 						
 						$("#undertd").before(trView);
 						$("#undertd").before(trViewName);
-						$(str).appendTo(trView);
-						$(name).appendTo(trViewName);
+						$(str).appendTo('.trView');
+						$(name).appendTo('.trViewName');
+						
+						if(data.photoList[index].changeName == null) {
+				       		$(str).remove();
+				       		$(name).remove();
+						}
    					}
    					console.log(data);
    				},error:function(){
-   					console.log("전송실패");
+   					console.log("전송 실패");
    				}
    				
    			});
    			
    		}
-
    		
 	</script>
 </body>

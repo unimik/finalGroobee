@@ -12,8 +12,8 @@ public class DeclarationServiceImpl implements DeclarationService {
 	DeclarationDao dDao;
 	
 	@Override
-	public int insertReport(Declaration d) {
-		return dDao.insertReport(d);
+	public int insertGReport(Declaration d) {
+		return dDao.insertGReport(d);
 	}
 
 }

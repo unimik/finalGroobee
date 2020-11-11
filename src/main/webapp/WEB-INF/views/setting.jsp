@@ -667,40 +667,6 @@
         });
        
         
-        //==========알람테스트================================
-        	
-     var sock = new SockJS("http://localhost:8888/spring/echo");
- 	 sock.onmessage = onMessage;
- 	 sock.onclose = onClose;
- 	 
-   	 // 알람 클릭하면 알람가게
-    $(document).on("click",".notification", function(){
-   	 console.log("fallow클릭됨");
-   	 sendAlram();
-    	}); 
-  
-	 // 알람 전송
-	 function sendAlram() {
-	 	 var toId = "user01";//알람을 보낼id                              -----
-		 var sendType = "follow" // 보낼 알람의 타입
-		 var crNo = "3";//보내질 알람 타입별 유저/게시물번호                    -----
-		 console.log(toId+","+sendType+","+crNo);
-		 sock.send("alarm"+"|"+toId+"|"+sendType+"|"+crNo);
-	 }
-	 // 서버로부터 알람을 받았을 때
-	 function onMessage(msg) {
-		 var data = msg.data;
-		 var dArr = data.split('|');
-		$("#alarmIcon").attr('src',"resources/icons/alarm_new.png")
-		alert(data)
-		$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b>qweqwe</b>님이 회원님의 게시글을 좋아합니다.</p></div>');
-	 }
-	// 서버와 연결을 끊었을 때
- 	 function onClose(evt) {
- 		 $("#chatArea").append("연결 끊김");
- 	 }
-    
-        
        
     </script>
 </body>

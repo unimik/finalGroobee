@@ -115,9 +115,6 @@ public class GroupDao {
 		return sqlSession.update("groupMapper.gManagerDelete", g);
 	}
 
-	public Group getManagerId(String fromId) {
-		return sqlSession.selectOne("groupMapper.getManagerId",fromId);
-	}
 	public ArrayList<Feed> groupSearch(Search s) {
 		return (ArrayList)sqlSession.selectList("groupMapper.groupSearch",s);
 	}

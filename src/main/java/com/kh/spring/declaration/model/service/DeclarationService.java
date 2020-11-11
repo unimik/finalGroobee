@@ -4,6 +4,10 @@ import com.kh.spring.declaration.model.vo.Declaration;
 
 public interface DeclarationService {
 
-	int insertReport(Declaration d);
+	/** 1. 그룹 신고
+	 * @param d
+	 * @return
+	 */
+	int insertGReport(Declaration d);
 
 }

@@ -262,7 +262,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -375,7 +375,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -507,7 +507,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -620,7 +620,7 @@
 							                    <div id="g_feed_Mymenu_list">
 							                        <ul>
 							                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-							                        <li><a>삭제</a></li> 
+							                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
 							                        <li><a id="close" class="close">취소</a></li>
 							                        </ul>
 							                    </div>
@@ -825,17 +825,19 @@
     			}else{
     				
     				$.ajax({
-    					url:'/spring/report.do',
+    					url:'reportGInsert.do',
     					data:{
     						reportType : $("#reportType").val(),
     						feedType : "group",
-    						content : $("#reportContent").val()
+    						content : $("#reportContent").val(),
+    						gNo:${ g.gNo }
     					},
     					success: function(){
     						$(".feed_report").css('display','none');
     						$(".selectRtype").css("display","inline-block");
     			      		$(".sendreport").css("display","none");
     			      		$("#reportContent").val('')
+    			      		$(".pop_menu").css("display",'none');
     						alert('신고완료');
     					},error:function(){
     						alert('신고 실패!');
@@ -909,6 +911,7 @@
      	  			
      	  		});
  			
+ 				
  				
  			}
  			
