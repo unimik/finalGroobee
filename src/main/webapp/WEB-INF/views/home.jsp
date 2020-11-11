@@ -111,8 +111,10 @@
 						</ul>
 					</c:if>
 				<div id="heart_reply">
-					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+					<input type="hidden" class="toNo" value="${f.fNo}">
+					<input type="hidden" class="toId" value="${f.fWriter}">
 				</div>
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 
@@ -178,61 +180,61 @@
                 $('.reply_menu').hide();
             });
     	        
-   	        var size;
-   	        var idx = idx1 = 0;
-   	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
-   	        var ul;
-   	        console.log(count);
-   	        var liCount;
-   	        
-   			for (var i = 1; i <= count; i++){
-   				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
-   				
-   				console.log(ul);
-   				
-   				if( ul > 1){
-   	        		$('#nextBtn'+i).css("display","block");
-   	        		$('#prevBtn'+i).css({"display":"block"});
-   	        	}
-   				
-   				
-   				$('#prevBtn'+i).on("click",function(){
-       	  			size = $(this).nextAll().children('li').length;
-       	  			console.log(size);
-       	  			
-       	  			if(size > 1){
-       	  				idx1 = (idx-1) % size;
-       	  				if(idx1 < 0)
-       	  					idx1 = size - 1;
-       	  					
-       	  					$(this).nextAll().children('li:hidden').css("left","-633px");
-       	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
-       	  						$(this).css("display","none").css("left","-633px");
-       	  					});
-       	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
-       	  					idx = idx1;
-       	  			}
-       	  		});
-   				
-   				$('#nextBtn'+i).on("click",function(){
-       	  			size = $(this).nextAll().children('li').length;
-       	  			console.log(size);
-       	  			
-       	  			if( size > 1){
-       	  				idx1 = (idx + 1) % size;
-       	  				$(this).nextAll().children('li:hidden').css("left","633px");
-       	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-       	  					$(this).css("display","none").css("left","633px");
-       	  				});
-       	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-       	  				idx = idx1;
-       	  			}
-       	  				
-       	  			
-       	  		});
-   				
-   				
-   			}
+    	        var size;
+    	        var idx = idx1 = 0;
+    	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+    	        var ul;
+    	        console.log(count);
+    	        var liCount;
+    	        
+    			for (var i = 1; i <= count; i++){
+    				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+    				
+    				console.log(ul);
+    				
+    				if( ul > 1){
+    	        		$('#nextBtn'+i).css("display","block");
+    	        		$('#prevBtn'+i).css({"display":"block"});
+    	        	}
+    				
+    				
+    				$('#prevBtn'+i).on("click",function(){
+        	  			size = $(this).nextAll().children('li').length;
+        	  			console.log(size);
+        	  			
+        	  			if(size > 1){
+        	  				idx1 = (idx-1) % size;
+        	  				if(idx1 < 0)
+        	  					idx1 = size - 1;
+        	  					
+        	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+        	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+        	  						$(this).css("display","none").css("left","-633px");
+        	  					});
+        	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+        	  					idx = idx1;
+        	  			}
+        	  		});
+    				
+    				$('#nextBtn'+i).on("click",function(){
+        	  			size = $(this).nextAll().children('li').length;
+        	  			console.log(size);
+        	  			
+        	  			if( size > 1){
+        	  				idx1 = (idx + 1) % size;
+        	  				$(this).nextAll().children('li:hidden').css("left","633px");
+        	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+        	  					$(this).css("display","none").css("left","633px");
+        	  				});
+        	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+        	  				idx = idx1;
+        	  			}
+        	  				
+        	  			
+        	  		});
+    				
+    				
+    			}
     			
     			
         
