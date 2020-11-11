@@ -122,7 +122,7 @@ public class FeedController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("getPhotoList.do")
+	@RequestMapping(value="getPhotoList.do", produces="application/json; charset=utf-8")
 	public String getPhotoList(int fNo) {
 		
 		Feed f = fService.selectUpdateFeed(fNo);
@@ -241,5 +241,15 @@ public class FeedController {
 			return "common/errorPage";
 		}
 	}
+//	
+//	@RequestMapping("pReplyList.do")
+//	public void getReplyList(HttpServletResponse response, int fNo) throws JsonIOException, IOException {
+//		ArrayList<Reply> rList = bService.selectReplyList(bId);
+//		
+//		response.setContentType("application/json; charset=utf-8");
+//		
+//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//		gson.toJson(rList, response.getWriter());
+//	}
 
 }

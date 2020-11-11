@@ -111,8 +111,10 @@
 						</ul>
 					</c:if>
 				<div id="heart_reply">
-					<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+					<input type="hidden" class="toNo" value="${f.fNo}">
+					<input type="hidden" class="toId" value="${f.fWriter}">
 				</div>
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 

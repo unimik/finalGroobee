@@ -19,7 +19,7 @@ td{ display: table; padding: 0; float: left;}
 #myGroupList{display:none; width: 100px; height: 32px; margin-left: 10px; border-radius: 10px; margin-top: 11px; color: #555555;}
 
 label{font-size: 14px; margin-left: 10px; color: #555555;}
-#btnstd{ margin-top: 30px; margin-left: 200px;}
+#btnstd{ margin-left: 210px;}
 #btns1{margin-top: 30px; width: 90px; height: 43px; border:1px; border-radius: 10px; background-color: #e5e5e5;}
 #btns2{margin-top: 30px; width: 90px; height: 43px; border:1px; border-radius: 10px; background-color: #daf4ed;}
 #btns1 a{ text-decoration: none; color: #555555;}

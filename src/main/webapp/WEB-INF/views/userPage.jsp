@@ -198,7 +198,12 @@
 	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
+                                   		<c:if test="${ loginUser.userId eq followerList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   		</c:if>
+                                   		<c:if test="${ loginUser.userId ne followerList.userId }">
 	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
 	                    		   		<li>팔로워가 없습니다. </li>
