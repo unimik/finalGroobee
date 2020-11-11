@@ -120,12 +120,38 @@
 			#{fNo}, #{originName}, #{changeName})
 	</insert>
 
-	<select id="selectFeed" resultMap="postResultSet">
+	<select id="selectFeed" resultMap="postResultSet" parameterType="string">
+		<!--
 		SELECT *
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
 		WHERE F.F_STATUS='Y'
+		ORDER BY F.F_NO DESC
+		-->
+		SELECT
+			* 
+		FROM FEED F
+		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		<!--LEFT JOIN GROUP_MEMBER GM ON(F.G_NO = GM.G_NO) -->
+		WHERE
+		F.F_STATUS ='Y' 
+		AND
+		(F.F_WRITER =#{userId}
+		OR
+		F.G_NO IN(SELECT
+			        G_NO
+			        FROM GROUP_MEMBER
+			        WHERE GM_ID=#{userId})
+		OR
+		F.M_NO IN (SELECT
+		                FOLLOWS
+		                FROM FOLLOW
+		                WHERE M_NO = (SELECT M_NO
+		                            FROM MEMBER
+		                            WHERE M_ID =#{userId})
+		        ))
 		ORDER BY F.F_NO DESC
 	</select>
 	

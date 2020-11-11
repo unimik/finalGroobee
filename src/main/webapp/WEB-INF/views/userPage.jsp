@@ -9,8 +9,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Main.css">
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/chat.css">
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myAccount.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
    <style>
    		#myPage_feed{
@@ -19,6 +17,7 @@
    		.feedPost{
    			border-bottom:2px solid #47c6a3;
    			transition:0.5s all;
+   			padding-bottom: 10px;
    		}
    		#interests{
 	    font-size:smaller;
@@ -66,7 +65,9 @@
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
                     position: relative; right: 30px; /* display: none; */ }
         .postbox_text{padding:30px 50px; font-weight: 600;}
-   </style>
+  		#showPost{ list-style:none; padding:0; margin:0; text-align:center; height:40px;}
+  		#showPost li{ height:40px;}
+	</style>
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
@@ -198,7 +199,12 @@
 	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
+                                   		<c:if test="${ loginUser.userId eq followerList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   		</c:if>
+                                   		<c:if test="${ loginUser.userId ne followerList.userId }">
 	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
 	                    		   		<li>팔로워가 없습니다. </li>
@@ -246,43 +252,38 @@
                     
             <!-- 내가 올린 피드 목록 -->
                 <div id="myPage_feedList">
-                    <table id="myPage_feed">
-                        <tr>
-                            <th colspan="3"><div class="feedPost">게시글</div></th>
-                        </tr>
+                    <div id="myPage_feed">
+                        <ul id="showPost">
+                            <li><div class="feedPost">게시글</div></li>
+                        </ul>
 
                     <!--게시글-->
                     	<c:if test="${blockedYN eq 'N'}">
                     		<c:choose>
 	                    		<c:when test="${ userPs.openStatus eq 'F' && followYN eq 'N'}">
-		                    		<tr class="post">
-		                    			<td class="postbox_text" name="postbox">
-			                    			<p>비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>	                    			
-		                    			</td>
-		                    		</tr>
+		                    		<div class="post">
+			                    			<p class="postbox_text" name="postbox">비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>
+		                    		</div>
 	                    		</c:when>
 	                    		<c:otherwise>
-	                    			<%! int i = 0; %>
+	                    			<div class="post_all">
 			                        <c:forEach var="feedlist" items="${ feedList }">
-			                        <% if (i%3==0){ %>
-			                        <tr class="post">
-			                        <%} %>
+			                        <div class="post">
 			                            <c:choose>
 			                                 <c:when test="${!empty feedlist.thumbnail }">
-			                                     <td class="postbox" name="postbox"><img src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1"></td>
+			                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button">
 			                                 </c:when>
 			                                 <c:otherwise>
-			                                     <td class="postbox" name="postbox">
+			                                     <div class="postbox" name="postbox">
 			                                         <div type="button" id="pb2">
 			                                             <text>${ feedlist.fContent }</text>
 			                                         </div>
-			                                     </td>
+			                                     </div>
 			                                 </c:otherwise>
 			                              </c:choose>
-			                          <% if (i%3==2){ %>
-				                      </tr>
-				                      <%} i++; %>
+				                      </div>
 			                          </c:forEach>
+			                       </div>
 	                    		</c:otherwise>
                     		</c:choose>
                     	</c:if>
@@ -327,10 +328,6 @@
                             <div id="con">
                                 <div id="feed_content">
                                     <img src="<%=request.getContextPath()%>/resources/images/IMG_7572.JPG" alt="" id="input_img">
-                                    <div id="heart_reply">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/heart.png" type="button" alt="" id="likeIcon">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/bubble.png" type="button" alt="" id="replyIcon">
-                                    </div>
                                     <p id="text">맛있게 먹었던 피짜~~~!</p>
                                     <ul id="tag">
                                         <li>#피자</li>
@@ -355,6 +352,10 @@
                                         <li>#강남역</li>
                                         <li>#피자맛집</li>
                                     </ul>
+                                     <div id="heart_reply">
+                                        <img src="<%=request.getContextPath()%>/resources/icons/heart.png" type="button" alt="" id="likeIcon">
+                                        <img src="<%=request.getContextPath()%>/resources/icons/bubble.png" type="button" alt="" id="replyIcon">
+                                    </div>
                                 </div>
                                 <div id="replyArea">
                                     <div id="replyList">

@@ -18,6 +18,8 @@
     <title>G R O O B E E</title>
     
     <style>
+   		#feedArea{ width: 633px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none; margin-top:-80px; }
+		#feedArea::-webkit-scrollbar{display: none;}
     	#postingForm { height: 704px; margin-bottom: 100px; border: none; }
     	#photolistUpView { width: 100px; height: 100px; border: 1px solid #e5e5e5; 
     					   border-radius: 10px; margin: 20px 0px 0px 15px; }
@@ -33,10 +35,11 @@
 <body>
     <div class="wapper">
         <c:import url="../common/menubar.jsp"/>
-        <div class="content">
-            <div class="search_userInfo">
+        <div class="search_userInfo">
                 
             </div>
+        <div class="content">
+            
             <!--피드 영역 스크롤 필요해서 position 인라인으로 변경해둠-->
             <div id="feedArea" style="position: relative;">
             <form action="pUpdate.do" method="post" id="postInsert" enctype="multipart/form-data">
@@ -430,13 +433,6 @@
    			});
    			
    		}
-   		
-   		
-   		
-   		
-   		
-   		
-   		
    		
 	</script>
 </body>

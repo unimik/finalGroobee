@@ -85,7 +85,6 @@
 		$('.storageBox_subBtn3').show();
 		$('.storageBox_subBtn4').hide();
 		$('.storageBox_subBtn5').hide();
-
 	    $('.feedStorageBox_btn').css({'border-bottom' : '2px solid #47c6a3'});  
 		$('.feedPost_btn').css({'border-bottom' : '2px solid #daf4ed'});
 		$('.feedMyGroup_btn').css({'border-bottom' : '2px solid #daf4ed'});
@@ -609,30 +608,23 @@
     $('#follow_follower').click(function() {
         $('.follow_wrap').show();
     });
-
     $('.close_popup').click(function() {
         $('.follow_wrap').hide();
         $('.following_wrap').hide();
     });
-
     $('div[type = button]').css({'cursor' : 'pointer'});
     $('input[type = button]').css({'cursor' : 'pointer'});
     $('img[type = button]').css({'cursor' : 'pointer'});
-
-
     
     /************ 팔로우 언팔로우 script ************/
-
     $('#follow_btn').click(function() {
         $(this).hide();
         $('#followCancle_btn').show();
     });
-
     $('#followCancle_btn').click(function() {
         $(this).hide();
         $('#follow_btn').show();
     });
-
     /************ 게시글, 보관함, 내 그룹 전환 시 script ************/
 	//게시글 클릭시
     $('.feedPost_btn').click(function() {
@@ -645,7 +637,6 @@
         $('.group').hide();
         $('#sbfeed').hide();
     });
-
     //보관함 클릭시
     $('.feedStorageBox_btn').click(function() {
         $(this).css({'border-bottom' : '2px solid #47c6a3'});
@@ -712,7 +703,6 @@
      });
     /*그룹 탈퇴 이동*/
     $('.leaveBtn').click(function(){
-
     });
     
     /*보관함 이름 수정*/
@@ -720,13 +710,11 @@
         $('.folder_default').hide();
         $('.folder_correct').show();
         $('.folder_delete').hide();
-
         $('.storageBox_subBtn3').hide();
         $('.storageBox_subBtn4').show();
  		
         $('.sbNameBox').css('border','1px solid #555555');
 		$('.sbNameBox').removeAttr('readonly');
-
     });
     
 	/*수정 완료 */
@@ -742,7 +730,6 @@
 	    
 		$('.sbNameBox').css('border','none');
 		$('.sbNameBox').attr('readonly', 'readonly');
-
 		//맵객체로 만들것
 		var sbBoxMap = new Map();
 		for(var i =0; i < $('.sbNo').length; i++ ){
@@ -769,7 +756,6 @@
 		});
 		
 	});
-
     /* 보관함 삭제 */
     $('.storageBox_subBtn3').click(function() {  	
     	$('.storageBox_subBtn3').hide();
@@ -791,7 +777,6 @@
 				j++;
 			}
 		}
-
 		if(j > 0 ){	
 		sbBoxMap.set('mno',${ loginUser.mNo });
 		//맵 만들어졌는지 확인용
@@ -829,7 +814,6 @@
 		}
 		
     });
-
 	//보관함 눌러서 내가 보관한 피드 볼 때
 	$('.sbButton').click(function() {
 		var sbNo = $(this).attr("id");
@@ -911,7 +895,6 @@
     $('#pb1').click(function() {
         $(".pop_feed").show();
     });
-
     $('#pb2').mouseover(function() {
         $(this).css({'background' : '#daf4eda1'});
     }).mouseleave(function() {
@@ -919,55 +902,43 @@
     }).click(function() {
         $(".pop_feed2").show();
     });
-
     $('.feed_delete').click(function() {
         $(".pop_feed2").hide();
         $(".pop_feed").hide();
     });
-
     $ajax.({
     	
     })
     */
     /************* 팝업 메뉴 script *************/
-
     $('#details_btn').on("click", function(){
         $('.myFeed_popup_others').show();
     });
-
     $('#close').on('click', function(){
         $('.myFeed_popup_others').hide();
     });
-
     $('#myFeed_report_btn').on("click", function(){
         $('.feed_report').show();
     });
-
     $('#cancel').on("click", function(){
         $('.feed_report').hide();
     });
-
     $('#myFeed_block_btn').on('click', function(){
         $('.feed_block').show();
     });
-
     $('#block_pop').on("click", function(){
         $('.feed_block').hide();
         $('.myFeed_popup_others').hide();
     });
-
     $('#profile_edit_btn').on("click", function(){
         $('.myFeed_popup_myEdit').show();
     });
-
     $('#close').on("click", function(){
         $('.myFeed_popup_myEdit').hide();
     });
-
     $('#updateBtn').on("click", function(){
         $('.reply_menu').show();
     });
-
     $('#re_close').on("click", function(){
         $('.reply_menu').hide();
     });

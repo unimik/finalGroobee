@@ -24,8 +24,8 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertPhoto", p);
 	}
 	
-	public ArrayList<Feed> selectFeed() {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed");
+	public ArrayList<Feed> selectFeed(String userId) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed",userId);
 	}
 
 	public ArrayList<GroupName> selectGroupMemberId(String userId) {
@@ -59,9 +59,5 @@ public class FeedDao {
 	public ArrayList<Feed> selectHGfeed(int gNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
 	}
-
-
-
-	
 
 }

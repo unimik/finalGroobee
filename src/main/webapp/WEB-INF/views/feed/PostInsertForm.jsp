@@ -9,13 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
     <link rel="stylesheet" href="${ contextPath }/resources/css/common.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/home.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/chat.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/myAccount.css">
     <link rel="stylesheet" href="${ contextPath }/resources/css/postInsertForm.css">
     <title>G R O O B E E</title>
     
     <style>
+    	#feedArea{ width: 633px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none; margin-top:-80px; }
+		#feedArea::-webkit-scrollbar{display: none;}
     	#postingForm { height: 704px; margin-bottom: 100px; border: none; }
     	#photolistUpView { width: 100px; height: 100px; border: 1px solid #e5e5e5; 
     					   border-radius: 10px; margin: 20px 0px 0px 15px; }
@@ -25,18 +24,19 @@
     	#postingArea{ border: 2px #e5e5e5 solid; background: white; border-radius: 10px; width: 630px; }
     	#postingArea > h4{ text-align: center }
 		#postingArea > hr{ border: 1px solid #e5e5e5;}
-		#btnstd{ display: inline-flex; margin-bottom: 20px; }
+		#btnstd{ display: inline-flex; margin-bottom: 200px; }
     </style>
 </head>
 <body>
     <div class="wapper">
         <c:import url="../common/menubar.jsp"/>
-        <div class="content">
-            <div class="search_userInfo">
+         <div class="search_userInfo">
                 
             </div>
+        <div class="content">
+           
             <!--피드 영역 스크롤 필요해서 position 인라인으로 변경해둠-->
-            <div id="feedArea" style="position: relative;">
+            <div id="feedArea">
             <form action="pInsert.do" method="post" id="postInsert" enctype="multipart/form-data">
                 <!-- 전체 감싸는 div 영역 -->
                 <div id="postingForm">
@@ -146,6 +146,7 @@
 					</div>
     				</div>
                     </form>
+                    </div>
                 </div>
             </div>
 		</div>
@@ -166,36 +167,26 @@
                     $('.chat').hide();
                 }
             });
-
-
             /************  팝업 메뉴 script *********** */
-
             $('#feed_menu').on("click",function(){
                 $('.pop_menu').show();
             });
-
             $('#close').on('click',function(){
                 $('.pop_menu').hide();
             });
-
             $('#feed_report_btn').on("click",function(){
                 $('.feed_report').show();
             });
-
             $('#cancel').on("click",function(){
                 $('.feed_report').hide();
             });
-
             $('#updateBtn').on("click",function(){
                 $('.reply_menu').show();
             });
-
             $('#re_close').on("click",function(){
                 $('.reply_menu').hide();
             });
-
             /*************** 그룹 선택 옵션 *****************/
-
             $('#select_board').change(function(){
                 var state = $("#select_board option:selected").val();
                 
@@ -206,50 +197,40 @@
                 }
             })
         });
-
-
         $('.tab_menu_btn').on('click',function(){
             $('.tab_menu_btn').removeClass('on');
             $(this).addClass('on')
         });
-
         $('.tab_menu_btn1').on('click',function(){
             $('.tab_box').hide();
             $('.tab_box1').show();
         });
-
         $('.tab_menu_btn2').on('click',function(){
             $('.tab_box').hide();
             $('.tab_box2').show();
         });
-
         $('#btns2').on('click', function () {
         	confirm('글을 작성하시겠습니까?');
         });
         
         /************* 내계정 자세히보기 script **************/
-
         $(document).ready(function(){
             $('#detailInfo').click(function(){
                 $(".myAccount").animate({width:"toggle"},250);
             });
         });
-
         $('.MyTab_tab').on("click",function(){
             $('.MyTab_tab').removeClass('on');
             $(this).addClass('on')
         });
-
         $('.MyTab_tab1').on('click', function(){
             $('.MyTab_box').hide();
             $('.MyTab_box1').show();
         });
-
         $('.MyTab_tab2').on('click', function(){
             $('.MyTab_box').hide();
             $('.MyTab_box2').show();
         });
-
         
         
     	/***************** 이미지 미리보기 *****************/
@@ -263,7 +244,6 @@
     				
     				var files = e.target.files;
     				var arr = Array.prototype.slice.call(files);
-
     				// 업로드 가능 파일인지 체크
     				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
     				for (var i = 0; i < files.length; i++) {
@@ -272,7 +252,7 @@
     					}
     					
     					if(files.length > 5) {
-    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.')
+    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.');
     						$('#input_file').val(""); // 파일 초기화
     						return false;
     					}
@@ -280,22 +260,16 @@
     				// 기존 파일이 있을 시에 갯수 체크해서 추가할 수 있는 만큼의 이미지 갯수만 올리기
     					
     				}
-
     				preview(arr);
-
     			}); // file change
-
     		function checkExtension(fileName, fileSize) {
-
     			var regex = new RegExp("(.*?)\.(bmp|gif|png|jpg|jpeg)$");
     			var maxSize = 20971520; // 20MB
-
     			if(fileSize >= maxSize) {
     				alert('파일 사이즈를 초과하였습니다.');
     				$('#input_file').val(""); // 파일 초기화
     				return false;
     			}
-
     			if(!regex.test(fileName)) {
     				alert('이미지 확장자만 업로드 가능합니다.');
     				$('#input_file').val(""); // 파일 초기화
@@ -304,7 +278,6 @@
     			
     			return true;
     		}
-
     		function preview(arr) {
     			
     			var index = 0;
@@ -322,7 +295,6 @@
     				if (fileName.length > 10) {
     					fileName = fileName.substring(0, 9) + "...";
     				}
-
     				// 이미지 파일 미리보기
     				if (fUp.type.match('image.*')) {
     					var reader = new FileReader(); // 파일을 읽기 위한 FileReader객체 생성

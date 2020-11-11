@@ -109,26 +109,30 @@
 	$(document).on('click','.btnyn',function(){
 		// [타입]과 [번호]를 넘겨줄 변수
 		var typeAndNumber = $(this).parent().prev().prev().prev().prev().prev().text();
+		console.log("typeAndNumber : "+typeAndNumber);
 		// [신고 번호]를 넘겨줄 변수
 		var dNo = $(this).parent().prev().prev().prev().prev().prev().prev().text();
-		var $dNo = dNo;		
+		console.log("dNo : "+dNo);
+		var $dNo = dNo;	
 		// [신고 사유] 변수
-		var $dType = $("<tr><td>").text("1.신고사유 : "+$(this).parent().prev().prev().prev().prev().text());
+		var $dType = $("<tr><td>").text("2.신고사유 : "+$(this).parent().prev().prev().prev().prev().text());
 		// [신고 내용] 변수
-		var $dContent =$("<tr><td>").text("2. 신고 내용 : "+$(this).parent().prev().prev().prev().text());
+		var $dContent =$("<tr><td>").text("3. 신고 내용 : "+$(this).parent().prev().prev().prev().text());
 		
-		
+		// [상태]를 확인하고 상태변경 버튼을 숨기자.
+		var rStatus = $(this).parent().prev().text();		
+		console.log("rStatus의 상태는? " +rStatus);
 		
 		$.ajax({
 			url:"reportDetails.do",
 			type:"post",
 			dataType: "json",
 			data:{
-				typeAndNumber:typeAndNumber,
-				dNo:dNo
+				typeAndNumber:typeAndNumber	
 			},
 			success:function(data){
-				console.log(data);
+				
+				
 				var $tableEtc = $("#details_etc_table");
 				var $tableReport = $("#details_report_table");
 				var $tr=$("<tr>");
@@ -139,6 +143,8 @@
 				var status = data.gStatus;
 				
 				// 신고 정보를 테이블로 만들기
+				
+				$tableReport.append("1. 신고번호 : "+$dNo);
 				$tableReport.append($dType);
 				$tableReport.append($dContent);
 				
@@ -157,7 +163,11 @@
 					$tableEtc.append($gDate);
 				}
 				
-				
+				if(rStatus==='Y'){
+					$("#submit_Btn").css("display","none");
+				}else{
+					$("#submit_Btn").css("display","block");			
+				} 
 				//여기서 생성된 버튼을 실행시키면 YN값 변경과 declaration값 변경을 동시에 실행되는 메소드를 만들자 
 				$("#submit_Btn").on("click",function(){
 					$.ajax({
@@ -200,7 +210,6 @@
 				dataType: "html",
 				type:"get",
 				success:function(data){
-					console.log(data);
 					$("#delayedReport").html(data);
 				},error:function(){
 					console.log("전송실패!");
@@ -243,7 +252,6 @@
 				data:$("#reportSearchForm").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
 					
 					$tableBody = $("#report_table tbody");
 					$tableBody.html("");

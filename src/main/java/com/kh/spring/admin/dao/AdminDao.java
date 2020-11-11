@@ -84,8 +84,8 @@ public class AdminDao {
 	}
 
 
-	public ArrayList<Declaration> reportSearchList() {
-		return (ArrayList)sqlSession.selectList("declarationMapper.reportSearchList");
+	public ArrayList<Declaration> reportSearchList(Declaration d) {
+		return (ArrayList)sqlSession.selectList("declarationMapper.reportSearchList", d);
 	}
 
 
