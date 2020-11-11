@@ -159,6 +159,7 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
         </div>
         
         
@@ -215,6 +216,64 @@
         </div>
         
     <script type="text/javascript">
+=======
+	     </div>
+	     
+	     
+	     
+	     
+	     
+	     <div class="myAccount">
+				<div id="myId">
+					<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="myProfile" id="myProfile">
+					</c:if>
+					<c:if test="${ empty loginUser.mRenameImage }">
+						<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" alt="myProfile" id="myProfile">
+					</c:if>
+					<p>${ loginUser.userId }</p>
+				</div>
+				<div id="MyTab">
+					<button class="MyTab_tab1 MyTab_tab on">팔로워</button>
+					<button class="MyTab_tab2 MyTab_tab">팔로잉</button>
+					<button class="MyTab_tab3 MyTab_tab">그룹</button>
+					<div id="MyTab_container">
+						<!-- 팔로워 -->
+						<div class="MyTab_box1 MyTab_box on">
+							<div id="My_follower_list">
+							
+							</div>
+						</div>
+						<!-- 팔로잉 -->
+						<div class="MyTab_box2 MyTab_box">
+							<div id="My_following_list">
+							
+							</div>
+						</div>
+						<!-- 그룹 -->
+						<div class="MyTab_box3 MyTab_box">
+							<div id="My_fgroup_list">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	     
+	     <div id="menubar">
+	     	 <c:url var="goHome" value="home.do"/>
+	     	 <c:url var="glist" value="glist.do"/>
+	         <ul id="menu">
+	             <li><a href="${ goHome }?userId=${ loginUser.userId }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
+             	 <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
+             	 
+	             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>
+	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
+	         </ul>
+	     </div>
+	     
+     <script type="text/javascript">
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      /* 그룹 채팅방 사람 추가하기 */
      $(document).on("click",".plusChatUser",function(){
         $('#plusGroupUser').modal("show");
@@ -467,6 +526,7 @@
      
      /* 스크롤 하면 그룹채팅 내용 불러오기 */
      function groupChatContentLoad() {
+<<<<<<< HEAD
         $("#chatArea").scroll(function(){
          var sT = $("#chatArea").scrollTop();
             if(sT == 0) {
@@ -537,6 +597,86 @@
                });
             }
          });
+=======
+    	 $("#chatArea").scroll(function(){
+			var sT = $("#chatArea").scrollTop();
+				if(sT == 0) {
+					var gNo = $(".1").val();
+					var crNo = $(".3").val();
+					var cNo = $(".5").val();
+					$.ajax({
+						url:"groupChatContentLoad.do",
+						data:{gNo:gNo,crNo:crNo,cNo:cNo},
+						dataType:"json",
+						success:function(data){
+							console.log("불러오기 성공");
+							var userId = '<c:out value="${loginUser.userId}"/>';
+			    			$.each(data,function(index,value){
+			    				var str = value.cContent;
+			    				if(data == null) {
+			    					console.log("값 X");
+			    				} else if(str.slice(-8) == "입장하셨습니다.") {
+			    					$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+				    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+				    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+			    					$("#chatArea").prepend($("<p class='closeServer'>"+value.cContent+"<p/>"));
+			    					$("#chatArea").prepend($inputId);
+				        			$("#chatArea").prepend($inputCrNo);
+				        			$("#chatArea").prepend($inputcNo);
+			    				} else {
+					    			if(value.fromId == userId) {
+					    				$div1 = $("<div class='myChating'>");
+					    				$div = $("<div>");
+					    				$p = $("<p id='myChatt'>").text(value.cContent);
+					    				$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+					    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+					    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+					    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+					    				
+					    				$div.append($p);
+					    				$div1.append($div);
+					    				
+					    				$("#chatArea").prepend($div1);
+					    				$("#chatArea").prepend($inputId);
+					        			$("#chatArea").prepend($inputType);
+					        			$("#chatArea").prepend($inputCrNo);
+					        			$("#chatArea").prepend($inputcNo);
+					    			} else {
+					    				$div3 = $("<div class='chating'>");
+					    				$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+					    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+					    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+					    				$inputChatImage = $("<input type='hidden' class='4'>").val(value.chatImage);
+					    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+					    				$div = $("<div>");
+					        			$img = $('<img src="resources/'+value.chatImage+'">');
+					        			$p = $("<p id='chatId'>").text(value.fromId);
+					        			$div1 = $("<div>");
+					        			$a = $("<a id='chatText'>").text(value.cContent);
+					        			
+					        			$div.append($img);
+					        			$div.append($p);
+					        			$div1.append($a);
+					        			$div.append($div1);
+					        			$div3.append($div);
+					        			
+					        			$("#chatArea").prepend($div3);
+					        			$("#chatArea").prepend($inputId);
+					        			$("#chatArea").prepend($inputType);
+					        			$("#chatArea").prepend($inputCrNo);
+					        			$("#chatArea").prepend($inputChatImage);
+					        			$("#chatArea").prepend($inputcNo);
+					    			}
+			    				}
+			    			});
+						},
+						error:function(){
+							console.log("에러");
+						}
+					});
+				}
+			});
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      }
      
      
@@ -622,6 +762,7 @@
     });
      /* 그룹 채팅방 채팅내용 불러오기 */
      $(document).on("click",".chRoom2",function(){
+<<<<<<< HEAD
         
         $("#inputArea").keydown(function(key){
           if(key.keyCode == 13) {
@@ -705,6 +846,98 @@
           }
       });
     });
+=======
+    	 
+    	 $("#inputArea").keydown(function(key){
+    		if(key.keyCode == 13) {
+   	 			sendMessage();
+    		} 
+    	 });
+    	 
+		var crNo = $(this).children(".crNo").val();
+		var readId = $(this).children(".readId").val();
+		console.log(crNo +":"+readId);
+		$.ajax({
+			url:"GroupChatContentList.do",
+			data:{crNo:crNo, readId:readId},
+         	type:"post",
+    		dataType:"json",
+    		success:function(data){
+    			console.log("ok");
+    			var userId = '<c:out value="${loginUser.userId}"/>';
+    			$("#chatArea").children().remove();
+    			$("#plusChatUser").remove();
+    			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
+    			$("#chat_top").append($plusBtn);
+    			$.each(data,function(index,value){
+    				console.log(value);
+    				var str = value.cContent;
+    				if(str.slice(-8) == "입장하셨습니다.") {
+    					$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+	    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+    					$("#chatArea").append($("<p class='closeServer'>"+value.cContent+"<p/>"));
+    					$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputCrNo);
+	        			$("#chatArea").append($inputcNo);
+    				} else {
+		    			if(value.fromId == userId) {
+		    				$div1 = $("<div class='myChating'>");
+		    				$div = $("<div>");
+		    				$p = $("<p id='myChatt'>").text(value.cContent);
+		    				$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+		    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+		    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+		    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+		    				
+		    				$div.append($p);
+		    				$div1.append($div);
+		    				
+		    				$("#chatArea").append($div1);
+		    				$("#chatArea").append($inputId);
+		        			$("#chatArea").append($inputType);
+		        			$("#chatArea").append($inputCrNo);
+		        			$("#chatArea").append($inputcNo);
+		    			} else {
+		    				$div3 = $("<div class='chating'>");
+		    				$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+		    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+		    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+		    				$inputChatImage = $("<input type='hidden' class='4'>").val(value.chatImage);
+		    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+		    				$div = $("<div>");
+		        			$img = $('<img src="resources/'+value.chatImage+'">');
+		        			$p = $("<p id='chatId'>").text(value.fromId);
+		        			$div1 = $("<div>");
+		        			$a = $("<a id='chatText'>").text(value.cContent);
+		        			
+		        			$div.append($img);
+		        			$div.append($p);
+		        			$div1.append($a);
+		        			$div.append($div1);
+		        			$div3.append($div);
+		        			
+		        			$("#chatArea").append($div3);
+		        			$("#chatArea").append($inputId);
+		        			$("#chatArea").append($inputType);
+		        			$("#chatArea").append($inputCrNo);
+		        			$("#chatArea").append($inputChatImage);
+		        			$("#chatArea").append($inputcNo);
+		    			}
+    				}
+	    			$("#chatUser").text(value.gName);
+    			});
+    			$(".chat_room").show();
+    			$("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+    			countChatRead();
+    			groupChatContentLoad();
+    		},
+    		error:function(){
+    			console.log('에러');
+    		}
+		});
+	 });
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
      
      /* 페이지 로딩 시 실행되는 것들 */
      $(function(){

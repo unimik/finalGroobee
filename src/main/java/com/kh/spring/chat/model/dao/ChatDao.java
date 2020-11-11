@@ -62,7 +62,7 @@ public class ChatDao {
 			ArrayList<Chat> checkChatRomm2 = (ArrayList)sqlSession.selectList("chatMapper.checkChatRomm",c2);
 			for(Chat cl1 : checkChatRomm1) {
 				for(Chat cl2 : checkChatRomm2) {
-					if(cl1.getCrNo() == cl2.getCrNo()) {
+					if(cl1.getCrNo() == cl2.getCrNo() && cl1.getgNo() < 0 && cl2.getgNo() < 0) {
 						result = -1;
 					}
 				}
@@ -150,6 +150,10 @@ public class ChatDao {
 	}
 
 	public ArrayList<Chat> groupChatContentLoad(Chat c) {
+		ArrayList<Chat> list = (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
+		for(Chat c1 : list) {
+			System.out.println(c1);
+		}
 		return (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
 	}
 

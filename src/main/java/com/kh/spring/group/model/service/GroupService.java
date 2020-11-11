@@ -2,8 +2,10 @@ package com.kh.spring.group.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.search.model.vo.Search;
 
 public interface GroupService {
 
@@ -161,7 +163,21 @@ public interface GroupService {
 	 */
 	int gManagerDelete(Group g);
 
+<<<<<<< HEAD
 	Group getManagerId(String fromId);
+=======
+
+
+	/**
+	 * 그룹내 검색 (유저)
+	 * @param s 
+	 * @return
+	 */
+	ArrayList<Feed> groupSearch(Search s);
+
+
+
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 
 	
 	

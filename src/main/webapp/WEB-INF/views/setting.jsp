@@ -175,11 +175,11 @@
                         <table class="question" style="padding-left: 20px;">        
                           
                             <tr><th class="settings">문의사항</th></tr>
-                            <tr><td><div class="line"></div></td></tr>
+                            <tr><td><div class="line3"></div></td></tr>
                             <tr><td>
                                 <div>
                                     <p>서비스 이용에 불편한 사항이 있거나<br> 발견된 문제가 있다면 이곳에 작성해주세요.</p>
-                                    <textarea id="question-area" cols="60" rows="8" style="resize: none;   "></textarea><br>
+                                    <textarea id="question-area" cols="62" rows="8" style="resize: none;   "></textarea><br>
                                     <input id="question-btn" type="button" value="작성완료">
                                 
 
@@ -188,7 +188,7 @@
                         </table>
                         <table class="help" style="padding-left: 20px; display: none;">    
                             <tr><th class="settings">도움말</th></tr>
-                            <tr><td><div class="line"></div></td></tr>
+                            <tr><td><div class="line3"></div></td></tr>
                             <tr><td>
                                 <div style="padding: 10px;">
                                     <h5>서비스 개선</h5>
@@ -198,7 +198,7 @@
                                         <li>보관함 기능 추가</li>
                                     </ol>
                                     <h5>현재 사이트의 문제</h5>
-                                    <p>
+                                    <p id="info_groobee">
                                         현재 사이트의 문제를 찾을 수 없습니다.<br>
                                         문제가 있으시다면 <a href="#"  onclick="showquestion();" style="text-decoration: none; color: #47c6a3;"> 문의사항 </a>에 남겨주세요.
                                     </p>
@@ -207,7 +207,7 @@
                         </table>
                         <table class="about" style="padding-left: 20px; display: none;">   
                             <tr><th class="settings">이용약관</th></tr>
-                            <tr><td><div class="line"></div></td></tr>
+                            <tr><td><div class="line3"></div></td></tr>
                             <tr><td>
                                 <div style="padding: 10px;">
                                     <p>groobee에 오신 것을 환영합니다!<br><br>
