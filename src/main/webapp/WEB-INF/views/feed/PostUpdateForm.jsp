@@ -173,18 +173,7 @@
                                     </ul>
                                 </td>
                             </tr>
-<<<<<<< HEAD
-=======
-                            <tr>
-                                <td id="btnstd">
-                                    <button id="btns1">
-                                        <a id="page_back" href="javascript:history.go(-1)">이전</a>
-                                    </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input id="btns2" type="submit" value="작성">
-                                </td>
-                            </tr>
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
-                        </table>
+						</table>
                     </div>
 					<div id="btnstd">
 						<button id="btns1">
@@ -414,7 +403,7 @@
    						var str = '<td class="plistView" id="pView_'+index+'"><div id="photolistUpView" class="photoView">';
 						var name = '<td class="plistName" id="pName_'+index+'">';
 						
-						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="spring/resources/pUploadFiles/'+data.photoList[index].originName+'" title="" style="width: 100px; height: 100px;" /></a>';
+						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="resources/pUploadFiles/'+data.photoList[index].changeName+'" title="" style="width: 100px; height: 100px;" /></a>';
 						str += '</div></td>';
 						
 						name += data.photoList[index].originName + '<div class="dltImg"><a href=\"javascript:void(0);\" onclick=\"deleteImageAction('+index+')\" id=\"dimg_id_'+index+'\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
@@ -425,12 +414,17 @@
 						
 						$("#undertd").before(trView);
 						$("#undertd").before(trViewName);
-						$(str).appendTo(trView);
-						$(name).appendTo(trViewName);
+						$(str).appendTo('.trView');
+						$(name).appendTo('.trViewName');
+						
+						if(data.photoList[index].changeName == null) {
+				       		$(str).remove();
+				       		$(name).remove();
+						}
    					}
    					console.log(data);
    				},error:function(){
-   					console.log("전송실패");
+   					console.log("전송 실패");
    				}
    				
    			});
