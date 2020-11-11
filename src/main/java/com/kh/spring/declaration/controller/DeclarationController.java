@@ -21,6 +21,12 @@ public class DeclarationController {
 	@Autowired
 	DeclarationService dService;
 	
+	/** 1. 그룹 신고
+	 * @param feedType
+	 * @param reportType
+	 * @param content
+	 * @param gNo
+	 */
 	@ResponseBody
 	@RequestMapping("reportGInsert.do")
 	public void insertReport(@RequestParam("feedType") String feedType,
@@ -30,7 +36,26 @@ public class DeclarationController {
 		// Group 정보를 가져와야 함
 		Member m = (Member)session.getAttribute("loginUser");
 		Declaration d = new Declaration(feedType,reportType,content,m.getmNo(), gNo);
-		int result = dService.insertGReport(d);
+		int result = dService.insertReport(d);
 
+	}
+	
+	/** 2. 회원 신고
+	 * @param feedType
+	 * @param reportType
+	 * @param content
+	 * @param memberInfo
+	 */
+	@ResponseBody
+	@RequestMapping("reportMInsert.do")
+	public void reportMInsert(@RequestParam("feedType") String feedType,
+			@RequestParam("reportType") String reportType,
+			@RequestParam("content") String content,
+			@RequestParam("targetmNo")int targetmNo) {
+		// Group 정보를 가져와야 함
+		Member m = (Member)session.getAttribute("loginUser");
+		Declaration d = new Declaration(feedType,reportType,content,m.getmNo(), targetmNo);
+		int result = dService.insertReport(d);
+		
 	}
 }
