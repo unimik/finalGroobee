@@ -210,6 +210,13 @@
         </div>
         <script>
 
+     // 그룹 가입 승인알람
+       	$("#user_Y").on('click',function(e){
+           	var toId = $("#"+e.target.id).parent().parent().children().children("#acceptId").val();
+           	console.log("fromId,"+toId+",groupAccept,"+'왜안돼');
+           	sendAlram("fromId",toId,"groupAccept",'${g.gNo}');
+           	console.log($("#"+e.target.id).parent().parent().children().children("#acceptId").val());
+       	});
             // groupUdate 메뉴 버튼 이벤트
             $(document).ready(function(){
             	
@@ -399,6 +406,7 @@
             		    		$inputAnswer = $('<li>').html('<input type="button" class="showAnswer" id="showAnswer" name="showAnswer" value="답변보기">');
             		    		$inputY =$('<li>').html('<input type="button" class="user_Y" id="user_Y" name="user_Y" value="승인">');
             		    		$inputN =$('<li>').html('<input type="button" class="user_N" id="user_N" name="user_N" value="거절">');
+            		    		$acceptId =$('<li>').html('<input type="hidden" id="acceptId" value="'+data[i].gmId+'">')
             		    		$div = $('<div class="permit_answer" id="permit_answer">');
             		    		if( data[i].a1 != null ){
             		    			$a1 = $('<p>').html("A : "+data[i].a1);
@@ -415,6 +423,7 @@
             		    		$ul.append($inputAnswer);
             		    		$ul.append($inputY);
             		    		$ul.append($inputN);
+            		    		$ul.append($acceptId);
             		    		$div.append($a1);
             		    		$div.append($a2);
             		    		$div.append($a3);
@@ -649,6 +658,10 @@
     		        $(document).on("click", "#user_Y", function(event){
     		        	var gmId = $(this).parents().children("li#NgmId").text();
     		        	console.log(gmId);
+    		        	var toId = $("#"+event.target.id).parent().parent().children().children("#acceptId").val();
+    		           	console.log("fromId,"+toId+",groupAccept,"+'왜안돼');
+    		           	sendAlram("fromId",toId,"groupAccept",'${g.gNo}');
+    		           	console.log($("#"+event.target.id).parent().parent().children().children("#acceptId").val());
     		              	$.ajax({
     		              		url:"gmUpdate.do",
     		              		data:{ gmId:gmId, gNo:gNo },
@@ -777,6 +790,8 @@
            		$(".selectRtype").css("display","none");
            		$(".sendreport").css("display","block");
            	}); 
+           	
+           	
         </script>
 </body>
 </html>
