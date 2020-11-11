@@ -10,6 +10,8 @@
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Main.css">
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/pop_menu.css">
    <style>
    		#myPage_feed{
    			width:640px;
@@ -72,8 +74,7 @@
   		#selectRtype{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
   		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
   		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
-		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
-		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
+		#report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
 	</style>
 </head>
 <body>
@@ -148,21 +149,6 @@
                             </div>
                         </div>
 
-<!--                     신고했을 경우(기존)
-                        <div class="feed_report">
-                            <div id="feed_report_con">
-                                <p>신고 사유</p>
-                                <select style=>
-                                    <option>부적절한 게시글</option>
-                                    <option>욕설</option>
-                                    <option>광고</option>
-                                    <option>도배</option>
-                                </select>
-                                <br>
-                                <input type="button" id="submit" name="submit" value="확인">
-                                <button id="cancel">취소</button>
-                            </div>
-                        </div> -->
 			    <!-- 신고했을 경우(진선 작성) -->
 						<div class="feed_report">
 				                <div id="feed_report_con">
@@ -894,14 +880,18 @@
         $("#cancel2").on('click',function(){ 		
     		$(".selectRtype").css("display","inline-block");
     		$("#cancel").css('display',"inline-block");
+    		$("#reportContent").val("");
     		
     		$("#reportContent").css("display","none"); // 세부 항목
       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
       		$("#selectRtype").css("display","inline-block"); // 셀렉트 확인버튼
       		$("#reportType").css("display","inline-block"); // 셀렉트
+      		
       	})
       	
       	 $("#cancel").on('click',function(){
+      		$("#reportContent").val("");
+      		 
       		$("#reportContent").css("display","none"); // 세부 항목
       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
       		$("#selectRtype").css("display","none"); // 셀렉트 확인버튼
