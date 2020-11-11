@@ -198,7 +198,12 @@
 	                               		<c:param name="mNo" value="${ followerList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
+                                   		<c:if test="${ loginUser.userId eq followerList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   		</c:if>
+                                   		<c:if test="${ loginUser.userId ne followerList.userId }">
 	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
 	                    		   		<li>팔로워가 없습니다. </li>
@@ -327,10 +332,6 @@
                             <div id="con">
                                 <div id="feed_content">
                                     <img src="<%=request.getContextPath()%>/resources/images/IMG_7572.JPG" alt="" id="input_img">
-                                    <div id="heart_reply">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/heart.png" type="button" alt="" id="likeIcon">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/bubble.png" type="button" alt="" id="replyIcon">
-                                    </div>
                                     <p id="text">맛있게 먹었던 피짜~~~!</p>
                                     <ul id="tag">
                                         <li>#피자</li>
@@ -355,6 +356,10 @@
                                         <li>#강남역</li>
                                         <li>#피자맛집</li>
                                     </ul>
+                                     <div id="heart_reply">
+                                        <img src="<%=request.getContextPath()%>/resources/icons/heart.png" type="button" alt="" id="likeIcon">
+                                        <img src="<%=request.getContextPath()%>/resources/icons/bubble.png" type="button" alt="" id="replyIcon">
+                                    </div>
                                 </div>
                                 <div id="replyArea">
                                     <div id="replyList">
