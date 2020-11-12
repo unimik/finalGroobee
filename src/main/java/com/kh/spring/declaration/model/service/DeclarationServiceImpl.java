@@ -11,9 +11,12 @@ public class DeclarationServiceImpl implements DeclarationService {
 	@Autowired
 	DeclarationDao dDao;
 	
+	/** 신고하기
+	 *
+	 */
 	@Override
-	public int insertGReport(Declaration d) {
-		return dDao.insertGReport(d);
+	public int insertReport(Declaration d) {
+		return dDao.insertReport(d);
 	}
 
 }

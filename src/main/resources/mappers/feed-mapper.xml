@@ -253,7 +253,7 @@
 				AND F_CONTENT like '%'||#{fContent}||'%'
 			</if>
 			<if test="fWriter != null">
-				AND fWriter like '%'||#{fWriter}||'%'
+				AND f_WRITER like '%'||#{fWriter}||'%'
 			</if>
 			<if test="fCreateDate != null">
 				AND F_CREATE_DATE like '%'||#{fCreateDate}||'%'
