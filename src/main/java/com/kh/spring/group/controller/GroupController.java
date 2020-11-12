@@ -27,7 +27,7 @@ import com.google.gson.JsonIOException;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
-
+import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.chat.model.service.ChatService;
 import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.model.service.GroupService;
@@ -546,8 +546,7 @@ public class GroupController{
 		}else{
 			flist = gService.groupSearch(s);
 		}
-			System.out.println("검색타입"+s.getSearchType()+"  "+flist);
-		
+
 		JSONObject job = new JSONObject();
 		if(flist.isEmpty()) {
 			//System.out.println("검색 결과 없음");
@@ -566,8 +565,42 @@ public class GroupController{
 			job.put("flist", jArr);
 			return job.toString();
 		}
-
-		
-		
 	}
+	
+	//그룹 팝업
+	@ResponseBody
+	@RequestMapping(value = "gFeedPop.do",produces="application/json;charset=utf-8")
+	public String popFeed(int fno) {
+		Feed f = new Feed();
+		f = fService.popFeed(fno);
+		JSONObject job = new JSONObject();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		ArrayList<Photo> plist = new ArrayList<Photo>();
+		
+		JSONArray jarr = new JSONArray();
+		for(int i =0; i < f.getPhotoList().size(); i++) {
+			jarr.add(i, f.getPhotoList().get(i).getChangeName());
+			System.out.println("왜 복사가 안될까"+f.getPhotoList().get(i).getChangeName());
+		}
+		if(f != null) {
+			System.out.println(f);
+			job.put("mno", f.getmNo());
+			job.put("mImage", f.getmImage());
+			job.put("fno", f.getfNo());
+			job.put("plist", jarr);
+			job.put("fcontent", f.getfContent());
+			job.put("fwriter", f.getfWriter());
+			job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
+			job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
+			return job.toJSONString();
+		}else {
+			job.put("msg","검색되는 게시글이 없습니다");
+			return job.toJSONString();
+		}
+	}
+	
+	
+	
+	
 }

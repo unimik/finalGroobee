@@ -81,7 +81,6 @@
 	 	var getType = getParameterByName("type");
 		//alert(getType);	 
 		if( getType == 1 ){
-		
 		$('.storageBox_subBtn3').show();
 		$('.storageBox_subBtn4').hide();
 		$('.storageBox_subBtn5').hide();
@@ -361,22 +360,6 @@
                                         <li>#피자맛집</li>
                                         <li>#피자</li>
                                         <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
                                     </ul>
                                 </div>
                                 <div id="replyArea">
@@ -516,9 +499,7 @@
                                 </div> 
                             </div>
                         </div>
-					<div class="pop_feed3">
-					
-					</div>
+
                     <!-- 보관함 -->
                       <div class="storagebox" id="storagebox">
                       	<ul id="storageIconBox">

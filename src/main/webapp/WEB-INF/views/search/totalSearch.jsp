@@ -207,26 +207,6 @@
                                     <ul id="tag">
                                         <li>#피자</li>
                                         <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-        
                                     </ul>
                                 </div>
                                 <div id="replyArea">

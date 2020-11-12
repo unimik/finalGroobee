@@ -17,9 +17,51 @@
 		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
 		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
 		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
-		#searchTable {display: none; width: 100%; margin-bottom: 100px;}
-		.postbox{ width: 200px; height: 200px; display: inline-block;}
-		.postbox > img {width: 200px; height: 200px;}
+		/*검색했을 때 피드들 */
+		#searchFeed {display: none; width: 630px; height: 100%;}
+		.postbox{ width: 200px; height: 200px; margin: 10px 5px 0 5px; float: left; display: inline-block;}
+		.postbox > img {width: 100%; height: 100%;}
+		.feedContainar { height: 100%;}
+		/*피드 팝업*/
+		.pop_feed{ position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4); }
+		.feed_delete>img{ width:20px; height: 20px; margin: 10px; float: right; }
+		.pop_feed > #writer_submenu_pop{ width: 630px; height: 60px; border-bottom: 1px solid #e5e5e5; background: white; margin: auto; margin-top: 50px; }
+		.pop_feed > #feed_profile_img{width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; margin:10px 20px 0 20px; }
+		.pop_feed > #feed_id{ padding-top:11px; margin:0; color:#555555; font-weight: 600; font-size: 16px; }
+		.pop_feed > #feed_menu_pop{ float: right; margin:27px 20px 0 0; }
+		.pop_feed > #user_time{ float: left; width: 200px; }
+		.pop_feed > #feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px; }
+		.pop_feed > #input_img{ width: 630px; height: 630px; }
+		
+		.pop_feed > #heart_reply{ border-bottom: 1px solid #e5e5e5; width: 100%; height: 40px; }
+		.pop_feed > #likeIcon{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px; }
+		.pop_feed > #replyIcon{ width: 23px; height: 23px; opacity: 65%; margin: -6px 0 0 15px;}
+		.pop_feed > #text{ margin:25px 0 25px 25px; font-size: 18px; color:#555555; }
+		.pop_feed > #con{ width: 630px; background: white; margin: auto; }
+		.pop_feed > #con #tag{ padding: 5px 5px 5px 0; height: 60px; width: 90%; margin:auto; }
+		.pop_feed > #con #tag li{ list-style: none; float: left; margin-right: 5px; font-size: 14px; color: #555555;}
+		
+		.pop_feed >#replyArea{ width: 630px; padding-top: 20px;background: white; margin: auto; }
+		.pop_feed >#replyList{ width: 630px; height: 150px; overflow: auto; margin: auto; }
+		.pop_feed >#replyList::-webkit-scrollbar{ width: 7px; }
+		.pop_feed >#replyList::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+		.pop_feed >#replyList::-webkit-scrollbar-track{ background-color: #daf4ed; }
+		.pop_feed >#replyList ul{ margin: auto; margin-left:25px; padding: 0; }
+		.pop_feed >#re_list li{ list-style: none; float: left; }
+		.pop_feed >#re_list li:nth-child(1){ width: 25%; }
+		.pop_feed >#re_list li:nth-child(2){ width: 55%; }
+		.pop_feed >#re_list li:nth-child(3){ width: 10%; }
+		.pop_feed >#re_list li:nth-child(4){ width: 10%; }
+		.pop_feed >#updateBtn{ margin: 15px 0 0 14px; padding: 5px 0px 5px 0px; }
+		
+		.pop_feed >#userId{ float: left; margin: 9px 0px 0 15px; font-weight: 600; color: #555555;}
+		.pop_feed >#reply_img{ width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; }
+		.pop_feed >#replyCon{ font-size: 14px; color:#555555; font-weight:lighter; margin-top:9px; height: 100%; }
+		.pop_feed >#time{ font-size: 12px; float: right; color: #aaaaaa;}
+		.pop_feed >#reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
+		.pop_feed >#textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
+		.pop_feed >#replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
+		
 	</style>
 </head>
 <body>
@@ -196,7 +238,7 @@
                        	<div id="section2">
 		                    <div id="groupSearchbar">
 		                        <input type="search" id="groupSearch" name="groupSearch" placeholder="그룹 내 검색">
-		                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색" onclick="gsearch()"/>
+		                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색">
 		                    </div>
 		                    <div id="groupFeedArea">
 		                        <div id="btnsbox">
@@ -250,7 +292,7 @@
 								                    <ul>
 								                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
 								                       <li><a>공유하기</a></li> 
-								                       <li><a>보관함</a></li> 
+								                       <li><a id="storageBox_btn">보관함</a></li> 
 								                       <li><a id="close" class="close">취소</a></li>
 								                    </ul>
 								                </div>
@@ -431,7 +473,7 @@
 							   </c:if>
 							   </div>
 	                            </div>
-	                        	<table id="searchTable"></table>
+	                        	<div id="searchFeed"></div>
 	                        </div>
 	                   </c:if>	
 	               </c:when>
@@ -440,7 +482,7 @@
 	                 	<div id="section2">
 	                    <div id="groupSearchbar">
 	                        <input type="search" id="groupSearch" name="groupSearch" placeholder="그룹 내 검색">
-	                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색"  onclick="gsearch()">
+	                        <input type="button" id="groupSearchBtn" name="groupSearchBtn" value="검색">
 	                    </div>
 	                    <div id="groupFeedArea">
 	                        <div id="btnsbox">
@@ -450,7 +492,7 @@
 	                    </div>
 	                 </div>        
 	                        <div class="feedContainar">
-	                        	<table id="searchTable"></table>
+	                        	<div id="searchFeed"></div>
 	                            <div class="newConBox conBox on">
 	                            <div id="newfeedArea">
 								<c:if test="${ !empty ngflist }">
@@ -681,6 +723,78 @@
                  	</c:otherwise>
                  </c:choose>
                 	</div>
+                <!-- 검색 게시글  팝업 -->
+    			<div class="pop_feed">
+                    <div class="feed_delete">
+                        <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
+                    </div>
+                    <div id="writer_submenu_pop"></div>
+                    <!-- 다른 회원 글 볼 때 피드 메뉴 -->
+                    <div class="pop_menu">
+                        <div id="feed_menu_list">
+                            <ul>
+                            <li><a id="feed_report_btn">신고</a></li> 
+                            <li><a>공유하기</a></li> 
+                            <li><a>보관함</a></li> 
+                            <li><a id="close">취소</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+                        <div class="pop_Mymenu">
+                            <div id="feed_Mymenu_list">
+                                <ul>
+                                <li><a id="feed_menu1_btn">수정</a></li> 
+                                <li><a>삭제</a></li> 
+                                <li><a id="close">취소</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    <div class="feed_report">
+                        <div id="feed_report_con">
+                            <p>신고 사유</p>
+                            <select style=>
+                                <option>부적절한 게시글</option>
+                                <option>욕설</option>
+                                <option>광고</option>
+                                <option>도배</option>
+                            </select>
+                            <br>
+                            <input type="button" id="submit" name="submit" value="확인">
+                            <button id="cancel">취소</button>
+                        </div>
+                    </div>
+                    <div id="con">
+                        <div id="feed_content_pop">
+                           
+                        </div>
+                        <div id="replyArea">
+                            <div id="replyList">
+                                <ul id="re_list">
+                                    <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">user01</p></li>
+                                    <li><p id="replyCon">맛있겠다... 여기 어디인가요?? 대박 정보 좀....</p></li>
+                                    <li><p id="time">1시간 전</p></li>
+                                    <li><img src="<%=request.getContextPath()%>/resources/icons/replyMenu.png" type="button" alt="" id="updateBtn"></li>
+                                </ul>
+                            </div>
+                            <!-- 남이 단 댓글 볼 때 댓글 메뉴 -->
+                            <div class="reply_menu">
+                                <div id="re_menu_list">
+                                    <ul>
+                                        <li><a>댓글 수정</a></li>
+                                        <li><a>댓글 삭제</a></li>
+                                        <li><a id="re_close">취소</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div id="reply">
+                                <input type="text" id="textArea" name="textArea">
+                                <input type="button" id="replyBtn" name="replyBtn" value="등록">
+                            </div>
+                        </div> 
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -808,13 +922,13 @@
             $("#newFeedBtn").on('click',function(){
                 $('.conBox').hide();
                 $('.newConBox').show();
-                $('#searchTable').hide();
+                $('#searchFeed').hide();
             });
 
             $("#hotFeedBtn").on('click',function(){
                 $('.conBox').hide();
                 $('.hotConBox').show();
-                $('#searchTable').hide();
+                $('#searchFeed').hide();
             });
             
             /**************** 그룹 신고 관련*******************/ 
@@ -921,11 +1035,11 @@
  			
  			
  	/*그룸내 검색*/
-	function gsearch() {
-		var gsearch = $('#groupSearch').val();
-   		var sign = gsearch.charAt(0);			//검색어 첫글자 - 기호
-		var keyword = gsearch.substr(1);		//키워드
-		var gNo = ${ g.gNo };					//그룹번호
+ 	$("#groupSearchBtn").on('click',function(){
+ 		var gsearch = $('#groupSearch').val();
+   		var sign = gsearch.charAt(0);		
+		var keyword = gsearch.substr(1);	
+		var gNo = ${ g.gNo };					
 		
 		if(gsearch.length == 0){
 			alert('검색어를 입력해주세요');			
@@ -942,33 +1056,22 @@
 		        success:function(data){
 					if(data.flist != null){
 						$('.conBox').hide();
-
 	    				var input="";
 	    				var j = 0;
 	    				for(var i=0; i < data.flist.length; i++){
-	    				 		if (j%3==0){ 
-	    				input +="<tr>";
-	    						}
-	    						if(data.flist[i].thumbnail != null){	
-	    				input += "<td class='postbox' name='postbox'>";	
-	    				input += "<img src='/spring/resources/pUploadFiles/"+data.flist[i].thumbnail+"'>";	
-	    				input += "</td>";		
-	    						}else{	
-	    				input += "<td class='postbox' name='postbox'>";	
-	    				input += "<div type='button' id='pb2'>";
-	    				input += "<text>"+data.flist[i].fcontent+"</text>";	
-	    				input += "</div>";
-	    				input += "</td>";
+	    						if(data.flist[i].thumbnail != null){
+			   						input += "<div class='postbox "+i+"' id='"+data.flist[i].fno+"' name='postbox'>";	
+				    				input += "<img src='/spring/resources/pUploadFiles/"+data.flist[i].thumbnail+"'>";	
+				    				input += "</div>";
+			    				}else{
+				    				input += "<div class='postbox "+i+"' id='"+data.flist[i].fno+"' name='postbox'>";	
+				    				input += "<text>"+data.flist[i].fcontent+"</text>";	
+				    				input += "</div>";
 	    						}	
-		    				if (j%3==2){ 
-		    					input +="</tr>"; 	
-		    				}
-	    				j++;
 	    				}
-	    				
-	    				$("#searchTable").append(input);
-	                    $("#searchTable").html(input);
-						$('#searchTable').show();
+	    				$("#searchFeed").append(input);
+	                    $("#searchFeed").html(input);
+						$('#searchFeed').show();
 
 					}else{
 						alert(data.msg);
@@ -995,11 +1098,72 @@
 	            } 
 				
 			});
-			
-			
 		}
-		
-	}
+ 	});
+
+ 	$(document).on('click','.postbox',function(){
+ 		console.log($(this).attr("id") );
+ 		$.ajax({
+ 			url:'gFeedPop.do',
+ 			dataType:'json',
+ 			type:'post',
+ 		
+ 			data:{ fno : $(this).attr("id") },
+ 			async:false,
+ 	        success:function(data){
+ 				console.log(data);
+ 	        	var input_writer ="";
+                var feed_content ="";
+ 	        	input_writer += "<img src='/spring/resources/memberProfileFiles/"+data.mImage+"' id='feed_profile_img'>";
+ 	        	input_writer += "<div id='user_time'>";
+ 	        	input_writer += "<p id='feed_id'>"+data.fwriter+"</p>";
+ 	        	input_writer += "<h6>1시간 전</h6>";
+ 	        	input_writer += "</div>";	
+ 	        	input_writer +="<img src='/spring/resources/icons/feed_menu.png' id='feed_menu'>" ;
+ 	        	$("#writer_submenu_pop").append(input_writer);
+                $("#writer_submenu_pop").html(input_writer);
+                //나중에 for문으로 돌려서 여러장 볼 수 있어야 함
+                feed_content += "<img src='/spring/resources/pUploadFiles/"+data.plist[0]+"' alt='' id='input_img'>";
+                feed_content += "<div id='heart_reply'>";
+                feed_content += "<img src='/spring/resources/icons/heart.png' type='button' id='likeIcon'>";
+                feed_content += "<img src='/spring/resources/icons/bubble.png' type='button' id='replyIcon'>";
+                feed_content += "</div>";  
+                feed_content += "<p id='text'>"+data.fcontent+"</p>";
+
+                $("#feed_content_pop").append(feed_content);
+                $("#feed_content_pop").html(feed_content);
+                
+ 	        	$('.pop_feed').show();
+ 	        	
+ 	        },error:function(request,jqXHR,exception){
+ 	               var msg="";
+ 	               if(request.status == 0){
+ 	                  msg = 'Not Connect. \n Verify Network.';
+ 	               } else if(request.status == 404){
+ 	                  msg = 'Requested page not fount [404]';
+ 	               } else if(request.status == 500){
+ 	                  msg = 'Internal Server Error [500]';
+ 	               } else if(request.status == 'parsererror'){
+ 	                  msg = 'Requested JSON parse failed';
+ 	               } else if(exception == 'timeout'){
+ 	                  msg = 'Time out error';
+ 	               } else if(exception == 'abort'){
+ 	                  msg = 'Ajax request aborted';
+ 	               } else {
+ 	                  msg = 'Error. \n' + jqXHR.responseText;
+ 	               }
+ 	               alert(msg);
+ 	            } 
+ 				
+ 			});
+ 	});
+ 	
+    $('.feed_delete').click(function() {
+        $(".pop_feed").hide();
+    });
+ 	
+ 	
+ 	
     </script>
 </body>
 </html>

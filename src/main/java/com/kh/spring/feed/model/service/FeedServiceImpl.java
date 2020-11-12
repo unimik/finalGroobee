@@ -69,5 +69,10 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.updatePhoto(p);
 	}
 
+	@Override
+	public Feed popFeed(int fno) {
+		return fDao.popFeed(fno);
+	}
+
 
 }

@@ -60,4 +60,8 @@ public class FeedDao {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
 	}
 
+	public Feed popFeed(int fno) {
+		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
+	}
+
 }
