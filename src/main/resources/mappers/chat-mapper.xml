@@ -93,11 +93,6 @@
 		ORDER BY C_NO DESC
 	</select>
 
-	<insert id="insertGroupChat" parameterType="Chat">
-		INSERT INTO CHAT
-		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'Y',#{gNo})
-	</insert>
-	
 	<insert id="insertChatGroup" parameterType="Chat">
 		INSERT INTO CHAT
 		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',#{gNo})
@@ -106,7 +101,7 @@
 	<select id="getGroupChatContentList" parameterType="Chat" resultMap="chatResultSet">
 		<![CDATA[
 		SELECT *
-		FROM (SELECT C_NO,CR_NO,FROM_ID,TO_ID,C_CONTENT,C_DATE,C_READ,G_PROFILE,G_RENAME_PROFILE,G_NAME 
+		FROM (SELECT C_NO,CR_NO,FROM_ID,TO_ID,C_CONTENT,C_DATE,C_READ,C.G_NO,G_PROFILE,G_RENAME_PROFILE,G_NAME 
 		      FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO) 
 		      WHERE C.CR_NO = #{crNo} ORDER BY C.C_DATE DESC)
 		WHERE ROWNUM <= 15 
@@ -152,4 +147,19 @@
 		ORDER BY C_DATE
 		]]>
 	</select>
+	
+	<delete id="chatDelete" parameterType="_int">
+		DELETE FROM CHAT
+		WHERE CR_NO = #{crNo}
+	</delete>
+	
+	<delete id="joinDelete" parameterType="_int">
+		DELETE FROM JOIN_CHATROOM
+		WHERE CR_NO = #{crNo}
+	</delete>
+	
+	<delete id="chatRoomDelete" parameterType="_int">
+		DELETE FROM CHATROOM
+		WHERE CR_NO = #{crNo}
+	</delete>
 </mapper>

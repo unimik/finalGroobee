@@ -151,21 +151,7 @@
 		</trim>
 	</select>
 	
-	<!-- group 상태 변경 -->
-	<update id="groupStatusChange" parameterType="Group">
-		UPDATE GROUPS
-		SET
-			G_STATUS = #{gStatus}
-		WHERE 
-			G_NO = #{gNo}
-	</update>
 
-
-	<select id="loadGroup" parameterType="_int" resultMap="GroupResultSet">
-		SELECT *
-		FROM GROUPS
-		WHERE G_NO=#{ number }
-	</select>
 	
 	<select id="getManagerId" resultMap="GroupResultSet">
 	SELECT * FROM GROUPS WHERE G_CREATOR=#{fromId}

@@ -91,13 +91,18 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public Group loadgroup(int number) {
+	public Group loadGroup(int number) {
 		return aDao.loadGroup(number);
 	}
 
 	@Override
 	public int declarationStatusChange(String dNo) {
 		return aDao.declarationStatusChange(dNo);
+	}
+
+	@Override
+	public Member loadMember(int number) {
+		return aDao.loadMember(number);
 	}
 
 }

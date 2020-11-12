@@ -22,7 +22,7 @@
     }
     .fstorageBox_folder,.sbBoxCheck{
      display:none;
-    };
+    }
     #myPage_introduction{
     padding-top: 20px;
     }
@@ -66,7 +66,8 @@
    	.follow_list img{ width:40px; height:40px; border-radius:10px; float:left; margin-right:20px;}
 	.follow_list::-webkit-scrollbar{display: none;}
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
-	
+	#groupName{ font-weight: 600; }
+	.groupInfo h5{ font-weight: 300; }
    </style>
    <script>
   
