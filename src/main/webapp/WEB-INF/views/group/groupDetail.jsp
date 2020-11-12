@@ -849,6 +849,7 @@
           		$(".feed_report").css('display','none');
     			$(".selectRtype").css("display","inline-block");
           		$(".sendreport").css("display","none");
+          		$("#reportContent").val("");
           	})
           	
           	$("#selectRtype").on('click',function(){

@@ -67,6 +67,13 @@
         .postbox_text{padding:30px 50px; font-weight: 600;}
         #showfeed{ margin:0;padding:0; text-align:center; height:40px;}
         #showfeed{ list-style:none;}
+
+        
+        #selectRtype{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
+  		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+  		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+		#report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
+
    </style>
 </head>
 <body>
@@ -141,21 +148,24 @@
                             </div>
                         </div>
 
-                    <!-- 신고했을 경우 -->
-                        <div class="feed_report">
-                            <div id="feed_report_con">
-                                <p>신고 사유</p>
-                                <select style=>
-                                    <option>부적절한 게시글</option>
-                                    <option>욕설</option>
-                                    <option>광고</option>
-                                    <option>도배</option>
-                                </select>
-                                <br>
-                                <input type="button" id="submit" name="submit" value="확인">
-                                <button id="cancel">취소</button>
-                            </div>
-                        </div>
+                        <!-- 신고했을 경우(진선 작성) -->
+						<div class="feed_report">
+				                <div id="feed_report_con">
+				                    <p>신고사유</p>
+				                    <select id="reportType" class="selectRtype">
+				                        <option value="unacceptfeed" selected>부적절한 게시글</option>
+				                        <option value="insult">욕설</option>
+				                        <option value="ad">광고</option>
+				                        <option value="spam">도배</option>
+				                    </select>
+				                    	<textarea class="sendreport" id="reportContent" cols="28" rows="4" style="display:none;"></textarea>
+				                    <br>
+				                    <input class="selectRtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
+				                    <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+				                    <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
+				                    <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+				                </div>
+				         </div>
 
                     <!-- 차단했을 경우 -->
                         <div class="feed_block">
@@ -836,7 +846,69 @@
         $('#re_close').on("click", function(){
             $('.reply_menu').hide();
         });
-
+		
+        /**************** 회원 신고 관련*******************/ 
+     	$(document).on('click',"#report-submit",function(){
+     		
+     		if($("#reportContent").val() == ""){
+     			alert('신고 사유를 입력해 주세요.')
+     		}else{
+     			
+     			$.ajax({
+     				url:'reportMInsert.do',
+     				data:{
+     					reportType : $("#reportType").val(),
+     					feedType : "member",
+     					content : $("#reportContent").val(),
+     					targetmNo:${ memberInfo.mNo }
+     				},
+     				success: function(){
+     					$(".feed_report").css('display','none');
+     					$(".selectRtype").css("display","inline-block");
+     		      		$(".sendreport").css("display","none");
+     		      		$("#reportContent").val('')
+     		      		$(".myFeed_popup_others").css("display",'none');
+     					alert('신고완료');
+     				},error:function(){
+     					alert('신고 실패!');
+     				}
+     			});
+     			
+     		};
+     	});
+     	
+         $("#cancel2").on('click',function(){ 		
+     		$(".selectRtype").css("display","inline-block");
+     		$("#cancel").css('display',"inline-block");
+     		$("#reportContent").val("");
+     		
+     		$("#reportContent").css("display","none"); // 세부 항목
+       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
+       		$("#selectRtype").css("display","inline-block"); // 셀렉트 확인버튼
+       		$("#reportType").css("display","inline-block"); // 셀렉트
+       		
+       	})
+       	
+       	 $("#cancel").on('click',function(){
+       		$("#reportContent").val("");
+       		 
+       		$("#reportContent").css("display","none"); // 세부 항목
+       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
+       		$("#selectRtype").css("display","none"); // 셀렉트 확인버튼
+       		$("#reportType").css("display","none"); // 셀렉트
+       		
+       		$(".feed_report").css('display','none'); // 전체창 끄기
+       	})
+       	
+       	
+       	$("#selectRtype").on('click',function(){
+       		$("#reportContent").css("display","inline-block");  // 세부 항목
+       		$("#report-submit").css("display","inline-block"); // 세부 항목 확인버튼
+       		$("#selectRtype").css("display","none"); // 셀렉트 확인버튼
+       		$("#reportType").css("display","none"); // 셀렉트
+       		
+       		$("#feed_report").css("display","none"); // 전송 후 전체창 끄기
+       	}); 
     </script>
 </body>
 </html>
