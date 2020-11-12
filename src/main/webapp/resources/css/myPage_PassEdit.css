@@ -18,7 +18,7 @@ textarea{ resize: none; }
 
 #pass_edit{ margin-top: 30px; }
 #pass_edit>div{ margin: auto; padding: 10px; }
-#pass_edit p{ position: absolute; right: 470px; top: auto; margin-right: 10px; }
+#pass_edit p{ position: absolute; right: 470px; top: auto; margin-right: 10px; font-weight: 600; margin-top: 15px; }
 #current_pass, #new_pass, #check_pass { margin-top: 10px; position: relative; left: 180px; top: auto; background: #daf4ed; border: none; border-radius: 10px; width: 265px; height: 30px; }
 
 #editBtnArea { display: inline-flex; margin: auto; padding: 30px 0px 0px 95px; }

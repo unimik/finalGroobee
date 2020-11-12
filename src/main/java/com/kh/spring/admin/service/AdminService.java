@@ -87,11 +87,12 @@ public interface AdminService {
 	ArrayList<Declaration> reportSearchList(Declaration d);
 
 	
-	/** 6-2. 신고된 그룹 상세보기
+	/** 6-2. 신고된 그룹/회원 상세보기
 	 * @param number
 	 * @return
 	 */
-	Group loadgroup(int number);
+	Group loadGroup(int number);
+	Member loadMember(int number);
 
 	/** 6-3. 지연된 신고 수
 	 * @return
@@ -103,6 +104,7 @@ public interface AdminService {
 	 * @return
 	 */
 	int declarationStatusChange(String dNo);
+
 
 
 

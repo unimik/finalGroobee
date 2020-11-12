@@ -304,14 +304,14 @@
 		// member 상태 변경을 위한 이벤트
 		$(document).on('click','.btnyn',function(){
 			
-			var id = $(this).parent().prev().prev().prev().prev().prev().text();
+			var no = $(this).parent().prev().prev().prev().prev().prev().prev().text();
 			var status = $(this).parent().prev().text();
 						
 
 			 $.ajax({
 				url:"memberStatusChange.do",
 				type:'post',
-				data:{id:id
+				data:{no,no
 					,status:status
 									},
 				success:function(data){

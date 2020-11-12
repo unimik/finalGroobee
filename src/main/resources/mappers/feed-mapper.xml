@@ -261,26 +261,6 @@
 		</trim>
 	</select>
 	
-		<!-- feed 상태 변경 -->
-	<update id="feedStatusChange" parameterType="Feed">
-		UPDATE FEED 
-		SET
-			F_STATUS = #{fStatus}
-		WHERE 
-			F_NO = #{fNo}
-	</update>
-	
-	<!-- reply 상태 변경 -->
-	<update id="replyStatusChange" parameterType="Reply">
-		UPDATE REPLY 
-		SET
-			R_STATUS = #{rStatus}
-		WHERE 
-			R_NO = #{rNo}
-	</update>
-	
-	
-	
 	<select id="selectGfList" resultMap="postResultSet">
 		SELECT *
 		FROM FEED F
