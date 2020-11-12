@@ -576,12 +576,12 @@ public class GroupController{
 		JSONObject job = new JSONObject();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		ArrayList<Photo> plist = new ArrayList<Photo>();
-		
+	
 		JSONArray jarr = new JSONArray();
+		if(f.getPhotoList().size() >-1) {
 		for(int i =0; i < f.getPhotoList().size(); i++) {
 			jarr.add(i, f.getPhotoList().get(i).getChangeName());
-			System.out.println("왜 복사가 안될까"+f.getPhotoList().get(i).getChangeName());
+			}
 		}
 		if(f != null) {
 			System.out.println(f);

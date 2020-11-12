@@ -235,14 +235,15 @@
 		</div>
 		
 <script>
-        $('.post').click(function(){
+        /*$('.post').click(function(){
             $('#popup_wrap').show();
         });
-
+        */
+	
         $('#close_btn').click(function(){
             $('#popup_wrap').hide();
         });
-
+	
         $(document).ready(function(){
             $('#chat_icon').click(function(){
                 var state = $(".chat").css('display');
@@ -335,7 +336,7 @@
  			async:false,
  	        success:function(data){
  				console.log(data);
- 				
+ 				if(data != null){
  	        	var input_writer ="";
                 var feed_content ="";
  	        	input_writer += "<img src='/spring/resources/memberProfileFiles/"+data.mImage+"' id='feed_profile_img'>";
@@ -360,7 +361,8 @@
                 $("#feed_content").append(feed_content);
                 $("#feed_content").html(feed_content);
                 
- 	        	$('.popup_wrap').show();
+ 	        	 $('#popup_wrap').show();
+ 				}
  	        	
  	        },error:function(request,jqXHR,exception){
  	               var msg="";
