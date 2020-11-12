@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="resources/css/home.css">
     <link rel="stylesheet" href="resources/css/chat.css">
     <link rel="stylesheet" href="resources/css/myAccount.css">
+    <style>
+    .post{height: 200px;}
+    </style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
@@ -122,7 +125,7 @@
 	                    	<c:choose>
 	                   			<c:when test="${ empty f.thumbnail }">
 		                    		<td>
-		                   			<div class="post" style=" cursor: pointer;">
+		                   			<div class="post" id="${ f.fNo }" style=" cursor: pointer;">
 			                             <p>${f.fContent} </p>
 			                        </div>
 			                        </td>
@@ -130,7 +133,7 @@
 	                   		
 	                   			<c:otherwise>
 		                   			<td>
-		                   			<div class="post" style=" cursor: pointer;">
+		                   			<div class="post" id="${ f.fNo }" style=" cursor: pointer;">
 			                            <img src="resources/pUploadFiles/${f.thumbnail}" alt="" id="post_con">
 			                        </div>
 			                        <td>
@@ -153,12 +156,7 @@
                     <div id="feed_detail">
                         <div id="feed">
                             <div id="writer_submenu">
-                                <img src="resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-                                <div id="user_time">
-                                    <p id="feed_id">user01</p>
-                                    <h6>1시간전</h6>
-                                </div>  
-                                <img src="resources/icons/feed_menu.png" style=" cursor: pointer;" alt="" id="feed_menu">
+                               
                             </div>
                             <!-- 다른 회원 글 볼 때 피드메뉴 -->
                             <div class="pop_menu">
@@ -198,12 +196,7 @@
                             </div>
                             <div id="con">
                                 <div id="feed_content">
-                                    <img src="resources/images/IMG_7572.JPG" alt="" id="input_img">
-                                    <div id="heart_reply">
-                                        <img src="resources/icons/heart.png" alt="" id="likeIcon">
-                                        <img src="resources/icons/bubble.png" alt="" id="replyIcon">
-                                    </div>
-                                    <p id="text">맛있게 먹었던 피짜~~~!</p>
+                                   
                                     <ul id="tag">
                                         <li>#피자</li>
                                         <li>#강남역</li>
@@ -241,7 +234,7 @@
             </div>
 		</div>
 		
-		   <script>
+<script>
         $('.post').click(function(){
             $('#popup_wrap').show();
         });
@@ -329,6 +322,72 @@
             $('.MyTab_box').hide();
             $('.MyTab_box2').show();
         });
+        
+        /*게시글 팝업*/
+        $(document).on('click','.post',function(){
+ 		console.log($(this).attr("id") );
+ 		$.ajax({
+ 			url:'gFeedPop.do',
+ 			dataType:'json',
+ 			type:'post',
+ 		
+ 			data:{ fno : $(this).attr("id") },
+ 			async:false,
+ 	        success:function(data){
+ 				console.log(data);
+ 				
+ 	        	var input_writer ="";
+                var feed_content ="";
+ 	        	input_writer += "<img src='/spring/resources/memberProfileFiles/"+data.mImage+"' id='feed_profile_img'>";
+ 	        	input_writer += "<div id='user_time'>";
+ 	        	input_writer += "<p id='feed_id'>"+data.fwriter+"</p>";
+ 	        	input_writer += "<h6>1시간 전</h6>";
+ 	        	input_writer += "</div>";	
+ 	        	input_writer +="<img src='/spring/resources/icons/feed_menu.png' id='feed_menu'>" ;
+ 	        	$("#writer_submenu").append(input_writer);
+                $("#writer_submenu").html(input_writer);
+                //나중에 for문으로 돌려서 여러장 볼 수 있어야 함
+                if(data.plist == ""){
+                }else{
+                feed_content += "<img src='/spring/resources/pUploadFiles/"+data.plist[0]+"' alt='' id='input_img'>";                	
+                }
+                feed_content += "<div id='heart_reply'>";
+                feed_content += "<img src='/spring/resources/icons/heart.png' type='button' id='likeIcon'>";
+                feed_content += "<img src='/spring/resources/icons/bubble.png' type='button' id='replyIcon'>";
+                feed_content += "</div>";  
+                feed_content += "<p id='text'>"+data.fcontent+"</p>";
+
+                $("#feed_content").append(feed_content);
+                $("#feed_content").html(feed_content);
+                
+ 	        	$('.popup_wrap').show();
+ 	        	
+ 	        },error:function(request,jqXHR,exception){
+ 	               var msg="";
+ 	               if(request.status == 0){
+ 	                  msg = 'Not Connect. \n Verify Network.';
+ 	               } else if(request.status == 404){
+ 	                  msg = 'Requested page not fount [404]';
+ 	               } else if(request.status == 500){
+ 	                  msg = 'Internal Server Error [500]';
+ 	               } else if(request.status == 'parsererror'){
+ 	                  msg = 'Requested JSON parse failed';
+ 	               } else if(exception == 'timeout'){
+ 	                  msg = 'Time out error';
+ 	               } else if(exception == 'abort'){
+ 	                  msg = 'Ajax request aborted';
+ 	               } else {
+ 	                  msg = 'Error. \n' + jqXHR.responseText;
+ 	               }
+ 	               alert(msg);
+ 	            } 
+ 				
+ 			});
+ 	});
+ 	
+    $('.feed_delete').click(function() {
+        $(".pop_feed").hide();
+    });
     </script>
 </body>
 </html>

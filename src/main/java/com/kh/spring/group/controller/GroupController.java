@@ -567,7 +567,7 @@ public class GroupController{
 		}
 	}
 	
-	//그룹 팝업
+	//그룹 검색 팝업
 	@ResponseBody
 	@RequestMapping(value = "gFeedPop.do",produces="application/json;charset=utf-8")
 	public String popFeed(int fno) {

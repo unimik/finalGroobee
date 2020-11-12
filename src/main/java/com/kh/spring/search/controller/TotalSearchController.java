@@ -100,7 +100,6 @@ public class TotalSearchController {
 			ArrayList<Member> mList = tsService.searcMember(srch);
 			ArrayList<Group> gList = tsService.searchGroup(srch);
 			ArrayList<Feed> fList = tsService.searchFeed(srch);
-
 			mv.addObject("mList", mList);
 			mv.addObject("gList", gList);
 			mv.addObject("fList", fList);

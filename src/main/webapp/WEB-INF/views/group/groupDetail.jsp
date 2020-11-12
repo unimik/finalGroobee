@@ -1123,7 +1123,10 @@
  	        	$("#writer_submenu_pop").append(input_writer);
                 $("#writer_submenu_pop").html(input_writer);
                 //나중에 for문으로 돌려서 여러장 볼 수 있어야 함
-                feed_content += "<img src='/spring/resources/pUploadFiles/"+data.plist[0]+"' alt='' id='input_img'>";
+                if(data.plist == ""){
+                }else{
+                feed_content += "<img src='/spring/resources/pUploadFiles/"+data.plist[0]+"' alt='' id='input_img'>";                	
+                }
                 feed_content += "<div id='heart_reply'>";
                 feed_content += "<img src='/spring/resources/icons/heart.png' type='button' id='likeIcon'>";
                 feed_content += "<img src='/spring/resources/icons/bubble.png' type='button' id='replyIcon'>";
