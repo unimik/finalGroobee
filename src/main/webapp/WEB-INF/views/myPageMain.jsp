@@ -816,12 +816,12 @@
 	    				input +="<tr class='post' id='sbfeed'>";
 	    						}
 	    						if(data.fList[i].thumbnail != null){	
-	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<td class='postbox' id='"+data.fList[i].fno+"'  name='postbox'>";	
 	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()'>";	
 	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
 	    				input += "</td>";		
 	    						}else{	
-	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<td class='postbox' id='"+data.fList[i].fno+"' name='postbox'>";	
 	    				input += "<div type='button' id='pb2'>";
 	    				input += "<text>"+data.fList[i].fcontent+"</text>";	
 	    				input += "</div>";
