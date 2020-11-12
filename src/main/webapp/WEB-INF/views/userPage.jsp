@@ -64,11 +64,9 @@
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
                     position: relative; right: 30px; /* display: none; */ }
-        .postbox_text{padding:30px 50px; font-weight: 600;}
+        .postbox_text{padding:30px 50px; font-weight: 600; width: 500px; text-align:center; }
         #showfeed{ margin:0;padding:0; text-align:center; height:40px;}
         #showfeed{ list-style:none;}
-
-        
         #selectRtype{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
   		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
   		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
@@ -235,11 +233,16 @@
 	                    	<div class="follow_list">
 		                    	<c:forEach var="followingList" items="${ followingList }">
 	                    		<ul>
-	                    		   <c:url var="goMypage" value="goMypage.do">
+	                    		   <c:url var="goUserPage" value="goUserpage.do">
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followingList.mNo }">
+	                    		   		<c:if test="${ loginUser.userId eq followingList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   		</c:if>
+                                   		<c:if test="${ loginUser.userId ne followingList.userId }">
 	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">
 	                    		   		<li>팔로우가 없습니다. </li>
