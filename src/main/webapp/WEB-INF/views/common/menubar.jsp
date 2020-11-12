@@ -29,24 +29,33 @@
             <img src="resources/icons/logo.png" alt="logo" id="logo" name="logo">
      </div>
      <!-- 채팅 사람 추가 모달 -->
-        <div class="modal fade" id="plusGroupUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-             <div class="modal-dialog" role="document">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLabel">그룹원 추가하기</h5>
-                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">x</span>
-                         </button>
-                     </div>
-                     <div class="modal-body" id="findIdResult">
-                <!-- 추가할 멤버 -->                        
-                     </div>
-                     <div class="modal-footer">
-                         <button class="btn" id="plusGroupChatBtn" type="button" data-dismiss="modal">추가</button>
-                     </div>
-                 </div>
-             </div>
-         </div>
+     <div class="modal fade" id="plusGroupUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">그룹원 추가하기</h5>
+                      <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">x</span>
+                      </button>
+                  </div>
+                  <div class="modal-body" id="findIdResult">
+                  <!-- 추가할 멤버 -->                        
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn" id="plusGroupChatBtn" type="button" data-dismiss="modal">추가</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- 채팅 모달 -->
+      <div class="chat_menu">
+          <div id="chat_menu_list">
+              <ul>
+                  <li><a id="chat_delete" onclick="chatDelete();">채팅방 나가기</a></li> 
+                  <li><a id="close">취소</a></li>
+              </ul>
+          </div>
+      </div>
      <div class="content">
         <div id="chat" name="chat" class="chat">
             <div class="tab_menu">
@@ -211,6 +220,28 @@
 	     </div>
 	     
      <script type="text/javascript">
+     /* 채팅방 나가기 */
+     function chatDelete() {
+    	 var crNo = $("#chatArea").children(".3").val();
+    	 $.ajax({
+    		 url:"deleteOneChat.do",
+    		 data:{crNo:crNo},
+    		 success:function(data){
+    			 if(data == "ok") {
+    				 alert("채팅방 나가기에 성공했수다");
+    				 $(".chat_room").hide();
+    				 openChat();
+    				 $(".chat").show();
+    				 $(".chat_menu").hide();
+    			 } else {
+    				 console.log("??");
+    			 }
+    		 },
+    		 error:function(){
+    			 console.log("에러");
+    		 }
+    	 });
+     }
      /* 그룹 채팅방 사람 추가하기 */
      $(document).on("click",".plusChatUser",function(){
         $('#plusGroupUser').modal("show");
@@ -255,7 +286,7 @@
         $("#plusGroupChatBtn").on("click",function(){
            var plusId = $('input[name="plusGroupChatMember"]:checked').val();
            var gNo = $("#chatArea").children(".1").val();
-            var crNo = $("#chatArea").children(".3").val();
+           var crNo = $("#chatArea").children(".3").val();
            console.log(plusId+":"+gNo+":"+crNo);
            $.ajax({
              url:"plusGroupChatMember.do",
@@ -643,12 +674,12 @@
     			console.log("ok");
     			var userId = '<c:out value="${loginUser.userId}"/>';
     			$("#chatArea").children().remove();
-    			/* $(".chatDeleteBtn").remove();
+    			$(".chatDeleteBtn").remove();
     			$btnImg = $("<img src='/spring/resources/icons/feed_menu.png'>");
     			$btn = $("<button class='chatDeleteBtn'>");
     			$btn.append($btnImg);
     			$("#chat_top").append($btn);
-    			deleteChat(); */
+    			deleteChat(); 
     			$.each(data,function(index,value){
 	    			if(value.fromId == userId) {
 	    				$div1 = $("<div class='myChating'>");
@@ -792,7 +823,7 @@
           }
       });
 	});
-     
+    
      /* 페이지 로딩 시 실행되는 것들 */
      $(function(){
         countChatRead();
@@ -810,9 +841,7 @@
               $(".chat_room").hide();
               $(".chat").hide();
            }
-             
-         });
-        
+        });
         
         /* 채팅방 만들기 */
         $("#myFeed_message_btn").on("click",function(){
@@ -923,7 +952,13 @@
              $(".chat_room").hide();
             openChat();
          });
+ 		 $("#close").on("click",function(){
+ 			$(".chat_menu").hide(); 
+ 		 });
      });
+     $(document).on("click",".chatDeleteBtn",function(){
+     		$(".chat_menu").show(); 
+     })
      
      /**************알림창 열기 ****************/
      $('#alarmIcon').on("click",function(){
