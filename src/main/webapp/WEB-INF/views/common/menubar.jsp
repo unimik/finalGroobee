@@ -306,12 +306,6 @@
        });
      });
      
-     function deleteChat() {
-    	 $(".chatDeleteBtn").on("click",function(){
-    		console.log("ㅎㅇ"); 
-    	 });
-     }
-     
      /* 채팅 읽음 처리  */
      function countChatRead() {
        var myId = '<c:out value="${loginUser.userId}"/>';
@@ -570,6 +564,9 @@
                });
             }
          });
+     }
+     /* 스크롤 하면 그룹채팅 내용 불러오기 */
+     function groupChatContentLoad() {
     	 $("#chatArea").scroll(function(){
 			var sT = $("#chatArea").scrollTop();
 				if(sT == 0) {
@@ -662,8 +659,6 @@
 		var crNo = $(this).children(".crNo").val();
 		var d = $(this).children(".crNo").data("tt");
 		var readId = $(this).children(".readId").val();
-		console.log(crNo +":"+readId);
-		console.log(d);
 		$("#plusChatUser").remove();
 		$.ajax({
 			url:"oneChatContentList.do",
@@ -751,78 +746,87 @@
       var readId = $(this).children(".readId").val();
       console.log(crNo +":"+readId);
       $.ajax({
-         url:"GroupChatContentList.do",
-         data:{crNo:crNo, readId:readId},
-            type:"post",
-          dataType:"json",
-          success:function(data){
-             console.log("ok");
-             var userId = '<c:out value="${loginUser.userId}"/>';
-             $("#chatArea").children().remove();
-             $("#plusChatUser").remove();
-             $plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
-             $("#chat_top").append($plusBtn);
-             $.each(data,function(index,value){
-                var str = value.cContent;
-                if(str.slice(-8) == "입장하셨습니다.") {
-                   $("#chatArea").append($("<p class='closeServer'>"+value.cContent+"<p/>"));
-                } else {
-                   if(value.fromId == userId) {
-                      $div1 = $("<div class='myChating'>");
-                      $div = $("<div>");
-                      $p = $("<p id='myChatt'>").text(value.cContent);
-                      $inputId = $("<input type='hidden' class='1'>").val(value.gNo);
-                      $inputType = $("<input type='hidden' class='2'>").val("groupChatting");
-                      $inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
-                      $inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
-                      
-                      $div.append($p);
-                      $div1.append($div);
-                      
-                      $("#chatArea").append($div1);
-                      $("#chatArea").append($inputId);
-                       $("#chatArea").append($inputType);
-                       $("#chatArea").append($inputCrNo);
-                       $("#chatArea").append($inputcNo);
-                   } else {
-                      $div3 = $("<div class='chating'>");
-                      $inputId = $("<input type='hidden' class='1'>").val(value.gNo);
-                      $inputType = $("<input type='hidden' class='2'>").val("groupChatting");
-                      $inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
-                      $inputChatImage = $("<input type='hidden' class='4'>").val(value.chatImage);
-                      $inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
-                      $div = $("<div>");
-                       $img = $('<img src="resources/'+value.chatImage+'">');
-                       $p = $("<p id='chatId'>").text(value.fromId);
-                       $div1 = $("<div>");
-                       $a = $("<a id='chatText'>").text(value.cContent);
-                       
-                       $div.append($img);
-                       $div.append($p);
-                       $div1.append($a);
-                       $div.append($div1);
-                       $div3.append($div);
-                       
-                       $("#chatArea").append($div3);
-                       $("#chatArea").append($inputId);
-                       $("#chatArea").append($inputType);
-                       $("#chatArea").append($inputCrNo);
-                       $("#chatArea").append($inputChatImage);
-                       $("#chatArea").append($inputcNo);
-                   }
-                }
-                $("#chatUser").text(value.gName);
-             });
-             $(".chat_room").show();
-             $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
-             countChatRead();
-             groupChatContentLoad();
-          },
-          error:function(){
-             console.log('에러');
-          }
-      });
-	});
+			url:"GroupChatContentList.do",
+			data:{crNo:crNo, readId:readId},
+       	type:"post",
+  		dataType:"json",
+  		success:function(data){
+  			console.log("ok");
+  			var userId = '<c:out value="${loginUser.userId}"/>';
+  			$("#chatArea").children().remove();
+  			$("#plusChatUser").remove();
+  			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
+  			$("#chat_top").append($plusBtn);
+  			$.each(data,function(index,value){
+  				console.log(value);
+  				var str = value.cContent;
+  				if(str.slice(-8) == "입장하셨습니다.") {
+  						$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+	    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+	    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+	  					$("#chatArea").append($("<p class='closeServer'>"+value.cContent+"<p/>"));
+	  					$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputCrNo);
+	        			$("#chatArea").append($inputcNo);
+	        			$("#chatArea").append($inputType);
+  				} else {
+	    			if(value.fromId == userId) {
+	    				$div1 = $("<div class='myChating'>");
+	    				$div = $("<div>");
+	    				$p = $("<p id='myChatt'>").text(value.cContent);
+	    				$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+	    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+	    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+	    				
+	    				$div.append($p);
+	    				$div1.append($div);
+	    				
+	    				$("#chatArea").append($div1);
+	    				$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputType);
+	        			$("#chatArea").append($inputCrNo);
+	        			$("#chatArea").append($inputcNo);
+	    			} else {
+	    				$div3 = $("<div class='chating'>");
+	    				$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
+	    				$inputType = $("<input type='hidden' class='2'>").val("groupChatting");
+	    				$inputCrNo = $("<input type='hidden' class='3'>").val(value.crNo);
+	    				$inputChatImage = $("<input type='hidden' class='4'>").val(value.chatImage);
+	    				$inputcNo = $("<input type='hidden' class='5'>").val(value.cNo);
+	    				$div = $("<div>");
+	        			$img = $('<img src="resources/'+value.chatImage+'">');
+	        			$p = $("<p id='chatId'>").text(value.fromId);
+	        			$div1 = $("<div>");
+	        			$a = $("<a id='chatText'>").text(value.cContent);
+	        			
+	        			$div.append($img);
+	        			$div.append($p);
+	        			$div1.append($a);
+	        			$div.append($div1);
+	        			$div3.append($div);
+	        			
+	        			$("#chatArea").append($div3);
+	        			$("#chatArea").append($inputId);
+	        			$("#chatArea").append($inputType);
+	        			$("#chatArea").append($inputCrNo);
+	        			$("#chatArea").append($inputChatImage);
+	        			$("#chatArea").append($inputcNo);
+	    			}
+  				}
+	    			$("#chatUser").text(value.gName);
+  			});
+  			$(".chat_room").show();
+  			$("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
+  			countChatRead();
+  			groupChatContentLoad();
+  		},
+  		error:function(){
+  			console.log('에러');
+  		}
+		});
+	 });
     
      /* 페이지 로딩 시 실행되는 것들 */
      $(function(){
@@ -864,17 +868,16 @@
                    $inputCrNo = $("<input type='hidden' class='3'>").val(data.crNo);
                    console.log(data.toId +":" + data.crNo);
                    $("#chatArea").append($div3);
-                    $("#chatArea").append($inputId);
-                    $("#chatArea").append($inputType);
-                    $("#chatArea").append($inputCrNo);
+                   $("#chatArea").append($inputId);
+                   $("#chatArea").append($inputType);
+                   $("#chatArea").append($inputCrNo);
                     
-                    $("#inputArea").keydown(function(key){
-                        if(key.keyCode == 13) {
-                              sendMessage();
-                              $('#inputArea').val('');
-                        } 
-                      });
-                   
+                   $("#inputArea").keydown(function(key){
+                      if(key.keyCode == 13) {
+                            sendMessage();
+                            $('#inputArea').val('');
+                      } 
+                   });
                    $(".chat_room").show();
                 }
              },
@@ -899,8 +902,8 @@
                 } else {
                    $("#chatUser").text(gName);
                    $("#plusChatUser").remove();
-                    $plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
-                    $("#chat_top").append($plusBtn);
+                   $plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
+                   $("#chat_top").append($plusBtn);
                    $div3 = $("<div class='chating'>");
                    $inputgNo = $("<input type='hidden' class='1'>").val(gNo);
                    $inputType = $("<input type='hidden' class='2'>").val("groupChatting");
@@ -990,7 +993,7 @@
      
      // 메시지 전송
      function sendMessage() {
-         var toId = $("#chatArea").children(".1").val();
+        var toId = $("#chatArea").children(".1").val();
         var sendType = $("#chatArea").children(".2").val();
         var crNo = $("#chatArea").children(".3").val();
         if(sendType == 'chatting' || sendType == 'groupChatting') {
@@ -1025,13 +1028,13 @@
                 $("#chatArea").append($("<p class='closeServer'>"+dArr[0]+"님이 입장하셨습니다.<p/>"));
              } else {
                  var toId = $("#chatArea").children(".1").val();
-                  var inputChatImage = $("#chatArea").children(".4").val();
-                  var sendType = $("#chatArea").children(".2").val();
-                  console.log(toId+","+inputChatImage+","+sendType);
-                  $div3 = $("<div class='chating'>");
+                 var inputChatImage = $("#chatArea").children(".4").val();
+                 var sendType = $("#chatArea").children(".2").val();
+                 console.log(toId+","+inputChatImage+","+sendType);
+                 $div3 = $("<div class='chating'>");
                  $div = $("<div>");
                  $img = $('<img src="resources/'+dArr[2]+'">');
-                $p = $("<p id='chatId'>").text(dArr[1]);
+                 $p = $("<p id='chatId'>").text(dArr[1]);
                     
                  $div1 = $("<div>");
                  $a = $("<a id='chatText'>").text(dArr[0]);
@@ -1053,13 +1056,13 @@
           } else {
              console.log("여기까진옴");
              var toId = $("#chatArea").children(".1").val();
-              var inputChatImage = $("#chatArea").children(".4").val();
-              var sendType = $("#chatArea").children(".2").val();
-              console.log(toId+","+inputChatImage+","+sendType);
-              $div3 = $("<div class='chating'>");
+             var inputChatImage = $("#chatArea").children(".4").val();
+             var sendType = $("#chatArea").children(".2").val();
+             console.log(toId+","+inputChatImage+","+sendType);
+             $div3 = $("<div class='chating'>");
              $div = $("<div>");
              $img = $('<img src="resources/'+inputChatImage+'">');
-            $p = $("<p id='chatId'>").text(toId);
+             $p = $("<p id='chatId'>").text(toId);
              
              $div1 = $("<div>");
              $a = $("<a id='chatText'>").text(data);
