@@ -141,7 +141,7 @@
                                 	</c:otherwise>
                                 </c:choose>
                                 <li><a id="myFeed_message_btn">메세지</a></li> 
-                                <li><a id="close">취소</a></li>
+                                <li><a id="pop_close">취소</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -322,7 +322,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="feed_report">
+<!--                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고 사유</p>
                                     <select style=>
@@ -335,7 +335,7 @@
                                     <input type="button" id="submit" name="submit" value="확인">
                                     <button id="cancel">취소</button>
                                 </div>
-                            </div>
+                            </div> -->
                             <div id="con">
                                 <div id="feed_content">
                                     <img src="<%=request.getContextPath()%>/resources/images/IMG_7572.JPG" alt="" id="input_img">
@@ -812,10 +812,13 @@
         $('#details_btn').on("click", function(){
             $('.myFeed_popup_others').show();
         });
-
-        $('#close').on('click', function(){
+        
+        
+        $('#pop_close').on('click', function(){
             $('.myFeed_popup_others').hide();
         });
+
+
 
         $('#myFeed_report_btn').on("click", function(){
             $('.feed_report').show();
@@ -894,12 +897,7 @@
        	
        	 $("#cancel").on('click',function(){
        		$("#reportContent").val("");
-       		 
-       		$("#reportContent").css("display","none"); // 세부 항목
-       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
-       		$("#selectRtype").css("display","none"); // 셀렉트 확인버튼
-       		$("#reportType").css("display","none"); // 셀렉트
-       		
+
        		$(".feed_report").css('display','none'); // 전체창 끄기
        	})
        	
