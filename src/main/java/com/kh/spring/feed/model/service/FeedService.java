@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.group.model.vo.GroupName;
@@ -43,6 +44,12 @@ public interface FeedService {
 	int deletePost(int fNo);
 	
 	/**
+	 * 3_1. 댓글 작성
+	 * @return
+	 */
+	int insertReply(Reply r);
+	
+	/**
 	 *  가입한 그룹 조회
 	 * @param userId
 	 * @return
@@ -71,5 +78,6 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Feed> selectHGfeed(int gNo);
+
 
 }

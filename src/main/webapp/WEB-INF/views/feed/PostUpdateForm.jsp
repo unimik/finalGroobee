@@ -42,7 +42,7 @@
             
             <!--피드 영역 스크롤 필요해서 position 인라인으로 변경해둠-->
             <div id="feedArea" style="position: relative;">
-            <form action="pUpdate.do" method="post" id="postInsert" enctype="multipart/form-data">
+            <form action="pUpdate.do" method="post" id="postInsert" enctype="multipart/form-data" name="updateForm">
                 <!-- 전체 감싸는 div 영역 -->
                 <div id="postingForm">
                 <div id="postingArea">
@@ -66,7 +66,7 @@
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" multiple="multiple" id="input_file" name="reloadFile"
+                                    <input type="file" multiple="multiple" id="input_file" name="reloadFile" onchange="changeValue(this)"
                                      accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
                                 </td>
                             </tr>
@@ -271,10 +271,10 @@
     				var files = e.target.files;
     				var arr = Array.prototype.slice.call(files);
 					
-    				// 업로드 가능 파일인지 체크
-    				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
     				var checkPhotopreview = $(".photopreview").length;
-    				alert(checkPhotopreview);
+    				alert("이미 업로드된 이미지 : " + checkPhotopreview);
+    				
+    				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
     				if((files.length + checkPhotopreview) > 5) {
    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.')
    						$('#input_file').val(""); // 파일 초기화
@@ -282,16 +282,21 @@
    						return false;
    					}
     				
+    				// 파일 업로드가 0개인 업데이트 피드에 파일 업로드할 경우 미리보기 추가
+    				if(checkPhotopreview < 1) {
+    					var trView = '<tr class="trView">';
+   						var trViewName = '<tr class="trViewName">';
+						$("#undertd").before(trView);
+						$("#undertd").before(trViewName);
+    					return true;
+    				}
+    				
+    				// 업로드 가능 파일인지 체크
     				for (var i = 0; i < files.length; i++) {
     					if (!checkExtension(files[i].name, files[i].size)) {
     						return false;
-    					}
-    					
-    					
-    				// 기존 파일이 있을 시에 갯수 체크해서 추가할 수 있는 만큼의 이미지 갯수만 올리기
-    					
+    					}	
     				}
-
 
     				preview(arr);
 
@@ -321,7 +326,6 @@
     		function preview(arr) {
     			// 1
     			var index = 0;
-    			var index2 = 0;
     			
     			arr.forEach(function(fUp) {
     				
@@ -351,7 +355,7 @@
     						
     						name += fileName + '<div class="dltImg"><a href=\"javascript:void(0);\" onclick=\"deleteImageAction('+index+')\" id=\"dimg_id_'+index+'\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
     						name += '</div>' +'</td>';
-    						index++;
+    						//index++;
     						$(name).appendTo('.trViewName')
     						
     						console.log(fUp);
@@ -390,13 +394,40 @@
        		console.log(sel_files);
        	}
    		
+   		function updateImageAction(index) {
+ 		console.log("index : " + index);
+		sel_files.splice(index, 1);
+		console.log(sel_files);
+		 
+   			$(document).ready(function(e) {
+   	    		$('#input_file').change(	
+ 	    		function(e) {
+		   		    e.preventDefault();
+		   		    $("#input_file").click();			
+   	    		});
+		   	
+   			});
+
+   		}
+   		
+        function changeValue(obj){
+	        alert("너냐? : " + obj.value);
+	        
+	        // 파일 선택창을 띄웠다가 취소 시 선택값이 모두 사라질 경우 미리보기 사진도 모두 삭제
+       		if(obj.value === '') {
+				$(".plistView").remove();
+  				$(".plistName").remove();
+       		}
+        }
+   		
    		function reloadPhotoList(fNo){
    			$.ajax({
-   				url:"getPhotoList.do",
+   				url: "getPhotoList.do",
    				data:{fNo : fNo},
-   				dataType:"json",
-   				contentType:"application/json;charset=utf-8",
-   				success:function(data){
+   				dataType: "json",
+   				contentType: "application/json;charset=utf-8",
+   				success: function(data){
+   					
    					$(".trView").remove();
    					$(".trViewName").remove();
    					for(var index in data.photoList){
@@ -406,7 +437,7 @@
    						var str = '<td class="plistView" id="pView_'+index+'"><div id="photolistUpView" class="photoView">';
 						var name = '<td class="plistName" id="pName_'+index+'">';
 						
-						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="resources/pUploadFiles/'+data.photoList[index].changeName+'" title="" style="width: 100px; height: 100px;" /></a>';
+						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="resources/pUploadFiles/'+data.photoList[index].changeName+'" title="'+data.photoList[index].originName+'" style="width: 100px; height: 100px;" /></a>';
 						str += '</div></td>';
 						
 						name += data.photoList[index].originName + '<div class="dltImg"><a href=\"javascript:void(0);\" onclick=\"deleteImageAction('+index+')\" id=\"dimg_id_'+index+'\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
@@ -420,7 +451,8 @@
 						$(str).appendTo('.trView');
 						$(name).appendTo('.trViewName');
 						
-						if(data.photoList[index].changeName == null) {
+						// 기존 업로드된 파일이 없으면 reload 시 미리보기 삭제
+						if(data.photoList[index].originName == '') {
 				       		$(str).remove();
 				       		$(name).remove();
 						}
