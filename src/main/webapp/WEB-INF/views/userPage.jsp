@@ -17,7 +17,7 @@
    		.feedPost{
    			border-bottom:2px solid #47c6a3;
    			transition:0.5s all;
-   			padding-bottom: 10px;
+   			padding-bottom:10px;
    		}
    		#interests{
 	    font-size:smaller;
@@ -64,10 +64,15 @@
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
                     position: relative; right: 30px; /* display: none; */ }
-        .postbox_text{padding:30px 50px; font-weight: 600;}
-  		#showPost{ list-style:none; padding:0; margin:0; text-align:center; height:40px;}
-  		#showPost li{ height:40px;}
-	</style>
+        .postbox_text{padding:30px 50px; font-weight: 600; width: 500px; text-align:center; }
+        #showfeed{ margin:0;padding:0; text-align:center; height:40px;}
+        #showfeed{ list-style:none;}
+        #selectRtype{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
+  		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+  		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+		#report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
+
+   </style>
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
@@ -136,26 +141,29 @@
                                 	</c:otherwise>
                                 </c:choose>
                                 <li><a id="myFeed_message_btn">메세지</a></li> 
-                                <li><a id="close">취소</a></li>
+                                <li><a id="pop_close">취소</a></li>
                                 </ul>
                             </div>
                         </div>
 
-                    <!-- 신고했을 경우 -->
-                        <div class="feed_report">
-                            <div id="feed_report_con">
-                                <p>신고 사유</p>
-                                <select style=>
-                                    <option>부적절한 게시글</option>
-                                    <option>욕설</option>
-                                    <option>광고</option>
-                                    <option>도배</option>
-                                </select>
-                                <br>
-                                <input type="button" id="submit" name="submit" value="확인">
-                                <button id="cancel">취소</button>
-                            </div>
-                        </div>
+                        <!-- 신고했을 경우(진선 작성) -->
+						<div class="feed_report">
+				                <div id="feed_report_con">
+				                    <p>신고사유</p>
+				                    <select id="reportType" class="selectRtype">
+				                        <option value="unacceptfeed" selected>부적절한 게시글</option>
+				                        <option value="insult">욕설</option>
+				                        <option value="ad">광고</option>
+				                        <option value="spam">도배</option>
+				                    </select>
+				                    	<textarea class="sendreport" id="reportContent" cols="28" rows="4" style="display:none;"></textarea>
+				                    <br>
+				                    <input class="selectRtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
+				                    <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+				                    <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
+				                    <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+				                </div>
+				         </div>
 
                     <!-- 차단했을 경우 -->
                         <div class="feed_block">
@@ -225,11 +233,16 @@
 	                    	<div class="follow_list">
 		                    	<c:forEach var="followingList" items="${ followingList }">
 	                    		<ul>
-	                    		   <c:url var="goMypage" value="goMypage.do">
+	                    		   <c:url var="goUserPage" value="goUserpage.do">
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followingList.mNo }">
+	                    		   		<c:if test="${ loginUser.userId eq followingList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   		</c:if>
+                                   		<c:if test="${ loginUser.userId ne followingList.userId }">
 	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">
 	                    		   		<li>팔로우가 없습니다. </li>
@@ -253,8 +266,8 @@
             <!-- 내가 올린 피드 목록 -->
                 <div id="myPage_feedList">
                     <div id="myPage_feed">
-                        <ul id="showPost">
-                            <li><div class="feedPost">게시글</div></li>
+                        <ul id="showfeed">
+                            <li colspan="3"><div class="feedPost">게시글</div></li>
                         </ul>
 
                     <!--게시글-->
@@ -262,11 +275,10 @@
                     		<c:choose>
 	                    		<c:when test="${ userPs.openStatus eq 'F' && followYN eq 'N'}">
 		                    		<div class="post">
-			                    			<p class="postbox_text" name="postbox">비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>
+			                    		<p class="postbox_text" name="postbox">비공개 계정입니다. 게시물을 보려면 팔로우 신청을 해주세요. </p>
 		                    		</div>
 	                    		</c:when>
 	                    		<c:otherwise>
-	                    			<div class="post_all">
 			                        <c:forEach var="feedlist" items="${ feedList }">
 			                        <div class="post">
 			                            <c:choose>
@@ -283,7 +295,6 @@
 			                              </c:choose>
 				                      </div>
 			                          </c:forEach>
-			                       </div>
 	                    		</c:otherwise>
                     		</c:choose>
                     	</c:if>
@@ -311,7 +322,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="feed_report">
+<!--                             <div class="feed_report">
                                 <div id="feed_report_con">
                                     <p>신고 사유</p>
                                     <select style=>
@@ -324,7 +335,7 @@
                                     <input type="button" id="submit" name="submit" value="확인">
                                     <button id="cancel">취소</button>
                                 </div>
-                            </div>
+                            </div> -->
                             <div id="con">
                                 <div id="feed_content">
                                     <img src="<%=request.getContextPath()%>/resources/images/IMG_7572.JPG" alt="" id="input_img">
@@ -566,6 +577,9 @@
             var mNo = $('#mNo').val();
             var follow = $('#follow').val();
             
+            console.log("follow 클릭됨");
+            sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow','1');
+            
             $.ajax({
  	       		 url: 'insertFollow.do',
  	      		  	 type: 'post',
@@ -798,10 +812,13 @@
         $('#details_btn').on("click", function(){
             $('.myFeed_popup_others').show();
         });
-
-        $('#close').on('click', function(){
+        
+        
+        $('#pop_close').on('click', function(){
             $('.myFeed_popup_others').hide();
         });
+
+
 
         $('#myFeed_report_btn').on("click", function(){
             $('.feed_report').show();
@@ -835,7 +852,64 @@
         $('#re_close').on("click", function(){
             $('.reply_menu').hide();
         });
+		
+        /**************** 회원 신고 관련*******************/ 
+     	$(document).on('click',"#report-submit",function(){
+     		
+     		if($("#reportContent").val() == ""){
+     			alert('신고 사유를 입력해 주세요.')
+     		}else{
+     			
+     			$.ajax({
+     				url:'reportMInsert.do',
+     				data:{
+     					reportType : $("#reportType").val(),
+     					feedType : "member",
+     					content : $("#reportContent").val(),
+     					targetmNo:${ memberInfo.mNo }
+     				},
+     				success: function(){
+     					$(".feed_report").css('display','none');
+     					$(".selectRtype").css("display","inline-block");
+     		      		$(".sendreport").css("display","none");
+     		      		$("#reportContent").val('')
+     		      		$(".myFeed_popup_others").css("display",'none');
+     					alert('신고완료');
+     				},error:function(){
+     					alert('신고 실패!');
+     				}
+     			});
+     			
+     		};
+     	});
+     	
+         $("#cancel2").on('click',function(){ 		
+     		$(".selectRtype").css("display","inline-block");
+     		$("#cancel").css('display',"inline-block");
+     		$("#reportContent").val("");
+     		
+     		$("#reportContent").css("display","none"); // 세부 항목
+       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
+       		$("#selectRtype").css("display","inline-block"); // 셀렉트 확인버튼
+       		$("#reportType").css("display","inline-block"); // 셀렉트
+       		
+       	})
+       	
+       	 $("#cancel").on('click',function(){
+       		$("#reportContent").val("");
 
+       		$(".feed_report").css('display','none'); // 전체창 끄기
+       	})
+       	
+       	
+       	$("#selectRtype").on('click',function(){
+       		$("#reportContent").css("display","inline-block");  // 세부 항목
+       		$("#report-submit").css("display","inline-block"); // 세부 항목 확인버튼
+       		$("#selectRtype").css("display","none"); // 셀렉트 확인버튼
+       		$("#reportType").css("display","none"); // 셀렉트
+       		
+       		$("#feed_report").css("display","none"); // 전송 후 전체창 끄기
+       	}); 
     </script>
 </body>
 </html>

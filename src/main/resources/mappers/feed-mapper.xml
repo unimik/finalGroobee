@@ -19,7 +19,7 @@
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gName" column="G_NAME"/>
-		
+		<result property="mImage" column="M_RENAME_IMAGE"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 	</resultMap>
@@ -121,14 +121,6 @@
 	</insert>
 
 	<select id="selectFeed" resultMap="postResultSet" parameterType="string">
-		<!--
-		SELECT *
-		FROM FEED F
-        LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-        LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
-		WHERE F.F_STATUS='Y'
-		ORDER BY F.F_NO DESC
-		-->
 		SELECT
 			* 
 		FROM FEED F
@@ -245,32 +237,13 @@
 				AND F_CONTENT like '%'||#{fContent}||'%'
 			</if>
 			<if test="fWriter != null">
-				AND fWriter like '%'||#{fWriter}||'%'
+				AND f_WRITER like '%'||#{fWriter}||'%'
 			</if>
 			<if test="fCreateDate != null">
 				AND F_CREATE_DATE like '%'||#{fCreateDate}||'%'
 			</if>
 		</trim>
 	</select>
-	
-		<!-- feed 상태 변경 -->
-	<update id="feedStatusChange" parameterType="Feed">
-		UPDATE FEED 
-		SET
-			F_STATUS = #{fStatus}
-		WHERE 
-			F_NO = #{fNo}
-	</update>
-	
-	<!-- reply 상태 변경 -->
-	<update id="replyStatusChange" parameterType="Reply">
-		UPDATE REPLY 
-		SET
-			R_STATUS = #{rStatus}
-		WHERE 
-			R_NO = #{rNo}
-	</update>
-	
 	
 	<select id="selectGfList" resultMap="postResultSet">
 		SELECT *
@@ -305,5 +278,15 @@
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
+	</select>
+	
+	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
+		SELECT F.*, R.*, P.*, M.M_RENAME_IMAGE
+		FROM FEED F
+		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+		INNER JOIN MEMBER M ON(F.M_NO = M.M_NO)
+		WHERE F.F_STATUS='Y'
+		AND F.F_NO =#{ fno }
 	</select>
 </mapper>

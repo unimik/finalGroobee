@@ -65,4 +65,8 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertReply", r);
 	}
 
+	public Feed popFeed(int fno) {
+		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
+	}
+
 }

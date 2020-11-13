@@ -22,7 +22,7 @@
     }
     .fstorageBox_folder,.sbBoxCheck{
      display:none;
-    };
+    }
     #myPage_introduction{
     padding-top: 20px;
     }
@@ -66,7 +66,8 @@
    	.follow_list img{ width:40px; height:40px; border-radius:10px; float:left; margin-right:20px;}
 	.follow_list::-webkit-scrollbar{display: none;}
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
-	
+	#groupName{ font-weight: 600; }
+	.groupInfo h5{ font-weight: 300; }
    </style>
    <script>
   
@@ -81,7 +82,6 @@
 	 	var getType = getParameterByName("type");
 		//alert(getType);	 
 		if( getType == 1 ){
-		
 		$('.storageBox_subBtn3').show();
 		$('.storageBox_subBtn4').hide();
 		$('.storageBox_subBtn5').hide();
@@ -361,22 +361,6 @@
                                         <li>#피자맛집</li>
                                         <li>#피자</li>
                                         <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
                                     </ul>
                                 </div>
                                 <div id="replyArea">
@@ -516,9 +500,7 @@
                                 </div> 
                             </div>
                         </div>
-					<div class="pop_feed3">
-					
-					</div>
+
                     <!-- 보관함 -->
                       <div class="storagebox" id="storagebox">
                       	<ul id="storageIconBox">
@@ -835,12 +817,12 @@
 	    				input +="<tr class='post' id='sbfeed'>";
 	    						}
 	    						if(data.fList[i].thumbnail != null){	
-	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<td class='postbox' id='"+data.fList[i].fno+"'  name='postbox'>";	
 	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()'>";	
 	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
 	    				input += "</td>";		
 	    						}else{	
-	    				input += "<td class='postbox' name='postbox'>";	
+	    				input += "<td class='postbox' id='"+data.fList[i].fno+"' name='postbox'>";	
 	    				input += "<div type='button' id='pb2'>";
 	    				input += "<text>"+data.fList[i].fcontent+"</text>";	
 	    				input += "</div>";

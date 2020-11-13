@@ -163,7 +163,7 @@ public interface GroupService {
 	 */
 	int gManagerDelete(Group g);
 
-
+	Group getManagerId(String fromId);
 
 	/**
 	 * 그룹내 검색 (유저)

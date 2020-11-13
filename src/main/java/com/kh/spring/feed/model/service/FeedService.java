@@ -78,6 +78,14 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Feed> selectHGfeed(int gNo);
+	
+	
+	/**
+	 * 피드 팝업
+	 * @param fno
+	 * @return
+	 */
+	Feed popFeed(int fno);
 
 
 }

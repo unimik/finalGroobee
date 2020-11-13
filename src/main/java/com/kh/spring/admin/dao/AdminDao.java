@@ -36,7 +36,7 @@ public class AdminDao {
 
 
 	public int memberStatusChange(Member m) {
-		return sqlSession.update("memberMapper.memberStatusChange", m);
+		return sqlSession.update("adminAlertMapper.memberStatusChange", m);
 	}
 
 
@@ -46,17 +46,17 @@ public class AdminDao {
 
 
 	public int feedStatusChange(Feed f) {
-		return sqlSession.update("feedMapper.feedStatusChange", f);
+		return sqlSession.update("adminAlertMapper.feedStatusChange", f);
 	}
 
 
 	public int replyStatusChange(Reply r) {
-		return sqlSession.update("feedMapper.replyStatusChange", r);
+		return sqlSession.update("adminAlertMapper.replyStatusChange", r);
 	}
 
 
 	public int groupStatusChange(Group g) {
-		return sqlSession.update("groupMapper.groupStatusChange", g);
+		return sqlSession.update("adminAlertMapper.groupStatusChange", g);
 	}
 
 
@@ -90,12 +90,17 @@ public class AdminDao {
 
 
 	public Group loadGroup(int number) {
-		return sqlSession.selectOne("groupMapper.loadGroup",number);
+		return sqlSession.selectOne("adminAlertMapper.loadGroup",number);
 	}
 
 
 	public int declarationStatusChange(String dNo) {
 		return sqlSession.update("adminAlertMapper.declarationStatusChange", dNo);
+	}
+
+
+	public Member loadMember(int number) {
+		return sqlSession.selectOne("adminAlertMapper.loadMember",number);
 	}
 	
 }

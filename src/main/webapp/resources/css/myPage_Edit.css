@@ -22,7 +22,8 @@ textarea{ resize: none; }
 #info_edit>div{ margin: auto; padding: 10px; }
 #info_edit p{ position: absolute; top: auto; margin-right: 10px; }
 #name, #selfIntro, #email1, #email2, #phone2, #phone3, .interests, #select_email
-            { margin-top: 10px; position: relative; left: 150px; top: auto; background: #daf4ed; border: none; border-radius: 10px; }
+            { margin-top: 5px; position: relative; left: 150px; top: auto; background: #daf4ed; border: none; border-radius: 10px; }
+#info_edit p{ font-weight: 600; margin-top:10px; }
 #name{ width: 265px; height: 30px; }
 #email1, #email2, #select_email{ width: 100px; height: 30px; }
 .info_interests>label{ position: relative; left: 150px; top: auto; font-size: 10pt; }
