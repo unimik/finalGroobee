@@ -650,12 +650,11 @@
      
      /* 채팅방 채팅내용 불러오기 */
      $(document).on("click",".chRoom",function(){
-    	 $("#inputArea").keydown(function(key){
+    	$("#inputArea").keydown(function(key){
     		if(key.keyCode == 13) {
    	 			sendMessage();
     		} 
-    	 });
-    	 
+    	});
 		var crNo = $(this).children(".crNo").val();
 		var d = $(this).children(".crNo").data("tt");
 		var readId = $(this).children(".readId").val();
@@ -674,7 +673,6 @@
     			$btn = $("<button class='chatDeleteBtn'>");
     			$btn.append($btnImg);
     			$("#chat_top").append($btn);
-    			deleteChat(); 
     			$.each(data,function(index,value){
 	    			if(value.fromId == userId) {
 	    				$div1 = $("<div class='myChating'>");
@@ -748,9 +746,9 @@
       $.ajax({
 			url:"GroupChatContentList.do",
 			data:{crNo:crNo, readId:readId},
-       	type:"post",
-  		dataType:"json",
-  		success:function(data){
+	       	type:"post",
+	  		dataType:"json",
+	  		success:function(data){
   			console.log("ok");
   			var userId = '<c:out value="${loginUser.userId}"/>';
   			$("#chatArea").children().remove();
@@ -758,7 +756,6 @@
   			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
   			$("#chat_top").append($plusBtn);
   			$.each(data,function(index,value){
-  				console.log(value);
   				var str = value.cContent;
   				if(str.slice(-8) == "입장하셨습니다.") {
   						$inputId = $("<input type='hidden' class='1'>").val(value.gNo);
@@ -953,7 +950,7 @@
 
          $('#goList').on("click",function(){
              $(".chat_room").hide();
-            openChat();
+             openChat();
          });
  		 $("#close").on("click",function(){
  			$(".chat_menu").hide(); 
