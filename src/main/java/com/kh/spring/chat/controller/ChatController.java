@@ -395,7 +395,6 @@ public class ChatController {
 		chat.setCrNo(crNo);
 		chat.setgNo(gNo);
 		chat.setcNo(cNo);
-		System.out.println(cNo);
 		ArrayList<Chat> cList = cService.groupChatContentLoad(chat);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat cc : cList) {

@@ -52,7 +52,17 @@
           <div id="chat_menu_list">
               <ul>
                   <li><a id="chat_delete" onclick="chatDelete();">채팅방 나가기</a></li> 
-                  <li><a id="close">취소</a></li>
+                  <li><a class="close">취소</a></li>
+              </ul>
+          </div>
+      </div>
+      <!-- 그룹채팅 모달 -->
+      <div class="group_chat_menu">
+          <div id="group_chat_menu_list">
+              <ul>
+                  <li><a class="plusChatUser">사람 추가하기</a></li> 
+                  <li><a id="chat_delete" onclick="">채팅방 나가기</a></li> 
+                  <li><a class="close">취소</a></li>
               </ul>
           </div>
       </div>
@@ -227,6 +237,7 @@
     		 url:"deleteOneChat.do",
     		 data:{crNo:crNo},
     		 success:function(data){
+   				 console.log(data);
     			 if(data == "ok") {
     				 alert("채팅방 나가기에 성공했수다");
     				 $(".chat_room").hide();
@@ -244,6 +255,7 @@
      }
      /* 그룹 채팅방 사람 추가하기 */
      $(document).on("click",".plusChatUser",function(){
+    	$(".group_chat_menu").hide();
         $('#plusGroupUser').modal("show");
         var gNo = $(".1").val();
         var myId = '<c:out value="${loginUser.userId}"/>';
@@ -277,7 +289,6 @@
                }
                 $("#findIdResult").append($div);       
             });
-            
          },
          error:function(){
             console.log("에러");
@@ -752,9 +763,12 @@
   			console.log("ok");
   			var userId = '<c:out value="${loginUser.userId}"/>';
   			$("#chatArea").children().remove();
-  			$("#plusChatUser").remove();
-  			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
-  			$("#chat_top").append($plusBtn);
+  			$(".chatDeleteBtn").remove();
+  			$(".groupChatBtn").remove();
+  			$btnImg = $("<img src='/spring/resources/icons/feed_menu.png'>");
+			$btn = $("<button class='groupChatBtn'>");
+			$btn.append($btnImg);
+			$("#chat_top").append($btn);
   			$.each(data,function(index,value){
   				var str = value.cContent;
   				if(str.slice(-8) == "입장하셨습니다.") {
@@ -952,12 +966,16 @@
              $(".chat_room").hide();
              openChat();
          });
- 		 $("#close").on("click",function(){
+ 		 $(".close").on("click",function(){
  			$(".chat_menu").hide(); 
+ 			$(".group_chat_menu").hide(); 
  		 });
      });
      $(document).on("click",".chatDeleteBtn",function(){
      		$(".chat_menu").show(); 
+     })
+     $(document).on("click",".groupChatBtn",function(){
+     		$(".group_chat_menu").show(); 
      })
      
      /**************알림창 열기 ****************/
