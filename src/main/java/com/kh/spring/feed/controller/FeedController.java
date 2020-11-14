@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
@@ -42,10 +46,12 @@ public class FeedController {
 	}
 	
 	@RequestMapping("pInsert.do")
-	public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
+	public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi, HttpSession session) {
 
 		System.out.println(gn.getgNo());
 		int result = fService.insertPost(f);
+		
+		Member mem = (Member)session.getAttribute("loginUser");
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
@@ -96,7 +102,7 @@ public class FeedController {
 		
 		
 		if(result > 0) {
-			return "redirect:home.do";
+			return "redirect:home.do?userId=" + mem.getUserId();
 		}else {
 			return "../common/errorPage";
 		}
@@ -116,7 +122,7 @@ public class FeedController {
 		
 		mv.addObject("gn", gn);
 		mv.addObject("f", f);
-		mv.addObject("pCount",f.getPhotoList().size());
+		mv.addObject("pCount", f.getPhotoList().size());
 		mv.setViewName("feed/PostUpdateForm");
 		return mv;
 	}
@@ -133,12 +139,14 @@ public class FeedController {
 	}
 	
 	@RequestMapping("pUpdate.do")
-	public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi) {
+	public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn,
+									HttpSession session, MultipartHttpServletRequest multi) {
 		System.out.println("사진정보 : " + p);
 		int result = fService.updatePost(f);
 		System.out.println(f.getfNo());
 		System.out.println(result);
 		
+		Member mem = (Member)session.getAttribute("loginUser");
 		
 		// 파일 업로드 부분
 		
@@ -180,6 +188,7 @@ public class FeedController {
 					p.setOriginName(mf.getOriginalFilename());
 					p.setChangeName(renameFileName);
 				}
+				
 			}
 			
 			try {
@@ -190,11 +199,6 @@ public class FeedController {
 				e.printStackTrace();
 			}
 			
-			// 새 파일이 추가됐을 때에는 insert Service로,
-			// 기존 파일이 수정됐을 때에는 update Service로 보내기
-//			if() {
-//				
-//			}
 			
 			int photo = fService.updatePhoto(p);
 			System.out.println("업데이트 : " + originalFileName);
@@ -204,7 +208,7 @@ public class FeedController {
 		
 		
 		if(result > 0) {
-			mv.addObject("fNo", f.getfNo()).setViewName("redirect:home.do");
+			mv.addObject("fNo", f.getfNo()).setViewName("redirect:home.do?userId=" + mem.getUserId());
 		}else {
 			mv.addObject("msg", "수정 실패!").setViewName("common/errorPage");
 		}
@@ -225,8 +229,9 @@ public class FeedController {
 	}
 	
 	@RequestMapping("pDelete.do")
-	public String postDelete(int fNo, Photo p, HttpServletRequest request) {
+	public String postDelete(int fNo, Photo p, HttpSession session, HttpServletRequest request) {
 		Feed f = fService.selectUpdateFeed(fNo);
+		Member mem = (Member)session.getAttribute("loginUser");
 		System.out.println("f : " + fService.selectUpdateFeed(fNo));
 		System.out.println("p : " + p);
 		
@@ -236,20 +241,34 @@ public class FeedController {
 		int result = fService.deletePost(fNo);
 		
 		if(result > 0) {
-			return "redirect:home.do";
+			return "redirect:home.do?userId=" + mem.getUserId();
 		}else {
 			return "common/errorPage";
 		}
 	}
-//	
-//	@RequestMapping("pReplyList.do")
-//	public void getReplyList(HttpServletResponse response, int fNo) throws JsonIOException, IOException {
-//		ArrayList<Reply> rList = bService.selectReplyList(bId);
-//		
-//		response.setContentType("application/json; charset=utf-8");
-//		
-//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//		gson.toJson(rList, response.getWriter());
-//	}
+	
+	@ResponseBody
+	@RequestMapping("addReply.do")
+	public String addReply(Reply r, HttpSession session, int rfNo) {
+		Member mem = (Member)session.getAttribute("loginUser");
+		r.setrWriterImg(mem.getmRenameImage());
+		System.out.println("Reply Check : " +r);
+		System.out.println("rfNo" + rfNo);
+		
+		r.setfNo(rfNo);
+		r.setmNo(mem.getmNo());
+		
+		int result = fService.insertReply(r);
+		
+		System.out.println("reply_fNo : " + r.getfNo());
+		System.out.println("reply_rNo : " + r.getrNo());
+		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 
 }

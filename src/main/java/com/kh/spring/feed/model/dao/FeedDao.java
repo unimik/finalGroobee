@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Repository("fDao")
@@ -25,7 +26,7 @@ public class FeedDao {
 	}
 	
 	public ArrayList<Feed> selectFeed(String userId) {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed",userId);
+		return (ArrayList)sqlSession.selectList("feedMapper.selectFeed", userId);
 	}
 
 	public ArrayList<GroupName> selectGroupMemberId(String userId) {
@@ -58,6 +59,10 @@ public class FeedDao {
 
 	public ArrayList<Feed> selectHGfeed(int gNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectHGfeed", gNo);
+	}
+
+	public int insertReply(Reply r) {
+		return sqlSession.insert("feedMapper.insertReply", r);
 	}
 
 	public Feed popFeed(int fno) {

@@ -144,7 +144,7 @@
 		                            FROM MEMBER
 		                            WHERE M_ID =#{userId})
 		        ))
-		ORDER BY F.F_NO DESC
+		ORDER BY F.F_NO DESC, R.R_CREATE_DATE DESC
 	</select>
 	
 	<select id="selectGroupMemberId" resultMap="groupNameReulstSet" parameterType="string">
@@ -199,20 +199,12 @@
 		WHERE F_NO=#{fNo}
 	</update>
 	
- 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
-		SELECT *
-		FROM REPLY
-		WHERE F_NO=#{fNo}
-		AND R_STATUS='Y'
-		ORDER BY R_NO DESC
-	</select>
-	
  	<insert id="insertReply" parameterType="Reply" keyProperty="fNo" keyColumn="F_NO">
  		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT F_NO FROM FEED WHERE F_NO=#{fNo}
 		</selectKey>
 		INSERT INTO REPLY VALUES
-		(SEQ_RNO.NEXTVAL, ${mNo}, ${fNo}, ${rWriterImg}, ${rWriter}, ${rContent}, SYSDATE, SYSDATE, DEFAULT)
+		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriterImg}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
@@ -287,6 +279,7 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
+	
 	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
 		SELECT F.*, R.*, P.*, M.M_RENAME_IMAGE
 		FROM FEED F

@@ -149,7 +149,6 @@
                     </div>
                 </div>
             </div>
-		</div>
 
     
     <script>
@@ -281,7 +280,6 @@
     		function preview(arr) {
     			
     			var index = 0;
-    			var index2 = 0;
     			
     			arr.forEach(function(fUp) {
     				
