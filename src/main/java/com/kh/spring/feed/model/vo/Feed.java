@@ -26,6 +26,7 @@ public class Feed {
 	
 	private ArrayList<Reply> replyList;
 	private ArrayList<Photo> photoList;
+	private ArrayList<Tag> tagList;
 
 	public Feed() {
 	}
