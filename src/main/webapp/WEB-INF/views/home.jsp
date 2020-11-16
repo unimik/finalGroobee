@@ -32,6 +32,7 @@
 	#time{ width: 100%; }
 	#rWriterInfo { width: 25%; }
 	#rUpdateMenu{ width: 10%; }
+	#liked{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px;}
 </style>
 
 </head>
@@ -283,12 +284,21 @@
  			// 좋아요 알람
     			$(".likeIcon").on('click',function(e){
     				console.log("likeicon 클릭");
-    				$(e.target).attr('src','/spring/resources/icons/heart_red.png');
-    				var toId = $(e.target).parent().children('.toId').val();
-    				var toNo = $(e.target).parent().children('.toNo').val();
+    				console.log($(e.target).parent().children('.likeIcon')[0].id);
     				
-    				sendAlram("상관없음",toId,"like",toNo);
-    				console.log("상관없음",toId,"like",toNo);
+    				if($(e.target).parent().children('.likeIcon')[0].id == 'likeIcon'){
+	    				$(e.target).attr('src','/spring/resources/icons/heart_red.png');
+	    				$(e.target).attr('id','liked');
+	    				var toId = $(e.target).parent().children('.toId').val();
+	    				var toNo = $(e.target).parent().children('.toNo').val();    				
+	    				sendAlram("상관없음",toId,"like",toNo);
+    					console.log("상관없음",toId,"like",toNo);
+    				}else{
+    					$(e.target).attr('src','/spring/resources/icons/heart.png');
+    					$(e.target).attr('id','likeIcon');
+    					console.log('좋아요 취소');
+    				}
+    				
     			})
     </script>
     
