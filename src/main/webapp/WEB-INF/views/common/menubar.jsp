@@ -117,46 +117,14 @@
               </div>
               <div class="user_alarm" style="display:none; cursor:pointer;">
                     <div id="alarmList">
+                    	<c:forEach var="i" items="${alrarmList }">
+                    	
                         <div id="list">
                             <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
+                            <p><b>${ i.fromId }</b>님이 회원님의 게시글을 좋아합니다.</p>
                         </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
+                    	</c:forEach> 
+                       
                     </div>
                 </div>
         </div>
@@ -1051,11 +1019,10 @@
 				}else if(dArr[1] == 'groupjoin'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 그룹 가입을 신청했습니다.</p></div>');
 				}else if(dArr[1] == 'groupAccept'){
-					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="gdetail.do?gNo='+dArr[2]+'">'+dArr[2]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
 				}else if(dArr[1] == 'like'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
 				};
-				 
 		 };
      };
 		 
