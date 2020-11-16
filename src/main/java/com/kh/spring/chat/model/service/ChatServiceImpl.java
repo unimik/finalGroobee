@@ -90,5 +90,10 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.deleteOneChat(crNo);
 	}
 
+	@Override
+	public int deleteGroupChat(Chat c) {
+		return cDao.deleteGroupChat(c);
+	}
+
 
 }

@@ -454,6 +454,11 @@ public class ChatController {
 		}
 	}
 	
+	/**
+	 * - 일대일 채팅방 나가기
+	 * @param crNo
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("deleteOneChat.do")
 	public String deleteOneChat(int crNo) {
@@ -471,6 +476,17 @@ public class ChatController {
 			} else {
 				return "fail";
 			}
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteGroupChat.do")
+	public String deleteGroupChat(Chat c) {
+		int result = cService.deleteGroupChat(c);
+		if(result > 0) {
+			return "ok";
+		} else {
+			return "fail";
 		}
 	}
 

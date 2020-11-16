@@ -92,14 +92,14 @@ input:focus{ outline:none;}
 .modal-header .close {display: contents;}
 .modal-title {font-size: 17px; margin: 0;}
 
-.modal-body>div>ul{ padding:0;margin:0;}
-.modal-body>div>ul>li{ list-style: none;}
-.modal-body>div>ul>li:nth-child(1){float: left; margin-top: 17px;}
-.modal-body>div>ul>li>input{float: left; margin: 0 20px 0 20px;}
-.modal-body>div>ul>li:nth-child(2){ font-weight: 500; color: #555555; }
-.modal-body>div>ul>li:nth-child(3){ color: #555555; font-size: 15px; margin-top: -20px;}
-.modal-body>div>ul>li>label{margin-top: -32px; display: block; }
-.modal-body>div>ul>li>img{ width: 35px; height: 35px; border-radius: 10px;margin-right: 180px; margin-top: 7px;}
+#findIdResult>div>ul{ padding:0;margin:0;}
+#findIdResult>div>ul>li{ list-style: none;}
+#findIdResult>div>ul>li:nth-child(1){float: left; margin-top: 17px;}
+#findIdResult>div>ul>li>input{float: left; margin: 0 20px 0 20px;}
+#findIdResult>div>ul>li:nth-child(2){ font-weight: 500; color: #555555; }
+#findIdResult>div>ul>li:nth-child(3){ color: #555555; font-size: 15px; margin-top: -20px;}
+#findIdResult>div>ul>li>label{margin-top: -32px; display: block; }
+#findIdResult>div>ul>li>img{ width: 35px; height: 35px; border-radius: 10px;margin-right: 180px; margin-top: 7px;}
 
 .modal-body>div:hover{ background: #ecf9f6}
 .modal-body>div{height: 60px; border-bottom: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; width: 100%; text-align: center; padding-top: 10px; font-weight: 600;}
