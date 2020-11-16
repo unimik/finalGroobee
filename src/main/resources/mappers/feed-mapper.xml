@@ -237,7 +237,7 @@
 				AND F_CONTENT like '%'||#{fContent}||'%'
 			</if>
 			<if test="fWriter != null">
-				AND f_WRITER like '%'||#{fWriter}||'%'
+				AND F_WRITER like '%'||#{fWriter}||'%'
 			</if>
 			<if test="fCreateDate != null">
 				AND F_CREATE_DATE like '%'||#{fCreateDate}||'%'
@@ -278,15 +278,5 @@
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
-	</select>
-	
-	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
-		SELECT F.*, R.*, P.*, M.M_RENAME_IMAGE
-		FROM FEED F
-		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
-		INNER JOIN MEMBER M ON(F.M_NO = M.M_NO)
-		WHERE F.F_STATUS='Y'
-		AND F.F_NO =#{ fno }
 	</select>
 </mapper>
