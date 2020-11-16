@@ -516,12 +516,14 @@ public class adminController {
 		JSONObject job = null;
 		// 1. 타입이 group일 때
 		if(type.equals("group")){
+			System.out.println("if문으로 들어오는가?");
 			g= new Group();
 			d= new Declaration();
 			job = new JSONObject(); 
 			
 			g = aService.loadGroup(number); // group의 기본키 값으로 그룹 정보를 불러오는 메소드
 
+			System.out.println("불러온 g의 값 : "+g); //null
 			
 			job.put("gNo", Integer.toString(g.getgNo()));
 			job.put("gName", g.getgName());
@@ -549,6 +551,7 @@ public class adminController {
 			
 		}
 		
+		System.out.println(job);
 		
 		PrintWriter out = response.getWriter(); 
 		out.print(job);
@@ -573,6 +576,7 @@ public class adminController {
 	 */
 	@RequestMapping(value = "groupAndDeclarationStatusChange.do", method = RequestMethod.POST)
 	public String groupAndDeclarationStatusChange(String gNo, String dNo) {
+		// 1. 신고 된 그룹 처리
 		Group g = new Group();
 		g.setgStatus("N");
 		g.setgNo(Integer.parseInt(gNo));

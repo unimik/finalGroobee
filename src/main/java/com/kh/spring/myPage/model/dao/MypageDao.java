@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Follow;
@@ -76,6 +78,18 @@ public class MypageDao {
 
 	public ArrayList<Feed> sBoxfList(StorageBox sb) {
 		return (ArrayList)sqlSession.selectList("mypageMapper.sBoxfList", sb);
+	}
+
+	public Feed detailFeed(Feed f) {
+		return sqlSession.selectOne("mypageMapper.detailFeed", f);
+	}
+
+	public ArrayList<Photo> selectPhotoList(int fno) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectPhotoList", fno);
+	}
+
+	public ArrayList<Reply> selectReplyList(int fno) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectReplyList", fno);
 	}
 
 

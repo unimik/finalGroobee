@@ -95,7 +95,7 @@
 
 	<insert id="insertChatGroup" parameterType="Chat">
 		INSERT INTO CHAT
-		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'N',#{gNo})
+		VALUES(SEQ_CNO.NEXTVAL,#{crNo},#{fromId},#{toId},#{cContent},SYSDATE,'Y',#{gNo})
 	</insert>
 	
 	<select id="getGroupChatContentList" parameterType="Chat" resultMap="chatResultSet">
@@ -161,5 +161,10 @@
 	<delete id="chatRoomDelete" parameterType="_int">
 		DELETE FROM CHATROOM
 		WHERE CR_NO = #{crNo}
+	</delete>
+	
+	<delete id="groupJoinDelete" parameterType="Chat">
+		DELETE FROM JOIN_CHATROOM
+		WHERE G_NO = #{gNo} AND JOIN_ID = #{fromId}
 	</delete>
 </mapper>

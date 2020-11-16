@@ -26,6 +26,7 @@ public class Feed {
 	
 	private ArrayList<Reply> replyList;
 	private ArrayList<Photo> photoList;
+	private ArrayList<Tag> tagList;
 
 	public Feed() {
 	}
@@ -325,6 +326,14 @@ public class Feed {
 				+ fReplySet + ", fShareSet=" + fShareSet + ", fLikeCnt=" + fLikeCnt + ", fReplyCnt=" + fReplyCnt
 				+ ", gNo=" + gNo + ", thumbnail=" + thumbnail + ", gName=" + gName + ", mImage=" + mImage
 				+ ", replyList=" + replyList + ", photoList=" + photoList + "]";
+	}
+
+	public ArrayList<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(ArrayList<Tag> tagList) {
+		this.tagList = tagList;
 	}
 
 	

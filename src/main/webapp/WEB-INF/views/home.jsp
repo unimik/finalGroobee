@@ -311,6 +311,16 @@
 		
 	});
 	});
+ 			// 좋아요 알람
+    			$(".likeIcon").on('click',function(e){
+    				console.log("likeicon 클릭");
+    				$(e.target).attr('src','/spring/resources/icons/heart_red.png');
+    				var toId = $(e.target).parent().children('.toId').val();
+    				var toNo = $(e.target).parent().children('.toNo').val();
+    				
+    				sendAlram("상관없음",toId,"like",toNo);
+    				console.log("상관없음",toId,"like",toNo);
+    			})
     </script>
     
 </body>
