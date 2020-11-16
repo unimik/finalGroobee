@@ -328,6 +328,14 @@ public class Feed {
 				+ ", replyList=" + replyList + ", photoList=" + photoList + "]";
 	}
 
+	public ArrayList<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(ArrayList<Tag> tagList) {
+		this.tagList = tagList;
+	}
+
 	
 	
 	

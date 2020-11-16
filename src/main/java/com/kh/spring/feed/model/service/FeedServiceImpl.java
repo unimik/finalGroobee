@@ -9,6 +9,7 @@ import com.kh.spring.feed.model.dao.FeedDao;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Service("fService")
@@ -79,6 +80,21 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public Feed popFeed(int fno) {
 		return fDao.popFeed(fno);
+	}
+
+	@Override
+	public int insertTag(ArrayList<Tag> taglist) {
+		return fDao.insertTag(taglist);
+	}
+
+	@Override
+	public int selectTag(int fNo) {
+		return fDao.selectTag(fNo);
+	}
+
+	@Override
+	public int deleteTag(int fNo) {
+		return fDao.deleteTag(fNo);
 	}
 
 }
