@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -25,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.service.MemberService;
@@ -508,5 +511,63 @@ public class MypageController {
 		}else {
 			return"common/errorPage";
 		}
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="goDetail.do",produces="application/json;charset=utf-8")
+	public String goDetail(ModelAndView mv,String fNo, String mNo) {
+		JSONObject job = new JSONObject();
+		
+		int mno = 0;
+		int fno = 0;
+		mno = Integer.parseInt(mNo);
+		fno = Integer.parseInt(fNo);
+		Feed f = new Feed();
+		f.setmNo(mno);
+		f.setfNo(fno);
+			
+		Feed detail = myService.detailFeed(f);
+		ArrayList<Photo> photoList = myService.selectPhotoList(fno);
+		ArrayList<Reply> replyList = myService.selectReplyList(fno);
+		
+		if(detail == null) {
+			job.put("msg", "잘못된 게시물입니다.");
+			return job.toString();
+		}else {
+			job.put("fcontent", detail.getfContent());
+			job.put("fWriter", detail.getfWriter());
+			job.put("fCreateDate", detail.getfCreateDate().toString());
+			job.put("fLocation", detail.getfLocation());
+			job.put("fLikeCnt", detail.getfLikeCnt());
+			job.put("fReplyCnt", detail.getfReplyCnt());
+			job.put("mImage", detail.getmImage());
+		}
+
+		if(photoList != null) {
+			JSONArray jArr = new JSONArray();
+			for(int i=0; i <photoList.size(); i++) {
+					JSONObject jObj = new JSONObject();
+					jObj.put("changeName", photoList.get(i).getChangeName());
+					jArr.add(jObj);
+			}
+			job.put("photoList", jArr);
+		}
+		job.put("photoListSize", photoList.size());
+		
+		if(replyList != null) {
+			JSONArray jArr = new JSONArray();
+			for(int i=0; i <replyList.size(); i++) {
+				JSONObject jObj = new JSONObject();
+				jObj.put("rContent", replyList.get(i).getrContent());
+				jObj.put("rWriter", replyList.get(i).getrWriter());
+				jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
+				jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
+				jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
+				jArr.add(jObj);
+			}
+			job.put("replyList", jArr);
+		}
+		return job.toString();
 	}
 }

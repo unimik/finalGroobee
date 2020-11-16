@@ -106,4 +106,11 @@ public interface ChatService {
 	 */
 	ArrayList<Chat> groupChatContentLoad(Chat chat);
 
+	/**
+	 * 15. 채팅방 삭제
+	 * @param crNo
+	 * @return
+	 */
+	int deleteOneChat(int crNo);
+
 }

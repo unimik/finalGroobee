@@ -124,7 +124,7 @@ a{ color: #555555; text-decoration: none; }
 #con #tag li{ list-style: none; float: left; margin-right: 5px; font-size: 14px; color: #555555;}
 
 #replyArea{ width: 630px; padding-top: 20px;background: white; margin: auto; }
-#replyList{ width: 630px; height: 150px; overflow: auto; margin: auto; }
+#replyList{ width: 630px; overflow: auto; margin: auto; }
 #replyList::-webkit-scrollbar{ width: 7px; }
 #replyList::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
 #replyList::-webkit-scrollbar-track{ background-color: #daf4ed; }

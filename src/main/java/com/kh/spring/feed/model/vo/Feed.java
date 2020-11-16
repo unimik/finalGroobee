@@ -22,9 +22,11 @@ public class Feed {
 	private int gNo;
 	private String thumbnail;
 	private String gName;
+	private String mImage;
 	
 	private ArrayList<Reply> replyList;
 	private ArrayList<Photo> photoList;
+	private ArrayList<Tag> tagList;
 
 	public Feed() {
 	}
@@ -121,6 +123,35 @@ public class Feed {
 		this.gNo = gNo;
 		this.thumbnail = thumbnail;
 		this.gName = gName;
+		this.replyList = replyList;
+		this.photoList = photoList;
+	}
+	
+	
+
+	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
+			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
+			int fReplyCnt, int gNo, String thumbnail, String gName, String mImage, ArrayList<Reply> replyList,
+			ArrayList<Photo> photoList) {
+		super();
+		this.fNo = fNo;
+		this.mNo = mNo;
+		this.fContent = fContent;
+		this.fWriter = fWriter;
+		this.fCreateDate = fCreateDate;
+		this.fModifyDate = fModifyDate;
+		this.fStatus = fStatus;
+		this.fLocation = fLocation;
+		this.fOpenScope = fOpenScope;
+		this.fLikeSet = fLikeSet;
+		this.fReplySet = fReplySet;
+		this.fShareSet = fShareSet;
+		this.fLikeCnt = fLikeCnt;
+		this.fReplyCnt = fReplyCnt;
+		this.gNo = gNo;
+		this.thumbnail = thumbnail;
+		this.gName = gName;
+		this.mImage = mImage;
 		this.replyList = replyList;
 		this.photoList = photoList;
 	}
@@ -278,18 +309,26 @@ public class Feed {
 		this.gName = gName;
 	}
 
-	
+
+	public String getmImage() {
+		return mImage;
+	}
+
+	public void setmImage(String mImage) {
+		this.mImage = mImage;
+	}
+
 	@Override
 	public String toString() {
 		return "Feed [fNo=" + fNo + ", mNo=" + mNo + ", fContent=" + fContent + ", fWriter=" + fWriter
 				+ ", fCreateDate=" + fCreateDate + ", fModifyDate=" + fModifyDate + ", fStatus=" + fStatus
 				+ ", fLocation=" + fLocation + ", fOpenScope=" + fOpenScope + ", fLikeSet=" + fLikeSet + ", fReplySet="
 				+ fReplySet + ", fShareSet=" + fShareSet + ", fLikeCnt=" + fLikeCnt + ", fReplyCnt=" + fReplyCnt
-				+ ", gNo=" + gNo + ", thumbnail=" + thumbnail + ", gName=" + gName + ", replyList=" + replyList
-				+ ", photoList=" + photoList + "]";
+				+ ", gNo=" + gNo + ", thumbnail=" + thumbnail + ", gName=" + gName + ", mImage=" + mImage
+				+ ", replyList=" + replyList + ", photoList=" + photoList + "]";
 	}
 
 	
-
+	
 	
 }

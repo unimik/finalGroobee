@@ -454,6 +454,26 @@ public class ChatController {
 			return "fail";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping("deleteOneChat.do")
+	public String deleteOneChat(int crNo) {
+		int result = cService.deleteOneChat(crNo);
+		
+		if(result > 0) {
+			return "ok";
+		} else {
+			if(result == -1) {
+				return "chatError";
+			} else if(result == -2) {
+				return "joinRoomError";
+			} else if(result == -3){
+				return "chatRoomError";
+			} else {
+				return "fail";
+			}
+		}
+	}
 
 	/**
 	 * - 메세지 보내기
@@ -504,6 +524,7 @@ public class ChatController {
 			c.setcContent(rmsg);
 		}
 		c.setCrNo(crNo);
+		System.out.println(c);
 		result = cService.insertChat(c);
 		if(rmsg.length() > 7) {
 			if(rmsg.substring((rmsg.length()-4), rmsg.length()).equals("!@#$")) {

@@ -128,7 +128,7 @@ public class adminController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "memberStatusChange.do", method = RequestMethod.POST)
-	public String memberStatusChange(String id, String status) {
+	public String memberStatusChange(String no, String status) {
 		Member m = new Member();
 
 		// 회원 상태를 Y-> N , N -> Y로 만드는 구문
@@ -142,7 +142,7 @@ public class adminController {
 			m.setmStatus("Y");
 		}
 
-		m.setUserId(id);
+		m.setmNo(Integer.parseInt(no));
 		int result = aService.memberStatusChange(m);
 
 		System.out.println("result의 값 : " + result);
@@ -514,14 +514,14 @@ public class adminController {
 		SimpleDateFormat date = new SimpleDateFormat("yy-MM-dd");
 		
 		JSONObject job = null;
-		// 타입의 종류에 따른 다른 실행
+		// 1. 타입이 group일 때
 		if(type.equals("group")){
 			System.out.println("if문으로 들어오는가?");
 			g= new Group();
 			d= new Declaration();
 			job = new JSONObject(); 
 			
-			g = aService.loadgroup(number); // group의 기본키 값으로 그룹 정보를 불러오는 메소드
+			g = aService.loadGroup(number); // group의 기본키 값으로 그룹 정보를 불러오는 메소드
 
 			System.out.println("불러온 g의 값 : "+g); //null
 			
@@ -539,6 +539,16 @@ public class adminController {
 		}else if(type.equals("member")) {
 			m = new Member();
 			d= new Declaration();
+			job = new JSONObject(); 
+			
+			m = aService.loadMember(number);
+			
+			job.put("mNo", Integer.toString(m.getmNo()));
+			job.put("userName", m.getUserName());
+			job.put("userId",m.getUserId());
+			job.put("cDate",date.format(m.getcDate()));
+			job.put("mStatus",m.getmStatus()); // 상태 변경 및 메소드 재활용을 위해 가져옴
+			
 		}
 		
 		System.out.println(job);
@@ -559,7 +569,7 @@ public class adminController {
 		return aService.delayedReport();
 	}
 	
-	/** 6-4. 신고 처리하기
+	/** 6-4. 그룹 신고 처리하기
 	 * @param gNo
 	 * @param dNo
 	 * @return
@@ -579,6 +589,35 @@ public class adminController {
 		if (gResult > 0 && rResult>0) {
 			return "redirect:adminreport.do";
 		} else {
+			return "../common/errorPage";
+		}
+	}
+	
+	/** 6-5. 회원 신고처리하기
+	 * @param mNo
+	 * @param dNo
+	 * @return
+	 */
+	@RequestMapping(value = "memberAndDeclarationStatusChange.do", method = RequestMethod.POST)
+	public String memberAndDeclarationStatusChange(String mNo, String dNo) {
+		Member m = new Member();
+		m.setmStatus("N");
+		m.setmNo(Integer.parseInt(mNo));
+		
+		int mResult = aService.memberStatusChange(m);	// 상태변경 재활용
+		
+		System.out.println("mapper에 잘 다녀왔니?");
+		// 2. 신고 처리 결과 반영
+		if(mResult>0) {
+			int rResult = aService.declarationStatusChange(dNo);	
+			
+			if (mResult > 0 && rResult>0) {
+				return "redirect:adminreport.do";
+			} else {
+				return "../common/errorPage";
+			}
+		}else {
+			System.out.println("상태변경에 실패!");
 			return "../common/errorPage";
 		}
 	}

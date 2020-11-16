@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Follow;
@@ -56,6 +58,12 @@ public interface MypageService {
 	 * @return
 	 */
 	ArrayList<Feed> sBoxfList(StorageBox sb);
+
+	Feed detailFeed(Feed f);
+
+	ArrayList<Photo> selectPhotoList(int fno);
+
+	ArrayList<Reply> selectReplyList(int fno);
 
 
 

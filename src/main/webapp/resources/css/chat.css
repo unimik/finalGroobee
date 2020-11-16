@@ -105,3 +105,19 @@ input:focus{ outline:none;}
 .modal-body>div{height: 60px; border-bottom: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; width: 100%; text-align: center; padding-top: 10px; font-weight: 600;}
 .modal-footer>button{margin-top: 1px;padding-top: 4px;padding-bottom: 4px;background-color: #daf4ed;border: none;font-size: 13px;font-weight: 1000;color: #555555;font-weight: bold;padding-left: 5px;padding-right: 5px;}
 .closeServer{text-align:center; font-weight: bold; color: gray; font-size: 14px;}
+.chatDeleteBtn{margin-top: -5%;
+    margin-left: 285px;
+    width: 25px;
+    cursor: pointer;
+    float: left;
+    background-color: white;
+    padding: 5 0 5 0;
+    border: none;}
+.chatDeleteBtn>img{width:20px; display: block;}
+
+.chat_menu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+#chat_menu_list{ background: white; width: 320px; margin: auto; height: 125px; border-radius: 15px; margin-top:300px;}
+#chat_menu_list ul{ padding:0; margin: 0; }
+#chat_menu_list li{ list-style: none; text-align: center; height: 60px;}
+#chat_menu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
+#chat_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color: #555555;}

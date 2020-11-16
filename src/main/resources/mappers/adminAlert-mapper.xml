@@ -11,7 +11,38 @@
  		<result property="mNo" column="M_NO"/>
  		<result property="dReportDate" column="D_REPORTDATE"/>	
  	</resultMap>
- 	
+ 	<resultMap id="postResultSet" type="Feed">
+		<id property="fNo" column="F_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="fContent" column="F_CONTENT"/>
+		<result property="fWriter" column="F_WRITER"/>
+		<result property="fCreateDate" column="F_CREATE_DATE"/>
+		<result property="fModifyDate" column="F_MODIFY_DATE"/>
+		<result property="fStatus" column="F_STATUS"/>
+		<result property="fLocation" column="F_LOCATION"/>
+		<result property="fOpenScope" column="F_OPEN_SCOPE"/>
+		<result property="fLikeSet" column="F_LIKE_SET"/>
+		<result property="fReplySet" column="F_REPLY_SET"/>
+		<result property="fShareSet" column="F_SHARE_SET"/>
+		<result property="fLikeCnt" column="F_LIKECNT"/>
+		<result property="fReplyCnt" column="F_REPLYCNT"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gName" column="G_NAME"/>
+		
+		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
+	</resultMap>
+	
+		<resultMap id="replyResultSet" type="Reply">
+		<id property="rNo" column="R_NO"/>
+		<result property="mNo" column="M_NO"/>
+		<result property="fNo" column="F_NO"/>
+		<result property="rContent" column="R_CONTENT"/>
+		<result property="rWriterImg" column="R_WRITER_IMG"/>
+		<result property="rWriter" column="R_WRITER"/>
+		<result property="rCreateDate" column="R_CREATE_DATE"/>
+		<result property="rModifyDate" column="R_MODIFLY_DATE"/>
+		<result property="rStatus" column="R_STATUS"/>
+	</resultMap>
  	<resultMap id="memberResultSet" type="Member">
  		<id property="mNo" column="M_NO"/>
  		<result property="userId" column="M_ID"/>
@@ -27,6 +58,30 @@
  		<result property="mLevel" column="M_LEVEL"/>
  		<result property="mIntro" column="M_INTRO"/>
  	</resultMap>
+ 	
+ 	<resultMap id="GroupResultSet" type="Group">
+		<id property="gNo" column="G_NO"/>
+		<result property="gCreator" column="G_CREATOR"/>
+		<result property="gManager" column="G_MANAGER"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gCategory" column="G_CATEGORY"/>
+		<result property="gMax" column="G_MAX"/>
+		<result property="gDate" column="G_DATE"/>
+		<result property="gOpenScope" column="G_OPENSCOPE"/>
+		<result property="gJoinSet" column="G_JOINSET"/>
+		<result property="gQset" column="G_QSET"/>
+		<result property="q1" column="Q1"/>
+		<result property="q2" column="Q2"/>
+		<result property="q3" column="Q3"/>
+		<result property="gIntro" column="G_INTRO"/>
+		<result property="gTag" column="G_TAG"/>
+		<result property="gStatus" column="G_STATUS"/>
+		<result property="gNotice" column="G_NOTICE"/>
+		<result property="gProfile" column="G_PROFILE"/>
+		<result property="gImage" column="G_IMAGE"/>
+		<result property="gRenameProfile" column="G_RENAME_PROFILE"/>
+		<result property="gRenameImage" column="G_RENAME_IMAGE"/>
+	</resultMap>
  	
  	<resultMap id="qusetionResultSet" type="Question">
  		<id property="qNo" column="Q_NO"/>
@@ -57,4 +112,53 @@
  			D_NO = #{dNo}
  	</update>
  	
+ 	<!-- 회원상태 변경 -->
+	<update id="memberStatusChange" parameterType="Member">
+		UPDATE MEMBER 
+		SET
+			M_STATUS = #{mStatus}
+		WHERE 
+			M_NO = #{mNo}
+	</update>
+	
+	<!-- 회원 상세보기 -->
+	<select id="loadMember" parameterType="_int" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE M_NO=#{ number }
+	</select>
+	
+	<!-- group 상태 변경 -->
+	<update id="groupStatusChange" parameterType="Group">
+		UPDATE GROUPS
+		SET
+			G_STATUS = #{gStatus}
+		WHERE 
+			G_NO = #{gNo}
+	</update>
+
+	<!-- group 상세보기 -->
+	<select id="loadGroup" parameterType="_int" resultMap="GroupResultSet">
+		SELECT *
+		FROM GROUPS
+		WHERE G_NO=#{ number }
+	</select>
+	
+			<!-- feed 상태 변경 -->
+	<update id="feedStatusChange" parameterType="Feed">
+		UPDATE FEED 
+		SET
+			F_STATUS = #{fStatus}
+		WHERE 
+			F_NO = #{fNo}
+	</update>
+	
+	<!-- reply 상태 변경 -->
+	<update id="replyStatusChange" parameterType="Reply">
+		UPDATE REPLY 
+		SET
+			R_STATUS = #{rStatus}
+		WHERE 
+			R_NO = #{rNo}
+	</update>
 </mapper>
