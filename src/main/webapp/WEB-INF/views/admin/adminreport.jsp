@@ -131,16 +131,24 @@
 				typeAndNumber:typeAndNumber	
 			},
 			success:function(data){
-				
+				// 상태변경 버튼 보이기 유/무
+				if(rStatus==='Y'){
+					$("#submit_Btn").css("display","none");
+				}else{
+					$("#submit_Btn").css("display","block");			
+				} 
 				
 				var $tableEtc = $("#details_etc_table");
 				var $tableReport = $("#details_report_table");
 				var $tr=$("<tr>");
 				$tableEtc.html("");
 				$tableReport.html("");
-				// 그룹일 때
+				// 1. 그룹일 때
 				var gNo= data.gNo;
-				var status = data.gStatus;
+				
+				// 2. 회원일 때
+				var mNo= data.mNo;
+				var mStatus=data.mStatus;
 				
 				// 신고 정보를 테이블로 만들기
 				
@@ -162,34 +170,68 @@
 					$tableEtc.append($gName);
 					$tableEtc.append($gDate);
 				}
+				// 2. 회원	
+				if(data.mNo !=null){
+					var $mNo = $("<tr><td>").text("1. 회원 번호 : "+ data.mNo);
+					var $userId = $("<tr><td>").text("2. 회원 아이디 : "+data.userId);
+					var $userName = $("<tr><td>").text("3. 회원 이름 : "+ data.userName);
+					var $cDate = $("<tr><td>").text("4. 회원 가입일 : "+data.cDate);
+					
+					
+					$tableEtc.append($mNo);
+					$tableEtc.append($userId);
+					$tableEtc.append($userName);
+					$tableEtc.append($cDate); // mDate가 아니라 cDate임
+				}
 				
-				if(rStatus==='Y'){
-					$("#submit_Btn").css("display","none");
-				}else{
-					$("#submit_Btn").css("display","block");			
-				} 
+
+				
 				//여기서 생성된 버튼을 실행시키면 YN값 변경과 declaration값 변경을 동시에 실행되는 메소드를 만들자 
 				$("#submit_Btn").on("click",function(){
-					$.ajax({
-						url:"groupAndDeclarationStatusChange.do",
-						type:'post',
-						data:{gNo:gNo,
-							 dNo:dNo,
-							status:status},
-						success:function(data){
-							alert("처리하였습니다.");
-							refresh();
-						},
-						error:function(request,status,error){
-							alert("code : "+request.status+"\n"
-									+"message : "+request.responseText+"\n"
-									+"error : "+ error);
-						}
-					});
+					// 1.그룹 상태변경 실행
+					if(data.gNo !=null){
+						$.ajax({
+							url:"groupAndDeclarationStatusChange.do",
+							type:'post',
+							data:{gNo:gNo,
+								 dNo:dNo},
+							success:function(data){
+								alert("처리하였습니다.");
+								refresh();
+							},
+							error:function(request,status,error){
+								alert("code : "+request.status+"\n"
+										+"message : "+request.responseText+"\n"
+										+"error : "+ error);
+							}
+						});
+					}
+					// 2.회원 상태변경 실행
+					if(data.mNo !=null){
+						$.ajax({
+							url:"memberAndDeclarationStatusChange.do",
+							type:'post',
+							data:{mNo:mNo,
+								 dNo:dNo},
+							success:function(data){
+								alert("처리하였습니다.");
+								refresh();
+							},
+							error:function(request,status,error){
+								alert("code : "+request.status+"\n"
+										+"message : "+request.responseText+"\n"
+										+"error : "+ error);
+							}
+						});
+					}
+					
+					
+					
 				})
 			},error:function(){
 				console.log("report 세부사항 불러오기 실패!");
-			}				
+			}	
+			
 		});	
 		
 		// 화면 ON

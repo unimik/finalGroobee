@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.dao.MypageDao;
@@ -88,6 +90,21 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public ArrayList<Feed> sBoxfList(StorageBox sb) {
 		return myDao.sBoxfList(sb);
+	}
+
+	@Override
+	public Feed detailFeed(Feed f) {
+		return myDao.detailFeed(f);
+	}
+
+	@Override
+	public ArrayList<Photo> selectPhotoList(int fno) {
+		return myDao.selectPhotoList(fno);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReplyList(int fno) {
+		return myDao.selectReplyList(fno);
 	}
 
 

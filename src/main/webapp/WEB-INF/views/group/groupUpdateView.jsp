@@ -237,6 +237,7 @@
                     }
                 
                 });
+                
                 $(".group_member").on("click",function(){
                 	getgmList();
                 	

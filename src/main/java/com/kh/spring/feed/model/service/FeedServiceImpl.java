@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.feed.model.dao.FeedDao;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Service("fService")
@@ -69,5 +70,15 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.updatePhoto(p);
 	}
 
+	@Override
+	public int insertReply(Reply r) {
+		return fDao.insertReply(r);
+	}
+
+
+	@Override
+	public Feed popFeed(int fno) {
+		return fDao.popFeed(fno);
+	}
 
 }

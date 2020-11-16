@@ -395,7 +395,6 @@ public class ChatController {
 		chat.setCrNo(crNo);
 		chat.setgNo(gNo);
 		chat.setcNo(cNo);
-		System.out.println(cNo);
 		ArrayList<Chat> cList = cService.groupChatContentLoad(chat);
 		ArrayList<Member> mList = new ArrayList<Member>();
 		for(Chat cc : cList) {
@@ -448,6 +447,42 @@ public class ChatController {
 		c.setgNo(gNo);
 		c.setCrNo(crNo);
 		int result = cService.insertJoinChatRoom(c);
+		if(result > 0) {
+			return "ok";
+		} else {
+			return "fail";
+		}
+	}
+	
+	/**
+	 * - 일대일 채팅방 나가기
+	 * @param crNo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("deleteOneChat.do")
+	public String deleteOneChat(int crNo) {
+		int result = cService.deleteOneChat(crNo);
+		
+		if(result > 0) {
+			return "ok";
+		} else {
+			if(result == -1) {
+				return "chatError";
+			} else if(result == -2) {
+				return "joinRoomError";
+			} else if(result == -3){
+				return "chatRoomError";
+			} else {
+				return "fail";
+			}
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteGroupChat.do")
+	public String deleteGroupChat(Chat c) {
+		int result = cService.deleteGroupChat(c);
 		if(result > 0) {
 			return "ok";
 		} else {

@@ -1,3 +1,5 @@
+<%@page import="com.kh.spring.feed.model.vo.Photo"%>
+<%@page import="com.kh.spring.feed.model.vo.Feed"%>
 <%@page import="com.kh.spring.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -24,6 +26,12 @@
 	#replySub::-webkit-scrollbar{ width: 7px;}
 	#replySub::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
 	#replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
+	#rCount{ width: fit-content; font-size: 10pt; position: absolute; left: 100px; top: 75px; }
+	#replyCon { height: fit-content; width: 55%; }
+	#userId { margin: 9px 15px 0 10px; }
+	#time{ width: 100%; }
+	#rWriterInfo { width: 25%; }
+	#rUpdateMenu{ width: 10%; }
 </style>
 
 </head>
@@ -76,7 +84,7 @@
                     <div id="feed_Mymenu_list">
                         <ul>
                         <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-                        <li><a href="pDelete.do?fNo=${ f.fNo }">삭제</a></li> 
+                        <li><a href="pDelete.do?fNo=${ f.fNo }" class="deleteMyPost">삭제</a></li> 
                         <li><a id="close" class="close">취소</a></li>
                         </ul>
                     </div>
@@ -84,8 +92,6 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-		
-		
 			<div class="feed_report">
 			<div id="feed_report_con">
 				<p>신고사유</p>
@@ -104,11 +110,13 @@
 					<c:if test="${ !empty f.photoList }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-						<ul id="imgList">
-							<c:forEach var="p" items="${ f.photoList }">
+						<c:forEach var="p" items="${ f.photoList }">
+						<c:if test="${ p.changeName ne null }">
+							<ul id="imgList">
 								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-							</c:forEach>
-						</ul>
+							</ul>
+						</c:if>
+						</c:forEach>
 					</c:if>
 				<div id="heart_reply">
 					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
@@ -120,11 +128,15 @@
 
 			</div>
 			<div id="replyArea">
-				<div id="replyList" style="display: block;">
-				<c:forEach var="r" items="${ f.replyList }">
+				<div id="replyList" style="display: block; height: fit-content;">
+				
+				<c:set var="reply" value="${ f.replyList }"/>
 				<c:if test="${ !empty r.rContent }">
 				<div id="replySub" style="display: block; height: 150px; overflow: auto;">
-				<ul id="re_list">
+				</c:if>
+				<c:forEach var="r" items="${ f.replyList }">
+				<c:if test="${ !empty r.rContent }">
+  				<ul id="re_list">
 					<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
 						id="reply_img">&nbsp;&nbsp;&nbsp;
 						<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
@@ -132,9 +144,11 @@
 					<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
 					<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
 				</ul>
-				</div>
 				</c:if>
 				</c:forEach>
+				<c:if test="${ !empty r.rContent }">
+				</div>
+				</c:if>
 				</div>
 
 				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
@@ -149,8 +163,9 @@
 				</div>
 
 				<div id="reply">
-					<input type="text" id="textArea" name="textArea">
-					<input type="button" id="replyBtn" name="replyBtn" value="등록">
+					<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+					<input type="text" id="textArea" class="rContent" name="textArea">
+					<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 				</div>
 			</div>
 		</div>
@@ -159,83 +174,113 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
+	
+	$('.test').on("click", function(event){
+	    var sample = $(event.target).siblings()[1];
+	    $(sample).show();
+	});
+          $('.close').on('click',function(){
+              $('.pop_menu').hide();
+          });
+          $('#feed_report_btn').on("click",function(){
+              $('.feed_report').show();
+          });
+          $('#cancel').on("click",function(){
+              $('.feed_report').hide();
+          });
+          $('#updateBtn').on("click",function(){
+              $('.reply_menu').show();
+          });
+          $('#re_close').on("click",function(){
+              $('.reply_menu').hide();
+          });
+          $('.deleteMyPost').on('click', function () {
+          	confirm('이 포스트를 정말 삭제하시겠습니까?');
+          });
+  	        
+ 	        var size;
+ 	        var idx = idx1 = 0;
+ 	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+ 	        var ul;
+ 	        console.log(count);
+ 	        var liCount;
+ 	        
+ 			for (var i = 1; i <= count; i++){
+ 				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+ 				
+ 				console.log(ul);
+ 				
+ 				if( ul > 1){
+ 	        		$('#nextBtn'+i).css("display","block");
+ 	        		$('#prevBtn'+i).css({"display":"block"});
+ 	        	}
+ 				
+ 				
+ 				$('#prevBtn'+i).on("click",function(){
+     	  			size = $(this).nextAll().children('li').length;
+     	  			console.log(size);
+     	  			
+     	  			if(size > 1){
+     	  				idx1 = (idx-1) % size;
+     	  				if(idx1 < 0)
+     	  					idx1 = size - 1;
+     	  					
+     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+     	  						$(this).css("display","none").css("left","-633px");
+     	  					});
+     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+     	  					idx = idx1;
+     	  			}
+     	  		});
+ 				
+ 				$('#nextBtn'+i).on("click",function(){
+     	  			size = $(this).nextAll().children('li').length;
+     	  			console.log(size);
+     	  			
+     	  			if( size > 1){
+     	  				idx1 = (idx + 1) % size;
+     	  				$(this).nextAll().children('li:hidden').css("left","633px");
+     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+     	  					$(this).css("display","none").css("left","633px");
+     	  				});
+     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+     	  				idx = idx1;
+     	  			}
+     	  				
+     	  			
+     	  		});	
+ 				
+ 			}
+ 			
+	$(function() {
+		
+		// 댓글 등록
+		$(".replyUpBtn").on("click", function(event) {
+			var rContent = event.target.parentElement.children[1].value;
+			var rfNo = event.target.parentElement.children[0].value;
+			var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
 			
-			$('.test').on("click", function(event){
-			    var sample = $(event.target).siblings()[1];
-			    $(sample).show();
+			$.ajax({
+				url: "addReply.do",
+				data: {
+					rContent: rContent,
+					rfNo: rfNo,
+					rWriter: rWriter
+				},
+				type: "post",
+				success: function(data) {	// 성공 시: success, 실패 시: fail
+					if(data == "success") {
+						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+						location.href="home.do?userId="+rWriter;
+					}
+				}, error: function() {
+					console.log("전송 실패");
+				}
 			});
-            $('.close').on('click',function(){
-                $('.pop_menu').hide();
-            });
-            $('#feed_report_btn').on("click",function(){
-                $('.feed_report').show();
-            });
-            $('#cancel').on("click",function(){
-                $('.feed_report').hide();
-            });
-            $('#updateBtn').on("click",function(){
-                $('.reply_menu').show();
-            });
-            $('#re_close').on("click",function(){
-                $('.reply_menu').hide();
-            });
-    	        
-    	        var size;
-    	        var idx = idx1 = 0;
-    	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
-    	        var ul;
-    	        console.log(count);
-    	        var liCount;
-    	        
-    			for (var i = 1; i <= count; i++){
-    				ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
-    				
-    				console.log(ul);
-    				
-    				if( ul > 1){
-    	        		$('#nextBtn'+i).css("display","block");
-    	        		$('#prevBtn'+i).css({"display":"block"});
-    	        	}
-    				
-    				
-    				$('#prevBtn'+i).on("click",function(){
-        	  			size = $(this).nextAll().children('li').length;
-        	  			console.log(size);
-        	  			
-        	  			if(size > 1){
-        	  				idx1 = (idx-1) % size;
-        	  				if(idx1 < 0)
-        	  					idx1 = size - 1;
-        	  					
-        	  					$(this).nextAll().children('li:hidden').css("left","-633px");
-        	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
-        	  						$(this).css("display","none").css("left","-633px");
-        	  					});
-        	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
-        	  					idx = idx1;
-        	  			}
-        	  		});
-    				
-    				$('#nextBtn'+i).on("click",function(){
-        	  			size = $(this).nextAll().children('li').length;
-        	  			console.log(size);
-        	  			
-        	  			if( size > 1){
-        	  				idx1 = (idx + 1) % size;
-        	  				$(this).nextAll().children('li:hidden').css("left","633px");
-        	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-        	  					$(this).css("display","none").css("left","633px");
-        	  				});
-        	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-        	  				idx = idx1;
-        	  			}
-        	  				
-        	  			
-        	  		});
-    				
-    				
-    			}
-    			// 좋아요 알람
+		});
+	});
+ 			// 좋아요 알람
     			$(".likeIcon").on('click',function(e){
     				console.log("likeicon 클릭");
     				$(e.target).attr('src','/spring/resources/icons/heart_red.png');
@@ -245,9 +290,6 @@
     				sendAlram("상관없음",toId,"like",toNo);
     				console.log("상관없음",toId,"like",toNo);
     			})
-        
-    	
-    	
     </script>
     
 </body>

@@ -157,4 +157,28 @@ public class ChatDao {
 		return (ArrayList)sqlSession.selectList("chatMapper.groupChatContentLoad",c);
 	}
 
+	public int deleteOneChat(int crNo) {
+		int chatResult = sqlSession.delete("chatMapper.chatDelete", crNo);
+		if(chatResult > 0) {
+			int joinResult = sqlSession.delete("chatMapper.joinDelete",crNo);
+			if(joinResult > 0) {
+				int chatRoomResult = sqlSession.delete("chatMapper.chatRoomDelete",crNo);
+				if(chatResult > 0) {
+					return chatRoomResult;
+				} else {
+					return -3;
+				}
+			} else {
+				return -2;
+			}
+		} else {
+			return -1;
+		}
+	}
+
+	public int deleteGroupChat(Chat c) {
+		int result = sqlSession.delete("chatMapper.groupJoinDelete", c);
+		return result;
+	}
+
 }

@@ -64,16 +64,16 @@
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
                     position: relative; right: 30px; /* display: none; */ }
-        .postbox_text{padding:30px 50px; font-weight: 600;}
+        .postbox_text{padding:30px 50px; font-weight: 600; width: 500px; text-align:center; }
         #showfeed{ margin:0;padding:0; text-align:center; height:40px;}
         #showfeed{ list-style:none;}
-
-        
         #selectRtype{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
   		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
   		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 		#report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
-
+		.imgbtn{  z-index:5;border: 0; background: none; cursor: pointer;outline:none;}
+		button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+		button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
    </style>
 </head>
 <body>
@@ -143,7 +143,7 @@
                                 	</c:otherwise>
                                 </c:choose>
                                 <li><a id="myFeed_message_btn">메세지</a></li> 
-                                <li><a id="close">취소</a></li>
+                                <li><a id="pop_close">취소</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -235,11 +235,16 @@
 	                    	<div class="follow_list">
 		                    	<c:forEach var="followingList" items="${ followingList }">
 	                    		<ul>
-	                    		   <c:url var="goMypage" value="goMypage.do">
+	                    		   <c:url var="goUserPage" value="goUserpage.do">
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
                                    <c:if test="${ !empty followingList.mNo }">
+	                    		   		<c:if test="${ loginUser.userId eq followingList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   		</c:if>
+                                   		<c:if test="${ loginUser.userId ne followingList.userId }">
 	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">
 	                    		   		<li>팔로우가 없습니다. </li>
@@ -277,13 +282,14 @@
 	                    		</c:when>
 	                    		<c:otherwise>
 			                        <c:forEach var="feedlist" items="${ feedList }">
+			                        <input type="hidden" id="fNo" name="fNo" value="${ feedlist.fNo }">
 			                        <div class="post">
 			                            <c:choose>
 			                                 <c:when test="${!empty feedlist.thumbnail }">
-			                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button">
+			                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" onclick="goDetail(${ feedlist.fNo })">
 			                                 </c:when>
 			                                 <c:otherwise>
-			                                     <div class="postbox" name="postbox">
+			                                     <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
 			                                         <div type="button" id="pb2">
 			                                             <text>${ feedlist.fContent }</text>
 			                                         </div>
@@ -297,201 +303,10 @@
                     	</c:if>
                     <!-- 포스트박스 클릭 시 -->
                         <div class="pop_feed">
-                            <div class="feed_delete">
-                                <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
-                            </div>
-                            <div id="writer_submenu">
-                                <img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-                                <div id="user_time">
-                                    <p id="feed_id">user01</p>
-                                    <h6>1시간 전</h6>
-                                </div>  
-                                <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="feed_menu">
-                            </div>
-                            <!-- 다른 회원 글 볼 때 피드 메뉴 -->
-                            <div class="pop_menu">
-                                <div id="feed_menu_list">
-                                    <ul>
-                                    <li><a id="feed_report_btn">신고</a></li> 
-                                    <li><a>공유하기</a></li> 
-                                    <li><a>보관함</a></li> 
-                                    <li><a id="close">취소</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="feed_report">
-                                <div id="feed_report_con">
-                                    <p>신고 사유</p>
-                                    <select style=>
-                                        <option>부적절한 게시글</option>
-                                        <option>욕설</option>
-                                        <option>광고</option>
-                                        <option>도배</option>
-                                    </select>
-                                    <br>
-                                    <input type="button" id="submit" name="submit" value="확인">
-                                    <button id="cancel">취소</button>
-                                </div>
-                            </div>
-                            <div id="con">
-                                <div id="feed_content">
-                                    <img src="<%=request.getContextPath()%>/resources/images/IMG_7572.JPG" alt="" id="input_img">
-                                    <p id="text">맛있게 먹었던 피짜~~~!</p>
-                                    <ul id="tag">
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                        <li>#피자</li>
-                                        <li>#강남역</li>
-                                        <li>#피자맛집</li>
-                                    </ul>
-                                     <div id="heart_reply">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/heart.png" type="button" alt="" id="likeIcon">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/bubble.png" type="button" alt="" id="replyIcon">
-                                    </div>
-                                </div>
-                                <div id="replyArea">
-                                    <div id="replyList">
-                                        <ul id="re_list">
-                                            <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">user01</p></li>
-                                            <li><p id="replyCon">맛있겠다... 여기 어디인가요?? 대박 정보 좀....</p></li>
-                                            <li><p id="time">1시간 전</p></li>
-                                            <li><img src="<%=request.getContextPath()%>/resources/icons/replyMenu.png" type="button" alt="" id="updateBtn"></li>
-                                        </ul>
-                                    </div>
-                                    <!-- 남이 단 댓글 볼 때 댓글 메뉴 -->
-                                    <div class="reply_menu">
-                                        <div id="re_menu_list">
-                                            <ul>
-                                                <li><a>댓글 수정</a></li>
-                                                <li><a>댓글 삭제</a></li>
-                                                <li><a id="re_close">취소</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-        
-                                    <div id="reply">
-                                        <input type="text" id="textArea" name="textArea">
-                                        <input type="button" id="replyBtn" name="replyBtn" value="등록">
-                                    </div>
-                                </div> 
-                            </div>
+                            
                         </div>
 
-                    <!-- 포스트박스 클릭 시2 -->
-                        <div class="pop_feed2">
-                            <div class="feed_delete">
-                                <img src="<%=request.getContextPath()%>/resources/icons/close_white.png" type="button">
-                            </div>
-                            <div id="writer_submenu">
-                                <img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-                                <div id="user_time">
-                                    <p id="feed_id">user01</p>
-                                    <h6>1시간 전</h6>
-                                </div>  
-                                <img src="<%=request.getContextPath()%>/resources/icons/feed_menu.png" alt="" id="feed_menu">
-                            </div>
-                            <!-- 다른 회원 글 볼 때 피드 메뉴 -->
-                            <div class="pop_menu">
-                                <div id="feed_menu_list">
-                                    <ul>
-                                    <li><a id="feed_report_btn">신고</a></li> 
-                                    <li><a>공유하기</a></li> 
-                                    <li><a>보관함</a></li> 
-                                    <li><a id="close">취소</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="feed_report">
-                                <div id="feed_report_con">
-                                    <p>신고 사유</p>
-                                    <select style=>
-                                        <option>부적절한 게시글</option>
-                                        <option>욕설</option>
-                                        <option>광고</option>
-                                        <option>도배</option>
-                                    </select>
-                                    <br>
-                                    <input type="button" id="submit" name="submit" value="확인">
-                                    <button id="cancel">취소</button>
-                                </div>
-                            </div>
-                            <div id="con">
-                                <div id="feed_content">
-                                    <!-- <img src="" alt="" id="input_img"> -->
-                                    <div id="heart_reply">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/heart.png" type="button" alt="" id="likeIcon">
-                                        <img src="<%=request.getContextPath()%>/resources/icons/bubble.png" type="button" alt="" id="replyIcon">
-                                    </div>
-                                    <p id="text">피자 먹고 싶당 치킨 먹고 싶당</p>
-                                    <ul id="tag">
-                                        <li>#피자</li>
-                                        <li>#치킨</li>
-                                        <li>#맥주</li>
-                                        <li>#콜라</li>
-                                        <li>#피자</li>
-                                        <li>#치킨</li>
-                                        <li>#맥주</li>
-                                        <li>#콜라</li>
-                                        <li>#피자</li>
-                                        <li>#치킨</li>
-                                        <li>#맥주</li>
-                                        <li>#콜라</li>
-                                        <li>#피자</li>
-                                        <li>#치킨</li>
-                                        <li>#맥주</li>
-                                        <li>#콜라</li>
-                                    </ul>
-                                </div>
-                                <div id="replyArea">
-                                    <div id="replyList">
-                                        <ul id="re_list">
-                                            <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">pizza11</p></li>
-                                            <li><p id="replyCon">당장 나와</p></li>
-                                            <li><p id="time">1분 전</p></li>
-                                            <li><img src="<%=request.getContextPath()%>/resources/icons/replyMenu.png" type="button" alt="" id="updateBtn"></li>
-                                        </ul>
-                                        <ul id="re_list">
-                                            <li><img src="<%=request.getContextPath()%>/resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">honeybee</p></li>
-                                            <li><p id="replyCon">다이어트 한다며......</p></li>
-                                            <li><p id="time">39분 전</p></li>
-                                            <li><img src="<%=request.getContextPath()%>/resources/icons/replyMenu.png" type="button" alt="" id="updateBtn"></li>
-                                        </ul>
-                                    </div>
-                                    <!-- 남이 단 댓글 볼 때 댓글 메뉴 -->
-                                    <div class="reply_menu">
-                                        <div id="re_menu_list">
-                                            <ul>
-                                                <li><a>댓글 수정</a></li>
-                                                <li><a>댓글 삭제</a></li>
-                                                <li><a id="re_close">취소</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-        
-                                    <div id="reply">
-                                        <input type="text" id="textArea" name="textArea">
-                                        <input type="button" id="replyBtn" name="replyBtn" value="등록">
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-                    </table>
+                   
                 </div>
             </div>
         </div>
@@ -668,7 +483,7 @@
                      $('.storageBox_subBtn4').show(); */
                      
                      var input="";
-                     input += "<td class='storageBox_folder'>";<%-- <img src="<%=request.getContextPath()%>/resources/icons/folder.png" type='button'>"; --%>
+                     input += "<td class='storageBox_folder'>";<%-- <img src="../resources/icons/folder.png" type='button'>"; --%>
                      input += "<table>";
                      input += "<tr class='storagebox'>";
                         input += "<td class='folder_default' align='center'>";
@@ -715,6 +530,7 @@
                alert(msg);
             } 
          });
+         
            
         });
         
@@ -785,6 +601,183 @@
 
         /************ 포스트 박스 클릭 시 script ************/
 
+        function goDetail(fNo){
+        	   var mNo = $('#follow').val();
+               $.ajax({
+                  url:"goDetail.do",
+                  dataType:"json",
+                  data:{mNo: mNo,fNo : fNo},
+                  type:"post",
+                  success:function(data){
+                    
+                	  var input="";
+                      input += "<div class='feed_delete'>";
+                      input += "<img src='${ contextPath }/resources/icons/close_white.png' type='button'>";
+                      input += "</div>";
+	                  input += "<div id='writer_submenu'>";
+	                  if(data.mImage != null){
+	                    input += "<img src='${ contextPath }/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
+	                  } else {
+	                    input += "<img src='${ contextPath }/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
+	                  }
+		              input += "<div id='user_time'>";
+		              input += "<p id='feed_id'>"+data.fWriter+"</p>";
+		              input += "<h6>"+data.fCreateDate+"</h6>";
+		              input += "</div>";
+		              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu'>";
+		              input += "</div>";
+		              <!-- 다른 회원 글 볼 때 피드 메뉴 -->
+		              input +="<div class='pop_menu'>";
+		              input +="<div id='feed_menu_list'>";
+		              input +="<ul>";
+		              input +="<li><a id='feed_report_btn'>신고</a></li>"; 
+		              input +="<li><a>공유하기</a></li>"; 
+		              input +="<li><a>보관함</a></li>";
+		              input +="<li><a id='close'>취소</a></li>";
+		              input +="</ul>";
+		              input +="</div>";
+		              input +="</div>";
+		              input +="<div class='feed_report'>";
+		              input +="<div id='feed_report_con'>";
+		              input +="<p>신고 사유</p>";
+		              input +="<select>";
+		              input +="<option>부적절한 게시글</option>";
+		              input +="<option>욕설</option>";
+		              input +="<option>광고</option>";
+		              input +="<option>도배</option>";
+		              input +="</select>";
+		              input +="<br>";
+		              input +="<input type='button' id='submit' name='submit' value='확인'>";
+		              input +="<button id='cancel'>취소</button>";
+		              input +="</div>";
+		              input +="</div>";
+		              input +="<div id='con'>";
+				      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+					  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+					  input +="<ul id='imgList'>";
+					  input +="</ul>";
+		              input +="<div id='feed_content'>";
+		              
+		         	var size;
+		  	        var idx = idx1 = 0;
+		  	       // var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
+		  	        var ul;
+		  	        //console.log(count);
+		  	        var liCount;
+		  	        
+	  				if( data.photoList.length > 1){
+	  	        		$('#nextBtn'+i).css("display","block");
+	  	        		$('#prevBtn'+i).css({"display":"block"});
+	  	        	}
+ 		            	// ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
+ 		  				
+ 		  				//console.log(ul);
+ 		  				
+ 		  				
+ 		  			/* 	
+ 		  				$('#prevBtn'+i).on("click",function(){
+ 		      	  			size = $(this).nextAll().children('li').length;
+ 		      	  			console.log(size);
+ 		      	  			
+ 		      	  			if(size > 1){
+ 		      	  				idx1 = (idx-1) % size;
+ 		      	  				if(idx1 < 0)
+ 		      	  					idx1 = size - 1;
+ 		      	  					
+ 		      	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+ 		      	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+ 		      	  						$(this).css("display","none").css("left","-633px");
+ 		      	  					});
+ 		      	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+ 		      	  					idx = idx1;
+ 		      	  			}
+ 		      	  		});
+ 		  				
+ 		  				$('#nextBtn'+i).on("click",function(){
+ 		      	  			size = $(this).nextAll().children('li').length;
+ 		      	  			console.log(size);
+ 		      	  			
+ 		      	  			if( size > 1){
+ 		      	  				idx1 = (idx + 1) % size;
+ 		      	  				$(this).nextAll().children('li:hidden').css("left","633px");
+ 		      	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+ 		      	  					$(this).css("display","none").css("left","633px");
+ 		      	  				});
+ 		      	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+ 		      	  				idx = idx1;
+ 		      	  			} */
+		            	
+		              for(var i=0; i<data.photoList.length; i++){
+						  if(data.photoList[i].changeName != null){
+			            	  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
+			            	  }
+		              }
+		              input +="<p id='text'>"+data.fcontent+"</p>";
+		              input +="<ul id='tag'>";
+		              input +="<li>#피자</li>";
+		              input +="</ul>";
+		              input +="<div id='heart_reply'>";
+		              input +="<img src='${ contextPath }/resources/icons/heart.png' type='button' alt='' id='likeIcon'>";
+		              input +="<img src='${ contextPath }/resources/icons/bubble.png' type='button' alt='' id='replyIcon'>";
+		              input +="</div>";
+		              input +="</div>";
+		              for(var i=0;i<data.replyList.length;i++){
+		                  input +="<div id='replyArea'>";
+		                  input +="<div id='replyList'>";
+		                  input +="<ul id='re_list'>";
+		            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
+			              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
+			              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
+			              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";
+			              input +="</ul>";
+			              input +="</div>";
+			              input +="<div class='reply_menu'>";
+			              input +="<div id='re_menu_list'>";
+			              input +="<ul>";
+			              input +="<li><a>댓글 수정</a></li>";
+			              input +="<li><a>댓글 삭제</a></li>";
+			              input +="<li><a id='re_close'>취소</a></li>";
+			              input +="</ul>";
+			          	  input +="</div>";
+		                  input +="</div>";
+		              }
+		              input +="<div id='reply'>";
+		              input +="<input type='text' id='textArea' name='textArea'>";
+		              input +="<input type='button' id='replyBtn' name='replyBtn' value='등록'>";
+		              input +="</div>";
+		              input +="</div>";
+		              input +="</div>";
+
+                        
+                      $(".pop_feed").html(input);
+          	 		  $(".pop_feed").show();
+
+          	        $('.feed_delete').click(function() {
+          	            $(".pop_feed").hide();
+          	        });
+
+                  	}, error:function(request,jqXHR,exception){
+	                     var msg="";
+	                     if(request.status == 0){
+	                        msg = 'Not Connect. \n Verify Network.';
+	                     } else if(request.status == 404){
+	                        msg = 'Requested page not fount [404]';
+	                     } else if(request.status == 500){
+	                        msg = 'Internal Server Error [500]';
+	                     } else if(request.status == 'parsererror'){
+	                        msg = 'Requested JSON parse failed';
+	                     } else if(exception == 'timeout'){
+	                        msg = 'Time out error';
+	                     } else if(exception == 'abort'){
+	                        msg = 'Ajax request aborted';
+	                     } else {
+	                        msg = 'Error. \n' + jqXHR.responseText;
+	                     }
+	                     alert(msg);
+	                  } 
+               	});
+        }
+        
         $('#pb1').click(function() {
             $(".pop_feed").show();
         });
@@ -794,13 +787,11 @@
         }).mouseleave(function() {
             $(this).css({'background' : 'none'});
         }).click(function() {
-            $(".pop_feed2").show();
+            $(".pop_feed").show();
         });
+	 		  
 
-        $('.feed_delete').click(function() {
-            $(".pop_feed2").hide();
-            $(".pop_feed").hide();
-        });
+
 
 
 
@@ -809,10 +800,13 @@
         $('#details_btn').on("click", function(){
             $('.myFeed_popup_others').show();
         });
-
-        $('#close').on('click', function(){
+        
+        
+        $('#pop_close').on('click', function(){
             $('.myFeed_popup_others').hide();
         });
+
+
 
         $('#myFeed_report_btn').on("click", function(){
             $('.feed_report').show();
@@ -891,12 +885,7 @@
        	
        	 $("#cancel").on('click',function(){
        		$("#reportContent").val("");
-       		 
-       		$("#reportContent").css("display","none"); // 세부 항목
-       		$("#report-submit").css("display","none"); // 세부 항목 확인버튼 
-       		$("#selectRtype").css("display","none"); // 셀렉트 확인버튼
-       		$("#reportType").css("display","none"); // 셀렉트
-       		
+
        		$(".feed_report").css('display','none'); // 전체창 끄기
        	})
        	
