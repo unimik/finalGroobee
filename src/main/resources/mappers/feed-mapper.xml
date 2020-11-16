@@ -207,6 +207,14 @@
 		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriterImg}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY
+		SET R_WRITER_IMG = #{rWriterImg}
+		  , R_CONTENT = #{rContent}
+		  , R_MODIFLY_DATE = SYSDATE
+		WHERE R_NO = #{rNo}
+	</update>
+	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY

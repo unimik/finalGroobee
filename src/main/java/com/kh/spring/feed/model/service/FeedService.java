@@ -48,6 +48,12 @@ public interface FeedService {
 	 * @return
 	 */
 	int insertReply(Reply r);
+
+	/**
+	 * 3_2. 댓글 수정
+	 * @return
+	 */
+	int updateReply(Reply r);
 	
 	/**
 	 *  가입한 그룹 조회

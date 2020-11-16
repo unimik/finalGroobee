@@ -28,7 +28,7 @@
 	#replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
 	#rCount{ width: fit-content; font-size: 10pt; position: absolute; left: 100px; top: 75px; }
 	#replyCon { height: fit-content; width: 55%; }
-	#userId { margin: 9px 15px 0 10px; }
+	#userId { margin: 9px 10px 0 10px; }
 	#time{ width: 100%; }
 	#rWriterInfo { width: 25%; }
 	#rUpdateMenu{ width: 10%; }
@@ -131,9 +131,9 @@
 				<div id="replyList" style="display: block; height: fit-content;">
 				
 				<c:set var="reply" value="${ f.replyList }"/>
-				<c:if test="${ !empty r.rContent }">
+				<!-- 나중에 f.fReplyCnt > 0 로 수정 -->
+				<c:if test="${ !empty reply }">
 				<div id="replySub" style="display: block; height: 150px; overflow: auto;">
-				</c:if>
 				<c:forEach var="r" items="${ f.replyList }">
 				<c:if test="${ !empty r.rContent }">
   				<ul id="re_list">
@@ -141,12 +141,11 @@
 						id="reply_img">&nbsp;&nbsp;&nbsp;
 						<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 					<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
-					<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-					<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+					<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
+					<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 				</ul>
 				</c:if>
 				</c:forEach>
-				<c:if test="${ !empty r.rContent }">
 				</div>
 				</c:if>
 				</div>
@@ -155,9 +154,9 @@
 				<div class="reply_menu">
 					<div id="re_menu_list">
 						<ul>
-							<li><a>댓글 수정</a></li>
-							<li><a>댓글 삭제</a></li>
-							<li><a id="re_close">취소</a></li>
+							<li><a class="rEdit">댓글 수정</a></li>
+							<li><a class="rDelete">댓글 삭제</a></li>
+							<li><a id="re_close" class="rClose">취소</a></li>
 						</ul>
 					</div>
 				</div>
@@ -188,10 +187,10 @@
           $('#cancel').on("click",function(){
               $('.feed_report').hide();
           });
-          $('#updateBtn').on("click",function(){
+          $('.rUpBtn').on("click",function(){
               $('.reply_menu').show();
           });
-          $('#re_close').on("click",function(){
+          $('.rClose').on("click",function(){
               $('.reply_menu').hide();
           });
           $('.deleteMyPost').on('click', function () {
@@ -253,9 +252,9 @@
  				
  			}
  			
+	/**************** 댓글 등록 ****************/
 	$(function() {
 		
-		// 댓글 등록
 		$(".replyUpBtn").on("click", function(event) {
 			var rContent = event.target.parentElement.children[1].value;
 			var rfNo = event.target.parentElement.children[0].value;
@@ -278,9 +277,40 @@
 					console.log("전송 실패");
 				}
 			});
+			
+			confirm("댓글을 등록하시겠습니까?");
 		});
+ 	
+	$('.rUpBtn').on("click", function(e) {
+/* 		var rContent = e.target.parentElement.children[1].value; */
+		var rfNo = e.target.parentElement.children[0].value;
+		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
+		
+		var replyContent = e.target.parentElement.parentElement.parentElement.previousSibling.parentElement.children[0].children[0].children[1].innerText;
+		var edit = '<input type="text" class="editReply" value="'+ ${replyContent} +'" minlength="1">';
+		
+		$('.rEdit').on("click", function(e) {
+			$.ajax({
+				url: "editReply.do",
+				data: {
+					rContent: replyContent,
+					rfNo: rfNo,
+					rWriter: rWriter
+				},
+				type: "post",
+				success: function(data) {	// 성공 시: success, 실패 시: fail
+					if(data == "success") {
+						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+						location.href="home.do?userId="+rWriter;
+					}
+				}, error: function() {
+					console.log("전송 실패");
+				}
+			});
+		});
+		
 	});
- 			
+	});
     </script>
     
 </body>

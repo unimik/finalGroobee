@@ -149,7 +149,6 @@ public class FeedController {
 		Member mem = (Member)session.getAttribute("loginUser");
 		
 		// 파일 업로드 부분
-		
 		List<MultipartFile> fileList = multi.getFiles("reloadFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
@@ -251,7 +250,10 @@ public class FeedController {
 	@RequestMapping("addReply.do")
 	public String addReply(Reply r, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
+		r.setrWriter(mem.getUserId());
 		r.setrWriterImg(mem.getmRenameImage());
+		System.out.println("댓글 글쓴이 : " + mem.getUserId());
+		System.out.println("댓글 글쓴이2 : " + r.getrWriter());
 		System.out.println("Reply Check : " +r);
 		System.out.println("rfNo" + rfNo);
 		
@@ -263,6 +265,33 @@ public class FeedController {
 		System.out.println("reply_fNo : " + r.getfNo());
 		System.out.println("reply_rNo : " + r.getrNo());
 		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("editReply.do")
+	public String editReply(Reply r, HttpSession session, int rfNo) {
+		Member mem = (Member)session.getAttribute("loginUser");
+		r.setrWriter(mem.getUserId());
+		r.setrWriterImg(mem.getmRenameImage());
+		System.out.println("수정 댓글 글쓴이 : " + mem.getUserId());
+		System.out.println("수정 댓글 글쓴이2 : " + r.getrWriter());
+		System.out.println("수정 Reply Check : " +r);
+		System.out.println("수정 rfNo : " + rfNo);
+		
+		r.setfNo(rfNo);
+		r.setmNo(mem.getmNo());
+		
+		int result = fService.updateReply(r);
+		
+		System.out.println("수정 reply_fNo : " + r.getfNo());
+		System.out.println("수정 reply_rNo : " + r.getrNo());
+		System.out.println("수정 reply_rWriterImg : " + r.getrWriterImg());
 		
 		if(result > 0) {
 			return "success";
