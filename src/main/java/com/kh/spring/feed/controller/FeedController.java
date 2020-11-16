@@ -273,10 +273,17 @@ public class FeedController {
 		System.out.println("f : " + fService.selectUpdateFeed(fNo));
 		System.out.println("p : " + p);
 		
+		//태그 있으면 삭제 없으면 안삭제
+		int tagCnt = fService.selectTag(fNo);
+		if(tagCnt > 0) {
+			int tag = fService.deleteTag(fNo);
+		}
+
 		if(f.getPhotoList() != null) {	// 첨부파일이 있으면
 			deleteFile(p.getChangeName(), request);	// 첨부파일 삭제
 		}
 		int result = fService.deletePost(fNo);
+		
 		
 		if(result > 0) {
 			return "redirect:home.do?userId=" + mem.getUserId();
