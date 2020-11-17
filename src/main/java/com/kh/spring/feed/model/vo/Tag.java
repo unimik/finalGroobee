@@ -13,6 +13,8 @@ public class Tag implements Serializable {
 	private String fTag;
 
 	public Tag() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public Tag(int fNo, String fTag) {

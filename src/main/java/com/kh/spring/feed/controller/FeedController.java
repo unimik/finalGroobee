@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,6 @@ import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
-import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
@@ -52,6 +50,7 @@ public class FeedController {
 
 		System.out.println(gn.getgNo());
 		int result = fService.insertPost(f);
+		
 		Member mem = (Member)session.getAttribute("loginUser");
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
@@ -101,21 +100,6 @@ public class FeedController {
 			System.out.println(originalFileName);
 		}
 		
-		//태그 인서트
-		String[] strarr = f.getfContent().split(" |\\n");
-		ArrayList<Tag> taglist = new ArrayList<Tag>();
-		for(int i = 0; i < strarr.length; i++) {
-			if(strarr[i].charAt(0) == '#') {
-				Tag t = new Tag(f.getfNo(),strarr[i]);
-				taglist.add(t);
-			}
-		}
-	
-		if(!taglist.isEmpty()) {
-			int resultTag = fService.insertTag(taglist);
-//			System.out.println(resultTag); // 성공해도 -1나옴 왜...
-		}
-		
 		
 		if(result > 0) {
 			return "redirect:home.do?userId=" + mem.getUserId();
@@ -161,32 +145,11 @@ public class FeedController {
 		int result = fService.updatePost(f);
 		System.out.println(f.getfNo());
 		System.out.println(result);
-
-		// 태그 삭제 
-		int tagCnt = fService.selectTag(f.getfNo());
-		if(tagCnt > 0) {
-			int tag = fService.deleteTag(f.getfNo());
-		}
-
-		//태그 인서트
-		String[] strarr = f.getfContent().split(" |\\n");
-		ArrayList<Tag> taglist = new ArrayList<Tag>();
-		for(int i = 0; i < strarr.length; i++) {
-			if(strarr[i].charAt(0) == '#') {
-				Tag t = new Tag(f.getfNo(),strarr[i]);
-				taglist.add(t);
-			}
-		}
-	
-		if(!taglist.isEmpty()) {
-			int resultTag = fService.insertTag(taglist);
-			System.out.println("인서트 태그"+resultTag);
-		}
 		
 		Member mem = (Member)session.getAttribute("loginUser");
 		
-
 		// 파일 업로드 부분
+		
 		List<MultipartFile> fileList = multi.getFiles("reloadFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
@@ -272,17 +235,10 @@ public class FeedController {
 		System.out.println("f : " + fService.selectUpdateFeed(fNo));
 		System.out.println("p : " + p);
 		
-		//태그 있으면 삭제 없으면 안삭제
-		int tagCnt = fService.selectTag(fNo);
-		if(tagCnt > 0) {
-			int tag = fService.deleteTag(fNo);
-		}
-
 		if(f.getPhotoList() != null) {	// 첨부파일이 있으면
 			deleteFile(p.getChangeName(), request);	// 첨부파일 삭제
 		}
 		int result = fService.deletePost(fNo);
-		
 		
 		if(result > 0) {
 			return "redirect:home.do?userId=" + mem.getUserId();
@@ -295,10 +251,7 @@ public class FeedController {
 	@RequestMapping("addReply.do")
 	public String addReply(Reply r, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
-		r.setrWriter(mem.getUserId());
 		r.setrWriterImg(mem.getmRenameImage());
-		System.out.println("댓글 글쓴이 : " + mem.getUserId());
-		System.out.println("댓글 글쓴이2 : " + r.getrWriter());
 		System.out.println("Reply Check : " +r);
 		System.out.println("rfNo" + rfNo);
 		
@@ -310,33 +263,6 @@ public class FeedController {
 		System.out.println("reply_fNo : " + r.getfNo());
 		System.out.println("reply_rNo : " + r.getrNo());
 		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
-		
-		if(result > 0) {
-			return "success";
-		}else {
-			return "fail";
-		}
-	}
-	
-	@ResponseBody
-	@RequestMapping("editReply.do")
-	public String editReply(Reply r, HttpSession session, int rfNo) {
-		Member mem = (Member)session.getAttribute("loginUser");
-		r.setrWriter(mem.getUserId());
-		r.setrWriterImg(mem.getmRenameImage());
-		System.out.println("수정 댓글 글쓴이 : " + mem.getUserId());
-		System.out.println("수정 댓글 글쓴이2 : " + r.getrWriter());
-		System.out.println("수정 Reply Check : " +r);
-		System.out.println("수정 rfNo : " + rfNo);
-		
-		r.setfNo(rfNo);
-		r.setmNo(mem.getmNo());
-		
-		int result = fService.updateReply(r);
-		
-		System.out.println("수정 reply_fNo : " + r.getfNo());
-		System.out.println("수정 reply_rNo : " + r.getrNo());
-		System.out.println("수정 reply_rWriterImg : " + r.getrWriterImg());
 		
 		if(result > 0) {
 			return "success";
