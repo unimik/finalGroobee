@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.group.model.vo.GroupName;
@@ -48,6 +49,12 @@ public interface FeedService {
 	 * @return
 	 */
 	int insertReply(Reply r);
+
+	/**
+	 * 3_2. 댓글 수정
+	 * @return
+	 */
+	int updateReply(Reply r);
 	
 	/**
 	 *  가입한 그룹 조회
@@ -86,6 +93,27 @@ public interface FeedService {
 	 * @return
 	 */
 	Feed popFeed(int fno);
+	
+	/**
+	 * 태그 넣기
+	 * @param taglist
+	 * @return
+	 */
+	int insertTag(ArrayList<Tag> taglist);
+	
+	/**
+	 * 태그 있나 없나 확인하기
+	 * @param getfNo
+	 * @return
+	 */
+	int selectTag(int getfNo);
+	
+	/**
+	 * 태그 삭제 
+	 * @param getfNo
+	 * @return
+	 */
+	int deleteTag(int getfNo);
 
 
 }

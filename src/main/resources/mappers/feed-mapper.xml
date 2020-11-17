@@ -103,6 +103,11 @@
 		<result property="gmId" column="GM_ID"/>
 	</resultMap>
 	
+	<resultMap type="Tag" id="TagResultSet">
+		<result property="fNo" column="F_NO"/>
+		<result property="fTag" column="F_TAG"/>
+	</resultMap>
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -207,6 +212,14 @@
 		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriterImg}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY
+		SET R_WRITER_IMG = #{rWriterImg}
+		  , R_CONTENT = #{rContent}
+		  , R_MODIFLY_DATE = SYSDATE
+		WHERE R_NO = #{rNo}
+	</update>
+	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY
@@ -279,4 +292,21 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
+	
+	<insert id="insertTag" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="t" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
+			INSERT INTO TAG VALUES(#{t.fNo}, #{t.fTag})
+		</foreach>
+	</insert>
+	<select id="selectTag" parameterType="_int" resultType="_int">
+		SELECT
+			count(*)
+		FROM TAG
+		WHERE F_NO = #{fNo}
+	</select>
+	
+	<delete id="deleteTag" parameterType="_int">
+		DELETE FROM TAG WHERE F_NO = #{ fNo }
+	</delete>
+	
 </mapper>
