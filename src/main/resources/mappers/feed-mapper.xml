@@ -212,6 +212,14 @@
 		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriterImg}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY
+		SET R_WRITER_IMG = #{rWriterImg}
+		  , R_CONTENT = #{rContent}
+		  , R_MODIFLY_DATE = SYSDATE
+		WHERE R_NO = #{rNo}
+	</update>
+	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY
@@ -300,5 +308,11 @@
 	<delete id="deleteTag" parameterType="_int">
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
+	
+	<select id="selectTagList" parameterType="_int" resultType="TagResultSet">
+		SELECT F_TAG FROM TAG
+		WHERE F_NO = #{ fNo }
+	</select>
+	
 	
 </mapper>

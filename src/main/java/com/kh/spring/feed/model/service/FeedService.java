@@ -49,6 +49,12 @@ public interface FeedService {
 	 * @return
 	 */
 	int insertReply(Reply r);
+
+	/**
+	 * 3_2. 댓글 수정
+	 * @return
+	 */
+	int updateReply(Reply r);
 	
 	/**
 	 *  가입한 그룹 조회
@@ -108,6 +114,13 @@ public interface FeedService {
 	 * @return
 	 */
 	int deleteTag(int getfNo);
+	
+	/**
+	 * 태그 리스트
+	 * @param fno
+	 * @return
+	 */
+	ArrayList<Tag> selectTagList(int fno);
 
 
 }

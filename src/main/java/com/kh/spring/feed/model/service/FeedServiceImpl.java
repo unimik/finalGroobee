@@ -76,10 +76,14 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.insertReply(r);
 	}
 
-
 	@Override
 	public Feed popFeed(int fno) {
 		return fDao.popFeed(fno);
+	}
+
+	@Override
+	public int updateReply(Reply r) {
+		return fDao.updateReply(r);
 	}
 
 	@Override
@@ -95,6 +99,11 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public int deleteTag(int fNo) {
 		return fDao.deleteTag(fNo);
+	}
+
+	@Override
+	public ArrayList<Tag> selectTagList(int fno) {
+		return fDao.selectTagList(fno);
 	}
 
 }

@@ -703,6 +703,8 @@
     		            	var gmId= $(this).parents().children('input#inid').val();
     		            	var gNo = ${ g.gNo };
     		            	console.log(gmId);
+    		            	
+    		            	sendAlram("fromId",toId,"groupDelete",'${g.gNo}');
     	         		$.ajax({
     	         			url:"gmDeleteCheck.do",
     	         			data:{ gmId:gmId, gNo:gNo },

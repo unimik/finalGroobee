@@ -70,6 +70,10 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
 	}
 
+	public int updateReply(Reply r) {
+		return sqlSession.update("feedMapper.updateReply", r);
+	}
+
 	public int insertTag(ArrayList<Tag> taglist) {
 		return sqlSession.insert("feedMapper.insertTag", taglist);
 	}
@@ -80,6 +84,10 @@ public class FeedDao {
 
 	public int deleteTag(int fNo) {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
+	}
+
+	public ArrayList<Tag> selectTagList(int fno) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectTagList", fno);
 	}
 
 }
