@@ -320,16 +320,14 @@ public class FeedController {
 	
 	@ResponseBody
 	@RequestMapping("editReply.do")
-	public String editReply(Reply r, HttpSession session, int rfNo) {
+	public String editReply(Reply r, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		r.setrWriter(mem.getUserId());
 		r.setrWriterImg(mem.getmRenameImage());
 		System.out.println("수정 댓글 글쓴이 : " + mem.getUserId());
 		System.out.println("수정 댓글 글쓴이2 : " + r.getrWriter());
 		System.out.println("수정 Reply Check : " +r);
-		System.out.println("수정 rfNo : " + rfNo);
 		
-		r.setfNo(rfNo);
 		r.setmNo(mem.getmNo());
 		
 		int result = fService.updateReply(r);
