@@ -309,10 +309,4 @@
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
 	
-	<select id="selectTagList" parameterType="_int" resultType="TagResultSet">
-		SELECT F_TAG FROM TAG
-		WHERE F_NO = #{ fNo }
-	</select>
-	
-	
 </mapper>

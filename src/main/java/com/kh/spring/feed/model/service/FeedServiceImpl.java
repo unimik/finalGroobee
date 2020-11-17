@@ -101,9 +101,4 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.deleteTag(fNo);
 	}
 
-	@Override
-	public ArrayList<Tag> selectTagList(int fno) {
-		return fDao.selectTagList(fno);
-	}
-
 }

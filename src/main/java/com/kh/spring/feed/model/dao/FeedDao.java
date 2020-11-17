@@ -86,8 +86,4 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
 
-	public ArrayList<Tag> selectTagList(int fno) {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectTagList", fno);
-	}
-
 }
