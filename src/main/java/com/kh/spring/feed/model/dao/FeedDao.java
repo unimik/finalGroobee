@@ -69,7 +69,7 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
 	}
 
-<<<<<<< HEAD
+
 	public int updateReply(Reply r) {
 		return sqlSession.update("feedMapper.updateReply", r);
 	}
@@ -86,6 +86,5 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
 
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
 }

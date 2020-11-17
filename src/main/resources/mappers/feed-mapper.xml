@@ -279,7 +279,6 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
-<<<<<<< HEAD
 	
 	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
       SELECT
@@ -311,6 +310,5 @@
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
 	
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
 </mapper>

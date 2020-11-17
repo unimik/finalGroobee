@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-<<<<<<< HEAD
+
 import org.apache.ibatis.javassist.expr.NewArray;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -276,7 +276,7 @@ public class FeedController {
 			return "fail";
 		}
 	}
-<<<<<<< HEAD
+
 	
 	@ResponseBody
 	@RequestMapping("editReply.do")
@@ -337,7 +337,5 @@ public class FeedController {
 				return job.toJSONString();
 			}
 		}
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 
 }
