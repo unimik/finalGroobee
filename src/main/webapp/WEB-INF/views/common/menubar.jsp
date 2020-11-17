@@ -1027,7 +1027,7 @@
        });
      });
      
-     var sock = new SockJS("http://192.168.43.12:8787/spring/echo");
+     var sock = new SockJS("http://localhost:8787/spring/echo");
      sock.onmessage = onMessage;
      sock.onclose = onClose;
      
