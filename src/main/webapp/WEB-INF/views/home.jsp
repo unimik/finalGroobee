@@ -34,6 +34,7 @@
    #rUpdateMenu{ width: 10%; }
    #re_list li:nth-child(2) {margin-bottom: 20px;}
    #liked{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px;}
+   .replyUpBtn {width: 90px;height: 40px;border-radius: 10px;border: 0;background: #daf4ed;}
    
 </style>
 
@@ -167,7 +168,7 @@
             <div id="reply">
                <input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
                <input type="text" id="textArea" class="rContent" name="textArea">
-               <input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+               <input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
             </div>
          </div>
       </div>
@@ -262,7 +263,9 @@
          var rContent = event.target.parentElement.children[1].value;
          var rfNo = event.target.parentElement.children[0].value;
          var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
-         
+         var fWriter = event.target.id
+         console.log(fWriter);
+
          $.ajax({
             url: "addReply.do",
             data: {
@@ -281,7 +284,13 @@
             }
          });
          
-         confirm("댓글을 등록하시겠습니까?");
+         var ok = confirm("댓글을 등록하시겠습니까?");
+         console.log(ok);
+         if(ok){
+        	 sendAlram("상관없음",fWriter,"reply",rfNo); 
+        	 console.log("상관없음",fWriter,"reply",rfNo+"테스트");
+        	 alert('stop');
+         }
       });
     
    $('.rUpBtn').on("click", function(e) {
