@@ -141,9 +141,9 @@ public class MypageController {
 	
 	private void deleteFile(String memFile, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\memberProfileFiles";
+		String savePath = root + "/memberProfileFiles";
 		
-		File f = new File(savePath + "\\" + memFile);
+		File f = new File(savePath + "/" + memFile);
 		
 		if(f.exists()) {
 			f.delete();
@@ -153,7 +153,7 @@ public class MypageController {
 	private String saveFile(MultipartFile memFile, HttpServletRequest request) {
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\memberProfileFiles";
+		String savePath = root + "/memberProfileFiles";
 		String fileName = "";
 		
 		File folder = new File(savePath);
@@ -168,7 +168,7 @@ public class MypageController {
 		String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "."
 											+ originalFileName.substring(originalFileName.lastIndexOf(".")+1);
 		
-		String renamePath = folder + "\\" + renameFileName;
+		String renamePath = folder + "/" + renameFileName;
 		
 		try {
 			memFile.transferTo(new File(renamePath));
