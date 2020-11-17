@@ -50,7 +50,7 @@
 								<option>스포츠</option>
 								<option>지역</option>
 							</select><br>
-							<br> <label>태그</label><input type="text" id="tag" name="tag">
+							<br> <label id="g_tag">태그</label><input type="text" id="tag" name="tag">
 							<!-- <select id="chat">
                                 <option>전체</option>
                                 <option>N</option>

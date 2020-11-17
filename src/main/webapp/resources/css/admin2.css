@@ -7,23 +7,27 @@
 .tab_menuBtn.on{ background:#daf4ed; color:#47c6a3;}
 
 .tab_menuBtn{outline:none; cursor: pointer; border-radius:10px; width: 311px; height: 62px; border:0; background:#ffffff; padding:0; font-size:20px; }
-.search_feed { margin: 23px 0 22px 45px;}
-.search_feed label{ margin:0 15px 0 15px; }
-.search_feed #num,#id,#fContent{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
-.search_feed #writedate{ width: 153px; height: 33px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+#feedSearch_form { margin: 23px 0 22px 45px;}
+#feedSearch_form label{ margin:0 15px 0 15px; }
+#feedSearch_form #f_num,#feedSearch_form #f_id,#feedSearch_form #f_Content,#feedSearch_form #f_writedate{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+#f_num{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+#f_id{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+#f_Content{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+#f_writedate{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+#feedSearch_form #writedate{ width: 153px; height: 33px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
 
 .search_box.on{display:block;}
 .search_box{ display:none;}
 
 .search_reply { margin: 23px 0 22px 45px; }
 .search_reply label{ margin:0 15px 0 15px; }
-.search_reply #re_num,#id,#re_Content{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
-.search_reply #writedate{ width: 153px; height: 33px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+.search_reply #re_num,#re_id,#re_Content{ width: 150px; height: 30px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
+.search_reply #re_writedate{ width: 153px; height: 33px; border-radius: 10px; border: 1px solid #555555; margin-right: 20px;}
 .containar.on{display:block;}
 .containar{display:none;}
 
-#f_searchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
-#f_resetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
+#f_SearchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
+#f_ResetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
 #re_searchBtn{ width: 245px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin:20px 0 0 10px;}
 #re_resetBtn{ width: 245px; height: 35px; border:0; background: #e5e5e5; border-radius: 10px; margin-left: 20px;}
 
