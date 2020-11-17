@@ -217,8 +217,13 @@
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
 	         </ul>
 	     </div>
-	     
+	     <audio src="resources/sounds/카톡.mp3" id="messageSound"></audio>
      <script type="text/javascript">
+     /* 채팅 알림 */
+     function messageSound() {
+    	 var a = new Audio("resources/sounds/카톡.mp3");
+    	 a.play();
+     }
      /* 채팅방 나가기 */
      function chatDelete() {
     	 var crNo = $("#chatArea").children(".3").val();
@@ -1040,7 +1045,7 @@
              
              $div.append($p);
              $div1.append($div);
-             
+
              $("#chatArea").append($div1);
           }
           $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
@@ -1070,6 +1075,7 @@
                  $div3.append($div);
                  
                  $("#chatArea").append($div3);
+                 messageSound();
              }
              $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
           }
