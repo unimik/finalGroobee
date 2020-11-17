@@ -23,7 +23,7 @@ import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.controller.NotificationController;
-import com.kh.spring.pushAlarm.model.vo.PushAlarm;
+//import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 
 
 @RequestMapping("/echo")
@@ -161,57 +161,57 @@ public class EchoHandler extends TextWebSocketHandler{
         			}
         		}
         	} else if(Rmsg.equals("alarm")) {
-        		//작성자가 로그인 해서 있다면
-				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
-				System.out.println(boardWriterSession);
-				if(boardWriterSession != null) {
-					if(sendType.equals("reply") ) {
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 " + 
-											"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
-						boardWriterSession.sendMessage(tmpMsg);
-					
-					}else if("follow".equals(sendType)) {
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님을 팔로우를 시작했습니다.");
-						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-						
-					}else if("like".equals(sendType)) {
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
-						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-						
-					}else if("groupjoin".equals(sendType)) {
-						Group fromGroup = gService.getManagerId(fromId);
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 그룹 가입을 신청했습니다.");
-						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-						
-					}else if("groupAccept".equals(sendType)){
-						Group fromGroup = gService.getManagerId(fromId);
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
-						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-					}else if("groupDelete".equals(sendType)) {
-						Group fromGroup = gService.getManagerId(fromId);
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
-						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-					}else if("reply".equals(sendType)) {
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId);
-						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-					}
-				}else {
-					PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
-					int result = nController.insertAlarm(pa);
-				}
-
+//        		//작성자가 로그인 해서 있다면
+//				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
+//				System.out.println(boardWriterSession);
+//				if(boardWriterSession != null) {
+//					if(sendType.equals("reply") ) {
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 " + 
+//											"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
+//						boardWriterSession.sendMessage(tmpMsg);
+//					
+//					}else if("follow".equals(sendType)) {
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님을 팔로우를 시작했습니다.");
+//						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+//						int result = nController.insertAlarm(pa);
+//						boardWriterSession.sendMessage(tmpMsg);
+//						
+//					}else if("like".equals(sendType)) {
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
+//						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+//						int result = nController.insertAlarm(pa);
+//						boardWriterSession.sendMessage(tmpMsg);
+//						
+//					}else if("groupjoin".equals(sendType)) {
+//						Group fromGroup = gService.getManagerId(fromId);
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 그룹 가입을 신청했습니다.");
+//						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+//						int result = nController.insertAlarm(pa);
+//						boardWriterSession.sendMessage(tmpMsg);
+//						
+//					}else if("groupAccept".equals(sendType)){
+//						Group fromGroup = gService.getManagerId(fromId);
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
+//						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
+//						int result = nController.insertAlarm(pa);
+//						boardWriterSession.sendMessage(tmpMsg);
+//					}else if("groupDelete".equals(sendType)) {
+//						Group fromGroup = gService.getManagerId(fromId);
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
+//						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
+//						int result = nController.insertAlarm(pa);
+//						boardWriterSession.sendMessage(tmpMsg);
+//					}else if("reply".equals(sendType)) {
+//						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId);
+//						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+//						int result = nController.insertAlarm(pa);
+//						boardWriterSession.sendMessage(tmpMsg);
+//					}
+//				}else {
+//					PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+//					int result = nController.insertAlarm(pa);
+//				}
+//
         	}
         }
         
