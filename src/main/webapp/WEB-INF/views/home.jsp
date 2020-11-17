@@ -285,13 +285,9 @@
          });
          
          var ok = confirm("댓글을 등록하시겠습니까?");
-<<<<<<< HEAD
          console.log(ok);
          if(ok){
-=======
          console.log(오케이);
-         if(오케이){
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
         	 sendAlram("상관없음",fWriter,"reply",rfNo); 
         	 console.log("상관없음",fWriter,"reply",rfNo+"테스트");
         	 alert('stop');

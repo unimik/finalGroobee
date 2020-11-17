@@ -1027,7 +1027,7 @@
        });
      });
      
-     var sock = new SockJS("http://localhost:8787/spring/echo");
+     var sock = new SockJS("http://192.168.43.12:8787/spring/echo");
      sock.onmessage = onMessage;
      sock.onclose = onClose;
      
@@ -1086,7 +1086,7 @@
                  $div3.append($div);
                  
                  $("#chatArea").append($div3);
-                 messageSound();
+                 
              }
              $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
           }
@@ -1114,6 +1114,7 @@
              $div1.append($a);
              $div.append($div1);
              $div3.append($div);
+             messageSound();
              
              $("#chatArea").append($div3);
           };
