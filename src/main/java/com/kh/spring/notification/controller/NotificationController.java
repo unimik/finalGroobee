@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.model.service.NotificationService;
 import com.kh.spring.notification.model.vo.Notification;
-import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 
 @Controller
 public class NotificationController {
@@ -32,12 +31,15 @@ public class NotificationController {
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		List<Notification> nt = nService.getNotification(m.getmNo());
+<<<<<<< HEAD
 	
+=======
+		int i = 0;
+		System.out.println(nt);
+		while(nt.isEmpty()) {
+			System.out.println(nt);
+		}
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 		return nt;
-	}
-
-
-	public int insertAlarm(PushAlarm pa) {
-		return nService.insertAlarm(pa);
 	}
 }

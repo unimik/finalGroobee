@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
-import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Repository("fDao")
@@ -70,6 +69,7 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
 	}
 
+<<<<<<< HEAD
 	public int updateReply(Reply r) {
 		return sqlSession.update("feedMapper.updateReply", r);
 	}
@@ -86,4 +86,6 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
 
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 }

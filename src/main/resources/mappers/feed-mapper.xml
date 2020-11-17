@@ -103,11 +103,6 @@
 		<result property="gmId" column="GM_ID"/>
 	</resultMap>
 	
-	<resultMap type="Tag" id="TagResultSet">
-		<result property="fNo" column="F_NO"/>
-		<result property="fTag" column="F_TAG"/>
-	</resultMap>
-	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -212,14 +207,6 @@
 		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriterImg}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
-	<update id="updateReply" parameterType="Reply">
-		UPDATE REPLY
-		SET R_WRITER_IMG = #{rWriterImg}
-		  , R_CONTENT = #{rContent}
-		  , R_MODIFLY_DATE = SYSDATE
-		WHERE R_NO = #{rNo}
-	</update>
-	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
 		SELECT *
 		FROM REPLY
@@ -292,6 +279,7 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
+<<<<<<< HEAD
 	
 	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
       SELECT
@@ -323,4 +311,6 @@
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
 	
+=======
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 </mapper>

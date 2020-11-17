@@ -5,24 +5,10 @@
  		<id property="mNo" column="M_NO"/>
  		<result property="alramContent" column="ALRAM_CONTENT"/>
  	</resultMap>
- 	<resultMap id="pushAlarmResultSet" type="PushAlarm">
- 		<id property="pNo" column="P_NO"/>
- 		<result property="toId" column="TO_ID"/>
- 		<result property="fromId" column="FROM_ID"/>
- 		<result property="type" column="TYPE"/>
- 		<result property="typeNo" column="TYPE_NO"/>
- 		<result property="readYN" column="READ_YN"/>
- 	</resultMap>
+ 	
 	<select id="getNotification" parameterType="int" resultMap="notificationResultSet"> 
 		SELECT * FROM NOTIFICATION WHERE M_NO = #{mNo}
 	</select>
-	
-	<insert id="insertAlarm" parameterType="PushAlarm">
-		INSERT INTO PUSH_ALARM VALUES(SEQ_PNO.NEXTVAL,#{toId},#{fromId},#{type},#{typeNo},#{readYN})
-	</insert>
  	
- 	<select id="selectAlarmList" parameterType="String" resultMap="pushAlarmResultSet">
- 		SELECT * FROM PUSH_ALARM WHERE TO_ID=#{name}
- 	</select>
  	
 </mapper>

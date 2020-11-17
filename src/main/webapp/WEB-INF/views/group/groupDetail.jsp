@@ -1027,12 +1027,12 @@
  				
  			}
  			
- 			
+ 			// 알림 기능
  			$("#joinBtn").on('click',function test(){
  				console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
  	  			sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
- 				alert("test");
  			});
+ 			
  			
  	/*그룸내 검색*/
  	$("#groupSearchBtn").on('click',function(){
