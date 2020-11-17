@@ -114,13 +114,6 @@ public interface FeedService {
 	 * @return
 	 */
 	int deleteTag(int getfNo);
-	
-	/**
-	 * 태그 리스트
-	 * @param fno
-	 * @return
-	 */
-	ArrayList<Tag> selectTagList(int fno);
 
 
 }

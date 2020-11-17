@@ -328,7 +328,7 @@
         $(document).on('click','.post',function(){
  		console.log($(this).attr("id") );
  		$.ajax({
- 			url:'gFeedPop.do',
+ 			url:'feedPop.do',
  			dataType:'json',
  			type:'post',
  		

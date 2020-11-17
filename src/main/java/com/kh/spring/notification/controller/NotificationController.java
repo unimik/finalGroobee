@@ -33,9 +33,9 @@ public class NotificationController {
 		
 		List<Notification> nt = nService.getNotification(m.getmNo());
 		int i = 0;
-		System.out.println(nt);
+		//System.out.println(nt);
 		while(nt.isEmpty()) {
-			System.out.println(nt);
+			//System.out.println(nt);
 		}
 		return nt;
 	}
