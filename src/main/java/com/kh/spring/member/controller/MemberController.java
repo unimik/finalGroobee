@@ -63,10 +63,16 @@ public class MemberController {
 	public String memberLogin(Member m, String userId,String userPwd,Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
-		String name = m.getUserName();
+		String name = m.getUserId();
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
 		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
+		System.out.println(alarmList);
+		for (PushAlarm pushAlarm : alarmList) {
+			System.out.println(pushAlarm);
+			
+		}
+		
 //		for(Feed ff : feed) {
 //			System.out.println(ff);
 //		}
