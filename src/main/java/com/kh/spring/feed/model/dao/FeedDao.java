@@ -69,4 +69,22 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
 	}
 
+
+	public int updateReply(Reply r) {
+		return sqlSession.update("feedMapper.updateReply", r);
+	}
+
+	public int insertTag(ArrayList<Tag> taglist) {
+		return sqlSession.insert("feedMapper.insertTag", taglist);
+	}
+
+	public int selectTag(int fNo) {
+		return sqlSession.selectOne("feedMapper.selectTag", fNo);
+	}
+
+	public int deleteTag(int fNo) {
+		return sqlSession.delete("feedMapper.deleteTag", fNo);
+	}
+
+
 }

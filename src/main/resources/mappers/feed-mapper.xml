@@ -279,4 +279,36 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
+	
+	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
+      SELECT
+        F.*
+      , R.*
+      , P.*
+      , M.M_RENAME_IMAGE
+      FROM FEED F
+      LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+      LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+      INNER JOIN MEMBER M ON(F.M_NO = M.M_NO)
+      WHERE F.F_STATUS='Y'
+      AND F.F_NO =#{ fno }
+   </select>
+   
+	<insert id="insertTag" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="t" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
+			INSERT INTO TAG VALUES(#{t.fNo}, #{t.fTag})
+		</foreach>
+	</insert>
+	<select id="selectTag" parameterType="_int" resultType="_int">
+		SELECT
+			count(*)
+		FROM TAG
+		WHERE F_NO = #{fNo}
+	</select>
+	
+	<delete id="deleteTag" parameterType="_int">
+		DELETE FROM TAG WHERE F_NO = #{ fNo }
+	</delete>
+	
+
 </mapper>
