@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -223,6 +224,12 @@ public class MemberController {
 		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
+	}
+	
+	@RequestMapping("logout.do")
+	public String logout(SessionStatus status) {
+		status.setComplete(); 
+		return "redirect:index.jsp";
 	}
 	
 

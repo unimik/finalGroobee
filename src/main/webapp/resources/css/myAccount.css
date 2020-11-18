@@ -40,3 +40,5 @@ button{padding: 0;}
 #fgroup_info li:nth-child(2){float: left; font-size:12px; font-weight: 500; color: #555555; margin: 5px 0 10px 20px;}
 #fgroup_info li #del_group{float:right; width: 70px; height: 35px; border-radius: 10px; background:#e5e5e5; margin: 4px 20px 0 0; }
 #fgroup_list_img{ width: 40px; height: 40px; border-radius: 10px;}
+
+#logoutBtn{background: none; border: none; margin-left: 100px; margin-top: -19px; color: #c5c5c5; font-weight: bold;}

@@ -71,3 +71,6 @@
 #re_menu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
 #re_menu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
 #re_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
+
+#topScrollBox{ text-align:center; display:none; }
+#topScrollBox>img{ width: 45px; cursor: pointer; }

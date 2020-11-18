@@ -68,6 +68,13 @@
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 	#groupName{ font-weight: 600; }
 	.groupInfo h5{ font-weight: 300; }
+	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
+	#imgList li:nth-child(1){display:block;}
+	#imgList img{ width: 633px; height:633px; }
+	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
+	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
    </style>
    <script>
   
@@ -437,8 +444,6 @@
 	              input +="</div>";
 	              input +="</div>";
 	              input +="<div id='con'>";
-			        input +="<ul id='imgList'>";
-				  input +="</ul>";
 	              input +="<div id='feed_content'>";
 	              
 	         	var size;
@@ -475,17 +480,28 @@
 		      	  					idx = idx1;
 		      	  			}
 		      	  		});
-		  			 */
-		  			 
-		  			if(data.photoListSize > 0){
 		  				
-						  input +="<button id='nextBtn${ i }' onClick = 'nextBtn("+data.photoListSize+");'name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-						  input +="<button id='prevBtn${ i }' onClick = 'prevBtn("+data.photoListSize+");' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-		  			}
-						
+		  				$('#nextBtn'+i).on("click",function(){
+		      	  			size = $(this).nextAll().children('li').length;
+		      	  			console.log(size);
+		      	  			
+		      	  			if( size > 1){
+		      	  				idx1 = (idx + 1) % size;
+		      	  				$(this).nextAll().children('li:hidden').css("left","633px");
+		      	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+		      	  					$(this).css("display","none").css("left","633px");
+		      	  				});
+		      	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+		      	  				idx = idx1;
+		      	  			} */
+	            	
 	              for(var i=0; i<data.photoList.length; i++){
 					  if(data.photoList[i].changeName != null){
-		            	  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[0].changeName+"' alt='' id='input_img'>";
+						  input +="<ul id='imgList'>";
+					      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+						  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+						  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
+						  input +="</ul>";
 		            	  }
 	              }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
@@ -501,7 +517,7 @@
 	                  input +="<div id='replyArea'>";
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list'>";
-	            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
+	            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].mRenameImage+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
 		              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
 		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";

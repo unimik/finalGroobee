@@ -10,6 +10,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Service("fService")
@@ -56,6 +57,7 @@ public class FeedServiceImpl implements FeedService {
 	public int updatePost(Feed f) {
 		return fDao.updatePost(f);
 	}
+	
 	@Override
 	public ArrayList<Feed> selectGfeed(int gNo) {
 		return fDao.selectGfeed(gNo);
@@ -76,15 +78,33 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.insertReply(r);
 	}
 
-
 	@Override
 	public Feed popFeed(int fno) {
 		return fDao.popFeed(fno);
 	}
 
 	@Override
+	public int updateReply(Reply r) {
+		return fDao.updateReply(r);
+	}
+
+	@Override
+	public int insertTag(ArrayList<Tag> taglist) {
+		return fDao.insertTag(taglist);
+	}
+
+	@Override
+	public int selectTag(int fNo) {
+		return fDao.selectTag(fNo);
+	}
+
+	@Override
+	public int deleteTag(int fNo) {
+		return fDao.deleteTag(fNo);
+	}
+
+	@Override
 	public int insertShare(ShareFeed sf) {
 		return fDao.insertShare(sf);
 	}
-
 }
