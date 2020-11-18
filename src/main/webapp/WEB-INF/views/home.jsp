@@ -40,50 +40,50 @@
 
 </head>
 <body>
-	<c:import url="common/menubar.jsp" />
-	<div id="feedArea">
-	<c:forEach var="f" items="${ feed }" varStatus="status">
-		<c:set var="i" value="${ i + 1 }"/>
-		<div id="feed${ i }" class="feed">
-			<div id="writer_submenu">
-				<c:choose>
-					<c:when test="${ loginUser.userId ne f.fWriter }">
-						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-						<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-						<div id="user_time">
-							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-							<h6><c:out value="${ f.fCreateDate }" /></h6>
-						</div>
-						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-					</c:when>
-					<c:otherwise>
-						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
-						<div id="user_time">
-							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-							<h6><c:out value="${ f.fCreateDate }" /></h6>
-						</div>
-						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-					</c:otherwise>
-				</c:choose>
-		<c:choose>
-			<c:when test="${ loginUser.userId ne f.fWriter }">
-				<!-- 다른 회원 글 볼 때 피드메뉴 -->
-<!-- 				<div class="pop_menu">
-					<div id="feed_menu_list">
-						<ul>
-							<li><a id="feed_report_btn">신고</a></li>
-							<li><a>공유하기</a></li>
-							<li><a>보관함</a></li>
-							<li><a id="close">취소</a></li>
-						</ul>
-					</div>
-				</div> -->
-			</c:when>
-			<c:otherwise>
-				<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+   <c:import url="common/menubar.jsp" />
+   <div id="feedArea">
+   <c:forEach var="f" items="${ feed }" varStatus="status">
+      <c:set var="i" value="${ i + 1 }"/>
+      <div id="feed${ i }" class="feed">
+         <div id="writer_submenu">
+            <c:choose>
+               <c:when test="${ loginUser.userId ne f.fWriter }">
+                  <a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+                  <img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
+                  <div id="user_time">
+                     <p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+                     <h6><c:out value="${ f.fCreateDate }" /></h6>
+                  </div>
+                  </a>
+                  <img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+               </c:when>
+               <c:otherwise>
+                  <a href="goMypage.do?mNo=${ loginUser.mNo }">
+                  <img src="${ contextPath }/resources/images/IMG_7502.JPG" alt="" id="feed_profile_img">
+                  <div id="user_time">
+                     <p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+                     <h6><c:out value="${ f.fCreateDate }" /></h6>
+                  </div>
+                  </a>
+                  <img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+               </c:otherwise>
+            </c:choose>
+      <c:choose>
+         <c:when test="${ loginUser.userId ne f.fWriter }">
+            <!-- 다른 회원 글 볼 때 피드메뉴 -->
+<!--             <div class="pop_menu">
+               <div id="feed_menu_list">
+                  <ul>
+                     <li><a id="feed_report_btn">신고</a></li>
+                     <li><a>공유하기</a></li>
+                     <li><a>보관함</a></li>
+                     <li><a id="close">취소</a></li>
+                  </ul>
+               </div>
+            </div> -->
+         </c:when>
+         <c:otherwise>
+            <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
                 <div class="pop_menu">
                     <div id="feed_Mymenu_list">
                         <ul>
