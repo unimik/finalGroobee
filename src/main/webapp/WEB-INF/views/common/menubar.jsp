@@ -189,6 +189,7 @@
 						<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" alt="myProfile" id="myProfile">
 					</c:if>
 					<p>${ loginUser.userId }</p>
+					<button id="logoutBtn" onclick="logout();">로그아웃</button>
 				</div>
 				<div id="MyTab">
 					<button class="MyTab_tab1 MyTab_tab on">팔로워</button>
@@ -230,6 +231,10 @@
 	     </div>
 	     <audio src="resources/sounds/카톡.mp3" id="messageSound"></audio>
      <script type="text/javascript">
+     /* 로그아웃 */
+     function logout(){
+    	 location.href = "logout.do";
+     }
      /* 채팅 알림 */
      function messageSound() {
     	 var a = new Audio("resources/sounds/카톡.mp3");
@@ -1086,7 +1091,6 @@
                  $div3.append($div);
                  
                  $("#chatArea").append($div3);
-                 
              }
              $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
           }
@@ -1115,7 +1119,6 @@
              $div.append($div1);
              $div3.append($div);
              messageSound();
-             
              $("#chatArea").append($div3);
           };
            
@@ -1187,7 +1190,7 @@
         
         $(document).on("click","#goUserPage",function(){
            var userId = $(this).parents().children('a').text();
-           var mNo = $(this).parents().children('input').val();
+           var mNo = ${ loginUser.mNo };
            location.href="goUserpage.do?userId=" + userId + "&mNo=" + mNo;
         });
         

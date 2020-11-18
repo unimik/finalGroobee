@@ -19,7 +19,7 @@
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gName" column="G_NAME"/>
-		<result property="mImage" column="M_RENAME_IMAGE"/>
+		<result property="mImage" column="M_PROFILE"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 	</resultMap>
@@ -84,7 +84,7 @@
 		<result property="mNo" column="M_NO"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="rContent" column="R_CONTENT"/>
-		<result property="rWriterImg" column="R_WRITER_IMG"/>
+		<result property="rWriterImg" column="M_RENAME_IMAGE"/>
 		<result property="rWriter" column="R_WRITER"/>
 		<result property="rCreateDate" column="R_CREATE_DATE"/>
 		<result property="rModifyDate" column="R_MODIFLY_DATE"/>
@@ -128,10 +128,17 @@
 
 	<select id="selectFeed" resultMap="postResultSet" parameterType="string">
 		SELECT
-			* 
+	        F.*
+	      , (SELECT MB.M_RENAME_IMAGE
+	        FROM MEMBER MB
+	        WHERE MB.M_ID = F.F_WRITER ) AS M_PROFILE
+	      , R.*
+	      , P.*
+	      , M.M_RENAME_IMAGE
 		FROM FEED F
 		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
 		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+        LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
 		<!--LEFT JOIN GROUP_MEMBER GM ON(F.G_NO = GM.G_NO) -->
 		WHERE
 		F.F_STATUS ='Y' 
@@ -210,8 +217,15 @@
 			SELECT F_NO FROM FEED WHERE F_NO=#{fNo}
 		</selectKey>
 		INSERT INTO REPLY VALUES
-		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriterImg}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
+		(SEQ_RNO.NEXTVAL, #{mNo}, #{fNo}, #{rWriter}, #{rContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
+	
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY
+		SET R_CONTENT = #{rContent}
+		  , R_MODIFLY_DATE = SYSDATE
+		WHERE R_NO = #{rNo}
+	</update>
 	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">
 		SELECT *

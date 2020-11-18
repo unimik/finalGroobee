@@ -6,6 +6,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 
 public interface FeedService {
@@ -49,6 +50,12 @@ public interface FeedService {
 	int insertReply(Reply r);
 	
 	/**
+	 * 3_2. 댓글 수정
+	 * @return
+	 */
+	int updateReply(Reply r);
+	
+	/**
 	 *  가입한 그룹 조회
 	 * @param userId
 	 * @return
@@ -61,8 +68,6 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Feed> selectGfList();
-	
-	
 	
 	/**
 	 * 한 그룹의 피드 최신순 리스트
@@ -78,7 +83,6 @@ public interface FeedService {
 	 */
 	ArrayList<Feed> selectHGfeed(int gNo);
 	
-	
 	/**
 	 * 피드 팝업
 	 * @param fno
@@ -93,6 +97,12 @@ public interface FeedService {
 	 * @return
 	 */
 	int insertShare(ShareFeed sf);
+	
+	int insertTag(ArrayList<Tag> taglist);
+	
+	int selectTag(int fNo);
+	
+	int deleteTag(int fNo);
 
 
 }
