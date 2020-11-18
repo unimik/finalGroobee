@@ -360,7 +360,7 @@
 					data:{ fNo:fNo, mNo:${ loginUser.mNo} },
 					type:"post",
 					success:function(data){
-						if( data == "success"){
+						if( data > 0){
 							alert("게시글을 공유하였습니다.");
 							$('.pop_menu').hide();
 						}
