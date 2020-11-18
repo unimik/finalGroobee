@@ -85,12 +85,13 @@
 						<c:when test="${ loginUser.userId ne f.fWriter }">
 						<!-- 다른 회원 글 볼 때 피드메뉴 -->
 						<div class="pop_menu" id="pop_menu${ i }">
+						<input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 						<div id="feed_menu_list">
 						    	<ul>
 						       	   <li><a href="${ godetail }">그룹보기</a></li>
 						           <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-						           <li><a id="share_feed" class="share_feed">공유하기<input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }"></a></li> 
-						           <li><a>보관함</a></li> 
+						           <li><a id="share_feed" class="share_feed">공유하기</a></li>
+						           <li><a>보관함</a></li>
 						           <li><a id="close" class="close">취소</a></li>
 						        </ul>
 						    </div>
@@ -344,9 +345,16 @@
 			});
 			
 			
+			
+		}
+		
+		$(function(){
+			
+			
 			$('.share_feed').on("click",function(){
-				var fNo = $(this).children('input').val();
+				var fNo = $(this).parents().children('.fn').val();
 				console.log(fNo);
+				
 				$.ajax({
 					url:"shareFeed.do",
 					data:{ fNo:fNo, mNo:${ loginUser.mNo} },
@@ -354,13 +362,14 @@
 					success:function(data){
 						if( data > 0){
 							alert("게시글을 공유하였습니다.");
+							$('.pop_menu').hide();
 						}
 					},error:function(){
 						alert("공유 실패");
 					}
 				});
 			});
-		}
+		})
 	</script>
 </body>
 </html>

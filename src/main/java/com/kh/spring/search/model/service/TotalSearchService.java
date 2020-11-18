@@ -86,13 +86,5 @@ public interface TotalSearchService {
 	String searchInterest(Search srch);
 
 
-	/**
-	 * 관심사가 같은 그룹 검색
-	 * @param itrst
-	 * @return
-	 */
-	ArrayList<Group> searchInterestGroup(String[] itrst);
-
-
 
 }

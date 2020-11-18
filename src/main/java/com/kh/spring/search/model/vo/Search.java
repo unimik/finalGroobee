@@ -1,13 +1,16 @@
 package com.kh.spring.search.model.vo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Search {
 	private char searchType;
 	private String search;
 	private String searchall;
 	private int sNum;
-
+	private String[] sarr;
+	private int[] barr;
+	
 	public Search() {
 	}
 
@@ -17,15 +20,39 @@ public class Search {
 		this.search = search;
 	}
 
-	public Search(char searchType, String search, String searchall, int sNum) {
+
+	public Search(char searchType, String[] sarr) {
+		super();
+		this.searchType = searchType;
+		this.sarr = sarr;
+	}
+	
+	
+	public Search(char searchType, String search, int[] barr) {
+		super();
+		this.searchType = searchType;
+		this.search = search;
+		this.setBarr(barr);
+	}
+
+	
+	
+	public Search(String[] sarr, int[] barr) {
+		super();
+		this.sarr = sarr;
+		this.barr = barr;
+	}
+
+	public Search(char searchType, String search, String searchall, int sNum, String[] sarr) {
 		super();
 		this.searchType = searchType;
 		this.search = search;
 		this.searchall = searchall;
 		this.sNum = sNum;
+		this.sarr = sarr;
 	}
-	
 
+	
 	public char getSearchType() {
 		return searchType;
 	}
@@ -58,12 +85,30 @@ public class Search {
 		this.searchall = searchall;
 	}
 
+
+	public String[] getSarr() {
+		return sarr;
+	}
+
+	public void setSarr(String[] sarr) {
+		this.sarr = sarr;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [searchType=" + searchType + ", search=" + search + ", searchall=" + searchall + ", sNum=" + sNum
-				+ "]";
+				+ ", sarr=" + Arrays.toString(sarr) + "]";
 	}
 
+	public int[] getBarr() {
+		return barr;
+	}
+
+	public void setBarr(int[] barr) {
+		this.barr = barr;
+	}
+
+	
 
 
 }

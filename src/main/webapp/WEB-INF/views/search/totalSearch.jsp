@@ -94,7 +94,7 @@
              				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="rs" items="${ rsList }">
-		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}">#${rs}</a></li>	                                                  
+		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}+&mNo=${ loginUser.mNo }">#${rs}</a></li>
 		                       </c:forEach>
 	                       </c:otherwise>                        
                         </c:choose>
@@ -303,11 +303,6 @@
 
         /************* 내계정 자세히보기 script **************/
 
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
 
         $('.MyTab_tab').on("click",function(){
             $('.MyTab_tab').removeClass('on');

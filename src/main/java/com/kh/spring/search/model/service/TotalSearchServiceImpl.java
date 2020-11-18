@@ -46,10 +46,6 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 		return tsDao.tagSearchGroup(rlist);
 	}
 
-//	@Override
-//	public ArrayList<Feed> tagsearchFeed(ArrayList rlist) {
-//		return tsDao.tagsearchFeed(rlist);
-//	}
 
 	@Override
 	public ArrayList<Feed> tagSearchFeed(String[] rlist) {
@@ -70,14 +66,6 @@ public class TotalSearchServiceImpl implements TotalSearchService {
 	public String searchInterest(Search srch) {
 		return tsDao.searchInterest(srch);
 	}
-
-	@Override
-	public ArrayList<Group> searchInterestGroup(String[] itrst) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 
 
