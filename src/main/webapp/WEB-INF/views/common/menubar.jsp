@@ -52,7 +52,17 @@
           <div id="chat_menu_list">
               <ul>
                   <li><a id="chat_delete" onclick="chatDelete();">채팅방 나가기</a></li> 
-                  <li><a id="close">취소</a></li>
+                  <li><a class="close">취소</a></li>
+              </ul>
+          </div>
+      </div>
+      <!-- 그룹채팅 모달 -->
+      <div class="group_chat_menu">
+          <div id="group_chat_menu_list">
+              <ul>
+                  <li><a class="plusChatUser">사람 추가하기</a></li> 
+                  <li><a id="group_chat_delete" onclick="groupChatDelete();">채팅방 나가기</a></li> 
+                  <li><a class="close">취소</a></li>
               </ul>
           </div>
       </div>
@@ -218,8 +228,13 @@
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
 	         </ul>
 	     </div>
-	     
+	     <audio src="resources/sounds/카톡.mp3" id="messageSound"></audio>
      <script type="text/javascript">
+     /* 채팅 알림 */
+     function messageSound() {
+    	 var a = new Audio("resources/sounds/카톡.mp3");
+    	 a.play();
+     }
      /* 채팅방 나가기 */
      function chatDelete() {
     	 var crNo = $("#chatArea").children(".3").val();
@@ -227,6 +242,7 @@
     		 url:"deleteOneChat.do",
     		 data:{crNo:crNo},
     		 success:function(data){
+   				 console.log(data);
     			 if(data == "ok") {
     				 alert("채팅방 나가기에 성공했수다");
     				 $(".chat_room").hide();
@@ -242,8 +258,32 @@
     		 }
     	 });
      }
+     /* 그룹 채팅방 나가기*/
+     function groupChatDelete() {
+    	 var gNo = $("#chatArea").children(".1").val();
+    	 var userId = '${loginUser.userId}';
+    	 $.ajax({
+    		url:"deleteGroupChat.do",
+    		data:{gNo:gNo,fromId:userId},
+    		success:function(data) {
+    			if(data == "ok") {
+    			 alert("채팅방 나가기에 성공했수다");
+				 $(".chat_room").hide();
+				 openGruopChat();
+				 $(".chat").show();
+				 $(".group_chat_menu").hide();
+    			} else {
+    				console.log(data);
+    			}
+    		},
+    		error:function() {
+    			console.log("에러");
+    		}
+    	 });
+     }
      /* 그룹 채팅방 사람 추가하기 */
      $(document).on("click",".plusChatUser",function(){
+    	$(".group_chat_menu").hide();
         $('#plusGroupUser').modal("show");
         var gNo = $(".1").val();
         var myId = '<c:out value="${loginUser.userId}"/>';
@@ -277,7 +317,6 @@
                }
                 $("#findIdResult").append($div);       
             });
-            
          },
          error:function(){
             console.log("에러");
@@ -752,9 +791,12 @@
   			console.log("ok");
   			var userId = '<c:out value="${loginUser.userId}"/>';
   			$("#chatArea").children().remove();
-  			$("#plusChatUser").remove();
-  			$plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
-  			$("#chat_top").append($plusBtn);
+  			$(".chatDeleteBtn").remove();
+  			$(".groupChatBtn").remove();
+  			$btnImg = $("<img src='/spring/resources/icons/feed_menu.png'>");
+			$btn = $("<button class='groupChatBtn'>");
+			$btn.append($btnImg);
+			$("#chat_top").append($btn);
   			$.each(data,function(index,value){
   				var str = value.cContent;
   				if(str.slice(-8) == "입장하셨습니다.") {
@@ -898,9 +940,6 @@
                    alert("이미 채팅방이 존재합니다.");
                 } else {
                    $("#chatUser").text(gName);
-                   $("#plusChatUser").remove();
-                   $plusBtn = $("<p id='plusChatUser' class='plusChatUser'>+</p>");
-                   $("#chat_top").append($plusBtn);
                    $div3 = $("<div class='chating'>");
                    $inputgNo = $("<input type='hidden' class='1'>").val(gNo);
                    $inputType = $("<input type='hidden' class='2'>").val("groupChatting");
@@ -952,12 +991,16 @@
              $(".chat_room").hide();
              openChat();
          });
- 		 $("#close").on("click",function(){
+ 		 $(".close").on("click",function(){
  			$(".chat_menu").hide(); 
+ 			$(".group_chat_menu").hide(); 
  		 });
      });
      $(document).on("click",".chatDeleteBtn",function(){
      		$(".chat_menu").show(); 
+     })
+     $(document).on("click",".groupChatBtn",function(){
+     		$(".group_chat_menu").show(); 
      })
      
      /**************알림창 열기 ****************/
@@ -1013,7 +1056,7 @@
              
              $div.append($p);
              $div1.append($div);
-             
+
              $("#chatArea").append($div1);
           }
           $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
@@ -1043,6 +1086,7 @@
                  $div3.append($div);
                  
                  $("#chatArea").append($div3);
+                 
              }
              $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
           }
@@ -1070,6 +1114,7 @@
              $div1.append($a);
              $div.append($div1);
              $div3.append($div);
+             messageSound();
              
              $("#chatArea").append($div3);
           };

@@ -113,4 +113,11 @@ public interface ChatService {
 	 */
 	int deleteOneChat(int crNo);
 
+	/**
+	 * 16. 그룹 채팅방 나가기
+	 * @param c
+	 * @return
+	 */
+	int deleteGroupChat(Chat c);
+
 }

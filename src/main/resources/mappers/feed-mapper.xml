@@ -316,6 +316,7 @@
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
 	
+
 	<insert id="insertShare" parameterType="Share">
 		INSERT INTO SHARE_FEED
 		VALUES(#{sf_no},#{sm_no},DEFAULT)

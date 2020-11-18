@@ -176,4 +176,9 @@ public class ChatDao {
 		}
 	}
 
+	public int deleteGroupChat(Chat c) {
+		int result = sqlSession.delete("chatMapper.groupJoinDelete", c);
+		return result;
+	}
+
 }

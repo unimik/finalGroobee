@@ -62,7 +62,7 @@ public class FeedController {
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\pUploadFiles";
+		String savePath = root + "/pUploadFiles";
 		File folder = new File(savePath);	// 저장 폴더
 		
 		if(!folder.exists()) {
@@ -80,7 +80,7 @@ public class FeedController {
 					//						[		20200929191422 + 랜덤값.png										]
 										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			
-			String saveFile = savePath + "\\" +  renameFileName;
+			String saveFile = savePath + "/" +  renameFileName;
 			
 			System.out.println("" + f.getfNo());
 			
@@ -159,7 +159,7 @@ public class FeedController {
 		
 		List<MultipartFile> fileList = multi.getFiles("reloadFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\pUploadFiles";
+		String savePath = root + "/pUploadFiles";
 		File folder = new File(savePath);	// 저장 폴더
 
 		// insert -> , insert, update 
@@ -182,7 +182,7 @@ public class FeedController {
 					//						[		20200929191422 + 랜덤값.png										]
 										  + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			
-			String saveFile = savePath + "\\" +  renameFileName;
+			String saveFile = savePath + "/" +  renameFileName;
 			
 			if(!mf.isEmpty() && mf.getOriginalFilename() != "") {
 				
@@ -293,6 +293,8 @@ public class FeedController {
 			return 0;
 		}
 	}
+
+
 
 	
 	/*

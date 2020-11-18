@@ -23,6 +23,7 @@ import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.controller.NotificationController;
+import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 
 
 @RequestMapping("/echo")
@@ -99,7 +100,7 @@ public class EchoHandler extends TextWebSocketHandler{
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
             	} else {
-//            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
 
             		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
             			System.out.println("값 XXX");
@@ -162,12 +163,7 @@ public class EchoHandler extends TextWebSocketHandler{
         	} else if(Rmsg.equals("alarm")) {
         		//작성자가 로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
-				System.out.println("이게뭐지? "+boardWriterSession);
-				System.out.println("왜 아무것도 안들어옴?"+fromId+toId+Rmsg+sendType+crno);
-				System.out.println(sendType);
-				// 테스트용
-				//int result = nController.sendAlram(new PushAlram(),toId,fromId,sendType,crNo);
-				
+				System.out.println(boardWriterSession);
 				if(boardWriterSession != null) {
 					if(sendType.equals("reply") ) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 " + 
@@ -176,33 +172,44 @@ public class EchoHandler extends TextWebSocketHandler{
 					
 					}else if("follow".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님을 팔로우를 시작했습니다.");
-						System.out.println(boardWriterSession.toString());
-						System.out.println(boardWriterSession.getId() +"여기맞음"+ tmpMsg.toString());
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 						
 					}else if("like".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
-						//PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
-						//int result = nController.alramLike(pa);
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
+						
 					}else if("groupjoin".equals(sendType)) {
+						Group fromGroup = gService.getManagerId(fromId);
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 그룹 가입을 신청했습니다.");
-//						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
-//						int result = nController.alramLike(pa);
-						System.out.println("여기까지 오나?");
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
+						
 					}else if("groupAccept".equals(sendType)){
 						Group fromGroup = gService.getManagerId(fromId);
-						System.out.println(fromGroup.getgName());
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromGroup.getgName()+"|그룹 "+fromGroup.getgName() + "에서 회원님의 그룹 가입을 승인했습니다.");
-						System.out.println("alarm|"+sendType+"|"+fromId+"|그룹 "+fromId + "에서 "+toId+"님의 그룹 가입을 승인했습니다.");
-//						PushAlram pa = new PushAlram(toId,fromId,sendType,Integer.parseInt(crno));
-						
-						
-//						int result = nController.alramLike(pa);
-						System.out.println("여기까지 오나?");
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
+						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
+						boardWriterSession.sendMessage(tmpMsg);
+					}else if("groupDelete".equals(sendType)) {
+						Group fromGroup = gService.getManagerId(fromId);
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
+						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
+						boardWriterSession.sendMessage(tmpMsg);
+					}else if("reply".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId);
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 					}
+				}else {
+					PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+					int result = nController.insertAlarm(pa);
 				}
 
         	}

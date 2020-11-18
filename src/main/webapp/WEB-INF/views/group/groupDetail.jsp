@@ -1023,11 +1023,11 @@
 			});
 		}
  	});
-
+	/*그룹 내 팝업*/
  	$(document).on('click','.postbox',function(){
  		console.log($(this).attr("id") );
  		$.ajax({
- 			url:'gFeedPop.do',
+ 			url:'feedPop.do',
  			dataType:'json',
  			type:'post',
  		
