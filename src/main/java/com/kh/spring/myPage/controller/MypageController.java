@@ -561,6 +561,7 @@ public class MypageController {
 				JSONObject jObj = new JSONObject();
 				jObj.put("rContent", replyList.get(i).getrContent());
 				jObj.put("rWriter", replyList.get(i).getrWriter());
+				jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
 				jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
 				jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
 				jArr.add(jObj);

@@ -97,6 +97,12 @@ public interface FeedService {
 	 * @return
 	 */
 	int insertShare(ShareFeed sf);
+	
+	int insertTag(ArrayList<Tag> taglist);
+	
+	int selectTag(int fNo);
+	
+	int deleteTag(int fNo);
 
 
 }
