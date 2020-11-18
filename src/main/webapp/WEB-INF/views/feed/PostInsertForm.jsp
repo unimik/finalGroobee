@@ -80,11 +80,12 @@
                                 </td>
                                 <td>
                                     <select id="myGroupList" name="gNo">
+                                    	<option value="0">그룹을 선택해주세요</option>
                                     	<c:forEach var="g" items="${ gn }">
                                     	<c:if test="${ empty g.gmId }">
                                         	<option>가입된 그룹이 없습니다.</option>
                                     	</c:if>
-                                    	
+
                                     	<c:if test="${ loginUser.userId eq g.gmId }">
 											<option value="${ g.gNo }">${ g.gName }</option>
 										</c:if>

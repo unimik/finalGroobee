@@ -55,7 +55,7 @@ public class FeedController {
    
    @RequestMapping("pInsert.do")
    public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi, HttpSession session) {
-
+	   System.out.println(f);
       System.out.println(gn.getgNo());
       int result = fService.insertPost(f);
       
