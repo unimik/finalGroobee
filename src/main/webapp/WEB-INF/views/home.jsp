@@ -41,6 +41,7 @@
 </head>
 <body>
    <c:import url="common/menubar.jsp" />
+   <div id = "topScrollBox"><img src="${ contextPath }/resources/icons/topScroll.png" id="topScrollBtn"></div>
    <div id="feedArea">
    <c:forEach var="f" items="${ feed }" varStatus="status">
       <c:set var="i" value="${ i + 1 }"/>
@@ -285,13 +286,9 @@
          });
          
          var ok = confirm("댓글을 등록하시겠습니까?");
-<<<<<<< HEAD
          console.log(ok);
          if(ok){
-=======
          console.log(오케이);
-         if(오케이){
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
         	 sendAlram("상관없음",fWriter,"reply",rfNo); 
         	 console.log("상관없음",fWriter,"reply",rfNo+"테스트");
         	 alert('stop');
@@ -346,6 +343,23 @@
 			console.log('좋아요 취소');
 		}
 		
+	});
+	
+	/* 스크롤 맨위로 올리기 */
+	$(function(){
+		$("#feedArea").scroll(function(){
+			var st = $("#feedArea").scrollTop();
+			if(st > 0) {
+				$("#topScrollBox").show();
+			} else if(st == 0) {
+				$("#topScrollBox").hide();
+			}
+		});
+		
+		$("#topScrollBtn").on("click",function(){
+			$("#feedArea").animate( { scrollTop : 0 }, 400 );
+			return false;
+		});
 	});
     </script>
     
