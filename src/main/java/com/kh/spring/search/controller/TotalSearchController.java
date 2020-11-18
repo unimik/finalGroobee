@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.text.html.BlockView;
+
 import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,41 +31,63 @@ public class TotalSearchController {
 	
 	//검색창에 검색 컨트롤러
 	@RequestMapping("search.do")
-	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="key") String key,@RequestParam(value="type") String type, int mNo) {
+	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="key") String key,@RequestParam(value="type") String type, @RequestParam(value="mNo") int mNo) {
 		//System.out.println("key :"+key+"   type: "+type);
-
+		ArrayList<Member> mList = null;
+		ArrayList<Group> gList = null;
+		String mno = Integer.toString(mNo);
+		
 		if(type.equals("recommend")) { //아무것도 검색하지 않을 때
 			Search srch = new Search('R', key);
+			//관심사 찾기
 			String interest = tsService.searchInterest(srch);
-			System.out.println(interest);
-			String[] itrst = interest.split(",");
 			
-			/*
-			for(int i =0; i <itrst.length; i++) {
-				System.out.println(i+itrst[i]);
-			}
-			if (itrst.length > 0) {
-			ArrayList<Group> gList = tsService.searchInterestGroup(itrst);
+			if(interest != null) {
+				String[] itrst = interest.split(",");// 관심사 자른 배열
 				
-			}
-			*/
+				//관심사 같은 멤버, 그룹 찾아줌 
+				if (itrst.length > 0) {
+					Search srch1 = new Search('R',itrst);
+					
+					mList =tsService.searcMember(srch1);
+					gList = tsService.searchGroup(srch1);
+					
+					if(!mList.isEmpty()) {
+						 ArrayList<Member> mlist = block(mList,mno);
+						 mv.addObject("mList", mlist);
+					}else{
+						mv.addObject("mList", mList);
+				}
 			
-			mv.setViewName("search/totalSearch");
+				mv.addObject("gList", gList);
+				mv.setViewName("search/totalSearch");
+				}
+				
+			}else {
+				
+				String rStr = "관심사를 설정하시면 계정과 그룹을 추천해드려요!";
+				mv.addObject("rStr", rStr);
+				mv.addObject("mList", mList);
+				mv.addObject("gList", gList);
+				mv.setViewName("search/totalSearch");
+			}
 			return mv;
+			
 			
 		}else if(type.equals("user")) {	//@달고 검색했을 때 --> 아이디, 글에 달린 @아이디 검색	
 			//유저 검색
 			Search srch = new Search('@', key);
-			ArrayList<Member> mlist = tsService.searcMember(srch);
-			System.out.println("검색한 회원번호"+mNo);
-			
-			for(int i =0; i < mlist.size(); i++) {
-				System.out.println(mlist.get(i).getBlock());
-				String bl = mlist.get(i).getBlock();
-				String[] b = bl.split(",");
+			mList = tsService.searcMember(srch);
+
+			//차단한 계정
+			if(!mList.isEmpty()) {
+				//차단계정 검사
+				 ArrayList<Member> mlist = block(mList,mno);
+				 mv.addObject("mList", mlist);
+			}else{
+				mv.addObject("mList", mList);
 			}
 			
-			ArrayList<Member> mList;
 			//피드 검색
 			Search srch2 = new Search('@', '@'+key);
 			ArrayList<Feed> fList = tsService.searchFeed(srch2);
@@ -77,12 +101,27 @@ public class TotalSearchController {
 
 			//유저 검색
 			Search srch = new Search('#', '#'+key);
-			ArrayList<Member> mList = tsService.searcMember(srch);
+			mList = tsService.searcMember(srch);
+			if(!mList.isEmpty()) {
+				 ArrayList<Member> mlist = block(mList,mno);
+				 mv.addObject("mList", mlist);
+			}else {
+				mv.addObject("mList", mList);
+			}
 			
-			//그룹 검색, 피드 검색
-			ArrayList<Group> gList = tsService.searchGroup(srch);
-			ArrayList<Feed> fList = tsService.searchFeed(srch);
-			
+			//그룹 검색, 
+			gList = tsService.searchGroup(srch);
+
+			//피드 검색
+			int[] barr = blockMember(mList, mno);
+			ArrayList<Feed> fList = null;
+			if (barr == null) {
+				fList = tsService.searchFeed(srch);
+			}else {
+				Search srch2 = new Search('#', '#'+key, barr);
+				fList = tsService.searchFeed(srch2);
+			}
+
 			//연관 검색어
 			ArrayList raList = tsService.relatedSearch(srch);
 			ArrayList rbList = new ArrayList();
@@ -92,7 +131,6 @@ public class TotalSearchController {
 				rbList.add(i,str.substring(1));
 			}
 
-			mv.addObject("mList", mList);
 			mv.addObject("gList", gList);
 			mv.addObject("fList", fList);
 			mv.addObject("rsList",rbList);
@@ -105,8 +143,8 @@ public class TotalSearchController {
 		}else if(type.equals("all")){	//@나 # 빼고 검색했을 때
 
 			Search srch = new Search('N', key);
-			ArrayList<Member> mList = tsService.searcMember(srch);
-			ArrayList<Group> gList = tsService.searchGroup(srch);
+			mList = tsService.searcMember(srch);
+			gList = tsService.searchGroup(srch);
 			ArrayList<Feed> fList = tsService.searchFeed(srch);
 			mv.addObject("mList", mList);
 			mv.addObject("gList", gList);
@@ -119,13 +157,50 @@ public class TotalSearchController {
 			mv.setViewName("search/totalSearch");
 			return mv;
 		}
+
+	}
+	//블락 된 계정 제거
+	ArrayList<Member> block(ArrayList<Member> mList, String mno){
+		
+		for(int i =0; i < mList.size(); i++) {
+			if(mList.get(i).getBlock() != null) {
+				String[] b = mList.get(i).getBlock().split(",");
+				for(int j = 0; j < b.length; j++) {
+					if(mno.equals(b[j])) {
+						mList.remove(i);
+					}
+				}
+			}	
+		}
+		
+		return mList;
+	}
+	
+	//사용자 블락한 계정 list
+	int[] blockMember(ArrayList<Member> mList, String mno){
+		int[] barr = null;
+		for(int i =0; i < mList.size(); i++) {
+			if(mList.get(i).getBlock() != null) {
+				String[] b = mList.get(i).getBlock().split(",");
+				for(int j = 0; j < b.length; j++) {
+					int k = 0;
+					if(mno.equals(b[j])) {
+						barr[k] = mList.get(i).getmNo();
+						k++;
+					}
+				}
+			}	
+		}
+		
+		return barr;
 	}
 	
 	
 	//#태그 눌러서 검색 되는 결과
 	@RequestMapping("tagSearch.do")
-	public ModelAndView tagSearch(ModelAndView mv , String search) {
-		
+	public ModelAndView tagSearch(ModelAndView mv , String search, int mNo) {
+		System.out.println("회원번호"+mNo);
+		String mno = Integer.toString(mNo);
 //		System.out.println("태그 클릭하면 클릭한거 들어옴?:"+search); 잘들어옴
 		String searchKey = search;
 		String[] srch = search.split(" ");
@@ -135,32 +210,48 @@ public class TotalSearchController {
 //		System.out.println("rlist 길이"+rlist.length);
 		
 		for(int i = 0; i < srch.length; i++) {
-//			rlist.add('#'+srch[i]);
 			rlist[i] = '#'+srch[i];
-//			System.out.println("rlist"+i+"번"+rlist[i]);
 		}
 		
 		//인물 검색
 		ArrayList<Member> mList = tsService.tagSearchMember(rlist);
+		ArrayList<Member> mlist = block(mList, mno);
 		
 		//그룹 검색
 		ArrayList<Group> gList = tsService.tagSearchGroup(rlist);
 		
 		//피드 검색
-//		ArrayList<Feed> fList = tsService.tagsearchFeed(rlist);
-		ArrayList<Feed> fList = tsService.tagSearchFeed(rlist);
-//		System.out.println("가져온 리스트:"+fList); 가져옴
-
+		int[] barr = blockMember(mList,mno);
+		ArrayList<Feed> fList = new ArrayList<Feed>();
+		
+		/*if(barr != null) {
+			Search sr = new Search(rlist, barr);
+			fList = tsService.tagSearchbFeed(sr);	
+		}else{
+			fList = tsService.tagSearchFeed(rlist);			
+		}*/
+		if (barr != null) {
+			fList = tsService.tagSearchFeed(rlist);
+			for(int i =0; i<barr.length; i++) {
+				for(int j =0; j< fList.size(); j++) {
+					if(barr[i]==fList.get(j).getmNo()) {
+						fList.remove(j);
+					}
+				}
+			}
+		}else {
+			fList = tsService.tagSearchFeed(rlist);			
+		}
+		
 		//연관 검색어 검색
 		ArrayList raList = tsService.tagSearchRs(rlist);
-		//		System.out.println("연관 검색어 나오니?"+raList); //잘나옴
 		ArrayList rbList = new ArrayList();
 		for( int i = 0; i<raList.size();i++) {
 			String str = (String) raList.get(i);
 			rbList.add(i,str.substring(1));
 		}
 		
-		mv.addObject("mList", mList);
+		mv.addObject("mList", mlist);
 		mv.addObject("gList", gList);
 		mv.addObject("rsList",rbList);
 		mv.addObject("fList",fList);
@@ -168,5 +259,6 @@ public class TotalSearchController {
 		mv.setViewName("search/totalSearch");
 		return mv;
 	}
+	
 
 }

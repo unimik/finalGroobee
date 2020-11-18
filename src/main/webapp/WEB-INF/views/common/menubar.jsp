@@ -1373,15 +1373,16 @@
          var sign = allSearch.charAt(0);         //검색어 첫글자 - 기호
          var slength = allSearch.length;         //검색어 길이
          var keyword = allSearch.substr(1);      //키워드
-
+         var mno = ${ loginUser.mNo };
+         
          if(sign == " "){
             alert('검색어 첫글자를 띄어 쓸 수 없습니다');      
          }else if(slength < 1){
-            location.href="search.do?type=recommend&key="+${ loginUser.mNo };
+            location.href="search.do?type=recommend&key="+mno+"&mNo="+mno;
          }else if(sign =='#'){
-            location.href="search.do?type=tag&key="+keyword;
+            location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
          }else if(sign =='@'){
-            location.href="search.do?type=user&key="+keyword+"&mNo="+${ loginUser.mNo };
+            location.href="search.do?type=user&key="+keyword+"&mNo="+mno;
          }else{
             location.href="search.do?type=all&key="+allSearch;
          }
