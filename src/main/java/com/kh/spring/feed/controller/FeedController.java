@@ -31,6 +31,7 @@ import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
+import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
@@ -276,34 +277,47 @@ public class FeedController {
 			return "fail";
 		}
 	}
-
 	
 	@ResponseBody
-	@RequestMapping("editReply.do")
-	public String editReply(Reply r, HttpSession session, int rfNo) {
-		Member mem = (Member)session.getAttribute("loginUser");
-		r.setrWriter(mem.getUserId());
-		r.setrWriterImg(mem.getmRenameImage());
-		System.out.println("수정 댓글 글쓴이 : " + mem.getUserId());
-		System.out.println("수정 댓글 글쓴이2 : " + r.getrWriter());
-		System.out.println("수정 Reply Check : " +r);
-		System.out.println("수정 rfNo : " + rfNo);
+	@RequestMapping("shareFeed.do")
+	public int shareFeed(int fNo, int mNo, HttpServletRequest request) {
+		ShareFeed sf = new ShareFeed();
 		
-		r.setfNo(rfNo);
-		r.setmNo(mem.getmNo());
+		sf.setSf_no(fNo);
+		sf.setSm_no(mNo);
+		int result = fService.insertShare(sf);
 		
-		int result = fService.updateReply(r);
-		
-		System.out.println("수정 reply_fNo : " + r.getfNo());
-		System.out.println("수정 reply_rNo : " + r.getrNo());
-		System.out.println("수정 reply_rWriterImg : " + r.getrWriterImg());
-		
-		if(result > 0) {
-			return "success";
+		if( result > 0) {
+			return result;
 		}else {
-			return "fail";
+			return 0;
 		}
 	}
+
+
+
+	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("editReply.do") public String editReply(Reply r, HttpSession
+	 * session, int rfNo) { Member mem = (Member)session.getAttribute("loginUser");
+	 * r.setrWriter(mem.getUserId()); r.setrWriterImg(mem.getmRenameImage());
+	 * System.out.println("수정 댓글 글쓴이 : " + mem.getUserId());
+	 * System.out.println("수정 댓글 글쓴이2 : " + r.getrWriter());
+	 * System.out.println("수정 Reply Check : " +r); System.out.println("수정 rfNo : " +
+	 * rfNo);
+	 * 
+	 * r.setfNo(rfNo); r.setmNo(mem.getmNo());
+	 * 
+	 * int result = fService.updateReply(r);
+	 * 
+	 * System.out.println("수정 reply_fNo : " + r.getfNo());
+	 * System.out.println("수정 reply_rNo : " + r.getrNo());
+	 * System.out.println("수정 reply_rWriterImg : " + r.getrWriterImg());
+	 * 
+	 * if(result > 0) { return "success"; }else { return "fail"; } }
+	 */
 	
 	//검색 팝업
 		@ResponseBody
