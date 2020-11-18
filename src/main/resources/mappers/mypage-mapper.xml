@@ -82,6 +82,12 @@
 		<result column="F_NO" property="fNo"/>
 		<result column="F_TAG" property="fTag"/>
 	</resultMap>
+	
+	<resultMap id="shareResultSet" type="Share">
+		<id property="sf_no" column="SF_NO"/>
+		<result property="sm_no" column="SM_NO"/>
+		<result property="s_status" column="S_STATUS"/>
+	</resultMap>
 
 	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
 		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
@@ -139,14 +145,14 @@
 	</delete>
 	
 	<select id="selectFollowerList" parameterType="Mypage" resultMap="mypageResultSet">
-		select m.m_id, m.m_rename_image
+		select DISTINCT m.m_id, m.m_rename_image
 		from follow f
 		left join member m on f.m_no=m.m_no
 		where f.follows=#{mNo}
 	</select>
 	
 	<select id="selectFollowingList" parameterType="Mypage" resultMap="mypageResultSet">
-		select m.m_id, m.m_rename_image
+		select DISTINCT m.m_id, m.m_rename_image
 		from follow f
 		left join member m on f.follows=m.m_no
 		where f.m_no=#{mNo}
@@ -199,9 +205,10 @@
 	</select>
 
 	<select id="selectReplyList" parameterType="Reply" resultMap="replyResultSet">
-		select * from reply
-        where f_no = #{fNo}
-        and r_status='Y'
+		select * from reply r
+		join member m on(r.m_no=m.m_no)
+        where r.f_no = #{fNo}
+        and r.r_status='Y'
 	</select>
 	
 
