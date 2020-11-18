@@ -12,6 +12,7 @@ import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 @Service("fService")
 public class FeedServiceImpl implements FeedService {
@@ -106,5 +107,10 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public int insertShare(ShareFeed sf) {
 		return fDao.insertShare(sf);
+	}
+
+	@Override
+	public int insertStorage(StorageBox sb) {
+		return fDao.insertStorage(sb);
 	}
 }

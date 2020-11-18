@@ -8,6 +8,7 @@ import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 public interface FeedService {
 
@@ -103,6 +104,13 @@ public interface FeedService {
 	int selectTag(int fNo);
 	
 	int deleteTag(int fNo);
+	
+	/**
+	 * 보관함에 insert
+	 * @param sb
+	 * @return
+	 */
+	int insertStorage(StorageBox sb);
 
 
 }

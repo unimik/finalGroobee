@@ -12,6 +12,7 @@ import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 @Repository("fDao")
 public class FeedDao {
@@ -90,6 +91,10 @@ public class FeedDao {
 	
 	public int insertShare(ShareFeed sf) {
 		return sqlSession.insert("feedMapper.insertShare", sf);
+	}
+
+	public int insertStorage(StorageBox sb) {
+		return sqlSession.insert("mypageMapper.insertStorage", sb);
 	}
 
 }

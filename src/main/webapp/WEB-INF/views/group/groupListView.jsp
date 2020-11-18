@@ -91,10 +91,12 @@
 						       	   <li><a href="${ godetail }">그룹보기</a></li>
 						           <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
 						           <li><a id="share_feed" class="share_feed">공유하기</a></li>
-						           <li><a>보관함</a></li>
+						           <li><a id="goStorage" class="goStorage">보관함</a></li>
 						           <li><a id="close" class="close">취소</a></li>
 						        </ul>
 						    </div>
+						</div>
+						<div class="storagePop">
 						</div>
 						</c:when>
 						<c:otherwise>
@@ -350,7 +352,6 @@
 		
 		$(function(){
 			
-			
 			$('.share_feed').on("click",function(){
 				var fNo = $(this).parents().children('.fn').val();
 				console.log(fNo);
@@ -367,6 +368,68 @@
 					},error:function(){
 						alert("공유 실패");
 					}
+				});
+			});
+		})
+		$(function(){
+			$('.goStorage').on("click",function(){
+				var mNo = ${ loginUser.mNo};
+				var fNo = $(this).parents().children('.fn').val();
+				console.log(mNo);
+				$.ajax({
+					url:"selectStorage.do",
+					data:{ mNo:mNo},
+					dataType:"json",
+					success:function(data){
+						$divAll = $('.storagePop');
+						$divAll.html("");
+						
+							var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
+							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;">');
+							var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
+							var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
+							var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
+							for(var i=0; i < data.length; i++){
+								$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
+							}
+							var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
+							
+							
+							$div.append($p);
+							$div.append($p2);
+							$div.append($select);
+							$div.append($button);
+							$divAll.append($input);
+							$divAll.append($div);
+						
+						$('.storagePop').show();
+					}
+				});
+				
+				$(document).on("click",".insertStorage",function(){
+
+					
+					var fNo = $(this).parents().children('.in_fno').val();
+					console.log(fNo);
+					var mNo = ${ loginUser.mNo};
+					var sbNo = $(this).prev('select').children('option:selected').val();
+					var sbName = $(this).prev('select').children('option:selected').text();
+					console.log(sbNo);
+					console.log(sbName);
+					$.ajax({
+						url:"insertStorage.do",
+						data:{ fNo:fNo,mNo:mNo,sbNo:sbNo,sbName:sbName },
+						type:"post",
+						success:function(data){
+							if(data > 0){
+								alert("게시글을 보관함에 넣었습니다.");
+								$('.storagePop').hide();
+								$('.pop_menu').hide();
+							}
+						},error:function(){
+							alert("보관함에 이미 게시글이 있거나, 보관함에 넣기 실패하였습니다.");
+						}
+					});
 				});
 			});
 		})

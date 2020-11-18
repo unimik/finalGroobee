@@ -2,6 +2,7 @@ package com.kh.spring.feed.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,11 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.myPage.model.service.MypageService;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 
 @Controller
@@ -41,6 +45,9 @@ public class FeedController {
    
    @Autowired
    private FeedService fService;
+   
+   @Autowired
+   private MypageService myService;
       
    @RequestMapping("pInsertView.do")
    public ModelAndView postInsertView(ModelAndView mv, ArrayList<GroupName> gn, HttpSession session) {
@@ -54,7 +61,7 @@ public class FeedController {
    
    @RequestMapping("pInsert.do")
    public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi, HttpSession session) {
-
+	   System.out.println(f);
       System.out.println(gn.getgNo());
       int result = fService.insertPost(f);
       
@@ -96,6 +103,21 @@ public class FeedController {
             }
          }
          
+       //태그 인서트
+ 		String[] strarr = f.getfContent().split(" |\\n");
+ 		ArrayList<Tag> taglist = new ArrayList<Tag>();
+ 		for(int i = 0; i < strarr.length; i++) {
+ 			if(strarr[i].charAt(0) == '#') {
+ 				Tag t = new Tag(f.getfNo(),strarr[i]);
+ 				taglist.add(t);
+ 			}
+ 		}
+ 		System.out.println("태그리스트"+taglist);
+ 	
+ 		if(!taglist.isEmpty()) {
+ 			int resultTag = fService.insertTag(taglist);
+// 			System.out.println(resultTag); // 성공해도 -1나옴 왜...
+ 		}
          try {
             p.setfNo(f.getfNo());
             int photo = fService.insertPhoto(p);
@@ -153,6 +175,21 @@ public class FeedController {
       System.out.println(f.getfNo());
       System.out.println(result);
       
+      //태그 인서트
+		String[] strarr = f.getfContent().split(" |\\n");
+		ArrayList<Tag> taglist = new ArrayList<Tag>();
+		for(int i = 0; i < strarr.length; i++) {
+			if(strarr[i].charAt(0) == '#') {
+				Tag t = new Tag(f.getfNo(),strarr[i]);
+				taglist.add(t);
+			}
+		}
+	
+		if(!taglist.isEmpty()) {
+			int resultTag = fService.insertTag(taglist);
+			System.out.println("인서트 태그"+resultTag);
+		}
+    		
       Member mem = (Member)session.getAttribute("loginUser");
       
       // 파일 업로드 부분
@@ -241,6 +278,12 @@ public class FeedController {
       Member mem = (Member)session.getAttribute("loginUser");
       System.out.println("f : " + fService.selectUpdateFeed(fNo));
       System.out.println("p : " + p);
+
+      //태그 있으면 삭제 
+      int tagCnt = fService.selectTag(fNo);
+      if(tagCnt > 0) {
+    	  int tag = fService.deleteTag(fNo);
+      }
       
       if(f.getPhotoList() != null) {   // 첨부파일이 있으면
          deleteFile(p.getChangeName(), request);   // 첨부파일 삭제
@@ -353,4 +396,43 @@ public class FeedController {
          }
       }
 
+      
+      @RequestMapping("selectStorage.do")
+      public void selectStorage(int mNo, HttpServletResponse response) throws IOException {
+    	  System.out.println(mNo);
+    	  response.setContentType("application/json; charset=UTF-8");
+    	  ArrayList<StorageBox> sblist = myService.selectStorageBoxInfo(mNo);
+    	  System.out.println(sblist);
+    	  JSONObject job = null;
+    	  JSONArray jArr = new JSONArray();
+    	  
+    	  for( StorageBox sb : sblist) {
+    		  System.out.println(sb.getSbName());
+    		  job = new JSONObject();
+    		  job.put("sbName", sb.getSbName());
+    		  job.put("sbNo",sb.getSbNo());
+    		  jArr.add(job);
+    	  }
+    	  
+    	  PrintWriter out = response.getWriter();
+    	  out.print(jArr);
+      }
+      
+      @ResponseBody
+      @RequestMapping("insertStorage.do")
+      public int insertStorage(int fNo, int mNo, int sbNo, String sbName, StorageBox sb, HttpServletRequest request) {
+    	  sb.setfNos(fNo);
+    	  sb.setmNo(mNo);
+    	  sb.setSbNo(sbNo);
+    	  sb.setSbName(sbName);
+    	  
+    	  int result = fService.insertStorage(sb);
+    	  
+    	  if(result > 0) {
+    		  return result;
+    	  }else {
+    		  return 0;
+    	  }
+      }
+      
 }

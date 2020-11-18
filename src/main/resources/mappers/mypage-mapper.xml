@@ -53,7 +53,7 @@
 		<result property="mNo" column="M_NO"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="rContent" column="R_CONTENT"/>
-		<result property="rWriterImg" column="R_WRITER_IMG"/>
+		<result property="rWriterImg" column="M_RENAME_IMAGE"/>
 		<result property="rWriter" column="R_WRITER"/>
 		<result property="rCreateDate" column="R_CREATE_DATE"/>
 		<result property="rModifyDate" column="R_MODIFLY_DATE"/>
@@ -218,5 +218,9 @@
         and r.r_status='Y'
 	</select>
 	
-
+	<insert id="insertStorage" parameterType="sBox">
+		INSERT INTO STORAGE_BOX (SB_NAME,F_NO,M_NO,SB_NO)
+		SELECT * FROM STORAGE_BOX
+		WHERE NOT EXISTS (SELECT * FROM STORAGE_BOX WHERE SB_NAME=#{sbName} AND F_NO=#{fNos} AND M_NO=#{mNo} AND SB_NO=#{sbNo})
+	</insert>
 </mapper>
