@@ -327,40 +327,20 @@
 							                    <div id="heart_reply">
 													<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
 													<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+													<input type="hidden" class="toNo" value="${f.fNo}">
+													<input type="hidden" class="toId" value="${f.fWriter}">
 												</div>
 												<p id="text"><c:out value="${ f.fContent }" /></p>
-							                    
-							                </div>
-							                <div id="replyArea">
-							                    <div id="replyList">
-							                        <ul id="re_list">
-							                            <li><img src="../resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">user01</p></li>
-							                            <li><p id="replyCon">맛있겠다...여기 어디인가요?? 대박 정보 좀....</p></li>
-							                            <li><p id="time">1시간전</p></li>
-							                            <li><img src="../resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-							                        </ul>
-							                    </div>
-							                    <div class="reply_menu">
-							                        <div id="re_menu_list">
-							                            <ul>
-							                                <li><a>댓글 수정</a></li>
-							                                <li><a>댓글 삭제</a></li>
-							                                <li><a id="re_close">취소</a></li>
-							                            </ul>
-							                        </div>
-							                    </div>
-							
-							                    <div id="reply">
-							                        <input type="text" id="textArea" name="textArea">
-							                        <input type="button" id="replyBtn" name="replyBtn" value="등륵">
-							                    </div>
-							                </div>
-							            </div>
+								
+											</div>
+											
+										</div>
 							       	</div>
+							   
 							   </c:forEach>
 							   </c:if>
 							   </div>
-	                            </div>
+							   </div>
 	                            <div class="hotConBox conBox">
 	                                <div id="newfeedArea">
 								<c:if test="${ !empty hgflist }">
@@ -426,48 +406,29 @@
 									</c:choose>
 								    </div>
 							            <div id="con">
-							                <div id="feed_content">
-												<c:if test="${ !empty f.photoList }">
-													<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-													<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-													<ul id="imgList">
+											<div id="feed_content">
+													<c:if test="${ !empty f.photoList }">
+														<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+														<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 														<c:forEach var="p" items="${ f.photoList }">
-															<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+														<c:if test="${ p.changeName ne null }">
+															<ul id="imgList">
+																<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+															</ul>
+														</c:if>
 														</c:forEach>
-													</ul>
-												</c:if>
-							                    <div id="heart_reply">
-													<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+													</c:if>
+												<div id="heart_reply">
+													<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
 													<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+													<input type="hidden" class="toNo" value="${f.fNo}">
+													<input type="hidden" class="toId" value="${f.fWriter}">
 												</div>
 												<p id="text"><c:out value="${ f.fContent }" /></p>
-							                    
-							                </div>
-							                <div id="replyArea">
-							                    <div id="replyList">
-							                        <ul id="re_list">
-							                            <li><img src="../resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">user01</p></li>
-							                            <li><p id="replyCon">맛있겠다...여기 어디인가요?? 대박 정보 좀....</p></li>
-							                            <li><p id="time">1시간전</p></li>
-							                            <li><img src="../resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-							                        </ul>
-							                    </div>
-							                    <div class="reply_menu">
-							                        <div id="re_menu_list">
-							                            <ul>
-							                                <li><a>댓글 수정</a></li>
-							                                <li><a>댓글 삭제</a></li>
-							                                <li><a id="re_close">취소</a></li>
-							                            </ul>
-							                        </div>
-							                    </div>
-							
-							                    <div id="reply">
-							                        <input type="text" id="textArea" name="textArea">
-							                        <input type="button" id="replyBtn" name="replyBtn" value="등륵">
-							                    </div>
-							                </div>
-							            </div>
+								
+											</div>
+										
+										</div>
 							       	</div>
 							   </c:forEach>
 							   </c:if>
@@ -559,48 +520,29 @@
 								    
 								    </div>
 							            <div id="con">
-							                <div id="feed_content">
-												<c:if test="${ !empty f.photoList }">
-													<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-													<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-													<ul id="imgList">
+											<div id="feed_content">
+													<c:if test="${ !empty f.photoList }">
+														<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+														<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 														<c:forEach var="p" items="${ f.photoList }">
-															<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+														<c:if test="${ p.changeName ne null }">
+															<ul id="imgList">
+																<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+															</ul>
+														</c:if>
 														</c:forEach>
-													</ul>
-												</c:if>
-							                    <div id="heart_reply">
-													<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+													</c:if>
+												<div id="heart_reply">
+													<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
 													<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+													<input type="hidden" class="toNo" value="${f.fNo}">
+													<input type="hidden" class="toId" value="${f.fWriter}">
 												</div>
 												<p id="text"><c:out value="${ f.fContent }" /></p>
-							                    
-							                </div>
-							                <div id="replyArea">
-							                    <div id="replyList">
-							                        <ul id="re_list">
-							                            <li><img src="../resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">user01</p></li>
-							                            <li><p id="replyCon">맛있겠다...여기 어디인가요?? 대박 정보 좀....</p></li>
-							                            <li><p id="time">1시간전</p></li>
-							                            <li><img src="../resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-							                        </ul>
-							                    </div>
-							                    <div class="reply_menu">
-							                        <div id="re_menu_list">
-							                            <ul>
-							                                <li><a>댓글 수정</a></li>
-							                                <li><a>댓글 삭제</a></li>
-							                                <li><a id="re_close">취소</a></li>
-							                            </ul>
-							                        </div>
-							                    </div>
-							
-							                    <div id="reply">
-							                        <input type="text" id="textArea" name="textArea">
-							                        <input type="button" id="replyBtn" name="replyBtn" value="등륵">
-							                    </div>
-							                </div>
-							            </div>
+								
+											</div>
+										
+										</div>
 							       	</div>
 							   </c:forEach>
 							   </c:if>
@@ -672,48 +614,29 @@
 								    
 								    </div>
 							            <div id="con">
-							                <div id="feed_content">
-												<c:if test="${ !empty f.photoList }">
-													<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-													<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-													<ul id="imgList">
+											<div id="feed_content">
+													<c:if test="${ !empty f.photoList }">
+														<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+														<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 														<c:forEach var="p" items="${ f.photoList }">
-															<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+														<c:if test="${ p.changeName ne null }">
+															<ul id="imgList">
+																<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+															</ul>
+														</c:if>
 														</c:forEach>
-													</ul>
-												</c:if>
-							                    <div id="heart_reply">
-													<img src="${ contextPath }/resources/icons/heart.png" alt="" id="likeIcon">
+													</c:if>
+												<div id="heart_reply">
+													<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
 													<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+													<input type="hidden" class="toNo" value="${f.fNo}">
+													<input type="hidden" class="toId" value="${f.fWriter}">
 												</div>
 												<p id="text"><c:out value="${ f.fContent }" /></p>
-							                    
-							                </div>
-							                <div id="replyArea">
-							                    <div id="replyList">
-							                        <ul id="re_list">
-							                            <li><img src="../resources/images/IMG_7502.JPG" alt="" id="reply_img">&nbsp;&nbsp;&nbsp;<p id="userId">user01</p></li>
-							                            <li><p id="replyCon">맛있겠다...여기 어디인가요?? 대박 정보 좀....</p></li>
-							                            <li><p id="time">1시간전</p></li>
-							                            <li><img src="../resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-							                        </ul>
-							                    </div>
-							                    <div class="reply_menu">
-							                        <div id="re_menu_list">
-							                            <ul>
-							                                <li><a>댓글 수정</a></li>
-							                                <li><a>댓글 삭제</a></li>
-							                                <li><a id="re_close">취소</a></li>
-							                            </ul>
-							                        </div>
-							                    </div>
-							
-							                    <div id="reply">
-							                        <input type="text" id="textArea" name="textArea">
-							                        <input type="button" id="replyBtn" name="replyBtn" value="등륵">
-							                    </div>
-							                </div>
-							            </div>
+								
+											</div>
+											
+										</div>
 							       	</div>
 							   </c:forEach>
 							   </c:if>

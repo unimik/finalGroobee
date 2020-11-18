@@ -103,6 +103,12 @@
 		<result property="gmId" column="GM_ID"/>
 	</resultMap>
 	
+	<resultMap id="shareResultSet" type="Share">
+		<id property="sf_no" column="SF_NO"/>
+		<result property="sm_no" column="SM_NO"/>
+		<result property="s_status" column="S_STATUS"/>
+	</resultMap>
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -279,4 +285,39 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
+	
+	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
+      SELECT
+        F.*
+      , R.*
+      , P.*
+      , M.M_RENAME_IMAGE
+      FROM FEED F
+      LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+      LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+      INNER JOIN MEMBER M ON(F.M_NO = M.M_NO)
+      WHERE F.F_STATUS='Y'
+      AND F.F_NO =#{ fno }
+   </select>
+   
+	<insert id="insertTag" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="t" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
+			INSERT INTO TAG VALUES(#{t.fNo}, #{t.fTag})
+		</foreach>
+	</insert>
+	<select id="selectTag" parameterType="_int" resultType="_int">
+		SELECT
+			count(*)
+		FROM TAG
+		WHERE F_NO = #{fNo}
+	</select>
+	
+	<delete id="deleteTag" parameterType="_int">
+		DELETE FROM TAG WHERE F_NO = #{ fNo }
+	</delete>
+	
+	<insert id="insertShare" parameterType="Share">
+		INSERT INTO SHARE_FEED
+		VALUES(#{sf_no},#{sm_no},DEFAULT)
+	</insert>
 </mapper>
