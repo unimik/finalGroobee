@@ -103,6 +103,12 @@
 		<result property="gmId" column="GM_ID"/>
 	</resultMap>
 	
+	<resultMap id="shareResultSet" type="Share">
+		<id property="sf_no" column="SF_NO"/>
+		<result property="sm_no" column="SM_NO"/>
+		<result property="s_status" column="S_STATUS"/>
+	</resultMap>
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -311,4 +317,8 @@
 	</delete>
 	
 
+	<insert id="insertShare" parameterType="Share">
+		INSERT INTO SHARE_FEED
+		VALUES(#{sf_no},#{sm_no},DEFAULT)
+	</insert>
 </mapper>
