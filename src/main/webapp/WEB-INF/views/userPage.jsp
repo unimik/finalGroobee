@@ -294,7 +294,7 @@
 			                                 </c:when>
 			                                 <c:otherwise>
 			                                     <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
-			                                         <div type="button" id="pb2">
+			                                         <div type="button" class="pb2">
 			                                             <text>${ feedlist.fContent }</text>
 			                                         </div>
 			                                     </div>
@@ -780,7 +780,7 @@
             $(".pop_feed").show();
         });
 
-        $('#pb2').mouseover(function() {
+        $('.pb2').mouseover(function() {
             $(this).css({'background' : '#daf4eda1'});
         }).mouseleave(function() {
             $(this).css({'background' : 'none'});
