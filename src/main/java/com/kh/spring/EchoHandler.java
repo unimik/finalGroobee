@@ -100,7 +100,7 @@ public class EchoHandler extends TextWebSocketHandler{
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
             	} else {
-//            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
 
             		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
             			System.out.println("값 XXX");

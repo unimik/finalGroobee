@@ -26,7 +26,7 @@
 <body>
    <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
     <div id="header">
-            <img src="resources/icons/logo.png" alt="logo" id="logo" name="logo">
+            <a href="${ goHome }?userId=${ loginUser.userId }"><img src="resources/icons/logo.png" alt="logo" id="logo" name="logo"></a>
      </div>
      <!-- 채팅 사람 추가 모달 -->
      <div class="modal fade" id="plusGroupUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -228,8 +228,13 @@
 	             <li><a href="goSetting.do" ><img src="resources/icons/menu_set.png" alt="SET"></a></li>
 	         </ul>
 	     </div>
-	     
+	     <audio src="resources/sounds/카톡.mp3" id="messageSound"></audio>
      <script type="text/javascript">
+     /* 채팅 알림 */
+     function messageSound() {
+    	 var a = new Audio("resources/sounds/카톡.mp3");
+    	 a.play();
+     }
      /* 채팅방 나가기 */
      function chatDelete() {
     	 var crNo = $("#chatArea").children(".3").val();
@@ -1051,7 +1056,7 @@
              
              $div.append($p);
              $div1.append($div);
-             
+
              $("#chatArea").append($div1);
           }
           $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
@@ -1081,6 +1086,7 @@
                  $div3.append($div);
                  
                  $("#chatArea").append($div3);
+                 
              }
              $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
           }
@@ -1108,6 +1114,7 @@
              $div1.append($a);
              $div.append($div1);
              $div3.append($div);
+             messageSound();
              
              $("#chatArea").append($div3);
           };
@@ -1361,9 +1368,9 @@
        };
        
 
-          function search() {
+         function search() {
          var allSearch = $('#allSearch').val();  //검색어
-             var sign = allSearch.charAt(0);         //검색어 첫글자 - 기호
+         var sign = allSearch.charAt(0);         //검색어 첫글자 - 기호
          var slength = allSearch.length;         //검색어 길이
          var keyword = allSearch.substr(1);      //키워드
 
@@ -1374,7 +1381,7 @@
          }else if(sign =='#'){
             location.href="search.do?type=tag&key="+keyword;
          }else if(sign =='@'){
-            location.href="search.do?type=user&key="+keyword;
+            location.href="search.do?type=user&key="+keyword+"&mNo="+${ loginUser.mNo };
          }else{
             location.href="search.do?type=all&key="+allSearch;
          }

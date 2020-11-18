@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.model.service.NotificationService;
 import com.kh.spring.notification.model.vo.Notification;
+import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 
 @Controller
 public class NotificationController {
@@ -37,5 +38,10 @@ public class NotificationController {
 			System.out.println(nt);
 		}
 		return nt;
+	}
+
+
+	public int insertAlarm(PushAlarm pa) {
+		return nService.insertAlarm(pa);
 	}
 }

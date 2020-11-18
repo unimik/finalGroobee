@@ -29,7 +29,7 @@ public class TotalSearchController {
 	
 	//검색창에 검색 컨트롤러
 	@RequestMapping("search.do")
-	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="key") String key,@RequestParam(value="type") String type) {
+	public ModelAndView searchList(ModelAndView mv, @RequestParam(value="key") String key,@RequestParam(value="type") String type, int mNo) {
 		//System.out.println("key :"+key+"   type: "+type);
 
 		if(type.equals("recommend")) { //아무것도 검색하지 않을 때
@@ -54,8 +54,16 @@ public class TotalSearchController {
 		}else if(type.equals("user")) {	//@달고 검색했을 때 --> 아이디, 글에 달린 @아이디 검색	
 			//유저 검색
 			Search srch = new Search('@', key);
-			ArrayList<Member> mList = tsService.searcMember(srch);
-
+			ArrayList<Member> mlist = tsService.searcMember(srch);
+			System.out.println("검색한 회원번호"+mNo);
+			
+			for(int i =0; i < mlist.size(); i++) {
+				System.out.println(mlist.get(i).getBlock());
+				String bl = mlist.get(i).getBlock();
+				String[] b = bl.split(",");
+			}
+			
+			ArrayList<Member> mList;
 			//피드 검색
 			Search srch2 = new Search('@', '@'+key);
 			ArrayList<Feed> fList = tsService.searchFeed(srch2);
