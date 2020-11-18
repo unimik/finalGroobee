@@ -2,6 +2,7 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
-import com.kh.spring.notification.model.service.NotificationService;
-import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 import com.kh.spring.setting.model.service.SettingService;
 
 @SessionAttributes("loginUser")
@@ -51,8 +52,6 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	@Autowired
-	private NotificationService nService ;
 	/**
 	 * - 로그인
 	 * @param m
@@ -63,10 +62,8 @@ public class MemberController {
 	public String memberLogin(Member m, String userId,String userPwd,Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
-		String name = m.getUserName();
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
 //		for(Feed ff : feed) {
 //			System.out.println(ff);
 //		}
@@ -74,7 +71,6 @@ public class MemberController {
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("alarmList", alarmList);
 			if(loginUser.getUserId().equals("admin")) {
 				return "admin/adminmember";
 			}else {

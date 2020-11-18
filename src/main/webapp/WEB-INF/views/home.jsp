@@ -220,13 +220,15 @@
     $('.deleteMyPost').on('click', function () {
     	confirm('이 포스트를 정말 삭제하시겠습니까?');
     });
-    $('.rEdit').on("click", function() {
-  	  $('#replyCon').css('border','1px solid #555555');
-  	  $('#replyCon').removeAttr('readonly');
-  	  $('#replyCon').removeAttr('disabled');
+    $('.rEdit').on("click", function(e) {
+//    	var repCon = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];
+		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];
+		$(repCon).css('border', '1px solid #555555');
+  	  	$(repCon).removeAttr('readonly');
+  	  	$(repCon).removeAttr('disabled');
   	  
-  	  $('#confirmR').css('display', 'block');
-  	  $('.reply_menu').hide();
+  	  	$('#confirmR').css('display', 'block');
+  	  	$('.reply_menu').hide();
     });
           
        // text-area resize
@@ -324,10 +326,10 @@
  	
  	$('.rConfirm').on("click", function(e) {
 /* 		var rContent = e.target.parentElement.children[1].value; */
-		var rNo = e.target.parentElement.children[0].value;
+		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
 		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
 		
-		var replyContent = $('#replyCon').val();
+		var replyContent = e.target.previousElementSibling.value;
 //		var replyContent = e.target.parentElement.parentElement.parentElement.previousSibling.parentElement.children[0].children[0].children[1].innerText;
 		
 			$.ajax({
@@ -339,8 +341,9 @@
 				},
 				type: "post",
 				success: function(data) {	// 성공 시: success, 실패 시: fail
-					if(data == "success") {
-						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+					console.log(data);
+ 					if(data == "success") {
+//						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 						location.href="home.do?userId="+rWriter;
 					}
 				}, error: function() {
@@ -350,16 +353,26 @@
 		
 	});
 	});
- 			// 좋아요 알람
-    			$(".likeIcon").on('click',function(e){
-    				console.log("likeicon 클릭");
-    				$(e.target).attr('src','/spring/resources/icons/heart_red.png');
-    				var toId = $(e.target).parent().children('.toId').val();
-    				var toNo = $(e.target).parent().children('.toNo').val();
-    				
-    				sendAlram("상관없음",toId,"like",toNo);
-    				console.log("상관없음",toId,"like",toNo);
-    			})
+	
+ 	// 좋아요 알람
+	$(".likeIcon").on('click',function(e){
+		console.log("likeicon 클릭");
+		console.log($(e.target).parent().children('.likeIcon')[0].id);
+		
+		if($(e.target).parent().children('.likeIcon')[0].id == 'likeIcon'){
+			$(e.target).attr('src','/spring/resources/icons/heart_red.png');
+			$(e.target).attr('id','liked');
+			var toId = $(e.target).parent().children('.toId').val();
+			var toNo = $(e.target).parent().children('.toNo').val();    				
+			sendAlram("상관없음",toId,"like",toNo);
+			console.log("상관없음",toId,"like",toNo);
+		}else{
+			$(e.target).attr('src','/spring/resources/icons/heart.png');
+			$(e.target).attr('id','likeIcon');
+			console.log('좋아요 취소');
+		}
+		
+	});
     </script>
     
 </body>

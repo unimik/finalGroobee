@@ -100,7 +100,7 @@ public class EchoHandler extends TextWebSocketHandler{
             			toSession.sendMessage(new TextMessage(Rmsg));
             		}
             	} else {
-//            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
+            		int result = cController.sendMessage(new Chat(),fromId,toId,Rmsg,crNo);
 
             		if(toSession == null || toSession.equals("") || !toSession.isOpen()) {
             			System.out.println("값 XXX");
@@ -185,7 +185,7 @@ public class EchoHandler extends TextWebSocketHandler{
 					}else if("groupjoin".equals(sendType)) {
 						Group fromGroup = gService.getManagerId(fromId);
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 그룹 가입을 신청했습니다.");
-						PushAlarm pa = new PushAlarm(fromGroup.getgName(),fromId,sendType,crno,"N");
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
 						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 						
@@ -193,6 +193,17 @@ public class EchoHandler extends TextWebSocketHandler{
 						Group fromGroup = gService.getManagerId(fromId);
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
 						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
+						boardWriterSession.sendMessage(tmpMsg);
+					}else if("groupDelete".equals(sendType)) {
+						Group fromGroup = gService.getManagerId(fromId);
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+crno+"|그룹 "+fromGroup.getgName());
+						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
+						boardWriterSession.sendMessage(tmpMsg);
+					}else if("reply".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId);
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
 						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 					}

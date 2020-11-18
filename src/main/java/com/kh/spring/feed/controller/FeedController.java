@@ -10,7 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import org.apache.ibatis.javassist.expr.NewArray;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +31,6 @@ import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
-import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
@@ -52,6 +56,7 @@ public class FeedController {
 
 		System.out.println(gn.getgNo());
 		int result = fService.insertPost(f);
+		
 		Member mem = (Member)session.getAttribute("loginUser");
 		
 		List<MultipartFile> fileList = multi.getFiles("upFile");
@@ -101,21 +106,6 @@ public class FeedController {
 			System.out.println(originalFileName);
 		}
 		
-		//태그 인서트
-		String[] strarr = f.getfContent().split(" |\\n");
-		ArrayList<Tag> taglist = new ArrayList<Tag>();
-		for(int i = 0; i < strarr.length; i++) {
-			if(strarr[i].charAt(0) == '#') {
-				Tag t = new Tag(f.getfNo(),strarr[i]);
-				taglist.add(t);
-			}
-		}
-	
-		if(!taglist.isEmpty()) {
-			int resultTag = fService.insertTag(taglist);
-//			System.out.println(resultTag); // 성공해도 -1나옴 왜...
-		}
-		
 		
 		if(result > 0) {
 			return "redirect:home.do?userId=" + mem.getUserId();
@@ -161,32 +151,11 @@ public class FeedController {
 		int result = fService.updatePost(f);
 		System.out.println(f.getfNo());
 		System.out.println(result);
-
-		// 태그 삭제 
-		int tagCnt = fService.selectTag(f.getfNo());
-		if(tagCnt > 0) {
-			int tag = fService.deleteTag(f.getfNo());
-		}
-
-		//태그 인서트
-		String[] strarr = f.getfContent().split(" |\\n");
-		ArrayList<Tag> taglist = new ArrayList<Tag>();
-		for(int i = 0; i < strarr.length; i++) {
-			if(strarr[i].charAt(0) == '#') {
-				Tag t = new Tag(f.getfNo(),strarr[i]);
-				taglist.add(t);
-			}
-		}
-	
-		if(!taglist.isEmpty()) {
-			int resultTag = fService.insertTag(taglist);
-			System.out.println("인서트 태그"+resultTag);
-		}
 		
 		Member mem = (Member)session.getAttribute("loginUser");
 		
-
 		// 파일 업로드 부분
+		
 		List<MultipartFile> fileList = multi.getFiles("reloadFile");
 		String root = multi.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
@@ -272,17 +241,10 @@ public class FeedController {
 		System.out.println("f : " + fService.selectUpdateFeed(fNo));
 		System.out.println("p : " + p);
 		
-		//태그 있으면 삭제 없으면 안삭제
-		int tagCnt = fService.selectTag(fNo);
-		if(tagCnt > 0) {
-			int tag = fService.deleteTag(fNo);
-		}
-
 		if(f.getPhotoList() != null) {	// 첨부파일이 있으면
 			deleteFile(p.getChangeName(), request);	// 첨부파일 삭제
 		}
 		int result = fService.deletePost(fNo);
-		
 		
 		if(result > 0) {
 			return "redirect:home.do?userId=" + mem.getUserId();
@@ -295,10 +257,7 @@ public class FeedController {
 	@RequestMapping("addReply.do")
 	public String addReply(Reply r, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
-		r.setrWriter(mem.getUserId());
 		r.setrWriterImg(mem.getmRenameImage());
-		System.out.println("댓글 글쓴이 : " + mem.getUserId());
-		System.out.println("댓글 글쓴이2 : " + r.getrWriter());
 		System.out.println("Reply Check : " +r);
 		System.out.println("rfNo" + rfNo);
 		
@@ -317,6 +276,7 @@ public class FeedController {
 			return "fail";
 		}
 	}
+
 	
 	@ResponseBody
 	@RequestMapping("editReply.do")
@@ -326,7 +286,7 @@ public class FeedController {
 		r.setrWriterImg(mem.getmRenameImage());
 		System.out.println("수정 댓글 글쓴이 : " + mem.getUserId());
 		System.out.println("수정 댓글 글쓴이2 : " + r.getrWriter());
-		System.out.println("수정 Reply Check : " +r);
+		System.out.println("수정 Reply Check : " + r);
 		
 		r.setmNo(mem.getmNo());
 		
@@ -342,5 +302,38 @@ public class FeedController {
 			return "fail";
 		}
 	}
+	
+	//검색 팝업
+		@ResponseBody
+		@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
+		public String popFeed(int fno) {
+			Feed f = new Feed();
+			f = fService.popFeed(fno);
+			JSONObject job = new JSONObject();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+			JSONArray jarr = new JSONArray();
+			if(f.getPhotoList().size() >-1) {
+			for(int i =0; i < f.getPhotoList().size(); i++) {
+				jarr.add(i, f.getPhotoList().get(i).getChangeName());
+				}
+			}
+			if(f != null) {
+				System.out.println(f);
+				job.put("mno", f.getmNo());
+				job.put("mImage", f.getmImage());
+				job.put("fno", f.getfNo());
+				job.put("plist", jarr);
+				job.put("fcontent", f.getfContent());
+				job.put("fwriter", f.getfWriter());
+				job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
+				job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
+				return job.toJSONString();
+			}else {
+				job.put("msg","검색되는 게시글이 없습니다");
+				return job.toJSONString();
+			}
+		}
 
 }

@@ -85,4 +85,6 @@ public class FeedDao {
 	public int deleteTag(int fNo) {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
+
+
 }

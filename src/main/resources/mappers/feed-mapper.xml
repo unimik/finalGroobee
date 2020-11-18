@@ -103,11 +103,6 @@
 		<result property="gmId" column="GM_ID"/>
 	</resultMap>
 	
-	<resultMap type="Tag" id="TagResultSet">
-		<result property="fNo" column="F_NO"/>
-		<result property="fTag" column="F_TAG"/>
-	</resultMap>
-	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -127,13 +122,13 @@
 
 	<select id="selectFeed" resultMap="postResultSet" parameterType="string">
 		SELECT
-        F.*
-        ,(SELECT MB.M_RENAME_IMAGE
-        FROM MEMBER MB
-        WHERE MB.M_ID = F.F_WRITER ) AS M_PROFILE
-        ,R.*
-        ,P.*
-        , M.M_RENAME_IMAGE
+	        F.*
+	      , (SELECT MB.M_RENAME_IMAGE
+	        FROM MEMBER MB
+	        WHERE MB.M_ID = F.F_WRITER ) AS M_PROFILE
+	      , R.*
+	      , P.*
+	      , M.M_RENAME_IMAGE
 		FROM FEED F
 		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
 		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
@@ -221,8 +216,7 @@
 	
 	<update id="updateReply" parameterType="Reply">
 		UPDATE REPLY
-		SET R_WRITER_IMG = #{rWriterImg}
-		  , R_CONTENT = #{rContent}
+		SET R_CONTENT = #{rContent}
 		  , R_MODIFLY_DATE = SYSDATE
 		WHERE R_NO = #{rNo}
 	</update>
@@ -300,6 +294,20 @@
 		ORDER BY F.F_LIKECNT DESC
 	</select>
 	
+	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
+      SELECT
+        F.*
+      , R.*
+      , P.*
+      , M.M_RENAME_IMAGE
+      FROM FEED F
+      LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+      LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+      INNER JOIN MEMBER M ON(F.M_NO = M.M_NO)
+      WHERE F.F_STATUS='Y'
+      AND F.F_NO =#{ fno }
+   </select>
+   
 	<insert id="insertTag" parameterType="java.util.ArrayList">
 		<foreach collection="list" item="t" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
 			INSERT INTO TAG VALUES(#{t.fNo}, #{t.fTag})
@@ -316,4 +324,5 @@
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
 	
+
 </mapper>
