@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
-import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 
 @Repository("fDao")
@@ -87,12 +87,9 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
 
-
 	
 	public int insertShare(ShareFeed sf) {
 		return sqlSession.insert("feedMapper.insertShare", sf);
 	}
-
-
 
 }
