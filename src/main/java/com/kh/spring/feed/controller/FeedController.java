@@ -32,6 +32,7 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
 import com.kh.spring.member.model.vo.Member;
 
@@ -96,6 +97,21 @@ public class FeedController {
             }
          }
          
+       //태그 인서트
+ 		String[] strarr = f.getfContent().split(" |\\n");
+ 		ArrayList<Tag> taglist = new ArrayList<Tag>();
+ 		for(int i = 0; i < strarr.length; i++) {
+ 			if(strarr[i].charAt(0) == '#') {
+ 				Tag t = new Tag(f.getfNo(),strarr[i]);
+ 				taglist.add(t);
+ 			}
+ 		}
+ 		System.out.println("태그리스트"+taglist);
+ 	
+ 		if(!taglist.isEmpty()) {
+ 			int resultTag = fService.insertTag(taglist);
+// 			System.out.println(resultTag); // 성공해도 -1나옴 왜...
+ 		}
          try {
             p.setfNo(f.getfNo());
             int photo = fService.insertPhoto(p);
@@ -153,6 +169,21 @@ public class FeedController {
       System.out.println(f.getfNo());
       System.out.println(result);
       
+      //태그 인서트
+		String[] strarr = f.getfContent().split(" |\\n");
+		ArrayList<Tag> taglist = new ArrayList<Tag>();
+		for(int i = 0; i < strarr.length; i++) {
+			if(strarr[i].charAt(0) == '#') {
+				Tag t = new Tag(f.getfNo(),strarr[i]);
+				taglist.add(t);
+			}
+		}
+	
+		if(!taglist.isEmpty()) {
+			int resultTag = fService.insertTag(taglist);
+			System.out.println("인서트 태그"+resultTag);
+		}
+    		
       Member mem = (Member)session.getAttribute("loginUser");
       
       // 파일 업로드 부분
@@ -241,6 +272,12 @@ public class FeedController {
       Member mem = (Member)session.getAttribute("loginUser");
       System.out.println("f : " + fService.selectUpdateFeed(fNo));
       System.out.println("p : " + p);
+
+      //태그 있으면 삭제 
+      int tagCnt = fService.selectTag(fNo);
+      if(tagCnt > 0) {
+    	  int tag = fService.deleteTag(fNo);
+      }
       
       if(f.getPhotoList() != null) {   // 첨부파일이 있으면
          deleteFile(p.getChangeName(), request);   // 첨부파일 삭제
