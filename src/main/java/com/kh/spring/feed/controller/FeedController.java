@@ -280,7 +280,7 @@ public class FeedController {
 	
 	@ResponseBody
 	@RequestMapping("shareFeed.do")
-	public int shareFeed(int fNo, int mNo, HttpServletRequest request) {
+	public String shareFeed(int fNo, int mNo, HttpServletRequest request) {
 		ShareFeed sf = new ShareFeed();
 		
 		sf.setSf_no(fNo);
@@ -288,9 +288,9 @@ public class FeedController {
 		int result = fService.insertShare(sf);
 		
 		if( result > 0) {
-			return result;
+			return "success";
 		}else {
-			return 0;
+			return "fail";
 		}
 	}
 
