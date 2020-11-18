@@ -1387,7 +1387,7 @@
          }else if(sign =='@'){
             location.href="search.do?type=user&key="+keyword+"&mNo="+mno;
          }else{
-            location.href="search.do?type=all&key="+allSearch;
+            location.href="search.do?type=all&key="+allSearch+"&mNo="+mno;
          }
       };
 
