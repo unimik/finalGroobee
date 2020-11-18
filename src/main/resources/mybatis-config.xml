@@ -26,6 +26,8 @@
 		<typeAlias type="com.kh.spring.member.model.vo.Follow" alias="Follow"/>
 		<typeAlias type="com.kh.spring.myAccount.model.vo.myAccount" alias="MyAccount"/>
 		<typeAlias type="com.kh.spring.notification.model.vo.Notification" alias="Notification"/>
+		<typeAlias type="com.kh.spring.pushAlarm.model.vo.PushAlarm" alias="PushAlarm"/>
+		<typeAlias type="com.kh.spring.feed.model.vo.ShareFeed" alias="Share"/>
 	</typeAliases>
 	
 	<mappers>

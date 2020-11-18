@@ -35,11 +35,16 @@
 	#rWriterInfo{ width: 25%; }
 	#rUpdateMenu{ width: 10%; }
 	#confirmR{ display: none; float: left; margin: 10px; float: left; }
+	#liked{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px;}
+    .replyUpBtn { width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
+    #topScrollBox{ text-align:center; display:none; }
+	#topScrollBox>img{ width: 45px; cursor: pointer; }
 </style>
 
 </head>
 <body>
 	<c:import url="common/menubar.jsp" />
+	<div id = "topScrollBox"><img src="${ contextPath }/resources/icons/topScroll.png" id="topScrollBtn"></div>
 	<div id="feedArea">
 	<c:forEach var="f" items="${ feed }" varStatus="status">
 		<c:set var="i" value="${ i + 1 }"/>
@@ -321,9 +326,17 @@
 				}
 			});
 			
-			confirm("댓글을 등록하시겠습니까?");
-		});
- 	
+			var ok = confirm("댓글을 등록하시겠습니까?");
+         	console.log(ok);
+         	if(ok){
+         	console.log(오케이);
+        	sendAlram("상관없음",fWriter,"reply",rfNo); 
+        	console.log("상관없음",fWriter,"reply",rfNo+"테스트");
+        	alert('stop');
+         }
+	});
+
+	// 댓글 수정 시 완료 버튼
  	$('.rConfirm').on("click", function(e) {
 /* 		var rContent = e.target.parentElement.children[1].value; */
 		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
@@ -372,6 +385,23 @@
 			console.log('좋아요 취소');
 		}
 		
+	});
+	
+	/* 스크롤 맨위로 올리기 */
+	$(function(){
+		$("#feedArea").scroll(function(){
+			var st = $("#feedArea").scrollTop();
+			if(st > 0) {
+				$("#topScrollBox").show();
+			} else if(st == 0) {
+				$("#topScrollBox").hide();
+			}
+		});
+		
+		$("#topScrollBtn").on("click",function(){
+			$("#feedArea").animate( { scrollTop : 0 }, 400 );
+			return false;
+		});
 	});
     </script>
     

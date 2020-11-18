@@ -93,7 +93,7 @@ button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 #replySub::-webkit-scrollbar{ width: 7px;}
 #replySub::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
 #replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
-#feed_gName{ float:left; position: absolute; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
+#feed_gName{ float:left; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
 
 
 
