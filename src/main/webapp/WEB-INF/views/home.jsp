@@ -422,6 +422,7 @@
 	$(function(){
 		$("#feedArea").scroll(function(){
 			var st = $("#feedArea").scrollTop();
+			console.log(st);
 			if(st > 0) {
 				$("#topScrollBox").show();
 			} else if(st == 0) {
