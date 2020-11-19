@@ -53,7 +53,7 @@
 		<result property="mNo" column="M_NO"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="rContent" column="R_CONTENT"/>
-		<result property="rWriterImg" column="R_WRITER_IMG"/>
+		<result property="rWriterImg" column="M_RENAME_IMAGE"/>
 		<result property="rWriter" column="R_WRITER"/>
 		<result property="rCreateDate" column="R_CREATE_DATE"/>
 		<result property="rModifyDate" column="R_MODIFLY_DATE"/>
@@ -107,7 +107,14 @@
 		            WHERE NUM =1)P ON (F.F_NO = P.F_NO)
 		WHERE F.M_NO= #{mNo}
 		AND F.F_STATUS='Y'
-		ORDER BY F.F_CREATE_DATE DESC
+        UNION
+        SELECT F.*,P.CHANGENAME AS thumbnail 
+        FROM FEED F 
+        LEFT JOIN (SELECT * FROM (SELECT F_NO, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO, PHOTO.CHANGENAME DESC) AS NUM, CHANGENAME
+		                            FROM PHOTO)
+                                    WHERE NUM =1)P ON (F.F_NO = P.F_NO)
+        WHERE F.F_NO IN (SELECT SF_NO FROM SHARE_FEED WHERE SM_NO=#{mNo})
+        ORDER BY 5 DESC
 	</select>
 	
 	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="sbResultSet">
@@ -145,14 +152,14 @@
 	</delete>
 	
 	<select id="selectFollowerList" parameterType="Mypage" resultMap="mypageResultSet">
-		select m.m_id, m.m_rename_image
+		select DISTINCT m.m_id, m.m_rename_image
 		from follow f
 		left join member m on f.m_no=m.m_no
 		where f.follows=#{mNo}
 	</select>
 	
 	<select id="selectFollowingList" parameterType="Mypage" resultMap="mypageResultSet">
-		select m.m_id, m.m_rename_image
+		select DISTINCT m.m_id, m.m_rename_image
 		from follow f
 		left join member m on f.follows=m.m_no
 		where f.m_no=#{mNo}
@@ -205,9 +212,10 @@
 	</select>
 
 	<select id="selectReplyList" parameterType="Reply" resultMap="replyResultSet">
-		select * from reply
-        where f_no = #{fNo}
-        and r_status='Y'
+		select * from reply r
+		join member m on(r.m_no=m.m_no)
+        where r.f_no = #{fNo}
+        and r.r_status='Y'
 	</select>
 	
 

@@ -16,6 +16,7 @@
 		<result property="cDate" column="CREATE_DATE"/>
 		<result property="mLevel" column="M_LEVEL"/>
 		<result property="mIntro" column="M_INTRO"/>
+		<result property="block" column="BLOCK"/>
 	</resultMap>
 	
 	<resultMap id="feedResultSet" type="Feed">
@@ -68,7 +69,11 @@
 	
 	<!-- 멤버 검색 -->
 	<select id="searchMember" parameterType="Search" resultMap="memberResultSet">
-		SELECT * FROM MEMBER
+		SELECT
+			M.*
+			, PS.BLOCKED_NO AS BLOCK
+		FROM MEMBER M
+		JOIN PERSON_SET PS ON (M.M_NO = PS.M_NO)
 		WHERE M_LEVEL='M'
 		<if test="searchType=='@' and search!=null">
 		AND M_ID LIKE '%' || #{search} || '%'
@@ -81,6 +86,15 @@
 		OR M_ID LIKE '%'|| #{search} ||'%'
 		OR M_NAME LIKE '%'|| #{search} ||'%')
 		</if>
+		<if test="searchType=='R'and search!=null">
+		AND (M_INTRO LIKE '%'|| #{search} ||'%'
+		OR M_ID LIKE '%'|| #{search} ||'%'
+		OR M_NAME LIKE '%'|| #{search} ||'%')
+		<foreach collection="sarr" item="arr" open="AND(" close=")" separator="OR">
+		AND G_CATEGORY LIKE  '%'||#{ arr }||'%'
+		</foreach>
+		</if>
+		
 	</select>
 	
 	<!-- 그룹 검색 -->
@@ -98,6 +112,11 @@
 		AND G_NAME LIKE '%'|| #{search} ||'%'
 		OR G_TAG LIKE '%'|| #{search} ||'%'
 		OR G_INTRO LIKE '%'|| #{search} ||'%'
+		</if>
+		<if test="searchType=='R' and sarr != null">
+		<foreach collection="sarr" item="arr" open="AND(" close=")" separator="OR">
+		G_CATEGORY LIKE  '%'||#{ arr }||'%'
+		</foreach>
 		</if>
 		ORDER BY GMCOUNT DESC
 	</select>
@@ -119,6 +138,13 @@
 		AND F_OPEN_SCOPE='Y'
 		<if test="searchType=='#' and search!=null">
 		AND F_CONTENT LIKE '%' || #{search} || '%'
+		</if>
+		<if test="searchType=='#' and search!=null and barr!=null">
+		AND F_CONTENT LIKE '%' || #{search} || '%'
+		AND F.M_NO NOT IN
+		<foreach collection="list" item="barr" open="(" close=")" separator=",">
+		#{ barr }
+		</foreach>
 		</if>
 		<if test="searchType=='@' and search!=null">
 		AND F_CONTENT LIKE '%' || #{search}  || '%'
@@ -196,6 +222,7 @@
 		            	F_CONTENT LIKE '%'|| #{arr} ||'%'
 		            	</foreach>
 						)
+		AND M_NO NOT IN(4);		
 	</select>
 	
 	<!-- 연관검색어  눌렀을때 그룹 검색 -->
