@@ -279,6 +279,7 @@
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
+		AND F.G_NO != 0
 		ORDER BY F.F_NO DESC
 	</select>
 	

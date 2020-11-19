@@ -381,6 +381,8 @@
 					data:{ mNo:mNo},
 					dataType:"json",
 					success:function(data){
+						$('.pop_menu').hide();
+				         $('.pop_Mymenu').hide();
 						$divAll = $('.storagePop');
 						$divAll.html("");
 						

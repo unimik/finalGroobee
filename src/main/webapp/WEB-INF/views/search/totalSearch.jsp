@@ -17,6 +17,7 @@
 <body>
 	<c:import url="../common/menubar.jsp"/>
 	 <div id="searchArea">
+	 <div><p>${ rStr }<br><p></div>
                 <!--계정/그룹 검색 결과-->
                 <div id="search_account">
                     <!--계정-->
