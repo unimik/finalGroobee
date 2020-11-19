@@ -75,7 +75,6 @@
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
-	/* .pop_menu{ display:none; } */
    </style>
    <script>
   
@@ -292,7 +291,9 @@
                         <div class="post">
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1" onclick="goDetail(${ feedlist.fNo })">
+                                 	<div class="img_wrap" onclick="goDetail(${ feedlist.fNo })">
+                                    	<img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1">                                 	
+                                 	</div>
                                  </c:when>
                                  <c:otherwise>
                                      <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
@@ -499,8 +500,9 @@
 	              input +="<img src='${ contextPath }/resources/icons/bubble.png' type='button' alt='' id='replyIcon'>";
 	              input +="</div>";
 	              input +="</div>";
+                  input +="<div id='replyArea'>";
+	              input +="<div id='replySub'>";	                  
 	              for(var i=0;i<data.replyList.length;i++){
-	                  input +="<div id='replyArea'>";
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list'>";
 	            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
@@ -517,8 +519,9 @@
 		              input +="<li><a id='re_close'>취소</a></li>";
 		              input +="</ul>";
 		          	  input +="</div>";
-	                  input +="</div>";
+                  	  input +="</div>";
 	              }
+                  input +="</div>";                 
 	              input +="<div id='reply'>";
 	              input +="<input type='text' id='textArea' name='textArea'>";
 	              input +="<input type='button' id='replyBtn' name='replyBtn' value='등록'>";
@@ -586,14 +589,6 @@
 	  				idx = idx1;
 	  			}
     }
-
-    $('.pb1 img').mouseover(function() {
-        $(this).css({ filter: 'brightness(50%)'});
-    }).mouseleave(function() {
-        $(this).css({filter: 'brightness(100%)'});
-    }).click(function() {
-        $(".pop_feed").show();
-    });
 
     $('.pb2').mouseover(function() {
         $(this).css({'background' : '#daf4eda1'});

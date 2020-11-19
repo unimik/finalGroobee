@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="resources/css/myAccount.css">
     <style>
     .post{height: 200px;}
+    .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
+    #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
     </style>
 </head>
 <body>
