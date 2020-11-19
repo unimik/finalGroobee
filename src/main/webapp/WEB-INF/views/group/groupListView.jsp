@@ -423,9 +423,11 @@
 						success:function(data){
 							if(data > 0){
 								alert("게시글을 보관함에 넣었습니다.");
-								$('.storagePop').hide();
-								$('.pop_menu').hide();
+							}else if(data ==0){
+								alert("게시글이 이미 보관되어있습니다.");
 							}
+							$('.storagePop').hide();
+							$('.pop_menu').hide();
 						},error:function(){
 							alert("보관함에 이미 게시글이 있거나, 보관함에 넣기 실패하였습니다.");
 						}
