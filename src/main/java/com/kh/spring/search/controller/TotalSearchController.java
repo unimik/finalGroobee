@@ -58,7 +58,8 @@ public class TotalSearchController {
 					}else{
 						mv.addObject("mList", mList);
 				}
-			
+				String rStr = "비슷한 관심사의 사용자와 그룹을 추천드립니다!";
+				mv.addObject("rStr", rStr);
 				mv.addObject("gList", gList);
 				mv.setViewName("search/totalSearch");
 				}
