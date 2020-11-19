@@ -222,7 +222,10 @@
 		            	F_CONTENT LIKE '%'|| #{arr} ||'%'
 		            	</foreach>
 						)
-		AND M_NO NOT IN(4);		
+		<!-- AND M_NO NOT IN
+		<foreach collection="array" item="arr" open="" close="" separator="">
+		
+		</foreach> -->
 	</select>
 	
 	<!-- 연관검색어  눌렀을때 그룹 검색 -->

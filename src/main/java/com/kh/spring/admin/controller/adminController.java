@@ -523,7 +523,6 @@ public class adminController {
 			
 			g = aService.loadGroup(number); // group의 기본키 값으로 그룹 정보를 불러오는 메소드
 
-			System.out.println("불러온 g의 값 : "+g); //null
 			
 			job.put("gNo", Integer.toString(g.getgNo()));
 			job.put("gName", g.getgName());
@@ -533,9 +532,22 @@ public class adminController {
 		}else if(type.equals("feed")) {
 			f= new Feed();
 			d= new Declaration();
+			
+			f=aService.loadFeed(number);
+			
+			job.put("fNo", Integer.toString(f.getfNo()));
+			job.put("fWriter", f.getfWriter());
+			job.put("fContent",f.getfContent());
+			job.put("fCreateDate",date.format(f.getfCreateDate()));
+			job.put("fStatus",f.getfStatus()); // 상태 변경 및 메소드 재활용을 위해 가져옴
+			
+			
 		}else if(type.equals("reply")) {
 			r= new Reply();
 			d= new Declaration();
+			
+			r=aService.loadReply(number);
+			
 		}else if(type.equals("member")) {
 			m = new Member();
 			d= new Declaration();
@@ -606,7 +618,56 @@ public class adminController {
 		
 		int mResult = aService.memberStatusChange(m);	// 상태변경 재활용
 		
-		System.out.println("mapper에 잘 다녀왔니?");
+		// 2. 신고 처리 결과 반영
+		if(mResult>0) {
+			int rResult = aService.declarationStatusChange(dNo);	
+			
+			if (mResult > 0 && rResult>0) {
+				return "redirect:adminreport.do";
+			} else {
+				return "../common/errorPage";
+			}
+		}else {
+			System.out.println("상태변경에 실패!");
+			return "../common/errorPage";
+		}
+	}
+	/** 6-6. 피드 신고처리하기
+	 * @param fNo
+	 * @param dNo
+	 * @return
+	 */
+	@RequestMapping(value = "feedAndDeclarationStatusChange.do", method = RequestMethod.POST)
+	public String feedAndDeclarationStatusChange(String fNo, String dNo) {
+		Feed f = new Feed();
+		f.setfStatus("N");
+		f.setfNo(Integer.parseInt(fNo));
+		
+		int mResult = aService.feedStatusChange(f);	// 상태변경 재활용
+		
+		// 2. 신고 처리 결과 반영
+		if(mResult>0) {
+			int rResult = aService.declarationStatusChange(dNo);	
+			
+			if (mResult > 0 && rResult>0) {
+				return "redirect:adminreport.do";
+			} else {
+				return "../common/errorPage";
+			}
+		}else {
+			System.out.println("상태변경에 실패!");
+			return "../common/errorPage";
+		}
+	}
+
+	@RequestMapping(value = "replyAndDeclarationStatusChange.do", method = RequestMethod.POST)
+	public String replyAndDeclarationStatusChange(String rNo, String dNo) {
+		Reply r = new Reply();
+		r.setrStatus("N");
+		r.setrNo(Integer.parseInt(rNo));
+		
+		int mResult = aService.replyStatusChange(r);	// 상태변경 재활용
+		
 		// 2. 신고 처리 결과 반영
 		if(mResult>0) {
 			int rResult = aService.declarationStatusChange(dNo);	

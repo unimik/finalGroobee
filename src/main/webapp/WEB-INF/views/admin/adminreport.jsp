@@ -148,7 +148,12 @@
 				
 				// 2. 회원일 때
 				var mNo= data.mNo;
-				var mStatus=data.mStatus;
+
+				// 3. feed일 때
+				var fNo = data.fNo;
+				
+				// 4. reply일 때
+				var rNo = data.rNo;
 				
 				// 신고 정보를 테이블로 만들기
 				
@@ -183,6 +188,32 @@
 					$tableEtc.append($userName);
 					$tableEtc.append($cDate); // mDate가 아니라 cDate임
 				}
+				// 3. feed	
+				if(data.fNo !=null){
+					var $fNo = $("<tr><td>").text("1. 피드 번호 : "+ data.fNo);
+					var $fWriter = $("<tr><td>").text(" 2. 작성자 : "+data.fWriter);
+					var $fCreateDate = $("<tr><td>").text(" 3. 작성일 : "+data.fCreateDate);
+					var $fContent = $("<tr><td>").text(" 4. 내용 : "+ data.fContent);
+					
+					
+					$tableEtc.append($fNo);
+					$tableEtc.append($fWriter);
+					$tableEtc.append($fCreateDate); 
+					$tableEtc.append($fContent);
+				}
+				// 4. reply	
+				if(data.rNo !=null){
+					var $rNo = $("<tr><td>").text("1. 댓글 번호 : "+ data.rNo);
+					var $rWriter = $("<tr><td>").text(" 2. 작성자 : "+data.rWriter);
+					var $rCreateDate = $("<tr><td>").text(" 3. 작성일 : "+data.rCreateDate);
+					var $rContent = $("<tr><td>").text(" 4. 내용 : "+ data.rContent);
+					
+					
+					$tableEtc.append($rNo);
+					$tableEtc.append($rWriter);
+					$tableEtc.append($rCreateDate); 
+					$tableEtc.append($rContent);
+				}
 				
 
 				
@@ -212,6 +243,42 @@
 							url:"memberAndDeclarationStatusChange.do",
 							type:'post',
 							data:{mNo:mNo,
+								 dNo:dNo},
+							success:function(data){
+								alert("처리하였습니다.");
+								refresh();
+							},
+							error:function(request,status,error){
+								alert("code : "+request.status+"\n"
+										+"message : "+request.responseText+"\n"
+										+"error : "+ error);
+							}
+						});
+					}
+					// 3.Feed 상태변경 실행
+					if(data.fNo !=null){
+						$.ajax({
+							url:"feedAndDeclarationStatusChange.do",
+							type:'post',
+							data:{fNo:fNo,
+								 dNo:dNo},
+							success:function(data){
+								alert("처리하였습니다.");
+								refresh();
+							},
+							error:function(request,status,error){
+								alert("code : "+request.status+"\n"
+										+"message : "+request.responseText+"\n"
+										+"error : "+ error);
+							}
+						});
+					}
+					// 4.Reply 상태변경 실행
+					if(data.rNo !=null){
+						$.ajax({
+							url:"replyAndDeclarationStatusChange.do",
+							type:'post',
+							data:{rNo:rNo,
 								 dNo:dNo},
 							success:function(data){
 								alert("처리하였습니다.");
