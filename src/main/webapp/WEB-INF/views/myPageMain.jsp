@@ -72,9 +72,10 @@
 	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){display:block;}
 	#imgList img{ width: 633px; height:633px; }
-	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
+	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
+	/* .pop_menu{ display:none; } */
    </style>
    <script>
   
@@ -291,11 +292,11 @@
                         <div class="post">
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1" onclick="goDetail(${ feedlist.fNo })">
+                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1" onclick="goDetail(${ feedlist.fNo })">
                                  </c:when>
                                  <c:otherwise>
                                      <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
-                                         <div type="button" id="pb2">
+                                         <div type="button" class="pb2">
                                              <text>${ feedlist.fContent }</text>
                                          </div>
                                      </div>
@@ -416,31 +417,16 @@
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
 	              input += "<h6>"+data.fCreateDate+"</h6>";
 	              input += "</div>";
-	              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu'>";
+	              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
 	              input += "</div>";
-	              <!-- 다른 회원 글 볼 때 피드 메뉴 -->
+	              <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
 	              input +="<div class='pop_menu'>";
-	              input +="<div id='feed_menu_list'>";
+	              input +="<div id='feed_Mymenu_list'>";
 	              input +="<ul>";
-	              input +="<li><a id='feed_report_btn'>신고</a></li>"; 
-	              input +="<li><a>공유하기</a></li>"; 
-	              input +="<li><a>보관함</a></li>";
-	              input +="<li><a id='close'>취소</a></li>";
+	              input +="<li><a href='pUpdateView.do?fNo="+fNo+"' id='feed_menu1_btn'>수정</a></li>";
+	              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+	              input +="<li><a id='close' class='close'>취소</a></li>";
 	              input +="</ul>";
-	              input +="</div>";
-	              input +="</div>";
-	              input +="<div class='feed_report'>";
-	              input +="<div id='feed_report_con'>";
-	              input +="<p>신고 사유</p>";
-	              input +="<select>";
-	              input +="<option>부적절한 게시글</option>";
-	              input +="<option>욕설</option>";
-	              input +="<option>광고</option>";
-	              input +="<option>도배</option>";
-	              input +="</select>";
-	              input +="<br>";
-	              input +="<input type='button' id='submit' name='submit' value='확인'>";
-	              input +="<button id='cancel'>취소</button>";
 	              input +="</div>";
 	              input +="</div>";
 	              input +="<div id='con'>";
@@ -517,7 +503,7 @@
 	                  input +="<div id='replyArea'>";
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list'>";
-	            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].mRenameImage+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
+	            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
 		              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
 		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";
@@ -547,6 +533,22 @@
       	        $('.feed_delete').click(function() {
       	            $(".pop_feed").hide();
       	        });
+      	        
+	      	      $('#feed_menu').click(function() {
+	                  $('.pop_menu').show();
+		          }); 
+		      	
+		          $('.close').on('click', function(){
+		              $('.pop_menu').hide();
+		          });
+		          
+		          $('#updateBtn').on("click", function(){
+		              $('.reply_menu').show();
+		          });
+		          $('#re_close').on("click", function(){
+		              $('.reply_menu').hide();
+		          });
+      	        
 
               	}, error:function(request,jqXHR,exception){
                      var msg="";
@@ -584,11 +586,16 @@
 	  				idx = idx1;
 	  			}
     }
-    $('#pb1').click(function() {
+
+    $('.pb1 img').mouseover(function() {
+        $(this).css({ filter: 'brightness(50%)'});
+    }).mouseleave(function() {
+        $(this).css({filter: 'brightness(100%)'});
+    }).click(function() {
         $(".pop_feed").show();
     });
 
-    $('#pb2').mouseover(function() {
+    $('.pb2').mouseover(function() {
         $(this).css({'background' : '#daf4eda1'});
     }).mouseleave(function() {
         $(this).css({'background' : 'none'});
@@ -831,12 +838,12 @@
 	    						}
 	    						if(data.fList[i].thumbnail != null){	
 	    				input += "<td class='postbox' id='"+data.fList[i].fno+"'  name='postbox'>";	
-	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()'>";	
+	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()' class='postbox'>";	
 	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
 	    				input += "</td>";		
 	    						}else{	
 	    				input += "<td class='postbox' id='"+data.fList[i].fno+"' name='postbox'>";	
-	    				input += "<div type='button' id='pb2'>";
+	    				input += "<div type='button' class='pb2'>";
 	    				input += "<text>"+data.fList[i].fcontent+"</text>";	
 	    				input += "</div>";
 	    				input += "</td>";
@@ -911,12 +918,7 @@
     $('#close').on("click", function(){
         $('.myFeed_popup_myEdit').hide();
     });
-    $('#updateBtn').on("click", function(){
-        $('.reply_menu').show();
-    });
-    $('#re_close').on("click", function(){
-        $('.reply_menu').hide();
-    });
+
     </script>
 </body>
 </html>
