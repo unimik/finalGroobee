@@ -421,18 +421,20 @@ public class FeedController {
       @ResponseBody
       @RequestMapping("insertStorage.do")
       public int insertStorage(int fNo, int mNo, int sbNo, String sbName, StorageBox sb, HttpServletRequest request) {
+    	  
     	  sb.setfNos(fNo);
     	  sb.setmNo(mNo);
     	  sb.setSbNo(sbNo);
     	  sb.setSbName(sbName);
+    	  System.out.println(sb);
     	  
     	  int result = fService.insertStorage(sb);
-    	  
-    	  if(result > 0) {
+    	  System.out.println(result);
+    	  //if(result > 0) {
     		  return result;
-    	  }else {
-    		  return 0;
-    	  }
+    	 //}else {
+    	//	  return 0;
+    	//  }
       }
       
 }

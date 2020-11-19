@@ -220,7 +220,8 @@
 	
 	<insert id="insertStorage" parameterType="sBox">
 		INSERT INTO STORAGE_BOX (SB_NAME,F_NO,M_NO,SB_NO)
-		SELECT * FROM STORAGE_BOX
+		SELECT #{sbName},#{fNos},#{mNo},#{sbNo}
+		FROM DUAL
 		WHERE NOT EXISTS (SELECT * FROM STORAGE_BOX WHERE SB_NAME=#{sbName} AND F_NO=#{fNos} AND M_NO=#{mNo} AND SB_NO=#{sbNo})
 	</insert>
 </mapper>
