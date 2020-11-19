@@ -135,7 +135,7 @@
 		            FROM LIKEIT
 		            GROUP BY F_NO) L ON(F.F_NO = L.F_NO)
 		WHERE F.F_STATUS='Y'
-		AND F_OPEN_SCOPE='Y'
+		<!-- AND F_OPEN_SCOPE='Y' -->
 		<if test="searchType=='#' and search!=null">
 		AND F_CONTENT LIKE '%' || #{search} || '%'
 		</if>
