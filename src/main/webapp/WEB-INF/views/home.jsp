@@ -34,7 +34,8 @@
 	#time{ width: 100%; }
 	#rWriterInfo{ width: 25%; }
 	#rUpdateMenu{ width: 10%; }
-	#confirmR{ display: none; float: left; margin: 10px; float: left; }
+	#confirmR{ display: none; float: left; margin: 9px 0px 0px 5px; float: left;
+			   border: none; border-radius: 5px; background: #daf4ed; }
 	#liked{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px;}
     .replyUpBtn { width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
     #topScrollBox{ text-align:center; display:none; }
@@ -153,10 +154,10 @@
 				<c:if test="${ !empty reply }">
 				<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 				<c:forEach var="r" items="${ f.replyList }">
-				<input type="hidden" class="rNum" value="${ r.rNo }">	<!-- 댓글 번호 -->
-				<c:if test="${ !empty r.rContent }">
-				<c:set var="i" value="${ i + 1 }"/>
-	  				<ul id="re_list" class="list${ i }">
+				<c:if test="${ r.rStatus != 'N' }">
+				<!-- 댓글 번호 -->
+				<input type="hidden" class="rNum" value="${ r.rNo }">
+	  				<ul id="re_list" class="list">
 	  				<c:if test="${ !empty r.rWriterImg }">
 						<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 							id="reply_img">&nbsp;&nbsp;&nbsp;
@@ -183,12 +184,11 @@
 					<div id="re_menu_list">
 						<ul>
 							<li><a class="rEdit">댓글 수정</a></li>
-							<li><a class="rDelete" href="deleteReply.do?rNo=${ rpl.rNo }">댓글 삭제</a></li>
+							<li><a class="rDelete">댓글 삭제</a></li>
 							<li><a id="re_close" class="rClose">취소</a></li>
 						</ul>
 					</div>
 				</div>
-
 				<div id="reply">
 					<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
 					<input type="text" id="textArea" class="rContent" name="textArea">
@@ -227,24 +227,27 @@
     });
     $('.rEdit').on("click", function(e) {
 //    	var repCon = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];
-		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];
-		$(repCon).css('border', '1px solid #555555');
-  	  	$(repCon).removeAttr('readonly');
-  	  	$(repCon).removeAttr('disabled');
+		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];​
+		var repBtn = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[1];
+//		$(repCon).css('border', '1px solid #555555');
+//  	  	$(repCon).removeAttr('readonly');
+//  	  	$(repCon).removeAttr('disabled');
   	  
-  	  	$('#confirmR').css('display', 'block');
+  	  	$(repBtn).css('display', 'block');
   	  	$('.reply_menu').hide();
     });
           
-       // text-area resize
-       $.each(jQuery('textarea[data-autoresize]'), function() {
-    	   var offset = this.offsetHeight - this.clientHeight;
-    	   var resizeTextarea = function(el) { $(el).css('height', 'auto').css('height', el.scrollHeight + offset); };
-    	   $(this).on('keyup input', function() {
-    		   resizeTextarea(this);
-    	   }).removeAttr('data-autoresize');
-       });
-  	        
+      // text-area resize
+	$.each(jQuery('textarea[data-autoresize]'), function() {
+		var offset = this.offsetHeight - this.clientHeight;
+		var resizeTextarea = function(el) {
+			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+		};
+		$(this).on('keyup input', function() {
+		 resizeTextarea(this);
+		}).removeAttr('data-autoresize');
+	});
+ 	        
  	        var size;
  	        var idx = idx1 = 0;
  	        var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
@@ -332,14 +335,15 @@
          	console.log(오케이);
         	sendAlram("상관없음",fWriter,"reply",rfNo); 
         	console.log("상관없음",fWriter,"reply",rfNo+"테스트");
-        	alert('stop');
+//        	alert('stop');
          }
 	});
 
 	// 댓글 수정 시 완료 버튼
  	$('.rConfirm').on("click", function(e) {
 /* 		var rContent = e.target.parentElement.children[1].value; */
-		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
+//		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
+		var rNo = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].value;
 		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
 		
 		var replyContent = e.target.previousElementSibling.value;
@@ -357,14 +361,41 @@
 					console.log(data);
  					if(data == "success") {
 //						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-						location.href="home.do?userId="+rWriter;
+						location.href="home.do?userId=" + rWriter;
 					}
 				}, error: function() {
 					console.log("전송 실패");
 				}
 			});
+			confirm("댓글을 수정하시겠습니까?");
 		
 	});
+	
+	// 댓글 삭제 시
+ 	$('.rDelete').on("click", function(e) {
+		var rNo = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].value;
+		var ul = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1];
+		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
+		
+		$.ajax({
+			url: "deleteReply.do",
+			data: {rNo: rNo},
+			type: "post",
+			success: function(data) {	// 성공 시: success, 실패 시: fail
+				console.log(data);
+  				if(data == "success") {
+//					$(ul).css('display', 'none');
+					$('.rNum').css('display', 'none');
+					location.href="home.do?userId=" + rWriter;
+				}
+			}, error: function() {
+				console.log("전송 실패");
+			}
+		});
+		confirm("댓글을 삭제하시겠습니까?");
+		
+	});
+	
 	});
 	
  	// 좋아요 알람

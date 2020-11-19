@@ -107,4 +107,9 @@ public class FeedServiceImpl implements FeedService {
 	public int insertShare(ShareFeed sf) {
 		return fDao.insertShare(sf);
 	}
+
+	@Override
+	public int deleteReply(int rNo) {
+		return fDao.deleteReply(rNo);
+	}
 }

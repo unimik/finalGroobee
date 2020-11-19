@@ -87,9 +87,12 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
 
-	
 	public int insertShare(ShareFeed sf) {
 		return sqlSession.insert("feedMapper.insertShare", sf);
+	}
+
+	public int deleteReply(int rNo) {
+		return sqlSession.update("feedMapper.deleteReply", rNo);
 	}
 
 }

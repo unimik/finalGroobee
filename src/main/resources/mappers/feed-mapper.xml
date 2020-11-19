@@ -131,7 +131,7 @@
 	        F.*
 	      , (SELECT MB.M_RENAME_IMAGE
 	        FROM MEMBER MB
-	        WHERE MB.M_ID = F.F_WRITER ) AS M_PROFILE
+	        WHERE MB.M_ID = F.F_WRITER) AS M_PROFILE
 	      , R.*
 	      , P.*
 	      , M.M_RENAME_IMAGE
@@ -141,7 +141,7 @@
         LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
 		<!--LEFT JOIN GROUP_MEMBER GM ON(F.G_NO = GM.G_NO) -->
 		WHERE
-		F.F_STATUS ='Y' 
+		F.F_STATUS ='Y'
 		AND
 		(F.F_WRITER =#{userId}
 		OR
@@ -157,7 +157,7 @@
 		                            FROM MEMBER
 		                            WHERE M_ID =#{userId})
 		        ))
-		ORDER BY F.F_NO DESC, R.R_CREATE_DATE DESC
+		ORDER BY F.F_NO DESC, R.R_NO DESC
 	</select>
 	
 	<select id="selectGroupMemberId" resultMap="groupNameReulstSet" parameterType="string">
@@ -225,6 +225,12 @@
 		SET R_CONTENT = #{rContent}
 		  , R_MODIFLY_DATE = SYSDATE
 		WHERE R_NO = #{rNo}
+	</update>
+	
+	<update id="deleteReply" parameterType="_int">
+		UPDATE REPLY
+		SET R_STATUS='N'
+		WHERE R_NO=#{rNo}
 	</update>
 	
 	<select id="replySearchList" parameterType="Reply"  resultMap="replyResultSet">

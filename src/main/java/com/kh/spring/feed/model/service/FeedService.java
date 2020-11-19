@@ -54,6 +54,12 @@ public interface FeedService {
 	 * @return
 	 */
 	int updateReply(Reply r);
+
+	/**
+	 * 3_3. 댓글 삭제
+	 * @return
+	 */
+	int deleteReply(int rNo);
 	
 	/**
 	 *  가입한 그룹 조회
