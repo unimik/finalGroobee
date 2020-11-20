@@ -113,8 +113,8 @@
                                 <td class="st">좋아요</td>
                                 <td>
                                     <ul>
-                                        <li><input type="radio" name="like" id="" value="Y" checked ><label for="like">허용</label></li>
-                                        <li><input type="radio" name="like" id="" value="N" ><label for="like">금지</label></li>
+                                        <li><input type="radio" name="like" id="" value="Y" checked><label for="like">허용</label></li>
+                                        <li><input type="radio" name="like" id="" value="N"><label for="like">금지</label></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -122,9 +122,9 @@
                                 <td class="checkListse st">댓글</td>
                                 <td>
                                     <ul>
-                                        <li><input type="radio" name="reply" id="" value="Y" checked ><label for="reply">허용</label></li>
-                                        <li><input type="radio" name="reply" id="" value="F" ><label for="reply">친구만 허용</label></li>
-                                        <li><input type="radio" name="reply" id="" value="N" ><label for="reply">금지</label></li>
+                                        <li><input type="radio" name="reply" id="" value="Y" checked><label for="reply">허용</label></li>
+                                        <li><input type="radio" name="reply" id="" value="F"><label for="reply">친구만 허용</label></li>
+                                        <li><input type="radio" name="reply" id="" value="N"><label for="reply">금지</label></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -132,8 +132,8 @@
                                 <td class="checkListse st">공유</td>
                                 <td>
                                     <ul>
-                                        <li><input type="radio" name="share" id="" value="Y" checked ><label for="share">허용</label></li>
-                                        <li><input type="radio" name="share" id="" value="N" ><label for="share">금지</label></li>
+                                        <li><input type="radio" name="share" id="" value="Y" checked><label for="share">허용</label></li>
+                                        <li><input type="radio" name="share" id="" value="N"><label for="share">금지</label></li>
                                     </ul>
                                 </td>
                             </tr>
