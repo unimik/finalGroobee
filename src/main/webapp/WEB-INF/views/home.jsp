@@ -31,7 +31,7 @@
 	#re_list li:nth-child(2){ width: 55%; margin-bottom: 20px; height: fit-content; }
 	#replyCon{ width: 55%; resize: none; line-height: 12pt; white-space: pre-line; background: white;
 			   inline-size: fit-content; border: none; font-size: 9pt; float: left; overflow: hidden; }
-	.replycnt_p{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9; }
+	.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9; }
 	#userId{ margin: 9px 10px 0 10px; }
 	#time{ width: 100%; }
 	#rWriterInfo{ width: 25%; }
@@ -139,31 +139,29 @@
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 
 				<div id="heart_reply">
-				
 					<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
              		<c:choose>
 	             		<c:when test="${f.likeChk == true }">
 	               			<img src="${ contextPath }/resources/icons/heart_red.png" alt="" class="likeIcon" id="liked">	             	
-		               		<label class="likeCnt">${f.fLikeCnt }</label>
+		               		<label class="likeCnt">${ f.fLikeCnt }개</label>
 	             		</c:when>
 	             		<c:otherwise>
 	             			<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
-	             			<label class="likeCnt">${f.fLikeCnt }</label>
+	             			<label class="likeCnt">${ f.fLikeCnt }개</label>
 	             		</c:otherwise>
              		</c:choose>
              		
-             		<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
                		<input type="hidden" class="toNo" value="${f.fNo}">
                		<input type="hidden" class="toId" value="${f.fWriter}">
-           		</div>
-             	
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 					<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-						<p class="replycnt_p">${ f.replyList.size() }개</p>
+						<label class="replycnt_p">${ f.replyList.size() }개</label>
 					</c:if>
 					<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-						<p class="replycnt_p">0개</p>
+						<label class="replycnt_p">0개</label>
 					</c:if>
+           		</div>
+             	
 
 			</div>
 			<div id="replyArea">
