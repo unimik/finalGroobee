@@ -65,9 +65,12 @@ public class MemberController {
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-//		for(Feed ff : feed) {
-//			System.out.println(ff);
-//		}
+		
+		for(Feed ff : feed) {
+			ff.setfReplyCnt(ff.getReplyList().size());
+//			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
+		}
+		
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
