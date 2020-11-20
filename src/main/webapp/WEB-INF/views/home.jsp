@@ -108,42 +108,55 @@
                         </ul>
                     </div>
                 </div>
-			</c:otherwise>
-		</c:choose>
-	</div>
-			<div class="feed_report">
-			<div id="feed_report_con">
-				<p>신고사유</p>
-				<select style=>
-					<option>부적절한 게시글</option>
-					<option>욕설</option>
-					<option>광고</option>
-					<option>도배</option>
-				</select> <br> <input type="button" id="submit" name="submit"
-					value="확인">
-				<button id="cancel">취소</button>
-			</div>
-		</div>
-		<div id="con">
-			<div id="feed_content">
-					<c:if test="${ !empty f.photoList }">
-						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-						<c:forEach var="p" items="${ f.photoList }">
-						<c:if test="${ p.changeName ne null }">
-							<ul id="imgList">
-								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-							</ul>
-						</c:if>
-						</c:forEach>
-					</c:if>
-				<div id="heart_reply">
-					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
-					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-					<input type="hidden" class="toNo" value="${f.fNo}">
-					<input type="hidden" class="toId" value="${f.fWriter}">
-				</div>
-				<p id="text"><c:out value="${ f.fContent }" /></p>
+
+         </c:otherwise>
+      </c:choose>
+   </div>
+         <div class="feed_report">
+         <div id="feed_report_con">
+            <p>신고사유</p>
+            <select style=>
+               <option>부적절한 게시글</option>
+               <option>욕설</option>
+               <option>광고</option>
+               <option>도배</option>
+            </select> <br> <input type="button" id="submit" name="submit"
+               value="확인">
+            <button id="cancel">취소</button>
+         </div>
+      </div>
+      <div id="con">
+         <div id="feed_content">
+               <c:if test="${ !empty f.photoList }">
+                  <button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+                  <button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+                  <c:forEach var="p" items="${ f.photoList }">
+                  <c:if test="${ p.changeName ne null }">
+                     <ul id="imgList">
+                        <li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+                     </ul>
+                  </c:if>
+                  </c:forEach>
+               </c:if>
+            <div id="heart_reply">
+            
+             	<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+             	<c:choose>
+	             	<c:when test="${f.likeChk == true }">
+	               		<img src="${ contextPath }/resources/icons/heart_red.png" alt="" class="likeIcon" id="liked">	             	
+		               <label class="likeCnt">${f.fLikeCnt }</label>
+	             	</c:when>
+	             	<c:otherwise>
+	             		<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
+	             		<label class="likeCnt">${f.fLikeCnt }</label>
+	             	</c:otherwise>
+             	</c:choose>
+             	
+               <img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+               <input type="hidden" class="toNo" value="${f.fNo}">
+               <input type="hidden" class="toId" value="${f.fWriter}">
+            </div>
+            <p id="text"><c:out value="${ f.fContent }" /></p>
 
 			</div>
 			<div id="replyArea">
@@ -227,7 +240,7 @@
     });
     $('.rEdit').on("click", function(e) {
 //    	var repCon = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];
-		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];​
+//		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];​
 		var repBtn = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[1];
 //		$(repCon).css('border', '1px solid #555555');
 //  	  	$(repCon).removeAttr('readonly');
@@ -402,18 +415,39 @@
 	$(".likeIcon").on('click',function(e){
 		console.log("likeicon 클릭");
 		console.log($(e.target).parent().children('.likeIcon')[0].id);
+		var toId = $(e.target).parent().children('.toId').val();
+		var toNo = $(e.target).parent().children('.toNo').val();   
+		var fromId = '${loginUser.userId}';
 		
 		if($(e.target).parent().children('.likeIcon')[0].id == 'likeIcon'){
 			$(e.target).attr('src','/spring/resources/icons/heart_red.png');
-			$(e.target).attr('id','liked');
-			var toId = $(e.target).parent().children('.toId').val();
-			var toNo = $(e.target).parent().children('.toNo').val();    				
+			$(e.target).attr('id','liked');				
 			sendAlram("상관없음",toId,"like",toNo);
 			console.log("상관없음",toId,"like",toNo);
+			
+			$.ajax({
+				url: "likeCount.do",
+				data : {fNo : toNo,
+						type : 'up',
+						userId : 'null'},
+				success : function(data){
+					console.log(data + "좋아요 카운트 up 성공");
+				}
+			});
 		}else{
+			$.ajax({
+				url: "likeCount.do",
+				data : {fNo : toNo,
+						type : 'down',
+						userId : fromId},
+				success : function(data){
+					console.log(data + "좋아요 카운트 down 성공");
+				}
+			});
 			$(e.target).attr('src','/spring/resources/icons/heart.png');
 			$(e.target).attr('id','likeIcon');
 			console.log('좋아요 취소');
+			console.log("좋아요 갯수 : "+e.target.parent());
 		}
 		
 	});

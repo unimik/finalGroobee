@@ -23,7 +23,17 @@ public class Feed {
 	private String thumbnail;
 	private String gName;
 	private String mImage;
+	private boolean likeChk;
 	
+	
+	public boolean isLikeChk() {
+		return likeChk;
+	}
+
+	public void setLikeChk(boolean likeChk) {
+		this.likeChk = likeChk;
+	}
+
 	private ArrayList<Reply> replyList;
 	private ArrayList<Photo> photoList;
 	private ArrayList<Tag> tagList;

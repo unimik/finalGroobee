@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
@@ -65,13 +66,25 @@ public class MemberController {
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-//		for(Feed ff : feed) {
-//			System.out.println(ff);
+		ArrayList<Boolean> likeChk = new ArrayList<Boolean>();
+		
+		
+		// 이 부분 때문에 로딩이 느려짐 
+//		for (Feed f : feed) {
+//			LikeIt like = new LikeIt(f.getfNo(),userId);
+//			int result = fService.selectlike(like);
+//			if(result == 0 ) {
+//				f.setLikeChk(false);
+//			}else if(result > 0) {
+//				f.setLikeChk(true);
+//			}
 //		}
+//		
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
+			model.addAttribute("likeChk",likeChk);
 			if(loginUser.getUserId().equals("admin")) {
 				return "admin/adminmember";
 			}else {
