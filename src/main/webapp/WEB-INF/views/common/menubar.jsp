@@ -308,7 +308,7 @@
                       $li1 = $("<li>");
                       $li2 = $("<li>");
                       $li3 = $("<li>")
-                      $radio = $("<input type='radio' name='plusGroupChatMember' value='"+value.gmId+"' id='m"+index+"'/>");
+                      $radio = $("<input type='radio' name='plusGroupChatMember' class='findIdResultInput' value='"+value.gmId+"' id='m"+index+"'/>");
                       $img = $("<img src='resources/"+value.gmImage+"'/>");
                       $label = $("<label for='m"+index+"'/>").text(value.gmId);;
                       
@@ -941,6 +941,10 @@
              data:{createId:createId,gNo:gNo},
              success:function(data){
                 $('.pop_menu_master').hide();
+                $btnImg = $("<img src='/spring/resources/icons/feed_menu.png'>");
+    			$btn = $("<button class='groupChatBtn'>");
+    			$btn.append($btnImg);
+    			$("#chat_top").append($btn);
                 if(data.crNo == -1) {
                    alert("이미 채팅방이 존재합니다.");
                 } else {

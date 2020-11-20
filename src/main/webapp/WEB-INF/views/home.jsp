@@ -139,17 +139,18 @@
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 
 				<div id="heart_reply">
-					<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
-             		<c:choose>
-	             		<c:when test="${f.likeChk == true }">
-	               			<img src="${ contextPath }/resources/icons/heart_red.png" alt="" class="likeIcon" id="liked">	             	
-		               		<label class="likeCnt">${ f.fLikeCnt }개</label>
-	             		</c:when>
-	             		<c:otherwise>
-	             			<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
-	             			<label class="likeCnt">${ f.fLikeCnt }개</label>
-	             		</c:otherwise>
-             		</c:choose>
+				<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+             	<c:choose>
+	             	<c:when test="${ f.likeChk eq null }">
+	             		<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
+	             		<label class="likeCnt">${ f.fLikeCnt }개</label>
+	             	</c:when>
+	             	<c:otherwise>
+	             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" class="likeIcon" id="liked">	             	
+		               <label class="likeCnt">${ f.fLikeCnt }개</label>
+	             	</c:otherwise>
+             	</c:choose>
+
              		
                		<input type="hidden" class="toNo" value="${f.fNo}">
                		<input type="hidden" class="toId" value="${f.fWriter}">
@@ -482,6 +483,7 @@
 	$(function(){
 		$("#feedArea").scroll(function(){
 			var st = $("#feedArea").scrollTop();
+			console.log(st);
 			if(st > 0) {
 				$("#topScrollBox").show();
 			} else if(st == 0) {

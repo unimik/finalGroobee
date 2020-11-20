@@ -92,10 +92,10 @@ input:focus{ outline:none;}
 .modal-header .close {display: contents;}
 .modal-title {font-size: 17px; margin: 0;}
 
+.findIdResultInput{width: 15px; float: left; margin: 0 20px 0 20px;}
 #findIdResult>div>ul{ padding:0;margin:0;}
 #findIdResult>div>ul>li{ list-style: none;}
 #findIdResult>div>ul>li:nth-child(1){float: left; margin-top: 17px;}
-#findIdResult>div>ul>li>input{float: left; margin: 0 20px 0 20px;}
 #findIdResult>div>ul>li:nth-child(2){ font-weight: 500; color: #555555; }
 #findIdResult>div>ul>li:nth-child(3){ color: #555555; font-size: 15px; margin-top: -20px;}
 #findIdResult>div>ul>li>label{margin-top: -32px; display: block; }
@@ -128,3 +128,5 @@ input:focus{ outline:none;}
 #group_chat_menu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
 #group_chat_menu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
 #group_chat_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color: #555555;}
+
+

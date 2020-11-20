@@ -20,6 +20,7 @@
 		<result property="gNo" column="G_NO"/>
 		<result property="gName" column="G_NAME"/>
 		<result property="mImage" column="M_PROFILE"/>
+		<result property="likeChk" column="LIKECHK"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 	</resultMap>
@@ -143,11 +144,12 @@
 	      , R.*
 	      , P.*
 	      , M.M_RENAME_IMAGE
+          , L.LIKECHK
 		FROM FEED F
 		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
 		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
-		<!--LEFT JOIN GROUP_MEMBER GM ON(F.G_NO = GM.G_NO) -->
+        LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{userId} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
 		WHERE
 		F.F_STATUS ='Y'
 		AND
