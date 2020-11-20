@@ -290,7 +290,9 @@
 			                        <div class="post">
 			                            <c:choose>
 			                                 <c:when test="${!empty feedlist.thumbnail }">
-			                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" onclick="goDetail(${ feedlist.fNo })">
+			                                     <div class="img_wrap" onclick="goDetail(${ feedlist.fNo })">
+			                                    	<img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1">                                 	
+			                                 	</div>
 			                                 </c:when>
 			                                 <c:otherwise>
 			                                     <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
@@ -719,8 +721,9 @@
 		              input +="<img src='${ contextPath }/resources/icons/bubble.png' type='button' alt='' id='replyIcon'>";
 		              input +="</div>";
 		              input +="</div>";
+	                  input +="<div id='replyArea'>";
+		              input +="<div id='replySub'>";
 		              for(var i=0;i<data.replyList.length;i++){
-		                  input +="<div id='replyArea'>";
 		                  input +="<div id='replyList'>";
 		                  input +="<ul id='re_list'>";
 		            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
@@ -739,6 +742,7 @@
 			          	  input +="</div>";
 		                  input +="</div>";
 		              }
+	                  input +="</div>";
 		              input +="<div id='reply'>";
 		              input +="<input type='text' id='textArea' name='textArea'>";
 		              input +="<input type='button' id='replyBtn' name='replyBtn' value='등록'>";

@@ -137,8 +137,26 @@
 						</c:forEach>
 					</c:if>
 				<p id="text"><c:out value="${ f.fContent }" /></p>
+
 				<div id="heart_reply">
-					<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
+				
+					<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+             		<c:choose>
+	             		<c:when test="${f.likeChk == true }">
+	               			<img src="${ contextPath }/resources/icons/heart_red.png" alt="" class="likeIcon" id="liked">	             	
+		               		<label class="likeCnt">${f.fLikeCnt }</label>
+	             		</c:when>
+	             		<c:otherwise>
+	             			<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
+	             			<label class="likeCnt">${f.fLikeCnt }</label>
+	             		</c:otherwise>
+             		</c:choose>
+             		
+             		<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+               		<input type="hidden" class="toNo" value="${f.fNo}">
+               		<input type="hidden" class="toId" value="${f.fWriter}">
+           		</div>
+             	
 					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 					<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 						<p class="replycnt_p">${ f.replyList.size() }개</p>
@@ -146,9 +164,6 @@
 					<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
 						<p class="replycnt_p">0개</p>
 					</c:if>
-					<input type="hidden" class="toNo" value="${ f.fNo }">
-					<input type="hidden" class="toId" value="${ f.fWriter }">
-				</div>
 
 			</div>
 			<div id="replyArea">
@@ -189,6 +204,7 @@
 								</div>
 							</div>
 							</c:if>
+							<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
 							<c:if test="${ loginUser.userId ne r.rWriter }">
 							<div id="reply_menu" class="reply_menu">
 								<div id="re_menu_list">
@@ -427,18 +443,39 @@
 	$(".likeIcon").on('click',function(e){
 		console.log("likeicon 클릭");
 		console.log($(e.target).parent().children('.likeIcon')[0].id);
+		var toId = $(e.target).parent().children('.toId').val();
+		var toNo = $(e.target).parent().children('.toNo').val();   
+		var fromId = '${loginUser.userId}';
 		
 		if($(e.target).parent().children('.likeIcon')[0].id == 'likeIcon'){
 			$(e.target).attr('src','/spring/resources/icons/heart_red.png');
-			$(e.target).attr('id','liked');
-			var toId = $(e.target).parent().children('.toId').val();
-			var toNo = $(e.target).parent().children('.toNo').val();    				
+			$(e.target).attr('id','liked');				
 			sendAlram("상관없음",toId,"like",toNo);
 			console.log("상관없음",toId,"like",toNo);
+			
+			$.ajax({
+				url: "likeCount.do",
+				data : {fNo : toNo,
+						type : 'up',
+						userId : 'null'},
+				success : function(data){
+					console.log(data + "좋아요 카운트 up 성공");
+				}
+			});
 		}else{
+			$.ajax({
+				url: "likeCount.do",
+				data : {fNo : toNo,
+						type : 'down',
+						userId : fromId},
+				success : function(data){
+					console.log(data + "좋아요 카운트 down 성공");
+				}
+			});
 			$(e.target).attr('src','/spring/resources/icons/heart.png');
 			$(e.target).attr('id','likeIcon');
 			console.log('좋아요 취소');
+			console.log("좋아요 갯수 : "+e.target.parent());
 		}
 		
 	});

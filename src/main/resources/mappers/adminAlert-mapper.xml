@@ -143,6 +143,13 @@
 		FROM GROUPS
 		WHERE G_NO=#{ number }
 	</select>
+
+	<!-- feed 상세보기 -->
+	<select id="loadFeed" parameterType="_int" resultMap="postResultSet">
+		SELECT *
+		FROM FEED
+		WHERE F_NO=#{ number }
+	</select>
 	
 			<!-- feed 상태 변경 -->
 	<update id="feedStatusChange" parameterType="Feed">
@@ -161,4 +168,11 @@
 		WHERE 
 			R_NO = #{rNo}
 	</update>
+
+	<!-- reply 상세보기 -->
+	<select id="loadReply" parameterType="_int" resultMap="replyResultSet">
+		SELECT *
+		FROM REPLY
+		WHERE R_NO=#{ number }
+	</select>
 </mapper>

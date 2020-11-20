@@ -93,6 +93,9 @@ public interface AdminService {
 	 */
 	Group loadGroup(int number);
 	Member loadMember(int number);
+	Feed loadFeed(int number);
+	Reply loadReply(int number);
+
 
 	/** 6-3. 지연된 신고 수
 	 * @return
@@ -104,6 +107,8 @@ public interface AdminService {
 	 * @return
 	 */
 	int declarationStatusChange(String dNo);
+
+
 
 
 

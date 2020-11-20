@@ -135,7 +135,7 @@
 		            FROM LIKEIT
 		            GROUP BY F_NO) L ON(F.F_NO = L.F_NO)
 		WHERE F.F_STATUS='Y'
-		AND F_OPEN_SCOPE='Y'
+		<!-- AND F_OPEN_SCOPE='Y' -->
 		<if test="searchType=='#' and search!=null">
 		AND F_CONTENT LIKE '%' || #{search} || '%'
 		</if>
@@ -222,7 +222,10 @@
 		            	F_CONTENT LIKE '%'|| #{arr} ||'%'
 		            	</foreach>
 						)
-		AND M_NO NOT IN(4);		
+		<!-- AND M_NO NOT IN
+		<foreach collection="array" item="arr" open="" close="" separator="">
+		
+		</foreach> -->
 	</select>
 	
 	<!-- 연관검색어  눌렀을때 그룹 검색 -->

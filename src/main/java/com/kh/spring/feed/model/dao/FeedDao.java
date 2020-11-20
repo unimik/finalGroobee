@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
@@ -88,9 +89,33 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteTag", fNo);
 	}
 
+	public int insertLike(LikeIt lI) {
+		return sqlSession.insert("feedMapper.insertLike",lI);
+	}
+
+	public int likeUp(String fNo) {
+		return sqlSession.update("feedMapper.likeUp",fNo);
+	}
+
+	public int likeDown(String fNo) {
+		return sqlSession.update("feedMapper.likeDown",fNo);
+	}
+
+	public int selectlike(LikeIt like) {
+		return sqlSession.selectOne("feedMapper.selectlike",like);
+	}
+
+	public int deleteLike(LikeIt like) {
+		return sqlSession.delete("feedMapper.deleteLike", like);
+	}
+
 	public int insertShare(ShareFeed sf) {
 		return sqlSession.insert("feedMapper.insertShare", sf);
 	}
+
+
+	
+
 
 	public int deleteReply(int rNo) {
 		return sqlSession.update("feedMapper.deleteReply", rNo);
