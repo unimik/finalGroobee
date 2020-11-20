@@ -10,8 +10,10 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
+import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 @Repository("fDao")
 public class FeedDao {
@@ -70,8 +72,7 @@ public class FeedDao {
 	public Feed popFeed(int fno) {
 		return sqlSession.selectOne("feedMapper.selectPoPFeed",fno);
 	}
-
-
+	
 	public int updateReply(Reply r) {
 		return sqlSession.update("feedMapper.updateReply", r);
 	}
@@ -108,9 +109,19 @@ public class FeedDao {
 		return sqlSession.delete("feedMapper.deleteLike", like);
 	}
 
+	public int insertShare(ShareFeed sf) {
+		return sqlSession.insert("feedMapper.insertShare", sf);
+	}
 
 
 	
 
 
+	public int deleteReply(int rNo) {
+		return sqlSession.update("feedMapper.deleteReply", rNo);
+	}
+
+	public int insertStorage(StorageBox sb) {
+		return sqlSession.insert("mypageMapper.insertStorage", sb);
+	}
 }

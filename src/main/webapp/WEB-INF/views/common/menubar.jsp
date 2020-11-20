@@ -26,7 +26,7 @@
 <body>
    <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
     <div id="header">
-            <img src="resources/icons/logo.png" alt="logo" id="logo" name="logo">
+            <a href="${ goHome }?userId=${ loginUser.userId }"><img src="resources/icons/logo.png" alt="logo" id="logo" name="logo"></a>
      </div>
      <!-- 채팅 사람 추가 모달 -->
      <div class="modal fade" id="plusGroupUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -189,6 +189,7 @@
 						<img src="<%=request.getContextPath()%>/resources/icons/pro_default.png" alt="myProfile" id="myProfile">
 					</c:if>
 					<p>${ loginUser.userId }</p>
+					<button id="logoutBtn" onclick="logout();">로그아웃</button>
 				</div>
 				<div id="MyTab">
 					<button class="MyTab_tab1 MyTab_tab on">팔로워</button>
@@ -230,6 +231,10 @@
 	     </div>
 	     <audio src="resources/sounds/카톡.mp3" id="messageSound"></audio>
      <script type="text/javascript">
+     /* 로그아웃 */
+     function logout(){
+    	 location.href = "logout.do";
+     }
      /* 채팅 알림 */
      function messageSound() {
     	 var a = new Audio("resources/sounds/카톡.mp3");
@@ -1086,7 +1091,6 @@
                  $div3.append($div);
                  
                  $("#chatArea").append($div3);
-                 
              }
              $("#chatArea").scrollTop($("#chatArea")[0].scrollHeight);
           }
@@ -1115,7 +1119,6 @@
              $div.append($div1);
              $div3.append($div);
              messageSound();
-             
              $("#chatArea").append($div3);
           };
            
@@ -1187,7 +1190,7 @@
         
         $(document).on("click","#goUserPage",function(){
            var userId = $(this).parents().children('a').text();
-           var mNo = $(this).parents().children('input').val();
+           var mNo = ${ loginUser.mNo };
            location.href="goUserpage.do?userId=" + userId + "&mNo=" + mNo;
         });
         
@@ -1368,22 +1371,23 @@
        };
        
 
-          function search() {
+         function search() {
          var allSearch = $('#allSearch').val();  //검색어
-             var sign = allSearch.charAt(0);         //검색어 첫글자 - 기호
+         var sign = allSearch.charAt(0);         //검색어 첫글자 - 기호
          var slength = allSearch.length;         //검색어 길이
          var keyword = allSearch.substr(1);      //키워드
-
+         var mno = ${ loginUser.mNo };
+         
          if(sign == " "){
             alert('검색어 첫글자를 띄어 쓸 수 없습니다');      
          }else if(slength < 1){
-            location.href="search.do?type=recommend&key="+${ loginUser.mNo };
+            location.href="search.do?type=recommend&key="+mno+"&mNo="+mno;
          }else if(sign =='#'){
-            location.href="search.do?type=tag&key="+keyword;
+            location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
          }else if(sign =='@'){
-            location.href="search.do?type=user&key="+keyword;
+            location.href="search.do?type=user&key="+keyword+"&mNo="+mno;
          }else{
-            location.href="search.do?type=all&key="+allSearch;
+            location.href="search.do?type=all&key="+allSearch+"&mNo="+mno;
          }
       };
 

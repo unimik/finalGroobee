@@ -2,8 +2,8 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.LikeIt;
@@ -234,6 +237,12 @@ public class MemberController {
 		}
 		PrintWriter out = response.getWriter();
 		out.print(job);
+	}
+	
+	@RequestMapping("logout.do")
+	public String logout(SessionStatus status) {
+		status.setComplete(); 
+		return "redirect:index.jsp";
 	}
 	
 

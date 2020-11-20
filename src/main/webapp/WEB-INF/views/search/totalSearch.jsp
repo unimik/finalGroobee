@@ -12,11 +12,14 @@
     <link rel="stylesheet" href="resources/css/myAccount.css">
     <style>
     .post{height: 200px;}
+    .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
+    #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
     </style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
 	 <div id="searchArea">
+	 <div><p>${ rStr }<br><p></div>
                 <!--계정/그룹 검색 결과-->
                 <div id="search_account">
                     <!--계정-->
@@ -94,7 +97,7 @@
              				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="rs" items="${ rsList }">
-		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}">#${rs}</a></li>	                                                  
+		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}+&mNo=${ loginUser.mNo }">#${rs}</a></li>
 		                       </c:forEach>
 	                       </c:otherwise>                        
                         </c:choose>
@@ -303,11 +306,6 @@
 
         /************* 내계정 자세히보기 script **************/
 
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
 
         $('.MyTab_tab').on("click",function(){
             $('.MyTab_tab').removeClass('on');

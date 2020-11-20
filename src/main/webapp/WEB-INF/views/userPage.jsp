@@ -71,7 +71,11 @@
   		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
   		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 		#report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
-		.imgbtn{  z-index:5;border: 0; background: none; cursor: pointer;outline:none;}
+		#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+		#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
+		#imgList li:nth-child(1){display:block;}
+		#imgList img{ width: 633px; height:633px; }
+		.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer;outline:none;}
 		button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 		button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
    </style>
@@ -286,11 +290,13 @@
 			                        <div class="post">
 			                            <c:choose>
 			                                 <c:when test="${!empty feedlist.thumbnail }">
-			                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" onclick="goDetail(${ feedlist.fNo })">
+			                                     <div class="img_wrap" onclick="goDetail(${ feedlist.fNo })">
+			                                    	<img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1">                                 	
+			                                 	</div>
 			                                 </c:when>
 			                                 <c:otherwise>
 			                                     <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
-			                                         <div type="button" id="pb2">
+			                                         <div type="button" class="pb2">
 			                                             <text>${ feedlist.fContent }</text>
 			                                         </div>
 			                                     </div>
@@ -358,12 +364,6 @@
         $('.tab_menu_btn2').on('click',function(){
             $('.tab_box').hide();
             $('.tab_box2').show();
-        });
-
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
         });
 
         $('.MyTab_tab').on("click",function(){
@@ -652,10 +652,6 @@
 		              input +="</div>";
 		              input +="</div>";
 		              input +="<div id='con'>";
-				      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-					  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-					  input +="<ul id='imgList'>";
-					  input +="</ul>";
 		              input +="<div id='feed_content'>";
 		              
 		         	var size;
@@ -709,7 +705,11 @@
 		            	
 		              for(var i=0; i<data.photoList.length; i++){
 						  if(data.photoList[i].changeName != null){
-			            	  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
+							  input +="<ul id='imgList'>";
+						      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+							  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+							  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
+							  input +="</ul>";
 			            	  }
 		              }
 		              input +="<p id='text'>"+data.fcontent+"</p>";
@@ -721,8 +721,9 @@
 		              input +="<img src='${ contextPath }/resources/icons/bubble.png' type='button' alt='' id='replyIcon'>";
 		              input +="</div>";
 		              input +="</div>";
+	                  input +="<div id='replyArea'>";
+		              input +="<div id='replySub'>";
 		              for(var i=0;i<data.replyList.length;i++){
-		                  input +="<div id='replyArea'>";
 		                  input +="<div id='replyList'>";
 		                  input +="<ul id='re_list'>";
 		            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
@@ -741,6 +742,7 @@
 			          	  input +="</div>";
 		                  input +="</div>";
 		              }
+	                  input +="</div>";
 		              input +="<div id='reply'>";
 		              input +="<input type='text' id='textArea' name='textArea'>";
 		              input +="<input type='button' id='replyBtn' name='replyBtn' value='등록'>";
@@ -782,7 +784,7 @@
             $(".pop_feed").show();
         });
 
-        $('#pb2').mouseover(function() {
+        $('.pb2').mouseover(function() {
             $(this).css({'background' : '#daf4eda1'});
         }).mouseleave(function() {
             $(this).css({'background' : 'none'});

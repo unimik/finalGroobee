@@ -102,5 +102,15 @@ public class AdminDao {
 	public Member loadMember(int number) {
 		return sqlSession.selectOne("adminAlertMapper.loadMember",number);
 	}
+
+
+	public Feed loadFeed(int number) {
+		return sqlSession.selectOne("adminAlertMapper.loadFeed",number);
+	}
+
+
+	public Reply loadReply(int number) {
+		return sqlSession.selectOne("adminAlertMapper.loadReply",number);
+	}
 	
 }

@@ -10,7 +10,10 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
+import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 @Service("fService")
 public class FeedServiceImpl implements FeedService {
@@ -56,6 +59,7 @@ public class FeedServiceImpl implements FeedService {
 	public int updatePost(Feed f) {
 		return fDao.updatePost(f);
 	}
+	
 	@Override
 	public ArrayList<Feed> selectGfeed(int gNo) {
 		return fDao.selectGfeed(gNo);
@@ -75,7 +79,6 @@ public class FeedServiceImpl implements FeedService {
 	public int insertReply(Reply r) {
 		return fDao.insertReply(r);
 	}
-
 
 	@Override
 	public Feed popFeed(int fno) {
@@ -109,4 +112,37 @@ public class FeedServiceImpl implements FeedService {
 
 	
 
+	public int updateReply(Reply r) {
+		return fDao.updateReply(r);
+	}
+
+	@Override
+	public int insertTag(ArrayList<Tag> taglist) {
+		return fDao.insertTag(taglist);
+	}
+
+	@Override
+	public int selectTag(int fNo) {
+		return fDao.selectTag(fNo);
+	}
+
+	@Override
+	public int deleteTag(int fNo) {
+		return fDao.deleteTag(fNo);
+	}
+
+	@Override
+	public int insertShare(ShareFeed sf) {
+		return fDao.insertShare(sf);
+	}
+
+	@Override
+	public int deleteReply(int rNo) {
+		return fDao.deleteReply(rNo);
+	}
+
+	@Override
+	public int insertStorage(StorageBox sb) {
+		return fDao.insertStorage(sb);
+	}
 }

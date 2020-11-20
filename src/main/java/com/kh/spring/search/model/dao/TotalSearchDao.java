@@ -42,7 +42,6 @@ public class TotalSearchDao {
 //		return (ArrayList)sqlSession.selectList("searchMapper.tagsearchFeed", rlist);
 //	}
 	public ArrayList<Feed> tagSearchFeed(String[] rlist) {
-//		System.out.println("dao"+Arrays.toString(rlist));
 		return(ArrayList)sqlSession.selectList("searchMapper.tagSearchFeed", rlist);
 	}
 

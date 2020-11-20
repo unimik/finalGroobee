@@ -25,7 +25,8 @@ public class Member implements Serializable{
 	private Date cDate;
 	private String mLevel;
 	private String mIntro;
-
+	String block;
+	
 	public Member() {
 		super();
 	}
@@ -47,6 +48,36 @@ public class Member implements Serializable{
 		this.cDate = cDate;
 		this.mLevel = mLevel;
 		this.mIntro = mIntro;
+	}
+
+	public Member(int mNo, String userId, String userName, String userPwd, String email, String interestes, int gNo,
+			String mStatus, String mImage, String mRenameImage, Date cDate, String mLevel, String mIntro,
+			String block) {
+		super();
+		this.mNo = mNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.userPwd = userPwd;
+		this.email = email;
+		this.interestes = interestes;
+		this.gNo = gNo;
+		this.mStatus = mStatus;
+		this.mImage = mImage;
+		this.mRenameImage = mRenameImage;
+		this.cDate = cDate;
+		this.mLevel = mLevel;
+		this.mIntro = mIntro;
+		this.block = block;
+	}
+
+
+	public String getBlock() {
+		return block;
+	}
+
+
+	public void setBlock(String block) {
+		this.block = block;
 	}
 
 
@@ -154,12 +185,13 @@ public class Member implements Serializable{
 		this.mIntro = mIntro;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Member [mNo=" + mNo + ", userId=" + userId + ", userName=" + userName + ", userPwd=" + userPwd
 				+ ", email=" + email + ", interestes=" + interestes + ", gNo=" + gNo + ", mStatus=" + mStatus
 				+ ", mImage=" + mImage + ", mRenameImage=" + mRenameImage + ", cDate=" + cDate + ", mLevel=" + mLevel
-				+ ", mIntro=" + mIntro + "]";
+				+ ", mIntro=" + mIntro + ", block=" + block + "]";
 	}
 
 

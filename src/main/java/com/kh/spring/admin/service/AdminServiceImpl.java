@@ -105,4 +105,14 @@ public class AdminServiceImpl implements AdminService{
 		return aDao.loadMember(number);
 	}
 
+	@Override
+	public Feed loadFeed(int number) {
+		return aDao.loadFeed(number);
+	}
+
+	@Override
+	public Reply loadReply(int number) {
+		return aDao.loadReply(number);
+	}
+
 }

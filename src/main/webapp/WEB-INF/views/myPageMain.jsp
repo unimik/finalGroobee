@@ -68,6 +68,13 @@
 	.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 	#groupName{ font-weight: 600; }
 	.groupInfo h5{ font-weight: 300; }
+	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
+	#imgList li:nth-child(1){display:block;}
+	#imgList img{ width: 633px; height:633px; }
+	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
+	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
    </style>
    <script>
   
@@ -284,11 +291,13 @@
                         <div class="post">
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                     <img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" id="pb1" onclick="goDetail(${ feedlist.fNo })">
+                                 	<div class="img_wrap" onclick="goDetail(${ feedlist.fNo })">
+                                    	<img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1">                                 	
+                                 	</div>
                                  </c:when>
                                  <c:otherwise>
                                      <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo })">
-                                         <div type="button" id="pb2">
+                                         <div type="button" class="pb2">
                                              <text>${ feedlist.fContent }</text>
                                          </div>
                                      </div>
@@ -409,36 +418,19 @@
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
 	              input += "<h6>"+data.fCreateDate+"</h6>";
 	              input += "</div>";
-	              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu'>";
+	              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
 	              input += "</div>";
-	              <!-- 다른 회원 글 볼 때 피드 메뉴 -->
+	              <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
 	              input +="<div class='pop_menu'>";
-	              input +="<div id='feed_menu_list'>";
+	              input +="<div id='feed_Mymenu_list'>";
 	              input +="<ul>";
-	              input +="<li><a id='feed_report_btn'>신고</a></li>"; 
-	              input +="<li><a>공유하기</a></li>"; 
-	              input +="<li><a>보관함</a></li>";
-	              input +="<li><a id='close'>취소</a></li>";
+	              input +="<li><a href='pUpdateView.do?fNo="+fNo+"' id='feed_menu1_btn'>수정</a></li>";
+	              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+	              input +="<li><a id='close' class='close'>취소</a></li>";
 	              input +="</ul>";
 	              input +="</div>";
 	              input +="</div>";
-	              input +="<div class='feed_report'>";
-	              input +="<div id='feed_report_con'>";
-	              input +="<p>신고 사유</p>";
-	              input +="<select>";
-	              input +="<option>부적절한 게시글</option>";
-	              input +="<option>욕설</option>";
-	              input +="<option>광고</option>";
-	              input +="<option>도배</option>";
-	              input +="</select>";
-	              input +="<br>";
-	              input +="<input type='button' id='submit' name='submit' value='확인'>";
-	              input +="<button id='cancel'>취소</button>";
-	              input +="</div>";
-	              input +="</div>";
 	              input +="<div id='con'>";
-			        input +="<ul id='imgList'>";
-				  input +="</ul>";
 	              input +="<div id='feed_content'>";
 	              
 	         	var size;
@@ -475,17 +467,28 @@
 		      	  					idx = idx1;
 		      	  			}
 		      	  		});
-		  			 */
-		  			 
-		  			if(data.photoListSize > 0){
 		  				
-						  input +="<button id='nextBtn${ i }' onClick = 'nextBtn("+data.photoListSize+");'name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-						  input +="<button id='prevBtn${ i }' onClick = 'prevBtn("+data.photoListSize+");' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-		  			}
-						
+		  				$('#nextBtn'+i).on("click",function(){
+		      	  			size = $(this).nextAll().children('li').length;
+		      	  			console.log(size);
+		      	  			
+		      	  			if( size > 1){
+		      	  				idx1 = (idx + 1) % size;
+		      	  				$(this).nextAll().children('li:hidden').css("left","633px");
+		      	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+		      	  					$(this).css("display","none").css("left","633px");
+		      	  				});
+		      	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+		      	  				idx = idx1;
+		      	  			} */
+	            	
 	              for(var i=0; i<data.photoList.length; i++){
 					  if(data.photoList[i].changeName != null){
-		            	  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[0].changeName+"' alt='' id='input_img'>";
+						  input +="<ul id='imgList'>";
+					      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+						  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+						  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
+						  input +="</ul>";
 		            	  }
 	              }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
@@ -497,8 +500,9 @@
 	              input +="<img src='${ contextPath }/resources/icons/bubble.png' type='button' alt='' id='replyIcon'>";
 	              input +="</div>";
 	              input +="</div>";
+                  input +="<div id='replyArea'>";
+	              input +="<div id='replySub'>";	                  
 	              for(var i=0;i<data.replyList.length;i++){
-	                  input +="<div id='replyArea'>";
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list'>";
 	            	  input +="<li><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></li>";
@@ -515,8 +519,9 @@
 		              input +="<li><a id='re_close'>취소</a></li>";
 		              input +="</ul>";
 		          	  input +="</div>";
-	                  input +="</div>";
+                  	  input +="</div>";
 	              }
+                  input +="</div>";                 
 	              input +="<div id='reply'>";
 	              input +="<input type='text' id='textArea' name='textArea'>";
 	              input +="<input type='button' id='replyBtn' name='replyBtn' value='등록'>";
@@ -531,6 +536,22 @@
       	        $('.feed_delete').click(function() {
       	            $(".pop_feed").hide();
       	        });
+      	        
+	      	      $('#feed_menu').click(function() {
+	                  $('.pop_menu').show();
+		          }); 
+		      	
+		          $('.close').on('click', function(){
+		              $('.pop_menu').hide();
+		          });
+		          
+		          $('#updateBtn').on("click", function(){
+		              $('.reply_menu').show();
+		          });
+		          $('#re_close').on("click", function(){
+		              $('.reply_menu').hide();
+		          });
+      	        
 
               	}, error:function(request,jqXHR,exception){
                      var msg="";
@@ -568,11 +589,8 @@
 	  				idx = idx1;
 	  			}
     }
-    $('#pb1').click(function() {
-        $(".pop_feed").show();
-    });
 
-    $('#pb2').mouseover(function() {
+    $('.pb2').mouseover(function() {
         $(this).css({'background' : '#daf4eda1'});
     }).mouseleave(function() {
         $(this).css({'background' : 'none'});
@@ -815,12 +833,12 @@
 	    						}
 	    						if(data.fList[i].thumbnail != null){	
 	    				input += "<td class='postbox' id='"+data.fList[i].fno+"'  name='postbox'>";	
-	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()'>";	
+	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()' class='postbox'>";	
 	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
 	    				input += "</td>";		
 	    						}else{	
 	    				input += "<td class='postbox' id='"+data.fList[i].fno+"' name='postbox'>";	
-	    				input += "<div type='button' id='pb2'>";
+	    				input += "<div type='button' class='pb2'>";
 	    				input += "<text>"+data.fList[i].fcontent+"</text>";	
 	    				input += "</div>";
 	    				input += "</td>";
@@ -895,12 +913,7 @@
     $('#close').on("click", function(){
         $('.myFeed_popup_myEdit').hide();
     });
-    $('#updateBtn').on("click", function(){
-        $('.reply_menu').show();
-    });
-    $('#re_close').on("click", function(){
-        $('.reply_menu').hide();
-    });
+
     </script>
 </body>
 </html>

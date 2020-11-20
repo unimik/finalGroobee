@@ -6,9 +6,10 @@ import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
-import com.kh.spring.group.model.vo.Group;
-import com.kh.spring.group.model.vo.GroupMember;
+import com.kh.spring.feed.model.vo.ShareFeed;
+import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.myPage.model.vo.StorageBox;
 
 public interface FeedService {
 
@@ -51,6 +52,18 @@ public interface FeedService {
 	int insertReply(Reply r);
 	
 	/**
+	 * 3_2. 댓글 수정
+	 * @return
+	 */
+	int updateReply(Reply r);
+
+	/**
+	 * 3_3. 댓글 삭제
+	 * @return
+	 */
+	int deleteReply(int rNo);
+	
+	/**
 	 *  가입한 그룹 조회
 	 * @param userId
 	 * @return
@@ -63,8 +76,6 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Feed> selectGfList();
-	
-	
 	
 	/**
 	 * 한 그룹의 피드 최신순 리스트
@@ -80,7 +91,6 @@ public interface FeedService {
 	 */
 	ArrayList<Feed> selectHGfeed(int gNo);
 	
-	
 	/**
 	 * 피드 팝업
 	 * @param fno
@@ -89,6 +99,7 @@ public interface FeedService {
 	Feed popFeed(int fno);
 	
 	/**
+
 	 * 좋아요 받을시 아이디 추가
 	 * @param lI
 	 * @return
@@ -117,6 +128,26 @@ public interface FeedService {
 	int deleteLike(LikeIt like);
 	
 	
+
+	 * 공유하기 insert
+	 * @param fNo
+	 * @param mNo
+	 * @return
+	 */
+	int insertShare(ShareFeed sf);
+	
+	int insertTag(ArrayList<Tag> taglist);
+	
+	int selectTag(int fNo);
+	
+	int deleteTag(int fNo);
+	
+	/**
+	 * 보관함에 insert
+	 * @param sb
+	 * @return
+	 */
+	int insertStorage(StorageBox sb);
 
 
 }
