@@ -73,6 +73,8 @@ public class MemberController {
 		}
 		
 
+
+
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);

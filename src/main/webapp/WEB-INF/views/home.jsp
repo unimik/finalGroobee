@@ -140,6 +140,7 @@
 
 				<div id="heart_reply">
 				
+
 			<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
              	<c:choose>
 	             	<c:when test="${f.likeChk eq null }">
@@ -151,6 +152,7 @@
 		               <label class="likeCnt">${f.fLikeCnt }</label>
 	             	</c:otherwise>
              	</c:choose>
+
              		
              		<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
                		<input type="hidden" class="toNo" value="${f.fNo}">
