@@ -240,7 +240,7 @@
     });
     $('.rEdit').on("click", function(e) {
 //    	var repCon = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];
-		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];​
+//		var repCon = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[0];​
 		var repBtn = this.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].children[1];
 //		$(repCon).css('border', '1px solid #555555');
 //  	  	$(repCon).removeAttr('readonly');
