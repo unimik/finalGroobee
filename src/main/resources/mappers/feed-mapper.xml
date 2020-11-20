@@ -103,6 +103,13 @@
 		<result property="gmId" column="GM_ID"/>
 	</resultMap>
 	
+	<resultMap type="LikeIt" id="likeItReulstSet">
+		<result property="fNo" column="F_NO"/>
+		<result property="mNo" column="L_USERID"/>
+	</resultMap>
+	
+	
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -310,5 +317,21 @@
 		DELETE FROM TAG WHERE F_NO = #{ fNo }
 	</delete>
 	
-
+	<insert id="insertLike" parameterType="LikeIt">
+		INSERT INTO LIKEIT VALUES (#{fNo},#{mNo})
+	</insert>
+	
+	<update id="likeUp" parameterType="string">
+		UPDATE FEED SET F_LIKECNT = F_LIKECNT + 1 WHERE F_NO = #{fNo}
+	</update>
+	<update id="likeDown" parameterType="string">
+		UPDATE FEED SET F_LIKECNT = F_LIKECNT - 1 WHERE F_NO = #{fNo}
+	</update>
+	<select id="selectlike" resultType="_int">
+		SELECT COUNT(*) FROM LIKEIT WHERE F_NO=#{ fNo } AND L_USERID=#{ mNo }
+	</select>
+	
+	<delete id="deleteLike" parameterType="LikeIt">
+		DELETE FROM LIKEIT WHERE F_NO=#{fNo} AND L_USERID=#{ mNo } 
+	</delete>
 </mapper>

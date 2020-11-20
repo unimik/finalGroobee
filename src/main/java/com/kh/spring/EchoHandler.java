@@ -17,6 +17,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.kh.spring.chat.controller.ChatController;
 import com.kh.spring.chat.model.vo.Chat;
+import com.kh.spring.feed.controller.FeedController;
+import com.kh.spring.feed.model.service.FeedService;
+import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.group.controller.GroupController;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.Group;
@@ -44,6 +47,9 @@ public class EchoHandler extends TextWebSocketHandler{
     
     @Autowired
     private GroupController gController;
+    
+    @Autowired
+	private FeedService fService;
     
    
     //클라이언트가 연결 되었을 때 실행
@@ -179,6 +185,8 @@ public class EchoHandler extends TextWebSocketHandler{
 					}else if("like".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
 						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						LikeIt lI = new LikeIt(Integer.parseInt(crno),fromId);
+						int like = fService.insertLike(lI);
 						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 						
@@ -210,6 +218,10 @@ public class EchoHandler extends TextWebSocketHandler{
 				}else {
 					PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
 					int result = nController.insertAlarm(pa);
+					if("like".equals(sendType)) {						
+						LikeIt lI = new LikeIt(Integer.parseInt(crno),fromId);
+						int like = fService.insertLike(lI);
+					}
 				}
 
         	}

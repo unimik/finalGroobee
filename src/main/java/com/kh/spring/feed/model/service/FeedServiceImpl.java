@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.feed.model.dao.FeedDao;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.GroupName;
@@ -80,5 +81,32 @@ public class FeedServiceImpl implements FeedService {
 	public Feed popFeed(int fno) {
 		return fDao.popFeed(fno);
 	}
+
+	@Override
+	public int insertLike(LikeIt lI) {
+		return fDao.insertLike(lI);
+	}
+
+	@Override
+	public int likeUp(String fNo) {
+		return fDao.likeUp(fNo);
+	}
+
+	@Override
+	public int likeDown(String fNo) {
+		return fDao.likeDown(fNo);
+	}
+
+	@Override
+	public int selectlike(LikeIt like) {
+		return fDao.selectlike(like);
+	}
+
+	@Override
+	public int deleteLike(LikeIt like) {
+		return fDao.deleteLike(like);
+	}
+
+	
 
 }

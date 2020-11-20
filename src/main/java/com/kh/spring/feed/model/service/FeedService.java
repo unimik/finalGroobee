@@ -3,6 +3,7 @@ package com.kh.spring.feed.model.service;
 import java.util.ArrayList;
 
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.Group;
@@ -86,6 +87,36 @@ public interface FeedService {
 	 * @return
 	 */
 	Feed popFeed(int fno);
+	
+	/**
+	 * 좋아요 받을시 아이디 추가
+	 * @param lI
+	 * @return
+	 */
+	int insertLike(LikeIt lI);
+	/**
+	 * 좋아요 눌렀을 때 카운트 증
+	 * @param fNo
+	 * @return
+	 */
+	int likeUp(String fNo);
+	
+	/**
+	 * 좋아요 눌렀을 때 카운트 감
+	 * @param fNo
+	 * @return
+	 */
+	int likeDown(String fNo);
+	
+	/**
+	 *  로그인 된 회원이 좋아요를 눌렀는지 확
+	 * @param like
+	 * @return
+	 */
+	int selectlike(LikeIt like);
+	int deleteLike(LikeIt like);
+	
+	
 
 
 }

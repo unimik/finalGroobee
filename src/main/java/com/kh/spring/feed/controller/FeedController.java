@@ -7,28 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-import org.apache.ibatis.javassist.expr.NewArray;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.LikeIt;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.group.model.vo.GroupName;
@@ -224,8 +219,8 @@ public class FeedController {
 	
 	public void deleteFile(String fileName, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\pUploadFiles";
-		File f = new File(savePath + "\\"+ fileName);
+		String savePath = root + "/pUploadFiles";
+		File f = new File(savePath + "/"+ fileName);
 		
 		System.out.println("fileName : " + fileName);
 		
@@ -338,4 +333,21 @@ public class FeedController {
 			}
 		}
 
+		@ResponseBody
+		@RequestMapping(value="likeCount.do", produces="application/json; charset=utf-8")
+		public String updateSetting(@RequestParam("fNo") String fNo,
+									@RequestParam("type") String type,
+									@RequestParam("userId") String userId) {
+			if(type.equals("up")) {
+				int result = fService.likeUp(fNo);
+				return "up";
+			}else if(type.equals("down")){
+				int result = fService.likeDown(fNo);
+				LikeIt like = new LikeIt(Integer.parseInt(fNo),userId);
+				int result2 = fService.deleteLike(like);
+				return "down";
+			}else 
+				return "에러";
+			
+		}
 }

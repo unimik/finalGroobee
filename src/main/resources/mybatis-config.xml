@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.spring.feed.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.spring.feed.model.vo.Photo" alias="Photo"/>
 		<typeAlias type="com.kh.spring.feed.model.vo.Tag" alias="Tag"/>
+		<typeAlias type="com.kh.spring.feed.model.vo.LikeIt" alias="LikeIt"/>
 		<typeAlias type="com.kh.spring.search.model.vo.Search" alias="Search"/>
 		<typeAlias type="com.kh.spring.search.model.vo.RelatedSearch" alias="RelatedSearch"/>
 		<typeAlias type="com.kh.spring.group.model.vo.Group" alias="Group"/>
