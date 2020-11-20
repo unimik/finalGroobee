@@ -67,19 +67,12 @@ public class MemberController {
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
 		ArrayList<Boolean> likeChk = new ArrayList<Boolean>();
+		for(Feed ff : feed) {
+			ff.setfReplyCnt(ff.getReplyList().size());
+//			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
+		}
 		
-		
-		// 이 부분 때문에 로딩이 느려짐 
-//		for (Feed f : feed) {
-//			LikeIt like = new LikeIt(f.getfNo(),userId);
-//			int result = fService.selectlike(like);
-//			if(result == 0 ) {
-//				f.setLikeChk(false);
-//			}else if(result > 0) {
-//				f.setLikeChk(true);
-//			}
-//		}
-//		
+
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);

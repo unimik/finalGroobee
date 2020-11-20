@@ -23,14 +23,15 @@ public class Feed {
 	private String thumbnail;
 	private String gName;
 	private String mImage;
-	private boolean likeChk;
+	private String likeChk;
 	
 	
-	public boolean isLikeChk() {
+	
+	public String getLikeChk() {
 		return likeChk;
 	}
 
-	public void setLikeChk(boolean likeChk) {
+	public void setLikeChk(String likeChk) {
 		this.likeChk = likeChk;
 	}
 
