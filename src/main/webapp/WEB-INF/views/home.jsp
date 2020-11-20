@@ -42,6 +42,13 @@
     .replyUpBtn { width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
     #topScrollBox{ text-align:center; display:none; }
 	#topScrollBox>img{ width: 45px; cursor: pointer; }
+	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+	#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;border:0; border-radius: 10px;width:100px;height: 35px;}
+	#selectRtype{ width:100px; margin-left:50px; background:#daf4ed; border:0; border-radius: 10px;width:100px;height: 35px;}
+	#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
+	#replyIcon{ margin: 9px 0 0 15px; }
+	#likeIcon { margin: 7px 0 0 25px; }
 </style>
 
 </head>
@@ -90,10 +97,10 @@
  				<div class="pop_menu">
 					<div id="feed_menu_list">
 						<ul>
-							<li><a id="feed_report_btn">신고</a></li>
-							<li><a>공유하기</a></li>
-							<li><a>보관함</a></li>
-							<li><a id="close" class="close">취소</a></li>
+				            <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
+				            <li><a id="share_feed" class="share_feed">공유하기</a></li>
+				            <li><a id="goStorage" class="goStorage">보관함</a></li>
+				            <li><a id="close" class="close">취소</a></li>
 						</ul>
 					</div>
 				</div>
@@ -111,17 +118,26 @@
                 </div>
 			</c:if>
 		</div>
-			<div class="feed_report">
-			<div id="feed_report_con">
-				<p>신고사유</p>
-				<select style=>
-					<option>부적절한 게시글</option>
-					<option>욕설</option>
-					<option>광고</option>
-					<option>도배</option>
-				</select> <br> <input type="button" id="submit" name="submit" value="확인">
-				<button id="cancel">취소</button>
-			</div>
+	<div class="feed_report">
+		<div id="feed_report_con">
+			<p>신고사유</p>
+			<select id="reportType" class="selectRtype">
+				<option value="unacceptfeed" selected>부적절한 게시글</option>
+				<option value="insult">욕설</option>
+				<option value="ad">광고</option>
+				<option value="spam">도배</option>
+			</select>
+			<textarea class="sendreport Rcontent" id="reportContent" cols="28"
+				rows="4"></textarea>
+			<br> <input class="selectRtype Rtype" id="selectRtype"
+				type="button" value="확인" style="cursor: pointer;"> <input
+				class="sendreport report-submit" type="button" id="report-submit"
+				value="확인" style="cursor: pointer; display: none;">
+			<button class="selectRtype cancel" id="cancel"
+				style="cursor: pointer;">취소</button>
+			<button class="sendreport cancel2" id="cancel2"
+				style="cursor: pointer; display: none;">취소</button>
+		</div>
 		</div>
 		<div id="con">
 			<div id="feed_content">
@@ -139,6 +155,8 @@
 				<p id="text"><c:out value="${ f.fContent }" /></p>
 
 				<div id="heart_reply">
+				<!-- 좋아요 금지가 되어 있지 않을 경우 -->
+				<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
 				<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
              	<c:choose>
 	             	<c:when test="${ f.likeChk eq null }">
@@ -150,21 +168,41 @@
 		               <label class="likeCnt">${ f.fLikeCnt }개</label>
 	             	</c:otherwise>
              	</c:choose>
-
-             		
+				</c:if>
                		<input type="hidden" class="toNo" value="${f.fNo}">
                		<input type="hidden" class="toId" value="${f.fWriter}">
-					<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-					<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-						<label class="replycnt_p">${ f.replyList.size() }개</label>
+               		<!-- 댓글이 전체 허용일 경우 -->
+					<c:if test="${ f.fReplySet == 'Y' || empty f.fReplySet }">
+					<c:choose>
+						<c:when test="${ f.fLikeSet == 'N' }">
+						<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
+						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+							<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+								<label class="replycnt_p">${ f.replyList.size() }개</label>
+							</c:if>
+							<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+								<label class="replycnt_p">0개</label>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+						<!-- 댓글과 좋아요 모두 허용될 때 -->
+						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+							<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+								<label class="replycnt_p">${ f.replyList.size() }개</label>
+							</c:if>
+							<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+								<label class="replycnt_p">0개</label>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
 					</c:if>
-					<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-						<label class="replycnt_p">0개</label>
+
+					<c:if test="${ f.fReplySet == 'N' && f.fLikeSet == 'N' }">
+						<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
 					</c:if>
            		</div>
-             	
-
 			</div>
+			
 			<div id="replyArea">
 				<div id="replyList" style="display: block; height: fit-content;">
 				<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
@@ -220,11 +258,14 @@
 					</div>
 				</c:if>
 				</div>
+				<!-- 댓글 전체 허용일 경우 -->
+				<c:if test="${ f.fReplySet == 'Y' || empty f.fReplySet }">
 				<div id="reply">
 					<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
 					<input type="text" id="textArea" class="rContent" name="textArea">
 					<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>
@@ -240,10 +281,7 @@
     $('.close').on('click', function(){
         $('.pop_menu').hide();
     });
-    $('#feed_report_btn').on("click", function(){
-        $('.feed_report').show();
-    });
-    $('#cancel').on("click", function(){
+    $('.cancel').on("click", function(){
         $('.feed_report').hide();
     });
     $('.rUpBtn').on("click", function(event){
@@ -328,8 +366,6 @@
    	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
    	  				idx = idx1;
    	  			}
-   	  				
-   	  			
    	  		});	
 			
 		}
@@ -478,6 +514,54 @@
 		}
 		
 	});
+ 	
+ 	/***** 신고하기 *****/
+ 	
+    $('.feed_report_btn').on("click", function(e){
+    	var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+    	$(feedReport).show();
+//        $('.feed_report').show();
+    });
+			     
+		$(document).on('click', ".report-submit", function(e){
+			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
+			if($(reportCon).val() == ""){
+				alert('신고 사유를 입력해 주세요.')
+			}else{
+				
+				$.ajax({
+					url:'/spring/report.do',
+					data:{
+						reportType : $("#reportType").val(),
+						feedType : "feed",
+						content : $(reportCon).val()
+					},
+					success: function(){
+						$(feedReport).css('display', 'none');
+						$(".selectRtype").css("display", "inline-block");
+			      		$(".sendreport").css("display", "none");
+			      		$(reportCon).val('')
+						alert('신고 완료');
+					},error:function(){
+						alert('신고 실패!');
+					}
+				});
+				
+			};
+		});
+   	 
+	   	$(".cancel2").on("click",function(e){
+	   		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+	   		$(feedReport).css('display', 'none');
+			$(".selectRtype").css("display", "inline-block");
+	   		$(".sendreport").css("display", "none");
+	   	});
+	   	
+	   	$(".Rtype").on("click",function(e){
+	   		$(".selectRtype").css("display", "none");
+	   		$(".sendreport").css("display", "block");
+	   	});
 	
 	/* 스크롤 맨위로 올리기 */
 	$(function(){

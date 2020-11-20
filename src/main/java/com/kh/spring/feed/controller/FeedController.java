@@ -56,9 +56,23 @@ public class FeedController {
    }
    
    @RequestMapping("pInsert.do")
-   public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi, HttpSession session) {
-	   System.out.println(f);
+   public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi, HttpSession session,
+		   					@RequestParam(value = "selectOpenScope") String selectOpenScope,
+		   					@RequestParam(value = "like") String like,
+		   					@RequestParam(value = "reply") String reply,
+		   					@RequestParam(value = "share") String share) {
+	  System.out.println(f);
       System.out.println(gn.getgNo());
+      
+      f.setfOpenScope(selectOpenScope);
+      f.setfLikeSet(like);
+      f.setfReplySet(reply);
+      f.setfShareSet(share);
+      
+      System.out.println("selectOpenScope 값: " + selectOpenScope);
+      System.out.println("like 값: " + like);
+      System.out.println("reply 값: " + reply);
+      System.out.println("share 값: " + share);
       int result = fService.insertPost(f);
       
       Member mem = (Member)session.getAttribute("loginUser");
@@ -99,7 +113,7 @@ public class FeedController {
             }
          }
          
-       //태그 인서트
+       // 태그 인서트
  		String[] strarr = f.getfContent().split(" |\\n");
  		ArrayList<Tag> taglist = new ArrayList<Tag>();
  		for(int i = 0; i < strarr.length; i++) {
@@ -134,13 +148,24 @@ public class FeedController {
    }
    
    @RequestMapping("pUpdateView.do")
-   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
+   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session,
+		   								@RequestParam(value = "like") String like,
+		   								@RequestParam(value = "reply") String reply,
+		   								@RequestParam(value = "share") String share) {
       Member mem = (Member)session.getAttribute("loginUser");
       // 가입한 그룹(Select Tag)
       gn = fService.selectGroupMemberId(mem.getUserId());
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
+      
+      f.setfLikeSet(like);
+      f.setfReplySet(reply);
+      f.setfShareSet(share);
+      
+      System.out.println("like 값: " + like);
+      System.out.println("reply 값: " + reply);
+      System.out.println("share 값: " + share);
       
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
@@ -171,7 +196,7 @@ public class FeedController {
       System.out.println(f.getfNo());
       System.out.println(result);
       
-      //태그 인서트
+      // 태그 인서트
 		String[] strarr = f.getfContent().split(" |\\n");
 		ArrayList<Tag> taglist = new ArrayList<Tag>();
 		for(int i = 0; i < strarr.length; i++) {
