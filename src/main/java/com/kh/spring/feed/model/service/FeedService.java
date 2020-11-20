@@ -129,7 +129,7 @@ public interface FeedService {
 	
 	
 
-	 * 공유하기 insert
+	 /* 공유하기 insert
 	 * @param fNo
 	 * @param mNo
 	 * @return
