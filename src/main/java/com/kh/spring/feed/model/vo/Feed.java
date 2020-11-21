@@ -7,6 +7,7 @@ public class Feed {
 
 	private int fNo;
 	private int mNo;
+	private int smNo;
 	private String fContent;
 	private String fWriter;
 	private Date fCreateDate;
@@ -24,6 +25,7 @@ public class Feed {
 	private String gName;
 	private String mImage;
 	private String likeChk;
+	private String shareYN;
 	
 	
 	
@@ -34,6 +36,16 @@ public class Feed {
 	public void setLikeChk(String likeChk) {
 		this.likeChk = likeChk;
 	}
+	
+
+	public String getShareYN() {
+		return shareYN;
+	}
+
+	public void setShareYN(String shareYN) {
+		this.shareYN = shareYN;
+	}
+
 
 	private ArrayList<Reply> replyList;
 	private ArrayList<Photo> photoList;
@@ -165,6 +177,17 @@ public class Feed {
 		this.mImage = mImage;
 		this.replyList = replyList;
 		this.photoList = photoList;
+	}
+	
+
+
+
+	public int getSmNo() {
+		return smNo;
+	}
+
+	public void setSmNo(int smNo) {
+		this.smNo = smNo;
 	}
 
 	public int getfNo() {

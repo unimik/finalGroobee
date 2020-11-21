@@ -481,14 +481,52 @@ public class FeedController {
 									@RequestParam("userId") String userId) {
 			if(type.equals("up")) {
 				int result = fService.likeUp(fNo);
-				return "up";
+				if(result > 0) {
+					return "up";		
+				} else {
+					return"server error";			
+				}
+				
 			}else if(type.equals("down")){
 				int result = fService.likeDown(fNo);
 				LikeIt like = new LikeIt(Integer.parseInt(fNo),userId);
 				int result2 = fService.deleteLike(like);
-				return "down";
+				if(result2 > 0) {
+					return "down";		
+				} else {
+					return"server error";			
+				}
 			}else 
 				return "에러";
 			
 		}     
+      
+      // 김헤주가 마이페이지에서 조아요..
+      @ResponseBody
+		@RequestMapping("likeCount2.do")
+		public String likeCount2(@RequestParam("fNo") String fNo,
+									@RequestParam("type") String type,
+									@RequestParam("userId") String userId) {
+    	  
+			if(type.equals("up")) {
+				int result = fService.likeUp(fNo);
+				if(result > 0) {
+					return "up";		
+				} else {
+					return"server error";			
+				}
+				
+			}else if(type.equals("down")){
+				int result = fService.likeDown(fNo);
+				LikeIt like = new LikeIt(Integer.parseInt(fNo),userId);
+				int result2 = fService.deleteLike(like);
+				if(result2 > 0) {
+					return "down";		
+				} else {
+					return"server error";			
+				}
+			}else 
+				return "에러";
+			
+		} 
 }

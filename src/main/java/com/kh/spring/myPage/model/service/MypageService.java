@@ -65,6 +65,8 @@ public interface MypageService {
 
 	ArrayList<Reply> selectReplyList(int fno);
 
+	int shareFeedCancle(Feed f);
+
 
 
 
