@@ -119,6 +119,7 @@
 			</c:if>
 		</div>
 	<div class="feed_report">
+		<input type="hidden" value=${f.fNo }>
 		<div id="feed_report_con">
 			<p>신고사유</p>
 			<select id="reportType" class="selectRtype">
@@ -273,6 +274,10 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
+	// 리프래시 이벤트
+    function refresh(){
+		location.reload();
+	}
 	
 	$('.test').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
@@ -528,19 +533,23 @@
 //        $('.feed_report').show();
     });
 			     
-		$(document).on('click', ".report-submit", function(e){
+		 $(document).on('click', ".report-submit", function(e){
 			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
 			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
-			if($(reportCon).val() == ""){
+			var targetfNo=$(this).parent().prev().val();
+			
+			var text =$(this).prev().prev().prev().val();
+			if(text == ""){
 				alert('신고 사유를 입력해 주세요.')
 			}else{
 				
 				$.ajax({
-					url:'/spring/report.do',
+					url:'reportFInsert.do',
 					data:{
 						reportType : $("#reportType").val(),
 						feedType : "feed",
-						content : $(reportCon).val()
+						content : text,
+						targetfNo:targetfNo
 					},
 					success: function(){
 						$(feedReport).css('display', 'none');
@@ -548,6 +557,7 @@
 			      		$(".sendreport").css("display", "none");
 			      		$(reportCon).val('')
 						alert('신고 완료');
+			      		refresh();
 					},error:function(){
 						alert('신고 실패!');
 					}
