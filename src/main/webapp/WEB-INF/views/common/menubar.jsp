@@ -131,7 +131,7 @@
                       </li>
                       <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
                       <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
-                      <li><a><img src="resources/icons/open.png" alt="" id="detailInfo"></a></li>
+                      <li><a><img src="resources/icons/open.png" alt="" id="detailInfo" style="cursor: pointer;"></a></li>
                   </ul>
               </div>
               <div class="user_alarm" style="display:none; cursor:pointer;">
@@ -219,10 +219,10 @@
 			</div>
 	     
 	     <div id="menubar">
-	     	 <c:url var="goHome" value="home.do"/>
+	     	 <c:url var="goHome" value="home.do?userId=${ loginUser.userId }"/>
 	     	 <c:url var="glist" value="glist.do"/>
 	         <ul id="menu">
-	             <li><a href="${ goHome }?userId=${ loginUser.userId }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
+	             <li><a href="${ goHome }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
              	 <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
              	 
 	             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>

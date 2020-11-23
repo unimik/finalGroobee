@@ -55,6 +55,21 @@ public class GroupController{
 		ArrayList<Group> glist = gService.selectList();
 		ArrayList<Feed> flist = fService.selectGfList();
 		
+		ArrayList<Photo> fp = null;
+		for(Feed f : flist) {
+			fp = fService.selectPhotoList(f.getfNo());
+			System.out.println("사진리스트 :"+fp);
+			
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+			System.out.println("마지막 사진리스트 확인 : "+f.getPhotoList() + f.getfNo());
+		}
+		
 		mv.addObject("glist", glist);
 		mv.addObject("flist", flist);
 		mv.setViewName("group/groupListView");
@@ -154,6 +169,37 @@ public class GroupController{
 		ArrayList<GroupMember> gm = gService.selectGmList(gNo);
 		ArrayList<Feed> ngflist = fService.selectGfeed(gNo);
 		ArrayList<Feed> hgflist = fService.selectHGfeed(gNo);
+		
+		
+		ArrayList<Photo> nfp = null;
+		for(Feed nf : ngflist) {
+			nfp = fService.selectPhotoList(nf.getfNo());
+			System.out.println("사진리스트 :"+nfp);
+			
+			for(Photo p : nfp) {
+				if(p.getChangeName() != null) {
+					nf.setPhotoList(nfp);
+				}else {
+					nf.setPhotoList(null);
+				}
+			}
+			System.out.println("마지막 사진리스트 확인 : "+nf.getPhotoList() + nf.getfNo());
+		}
+		
+		ArrayList<Photo> hfp = null;
+		for(Feed hf : hgflist) {
+			hfp = fService.selectPhotoList(hf.getfNo());
+			System.out.println("사진리스트 :"+hfp);
+			
+			for(Photo p : hfp) {
+				if(p.getChangeName() != null) {
+					hf.setPhotoList(hfp);
+				}else {
+					hf.setPhotoList(null);
+				}
+			}
+			System.out.println("마지막 사진리스트 확인 : "+hf.getPhotoList() + hf.getfNo());
+		}
 		
 		System.out.println(gm);
 		String gmId = "";

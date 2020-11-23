@@ -10,6 +10,7 @@
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
+	button{ cursor: pointer; }
 </style>
 </head>
 <body>
@@ -119,17 +120,19 @@
 				</div>
 	        <div id="con">
 				<div id="feed_content">
-						<c:if test="${ !empty f.photoList }">
-							<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-							<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-							<c:forEach var="p" items="${ f.photoList }">
-							<c:if test="${ p.changeName ne null }">
-								<ul id="imgList">
+						<c:if test="${ !empty f.photoList and f.photoList ne null }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+							
+							<ul id="imgList" style="height:633px">
+								<c:forEach var="p" items="${ f.photoList }">
+								<c:if test="${ p.changeName ne null }">
 									<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-								</ul>
-							</c:if>
-							</c:forEach>
+								</c:if>
+								</c:forEach>
+							</ul>
 						</c:if>
+						
 					<p id="text"><c:out value="${ f.fContent }" /></p>
 
 					<div id="heart_reply">
@@ -249,6 +252,17 @@
 	   </c:forEach>
 	   
 	<script>
+	
+	$('.likeicon').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.replyUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.rUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	
 		function refresh(){
 			location.reload();
 		}	
@@ -277,6 +291,10 @@
 			         $(this).nextAll('div .pop_menu').show();
 			         $(this).nextAll('div .pop_Mymenu').show();
 			     });
+				 
+				$('.feed_menu'+i).mouseenter(function() {
+				$(this).css('cursor', 'pointer')
+				});
 				 
 				  $('.close').on("click",function(){
 			         $('.pop_menu').hide();
