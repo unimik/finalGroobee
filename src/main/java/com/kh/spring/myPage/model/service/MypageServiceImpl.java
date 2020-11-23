@@ -107,7 +107,10 @@ public class MypageServiceImpl implements MypageService {
 		return myDao.selectReplyList(fno);
 	}
 
-
+	@Override
+	public int shareFeedCancle(Feed f) {
+		return myDao.shareFeedCancle(f);
+	}
 
 
 

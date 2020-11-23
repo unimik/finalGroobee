@@ -92,6 +92,10 @@ public class MypageDao {
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectReplyList", fno);
 	}
 
+	public int shareFeedCancle(Feed f) {
+		return sqlSession.update("mypageMapper.shareFeedCancle",f);
+	}
+
 
 
 

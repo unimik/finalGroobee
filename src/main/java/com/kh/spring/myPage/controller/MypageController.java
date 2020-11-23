@@ -516,16 +516,19 @@ public class MypageController {
 	
 	@ResponseBody
 	@RequestMapping(value="goDetail.do",produces="application/json;charset=utf-8")
-	public String goDetail(ModelAndView mv,String fNo, String mNo) {
+	public String goDetail(ModelAndView mv,String fNo, String mNo, String smNo) {
 		JSONObject job = new JSONObject();
 		
 		int mno = 0;
 		int fno = 0;
+		int smno = 0;
 		mno = Integer.parseInt(mNo);
 		fno = Integer.parseInt(fNo);
+		smno = Integer.parseInt(smNo);
 		Feed f = new Feed();
 		f.setmNo(mno);
 		f.setfNo(fno);
+		f.setSmNo(smno);
 			
 		Feed detail = myService.detailFeed(f);
 		ArrayList<Photo> photoList = myService.selectPhotoList(fno);
@@ -542,6 +545,12 @@ public class MypageController {
 			job.put("fLikeCnt", detail.getfLikeCnt());
 			job.put("fReplyCnt", detail.getfReplyCnt());
 			job.put("mImage", detail.getmImage());
+			job.put("fLikeSet", detail.getfLikeSet());
+			job.put("fReplySet", detail.getfReplySet());
+			job.put("fShareSet", detail.getfShareSet());
+			job.put("fOpenScope", detail.getfOpenScope());
+			job.put("likeChk", detail.getLikeChk());
+			job.put("shareYN", detail.getShareYN());
 		}
 
 		if(photoList != null) {
@@ -559,15 +568,38 @@ public class MypageController {
 			JSONArray jArr = new JSONArray();
 			for(int i=0; i <replyList.size(); i++) {
 				JSONObject jObj = new JSONObject();
+				jObj.put("mNo", replyList.get(i).getmNo());
 				jObj.put("rContent", replyList.get(i).getrContent());
 				jObj.put("rWriter", replyList.get(i).getrWriter());
 				jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
 				jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
 				jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
+				jObj.put("rStatus", replyList.get(i).getrStatus());
 				jArr.add(jObj);
 			}
+			job.put("replyListSize", replyList.size());
 			job.put("replyList", jArr);
 		}
 		return job.toString();
+	}
+	
+	@RequestMapping("shareFeedCancle.do")
+	public String shareFeedCancle(ModelAndView mv,String sfNo, String smNo) {
+		
+		int sfno = 0;
+		int smno = 0;
+		sfno = Integer.parseInt(sfNo);
+		smno = Integer.parseInt(smNo);
+		Feed f = new Feed();
+		f.setfNo(sfno);
+		f.setSmNo(smno);
+		
+		int result = myService.shareFeedCancle(f);
+		
+		if(result > 0) {
+			return "redirect:goMypage.do?mNo="+smNo;	
+		} else {
+			return "common/errorPage";
+		}
 	}
 }

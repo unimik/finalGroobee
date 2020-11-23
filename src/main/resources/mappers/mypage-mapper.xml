@@ -27,8 +27,9 @@
  	<resultMap id="feedResultSet" type="Feed">
 		<id property="fNo" column="F_NO"/>
 		<result property="mNo" column="M_NO"/>
-		<result property="fContent" column="F_CONTENT"/>
 		<result property="fWriter" column="F_WRITER"/>
+		<result property="fContent" column="F_CONTENT"/>
+		<result property="shareYN" column="shareYN"/>
 		<result property="fCreateDate" column="F_CREATE_DATE"/>
 		<result property="fModifyDate" column="F_MODIFY_DATE"/>
 		<result property="fStatus" column="F_STATUS"/>
@@ -43,6 +44,7 @@
 		<result property="gName" column="G_NAME"/>
 		<result property="mImage" column="M_RENAME_IMAGE"/>
 		<result property="thumbnail" column="thumbnail"/>
+		<result property="likeChk" column="LIKECHK"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 		<collection property="tagList" javaType="java.util.ArrayList" resultMap="tagResultSet"/>
@@ -58,6 +60,11 @@
 		<result property="rCreateDate" column="R_CREATE_DATE"/>
 		<result property="rModifyDate" column="R_MODIFLY_DATE"/>
 		<result property="rStatus" column="R_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="LikeIt" id="likeItReulstSet">
+		<result property="fNo" column="F_NO"/>
+		<result property="mNo" column="L_USERID"/>
 	</resultMap>
 	
 	<resultMap id="photoResultSet" type="Photo">
@@ -113,8 +120,9 @@
         LEFT JOIN (SELECT * FROM (SELECT F_NO, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO, PHOTO.CHANGENAME DESC) AS NUM, CHANGENAME
 		                            FROM PHOTO)
                                     WHERE NUM =1)P ON (F.F_NO = P.F_NO)
-        WHERE F.F_NO IN (SELECT SF_NO FROM SHARE_FEED WHERE SM_NO=#{mNo})
+        WHERE F.F_NO IN (SELECT SF_NO FROM SHARE_FEED WHERE SM_NO=#{mNo} and s_status='Y')
         ORDER BY 5 DESC
+        
 	</select>
 	
 	<select id="selectStorageBoxInfo" parameterType="Mypage" resultMap="sbResultSet">
@@ -199,10 +207,13 @@
 	</select>
 
 	<select id="detailFeed" parameterType="Feed" resultMap="feedResultSet">
-		select * from feed f
+		select f.*, m.*,sf.*,case when sf.sm_no = #{mNo} then 'Y' else 'N' end as shareYN
+		,(SELECT COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=m.m_id and F.F_NO = F_NO GROUP BY F_NO) likeChk
+        from feed f
 		left join member m on(f.m_no=m.m_no)
+        left join SHARE_FEED sf on(sf.sf_no=f.f_no)
 		where f.f_no=#{fNo}
-		and f.m_no=#{mNo}
+		and f.m_no=#{smNo}
 		and F.F_STATUS='Y'
 	</select>
 
@@ -224,4 +235,9 @@
 		FROM DUAL
 		WHERE NOT EXISTS (SELECT * FROM STORAGE_BOX WHERE SB_NAME=#{sbName} AND F_NO=#{fNos} AND M_NO=#{mNo} AND SB_NO=#{sbNo})
 	</insert>
+	
+	<update id="shareFeedCancle" parameterType="_int">
+		UPDATE share_Feed set s_status='N' WHERE sm_no=#{smNo} and sf_no=#{fNo}
+	</update>
+	
 </mapper>

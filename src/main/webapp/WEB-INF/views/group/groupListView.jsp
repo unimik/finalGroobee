@@ -8,6 +8,9 @@
 <title>G R O O B E E</title>
 	<link href="<%=request.getContextPath()%>/resources/css/groupMain.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<style>
+	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
+</style>
 </head>
 <body>
 <c:import url="../common/menubar.jsp"/>
@@ -64,23 +67,7 @@
 						</div>
 					</a>
 				<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
-					<div class="feed_report">
-					             <div id="feed_report_con">
-					                  <p>신고사유</p>
-					                  <select id="reportType" class="selectRtype">
-					                      <option value="unacceptfeed" selected>부적절한 게시글</option>
-					                      <option value="insult">욕설</option>
-					                      <option value="ad">광고</option>
-					                      <option value="spam">도배</option>
-					                  </select>
-					                  	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
-					                  <br>
-					                  <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
-									  <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
-									  <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
-									  <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
-					       		</div>
-					</div>
+
 					<c:choose>
 						<c:when test="${ loginUser.userId ne f.fWriter }">
 						<!-- 다른 회원 글 볼 때 피드메뉴 -->
@@ -112,8 +99,24 @@
 						</div>
 						</c:otherwise>
 					</c:choose>
+					<div class="feed_report">
+			             <div id="feed_report_con">
+			                  <p>신고사유</p>
+			                  <select id="reportType" class="selectRtype">
+			                      <option value="unacceptfeed" selected>부적절한 게시글</option>
+			                      <option value="insult">욕설</option>
+			                      <option value="ad">광고</option>
+			                      <option value="spam">도배</option>
+			                  </select>
+			                  	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
+			                  <br>
+			                  <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
+							  <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+							  <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
+							  <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+			       		</div>
+					</div>
 				</div>
-				
 	        <div id="con">
 				<div id="feed_content">
 						<c:if test="${ !empty f.photoList }">
@@ -197,8 +200,7 @@
 	        }
 	    });
 		
-		$(document).ready(function(){
-			
+		$(document).ready(function(e){
 		
 			var count = $(".feed").length;
 		
@@ -215,17 +217,18 @@
 			     });
 				  
 				  
-				  
-			 	$('.feed_report_btn').on("click",function(){
-			 		 $('.feed_report').show();
+			 	$('.feed_report_btn').on("click",function(e){
+			 		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
+			 		$(feedReport).show();
 	            });
 				 
 			 	
 			}
 			     
-			$(document).on('click',".report-submit",function(){
-				
-				if($(".Rcontent").val() == ""){
+			$(document).on('click',".report-submit",function(e){
+				var feedReport = e.target.parentElement.parentElement;
+				var reportCon = e.target.parentElement.parentElement.children[0].children[2];
+				if($(reportCon).val() == ""){
 					alert('신고 사유를 입력해 주세요.')
 				}else{
 					
@@ -234,13 +237,13 @@
 						data:{
 							reportType : $("#reportType").val(),
 							feedType : "feed",
-							content : $("#reportContent").val()
+							content : $(reportCon).val()
 						},
 						success: function(){
-							$(".feed_report").css('display','none');
+							$(feedReport).css('display','none');
 							$(".selectRtype").css("display","inline-block");
 				      		$(".sendreport").css("display","none");
-				      		$("#reportContent").val('')
+				      		$(reportCon).val('')
 							alert('신고완료');
 						},error:function(){
 							alert('신고 실패!');
@@ -250,9 +253,10 @@
 				};
 			});
 	   	 
-		   	$(".cancel2").on("click",function(){
-		   		$(".feed_report").css('display','none');
-					$(".selectRtype").css("display","inline-block");
+		   	$(".cancel2").on("click",function(e){
+		   		var feedReport = e.target.parentElement.parentElement;
+		   		$(feedReport).css('display','none');
+				$(".selectRtype").css("display","inline-block");
 		   		$(".sendreport").css("display","none");
 		   	});
 		   	
@@ -261,8 +265,9 @@
 		   		$(".sendreport").css("display","block");
 		   	});        
 		   	
-		   	$('.cancel').on("click", function(){
-		 		$('.feed_report').hide();
+		   	$('.cancel').on("click", function(e){
+		   		var feedReport = e.target.parentElement.parentElement;
+		 		$(feedReport).hide();
 		 	});
 		});	
 		var size;
