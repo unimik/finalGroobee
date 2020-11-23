@@ -130,62 +130,129 @@
 							</c:if>
 							</c:forEach>
 						</c:if>
-					<div id="heart_reply">
-						<img src="${ contextPath }/resources/icons/heart.png" alt="" class="likeIcon" id="likeIcon">
-						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-						<input type="hidden" class="toNo" value="${f.fNo}">
-						<input type="hidden" class="toId" value="${f.fWriter}">
-					</div>
 					<p id="text"><c:out value="${ f.fContent }" /></p>
+
+					<div id="heart_reply">
+					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
+					<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
+					<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+	             	<c:choose>
+		             	<c:when test="${ f.likeChk eq null }">
+		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             	</c:when>
+		             	<c:otherwise>
+		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             	</c:otherwise>
+	             	</c:choose>
+					</c:if>
+	               		<input type="hidden" class="toNo" value="${ f.fNo }">
+	               		<input type="hidden" class="toId" value="${ f.fWriter }">
+	               		<!-- 댓글이 전체 허용일 경우 -->
+						<c:if test="${ f.fReplySet == 'Y' || empty f.fReplySet }">
+						<c:choose>
+							<c:when test="${ f.fLikeSet == 'N' }">
+							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
+							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+									<label class="replycnt_p">${ f.replyList.size() }개</label>
+								</c:if>
+								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+									<label class="replycnt_p">0개</label>
+								</c:if>
+							</c:when>
+							<c:otherwise>
+							<!-- 댓글과 좋아요 모두 허용될 때 -->
+							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+									<label class="replycnt_p">${ f.replyList.size() }개</label>
+								</c:if>
+								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+									<label class="replycnt_p">0개</label>
+								</c:if>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
 	
+						<c:if test="${ f.fReplySet == 'N' && f.fLikeSet == 'N' }">
+							<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
+						</c:if>
+	           		</div>
 				</div>
 				<div id="replyArea">
-					<div id="replyList" style="display: block; height: fit-content;">
-					
-					<c:set var="reply" value="${ f.replyList }"/>
-					<c:if test="${ !empty r.rContent }">
-						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
-					</c:if>
+				<div id="replyList" style="display: block; height: fit-content;">
+				<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
+				<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+				<c:if test="${ f.fReplyCnt ne null && f.replyList[0].rStatus eq 'Y' }">
+					<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 					<c:forEach var="r" items="${ f.replyList }">
-						<c:if test="${ !empty r.rContent }">
-		  				<ul id="re_list">
-							<li><img src="${ contextPath }/resources/images/IMG_7502.JPG" alt=""
-								id="reply_img">&nbsp;&nbsp;&nbsp;
-								<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-							<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
-							<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-							<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
-						</ul>
-						</c:if>
+						<div id="selectOne">
+						<!-- 댓글 번호 -->
+						<input type="hidden" class="rNum" value="${ r.rNo }">
+			  				<ul id="re_list" class="list">
+			  				<c:if test="${ !empty r.rWriterImg }">
+								<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+									id="reply_img">&nbsp;&nbsp;&nbsp;
+									<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+							</c:if>
+							<c:if test="${ empty r.rWriterImg }">
+								<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+									id="reply_img">&nbsp;&nbsp;&nbsp;
+									<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+							</c:if>
+								<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
+								<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
+								<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
+								<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+							</ul>
+							<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
+							<c:if test="${ loginUser.userId eq r.rWriter }">
+							<div id="reply_menu" class="reply_menu">
+								<div id="re_menu_list">
+									<ul>
+										<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
+										<li><a class="rDelete">댓글 삭제</a></li>
+										<li><a id="re_close" class="rClose">취소</a></li>
+									</ul>
+								</div>
+							</div>
+							</c:if>
+							<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
+							<c:if test="${ loginUser.userId ne r.rWriter }">
+							<div id="reply_menu" class="reply_menu">
+								<div id="re_menu_list">
+									<ul>
+										<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
+										<li><a id="rReport" class="rReport">댓글 신고</a></li>
+										<li><a id="re_close" class="rClose">취소</a></li>
+									</ul>
+								</div>
+							</div>
+							</c:if>
+						</div>
 					</c:forEach>
-				<c:if test="${ !empty r.rContent }">
 					</div>
 				</c:if>
 				</div>
-
-				<!-- 남이 단 댓글 볼 때 댓글 메뉴-->
-				<div class="reply_menu">
-					<div id="re_menu_list">
-						<ul>
-							<li><a>댓글 수정</a></li>
-							<li><a>댓글 삭제</a></li>
-							<li><a id="re_close">취소</a></li>
-						</ul>
-					</div>
-				</div>
-
+				<!-- 댓글 전체 허용일 경우 -->
+				<c:if test="${ f.fReplySet == 'Y' || empty f.fReplySet }">
 				<div id="reply">
 					<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
 					<input type="text" id="textArea" class="rContent" name="textArea">
 					<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 				</div>
+				</c:if>
 			</div>
-		</div>
+			</div>
 		</div>
 	   </c:forEach>
 	   
 	<script>
-			
+		function refresh(){
+			location.reload();
+		}	
+		
 		$('#create_group').click(function(){
 			location.href="gInsertView.do";
 		});
@@ -270,6 +337,42 @@
 		 		$(feedReport).hide();
 		 	});
 		});	
+		
+		$('.rUpBtn').on("click", function(event){
+//	  	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
+	      var btn = $(event.target).parent('li').parent('ul').next('div#reply_menu')
+		  $(btn).show();
+	    });
+	    $('.rClose').on("click", function(){
+	        $('.reply_menu').hide();
+	    });
+	    $('.deleteMyPost').on('click', function () {
+	    	confirm('이 포스트를 정말 삭제하시겠습니까?');
+	    });
+	    $('.rEdit').on("click", function(e) {
+			var repCon = $(this.parentElement).parents("div#selectOne").find("textarea#replyCon.rCon");
+			var repBtn = $(this.parentElement).parents("div#selectOne").find("input#confirmR");
+
+			repCon.css('border', '1px solid #555555');
+	  	  	repCon.removeAttr('disabled');
+	  	  	repCon.removeAttr('readonly');
+	  	  	repBtn.css('display', 'block');
+	  	  	$('.reply_menu').hide();
+	    });
+	          
+	    // text-area resize
+		$.each(jQuery('textarea[data-autoresize]'), function() {
+			var offset = this.offsetHeight - this.clientHeight;
+			var resizeTextarea = function(el) {
+				$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+			};
+			$(this).on('keyup input', function() {
+			 resizeTextarea(this);
+			}).removeAttr('data-autoresize');
+		});
+		
+		
+		
 		var size;
         var idx = idx1 = 0;
         var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
@@ -323,36 +426,6 @@
 	  			
 	  		});
 			
-			$(function() {
-				
-				// 댓글 등록
-				$(".replyUpBtn").on("click", function(event) {
-					var rContent = event.target.parentElement.children[1].value;
-					var rfNo = event.target.parentElement.children[0].value;
-					var rWriter = ${ loginUser.userId };
-					
-					$.ajax({
-						url: "addReply.do",
-						data: {
-							rContent: rContent,
-							rfNo: rfNo,
-							rWriter: rWriter
-						},
-						type: "post",
-						success: function(data) {	// 성공 시: success, 실패 시: fail
-							if(data == "success") {
-								$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-								location.href="home.do?userId="+rWriter;
-							}
-						}, error: function() {
-							console.log("전송 실패");
-						}
-					});
-				});
-			});
-			
-			
-			
 		}
 		
 		$(function(){
@@ -375,7 +448,8 @@
 					}
 				});
 			});
-		})
+		});
+		
 		$(function(){
 			$('.goStorage').on("click",function(){
 				var mNo = ${ loginUser.mNo};
@@ -442,6 +516,174 @@
 				});
 			});
 		})
+	
+		
+	/**************** 댓글 등록 ****************/
+			$(function() {
+				
+				$(".replyUpBtn").on("click", function(event) {
+					var rContent = event.target.parentElement.children[1].value;
+					var rfNo = event.target.parentElement.children[0].value;
+					var rWriter = "${ loginUser.userId }";
+					
+					$.ajax({
+						url: "addReply.do",
+						data: {
+							rContent: rContent,
+							rfNo: rfNo,
+							rWriter: rWriter
+						},
+						type: "post",
+						success: function(data) {	// 성공 시: success, 실패 시: fail
+							if(data == "success") {
+								$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+								location.href="glist.do?userId="+rWriter;
+							}
+						}, error: function() {
+							console.log("전송 실패");
+						}
+					});
+					
+					var ok = confirm("댓글을 등록하시겠습니까?");
+		         	console.log(ok);
+		         	if(ok){
+		         	console.log(오케이);
+		        	sendAlram("상관없음",fWriter,"reply",rfNo); 
+		        	console.log("상관없음",fWriter,"reply",rfNo+"테스트");
+//		        	alert('stop');
+		         }
+			});
+
+			// 댓글 수정 시 완료 버튼
+		 	$('.rConfirm').on("click", function(e) {
+		/* 		var rContent = e.target.parentElement.children[1].value; */
+				var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
+//				var rNo = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].value;
+				var rWriter = "${ loginUser.userId }";
+				
+				var replyContent = e.target.previousElementSibling.value;
+//				var replyContent = e.target.parentElement.parentElement.parentElement.previousSibling.parentElement.children[0].children[0].children[1].innerText;
+//				var replyDiv = e.target.parentElement.parentElement.parentElement.parentElement;
+				
+					$.ajax({
+						url: "editReply.do",
+						data: {
+							rContent: replyContent,
+							rNo: rNo,
+							rWriter: rWriter
+						},
+						type: "post",
+						success: function(data) {	// 성공 시: success, 실패 시: fail
+							console.log(data);
+		 					if(data == "success") {
+//								$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+//								location.href="home.do?userId=" + rWriter;
+								location.reload();
+							}
+						}, error: function() {
+							console.log("전송 실패");
+						}
+					});
+					
+				confirm("댓글을 수정하시겠습니까?");
+			});
+			
+			// 댓글 삭제 시
+		 	$('.rDelete').on("click", function(e) {
+				var rNo = $(this.parentElement).parents("div#selectOne").find("input.rNum").val();
+				var ul = $(this.parentElement).parents("div#selectOne").find("ul#re_list.list");
+				var rWriter = "${ loginUser.userId }";
+				var none = $(this.parentElement).parents("div#replySub").children.length;
+				
+				$.ajax({
+					url: "deleteReply.do",
+					data: {rNo: rNo},
+					type: "post",
+					success: function(data) {	// 성공 시: success, 실패 시: fail
+//						console.log(data);
+		  				if(data == "success") {
+//							$(ul).css('display', 'none');
+							$('.rNum').css('display', 'none');
+//							location.href="home.do?userId=" + rWriter;
+							location.reload();
+						}
+					}, error: function() {
+						console.log("전송 실패");
+					}
+				});
+				
+				// 마지막 댓글 삭제 후 div 안에 댓글이 모두 지워지면
+				if(none == 0) {
+					$(this.parentElement).parents("div#replySub").css('display', 'none');
+				}
+				
+				confirm("댓글을 삭제하시겠습니까?");
+			});
+			
+			});
+			
+		 	// 좋아요 알람
+			$(".likeIcon").on('click',function(e){
+				console.log("likeicon 클릭");
+				console.log($(e.target).parent().children('.likeIcon')[0].id);
+				var toId = $(e.target).parent().children('.toId').val();
+				var toNo = $(e.target).parent().children('.toNo').val();   
+				var fromId = '${loginUser.userId}';
+				
+				if($(e.target).parent().children('.likeIcon')[0].id == 'likeIcon'){
+					$(e.target).attr('src','/spring/resources/icons/heart_red.png');
+					$(e.target).attr('id','liked');				
+					sendAlram("상관없음",toId,"like",toNo);
+					var test = $("#"+e.target.name).text();
+					test *= 1;
+					test = test + 1;
+					$("#"+e.target.name).text(test)
+					
+					$.ajax({
+						url: "likeCount.do",
+						data : {fNo : toNo,
+								type : 'up',
+								userId : 'null'},
+						success : function(data){
+							console.log(data + "좋아요 카운트 up 성공");
+						}
+					});
+				}else{
+					$.ajax({
+						url: "likeCount.do",
+						data : {fNo : toNo,
+								type : 'down',
+								userId : fromId},
+						success : function(data){
+							console.log(data + "좋아요 카운트 down 성공");
+						}
+					});
+					$(e.target).attr('src','/spring/resources/icons/heart.png');
+					$(e.target).attr('id','likeIcon');
+					var test = $("#"+e.target.name).text();
+					test *= 1;
+					test = test - 1;
+					$("#"+e.target.name).text(test)
+				}
+				
+			});
+				
+	/* 스크롤 맨위로 올리기 */
+	$(function(){
+		$("#feedArea").scroll(function(){
+			var st = $("#feedArea").scrollTop();
+			if(st > 0) {
+				$("#topScrollBox").show();
+			} else if(st == 0) {
+				$("#topScrollBox").hide();
+			}
+		});
+		
+		$("#topScrollBtn").on("click",function(){
+			$("#feedArea").animate( { scrollTop : 0 }, 400 );
+			return false;
+		});
+	});
 	</script>
 </body>
 </html>
