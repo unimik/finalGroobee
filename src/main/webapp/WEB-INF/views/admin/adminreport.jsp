@@ -109,10 +109,9 @@
 	$(document).on('click','.btnyn',function(){
 		// [타입]과 [번호]를 넘겨줄 변수
 		var typeAndNumber = $(this).parent().prev().prev().prev().prev().prev().text();
-		console.log("typeAndNumber : "+typeAndNumber);
+
 		// [신고 번호]를 넘겨줄 변수
 		var dNo = $(this).parent().prev().prev().prev().prev().prev().prev().text();
-		console.log("dNo : "+dNo);
 		var $dNo = dNo;	
 		// [신고 사유] 변수
 		var $dType = $("<tr><td>").text("2.신고사유 : "+$(this).parent().prev().prev().prev().prev().text());
@@ -120,8 +119,7 @@
 		var $dContent =$("<tr><td>").text("3. 신고 내용 : "+$(this).parent().prev().prev().prev().text());
 		
 		// [상태]를 확인하고 상태변경 버튼을 숨기자.
-		var rStatus = $(this).parent().prev().text();		
-		console.log("rStatus의 상태는? " +rStatus);
+		var rStatus = $(this).parent().prev().text();
 		
 		$.ajax({
 			url:"reportDetails.do",
@@ -151,7 +149,6 @@
 
 				// 3. feed일 때
 				var fNo = data.fNo;
-				
 				// 4. reply일 때
 				var rNo = data.rNo;
 				
@@ -291,9 +288,7 @@
 							}
 						});
 					}
-					
-					
-					
+
 				})
 			},error:function(){
 				console.log("report 세부사항 불러오기 실패!");
@@ -407,7 +402,6 @@
 				
 			    $('#report_table').each(function() {
 
-				console.log("page()가 실행됨");		   
 				
 			    var pagination = $("#pagination"); // 페이징을 표시할 곳
 			    
@@ -415,15 +409,12 @@
 			    var currentPage = 0;    
 			    var numPerPage = 10;  //목록의 수   
 			    var $table = $(this);      // table을 가르킴 
-			    console.log(this); // this => tbody
 			    
 			    //length로 원래 리스트의 전체길이구함   
 			    var numRows = $table.find('tbody tr').length;
-			    console.log("numRows : "+numRows); // 출력될 행의 갯수
 			     
 			    //Math.ceil를 이용하여 반올림   
 			    var numPages = Math.ceil(numRows / numPerPage);
-			    console.log("numPages의 갯수 : "+ numPages);
 			    
 			    //리스트가 없으면 종료   
 			    if (numPages==0) return;
