@@ -49,6 +49,7 @@
 	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
 	#replyIcon{ margin: 9px 0 0 15px; }
 	#likeIcon { margin: 7px 0 0 25px; }
+	button{ cursor: pointer; }
 </style>
 
 </head>
@@ -273,6 +274,19 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
+    
+	$('.likeicon').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.replyUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.test').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.rUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
 	
 	$('.test').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
@@ -291,7 +305,7 @@
     });
     $('.rClose').on("click", function(){
         $('.reply_menu').hide();
-    });
+	});
     $('.deleteMyPost').on('click', function () {
     	confirm('이 포스트를 정말 삭제하시겠습니까?');
     });
@@ -312,8 +326,9 @@
 		var resizeTextarea = function(el) {
 			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
 		};
+		
 		$(this).on('keyup input', function() {
-		 resizeTextarea(this);
+			resizeTextarea(this);
 		}).removeAttr('data-autoresize');
 	});
  	        

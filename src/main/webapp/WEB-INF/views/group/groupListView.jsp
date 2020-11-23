@@ -10,6 +10,7 @@
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
 	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
+	button{ cursor: pointer; }
 </style>
 </head>
 <body>
@@ -154,7 +155,7 @@
 								<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 							<li><p id="replyCon"><c:out value="${ r.rContent }" /></p></li>
 							<li><p id="time"><c:out value="${ r.rCreateDate }" /></p></li>
-							<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn"></li>
+							<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="replyUpBtn"></li>
 						</ul>
 						</c:if>
 					</c:forEach>
@@ -185,43 +186,54 @@
 	   </c:forEach>
 	   
 	<script>
+	$('.likeicon').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.replyUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.rUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	
+	$('#create_group').click(function(){
+		location.href="gInsertView.do";
+	});
+	
+	$('#showList').on('click',function(){
+        if( $('#showList').text() == '보기'){
+            $('#groupAllList').show();
+            $('#showList').text('닫기');
+        }else{
+            $('#groupAllList').hide();
+            $('#showList').text('보기');
+        }
+    });
+	
+	$(document).ready(function(e){
+	
+		var count = $(".feed").length;
+	
+		for(var i = 1; i <= count; i++){
+			console.log('.feed_menu'+i);
+			$('.feed_menu'+i).on("click",function(){
+		        $(this).nextAll('div .pop_menu').show();
+		        $(this).nextAll('div .pop_Mymenu').show();
+		    });
 			
-		$('#create_group').click(function(){
-			location.href="gInsertView.do";
-		});
-		
-		$('#showList').on('click',function(){
-	        if( $('#showList').text() == '보기'){
-	            $('#groupAllList').show();
-	            $('#showList').text('닫기');
-	        }else{
-	            $('#groupAllList').hide();
-	            $('#showList').text('보기');
-	        }
-	    });
-		
-		$(document).ready(function(e){
-		
-			var count = $(".feed").length;
-		
-			for(var i = 1; i <= count; i++){
-				console.log('.feed_menu'+i);
-				 $('.feed_menu'+i).on("click",function(){
-			         $(this).nextAll('div .pop_menu').show();
-			         $(this).nextAll('div .pop_Mymenu').show();
-			     });
+			$('.feed_menu'+i).mouseenter(function() {
+			$(this).css('cursor', 'pointer')
+			});
 				 
-				  $('.close').on("click",function(){
-			         $('.pop_menu').hide();
-			         $('.pop_Mymenu').hide();
-			     });
+			$('.close').on("click",function(){
+				$('.pop_menu').hide();
+				$('.pop_Mymenu').hide();
+			});
 				  
-				  
-			 	$('.feed_report_btn').on("click",function(e){
-			 		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
-			 		$(feedReport).show();
-	            });
-				 
+		 	$('.feed_report_btn').on("click",function(e){
+		 		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
+		 		$(feedReport).show();
+            });
 			 	
 			}
 			     
