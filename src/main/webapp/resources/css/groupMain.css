@@ -30,10 +30,10 @@
 #user_time{ float: left; width: 200px;}
 #input_img{ width: 630px; height: 630px;}
 
-#heart_reply{ border-bottom: 1px solid #e5e5e5; width: 100%; height: 40px;}
+#heart_reply{ border-bottom: 1px solid #e5e5e5;border-top: 1px solid #e5e5e5; width: 100%; height: 40px;}
 #likeIcon{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px;}
-#replyIcon{ width: 23px; height: 23px; opacity: 65%; margin: -6px 0 0 15px;}
-#text{ margin:25px 0 25px 25px; font-size: 18px; color:#555555; }
+#replyIcon{ width: 23px; height: 23px; opacity: 65%; margin: -6px 0 0 60px;}
+#text{ padding:25px 25px 25px 25px; font-size: 18px; color:#555555; }
 #con{ height: 100%; width: 100%;background: white;}
 #con #tag{ padding: 5px 5px 5px 0; height: 60px; width: 90%; margin:auto; }
 #con #tag li{ list-style: none; float: left; margin-right: 5px; font-size: 14px; color: #555555;}
@@ -63,7 +63,7 @@
 .feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 32px;}
 #footer{ height: 200px; text-align: center; }
 a{ color: black; }
-#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow-x:hidden;}
+#imgList{position:relative; margin:0; padding:0; list-style:none; overflow:hidden;}
 #imgList li{ display:none; float:left; position: absolute; top:0; left:0;}
 #imgList li:nth-child(1){ display: block; }
 #imgList img{ width: 633px; height: 633px; }
@@ -78,7 +78,7 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #re_list li:nth-child(2){ width: 55%; margin-bottom: 20px; height: fit-content; }
 #replyCon{ width: 55%; resize: none; line-height: 12pt; white-space: pre-line; background: white;
 		   inline-size: fit-content; border: none; font-size: 9pt; float: left; overflow: hidden; }
-.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9; }
+.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9;    position: absolute;  margin: 10px; }
 #userId{ margin: 9px 10px 0 10px; }
 #time{ width: 100%; }
 #rWriterInfo{ width: 25%; }
@@ -94,10 +94,8 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #selectRtype{ width:100px; margin-left:50px; background:#daf4ed; border:0; border-radius: 10px;width:100px;height: 35px;}
 #reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 .setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
-#replyIcon{ margin: 9px 0 0 15px; }
+#replyIcon{ margin: 9px 0 0 60px; }
 #likeIcon { margin: 7px 0 0 25px; }
-
-
 
 #feed_gName{ float:left; position: absolute; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
 

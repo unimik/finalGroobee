@@ -148,6 +148,14 @@ public interface FeedService {
 	 * @return
 	 */
 	int insertStorage(StorageBox sb);
-
+	
+	/**
+	 * 사진 리스트
+	 * @param getfNo
+	 * @return
+	 */
+	ArrayList<Photo> selectPhotoList(int getfNo);
+	
+	
 
 }

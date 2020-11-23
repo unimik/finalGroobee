@@ -16,7 +16,7 @@
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }
-	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow-x:hidden;}
+	#imgList{position:relative; margin:0; padding:0; list-style:none; overflow:hidden;}
 	#imgList li{ display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){ display: block; }
 	#imgList img{ width: 633px; height: 633px; }
@@ -166,19 +166,21 @@
 	</div>
 		<div id="con">
 			<div id="feed_content">
-					<c:if test="${ !empty f.photoList }">
+					<c:if test="${ !empty f.photoList and f.photoList ne null }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-						<c:forEach var="p" items="${ f.photoList }">
-						<c:if test="${ p.changeName ne null }">
-							<ul id="imgList">
-								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							
+							<ul id="imgList" style="height:633px">
+								<c:forEach var="p" items="${ f.photoList }">
+								<c:if test="${ p.changeName ne null }">
+									<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+								</c:if>
+								</c:forEach>
 							</ul>
-						</c:if>
-						</c:forEach>
 					</c:if>
+					
+					
 				<p id="text"><c:out value="${ f.fContent }" /></p>
-
 				<div id="heart_reply">
 				<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 				<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">

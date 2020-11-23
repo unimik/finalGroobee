@@ -219,10 +219,10 @@
 			</div>
 	     
 	     <div id="menubar">
-	     	 <c:url var="goHome" value="home.do"/>
+	     	 <c:url var="goHome" value="home.do?userId=${ loginUser.userId }"/>
 	     	 <c:url var="glist" value="glist.do"/>
 	         <ul id="menu">
-	             <li><a href="${ goHome }?userId=${ loginUser.userId }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
+	             <li><a href="${ goHome }"><img src="resources/icons/menu_home.png" alt="HOME"></a></li>
              	 <li><img src="resources/icons/menu_chat.png" alt="CHAT" id="chat_icon" name="chat_icon"></li>
              	 
 	             <li><a href="${ glist }"><img src="resources/icons/logoicon.png"></a></li>

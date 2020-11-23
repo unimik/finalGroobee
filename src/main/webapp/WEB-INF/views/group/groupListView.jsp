@@ -120,17 +120,19 @@
 				</div>
 	        <div id="con">
 				<div id="feed_content">
-						<c:if test="${ !empty f.photoList }">
-							<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-							<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-							<c:forEach var="p" items="${ f.photoList }">
-							<c:if test="${ p.changeName ne null }">
-								<ul id="imgList">
+						<c:if test="${ !empty f.photoList and f.photoList ne null }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+							
+							<ul id="imgList" style="height:633px">
+								<c:forEach var="p" items="${ f.photoList }">
+								<c:if test="${ p.changeName ne null }">
 									<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-								</ul>
-							</c:if>
-							</c:forEach>
+								</c:if>
+								</c:forEach>
+							</ul>
 						</c:if>
+						
 					<p id="text"><c:out value="${ f.fContent }" /></p>
 
 					<div id="heart_reply">
