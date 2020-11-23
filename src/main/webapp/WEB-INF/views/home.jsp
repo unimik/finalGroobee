@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="resources/css/home.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
-	.feed{ height: fit-content; }
+	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }
@@ -50,6 +50,7 @@
 	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
+	button{ cursor: pointer; }
 </style>
 
 </head>
@@ -140,7 +141,29 @@
 			<button class="sendreport cancel2" id="cancel2"
 				style="cursor: pointer; display: none;">취소</button>
 		</div>
+	</div>
+	<!-- 댓글을 신고해보자! -->
+	<div class="reply_report" id="reply_report" style="display:none">
+		<div id="Reply_report_con">
+			<p>신고사유</p>
+			<select id="reply_reportType" class="selectRtype">
+				<option value="unacceptfeed" selected>부적절한 게시글</option>
+				<option value="insult">욕설</option>
+				<option value="ad">광고</option>
+				<option value="spam">도배</option>
+			</select>
+			<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+				rows="4"></textarea>
+			<br> <input class="selectRtype Rtype" id="reply_selectRtype"
+				type="button" value="확인" style="cursor: pointer;"> <input
+				class="sendreport reply_submit" type="button" id="reply_report-submit"
+				value="확인" style="cursor: pointer; display: none;">
+			<button class="selectRtype cancel" id="cancel"
+				style="cursor: pointer;">취소</button>
+			<button class="sendreport cancel" id="cancel2"
+				style="cursor: pointer; display: none;">취소</button>
 		</div>
+	</div>
 		<div id="con">
 			<div id="feed_content">
 					<c:if test="${ !empty f.photoList }">
@@ -275,10 +298,23 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
-	// 리프래시 이벤트
+    // 리프래시 이벤트
     function refresh(){
 		location.reload();
 	}
+    
+	$('.likeicon').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.replyUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.test').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.rUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
 	
 	$('.test').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
@@ -297,7 +333,7 @@
     });
     $('.rClose').on("click", function(){
         $('.reply_menu').hide();
-    });
+	});
     $('.deleteMyPost').on('click', function () {
     	confirm('이 포스트를 정말 삭제하시겠습니까?');
     });
@@ -318,8 +354,9 @@
 		var resizeTextarea = function(el) {
 			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
 		};
+		
 		$(this).on('keyup input', function() {
-		 resizeTextarea(this);
+			resizeTextarea(this);
 		}).removeAttr('data-autoresize');
 	});
  	        
@@ -526,7 +563,48 @@
 		
 	});
  	
- 	/***** 신고하기 *****/
+ 	/* 댓글 신고하기*/
+ 	// 1. 신고하기 버튼 이벤트
+ 	$(document).on("click","#rReport",function(){
+ 		$(".reply_report").css("display","block");
+ 		// 2.리플 번호 불러오기
+	 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
+ 		
+	 	// 3. 댓글 신고하기
+	 	$(document).on("click",'.reply_submit',function(){
+	 		var text =$(this).prev().prev().prev().val();
+	 		
+	 		console.log(text);
+ 			console.log(targetrNo);
+	 		console.log($("#reply_reportType").val());
+	 		
+	 		if(text == ""){
+				alert('신고 사유를 입력해 주세요.')
+			}else{
+				
+				$.ajax({
+					url:'reportRInsert.do',
+					data:{
+						reportType : $("#reply_reportType").val(),
+						replyType : "reply",
+						content : text,
+						targetrNo:targetrNo
+					},
+					success: function(){
+					
+						alert('신고 완료');
+			      		refresh();
+					},error:function(){
+						alert('신고 실패!');
+					}
+				});
+				
+			};	
+	 	});
+ 	});
+ 	
+ 	
+ 	/***** 피드 신고하기 *****/
  	
     $('.feed_report_btn').on("click", function(e){
     	var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
@@ -534,7 +612,7 @@
 //        $('.feed_report').show();
     });
 			     
-		 $(document).on('click', ".report-submit", function(e){
+		$(document).on('click', ".report-submit", function(e){
 			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
 			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
 			var targetfNo=$(this).parent().prev().val();

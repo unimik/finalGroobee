@@ -131,7 +131,7 @@
                       </li>
                       <li><a href="pInsertView.do"><img src="resources/icons/write.png" alt="WRITE" id="writeIcon"></a></li>
                       <li><img src="resources/icons/alarm.png" alt="" id="alarmIcon" style="cursor:pointer;"></li>
-                      <li><a><img src="resources/icons/open.png" alt="" id="detailInfo"></a></li>
+                      <li><a><img src="resources/icons/open.png" alt="" id="detailInfo" style="cursor: pointer;"></a></li>
                   </ul>
               </div>
               <div class="user_alarm" style="display:none; cursor:pointer;">
