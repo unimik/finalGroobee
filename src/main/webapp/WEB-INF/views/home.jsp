@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="resources/css/home.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
-	.feed{ height: fit-content; }
+	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }

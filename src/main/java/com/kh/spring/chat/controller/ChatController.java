@@ -76,7 +76,11 @@ public class ChatController {
 						job.put("crNo", c.getCrNo());
 						job.put("fromId", c.getFromId());
 						job.put("toId", c.getToId());
-						job.put("cContent",c.getcContent());
+						if(c.getcContent().length() > 18) {
+							job.put("cContent",c.getcContent().substring(0,17)+"...");
+						} else {
+							job.put("cContent",c.getcContent());
+						}
 						if(!c.getFromId().equals(userId)) {
 							job.put("read",c.getcRead());
 						}
