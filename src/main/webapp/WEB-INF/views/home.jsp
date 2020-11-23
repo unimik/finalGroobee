@@ -31,7 +31,8 @@
 	#re_list li:nth-child(2){ width: 55%; margin-bottom: 20px; height: fit-content; }
 	#replyCon{ width: 55%; resize: none; line-height: 12pt; white-space: pre-line; background: white;
 			   inline-size: fit-content; border: none; font-size: 9pt; float: left; overflow: hidden; }
-	.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9; }
+	.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9;     position: absolute;
+    margin: 10px;}
 	#userId{ margin: 9px 10px 0 10px; }
 	#time{ width: 100%; }
 	#rWriterInfo{ width: 25%; }
@@ -47,7 +48,7 @@
 	#selectRtype{ width:100px; margin-left:50px; background:#daf4ed; border:0; border-radius: 10px;width:100px;height: 35px;}
 	#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
-	#replyIcon{ margin: 9px 0 0 15px; }
+	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
 	button{ cursor: pointer; }
 </style>
@@ -120,6 +121,7 @@
 			</c:if>
 		</div>
 	<div class="feed_report">
+		<input type="hidden" value=${f.fNo }>
 		<div id="feed_report_con">
 			<p>신고사유</p>
 			<select id="reportType" class="selectRtype">
@@ -274,6 +276,10 @@
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
+    // 리프래시 이벤트
+    function refresh(){
+		location.reload();
+	}
     
 	$('.likeicon').mouseenter(function() {
 		$(this).css('cursor', 'pointer')
@@ -546,16 +552,20 @@
 		$(document).on('click', ".report-submit", function(e){
 			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
 			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
-			if($(reportCon).val() == ""){
+			var targetfNo=$(this).parent().prev().val();
+			
+			var text =$(this).prev().prev().prev().val();
+			if(text == ""){
 				alert('신고 사유를 입력해 주세요.')
 			}else{
 				
 				$.ajax({
-					url:'/spring/report.do',
+					url:'reportFInsert.do',
 					data:{
 						reportType : $("#reportType").val(),
 						feedType : "feed",
-						content : $(reportCon).val()
+						content : text,
+						targetfNo:targetfNo
 					},
 					success: function(){
 						$(feedReport).css('display', 'none');
@@ -563,6 +573,7 @@
 			      		$(".sendreport").css("display", "none");
 			      		$(reportCon).val('')
 						alert('신고 완료');
+			      		refresh();
 					},error:function(){
 						alert('신고 실패!');
 					}

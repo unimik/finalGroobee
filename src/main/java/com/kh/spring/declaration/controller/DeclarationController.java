@@ -33,7 +33,6 @@ public class DeclarationController {
 								@RequestParam("reportType") String reportType,
 								@RequestParam("content") String content,
 								@RequestParam("gNo")int gNo) {
-		// Group 정보를 가져와야 함
 		Member m = (Member)session.getAttribute("loginUser");
 		Declaration d = new Declaration(feedType,reportType,content,m.getmNo(), gNo);
 		int result = dService.insertReport(d);
@@ -52,9 +51,27 @@ public class DeclarationController {
 			@RequestParam("reportType") String reportType,
 			@RequestParam("content") String content,
 			@RequestParam("targetmNo")int targetmNo) {
-		// Group 정보를 가져와야 함
 		Member m = (Member)session.getAttribute("loginUser");
 		Declaration d = new Declaration(feedType,reportType,content,m.getmNo(), targetmNo);
+		int result = dService.insertReport(d);
+		
+	}
+	
+	
+	/** 3. 피드 신고
+	 * @param feedType
+	 * @param reportType
+	 * @param content
+	 * @param targetmNo
+	 */
+	@ResponseBody
+	@RequestMapping("reportFInsert.do")
+	public void reportFInsert(@RequestParam("feedType") String feedType,
+			@RequestParam("reportType") String reportType,
+			@RequestParam("content") String content,
+			@RequestParam("targetfNo")int targetfNo) {
+		Member m = (Member)session.getAttribute("loginUser");
+		Declaration d = new Declaration(feedType,reportType,content,m.getmNo(), targetfNo);
 		int result = dService.insertReport(d);
 		
 	}
