@@ -1133,7 +1133,6 @@
 			$("#alarmIcon").attr('src',"resources/icons/alarm_new.png");
 			 // 팔로우 알림기능
 				if(dArr[1] == 'follow'){
-		 			$("#alarmIcon").attr('src',"resources/icons/alarm_new.png")
 		 	 		$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 회원님을 팔로우합니다.</p></div>'); 					
 				}else if(dArr[1] == 'groupjoin'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 그룹 가입을 신청했습니다.</p></div>');
@@ -1141,6 +1140,9 @@
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
 				}else if(dArr[1] == 'like'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
+				}else if (dArr[1] == 'reply'){
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="gdetail.do?gNo='+dArr[2]+'"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
+					
 				};
 				 
 		 };
