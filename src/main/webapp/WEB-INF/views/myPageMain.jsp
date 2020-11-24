@@ -75,6 +75,9 @@
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
+	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
+	#replyIcon{ margin: 9px 0 0 60px;}
+	#likeIcon { margin: 7px 0 0 25px; }
    </style>
    <script>
   
@@ -399,7 +402,7 @@
     	var mNo = $('#mNo').val();
     
            $.ajax({
-              url:"goDetail.do",
+              url:"goDetail.do", 
               dataType:"json",
 		    	// smNo : 공유한 글작성자
               data:{mNo: mNo,fNo : fNo, smNo : smNo},
@@ -426,13 +429,13 @@
 	              input +="<div class='pop_menu'>";
 
 	              if(data.shareYN == 'N'){
-	              input +="<div id='feed_Mymenu_list'>";
-	              input +="<ul>";
-	              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
-	              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
-	              input +="<li><a id='close' class='close'>취소</a></li>";
-	              input +="</ul>";
-	              input +="</div>";
+		              input +="<div id='feed_Mymenu_list'>";
+		              input +="<ul>";
+		              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
+		              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+		              input +="<li><a id='close' class='close'>취소</a></li>";
+		              input +="</ul>";
+		              input +="</div>";
 	              } else{
 		              input +="<div id='share_Mymenu_list'>";
 		              input +="<ul>";
@@ -440,7 +443,7 @@
 		              input +="<li><a id='close' class='close'>취소</a></li>";
 		              input +="</ul>";
 		              input +="</div>";
-	            	  }
+	              }
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
@@ -511,6 +514,7 @@
 	              input +="<div id='replySub'>";
 	              for(var i=0;i<data.replyList.length;i++){
 		              input +="<div id='selectOne'>";	
+		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
 		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list' class='list'>";
@@ -540,27 +544,27 @@
 		              } else{
 			              input +="<div id='user_menu_list'>";
 			              input +="<ul>";
-		            	  input +="<li><a id='feed_report_btn' class='feed_report_btn'>댓글 신고</a></li>";
+		            	  input +="<li><a id='rReport' class='rReport'>댓글 신고</a></li>";
 		            	  input +="<li><a id='re_close' class='rClose'>취소</a></li>";
 			              input +="</ul>";
 			          	  input +="</div>";
-			          	  input +="<div class='feed_report'>";
-			    		  input +="<input type='hidden' value='"+fNo+"'>";
-			    		  input +="<div id='feed_report_con'>";
-			    		  input +="<p>신고사유</p>";
-			    		  input +="<select id='reportType' class='selectRtype'>";
-			    		  input +="<option value='unacceptfeed' selected>부적절한 게시글</option>";
-			    		  input +="<option value='insult'>욕설</option>";
-			    		  input +="<option value='ad'>광고</option>";
-			    		  input +="<option value='spam'>도배</option>";
-			    		  input +="</select>";
-			    		  input +="<textarea class='sendreport Rcontent' id='reportContent' cols='28' rows='4'></textarea>";
-			    		  input +="<br> <input class='selectRtype Rtype' id='selectRtype' type='button' value='확인' style='cursor: pointer;'>";
-			    		  input +="<input class='sendreport report-submit' type='button' id='report-submit' value='확인' style='cursor: pointer; display: none;'>";
-			    		  input +="<button class='selectRtype cancel' id='cancel' style='cursor: pointer;'>취소</button>";
-			    		  input +="<button class='sendreport cancel2' id='cancel2' style='cursor: pointer; display: none;'>취소</button>";
-			    		  input +="</div>";
-			    		  input +="</div>";
+			    		  <!-- 댓글을 신고해보자! -->
+			    		  input +="<div class='reply_report' id='reply_report' style='display:none'>";
+			    		  input +="<div id='reply_report_con'>";
+				    	  input +="<p>신고사유</p>";
+				    	  input +="<select id='reply_reportType' class='selectRtype'>";
+				    	  input +="<option value='unacceptfeed' selected>부적절한 게시글</option>";
+					      input +="<option value='insult'>욕설</option>";
+					      input +="<option value='ad'>광고</option>";
+					      input +="<option value='spam'>도배</option>";
+					      input +="</select>";   
+					      input +="<textarea class='sendreport Rcontent' id='reply_reportContent' cols='28' rows='4'></textarea>";
+					      input +="<br> <input class='selectRtype Rtype' id='selectRtype' type='button' value='확인' style='cursor: pointer;'>";
+					      input +="<input class='sendreport reply_submit' type='button' id='reply_report-submit' value='확인' style='cursor: pointer; display: none;'>";
+					      input +="<button class='selectRtype cancel' id='cancel' style='cursor: pointer;'>취소</button>";
+					      input +="<button class='sendreport cancel2' id='cancel2' style='cursor: pointer; display: none;'>취소</button>";
+					      input +="</div>";
+					      input +="</div>";
 		              }
                   	  input +="</div>";
 	                  input +="</div>";       
@@ -603,6 +607,10 @@
 		          
 		          $('.cancel').on("click", function(){
 		              $('.feed_report').hide();
+		          });
+		          
+		          $('.cancel').on("click", function(){
+		              $('.reply_report').hide();
 		          });
 		          
 		          
@@ -654,49 +662,45 @@
 		     	  		});	
 		  			
 		          
-		          
-		          
-		       	/***** 댓글 신고하기 *****/
-		       	
-		          $('.feed_report_btn').on("click", function(e){
-		         	var feedReport = $(e.target).parents('.reply_menu').find('.feed_report');
-		          	feedReport.show();
-		          });
-		      			     
-		      		 $(document).on('click', ".report-submit", function(e){
-		      			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
-		      			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
-		      			var targetfNo=$(this).parent().prev().val();
-		      			
-		      			var text =$(this).prev().prev().prev().val();
-		      			if(text == ""){
-		      				alert('신고 사유를 입력해 주세요.')
-		      			}else{
-		      				
-		      				$.ajax({
-		      					url:'reportFInsert.do',
-		      					data:{
-		      						reportType : $("#reportType").val(),
-		      						feedType : "feed",
-		      						content : text,
-		      						targetfNo:targetfNo
-		      					},
-		      					success: function(){
-		      						$(feedReport).css('display', 'none');
-		      						$(".selectRtype").css("display", "inline-block");
-		      			      		$(".sendreport").css("display", "none");
-		      			      		$(reportCon).val('');
-		      						alert('신고 완료');
-		      						$('.feed_report').hide();
-		      						$('.reply_menu').hide();
-		      			      		refresh();
-		      					},error:function(){
-		      						alert('신고 실패!');
-		      					}
-		      				});
-		      				
-		      			};
-		      		});
+		  		 	/* 댓글 신고하기*/
+		  		 	// 1. 신고하기 버튼 이벤트
+		  		 	$(document).on("click","#rReport",function(){
+		  		 		$(".reply_report").css("display","block");
+		  		 		// 2.리플 번호 불러오기
+		  			 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
+		  		 		
+		  			 	// 3. 댓글 신고하기
+		  			 	$(document).on("click",'.reply_submit',function(){
+		  			 		var text =$(this).prev().prev().prev().val();
+		  			 		
+		  			 		console.log(text);
+		  		 			console.log(targetrNo);
+		  			 		console.log($("#reply_reportType").val());
+		  			 		
+		  			 		if(text == ""){
+		  						alert('신고 사유를 입력해 주세요.')
+		  					}else{
+		  						
+		  						$.ajax({
+		  							url:'reportRInsert.do',
+		  							data:{
+		  								reportType : $("#reply_reportType").val(),
+		  								replyType : "reply",
+		  								content : text,
+		  								targetrNo:targetrNo
+		  							},
+		  							success: function(){
+		  								alert('신고 완료');
+		  								$('.reply_menu').hide();
+		  					      		$('.reply_report').hide();
+		  							},error:function(){
+		  								alert('신고 실패!');
+		  							}
+		  						});
+		  						
+		  					};	
+		  			 	});
+		  		 	});
 		         	 
 		      	   	$(".cancel2").on("click",function(e){
 		      	   		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
@@ -729,7 +733,7 @@
 		       	$('.rConfirm').on("click", function(e) {
 		      		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
 		      		var rWriter = '${loginUser.userId}';
-		      		
+		      		var fNo = $(e.target).parents("div#selectOne").children("input#hdFno.fno").val();
 		      		var replyContent = $(this).parent().children()[1].children[0].value;
 		      		
 		      			$.ajax({
@@ -737,16 +741,80 @@
 		      				data: {
 		      					rContent: replyContent,
 		      					rNo: rNo,
-		      					rWriter: rWriter
+		      					rWriter: rWriter,
+		      					fNo : fNo
 		      				},
 		      				type: "post",
+		      				async:false,
 		      				success: function(data) {	// 성공 시: success, 실패 시: fail
 		      					console.log(data);
-		       					if(data == "success") {
+		       				
 //		      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 		       						//location.href="goMypage.do?mNo="+mNo;
-		       						location.reload();
-		      					}
+		       						$('#replySub').remove();
+		       						
+		       						var input = "";
+		       					 input +="<div id='replySub'>";
+		       	              for(var i=0;i<data.replyList.length;i++){
+		       		              input +="<div id='selectOne'>";	
+		       		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
+		       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
+		       	                  input +="<div id='replyList'>";
+		       	                  input +="<ul id='re_list' class='list'>";
+		       	                  if(data.replyList[i].mNo == mNo){
+		       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+		       	                  } else {
+		       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+		       	                  }
+		       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
+		       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
+		       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+		       		              if(data.replyList[i].mNo == mNo){
+		       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
+		       		               }
+		       					  input +="</ul>";
+		       		              input +="</div>";
+		       		              input +="<div class='reply_menu'>";
+
+		       		              if(data.replyList[i].mNo == mNo){
+		       			              input +="<div id='re_menu_list'>";
+		       			              input +="<ul>";
+		       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
+		       			              input +="<li><a class='rDelete'>댓글 삭제</a></li>";
+		       			              input +="<li><a id='re_close' class='rClose'>취소</a></li>";
+		       			              input +="</ul>";
+		       			          	  input +="</div>";
+		       		              } else{
+		       			              input +="<div id='user_menu_list'>";
+		       			              input +="<ul>";
+		       		            	  input +="<li><a id='feed_report_btn' class='feed_report_btn'>댓글 신고</a></li>";
+		       		            	  input +="<li><a id='re_close' class='rClose'>취소</a></li>";
+		       			              input +="</ul>";
+		       			          	  input +="</div>";
+		       			          	  input +="<div class='feed_report'>";
+		       			    		  input +="<input type='hidden' value='"+fNo+"'>";
+		       			    		  input +="<div id='feed_report_con'>";
+		       			    		  input +="<p>신고사유</p>";
+		       			    		  input +="<select id='reportType' class='selectRtype'>";
+		       			    		  input +="<option value='unacceptfeed' selected>부적절한 게시글</option>";
+		       			    		  input +="<option value='insult'>욕설</option>";
+		       			    		  input +="<option value='ad'>광고</option>";
+		       			    		  input +="<option value='spam'>도배</option>";
+		       			    		  input +="</select>";
+		       			    		  input +="<textarea class='sendreport Rcontent' id='reportContent' cols='28' rows='4'></textarea>";
+		       			    		  input +="<br> <input class='selectRtype Rtype' id='selectRtype' type='button' value='확인' style='cursor: pointer;'>";
+		       			    		  input +="<input class='sendreport report-submit' type='button' id='report-submit' value='확인' style='cursor: pointer; display: none;'>";
+		       			    		  input +="<button class='selectRtype cancel' id='cancel' style='cursor: pointer;'>취소</button>";
+		       			    		  input +="<button class='sendreport cancel2' id='cancel2' style='cursor: pointer; display: none;'>취소</button>";
+		       			    		  input +="</div>";
+		       			    		  input +="</div>";
+		       		              }
+		                          input +="</div>";
+		       	                  input +="</div>";      
+		      					
+		       	              }
+		       	                  $('#replyArea').append(input);
+		      					
 		      				}, error: function() {
 		      					console.log("전송 실패");
 		      				}
@@ -878,6 +946,7 @@
 				console.log("전송 실패");
 			}
 		}); 
+     	
      	} else {
      		
      		$('.rContent').val("");	// 등록 시에 사용한 댓글 내용 초기화

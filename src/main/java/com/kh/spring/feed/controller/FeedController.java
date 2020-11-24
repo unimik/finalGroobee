@@ -148,24 +148,17 @@ public class FeedController {
    }
    
    @RequestMapping("pUpdateView.do")
-   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session,
-		   								@RequestParam(value = "like") String like,
-		   								@RequestParam(value = "reply") String reply,
-		   								@RequestParam(value = "share") String share) {
+   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
       Member mem = (Member)session.getAttribute("loginUser");
       // 가입한 그룹(Select Tag)
       gn = fService.selectGroupMemberId(mem.getUserId());
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
-      
-      f.setfLikeSet(like);
-      f.setfReplySet(reply);
-      f.setfShareSet(share);
-      
-      System.out.println("like 값: " + like);
-      System.out.println("reply 값: " + reply);
-      System.out.println("share 값: " + share);
+      System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
+      System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
+      System.out.println("들어온 fShareSet : " + f.getfShareSet());
+      System.out.println("들어온 fReplySet : " + f.getfReplySet());
       
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
@@ -191,11 +184,25 @@ public class FeedController {
    
    @RequestMapping("pUpdate.do")
    public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn,
-                           HttpSession session, MultipartHttpServletRequest multi) {
+                            	  HttpSession session, MultipartHttpServletRequest multi,
+                            	  @RequestParam(value = "selectOpenScope") String selectOpenScope,
+                            	  @RequestParam(value = "like") String like,
+                            	  @RequestParam(value = "reply") String reply,
+                            	  @RequestParam(value = "share") String share) {
       System.out.println("사진정보 : " + p);
+      
+      f.setfOpenScope(selectOpenScope);
+      f.setfLikeSet(like);
+      f.setfReplySet(reply);
+      f.setfShareSet(share);
+      
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
+      System.out.println("수정 fOpenScope : " + f.getfOpenScope());
+      System.out.println("수정 fLikeSet : " + f.getfLikeSet());
+      System.out.println("수정 fShareSet : " + f.getfShareSet());
+      System.out.println("수정 fReplySet : " + f.getfReplySet());
       
       // 태그 인서트
 		String[] strarr = f.getfContent().split(" |\\n");
@@ -346,10 +353,10 @@ public class FeedController {
 	
 	@ResponseBody
 	@RequestMapping("editReply.do")
-	public String editReply(Reply r, HttpSession session) {
+	public String editReply(Reply r,String fNo, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		System.out.println("수정 Reply Check : " + r);
-		
+		System.out.println("fNo 값 확인 : " + fNo);
 		r.setmNo(mem.getmNo());
 		
 		int result = fService.updateReply(r);
@@ -358,7 +365,26 @@ public class FeedController {
 		System.out.println("수정 reply_mNo : " + r.getmNo());
 		
 		if(result > 0) {
-			return "success";
+			ArrayList<Reply> replyList = myService.selectReplyList(Integer.parseInt(fNo));
+			JSONObject job = new JSONObject();
+			if(replyList != null) {
+				JSONArray jArr = new JSONArray();
+				for(int i=0; i <replyList.size(); i++) {
+					JSONObject jObj = new JSONObject();
+					jObj.put("mNo", replyList.get(i).getmNo());
+					jObj.put("rNo", replyList.get(i).getrNo());
+					jObj.put("rContent", replyList.get(i).getrContent());
+					jObj.put("rWriter", replyList.get(i).getrWriter());
+					jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
+					jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
+					jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
+					jObj.put("rStatus", replyList.get(i).getrStatus());
+					jArr.add(jObj);
+				}
+				job.put("replyListSize", replyList.size());
+				job.put("replyList", jArr);
+			}
+			return job.toJSONString();
 		}else {
 			return "fail";
 		}
