@@ -3,7 +3,9 @@ package com.kh.spring.chat.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Chat implements Serializable{
+import org.springframework.stereotype.Component;
+
+public class Chat implements Serializable {
 
 	/**
 	 * 
@@ -167,4 +169,6 @@ public class Chat implements Serializable{
 				+ ", toId=" + toId + ", joinId=" + joinId + ", cContent=" + cContent + ", chatDate=" + chatDate
 				+ ", cRead=" + cRead + "]";
 	}
+	
 }
+

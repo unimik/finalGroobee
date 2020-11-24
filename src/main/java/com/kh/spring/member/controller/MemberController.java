@@ -22,12 +22,11 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
+import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
-import com.kh.spring.member.model.vo.Follow;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
-import com.kh.spring.myPage.model.vo.Mypage;
 import com.kh.spring.setting.model.service.SettingService;
 
 @SessionAttributes("loginUser")
@@ -62,25 +61,29 @@ public class MemberController {
 	public String memberLogin(Member m, String userId, String userPwd, Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
-		
-		System.out.println("정보 : " + m);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-		ArrayList<Boolean> likeChk = new ArrayList<Boolean>();
-		/*
-		 * ArrayList<Feed> followerList = fService.selectFollowerList(userId);
-		 * ArrayList<Feed> followingList = fService.selectFollowingList(userId);
-		 */
-		
 		for(Feed ff : feed) {
 			ff.setfReplyCnt(ff.getReplyList().size());
 //			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
 		}
-		
+		ArrayList<Photo> fp = null;
+		for(Feed f : feed) {
+			fp = fService.selectPhotoList(f.getfNo());
+			
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+		}
+
+
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("likeChk",likeChk);
 			if(loginUser.getUserId().equals("admin")) {
 				return "admin/adminmember";
 			}else {
@@ -247,6 +250,18 @@ public class MemberController {
 	@RequestMapping("home.do")
 	public String goHome(Model model, String userId) {
 		ArrayList<Feed> feed = fService.selectFeed(userId);
+		ArrayList<Photo> fp = null;
+		for(Feed f : feed) {
+			fp = fService.selectPhotoList(f.getfNo());
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+		}
+		
 		model.addAttribute("feed", feed);
 		return "home";
 	}

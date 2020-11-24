@@ -569,6 +569,7 @@ public class MypageController {
 			for(int i=0; i <replyList.size(); i++) {
 				JSONObject jObj = new JSONObject();
 				jObj.put("mNo", replyList.get(i).getmNo());
+				jObj.put("rNo", replyList.get(i).getrNo());
 				jObj.put("rContent", replyList.get(i).getrContent());
 				jObj.put("rWriter", replyList.get(i).getrWriter());
 				jObj.put("rWriterImg", replyList.get(i).getrWriterImg());

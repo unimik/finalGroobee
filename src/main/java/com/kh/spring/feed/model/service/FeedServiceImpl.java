@@ -145,4 +145,11 @@ public class FeedServiceImpl implements FeedService {
 	public int insertStorage(StorageBox sb) {
 		return fDao.insertStorage(sb);
 	}
+
+	@Override
+	public ArrayList<Photo> selectPhotoList(int getfNo) {
+		return fDao.selectPhotoList(getfNo);
+	}
+
+
 }

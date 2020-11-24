@@ -16,7 +16,7 @@
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }
-	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow-x:hidden;}
+	#imgList{position:relative; margin:0; padding:0; list-style:none; overflow:hidden;}
 	#imgList li{ display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){ display: block; }
 	#imgList img{ width: 633px; height: 633px; }
@@ -143,19 +143,41 @@
 					style="cursor: pointer; display: none;">취소</button>
 			</div>
 			</div>
+			<!-- 댓글을 신고해보자! -->
+			<div class="reply_report" id="reply_report" style="display:none">
+				<div id="Reply_report_con">
+					<p>신고사유</p>
+					<select id="reply_reportType" class="selectRtype">
+						<option value="unacceptfeed" selected>부적절한 게시글</option>
+						<option value="insult">욕설</option>
+						<option value="ad">광고</option>
+						<option value="spam">도배</option>
+					</select>
+					<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+						rows="4"></textarea>
+					<br> <input class="selectRtype Rtype" id="selectRtype"
+						type="button" value="확인" style="cursor: pointer;"> <input
+						class="sendreport reply_submit" type="button" id="reply_report-submit"
+						value="확인" style="cursor: pointer; display: none;">
+					<button class="selectRtype cancel" id="cancel"
+						style="cursor: pointer;">취소</button>
+					<button class="sendreport cancel2" id="cancel2"
+						style="cursor: pointer; display: none;">취소</button>
+				</div>
+			</div>
 			<div id="con">
 				<div id="feed_content">
-						<c:if test="${ !empty f.photoList }">
-							<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-							<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+					<c:if test="${ !empty f.photoList }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList" style="height:633px">
 							<c:forEach var="p" items="${ f.photoList }">
 							<c:if test="${ p.changeName ne null }">
-								<ul id="imgList">
-									<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-								</ul>
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 							</c:if>
 							</c:forEach>
-						</c:if>
+						</ul>
+					</c:if>
 					<p id="text"><c:out value="${ f.fContent }" /></p>
 	
 					<div id="heart_reply">
@@ -289,7 +311,7 @@
 			<c:if test="${ loginUser.userId eq f.fWriter }">
 			<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
-				<c:choose>
+								<c:choose>
 					<c:when test="${ loginUser.userId ne f.fWriter }">
 						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 						<c:if test="${ !empty f.mImage }">
@@ -369,18 +391,40 @@
 					style="cursor: pointer; display: none;">취소</button>
 			</div>
 			</div>
+			<!-- 댓글을 신고해보자! -->
+			<div class="reply_report" id="reply_report" style="display:none">
+				<div id="Reply_report_con">
+					<p>신고사유</p>
+					<select id="reply_reportType" class="selectRtype">
+						<option value="unacceptfeed" selected>부적절한 게시글</option>
+						<option value="insult">욕설</option>
+						<option value="ad">광고</option>
+						<option value="spam">도배</option>
+					</select>
+					<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+						rows="4"></textarea>
+					<br> <input class="selectRtype Rtype" id="selectRtype"
+						type="button" value="확인" style="cursor: pointer;"> <input
+						class="sendreport reply_submit" type="button" id="reply_report-submit"
+						value="확인" style="cursor: pointer; display: none;">
+					<button class="selectRtype cancel" id="cancel"
+						style="cursor: pointer;">취소</button>
+					<button class="sendreport cancel2" id="cancel2"
+						style="cursor: pointer; display: none;">취소</button>
+				</div>
+			</div>
 			<div id="con">
 				<div id="feed_content">
 					<c:if test="${ !empty f.photoList }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-						<c:forEach var="p" items="${ f.photoList }">
-						<c:if test="${ p.changeName ne null }">
-							<ul id="imgList">
+						<ul id="imgList" style="height:633px">
+							<c:forEach var="p" items="${ f.photoList }">
+							<c:if test="${ p.changeName ne null }">
 								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-							</ul>
-						</c:if>
-						</c:forEach>
+							</c:if>
+							</c:forEach>
+						</ul>
 					</c:if>
 					<p id="text"><c:out value="${ f.fContent }" /></p>
 	
@@ -391,11 +435,11 @@
 	             	<c:choose>
 		             	<c:when test="${ f.likeChk eq null }">
 		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:when>
 		             	<c:otherwise>
 		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:otherwise>
 	             	</c:choose>
 					</c:if>
@@ -533,6 +577,11 @@
     $('.cancel').on("click", function(){
         $('.feed_report').hide();
     });
+    
+    $('.cancel').on("click", function(){
+        $('.reply_report').hide();
+    });
+    
     $('.rUpBtn').on("click", function(event){
 //  	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
       var btn = $(event.target).parent('li').parent('ul').next('div#reply_menu')
@@ -627,7 +676,7 @@
 			var rContent = event.target.parentElement.children[1].value;
 			var rfNo = event.target.parentElement.children[0].value;
 			var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
-			
+			var fWriter = event.target.id;
 			$.ajax({
 				url: "addReply.do",
 				data: {
@@ -769,7 +818,48 @@
 		
 	});
  	
- 	/***** 신고하기 *****/
+ 	/* 댓글 신고하기*/
+ 	// 1. 신고하기 버튼 이벤트
+ 	$(document).on("click","#rReport",function(){
+ 		$(".reply_report").css("display","block");
+ 		// 2.리플 번호 불러오기
+	 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
+ 		
+	 	// 3. 댓글 신고하기
+	 	$(document).on("click",'.reply_submit',function(){
+	 		var text =$(this).prev().prev().prev().val();
+	 		
+	 		console.log(text);
+ 			console.log(targetrNo);
+	 		console.log($("#reply_reportType").val());
+	 		
+	 		if(text == ""){
+				alert('신고 사유를 입력해 주세요.')
+			}else{
+				
+				$.ajax({
+					url:'reportRInsert.do',
+					data:{
+						reportType : $("#reply_reportType").val(),
+						replyType : "reply",
+						content : text,
+						targetrNo:targetrNo
+					},
+					success: function(){
+						alert('신고 완료');
+						$('.reply_menu').hide();
+			      		$('.reply_report').hide();
+					},error:function(){
+						alert('신고 실패!');
+					}
+				});
+				
+			};	
+	 	});
+ 	});
+ 	
+ 	
+ 	/***** 피드 신고하기 *****/
  	
     $('.feed_report_btn').on("click", function(e){
     	var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
