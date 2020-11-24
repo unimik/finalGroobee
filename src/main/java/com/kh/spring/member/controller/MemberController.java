@@ -71,7 +71,6 @@ public class MemberController {
 		ArrayList<Photo> fp = null;
 		for(Feed f : feed) {
 			fp = fService.selectPhotoList(f.getfNo());
-			System.out.println("사진리스트 :"+fp);
 			
 			for(Photo p : fp) {
 				if(p.getChangeName() != null) {
@@ -80,19 +79,12 @@ public class MemberController {
 					f.setPhotoList(null);
 				}
 			}
-			System.out.println("마지막 사진리스트 확인 : "+f.getPhotoList() + f.getfNo());
 		}
-		//for(Feed f : feed) {
-		//	f.getPhotoList();
-		//	System.out.println(f.getPhotoList());
-		//}
-
 
 		
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("likeChk",likeChk);
 			if(loginUser.getUserId().equals("admin")) {
 				return "admin/adminmember";
 			}else {
@@ -262,8 +254,6 @@ public class MemberController {
 		ArrayList<Photo> fp = null;
 		for(Feed f : feed) {
 			fp = fService.selectPhotoList(f.getfNo());
-			System.out.println("사진리스트 :"+fp);
-			
 			for(Photo p : fp) {
 				if(p.getChangeName() != null) {
 					f.setPhotoList(fp);
@@ -271,7 +261,6 @@ public class MemberController {
 					f.setPhotoList(null);
 				}
 			}
-			System.out.println("마지막 사진리스트 확인 : "+f.getPhotoList() + f.getfNo());
 		}
 		
 		model.addAttribute("feed", feed);
