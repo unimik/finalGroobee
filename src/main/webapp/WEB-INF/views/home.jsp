@@ -154,13 +154,13 @@
 			</select>
 			<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
 				rows="4"></textarea>
-			<br> <input class="selectRtype Rtype" id="reply_selectRtype"
+			<br> <input class="selectRtype Rtype" id="selectRtype"
 				type="button" value="확인" style="cursor: pointer;"> <input
 				class="sendreport reply_submit" type="button" id="reply_report-submit"
 				value="확인" style="cursor: pointer; display: none;">
 			<button class="selectRtype cancel" id="cancel"
 				style="cursor: pointer;">취소</button>
-			<button class="sendreport cancel" id="cancel2"
+			<button class="sendreport cancel2" id="cancel2"
 				style="cursor: pointer; display: none;">취소</button>
 		</div>
 	</div>
@@ -328,6 +328,11 @@
     $('.cancel').on("click", function(){
         $('.feed_report').hide();
     });
+    
+    $('.cancel').on("click", function(){
+        $('.reply_report').hide();
+    });
+    
     $('.rUpBtn').on("click", function(event){
 //  	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
       var btn = $(event.target).parent('li').parent('ul').next('div#reply_menu')
@@ -593,9 +598,9 @@
 						targetrNo:targetrNo
 					},
 					success: function(){
-					
 						alert('신고 완료');
-			      		refresh();
+						$('.reply_menu').hide();
+			      		$('.reply_report').hide();
 					},error:function(){
 						alert('신고 실패!');
 					}
