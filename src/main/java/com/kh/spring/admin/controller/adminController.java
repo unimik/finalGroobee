@@ -516,7 +516,6 @@ public class adminController {
 		JSONObject job = null;
 		// 1. 타입이 group일 때
 		if(type.equals("group")){
-			System.out.println("if문으로 들어오는가?");
 			g= new Group();
 			d= new Declaration();
 			job = new JSONObject(); 
@@ -532,6 +531,7 @@ public class adminController {
 		}else if(type.equals("feed")) {
 			f= new Feed();
 			d= new Declaration();
+			job = new JSONObject(); 
 			
 			f=aService.loadFeed(number);
 			
@@ -545,8 +545,15 @@ public class adminController {
 		}else if(type.equals("reply")) {
 			r= new Reply();
 			d= new Declaration();
+			job = new JSONObject(); 
 			
 			r=aService.loadReply(number);
+			
+			job.put("rNo", Integer.toString(r.getrNo()));
+			job.put("rWriter", r.getrWriter());
+			job.put("rContent",r.getrContent());
+			job.put("rCreateDate",r.getrCreateDate());
+			job.put("rStatus",r.getrStatus()); // 상태 변경 및 메소드 재활용을 위해 가져옴
 			
 		}else if(type.equals("member")) {
 			m = new Member();

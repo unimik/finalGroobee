@@ -2,7 +2,6 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,11 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
-import com.kh.spring.feed.model.vo.LikeIt;
+import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
@@ -71,8 +68,24 @@ public class MemberController {
 			ff.setfReplyCnt(ff.getReplyList().size());
 //			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
 		}
-		
-
+		ArrayList<Photo> fp = null;
+		for(Feed f : feed) {
+			fp = fService.selectPhotoList(f.getfNo());
+			System.out.println("사진리스트 :"+fp);
+			
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+			System.out.println("마지막 사진리스트 확인 : "+f.getPhotoList() + f.getfNo());
+		}
+		//for(Feed f : feed) {
+		//	f.getPhotoList();
+		//	System.out.println(f.getPhotoList());
+		//}
 
 
 		
@@ -246,6 +259,21 @@ public class MemberController {
 	@RequestMapping("home.do")
 	public String goHome(Model model, String userId) {
 		ArrayList<Feed> feed = fService.selectFeed(userId);
+		ArrayList<Photo> fp = null;
+		for(Feed f : feed) {
+			fp = fService.selectPhotoList(f.getfNo());
+			System.out.println("사진리스트 :"+fp);
+			
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+			System.out.println("마지막 사진리스트 확인 : "+f.getPhotoList() + f.getfNo());
+		}
+		
 		model.addAttribute("feed", feed);
 		return "home";
 	}

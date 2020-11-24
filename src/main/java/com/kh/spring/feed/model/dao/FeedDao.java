@@ -124,4 +124,8 @@ public class FeedDao {
 	public int insertStorage(StorageBox sb) {
 		return sqlSession.insert("mypageMapper.insertStorage", sb);
 	}
+
+	public ArrayList<Photo> selectPhotoList(int getfNo) {
+		return (ArrayList)sqlSession.selectList("feedMapper.selectPhotoList", getfNo);
+	}
 }

@@ -185,6 +185,7 @@ public class FeedController {
       
       Gson gson = new Gson();
       String photoList = gson.toJson(f);
+      System.out.println("피드사진리스트 : " +photoList);
       return photoList;
    }
    
