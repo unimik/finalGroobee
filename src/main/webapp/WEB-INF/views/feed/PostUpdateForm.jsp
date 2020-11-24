@@ -113,10 +113,20 @@
                             <tr>
                                 <td class="checkList tdfi">작성위치</td>
                                 <td class="tdfi">
+                                    <c:forEach var="gl" items="${ gn }">
+                                    <c:if test="${ f.gNo eq 0 }">
                                     <select id="select_board">
-                                        <option value="myFeed">내 피드</option>
-                                        <option value="group">그룹 피드</option>
+                                        <option value="myFeed" <c:if test="${ f.gNo eq 0 }">selected</c:if>>내 피드</option>
+                                        <option value="group" <c:if test="${ f.gNo ne 0 }">selected</c:if>>그룹 피드</option>
                                     </select>
+                                    </c:if>
+                                    <c:if test="${ f.gNo eq gl.gNo and f.gNo ne 0 }">
+                                    <select id="select_board" disabled>
+                                        <option value="myFeed" <c:if test="${ f.gNo eq 0 }">selected</c:if>>내 피드</option>
+                                        <option value="group" <c:if test="${ f.gNo ne 0 }">selected</c:if>>그룹 피드</option>
+                                    </select>
+                                    </c:if>
+                                    </c:forEach>
                                 </td>
                                 <td>
                                     <select id="myGroupList" name="gNo">
@@ -126,10 +136,23 @@
                                     	</c:if>
                                     	
                                     	<c:if test="${ loginUser.userId eq g.gmId }">
-											<option value="${ g.gNo }">${ g.gName }</option>
+											<option value="${ g.gNo }" <c:if test="${ f.gNo eq g.gNo }">selected</c:if>>${ g.gName }</option>
 										</c:if>
 										</c:forEach>
                                     </select>
+                                	<c:if test="${ f.gNo ne 0 }">
+                                    <select id="myGroupList" name="gNo" style="display: block;">
+                                    	<c:forEach var="g" items="${ gn }">
+                                    	<c:if test="${ empty g.gmId }">
+                                        	<option>가입된 그룹이 없습니다.</option>
+                                    	</c:if>
+                                    	
+                                    	<c:if test="${ loginUser.userId eq g.gmId }">
+											<option value="${ g.gNo }" <c:if test="${ f.gNo eq g.gNo }">selected</c:if>>${ g.gName }</option>
+										</c:if>
+										</c:forEach>
+                                    </select>
+                                    </c:if>
                                 </td>
                             </tr>
                             
@@ -137,11 +160,11 @@
                             <tr height="50px">
                                 <td class="checkList tdfi">공개여부</td>
                                 <td class="tdfi">
-                                    <select>
+                                    <select name="selectOpenScope">
                                     	<c:forEach var="open" items="feed">
-                                        <option id="public" value="Y">전체공개</option>
-                                        <option id="friends" value="F">친구만</option>
-                                        <option id="private" value="G">비공개</option>
+                                        <option id="public" value="Y" <c:if test="${ f.fOpenScope eq 'Y' }">selected</c:if>>전체공개</option>
+                                        <option id="friends" value="F" <c:if test="${ f.fOpenScope eq 'F' }">selected</c:if>>친구만</option>
+                                        <option id="private" value="G" <c:if test="${ f.fOpenScope eq 'G' }">selected</c:if>>비공개</option>
                                         </c:forEach>
                                     </select>
                                 </td>
@@ -152,8 +175,8 @@
                                 <td class="st">좋아요</td>
                                 <td>
                                     <ul>
-                                        <li><input type="radio" name="like" id="" value="Y" checked ><label for="like">허용</label></li>
-                                        <li><input type="radio" name="like" id="" value="N" ><label for="like">금지</label></li>
+                                        <li><input type="radio" name="like" id="" value="Y" <c:if test="${ f.fLikeSet eq 'Y' }">checked</c:if>><label for="like">허용</label></li>
+                                        <li><input type="radio" name="like" id="" value="N" <c:if test="${ f.fLikeSet eq 'N' }">checked</c:if>><label for="like">금지</label></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -161,9 +184,9 @@
                                 <td class="checkListse st">댓글</td>
                                 <td>
                                     <ul>
-                                        <li><input type="radio" name="reply" id="" value="Y" checked ><label for="reply">허용</label></li>
-                                        <li><input type="radio" name="reply" id="" value="F" ><label for="reply">친구만 허용</label></li>
-                                        <li><input type="radio" name="reply" id="" value="N" ><label for="reply">금지</label></li>
+                                        <li><input type="radio" name="reply" id="" value="Y" <c:if test="${ f.fReplySet eq 'Y' }">checked</c:if>><label for="reply">허용</label></li>
+                                        <li><input type="radio" name="reply" id="" value="F" <c:if test="${ f.fReplySet eq 'F' }">checked</c:if>><label for="reply">친구만 허용</label></li>
+                                        <li><input type="radio" name="reply" id="" value="N" <c:if test="${ f.fReplySet eq 'N' }">checked</c:if>><label for="reply">금지</label></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -171,8 +194,8 @@
                                 <td class="checkListse st">공유</td>
                                 <td>
                                     <ul>
-                                        <li><input type="radio" name="share" id="" value="Y" checked ><label for="share">허용</label></li>
-                                        <li><input type="radio" name="share" id="" value="N" ><label for="share">금지</label></li>
+                                        <li><input type="radio" name="share" id="" value="Y" <c:if test="${ f.fShareSet eq 'Y' }">checked</c:if>><label for="share">허용</label></li>
+                                        <li><input type="radio" name="share" id="" value="N" <c:if test="${ f.fShareSet eq 'N' }">checked</c:if>><label for="share">금지</label></li>
                                     </ul>
                                 </td>
                             </tr>

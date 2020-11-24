@@ -58,7 +58,6 @@ public class GroupController{
 		ArrayList<Photo> fp = null;
 		for(Feed f : flist) {
 			fp = fService.selectPhotoList(f.getfNo());
-			System.out.println("사진리스트 :"+fp);
 			
 			for(Photo p : fp) {
 				if(p.getChangeName() != null) {
@@ -67,7 +66,6 @@ public class GroupController{
 					f.setPhotoList(null);
 				}
 			}
-			System.out.println("마지막 사진리스트 확인 : "+f.getPhotoList() + f.getfNo());
 		}
 		
 		mv.addObject("glist", glist);
@@ -174,7 +172,6 @@ public class GroupController{
 		ArrayList<Photo> nfp = null;
 		for(Feed nf : ngflist) {
 			nfp = fService.selectPhotoList(nf.getfNo());
-			System.out.println("사진리스트 :"+nfp);
 			
 			for(Photo p : nfp) {
 				if(p.getChangeName() != null) {
@@ -183,13 +180,11 @@ public class GroupController{
 					nf.setPhotoList(null);
 				}
 			}
-			System.out.println("마지막 사진리스트 확인 : "+nf.getPhotoList() + nf.getfNo());
 		}
 		
 		ArrayList<Photo> hfp = null;
 		for(Feed hf : hgflist) {
 			hfp = fService.selectPhotoList(hf.getfNo());
-			System.out.println("사진리스트 :"+hfp);
 			
 			for(Photo p : hfp) {
 				if(p.getChangeName() != null) {
@@ -198,7 +193,6 @@ public class GroupController{
 					hf.setPhotoList(null);
 				}
 			}
-			System.out.println("마지막 사진리스트 확인 : "+hf.getPhotoList() + hf.getfNo());
 		}
 		
 		System.out.println(gm);
