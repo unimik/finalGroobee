@@ -444,64 +444,17 @@
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
-	         	var size;
-	  	        var idx = idx1 = 0;
-	  	       // var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
-	  	        var ul;
-	  	        //console.log(count);
-	  	        var liCount;
-	  	        
-  				if( data.photoList.length > 1){
-  	        		$('#nextBtn'+i).css("display","block");
-  	        		$('#prevBtn'+i).css({"display":"block"});
-  	        	}
-		            	// ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
-		  				
-		  				//console.log(ul);
-		  				
-		  				
-		  			/* 	
-		  				$('#prevBtn'+i).on("click",function(){
-		      	  			size = $(this).nextAll().children('li').length;
-		      	  			console.log(size);
-		      	  			
-		      	  			if(size > 1){
-		      	  				idx1 = (idx-1) % size;
-		      	  				if(idx1 < 0)
-		      	  					idx1 = size - 1;
-		      	  					
-		      	  					$(this).nextAll().children('li:hidden').css("left","-633px");
-		      	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
-		      	  						$(this).css("display","none").css("left","-633px");
-		      	  					});
-		      	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
-		      	  					idx = idx1;
-		      	  			}
-		      	  		});
-		  				
-		  				$('#nextBtn'+i).on("click",function(){
-		      	  			size = $(this).nextAll().children('li').length;
-		      	  			console.log(size);
-		      	  			
-		      	  			if( size > 1){
-		      	  				idx1 = (idx + 1) % size;
-		      	  				$(this).nextAll().children('li:hidden').css("left","633px");
-		      	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-		      	  					$(this).css("display","none").css("left","633px");
-		      	  				});
-		      	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-		      	  				idx = idx1;
-		      	  			} */
-	            	
-	              for(var i=0; i<data.photoList.length; i++){
-					  if(data.photoList[i].changeName != null){
-						  input +="<ul id='imgList'>";
-					      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-						  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-						  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
-						  input +="</ul>";
-		            	  }
-	              }
+  	        	  	if(data.photoList != null){
+		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+	            	input +="<ul id='imgList' style='height:633px'>";
+		              for(var i=0; i < data.photoList.length; i++){
+						  if(data.photoList[i].changeName != null){
+							  input +="<li><img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
+			              }
+		              } 
+		              input +="</ul>";
+  	        	  }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
 	              if(data.shareYN == 'N'){
 	              input +="<div id='heart_reply'>";
@@ -561,7 +514,11 @@
 		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list' class='list'>";
-	            	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  if(data.replyList[i].mNo == mNo){
+	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  } else {
+	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  }
 	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
@@ -648,6 +605,57 @@
 		              $('.feed_report').hide();
 		          });
 		          
+		          
+		        var size;
+		        var idx = idx1 = 0;
+		        var count = $(".pop_feed").children('div#con').children('div#feed_content').children("ul#imgList").children('li').length;
+		        console.log(count);
+		        var liCount;
+		          
+		  		for (var i = 1; i <= count; i++){
+		  			
+		  			if( count > 1){
+		          		$('#nextBtn').css("display","block");
+		          		$('#prevBtn').css({"display":"block"});
+		          	}
+		  			
+		  		}
+		  			$(document).on("click",'#prevBtn',function(){
+		     	  			size = $(this).nextAll().children('li').length;
+		     	  			console.log(size);
+		     	  			
+		     	  			if(size > 1){
+		     	  				idx1 = (idx-1) % size;
+		     	  				if(idx1 < 0)
+		     	  					idx1 = size - 1;
+		     	  					
+		     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+		     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+		     	  						$(this).css("display","none").css("left","-633px");
+		     	  					});
+		     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+		     	  					idx = idx1;
+		     	  			}
+		     	  		});
+		  			
+		  			$(document).on("click",'#nextBtn',function(){
+		     	  			size = $(this).nextAll().children('li').length;
+		     	  			console.log(size);
+		     	  			
+		     	  			if( size > 1){
+		     	  				idx1 = (idx + 1) % size;
+		     	  				$(this).nextAll().children('li:hidden').css("left","633px");
+		     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+		     	  					$(this).css("display","none").css("left","633px");
+		     	  				});
+		     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+		     	  				idx = idx1;
+		     	  			}
+		     	  		});	
+		  			
+		          
+		          
+		          
 		       	/***** 댓글 신고하기 *****/
 		       	
 		          $('.feed_report_btn').on("click", function(e){
@@ -706,12 +714,13 @@
 		          $('.rEdit').on("click", function(e) {
 		      		var repCon = $(this.parentElement).parents("div#selectOne").find("textarea#replyCon.rCon");
 		      		var repBtn = $(this.parentElement).parents("div#selectOne").find("input#confirmR");
+		      		var rupBtn = $(this.parentElement).parents("div#selectOne").find("img#updateBtn");
 
-		      		repCon.css('border', '1px solid #555555');
+		      			repCon.css('border', '1px solid #555555');
 		        	  	repCon.removeAttr('disabled');
 		        	  	repCon.removeAttr('readonly');
-		        	  	repCon.removeAttr('readonly');
 		        	  	repBtn.css('display', 'block');
+		        	  	rupBtn.css('display', 'none');
 		        	 
 		        	  	$('.reply_menu').hide();
 		          });
@@ -721,7 +730,7 @@
 		      		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
 		      		var rWriter = '${loginUser.userId}';
 		      		
-		      		var replyContent = $(e.target).parent().children()[1].value;
+		      		var replyContent = $(this).parent().children()[1].children[0].value;
 		      		
 		      			$.ajax({
 		      				url: "editReply.do",
@@ -735,8 +744,8 @@
 		      					console.log(data);
 		       					if(data == "success") {
 //		      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-//		      						location.href="home.do?userId=" + rWriter;
-		       						location.href="goMypage.do?mNo="+mNo;
+		       						//location.href="goMypage.do?mNo="+mNo;
+		       						location.reload();
 		      					}
 		      				}, error: function() {
 		      					console.log("전송 실패");
@@ -858,7 +867,6 @@
 			type: "post",
 			success: function(data) {	// 성공 시: success, 실패 시: fail
 				if(data == "success") {
-
 					var refNo = fNo;
 					var reWriter = '${loginUser.userId}';
 					var mNo = $('#mNo').val();
