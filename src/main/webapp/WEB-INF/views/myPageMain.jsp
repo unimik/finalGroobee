@@ -514,7 +514,11 @@
 		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	                  input +="<div id='replyList'>";
 	                  input +="<ul id='re_list' class='list'>";
-	            	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  if(data.replyList[i].mNo == mNo){
+	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  } else {
+	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  }
 	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
@@ -710,12 +714,13 @@
 		          $('.rEdit').on("click", function(e) {
 		      		var repCon = $(this.parentElement).parents("div#selectOne").find("textarea#replyCon.rCon");
 		      		var repBtn = $(this.parentElement).parents("div#selectOne").find("input#confirmR");
+		      		var rupBtn = $(this.parentElement).parents("div#selectOne").find("img#updateBtn");
 
-		      		repCon.css('border', '1px solid #555555');
+		      			repCon.css('border', '1px solid #555555');
 		        	  	repCon.removeAttr('disabled');
 		        	  	repCon.removeAttr('readonly');
-		        	  	repCon.removeAttr('readonly');
 		        	  	repBtn.css('display', 'block');
+		        	  	rupBtn.css('display', 'none');
 		        	 
 		        	  	$('.reply_menu').hide();
 		          });
@@ -725,7 +730,7 @@
 		      		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
 		      		var rWriter = '${loginUser.userId}';
 		      		
-		      		var replyContent = $(e.target).parent().children()[1].value;
+		      		var replyContent = $(this).parent().children()[1].children[0].value;
 		      		
 		      			$.ajax({
 		      				url: "editReply.do",
@@ -739,8 +744,8 @@
 		      					console.log(data);
 		       					if(data == "success") {
 //		      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-//		      						location.href="home.do?userId=" + rWriter;
-		       						location.href="goMypage.do?mNo="+mNo;
+		       						//location.href="goMypage.do?mNo="+mNo;
+		       						location.reload();
 		      					}
 		      				}, error: function() {
 		      					console.log("전송 실패");
@@ -862,7 +867,6 @@
 			type: "post",
 			success: function(data) {	// 성공 시: success, 실패 시: fail
 				if(data == "success") {
-
 					var refNo = fNo;
 					var reWriter = '${loginUser.userId}';
 					var mNo = $('#mNo').val();

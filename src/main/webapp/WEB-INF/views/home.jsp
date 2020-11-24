@@ -188,11 +188,11 @@
              	<c:choose>
 	             	<c:when test="${ f.likeChk eq null }">
 	             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-	             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+	             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 	             	</c:when>
 	             	<c:otherwise>
 	             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-		               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 	             	</c:otherwise>
              	</c:choose>
 				</c:if>
@@ -290,7 +290,7 @@
 				<div id="reply">
 					<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
 					<input type="text" id="textArea" class="rContent" name="textArea">
-					<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+					<input type="button" id=${ f.fWriter } class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 				</div>
 				</c:if>
 			</div>
@@ -427,7 +427,7 @@
 			var rContent = event.target.parentElement.children[1].value;
 			var rfNo = event.target.parentElement.children[0].value;
 			var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
-			
+			var fWriter = event.target.id;
 			$.ajax({
 				url: "addReply.do",
 				data: {
@@ -439,7 +439,7 @@
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					if(data == "success") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-						location.href="home.do?userId="+rWriter;
+						//location.href="home.do?userId="+rWriter;
 					}
 				}, error: function() {
 					console.log("전송 실패");
@@ -449,7 +449,7 @@
 			var ok = confirm("댓글을 등록하시겠습니까?");
          	console.log(ok);
          	if(ok){
-         	console.log(오케이);
+         	
         	sendAlram("상관없음",fWriter,"reply",rfNo); 
         	console.log("상관없음",fWriter,"reply",rfNo+"테스트");
 //        	alert('stop');

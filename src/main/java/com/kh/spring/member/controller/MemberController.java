@@ -63,7 +63,6 @@ public class MemberController {
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-		ArrayList<Boolean> likeChk = new ArrayList<Boolean>();
 		for(Feed ff : feed) {
 			ff.setfReplyCnt(ff.getReplyList().size());
 //			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
