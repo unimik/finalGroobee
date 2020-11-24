@@ -42,3 +42,4 @@ button{padding: 0;}
 #fgroup_list_img{ width: 40px; height: 40px; border-radius: 10px;}
 
 #logoutBtn{background: none; border: none; margin-left: 100px; margin-top: -19px; color: #c5c5c5; font-weight: bold;}
+button{ cursor: pointer; }

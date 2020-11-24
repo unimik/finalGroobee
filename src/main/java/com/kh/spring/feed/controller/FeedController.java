@@ -148,24 +148,17 @@ public class FeedController {
    }
    
    @RequestMapping("pUpdateView.do")
-   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session,
-		   								@RequestParam(value = "like") String like,
-		   								@RequestParam(value = "reply") String reply,
-		   								@RequestParam(value = "share") String share) {
+   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
       Member mem = (Member)session.getAttribute("loginUser");
       // 가입한 그룹(Select Tag)
       gn = fService.selectGroupMemberId(mem.getUserId());
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
-      
-      f.setfLikeSet(like);
-      f.setfReplySet(reply);
-      f.setfShareSet(share);
-      
-      System.out.println("like 값: " + like);
-      System.out.println("reply 값: " + reply);
-      System.out.println("share 값: " + share);
+      System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
+      System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
+      System.out.println("들어온 fShareSet : " + f.getfShareSet());
+      System.out.println("들어온 fReplySet : " + f.getfReplySet());
       
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
@@ -190,11 +183,25 @@ public class FeedController {
    
    @RequestMapping("pUpdate.do")
    public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn,
-                           HttpSession session, MultipartHttpServletRequest multi) {
+                            	  HttpSession session, MultipartHttpServletRequest multi,
+                            	  @RequestParam(value = "selectOpenScope") String selectOpenScope,
+                            	  @RequestParam(value = "like") String like,
+                            	  @RequestParam(value = "reply") String reply,
+                            	  @RequestParam(value = "share") String share) {
       System.out.println("사진정보 : " + p);
+      
+      f.setfOpenScope(selectOpenScope);
+      f.setfLikeSet(like);
+      f.setfReplySet(reply);
+      f.setfShareSet(share);
+      
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
+      System.out.println("수정 fOpenScope : " + f.getfOpenScope());
+      System.out.println("수정 fLikeSet : " + f.getfLikeSet());
+      System.out.println("수정 fShareSet : " + f.getfShareSet());
+      System.out.println("수정 fReplySet : " + f.getfReplySet());
       
       // 태그 인서트
 		String[] strarr = f.getfContent().split(" |\\n");
