@@ -75,7 +75,6 @@
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
-
    </style>
    <script>
   
@@ -165,7 +164,7 @@
                         <div class="feed_report">
                             <div id="feed_report_con">
                                 <p>신고 사유</p>
-                                <select style=>
+                                <select>
                                     <option>부적절한 게시글</option>
                                     <option>욕설</option>
                                     <option>광고</option>
@@ -404,7 +403,7 @@
               dataType:"json",
 		    	// smNo : 공유한 글작성자
               data:{mNo: mNo,fNo : fNo, smNo : smNo},
-              type:"post",
+              type:"post", 
               success:function(data){
                 
             	  var input="";
@@ -425,18 +424,23 @@
 	              input += "</div>";
 	              <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
 	              input +="<div class='pop_menu'>";
+
+	              if(data.shareYN == 'N'){
 	              input +="<div id='feed_Mymenu_list'>";
 	              input +="<ul>";
-	              if(data.shareYN == 'N'){
 	              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
 	              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
 	              input +="<li><a id='close' class='close'>취소</a></li>";
-	              } else{
-	            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
-		              input +="<li><a id='close' class='close'>취소</a></li>";
-	            	  }
 	              input +="</ul>";
 	              input +="</div>";
+	              } else{
+		              input +="<div id='share_Mymenu_list'>";
+		              input +="<ul>";
+	            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
+		              input +="<li><a id='close' class='close'>취소</a></li>";
+		              input +="</ul>";
+		              input +="</div>";
+	            	  }
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
@@ -551,36 +555,58 @@
  	              input +="</div>";
 	              input +="</div>";
                   input +="<div id='replyArea'>";
-	              input +="<div id='replySub'>";	                  
+	              input +="<div id='replySub'>";
 	              for(var i=0;i<data.replyList.length;i++){
+		              input +="<div id='selectOne'>";	
+		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	                  input +="<div id='replyList'>";
-	                  input +="<ul id='re_list'>";
+	                  input +="<ul id='re_list' class='list'>";
 	            	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-		              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
+	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
+		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 		              if(data.replyList[i].mNo == mNo){
-			              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";
-			              input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
-						  input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-						  input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' alt='' id='updateBtn' class='rUpBtn'></li>";
 		               }
-					   input +="</ul>";
+					  input +="</ul>";
 		              input +="</div>";
 		              input +="<div class='reply_menu'>";
-		              input +="<div id='re_menu_list'>";
-		              input +="<ul>";
+
 		              if(data.replyList[i].mNo == mNo){
+			              input +="<div id='re_menu_list'>";
+			              input +="<ul>";
 			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
 			              input +="<li><a class='rDelete'>댓글 삭제</a></li>";
-			              input +="<li><a id='re_close'>취소</a></li>";
+			              input +="<li><a id='re_close' class='rClose'>취소</a></li>";
+			              input +="</ul>";
+			          	  input +="</div>";
 		              } else{
+			              input +="<div id='user_menu_list'>";
+			              input +="<ul>";
 		            	  input +="<li><a id='feed_report_btn' class='feed_report_btn'>댓글 신고</a></li>";
-		            	  input +="<li><a id='re_close'>취소</a></li>";
+		            	  input +="<li><a id='re_close' class='rClose'>취소</a></li>";
+			              input +="</ul>";
+			          	  input +="</div>";
+			          	  input +="<div class='feed_report'>";
+			    		  input +="<input type='hidden' value='"+fNo+"'>";
+			    		  input +="<div id='feed_report_con'>";
+			    		  input +="<p>신고사유</p>";
+			    		  input +="<select id='reportType' class='selectRtype'>";
+			    		  input +="<option value='unacceptfeed' selected>부적절한 게시글</option>";
+			    		  input +="<option value='insult'>욕설</option>";
+			    		  input +="<option value='ad'>광고</option>";
+			    		  input +="<option value='spam'>도배</option>";
+			    		  input +="</select>";
+			    		  input +="<textarea class='sendreport Rcontent' id='reportContent' cols='28' rows='4'></textarea>";
+			    		  input +="<br> <input class='selectRtype Rtype' id='selectRtype' type='button' value='확인' style='cursor: pointer;'>";
+			    		  input +="<input class='sendreport report-submit' type='button' id='report-submit' value='확인' style='cursor: pointer; display: none;'>";
+			    		  input +="<button class='selectRtype cancel' id='cancel' style='cursor: pointer;'>취소</button>";
+			    		  input +="<button class='sendreport cancel2' id='cancel2' style='cursor: pointer; display: none;'>취소</button>";
+			    		  input +="</div>";
+			    		  input +="</div>";
 		              }
-		              input +="</ul>";
-		          	  input +="</div>";
                   	  input +="</div>";
+	                  input +="</div>";       
 	              }
                   input +="</div>";       
                   if(data.fReplySet == 'Y' || data.fReplySet == null){
@@ -610,12 +636,156 @@
 		              $('.pop_menu').hide();
 		          });
 		          
-		          $('#updateBtn').on("click", function(){
-		              $('.reply_menu').show();
-		          });
-		          $('#re_close').on("click", function(){
+ 		          $('.rUpBtn').on("click", function(e){
+ 		        	  var replyMenu = e.target.parentElement.parentElement.parentElement.nextElementSibling;
+		              $(replyMenu).show();
+		          }); 
+		          $('.rClose').on("click", function(){
 		              $('.reply_menu').hide();
 		          });
+		          
+		          $('.cancel').on("click", function(){
+		              $('.feed_report').hide();
+		          });
+		          
+		       	/***** 댓글 신고하기 *****/
+		       	
+		          $('.feed_report_btn').on("click", function(e){
+		         	var feedReport = $(e.target).parents('.reply_menu').find('.feed_report');
+		          	feedReport.show();
+		          });
+		      			     
+		      		 $(document).on('click', ".report-submit", function(e){
+		      			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+		      			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
+		      			var targetfNo=$(this).parent().prev().val();
+		      			
+		      			var text =$(this).prev().prev().prev().val();
+		      			if(text == ""){
+		      				alert('신고 사유를 입력해 주세요.')
+		      			}else{
+		      				
+		      				$.ajax({
+		      					url:'reportFInsert.do',
+		      					data:{
+		      						reportType : $("#reportType").val(),
+		      						feedType : "feed",
+		      						content : text,
+		      						targetfNo:targetfNo
+		      					},
+		      					success: function(){
+		      						$(feedReport).css('display', 'none');
+		      						$(".selectRtype").css("display", "inline-block");
+		      			      		$(".sendreport").css("display", "none");
+		      			      		$(reportCon).val('');
+		      						alert('신고 완료');
+		      						$('.feed_report').hide();
+		      						$('.reply_menu').hide();
+		      			      		refresh();
+		      					},error:function(){
+		      						alert('신고 실패!');
+		      					}
+		      				});
+		      				
+		      			};
+		      		});
+		         	 
+		      	   	$(".cancel2").on("click",function(e){
+		      	   		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+		      	   		$(feedReport).css('display', 'none');
+		      			$(".selectRtype").css("display", "inline-block");
+		      	   		$(".sendreport").css("display", "none");
+		      	   	});
+		      	   	
+		      	   	$(".Rtype").on("click",function(e){
+		      	   		$(".selectRtype").css("display", "none");
+		      	   		$(".sendreport").css("display", "block");
+		      	   	});
+		          
+		          /* 댓글 수정시 텍스트창 변경 */
+		          $('.rEdit').on("click", function(e) {
+		      		var repCon = $(this.parentElement).parents("div#selectOne").find("textarea#replyCon.rCon");
+		      		var repBtn = $(this.parentElement).parents("div#selectOne").find("input#confirmR");
+
+		      		repCon.css('border', '1px solid #555555');
+		        	  	repCon.removeAttr('disabled');
+		        	  	repCon.removeAttr('readonly');
+		        	  	repCon.removeAttr('readonly');
+		        	  	repBtn.css('display', 'block');
+		        	 
+		        	  	$('.reply_menu').hide();
+		          });
+		          
+		      	/* 댓글 수정 시 완료 버튼 누르면 */
+		       	$('.rConfirm').on("click", function(e) {
+		      		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
+		      		var rWriter = '${loginUser.userId}';
+		      		
+		      		var replyContent = $(e.target).parent().children()[1].value;
+		      		
+		      			$.ajax({
+		      				url: "editReply.do",
+		      				data: {
+		      					rContent: replyContent,
+		      					rNo: rNo,
+		      					rWriter: rWriter
+		      				},
+		      				type: "post",
+		      				success: function(data) {	// 성공 시: success, 실패 시: fail
+		      					console.log(data);
+		       					if(data == "success") {
+//		      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+//		      						location.href="home.do?userId=" + rWriter;
+		       						location.href="goMypage.do?mNo="+mNo;
+		      					}
+		      				}, error: function() {
+		      					console.log("전송 실패");
+		      				}
+		      			});
+		      			
+		      		confirm("댓글을 수정하시겠습니까?");
+		      	});
+		          
+		  		// 댓글 삭제 시
+		  		$('.rDelete').on("click", function(e) {
+		  	 		var rNo = $(this.parentElement).parents("div#selectOne").find("input.rNum").val();
+					var ul = $(this.parentElement).parents("div#selectOne").find("ul#re_list.list");
+					var rWriter = '${loginUser.userId}';
+					var none = $(this.parentElement).parents("div#replySub").children.length;
+					
+					$.ajax({
+						url: "deleteReply.do",
+						data: {rNo: rNo},
+						type: "post",
+						success: function(data) {	// 성공 시: success, 실패 시: fail
+			  				if(data == "success") {
+//								$(ul).css('display', 'none');
+								$('.rNum').css('display', 'none');
+								location.href="goMypage.do?mNo="+mNo;
+							}
+						}, error: function() {
+							console.log("전송 실패");
+						}
+					});
+					
+					// 마지막 댓글 삭제 후 div 안에 댓글이 모두 지워지면
+					if(none == 0) {
+						$(this.parentElement).parents("div#replySub").css('display', 'none');
+					}
+					
+					confirm("댓글을 삭제하시겠습니까?");
+		  		});
+		          
+		          // text-area resize
+		      	$.each(jQuery('textarea[data-autoresize]'), function() {
+		      		var offset = this.offsetHeight - this.clientHeight;
+		      		var resizeTextarea = function(el) {
+		      			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+		      		};
+		      		$(this).on('keyup input', function() {
+		      		 resizeTextarea(this);
+		      		}).removeAttr('data-autoresize');
+		      	});
       	        
 
               	}, error:function(request,jqXHR,exception){
@@ -663,11 +833,15 @@
         $(".pop_feed").show();
     });
     
+
+    
+    /*댓글 등록*/
     function applyReply(fNo){
     	console.log(fNo);
     	var rContent = $('.rContent').val();
 		var rfNo = fNo;
 		var rWriter = '${loginUser.userId}';
+		var mNo = $('#mNo').val();
 		
 		var ok = confirm("댓글을 등록하시겠습니까?");
      	console.log(ok);
@@ -678,7 +852,8 @@
 			data: {
 				rContent: rContent,
 				rfNo: rfNo,
-				rWriter: rWriter
+				rWriter: rWriter,
+				mNo: mNo
 			},
 			type: "post",
 			success: function(data) {	// 성공 시: success, 실패 시: fail
@@ -686,9 +861,10 @@
 
 					var refNo = fNo;
 					var reWriter = '${loginUser.userId}';
+					var mNo = $('#mNo').val();
 			    	sendAlram("상관없음",reWriter,"reply",refNo);
 					$('.rContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
-					location.href="home.do?userId="+rWriter;
+					location.href="goMypage.do?mNo="+mNo;
 				}
 			}, error: function() {
 				console.log("전송 실패");
@@ -700,39 +876,13 @@
      	}
     }
     
-	    $('.rUpBtn').on("click", function(event){
-	//	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
-	    var btn = $(event.target).parent('li').parent('ul').next('div#reply_menu')
-		  $(btn).show();
-	  });
 	  $('.rClose').on("click", function(){
 	      $('.reply_menu').hide();
 	  });
 	  $('.deleteMyPost').on('click', function () {
 	  	confirm('이 포스트를 정말 삭제하시겠습니까?');
 	  });
-    
-    $('.rEdit').on("click", function(e) {
-		var repCon = $(this.parentElement).parents("div#re_menu_list").find("textarea#replyCon.rCon");
-		var repBtn = $(this.parentElement).parents("div#re_menu_list").find("input#confirmR");
-
-		repCon.css('border', '1px solid #555555');
-  	  	repCon.removeAttr('disabled');
-  	  	repCon.removeAttr('readonly');
-  	  	repBtn.css('display', 'block');
-  	  	$('.reply_menu').hide();
-    });
-    
-    // text-area resize
-	$.each(jQuery('textarea[data-autoresize]'), function() {
-		var offset = this.offsetHeight - this.clientHeight;
-		var resizeTextarea = function(el) {
-			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-		};
-		$(this).on('keyup input', function() {
-		 resizeTextarea(this);
-		}).removeAttr('data-autoresize');
-	});
+	  
     
     function likeClick(likeStatu){
     	var likeid = likeStatu.getAttribute('id');
@@ -1080,7 +1230,6 @@
 	});
 	//팝업창 띄울것....
 	 function sbPop() {
-		 alert('이제 팝업으로 게시글 불러와야하는데.. 이거 가능..?');
 		 $('.pop_feed').show();
 	}
     /************* 팝업 메뉴 script *************/
