@@ -328,11 +328,12 @@ public class FeedController {
    	}
 	
 	@ResponseBody
-	@RequestMapping("addReply.do")
-	public String addReply(Reply r, HttpSession session, int rfNo) {
+	@RequestMapping(value="addReply.do",produces="application/json; charset=utf-8")
+	public String addReply(Reply r,String fNo, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		r.setrWriterImg(mem.getmRenameImage());
 		System.out.println("Reply Check : " + r);
+		System.out.println("fNo 값 확인 : " + fNo);
 		System.out.println("rfNo" + rfNo);
 		
 		r.setfNo(rfNo);
@@ -345,7 +346,26 @@ public class FeedController {
 		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
 		
 		if(result > 0) {
-			return "success";
+			ArrayList<Reply> replyList = myService.selectReplyList(Integer.parseInt(fNo));
+			JSONObject job = new JSONObject();
+			if(replyList != null) {
+				JSONArray jArr = new JSONArray();
+				for(int i=0; i <replyList.size(); i++) {
+					JSONObject jObj = new JSONObject();
+					jObj.put("mNo", replyList.get(i).getmNo());
+					jObj.put("rNo", replyList.get(i).getrNo());
+					jObj.put("rContent", replyList.get(i).getrContent());
+					jObj.put("rWriter", replyList.get(i).getrWriter());
+					jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
+					jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
+					jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
+					jObj.put("rStatus", replyList.get(i).getrStatus());
+					jArr.add(jObj);
+				}
+				job.put("replyListSize", replyList.size());
+				job.put("replyList", jArr);
+			}
+			return job.toJSONString();
 		}else {
 			return "fail";
 		}
