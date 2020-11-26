@@ -352,7 +352,7 @@ public class FeedController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("editReply.do")
+	@RequestMapping(value="editReply.do",produces="application/json; charset=utf-8")
 	public String editReply(Reply r,String fNo, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		System.out.println("수정 Reply Check : " + r);
