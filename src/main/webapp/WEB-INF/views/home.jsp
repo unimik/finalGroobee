@@ -181,12 +181,16 @@
 					</c:if>
 					<p id="text">
 						<!-- 진선 : 태그기능 추가 중. -->
-						<c:forEach var="d" items="${fn:split(f.fContent,' ')}">
-								<c:choose>
-									<c:when test="${fn:contains(d,'#')}"><a href="_blank" style="color:skyblue;">${d }</a> </c:when>
-									<c:when test="${fn:contains(d,'@')}"><a href="_blank" style="color:skyblue;">${d }</a> </c:when>
-									<c:otherwise>${d }</c:otherwise>
-								</c:choose>
+						<c:forEach var="d" items="${fn:split(f.fContent,'#')}">	
+							<c:choose>							
+							<c:when test="${fn:contains(d,' ') }">
+									<a href="_blank" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
+									 ${fn:substringAfter(d,' ') }
+							</c:when>
+							<c:otherwise>
+								<a href="_blank" style="color:skyblue;">#${d }</a>
+							</c:otherwise>
+							</c:choose>
 						</c:forEach>
 						
 					</p>
