@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
 <title>G R O O B E E</title>
@@ -60,6 +61,7 @@
 	<div id="feedArea">
 	<c:forEach var="f" items="${ feed }" varStatus="status">
 		<c:set var="i" value="${ i + 1 }"/>
+		<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
 		<c:if test="${ f.fOpenScope ne 'G' }">
 			<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
@@ -198,7 +200,7 @@
 	               		<input type="hidden" class="toNo" value="${ f.fNo }">
 	               		<input type="hidden" class="toId" value="${ f.fWriter }">
 	               		<!-- 댓글이 전체 허용일 경우 -->
-						<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+						<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
 						<c:choose>
 							<c:when test="${ f.fLikeSet eq 'N' }">
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
@@ -233,9 +235,9 @@
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-					<c:if test="${ f.fReplyCnt ne null && f.replyList[0].rStatus eq 'Y' }">
 						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 						<c:forEach var="r" items="${ f.replyList }">
+							<c:if test="${ r.rStatus eq 'Y' }">
 							<div id="selectOne">
 							<!-- 댓글 번호 -->
 							<input type="hidden" class="rNum" value="${ r.rNo }">
@@ -280,9 +282,9 @@
 								</div>
 								</c:if>
 							</div>
+							</c:if>
 						</c:forEach>
 						</div>
-					</c:if>
 					</div>
 					<!-- 댓글 전체 허용일 경우 -->
 					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
@@ -307,11 +309,12 @@
 		</div>
 		</c:if>
 		</c:forEach>
+		<!-- 공개 여부가 비공개일 때 -->
 		<c:if test="${ f.fOpenScope eq 'G' }">
 			<c:if test="${ loginUser.userId eq f.fWriter }">
 			<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
-								<c:choose>
+				<c:choose>
 					<c:when test="${ loginUser.userId ne f.fWriter }">
 						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 						<c:if test="${ !empty f.mImage }">
@@ -481,9 +484,9 @@
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-					<c:if test="${ f.fReplyCnt ne null && f.replyList[0].rStatus eq 'Y' }">
 						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 						<c:forEach var="r" items="${ f.replyList }">
+							<c:if test="${ r.rStatus eq 'Y' }">
 							<div id="selectOne">
 							<!-- 댓글 번호 -->
 							<input type="hidden" class="rNum" value="${ r.rNo }">
@@ -528,9 +531,10 @@
 								</div>
 								</c:if>
 							</div>
+							</c:if>
 						</c:forEach>
 						</div>
-					</c:if>
+
 					</div>
 					<!-- 댓글 전체 허용일 경우 -->
 					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
@@ -744,6 +748,8 @@
 		var ul = $(this.parentElement).parents("div#selectOne").find("ul#re_list.list");
 		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
 		var none = $(this.parentElement).parents("div#replySub").children.length;
+		var rMenu = $(this.parentElement).parents("div#selectOne").find("div#reply_menu");
+		var fLoad = $(this.parentElement).parents("div.feed");
 		
 		$.ajax({
 			url: "deleteReply.do",
@@ -753,9 +759,12 @@
 //				console.log(data);
   				if(data == "success") {
 //					$(ul).css('display', 'none');
-					$('.rNum').css('display', 'none');
+//					$(rNo).css('display', 'none');
+//					$(rMenu).css('display', 'none');
 //					location.href="home.do?userId=" + rWriter;
-					location.reload();
+//					location.reload(rSub);
+//					$(".feed").load(window.location.href + $(".feed"));
+					alert('test');
 				}
 			}, error: function() {
 				console.log("전송 실패");
