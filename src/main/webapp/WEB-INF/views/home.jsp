@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <head>
 <title>G R O O B E E</title>
@@ -180,7 +180,17 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text"><c:out value="${ f.fContent }" /></p>
+					<p id="text">
+						<!-- 진선 : 태그기능 추가 중. -->
+						<c:forEach var="d" items="${fn:split(f.fContent,' ')}">
+								<c:choose>
+									<c:when test="${fn:contains(d,'#')}"><a href="_blank" style="color:skyblue;">${d }</a> </c:when>
+									<c:when test="${fn:contains(d,'@')}"><a href="_blank" style="color:skyblue;">${d }</a> </c:when>
+									<c:otherwise>${d }</c:otherwise>
+								</c:choose>
+						</c:forEach>
+						
+					</p>
 	
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -218,7 +228,7 @@
 								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 									<label class="replycnt_p">${ f.replyList.size() }개</label>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty r.rStatus }">
 									<label class="replycnt_p">0개</label>
 								</c:if>
 							</c:otherwise>
@@ -464,12 +474,14 @@
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+								<c:forEach var="r" items="${ f.replyList }">
+								<c:if test="${ r.rStatus eq 'Y' }">
 									<label class="replycnt_p">${ f.replyList.size() }개</label>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+								<c:if test="${ r.rStatus eq 'N' || empty r.rStatus }">
 									<label class="replycnt_p">0개</label>
 								</c:if>
+								</c:forEach>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
