@@ -113,20 +113,10 @@
                             <tr>
                                 <td class="checkList tdfi">작성위치</td>
                                 <td class="tdfi">
-                                    <c:forEach var="gl" items="${ gn }">
-                                    <c:if test="${ f.gNo eq 0 }">
                                     <select id="select_board">
                                         <option value="myFeed" <c:if test="${ f.gNo eq 0 }">selected</c:if>>내 피드</option>
                                         <option value="group" <c:if test="${ f.gNo ne 0 }">selected</c:if>>그룹 피드</option>
                                     </select>
-                                    </c:if>
-                                    <c:if test="${ f.gNo eq gl.gNo and f.gNo ne 0 }">
-                                    <select id="select_board" disabled>
-                                        <option value="myFeed" <c:if test="${ f.gNo eq 0 }">selected</c:if>>내 피드</option>
-                                        <option value="group" <c:if test="${ f.gNo ne 0 }">selected</c:if>>그룹 피드</option>
-                                    </select>
-                                    </c:if>
-                                    </c:forEach>
                                 </td>
                                 <td>
                                     <select id="myGroupList" name="gNo">
@@ -311,6 +301,7 @@
    						var trViewName = '<tr class="trViewName">';
 						$("#undertd").before(trView);
 						$("#undertd").before(trViewName);
+						preview(arr);
     					return true;
     				}
     				

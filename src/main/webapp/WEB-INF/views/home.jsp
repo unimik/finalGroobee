@@ -763,6 +763,8 @@
 		var ul = $(this.parentElement).parents("div#selectOne").find("ul#re_list.list");
 		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
 		var none = $(this.parentElement).parents("div#replySub").children.length;
+		var rMenu = $(this.parentElement).parents("div#selectOne").find("div#reply_menu");
+		var fLoad = $(this.parentElement).parents("div.feed");
 		
 		$.ajax({
 			url: "deleteReply.do",

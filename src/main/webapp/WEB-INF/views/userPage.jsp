@@ -1477,7 +1477,7 @@
 							
 							// 마지막 댓글 삭제 후 div 안에 댓글이 모두 지워지면
 							if(none == 0) {
-								$(this.parentElement).parents("div#replySub").css('display', 'none');
+								$(this.parentElement).parents("div#replyEditCont").css('display', 'none');
 							}
 							
 							confirm("댓글을 삭제하시겠습니까?");
