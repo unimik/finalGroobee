@@ -30,4 +30,9 @@ public class NotificationServiceImpl implements NotificationService {
 		return nDao.selectAlarmList(name);
 	}
 
+	@Override
+	public int readAlarm(PushAlarm pa) {
+		return nDao.readAlarm(pa);
+	}
+
 }

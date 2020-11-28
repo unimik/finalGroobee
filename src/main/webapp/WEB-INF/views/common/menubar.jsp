@@ -21,6 +21,7 @@
 
 <style>
    a{text-decoration:none;}
+   .followChk{width:38px; height:28px; background:#daf4ed; color: gray; border:none; border-radius:3px; margin-right:2px;}
 </style>
 </head>
 <body>
@@ -136,46 +137,45 @@
               </div>
               <div class="user_alarm" style="display:none; cursor:pointer;">
                     <div id="alarmList">
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
-                        <div id="list">
-                            <img src="resources/images/mp_profile_sample.jpg">
-                            <p><b>user01</b>님이 회원님의 게시글을 좋아합니다.</p>
-                        </div>
+                        <c:forEach var="i" items="${alarmList }">
+                    	<c:choose>
+                    	<c:when test="${i.type eq 'follow'}">
+                    		<div id="list">
+	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <p><b>${ i.fromId }</b>님이 회원님을 팔로우 합니다.</p>
+                        	</div>
+                    	</c:when>
+                    	<c:when test="${i.type eq 'followChk'}">
+                    		<div id="list">
+                    			<img src="resources/images/mp_profile_sample.jpg">
+                    			<span>
+                    				<b><a href="goUserpage.do?userId=${ i.typeNo}&mNo=${loginUser.mNo}">${i.fromId }</a></b>
+                    				님이 회원님을 팔로우 하고 싶어 합니다.
+                    			</span> 
+                    			<button class="followChk" onclick="acceptFollow(${i.typeNo})" id="ok" value="수락">수락</button>
+                    			<button class="followChk" id="no" value="거절">거절</button>
+                    		</div>
+                    	</c:when>
+                    	<c:when test="${i.type eq 'like' }">
+	                        <div id="list">
+	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <p><b>${ i.fromId }</b>님이 회원님의 게시글을 좋아합니다.</p>
+	                        </div>
+	                    </c:when>
+	                    <c:when test="${i.type eq 'groupjoin' }">
+	                        <div id="list">
+	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <p><b>${ i.fromId }</b>님이 그룹에 가입을 신청 했습니다.</p>
+	                        </div>
+	                    </c:when>
+	                    <c:when test="${i.type eq 'groupAccept' }">
+	                        <div id="list">
+	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <p><b>${ i.fromId }</b>회원님의 그룹 가입을 승인했습니다.</p>
+	                        </div>
+	                    </c:when>
+	                    </c:choose>    
+                    	</c:forEach> 
                     </div>
                 </div>
         </div>
@@ -1131,20 +1131,26 @@
         openChat();
      }else{
 			$("#alarmIcon").attr('src',"resources/icons/alarm_new.png");
-			 // 팔로우 알림기능
+			 // 알림기능
 				if(dArr[1] == 'follow'){
 		 	 		$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 회원님을 팔로우합니다.</p></div>'); 					
+				}else if(dArr[1] == 'followChk'){
+					
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><span><b><a href="goUserpage.do?userId='+dArr[2]+
+							'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+
+							'</a></b>님이 회원님을 팔로우 하고 싶어 합니다.</span> <button class="followChk" onclick="acceptFollow('+dArr[3]+')" id="ok" value="ok">수락</button><button class="followChk" id="no" value="거절">거절</button><input id="followNo" type="hidden" value="'+dArr[2]+'"></div>');
+					
 				}else if(dArr[1] == 'groupjoin'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 그룹 가입을 신청했습니다.</p></div>');
 				}else if(dArr[1] == 'groupAccept'){
-					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="gdetail.do?gNo='+dArr[2]+'">'+dArr[3]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
 				}else if(dArr[1] == 'like'){
-					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(fNo,smNo)">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
 				}else if (dArr[1] == 'reply'){
-					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="gdetail.do?gNo='+dArr[2]+'"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(fNo,smNo)"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
 					
 				};
-				 
+				
 		 };
      };
 		 
@@ -1396,6 +1402,48 @@
             location.href="search.do?type=all&key="+allSearch+"&mNo="+mno;
          }
       };
+      
+      // 알림창 팔로우 수락
+      function acceptFollow(e){
+    	  
+    	  var mNo = e;
+          var follow = ${loginUser.mNo};
+          var toId = '${loginUser.userId}';
+    	  $.ajax({
+	       		 url: 'insertFollow.do',
+	      		  	 type: 'post',
+	      		   	 data: {follow:follow,mNo:mNo},
+	      		   	 datatype:"text",
+	      		   	 success: function(data){
+		      		   	if(data == 'success'){
+		      		 	  	window.location.reload();
+		  		   		 }else{
+		  		   			alert("팔로우 실패했습니다.");
+		  		   		 }
+	      		   	 },error: function(error){
+	      		   		 alert(error+"팔로우 에러");
+	      		   	 }
+	       	 });
+    	  $.ajax({
+    		  url: 'readAlarm.do',
+    		  data:{
+    			  typeNo : mNo,
+    			  toId : toId,
+    			  type : 'followChk'
+    		  },
+    		  datatype:"text",
+   		   	  success: function(data){
+	      		   	if(data == 'success'){
+	      		 	  	window.location.reload();
+	  		   		 }else{
+	  		   			alert("팔로우 실패했습니다.");
+	  		   		 }
+   		   	  },error: function(error){
+   		   		 alert(error+"팔로우 에러");
+   		   	 }
+    	  });
+      };
+      
 
      </script>
 </body>

@@ -109,7 +109,8 @@ public class settingController {
 			System.out.println(sService.updateSetting(ns));
 			
 			System.out.println("update notificationSetting check");
-		}else if(ps != null) {
+		}
+		if(ps != null) {
 			sService.updateSetting(ps);
 			System.out.println("update personalSetting check");
 		}

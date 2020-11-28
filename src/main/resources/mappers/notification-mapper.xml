@@ -23,6 +23,15 @@
  	
  	<select id="selectAlarmList" parameterType="String" resultMap="pushAlarmResultSet">
  		SELECT * FROM PUSH_ALARM WHERE TO_ID=#{name}
+ 		AND READ_YN ='N'
+ 		ORDER BY P_NO DESC
  	</select>
+ 	
+ 	<update id="readAlarm" parameterType="PushAlarm">
+ 		UPDATE PUSH_ALARM SET READ_YN = 'Y' 
+ 		WHERE TO_ID = #{toId}
+ 		AND TYPE = #{type}
+ 		AND TYPE_NO =#{typeNo} 
+ 	</update>
  	
 </mapper>
