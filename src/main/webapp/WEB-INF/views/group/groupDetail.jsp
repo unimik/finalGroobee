@@ -1663,7 +1663,7 @@
 			          
 			        var size;
 			        var idx = idx1 = 0;
-			        var count = $(".pop_feed").children('div#con').children('div#feed_content').children("ul#imgList").children('li').length;
+			        var count = $(".pop_feed").children('div#con2').children('div#feed_content').children("ul#imgList").children('li').length;
 			        console.log(count);
 			        var liCount;
 			          
