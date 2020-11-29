@@ -596,7 +596,7 @@
                $.ajax({
                   url:"goDetail.do",
                   dataType:"json",
-                  data:{mNo: mNo,fNo : fNo, smNo : smNo, follow: follow},
+                  data:{mNo: mNo,fNo : fNo, smNo : smNo},
                   type:"post",
                   success:function(data){
                     
@@ -620,7 +620,7 @@
 		              input +="<div class='pop_menu'>";
 		              input +="<div id='popfeed_menu_list'>";
 		              input +="<ul>";
-		              input +="<li><a id='feed_report_btn' class='feed_report_btn'>신고</a></li>"; 
+		              input +="<li><a id='feed_report_btn_class' class='feed_report_btn_class'>신고</a></li>"; 
 		              input +="<li><a id='share_feed' class='share_feed'>공유하기</a></li>"; 
 		              input +="<li><a id='goStorage' class='goStorage'>보관함</a></li>";
 		              input +="<li><a id='close' class='close'>취소</a></li>";
@@ -641,7 +641,7 @@
 			    	  input +="</select>";
 			    	  input +="<textarea class='sendreport Rcontent' id='reportContent' cols='28' rows='4'></textarea>";
 			    	  input +="<br> <input class='selectRtype Rtype' id='selectRtype' type='button' value='확인' style='cursor: pointer;'>";
-		    		  input +="<input class='sendreport report-submit' type='button' id='report-submit' value='확인' style='cursor: pointer; display: none;'>";
+		    		  input +="<input class='sendreport report-submit_class' type='button' id='report-submit_class' value='확인' style='cursor: pointer; display: none;'>";
 		    		  input +="<button class='selectRtype cancel' id='cancel' style='cursor: pointer;'>취소</button>";
 		    		  input +="<button class='sendreport cancel2' id='cancel2' style='cursor: pointer; display: none;'>취소</button>";
 		    		  input +="</div>";
@@ -907,14 +907,11 @@
 				          
 				       	/***** 피드 신고하기 *****/
 				       	
-				          $('.feed_report_btn').on("click", function(e){
-				        	  var feedReport = $(e.target).parents()[3].nextElementSibling;
-				          	$(feedReport).show();
-				         /* 	var feedReport = $(e.target).parents('.pop_menu').find('.feed_report'); */
-				          /* 	feedReport.show(); */
-				          });
+				       	            $('#feed_report_btn_class').on("click",function(){
+						                $('.feed_report').show();
+						            });
 				      			     
-				      		 $(document).on('click', ".report-submit", function(e){
+				      		 $(document).on('click', ".report-submit_class", function(e){
 				      			var feedReport = $(e.target).parents()[1];
 				      			var reportCon = $(e.target).parents()[0].children[1];
 				      			var targetfNo=$(e.target).parents()[1].children[0].value;

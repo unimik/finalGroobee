@@ -598,6 +598,7 @@ public class GroupController{
 			for(int i=0; i < flist.size(); i++) {
 				JSONObject jObj = new JSONObject();
 				jObj.put("fno", flist.get(i).getfNo());
+				jObj.put("mno", flist.get(i).getmNo());
 				jObj.put("fcontent", flist.get(i).getfContent());
 				jObj.put("thumbnail", flist.get(i).getThumbnail());
 				jArr.add(jObj);			

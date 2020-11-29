@@ -233,7 +233,6 @@ public class FeedController {
 //         for(int j=0; j<f.getPhotoList().size(); j++) {
 //            if(!fileList.get(i).getOriginalFilename().equals(fileList.get(j).getOriginalFilename())) {
 //            
-//            }
 //         }
 //      }
 //      
@@ -449,37 +448,37 @@ public class FeedController {
 	}
 	
 	//검색 팝업
-		@ResponseBody
-		@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
-		public String popFeed(int fno) {
-			Feed f = new Feed();
-			f = fService.popFeed(fno);
-			JSONObject job = new JSONObject();
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	@ResponseBody
+	@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
+	public String popFeed(int fno) {
+		Feed f = new Feed();
+		f = fService.popFeed(fno);
+		JSONObject job = new JSONObject();
 		
-			JSONArray jarr = new JSONArray();
-			if(f.getPhotoList().size() >-1) {
-			for(int i =0; i < f.getPhotoList().size(); i++) {
-				jarr.add(i, f.getPhotoList().get(i).getChangeName());
-				}
-			}
-			if(f != null) {
-				System.out.println(f);
-				job.put("mno", f.getmNo());
-				job.put("mImage", f.getmImage());
-				job.put("fno", f.getfNo());
-				job.put("plist", jarr);
-				job.put("fcontent", f.getfContent());
-				job.put("fwriter", f.getfWriter());
-				job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
-				job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
-				return job.toJSONString();
-			}else {
-				job.put("msg","검색되는 게시글이 없습니다");
-				return job.toJSONString();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
+		JSONArray jarr = new JSONArray();
+		if(f.getPhotoList().size() >-1) {
+		for(int i =0; i < f.getPhotoList().size(); i++) {
+			jarr.add(i, f.getPhotoList().get(i).getChangeName());
 			}
 		}
+		if(f != null) {
+			System.out.println(f);
+			job.put("mno", f.getmNo());
+			job.put("mImage", f.getmImage());
+			job.put("fno", f.getfNo());
+			job.put("plist", jarr);
+			job.put("fcontent", f.getfContent());
+			job.put("fwriter", f.getfWriter());
+			job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
+			job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
+			return job.toJSONString();
+		}else {
+			job.put("msg","검색되는 게시글이 없습니다");
+			return job.toJSONString();
+		}
+	}
  
       
       @RequestMapping("selectStorage.do")
