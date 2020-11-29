@@ -574,5 +574,5 @@ public class FeedController {
 			}else 
 				return "에러";
 			
-		} 
+		}
 }
