@@ -329,6 +329,7 @@ public class MypageController {
 			for(int i=0; i <flist.size(); i++) {
 				JSONObject jObj = new JSONObject();
 				jObj.put("fno", flist.get(i).getfNo());
+				jObj.put("mno",  flist.get(i).getmNo());
 				jObj.put("fcontent", flist.get(i).getfContent());
 				jObj.put("thumbnail", flist.get(i).getThumbnail());
 				jArr.add(jObj);				
@@ -516,7 +517,7 @@ public class MypageController {
 	
 	@ResponseBody
 	@RequestMapping(value="goDetail.do",produces="application/json;charset=utf-8")
-	public String goDetail(ModelAndView mv,String fNo, String mNo, String smNo) {
+	public String goDetail(ModelAndView mv,String fNo, String mNo, String smNo, String type) {
 		JSONObject job = new JSONObject();
 		
 		int mno = 0;
@@ -551,6 +552,7 @@ public class MypageController {
 			job.put("fOpenScope", detail.getfOpenScope());
 			job.put("likeChk", detail.getLikeChk());
 			job.put("shareYN", detail.getShareYN());
+			job.put("type", type);
 		}
 
 		if(photoList != null) {
@@ -664,5 +666,26 @@ public class MypageController {
 		return job.toString();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="deleteStorageFeed",produces="application/json;charset=utf-8")
+	public String selectStoragePopup(String fno, String sbno, String mno) {
+		System.out.println("fno"+fno+"sb"+sbno+"mno"+mno);
+		
+		StorageBox sf = new StorageBox(Integer.parseInt(sbno), Integer.parseInt(mno), Integer.parseInt(fno));
+		int result = myService.deleteSf(sf);
+		
+		JSONObject job = new JSONObject();
+		
+		if (result > 0) {
+			job.put("msg", "보관함에서 삭제하였습니다");
+		}
+		else {
+			job.put("msg", "게시글을 삭제하지 못하였습니다");	
+		}
+		
+		return job.toString();
+	}
+	
+
 	
 }

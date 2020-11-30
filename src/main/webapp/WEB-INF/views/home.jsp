@@ -185,7 +185,7 @@
 						<c:forEach var="d" items="${fn:split(f.fContent,'#')}">	
 							<c:choose>							
 							<c:when test="${fn:contains(d,' ') }">
-									<a href="_blank" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
+									<a href="search.do?type=tag&key=${fn:substringBefore(d,' ') }&mNo=${ loginUser.mNo }" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
 									 ${fn:substringAfter(d,' ') }
 							</c:when>
 							<c:otherwise>

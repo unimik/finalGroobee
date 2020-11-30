@@ -101,6 +101,10 @@ public class MypageDao {
 				
 	}
 
+	public int deleteSf(StorageBox sf) {
+		return  sqlSession.delete("mypageMapper.deleteSf",sf);
+	}
+
 
 
 

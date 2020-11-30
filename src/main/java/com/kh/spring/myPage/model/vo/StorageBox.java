@@ -20,6 +20,14 @@ public class StorageBox {
 		this.mNo = mNo;
 		this.sbName = sbName;
 	}
+	
+	
+	public StorageBox(int sbNo, int mNo, int fNos) {
+		super();
+		this.sbNo = sbNo;
+		this.mNo = mNo;
+		this.fNos = fNos;
+	}
 
 	public StorageBox(int sbNo, int mNo, String sbName, int fNos, String[] sbNos) {
 		super();

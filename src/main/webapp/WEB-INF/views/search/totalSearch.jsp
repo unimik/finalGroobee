@@ -11,14 +11,10 @@
     <link rel="stylesheet" href="resources/css/chat.css">
     <link rel="stylesheet" href="resources/css/myAccount.css">
     <style>
-<<<<<<< HEAD
     .post{height: 200px;}
     .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
     #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
     .sendreport { margin-top:0;}
-=======
-   		.sendreport { margin-top:0;}
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
     </style>
 </head>
 <body>
@@ -1268,11 +1264,7 @@
             $('.MyTab_box2').show();
         });
         
-<<<<<<< HEAD
-function likeClick(likeStatu){
-=======
         function likeClick(likeStatu){
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
           	var likeid = likeStatu.getAttribute('id');
 
           	console.log(likeStatu);

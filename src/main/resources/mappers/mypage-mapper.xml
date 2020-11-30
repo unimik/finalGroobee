@@ -260,4 +260,7 @@
 	F.F_STATUS ='Y'
 	AND F_NO = #{fNo}
 	</select>
+	<delete id="deleteSf" parameterType="sBox">
+	DELETE FROM STORAGE_BOX WHERE F_NO = #{fNos} AND M_NO =#{mNo} AND SB_NO =#{sbNo}
+	</delete>
 </mapper>

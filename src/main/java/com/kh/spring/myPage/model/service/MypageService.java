@@ -69,6 +69,13 @@ public interface MypageService {
 
 	Feed storagePopup(Feed ff);
 
+	/**
+	 * 보관함내 게시글 삭제
+	 * @param sf
+	 * @return
+	 */
+	int deleteSf(StorageBox sf);
+
 
 
 

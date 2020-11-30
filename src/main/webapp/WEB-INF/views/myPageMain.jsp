@@ -75,14 +75,10 @@
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
-<<<<<<< HEAD
-	.sb .postbox{float: left;}
-	.postbox{float: left;}
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
+	.postbox{float: left; cursor: pointer; margin: 10px 5px 0 5px;}
    </style>
    <script>
   
@@ -299,12 +295,12 @@
                         <div class="post">
                             <c:choose>
                                  <c:when test="${!empty feedlist.thumbnail }">
-                                 	<div class="img_wrap" onclick="goDetail(${ feedlist.fNo },${ feedlist.mNo })">
+                                 	<div class="img_wrap" onclick="goDetail(${ feedlist.fNo },${ feedlist.mNo },0)">
                                     	<img class="postbox" name="postbox" src="<%=request.getContextPath()%>/resources/pUploadFiles/${ feedlist.thumbnail }" type="button" class="pb1">                                 	
                                  	</div>
                                  </c:when>
                                  <c:otherwise>
-                                     <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo },${ feedlist.mNo })">
+                                     <div class="postbox" name="postbox" onclick="goDetail(${ feedlist.fNo },${ feedlist.mNo },0)">
                                          <div type="button" class="pb2">
                                              <text>${ feedlist.fContent }</text>
                                          </div>
@@ -403,14 +399,14 @@
     <script>
     
     /************ 포스트 박스 클릭 시 script ************/
-    function goDetail(fNo,smNo){
+    function goDetail(fNo,smNo,type){
     	var mNo = $('#mNo').val();
     
            $.ajax({
               url:"goDetail.do", 
               dataType:"json",
 		    	// smNo : 공유한 글작성자
-              data:{mNo: mNo,fNo : fNo, smNo : smNo},
+              data:{mNo: mNo, fNo : fNo, smNo : smNo, type: type},
               type:"post", 
               success:function(data){
                 
@@ -421,7 +417,7 @@
                   input += "<div id='writer_submenu'>";
                   if(data.mImage != null){
                     input += "<img src='${ contextPath }/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
-                  } else {
+                  } else { 
                     input += "<img src='${ contextPath }/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
                   }
 	              input += "<div id='user_time'>";
@@ -432,23 +428,32 @@
 	              input += "</div>";
 	              <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
 	              input +="<div class='pop_menu'>";
-
-	              if(data.shareYN == 'N'){
-		              input +="<div id='feed_Mymenu_list'>";
+				 if(data.type == 0){
+		              if(data.shareYN == 'N'){
+			              input +="<div id='feed_Mymenu_list'>";
+			              input +="<ul>";
+			              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
+			              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+			              input +="<li><a id='close' class='close'>취소</a></li>";
+			              input +="</ul>";
+			              input +="</div>";
+		             } else{
+			              input +="<div id='share_Mymenu_list'>";
+			              input +="<ul>";
+		            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
+			              input +="<li><a id='close' class='close'>취소</a></li>";
+			              input +="</ul>";
+			              input +="</div>";
+		              }	 
+				 }else{
+					 /*보관함 메뉴*/
+					  input +="<div id='share_Mymenu_list'>";
 		              input +="<ul>";
-		              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
-		              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+	            	  input +="<li><a  href='#' onclick='deleteStorageFeed("+fNo+","+type+")' class='deleteMyPost'>보관함에서 삭제</a></li>";
 		              input +="<li><a id='close' class='close'>취소</a></li>";
 		              input +="</ul>";
-		              input +="</div>";
-	              } else{
-		              input +="<div id='share_Mymenu_list'>";
-		              input +="<ul>";
-	            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
-		              input +="<li><a id='close' class='close'>취소</a></li>";
-		              input +="</ul>";
-		              input +="</div>";
-	              }
+		             input +="</div>";
+				 }
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
@@ -611,7 +616,6 @@
 		              $(replyMenu).show();
 		          }); 
 		          $('.rClose').on("click", function(){
-<<<<<<< HEAD
 		              $('.reply_menu').hide();
 		          });
 		          
@@ -1879,7 +1883,7 @@
         $('.storagebox').hide();
         $('.fstorageBox_folder').hide();
         $('.group').hide();
-        $('#sbfeed').hide();
+        $('.sbpost').hide();
     });
     //보관함 클릭시
     $('.feedStorageBox_btn').click(function() {
@@ -1892,7 +1896,7 @@
         $('.storageBox_subBtn4').hide();
 		$('.storageBox_subBtn5').hide();
         $('.fstorageBox_folder').show();
-        $('#sbfeed').hide();
+        $('.sbpost').hide();
         
     });
 	//그룹
@@ -1904,7 +1908,7 @@
         $('.storagebox').hide();
         $('.group').show();
         $('.fstorageBox_folder').hide();
-        $('#sbfeed').hide();
+        $('.sbpost').hide();
     }); 
     /********* 보관함 수정 및 삭제 script ************/
     /*보관함 만들기*/
@@ -2071,33 +2075,21 @@
 					sbno:sbNo},
 		        success:function(data){
 					if(data.fList != null){
-	    				var input="";
-	    				var i = 0;
-	    				var j = 0;
-	    				for(var i=0; i < data.fList.length; i++){
-	    				 		if (j%3==0){ 
-	    				input +="<tr class='post' id='sbfeed'>";
-	    						}
-	    						if(data.fList[i].thumbnail != null){	
-	    				input += "<td class='postbox' id='"+data.fList[i].fno+"'  name='postbox'>";	
-	    				input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='sbPop()' class='postbox'>";	
-	    				input += "<input type='hidden' id='fNo' value="+data.fList[i].fno+"/>";	
-	    				input += "</td>";		
-	    						}else{	
-	    				input += "<td class='postbox' id='"+data.fList[i].fno+"' name='postbox'>";	
-	    				input += "<div type='button' class='pb2'>";
-	    				input += "<text>"+data.fList[i].fcontent+"</text>";	
-	    				input += "</div>";
-	    				input += "</td>";
-	    						}	
-		    				if (j%3==2){ 
-		    					input +="</tr>"; 	
-		    				}
-	    				j++; 
-	    				}
-	    				
+						var input="";
+
+						for(var i=0; i < data.fList.length; i++){
+							if(data.fList[i].thumbnail != null){	
+								input += "<div class='postbox sbpost' id='"+data.fList[i].fno+"'  name='postbox'>";	
+								input += "<img src='/spring/resources/pUploadFiles/"+data.fList[i].thumbnail+"' onclick='goDetail("+data.fList[i].fno+","+data.fList[i].mno+","+sbNo+")' class='postbox'>";	
+								input += "</div>";		
+							}else{	
+								input += "<div class='postbox sbpost' onclick='goDetail("+data.fList[i].fno+","+data.fList[i].mno+","+sbNo+")'>";
+								input += "<text>"+data.fList[i].fcontent+"</text>";	
+								input += "</div>";
+							}
+						}
+
 	                    $("#myPage_feed").append(input);
-	                    //$("#myPage_feed").html(input);
 	                    $(".fstorageBox_folder").hide();
 	                    $("#storagebox").hide();
 					}else{
@@ -2129,198 +2121,22 @@
 			alert('보관함을 불러올 수 없습니다');
 		}
 	});
-	
-	/*보관함 팝업*/
-	 $(document).on("click",'.postbox',function(){
-		 var fNo = $(this).attr("id");
-		 var sbNo =  $('#selectSbNo').val();
-		 var a = '${ loginUser.userId}';
-		 var b = ${ loginUser.mNo };
-		 
-		 alert('포스트 누름'+fNo+' : '+sbNo);
-		$.ajax({
-			 	url:"storagePopup",
-	        	dataType:'json',
-				type:'post',
-				data:{
-					fnno: fNo,
-					sbNo:sbNo,
-					userId: a,
-					mNo: b
-		 		},success:function(data){
-					
-					 alert(fNo+' : '+sbNo);
-    				  var input="";
-	                  input += "<div class='feed_delete'>";
-	                  input += "<img src='${ contextPath }/resources/icons/close_white.png' type='button'>";
-	                  input += "</div>";
-	                  input += "<div id='writer_submenu'>";
-	                  if(data.mImage != null){
-	                    input += "<img src='${ contextPath }/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
-	                  } else {
-	                    input += "<img src='${ contextPath }/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
-	                  }
-		              input += "<div id='user_time'>";
-		              input += "<p id='feed_id'>"+data.fWriter+"</p>";
-		              input += "<h6>"+data.fCreateDate+"</h6>";
-		              input += "</div>";
-		              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
-		              input += "</div>";
-
-		              input +="<div class='pop_menu'>";
-		              input +="<div id='feed_Mymenu_list'>";
-		              input +="<ul>";
-		              if(data.shareYN == 'N'){
-		              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
-		              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
-		              input +="<li><a id='close' class='close'>취소</a></li>";
-		              } else{
-		            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
-			              input +="<li><a id='close' class='close'>취소</a></li>";
-		            	  }
-		              input +="</ul>";
-		              input +="</div>";
-		              input +="</div>";
-		              input +="<div id='con'>";
-		              input +="<div id='feed_content'>";
-		         	var size;
-		  	        var idx = idx1 = 0;
-		  	        var ul;
-		  	        var liCount;
-		  	        
-	  				if( data.photoList.length > 1){
-	  	        		$('#nextBtn'+i).css("display","block");
-	  	        		$('#prevBtn'+i).css({"display":"block"});
-	  	        	}
-			           
-		              for(var i=0; i<data.photoList.length; i++){
-						  if(data.photoList[i].changeName != null){
-							  input +="<ul id='imgList'>";
-						      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-							  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-							  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
-							  input +="</ul>";
-			            	  }
-		              }
-		              input +="<p id='text'>"+data.fcontent+"</p>";
-		              if(data.shareYN == 'N'){
-		              input +="<div id='heart_reply'>";
-
-	 				  if(data.fLikeSet == 'Y' ||  data.fLikeSet == null){
-
-		             	if(data.likeChk == null){
-			             	input +="<img src='${ contextPath }/resources/icons/heart.png' alt='' name='"+fNo+"'class='likeIcon' id='likeIcon' onclick='likeClick(this);'>";
-			             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
-		             	} else {
-			             	input +="<img src='${ contextPath }/resources/icons/heart_red.png' alt='' name='"+fNo+"' class='liked' id='liked' onclick='likeClick(this);'>";	             	
-			             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
-		             	}
-					  }
-	 				 input +="<input type='hidden'  class='fLikeCnt' value='"+data.fLikeCnt+"'>";
-					  input +="<input type='hidden' class='toNo' value='"+fNo+"'>";
-					  input +="<input type='hidden' class='toId' value='"+data.fWriter+"'>";
-
-					  if(data.fReplySet == 'Y' || data.fReplySet == null){
-					  	 if(data.fLikeSet == 'N'){
-
-					  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon' style='margin: 9px 0 0 25px;'>";
-					  	 	if(data.replyListSize > 0){
-					  	 	 if(data.replyList[0].rStatus == 'Y'){
-					  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
-					  	 	 }
-					  	 	 else if(data.replyList[0].rStatus == 'N' || data.replyList[0].rStatus == null){
-					  	 	 input +="<label class='replycnt_p'>0개</label>";
-					  	 	 }
-					  	 	} else {
-					  	 	 input +="<label class='replycnt_p'>0개</label>";
-					  	 	}
-					  	 } else {
-						  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon'>";
-					  		if(data.replyListSize > 0){
-					  	 	 if(data.replyList[0].rStatus == 'Y'){
-					  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
-					  	 	 }
-					  	 	 else if(data.replyList[0].rStatus == 'N' || data.replyList[0].rStatus == null){
-					  	 	 input +="<label class='replycnt_p'>0개</label>";
-					  	 	 }
-					  		} else {
-						  	 	 input +="<label class='replycnt_p'>0개</label>";
-						  	 	}
-					  	 }
-					  }
-					  if(data.fReplySet == 'N' && data.fLikeSet == 'N'){
-					  input +="<label class='setN'>댓글과 좋아요가 금지된 포스트입니다.</label>";
-					  } 
-	 	              input +="</div>";
-		              input +="</div>";
-	                  input +="<div id='replyArea'>";
-		              input +="<div id='replySub'>";	                  
-		              for(var i=0;i<data.replyList.length;i++){
-		                  input +="<div id='replyList'>";
-		                  input +="<ul id='re_list'>";
-		            	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-			              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
-			              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-			              if(data.replyList[i].mNo == mNo){
-				              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";
-				              input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
-							  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
-							  input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-							  input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' alt='' id='updateBtn' class='rUpBtn'></li>";
-			               }
-						   input +="</ul>";
-			              input +="</div>";
-			              input +="<div class='reply_menu'>";
-			              input +="<div id='re_menu_list'>";
-			              input +="<ul>";
-			              if(data.replyList[i].mNo == mNo){
-				              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
-				              input +="<li><a class='rDelete'>댓글 삭제</a></li>";
-				              input +="<li><a id='re_close'>취소</a></li>";
-			              } else{
-			            	  input +="<li><a id='feed_report_btn' class='feed_report_btn'>댓글 신고</a></li>";
-			            	  input +="<li><a id='re_close'>취소</a></li>";
-			              }
-			              input +="</ul>";
-			          	  input +="</div>";
-	                  	  input +="</div>";
-		              }
-	                  input +="</div>";       
-	                  if(data.fReplySet == 'Y' || data.fReplySet == null){
-		              input +="<div id='reply'>";
-		              input +="<input type='hidden' class='replyFeedNo' name='replyFeedNo' value="+fNo+">";
-		              input +="<input type='text' id='textArea'class='rContent'  name='textArea'>";
-		              input +="<input type='button' id='replyBtn'  class='replyUpBtn' name='replyBtn' value='등록' onClick='applyReply("+fNo+");'>";
-		              input +="</div>";
-	                  }
-		              input +="</div>";
-		              }
-		              input +="</div>";
-
-	                    
-	                  $(".pop_feed").html(input);
-	      	 		  $(".pop_feed").show();
-
-	      	        $('.feed_delete').click(function() {
-	      	            $(".pop_feed").hide();
-	      	        });
-	      	        
-		      	      $('#feed_menu').click(function() {
-		                  $('.pop_menu').show();
-			          }); 
-			      	
-			          $('.close').on('click', function(){
-			              $('.pop_menu').hide();
-			          });
-			          
-			          $('#updateBtn').on("click", function(){
-			              $('.reply_menu').show();
-			          });
-			          $('#re_close').on("click", function(){
-			              $('.reply_menu').hide();
-			          });
-				},
-	            error:function(request,jqXHR,exception){
+	//팝업창 띄울것....
+	 function deleteStorageFeed(fno,type) {
+		 //alert(type);
+		 $.ajax({
+			 url:"deleteStorageFeed",
+        	dataType:'json',
+			type:'post',
+			data:{fno: fno
+				,sbno:type
+				,mno: ${ loginUser.mNo }}
+			,success:function(data){
+				 alert(data.msg);
+				 $(".pop_feed").hide();
+				location.href ='goMypage.do?mNo=${ loginUser.mNo }&type=1';
+			},
+            error:function(request,jqXHR,exception){
 	               var msg="";
 	               if(request.status == 0){
 	                  msg = 'Not Connect. \n Verify Network.';
@@ -2338,11 +2154,9 @@
 	                  msg = 'Error. \n' + jqXHR.responseText;
 	               }
 	               alert(msg);
-		        } 
+            }
 		 });
-	
-	 });
-	
+	}
     /************* 팝업 메뉴 script *************/
     $('#details_btn').on("click", function(){
         $('.myFeed_popup_others').show();

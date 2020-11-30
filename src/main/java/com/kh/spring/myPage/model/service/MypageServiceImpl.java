@@ -117,6 +117,11 @@ public class MypageServiceImpl implements MypageService {
 		return myDao.storagePopup(ff);
 	}
 
+	@Override
+	public int deleteSf(StorageBox sf) {
+		return myDao.deleteSf(sf);
+	}
+
 
 
 	
