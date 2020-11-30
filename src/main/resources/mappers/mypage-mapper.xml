@@ -5,7 +5,7 @@
 	<resultMap id="mypageResultSet" type="Mypage">
  		<id property="mNo" column="M_NO"/>
  		<result property="userId" column="M_ID"/>
- 		<result property="mImage" column="M_IMAGE"/>
+ 		<result property="mImage" column="M_RENAME_IMAGE"/>
  		<result property="mIntro" column="M_INTRO"/>
  		<result property="interestes" column="INTERESTES"/>
  		<result property="follows" column="follows"/>

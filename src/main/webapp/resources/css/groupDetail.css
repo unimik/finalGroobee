@@ -72,7 +72,7 @@ p{ margin: 0; }
 
 #userId{ float: left; margin:9px 15px 0 15px; font-weight: 600; color: #555555;}
 #reply_img{width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; }
-#replyCon{ font-size: 14px; color:#555555; font-weight:lighter; margin-top:9px; height: 100%;}
+#replyCon{ color:#555555; font-weight:lighter; margin-top:9px; height: 100%;}
 #time{ font-size: 12px; float: right; color: #aaaaaa;}
 #reply{ width: 100%; padding: 20px 0 20px 0; }
 #textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px;}
@@ -89,7 +89,7 @@ a{ color: black; }
 .imgbtn{ z-index:5;border: 0; background: none; cursor: pointer; outline: none; }
 button[name=nextBtn]{display: none; position: absolute; margin: 300px 570px; }
 button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
-#replyList{ width: 100%; height: 0px; }
+#replyList{ width: 100%; }
 #replySub::-webkit-scrollbar{ width: 7px;}
 #replySub::-webkit-scrollbar-thumb{ border-radius: 10px; background-color: #47c6a3; }
 #replySub::-webkit-scrollbar-track{ background-color: #daf4ed;}
@@ -102,8 +102,8 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #time{ width: 100%; }
 #rWriterInfo{ width: 25%; }
 #rUpdateMenu{ width: 10%; }
-#confirmR{ display: none; float: left; margin: 9px 0px 0px 5px; float: left;
-		   border: none; border-radius: 5px; background: #daf4ed; }
+#confirmR{ display: none; float: left; margin: 9px 0px 0px 5px; float: right;
+		   border: none; border-radius: 5px; background: #daf4ed; width: 40px; height: 20px;}
 #liked{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px;}
 .replyUpBtn { width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
 #topScrollBox{ text-align:center; display:none; }
@@ -150,7 +150,7 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #g_feed_Mymenu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;color: #555555;}
 
 
-.feed_report{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+.feed_report{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.1);}
 #feed_report_con{ background: white; width: 320px; margin: auto; height: 220px; border-radius: 15px; margin-top:300px;}
 #feed_report_con p{ padding:0; margin:0; text-align: center; font-size: 16px; padding: 20px 0 20px 0; border-bottom: 1px solid #e5e5e5;}
 #feed_report_con select{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #555555; margin:30px 0 30px 50px;}
@@ -229,9 +229,9 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 
 #replyArea{ width: 630px; padding-top: 20px;background: white; margin: auto; }
 #replyList{ width: 630px; overflow: auto; margin: auto; }
-#replySub::-webkit-scrollbar{ width: 7px; }
-#replySub::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
-#replySub::-webkit-scrollbar-track{ background-color: #daf4ed; }
+#replySub_1::-webkit-scrollbar{ width: 7px; }
+#replySub_1::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+#replySub_1::-webkit-scrollbar-track{ background-color: #daf4ed; }
 #replyList ul{ margin: auto; margin-left:25px; padding: 0; }
 #re_list li{ list-style: none; float: left; }
 #re_list li:nth-child(1){ width: 25%; }
@@ -239,7 +239,7 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #re_list li:nth-child(3){ width: 10%; }
 #re_list li:nth-child(4){ width: 10%; }
 #updateBtn{ margin: 15px 0 0 14px; padding: 5px 0px 5px 0px; cursor: pointer; }
-#replySub{height: 200px; overflow: auto; overflow-x: hidden;}
+#replySub_1{height: 200px; overflow: auto; overflow-x: hidden;}
 #cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 #report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;border:0; border-radius: 10px;width:100px;height: 35px;}
 #selectRtype{ width:100px; margin-left:50px; background:#daf4ed; border:0; border-radius: 10px;width:100px;height: 35px;}
@@ -256,21 +256,20 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 
 #userId{ float: left; margin: 9px 0px 0 15px; font-weight: 600; color: #555555;}
 #reply_img{ width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; }
-#replyCon{ font-size: 14px; color:#555555; font-weight:lighter; margin-top:9px; height: 100%; }
+#replyCon{ color:#555555; font-weight:lighter;height: 100%;  }
 #time{ font-size: 12px; float: right; color: #aaaaaa;}
 #reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
 #textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
 #replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
 
-
 .pop_menu_2{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-#feed_menu_list{ background: white; width: 320px; margin: auto; height: 243px; border-radius: 15px; margin-top:300px;}
-#feed_menu_list ul{ padding:0; margin: 0; }
-#feed_menu_list li{ list-style: none; text-align: center; height: 60px;}
-#feed_menu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
-#feed_menu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
-#feed_menu_list li:nth-child(3){border-bottom: 1px solid #e5e5e5;}
-#feed_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
+#feed_menu_list_2{ background: white; width: 320px; margin: auto; height: 243px; border-radius: 15px; margin-top:300px;}
+#feed_menu_list_2 ul{ padding:0; margin: 0; }
+#feed_menu_list_2 li{ list-style: none; text-align: center; height: 60px;}
+#feed_menu_list_2 li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
+#feed_menu_list_2 li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
+#feed_menu_list_2 li:nth-child(3){border-bottom: 1px solid #e5e5e5;}
+#feed_menu_list_2 li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
 
 #popfeed_menu_list{ background: white; width: 320px; margin: auto; height: 243px; border-radius: 15px; margin-top:300px;}
 #popfeed_menu_list ul{ padding:0; margin: 0; }
@@ -280,13 +279,7 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #popfeed_menu_list li:nth-child(3){border-bottom: 1px solid #e5e5e5;}
 #popfeed_menu_list li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
 
-.pop_Mymenu{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-#feed_Mymenu_list{ background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
-#feed_Mymenu_list ul{ padding:0; margin: 0; }
-#feed_Mymenu_list li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
-#feed_Mymenu_list li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
-#feed_Mymenu_list ul li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
-#selectOne{height:60px;}
+
 
 .feed_report{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
 #feed_report_con{ background: white; width: 320px; margin: auto; height: 220px; border-radius: 15px; margin-top:300px;}
