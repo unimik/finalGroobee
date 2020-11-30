@@ -229,12 +229,13 @@
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty r.rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
+							</c:forEach>
+							<label class="replycnt_p"><%=rCount %>개</label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
