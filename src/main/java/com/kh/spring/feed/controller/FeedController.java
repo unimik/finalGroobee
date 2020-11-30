@@ -487,22 +487,6 @@ public class FeedController {
 				job.put("msg","검색되는 게시글이 없습니다");
 				return job.toJSONString();
 			}
-		}
-		if(f != null) {
-			System.out.println(f);
-			job.put("mno", f.getmNo());
-			job.put("mImage", f.getmImage());
-			job.put("fno", f.getfNo());
-			job.put("plist", jarr);
-			job.put("fcontent", f.getfContent());
-			job.put("fwriter", f.getfWriter());
-			job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
-			job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
-			return job.toJSONString();
-		}else {
-			job.put("msg","검색되는 게시글이 없습니다");
-			return job.toJSONString();
-		}
 	}
  
       

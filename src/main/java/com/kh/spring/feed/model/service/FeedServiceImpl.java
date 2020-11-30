@@ -147,14 +147,11 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public int findTagMember(String string) {
 		return fDao.findTagMember(string);
 	}
 
 	@Override
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return fDao.selectPhotoList(getfNo);
 	}

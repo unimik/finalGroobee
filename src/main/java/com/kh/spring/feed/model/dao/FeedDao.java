@@ -125,13 +125,10 @@ public class FeedDao {
 		return sqlSession.insert("mypageMapper.insertStorage", sb);
 	}
 
-<<<<<<< HEAD
 	public int findTagMember(String string) {
 		return sqlSession.selectOne("mypageMapper.findTagMember", string);
 	}
 
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectPhotoList", getfNo);
 	}

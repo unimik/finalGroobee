@@ -165,15 +165,10 @@ public interface FeedService {
 	ArrayList<Photo> selectPhotoList(int getfNo);
 	
 	
-
-=======
-	 * 사진 리스트
+	 /* 사진 리스트
 	 * @param getfNo
 	 * @return
 	 */
 	ArrayList<Photo> selectPhotoList(int getfNo);
 	
-	
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
-
 }
