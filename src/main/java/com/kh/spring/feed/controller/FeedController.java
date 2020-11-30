@@ -455,15 +455,6 @@ public class FeedController {
 	}
 	
 	//검색 팝업
-		@ResponseBody
-		@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
-		public String popFeed(int fno) {
-			System.out.println("fno"+fno);
-			Feed f = new Feed();
-			f = fService.popFeed(fno);
-			JSONObject job = new JSONObject();
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	@ResponseBody
 	@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
 	public String popFeed(int fno) {
@@ -478,7 +469,8 @@ public class FeedController {
 		for(int i =0; i < f.getPhotoList().size(); i++) {
 			jarr.add(i, f.getPhotoList().get(i).getChangeName());
 			}
-			if(f != null) {
+		}	
+		if(f != null) {
 				System.out.println(f);
 				job.put("mno", f.getmNo());
 				job.put("mImage", f.getmImage());

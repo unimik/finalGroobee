@@ -9,7 +9,7 @@ body{margin:0; background: #daf4ed; }
 #inputArea{ margin-top: 45px;}
 label{ color: #555555; font-size: 16px;}
 input{ border-radius: 10px; border: 1px solid #555555; width: 200px; height: 35px; margin: 20px 0 10px 0;}
-#loginBtn{ width: 300px; height: 40px; background: #daf4ed; border: 0; border-radius: 10px; margin-bottom: 40px;}
+#loginBtn{ width: 300px; height: 40px; background: #daf4ed; border: 0; border-radius: 10px; margin-bottom: 40px; cursor: pointer; }
 #find_Id_Pwd{ text-decoration: none; color: #555555; font-size: 14px; }
 #find_Id_Pwd b{ color: #47c6a3; font-weight: 600;}
 #create_Id{ text-decoration: none; color:#555555; font-size: 14px; }

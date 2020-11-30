@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <head>
 <title>G R O O B E E</title>
@@ -12,11 +13,11 @@
 <link rel="stylesheet" href="resources/css/home.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
-	.feed{ height: fit-content; }
+	.feed{ height: fit-content; margin-bottom: 50px; border: 1px solid #e5e5e5; width: 630px; }
 	.feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px;}
 	#footer{ height: 200px; text-align: center; }
 	a{ color: black; }
-	#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow-x:hidden;}
+	#imgList{position:relative; margin:0; padding:0; list-style:none; overflow:hidden;}
 	#imgList li{ display:none; float:left; position: absolute; top:0; left:0;}
 	#imgList li:nth-child(1){ display: block; }
 	#imgList img{ width: 633px; height: 633px; }
@@ -50,6 +51,7 @@
 	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
+	button{ cursor: pointer; }
 </style>
 
 </head>
@@ -59,226 +61,531 @@
 	<div id="feedArea">
 	<c:forEach var="f" items="${ feed }" varStatus="status">
 		<c:set var="i" value="${ i + 1 }"/>
-		<div id="feed${ i }" class="feed">
-		<div id="writer_submenu">
-			<c:choose>
-				<c:when test="${ loginUser.userId ne f.fWriter }">
-					<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-					<c:if test="${ !empty f.mImage }">
-					<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
-					</c:if>
-					<c:if test="${ empty f.mImage }">
-					<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
-					</c:if>
-					<div id="user_time">
-						<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-						<h6><c:out value="${ f.fModifyDate }" /></h6>
+		<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
+		<c:if test="${ f.fOpenScope ne 'G' }">
+			<div id="feed${ i }" class="feed">
+			<div id="writer_submenu">
+				<c:choose>
+					<c:when test="${ loginUser.userId ne f.fWriter }">
+						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+						<c:if test="${ !empty f.mImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						</c:if>
+						<c:if test="${ empty f.mImage }">
+						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+						</c:if>
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fModifyDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:when>
+					<c:otherwise>
+						<a href="goMypage.do?mNo=${ loginUser.mNo }">
+						<c:if test="${ !empty f.mImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						</c:if>
+						<c:if test="${ empty f.mImage }">
+						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+						</c:if>
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fCreateDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:otherwise>
+				</c:choose>
+				<c:if test="${ loginUser.userId ne f.fWriter }">
+					<!-- 다른 회원 글 볼 때 피드 메뉴 -->
+	 				<div class="pop_menu">
+						<div id="feed_menu_list">
+							<ul>
+					            <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
+					            <li><a id="share_feed" class="share_feed">공유하기</a></li>
+					            <li><a id="goStorage" class="goStorage">보관함</a></li>
+					            <li><a id="close" class="close">취소</a></li>
+							</ul>
+						</div>
 					</div>
-					</a>
-					<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-				</c:when>
-				<c:otherwise>
-					<a href="goMypage.do?mNo=${ loginUser.mNo }">
-					<c:if test="${ !empty f.mImage }">
-					<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
-					</c:if>
-					<c:if test="${ empty f.mImage }">
-					<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
-					</c:if>
-					<div id="user_time">
-						<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-						<h6><c:out value="${ f.fCreateDate }" /></h6>
-					</div>
-					</a>
-					<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
-				</c:otherwise>
-			</c:choose>
-			<c:if test="${ loginUser.userId ne f.fWriter }">
-				<!-- 다른 회원 글 볼 때 피드 메뉴 -->
- 				<div class="pop_menu">
-					<div id="feed_menu_list">
-						<ul>
-				            <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-				            <li><a id="share_feed" class="share_feed">공유하기</a></li>
-				            <li><a id="goStorage" class="goStorage">보관함</a></li>
-				            <li><a id="close" class="close">취소</a></li>
-						</ul>
-					</div>
+				</c:if>
+				<c:if test="${ loginUser.userId eq f.fWriter }">
+					<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+	                <div class="pop_menu">
+	                    <div id="feed_Mymenu_list">
+	                        <ul>
+	                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
+	                        <li><a href="pDelete.do?fNo=${ f.fNo }" class="deleteMyPost">삭제</a></li> 
+	                        <li><a id="close" class="close">취소</a></li>
+	                        </ul>
+	                    </div>
+	                </div>
+				</c:if>
+			</div>
+		<div class="feed_report">
+			<input type="hidden" value=${f.fNo }>
+			<div id="feed_report_con">
+				<p>신고사유</p>
+				<select id="reportType" class="selectRtype">
+					<option value="unacceptfeed" selected>부적절한 게시글</option>
+					<option value="insult">욕설</option>
+					<option value="ad">광고</option>
+					<option value="spam">도배</option>
+				</select>
+				<textarea class="sendreport Rcontent" id="reportContent" cols="28"
+					rows="4"></textarea>
+				<br> <input class="selectRtype Rtype" id="selectRtype"
+					type="button" value="확인" style="cursor: pointer;"> <input
+					class="sendreport report-submit" type="button" id="report-submit"
+					value="확인" style="cursor: pointer; display: none;">
+				<button class="selectRtype cancel" id="cancel"
+					style="cursor: pointer;">취소</button>
+				<button class="sendreport cancel2" id="cancel2"
+					style="cursor: pointer; display: none;">취소</button>
+			</div>
+			</div>
+			<!-- 댓글을 신고해보자! -->
+			<div class="reply_report" id="reply_report" style="display:none">
+				<div id="Reply_report_con">
+					<p>신고사유</p>
+					<select id="reply_reportType" class="selectRtype">
+						<option value="unacceptfeed" selected>부적절한 게시글</option>
+						<option value="insult">욕설</option>
+						<option value="ad">광고</option>
+						<option value="spam">도배</option>
+					</select>
+					<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+						rows="4"></textarea>
+					<br> <input class="selectRtype Rtype" id="selectRtype"
+						type="button" value="확인" style="cursor: pointer;"> <input
+						class="sendreport reply_submit" type="button" id="reply_report-submit"
+						value="확인" style="cursor: pointer; display: none;">
+					<button class="selectRtype cancel" id="cancel"
+						style="cursor: pointer;">취소</button>
+					<button class="sendreport cancel2" id="cancel2"
+						style="cursor: pointer; display: none;">취소</button>
 				</div>
-			</c:if>
+			</div>
+			<div id="con">
+				<div id="feed_content">
+					<c:if test="${ !empty f.photoList and f.photoList ne null }">
+						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
+						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+						<ul id="imgList" style="height:633px">
+							<c:forEach var="p" items="${ f.photoList }">
+							<c:if test="${ p.changeName ne null }">
+								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+							</c:if>
+							</c:forEach>
+						</ul>
+					</c:if>
+					<p id="text">
+						<!-- 진선 : 태그기능 추가 중. -->
+						<c:forEach var="d" items="${fn:split(f.fContent,'#')}">	
+							<c:choose>							
+							<c:when test="${fn:contains(d,' ') }">
+									<a href="_blank" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
+									 ${fn:substringAfter(d,' ') }
+							</c:when>
+							<c:otherwise>
+								<a href="_blank" style="color:skyblue;">#${d }</a>
+							</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+					</p>
+	
+					<div id="heart_reply">
+					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
+					<c:if test="${ f.fLikeSet eq 'Y' || empty f.fLikeSet }">
+					<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+	             	<c:choose>
+		             	<c:when test="${ f.likeChk eq null }">
+		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             	</c:when>
+		             	<c:otherwise>
+		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             	</c:otherwise>
+	             	</c:choose>
+					</c:if>
+	               		<input type="hidden" class="toNo" value="${ f.fNo }">
+	               		<input type="hidden" class="toId" value="${ f.fWriter }">
+	               		<!-- 댓글이 전체 허용일 경우 -->
+						<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
+						<c:choose>
+							<c:when test="${ f.fLikeSet eq 'N' }">
+							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
+							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+									<label class="replycnt_p">${ f.replyList.size() }개</label>
+								</c:if>
+								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+									<label class="replycnt_p">0개</label>
+								</c:if>
+							</c:when>
+							<c:otherwise>
+							<!-- 댓글과 좋아요 모두 허용될 때 -->
+							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+									<label class="replycnt_p">${ f.replyList.size() }개</label>
+								</c:if>
+								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty r.rStatus }">
+									<label class="replycnt_p">0개</label>
+								</c:if>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
+	
+						<c:if test="${ f.fReplySet eq 'N' && f.fLikeSet eq 'N' }">
+							<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
+						</c:if>
+	           		</div>
+				</div>
+				
+				<div id="replyArea">
+					<div id="replyList" style="display: block; height: fit-content;">
+					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
+					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
+						<c:forEach var="r" items="${ f.replyList }">
+							<c:if test="${ r.rStatus eq 'Y' }">
+							<div id="selectOne">
+							<!-- 댓글 번호 -->
+							<input type="hidden" class="rNum" value="${ r.rNo }">
+				  				<ul id="re_list" class="list">
+				  				<c:if test="${ !empty r.rWriterImg }">
+									<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+										id="reply_img">&nbsp;&nbsp;&nbsp;
+										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+								</c:if>
+								<c:if test="${ empty r.rWriterImg }">
+									<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+										id="reply_img">&nbsp;&nbsp;&nbsp;
+										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+								</c:if>
+									<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
+									<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
+									<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
+									<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+								</ul>
+								<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
+								<c:if test="${ loginUser.userId eq r.rWriter }">
+								<div id="reply_menu" class="reply_menu">
+									<div id="re_menu_list">
+										<ul>
+											<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
+											<li><a class="rDelete">댓글 삭제</a></li>
+											<li><a id="re_close" class="rClose">취소</a></li>
+										</ul>
+									</div>
+								</div>
+								</c:if>
+								<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
+								<c:if test="${ loginUser.userId ne r.rWriter }">
+								<div id="reply_menu" class="reply_menu">
+									<div id="re_menu_list">
+										<ul>
+											<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
+											<li><a id="rReport" class="rReport">댓글 신고</a></li>
+											<li><a id="re_close" class="rClose">취소</a></li>
+										</ul>
+									</div>
+								</div>
+								</c:if>
+							</div>
+							</c:if>
+						</c:forEach>
+						</div>
+					</div>
+					<!-- 댓글 전체 허용일 경우 -->
+					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+					<div id="reply">
+						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+						<input type="text" id="textArea" class="rContent" name="textArea">
+						<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+					</div>
+					</c:if>
+					<!-- 댓글 친구 허용일 경우 -->
+					<c:forEach var="fl" items="followerList">
+					<c:if test="${ f.fReplySet eq 'F' }">
+					<div id="reply">
+						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+						<input type="text" id="textArea" class="rContent" name="textArea">
+						<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+					</div>
+					</c:if>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+		</c:if>
+		</c:forEach>
+		<!-- 공개 여부가 비공개일 때 -->
+		<c:if test="${ f.fOpenScope eq 'G' }">
 			<c:if test="${ loginUser.userId eq f.fWriter }">
-				<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-                <div class="pop_menu">
-                    <div id="feed_Mymenu_list">
-                        <ul>
-                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-                        <li><a href="pDelete.do?fNo=${ f.fNo }" class="deleteMyPost">삭제</a></li> 
-                        <li><a id="close" class="close">취소</a></li>
-                        </ul>
-                    </div>
-                </div>
-			</c:if>
-		</div>
-	<div class="feed_report">
-		<input type="hidden" value=${f.fNo }>
-		<div id="feed_report_con">
-			<p>신고사유</p>
-			<select id="reportType" class="selectRtype">
-				<option value="unacceptfeed" selected>부적절한 게시글</option>
-				<option value="insult">욕설</option>
-				<option value="ad">광고</option>
-				<option value="spam">도배</option>
-			</select>
-			<textarea class="sendreport Rcontent" id="reportContent" cols="28"
-				rows="4"></textarea>
-			<br> <input class="selectRtype Rtype" id="selectRtype"
-				type="button" value="확인" style="cursor: pointer;"> <input
-				class="sendreport report-submit" type="button" id="report-submit"
-				value="확인" style="cursor: pointer; display: none;">
-			<button class="selectRtype cancel" id="cancel"
-				style="cursor: pointer;">취소</button>
-			<button class="sendreport cancel2" id="cancel2"
-				style="cursor: pointer; display: none;">취소</button>
-		</div>
-		</div>
-		<div id="con">
-			<div id="feed_content">
+			<div id="feed${ i }" class="feed">
+			<div id="writer_submenu">
+				<c:choose>
+					<c:when test="${ loginUser.userId ne f.fWriter }">
+						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+						<c:if test="${ !empty f.mImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						</c:if>
+						<c:if test="${ empty f.mImage }">
+						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+						</c:if>
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fModifyDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:when>
+					<c:otherwise>
+						<a href="goMypage.do?mNo=${ loginUser.mNo }">
+						<c:if test="${ !empty f.mImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						</c:if>
+						<c:if test="${ empty f.mImage }">
+						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+						</c:if>
+						<div id="user_time">
+							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+							<h6><c:out value="${ f.fCreateDate }" /></h6>
+						</div>
+						</a>
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+					</c:otherwise>
+				</c:choose>
+				<c:if test="${ loginUser.userId ne f.fWriter }">
+					<!-- 다른 회원 글 볼 때 피드 메뉴 -->
+	 				<div class="pop_menu">
+						<div id="feed_menu_list">
+							<ul>
+					            <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
+					            <li><a id="share_feed" class="share_feed">공유하기</a></li>
+					            <li><a id="goStorage" class="goStorage">보관함</a></li>
+					            <li><a id="close" class="close">취소</a></li>
+							</ul>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${ loginUser.userId eq f.fWriter }">
+					<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+	                <div class="pop_menu">
+	                    <div id="feed_Mymenu_list">
+	                        <ul>
+	                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
+	                        <li><a href="pDelete.do?fNo=${ f.fNo }" class="deleteMyPost">삭제</a></li> 
+	                        <li><a id="close" class="close">취소</a></li>
+	                        </ul>
+	                    </div>
+	                </div>
+				</c:if>
+			</div>
+		<div class="feed_report">
+			<input type="hidden" value=${f.fNo }>
+			<div id="feed_report_con">
+				<p>신고사유</p>
+				<select id="reportType" class="selectRtype">
+					<option value="unacceptfeed" selected>부적절한 게시글</option>
+					<option value="insult">욕설</option>
+					<option value="ad">광고</option>
+					<option value="spam">도배</option>
+				</select>
+				<textarea class="sendreport Rcontent" id="reportContent" cols="28"
+					rows="4"></textarea>
+				<br> <input class="selectRtype Rtype" id="selectRtype"
+					type="button" value="확인" style="cursor: pointer;"> <input
+					class="sendreport report-submit" type="button" id="report-submit"
+					value="확인" style="cursor: pointer; display: none;">
+				<button class="selectRtype cancel" id="cancel"
+					style="cursor: pointer;">취소</button>
+				<button class="sendreport cancel2" id="cancel2"
+					style="cursor: pointer; display: none;">취소</button>
+			</div>
+			</div>
+			<!-- 댓글을 신고해보자! -->
+			<div class="reply_report" id="reply_report" style="display:none">
+				<div id="Reply_report_con">
+					<p>신고사유</p>
+					<select id="reply_reportType" class="selectRtype">
+						<option value="unacceptfeed" selected>부적절한 게시글</option>
+						<option value="insult">욕설</option>
+						<option value="ad">광고</option>
+						<option value="spam">도배</option>
+					</select>
+					<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+						rows="4"></textarea>
+					<br> <input class="selectRtype Rtype" id="selectRtype"
+						type="button" value="확인" style="cursor: pointer;"> <input
+						class="sendreport reply_submit" type="button" id="reply_report-submit"
+						value="확인" style="cursor: pointer; display: none;">
+					<button class="selectRtype cancel" id="cancel"
+						style="cursor: pointer;">취소</button>
+					<button class="sendreport cancel2" id="cancel2"
+						style="cursor: pointer; display: none;">취소</button>
+				</div>
+			</div>
+			<div id="con">
+				<div id="feed_content">
 					<c:if test="${ !empty f.photoList }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
-						<c:forEach var="p" items="${ f.photoList }">
-						<c:if test="${ p.changeName ne null }">
-							<ul id="imgList">
+						<ul id="imgList" style="height:633px">
+							<c:forEach var="p" items="${ f.photoList }">
+							<c:if test="${ p.changeName ne null }">
 								<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
-							</ul>
+							</c:if>
+							</c:forEach>
+						</ul>
+					</c:if>
+					<p id="text"><c:out value="${ f.fContent }" /></p>
+	
+					<div id="heart_reply">
+					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
+					<c:if test="${ f.fLikeSet eq 'Y' || empty f.fLikeSet }">
+					<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+	             	<c:choose>
+		             	<c:when test="${ f.likeChk eq null }">
+		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
+		             	</c:when>
+		             	<c:otherwise>
+		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
+		             	</c:otherwise>
+	             	</c:choose>
+					</c:if>
+	               		<input type="hidden" class="toNo" value="${ f.fNo }">
+	               		<input type="hidden" class="toId" value="${ f.fWriter }">
+	               		<!-- 댓글이 전체 허용일 경우 -->
+						<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+						<c:choose>
+							<c:when test="${ f.fLikeSet eq 'N' }">
+							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
+							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
+									<label class="replycnt_p">${ f.replyList.size() }개</label>
+								</c:if>
+								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
+									<label class="replycnt_p">0개</label>
+								</c:if>
+							</c:when>
+							<c:otherwise>
+							<!-- 댓글과 좋아요 모두 허용될 때 -->
+							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+								<c:forEach var="r" items="${ f.replyList }">
+								<c:if test="${ r.rStatus eq 'Y' }">
+									<label class="replycnt_p">${ f.replyList.size() }개</label>
+								</c:if>
+								<c:if test="${ r.rStatus eq 'N' || empty r.rStatus }">
+									<label class="replycnt_p">0개</label>
+								</c:if>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 						</c:if>
+	
+						<c:if test="${ f.fReplySet eq 'N' && f.fLikeSet eq 'N' }">
+							<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
+						</c:if>
+	           		</div>
+				</div>
+				
+				<div id="replyArea">
+					<div id="replyList" style="display: block; height: fit-content;">
+					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
+					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
+						<c:forEach var="r" items="${ f.replyList }">
+							<c:if test="${ r.rStatus eq 'Y' }">
+							<div id="selectOne">
+							<!-- 댓글 번호 -->
+							<input type="hidden" class="rNum" value="${ r.rNo }">
+				  				<ul id="re_list" class="list">
+				  				<c:if test="${ !empty r.rWriterImg }">
+									<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+										id="reply_img">&nbsp;&nbsp;&nbsp;
+										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+								</c:if>
+								<c:if test="${ empty r.rWriterImg }">
+									<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+										id="reply_img">&nbsp;&nbsp;&nbsp;
+										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+								</c:if>
+									<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
+									<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
+									<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
+									<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+								</ul>
+								<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
+								<c:if test="${ loginUser.userId eq r.rWriter }">
+								<div id="reply_menu" class="reply_menu">
+									<div id="re_menu_list">
+										<ul>
+											<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
+											<li><a class="rDelete">댓글 삭제</a></li>
+											<li><a id="re_close" class="rClose">취소</a></li>
+										</ul>
+									</div>
+								</div>
+								</c:if>
+								<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
+								<c:if test="${ loginUser.userId ne r.rWriter }">
+								<div id="reply_menu" class="reply_menu">
+									<div id="re_menu_list">
+										<ul>
+											<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
+											<li><a id="rReport" class="rReport">댓글 신고</a></li>
+											<li><a id="re_close" class="rClose">취소</a></li>
+										</ul>
+									</div>
+								</div>
+								</c:if>
+							</div>
+							</c:if>
 						</c:forEach>
-					</c:if>
-				<p id="text"><c:out value="${ f.fContent }" /></p>
-
-				<div id="heart_reply">
-				<!-- 좋아요 금지가 되어 있지 않을 경우 -->
-				<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
-				<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
-             	<c:choose>
-	             	<c:when test="${ f.likeChk eq null }">
-	             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-	             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
-	             	</c:when>
-	             	<c:otherwise>
-	             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-		               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
-	             	</c:otherwise>
-             	</c:choose>
-				</c:if>
-               		<input type="hidden" class="toNo" value="${ f.fNo }">
-               		<input type="hidden" class="toId" value="${ f.fWriter }">
-               		<!-- 댓글이 전체 허용일 경우 -->
-					<c:if test="${ f.fReplySet == 'Y' || empty f.fReplySet }">
-					<c:choose>
-						<c:when test="${ f.fLikeSet == 'N' }">
-						<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-							<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-								<label class="replycnt_p">${ f.replyList.size() }개</label>
-							</c:if>
-							<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-								<label class="replycnt_p">0개</label>
-							</c:if>
-						</c:when>
-						<c:otherwise>
-						<!-- 댓글과 좋아요 모두 허용될 때 -->
-						<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-							<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-								<label class="replycnt_p">${ f.replyList.size() }개</label>
-							</c:if>
-							<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-								<label class="replycnt_p">0개</label>
-							</c:if>
-						</c:otherwise>
-					</c:choose>
-					</c:if>
-
-					<c:if test="${ f.fReplySet == 'N' && f.fLikeSet == 'N' }">
-						<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
-					</c:if>
-           		</div>
-			</div>
-			
-			<div id="replyArea">
-				<div id="replyList" style="display: block; height: fit-content;">
-				<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
-				<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-				<c:if test="${ f.fReplyCnt ne null && f.replyList[0].rStatus eq 'Y' }">
-					<div id="replySub" style="display: block; height: 150px; overflow: auto;">
-					<c:forEach var="r" items="${ f.replyList }">
-						<div id="selectOne">
-						<!-- 댓글 번호 -->
-						<input type="hidden" class="rNum" value="${ r.rNo }">
-			  				<ul id="re_list" class="list">
-			  				<c:if test="${ !empty r.rWriterImg }">
-								<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
-									id="reply_img">&nbsp;&nbsp;&nbsp;
-									<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-							</c:if>
-							<c:if test="${ empty r.rWriterImg }">
-								<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
-									id="reply_img">&nbsp;&nbsp;&nbsp;
-									<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-							</c:if>
-								<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
-								<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
-								<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-								<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
-							</ul>
-							<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
-							<c:if test="${ loginUser.userId eq r.rWriter }">
-							<div id="reply_menu" class="reply_menu">
-								<div id="re_menu_list">
-									<ul>
-										<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
-										<li><a class="rDelete">댓글 삭제</a></li>
-										<li><a id="re_close" class="rClose">취소</a></li>
-									</ul>
-								</div>
-							</div>
-							</c:if>
-							<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
-							<c:if test="${ loginUser.userId ne r.rWriter }">
-							<div id="reply_menu" class="reply_menu">
-								<div id="re_menu_list">
-									<ul>
-										<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
-										<li><a id="rReport" class="rReport">댓글 신고</a></li>
-										<li><a id="re_close" class="rClose">취소</a></li>
-									</ul>
-								</div>
-							</div>
-							</c:if>
 						</div>
-					</c:forEach>
+
 					</div>
-				</c:if>
+					<!-- 댓글 전체 허용일 경우 -->
+					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+					<div id="reply">
+						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+						<input type="text" id="textArea" class="rContent" name="textArea">
+						<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+					</div>
+					</c:if>
 				</div>
-				<!-- 댓글 전체 허용일 경우 -->
-				<c:if test="${ f.fReplySet == 'Y' || empty f.fReplySet }">
-				<div id="reply">
-					<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-					<input type="text" id="textArea" class="rContent" name="textArea">
-					<input type="button" id="replyBtn" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-				</div>
-				</c:if>
 			</div>
 		</div>
-	</div>
-	</c:forEach>
+		</c:if>
+	</c:if>
+
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>
     <script>
-	// 리프래시 이벤트
+    // 리프래시 이벤트
     function refresh(){
 		location.reload();
 	}
+    
+	$('.likeicon').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.replyUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.test').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
+	$('.rUpBtn').mouseenter(function() {
+		$(this).css('cursor', 'pointer')
+	});
 	
 	$('.test').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
@@ -290,6 +597,11 @@
     $('.cancel').on("click", function(){
         $('.feed_report').hide();
     });
+    
+    $('.cancel').on("click", function(){
+        $('.reply_report').hide();
+    });
+    
     $('.rUpBtn').on("click", function(event){
 //  	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
       var btn = $(event.target).parent('li').parent('ul').next('div#reply_menu')
@@ -297,7 +609,7 @@
     });
     $('.rClose').on("click", function(){
         $('.reply_menu').hide();
-    });
+	});
     $('.deleteMyPost').on('click', function () {
     	confirm('이 포스트를 정말 삭제하시겠습니까?');
     });
@@ -318,8 +630,9 @@
 		var resizeTextarea = function(el) {
 			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
 		};
+		
 		$(this).on('keyup input', function() {
-		 resizeTextarea(this);
+			resizeTextarea(this);
 		}).removeAttr('data-autoresize');
 	});
  	        
@@ -338,6 +651,8 @@
 			if( ul > 1){
         		$('#nextBtn'+i).css("display","block");
         		$('#prevBtn'+i).css({"display":"block"});
+        	} else if(ul == 0) {
+        		$('#nextBtn'+i).nextAll('#imgList').css("display","none");
         	}
 			
 			
@@ -383,7 +698,7 @@
 			var rContent = event.target.parentElement.children[1].value;
 			var rfNo = event.target.parentElement.children[0].value;
 			var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
-			
+			var fWriter = event.target.id;
 			$.ajax({
 				url: "addReply.do",
 				data: {
@@ -395,7 +710,7 @@
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					if(data == "success") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-						location.href="home.do?userId="+rWriter;
+//						location.href="home.do?userId="+rWriter;
 					}
 				}, error: function() {
 					console.log("전송 실패");
@@ -405,10 +720,9 @@
 			var ok = confirm("댓글을 등록하시겠습니까?");
          	console.log(ok);
          	if(ok){
-         	console.log(오케이);
+//         	console.log(오케이);
         	sendAlram("상관없음",fWriter,"reply",rfNo); 
         	console.log("상관없음",fWriter,"reply",rfNo+"테스트");
-//        	alert('stop');
          }
 	});
 
@@ -452,6 +766,8 @@
 		var ul = $(this.parentElement).parents("div#selectOne").find("ul#re_list.list");
 		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
 		var none = $(this.parentElement).parents("div#replySub").children.length;
+		var rMenu = $(this.parentElement).parents("div#selectOne").find("div#reply_menu");
+		var fLoad = $(this.parentElement).parents("div.feed");
 		
 		$.ajax({
 			url: "deleteReply.do",
@@ -461,9 +777,12 @@
 //				console.log(data);
   				if(data == "success") {
 //					$(ul).css('display', 'none');
-					$('.rNum').css('display', 'none');
+//					$(rNo).css('display', 'none');
+//					$(rMenu).css('display', 'none');
 //					location.href="home.do?userId=" + rWriter;
-					location.reload();
+//					location.reload(rSub);
+//					$(".feed").load(window.location.href + $(".feed"));
+					alert('test');
 				}
 			}, error: function() {
 				console.log("전송 실패");
@@ -526,7 +845,48 @@
 		
 	});
  	
- 	/***** 신고하기 *****/
+ 	/* 댓글 신고하기*/
+ 	// 1. 신고하기 버튼 이벤트
+ 	$(document).on("click","#rReport",function(){
+ 		$(".reply_report").css("display","block");
+ 		// 2.리플 번호 불러오기
+	 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
+ 		
+	 	// 3. 댓글 신고하기
+	 	$(document).on("click",'.reply_submit',function(){
+	 		var text =$(this).prev().prev().prev().val();
+	 		
+	 		console.log(text);
+ 			console.log(targetrNo);
+	 		console.log($("#reply_reportType").val());
+	 		
+	 		if(text == ""){
+				alert('신고 사유를 입력해 주세요.')
+			}else{
+				
+				$.ajax({
+					url:'reportRInsert.do',
+					data:{
+						reportType : $("#reply_reportType").val(),
+						replyType : "reply",
+						content : text,
+						targetrNo:targetrNo
+					},
+					success: function(){
+						alert('신고 완료');
+						$('.reply_menu').hide();
+			      		$('.reply_report').hide();
+					},error:function(){
+						alert('신고 실패!');
+					}
+				});
+				
+			};	
+	 	});
+ 	});
+ 	
+ 	
+ 	/***** 피드 신고하기 *****/
  	
     $('.feed_report_btn').on("click", function(e){
     	var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
@@ -534,7 +894,7 @@
 //        $('.feed_report').show();
     });
 			     
-		 $(document).on('click', ".report-submit", function(e){
+		$(document).on('click', ".report-submit", function(e){
 			var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
 			var reportCon = e.target.previousElementSibling.previousElementSibling.previousElementSibling;
 			var targetfNo=$(this).parent().prev().val();

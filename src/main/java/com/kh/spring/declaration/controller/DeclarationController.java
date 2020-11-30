@@ -75,4 +75,22 @@ public class DeclarationController {
 		int result = dService.insertReport(d);
 		
 	}
+	
+	/** 4. 댓글 신고
+	 * @param replyType
+	 * @param reportType
+	 * @param content
+	 * @param targetrNo
+	 */
+	@ResponseBody
+	@RequestMapping("reportRInsert.do")
+	public void reportRInsert(@RequestParam("replyType") String replyType,
+			@RequestParam("reportType") String reportType,
+			@RequestParam("content") String content,
+			@RequestParam("targetrNo")int targetrNo) {
+		Member m = (Member)session.getAttribute("loginUser");
+		Declaration d = new Declaration(replyType,reportType,content,m.getmNo(), targetrNo);
+		int result = dService.insertReport(d);
+		
+	}
 }

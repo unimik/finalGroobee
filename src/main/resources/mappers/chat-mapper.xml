@@ -35,10 +35,8 @@
 	
 	<select id="getChatList" parameterType="Chat" resultMap="chatResultSet">
 		SELECT *
-		FROM CHAT
-		WHERE CR_NO = #{crNo}
-		AND ROWNUM = 1
-		ORDER BY C_NO DESC
+		FROM (SELECT * FROM CHAT WHERE CR_NO = #{crNo} ORDER BY C_NO DESC)
+		WHERE ROWNUM = 1
 	</select>
 	
 	<select id="getChatContentList" parameterType="Chat" resultMap="chatResultSet">
@@ -86,11 +84,10 @@
 	</select>
 	
 	<select id="getGroupChatList" parameterType="Chat" resultMap="chatResultSet">
-		SELECT C.C_NO,C.CR_NO,C.FROM_ID,C.TO_ID,C.C_CONTENT,C.C_DATE,C.C_READ,C.G_NO,G.G_PROFILE,G.G_RENAME_PROFILE,G.G_NAME
-		FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO)
-		WHERE CR_NO = #{crNo}
-		AND ROWNUM = 1
-		ORDER BY C_NO DESC
+		SELECT *
+		FROM (SELECT C.C_NO,C.CR_NO,C.FROM_ID,C.TO_ID,C.C_CONTENT,C.C_DATE,C.C_READ,C.G_NO,G.G_PROFILE,G.G_RENAME_PROFILE,G.G_NAME 
+		      FROM CHAT C JOIN GROUPS G ON(C.G_NO = G.G_NO)WHERE CR_NO = #{crNo} ORDER BY C_NO DESC)
+		WHERE ROWNUM = 1
 	</select>
 
 	<insert id="insertChatGroup" parameterType="Chat">

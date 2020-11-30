@@ -2,7 +2,6 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,11 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
-import com.kh.spring.feed.model.vo.LikeIt;
+import com.kh.spring.feed.model.vo.Photo;
+import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
@@ -61,25 +59,47 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping(value="login.do",method= {RequestMethod.POST,RequestMethod.GET}) 
-	public String memberLogin(Member m, String userId,String userPwd,Model model) {      
+	public String memberLogin(Member m, String userId, String userPwd, Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-		ArrayList<Boolean> likeChk = new ArrayList<Boolean>();
 		for(Feed ff : feed) {
 			ff.setfReplyCnt(ff.getReplyList().size());
 //			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
 		}
 		
-
-
-
+//		ArrayList<Feed> newFeed = new ArrayList<>();
+//		ArrayList<Reply> r = new ArrayList<>();
+//		for(int i=0; i<feed.size();i++) {
+//			
+//			for(int j=0; j<feed.get(i).getReplyList().size();j++) {
+//				
+//				if(feed.get(i).getReplyList().get(j).getrStatus().equals("Y")) {
+//					
+//				}
+//				
+//			}
+//			
+//		}
 		
+		ArrayList<Photo> fp = null;
+		for(Feed f : feed) {
+			fp = fService.selectPhotoList(f.getfNo());
+			
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+		}
+
+
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("likeChk",likeChk);
 			if(loginUser.getUserId().equals("admin")) {
 				return "admin/adminmember";
 			}else {
@@ -246,6 +266,18 @@ public class MemberController {
 	@RequestMapping("home.do")
 	public String goHome(Model model, String userId) {
 		ArrayList<Feed> feed = fService.selectFeed(userId);
+		ArrayList<Photo> fp = null;
+		for(Feed f : feed) {
+			fp = fService.selectPhotoList(f.getfNo());
+			for(Photo p : fp) {
+				if(p.getChangeName() != null) {
+					f.setPhotoList(fp);
+				}else {
+					f.setPhotoList(null);
+				}
+			}
+		}
+		
 		model.addAttribute("feed", feed);
 		return "home";
 	}

@@ -74,3 +74,14 @@
 
 #topScrollBox{ text-align:center; display:none; }
 #topScrollBox>img{ width: 45px; cursor: pointer; }
+
+#reply_report{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);}
+#reply_report_con{ background: white; width: 320px; margin: auto; height: 220px; border-radius: 15px; margin-top:300px;}
+#reply_report_con p{ padding:0; margin:0; text-align: center; font-size: 16px; padding: 20px 0 20px 0; border-bottom: 1px solid #e5e5e5;}
+#reply_report_con select{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #555555; margin:30px 0 30px 50px;}
+#reply_report-submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; float: left; margin-top: -4px;}
+#selectRtype{ width:100px; margin-left:50px; background:#daf4ed; border:0; border-radius: 10px;width:100px;height: 35px;}
+#cancel2{outline:none; margin-left: 16px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
+/*  #cancel{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}*/	
+.sendreport{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
+#reply_reportContent{border-radius:10px}

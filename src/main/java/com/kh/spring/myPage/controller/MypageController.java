@@ -584,6 +584,7 @@ public class MypageController {
 		return job.toString();
 	}
 	
+	
 	@RequestMapping("shareFeedCancle.do")
 	public String shareFeedCancle(ModelAndView mv,String sfNo, String smNo) {
 		
