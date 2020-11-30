@@ -44,7 +44,7 @@
                   <!-- 추가할 멤버 -->                        
                   </div>
                   <div class="modal-footer">
-                      <button class="btn" id="plusGroupChatBtn" type="button" data-dismiss="modal" onclick="plusGroupMember();">추가</button>
+                      <button class="btn" id="plusGroupChatBtn" type="button" data-dismiss="modal">추가</button>
                   </div>
               </div>
           </div>
@@ -232,28 +232,6 @@
 	     </div>
 	     <audio src="resources/sounds/카톡.mp3" id="messageSound"></audio>
      <script type="text/javascript">
-     function plusGroupMember() {
-             var plusId = $('input[name="plusGroupChatMember"]:checked').val();
-             var gNo = $("#chatArea").children(".1").val();
-             var crNo = $("#chatArea").children(".3").val();
-             console.log(plusId+":"+gNo+":"+crNo);
-             $.ajax({
-               url:"plusGroupChatMember.do",
-               data:{plusId:plusId,gNo:gNo,crNo:crNo},
-               async: false,
-               success:function(data){
-                  console.log(data);
-                  if(data == "ok") {
-                     sock.send(plusId+"!@#$" +"|"+gNo+"|"+"groupChatting"+"|"+crNo);
-                  } else {
-                     
-                  }
-               },
-               error:function(){
-                  console.log("에러");
-               }
-             });
-     }
      /* 로그아웃 */
      function logout(){
     	 location.href = "logout.do";
@@ -350,6 +328,27 @@
             console.log("에러");
          }
         });
+        $("#plusGroupChatBtn").on("click",function(){
+           var plusId = $('input[name="plusGroupChatMember"]:checked').val();
+           var gNo = $("#chatArea").children(".1").val();
+           var crNo = $("#chatArea").children(".3").val();
+           console.log(plusId+":"+gNo+":"+crNo);
+           $.ajax({
+             url:"plusGroupChatMember.do",
+             data:{plusId:plusId,gNo:gNo,crNo:crNo},
+             success:function(data){
+                console.log(data);
+                if(data == "ok") {
+                   sock.send(plusId+"!@#$" +"|"+gNo+"|"+"groupChatting"+"|"+crNo);
+                } else {
+                   
+                }
+             },
+             error:function(){
+                console.log("에러");
+             }
+           });
+       });
      });
      
      /* 채팅 읽음 처리  */

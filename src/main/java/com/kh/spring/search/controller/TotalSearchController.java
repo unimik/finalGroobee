@@ -48,10 +48,8 @@ public class TotalSearchController {
 				//관심사 같은 멤버, 그룹 찾아줌 
 				if (itrst.length > 0) {
 					Search srch1 = new Search('R',itrst);
-					
 					mList =tsService.searcMember(srch1);
 					gList = tsService.searchGroup(srch1);
-					
 					if(!mList.isEmpty()) {
 						 ArrayList<Member> mlist = block(mList,mno);
 						 mv.addObject("mList", mlist);

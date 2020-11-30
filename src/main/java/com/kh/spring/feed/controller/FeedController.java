@@ -114,6 +114,7 @@ public class FeedController {
          }
          
        // 태그 인서트
+         String huhu = null;
  		String[] strarr = f.getfContent().split(" |\\n");
  		ArrayList<Tag> taglist = new ArrayList<Tag>();
  		for(int i = 0; i < strarr.length; i++) {
@@ -122,13 +123,18 @@ public class FeedController {
  				taglist.add(t);
  			}else if(strarr[i].charAt(0) == '@') {
  				Tag user = new Tag();
+ 				System.out.println("@태그 한 아이디"+strarr[i]);
  				int TagMemResult = fService.findTagMember(strarr[i]);
  				System.out.println("아이디 있니?"+TagMemResult);
  				if(TagMemResult == 1) {
  					System.out.println("아이디 있음");
  				}
  			}
+ 			
+ 			huhu += strarr[i]+" ";
  		}
+ 		System.out.println("글"+huhu);
+ 		
  		System.out.println("태그리스트"+taglist);
  	
  		if(!taglist.isEmpty()) {

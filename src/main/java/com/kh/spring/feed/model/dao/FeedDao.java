@@ -126,7 +126,7 @@ public class FeedDao {
 	}
 
 	public int findTagMember(String string) {
-		return sqlSession.selectOne("mypageMapper.findTagMember", string);
+		return sqlSession.selectOne("feedMapper.findTagMember", string);
 	}
 
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
