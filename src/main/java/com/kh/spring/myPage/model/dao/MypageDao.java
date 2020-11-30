@@ -96,6 +96,11 @@ public class MypageDao {
 		return sqlSession.update("mypageMapper.shareFeedCancle",f);
 	}
 
+	public Feed storagePopup(Feed ff) {
+		return sqlSession.selectOne("mypageMapper.storagePopup",ff);
+				
+	}
+
 
 
 

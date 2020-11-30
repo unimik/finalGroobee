@@ -120,6 +120,13 @@ public class FeedController {
  			if(strarr[i].charAt(0) == '#') {
  				Tag t = new Tag(f.getfNo(),strarr[i]);
  				taglist.add(t);
+ 			}else if(strarr[i].charAt(0) == '@') {
+ 				Tag user = new Tag();
+ 				int TagMemResult = fService.findTagMember(strarr[i]);
+ 				System.out.println("아이디 있니?"+TagMemResult);
+ 				if(TagMemResult == 1) {
+ 					System.out.println("아이디 있음");
+ 				}
  			}
  		}
  		System.out.println("태그리스트"+taglist);
@@ -148,24 +155,17 @@ public class FeedController {
    }
    
    @RequestMapping("pUpdateView.do")
-   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session,
-		   								@RequestParam(value = "like") String like,
-		   								@RequestParam(value = "reply") String reply,
-		   								@RequestParam(value = "share") String share) {
+   public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
       Member mem = (Member)session.getAttribute("loginUser");
       // 가입한 그룹(Select Tag)
       gn = fService.selectGroupMemberId(mem.getUserId());
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
-      
-      f.setfLikeSet(like);
-      f.setfReplySet(reply);
-      f.setfShareSet(share);
-      
-      System.out.println("like 값: " + like);
-      System.out.println("reply 값: " + reply);
-      System.out.println("share 값: " + share);
+      System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
+      System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
+      System.out.println("들어온 fShareSet : " + f.getfShareSet());
+      System.out.println("들어온 fReplySet : " + f.getfReplySet());
       
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
@@ -185,16 +185,31 @@ public class FeedController {
       
       Gson gson = new Gson();
       String photoList = gson.toJson(f);
+      System.out.println("피드사진리스트 : " +photoList);
       return photoList;
    }
    
    @RequestMapping("pUpdate.do")
    public ModelAndView postUpdate(ModelAndView mv, Feed f, Photo p, GroupName gn,
-                           HttpSession session, MultipartHttpServletRequest multi) {
+                            	  HttpSession session, MultipartHttpServletRequest multi,
+                            	  @RequestParam(value = "selectOpenScope") String selectOpenScope,
+                            	  @RequestParam(value = "like") String like,
+                            	  @RequestParam(value = "reply") String reply,
+                            	  @RequestParam(value = "share") String share) {
       System.out.println("사진정보 : " + p);
+      
+      f.setfOpenScope(selectOpenScope);
+      f.setfLikeSet(like);
+      f.setfReplySet(reply);
+      f.setfShareSet(share);
+      
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
+      System.out.println("수정 fOpenScope : " + f.getfOpenScope());
+      System.out.println("수정 fLikeSet : " + f.getfLikeSet());
+      System.out.println("수정 fShareSet : " + f.getfShareSet());
+      System.out.println("수정 fReplySet : " + f.getfReplySet());
       
       // 태그 인서트
 		String[] strarr = f.getfContent().split(" |\\n");
@@ -225,7 +240,6 @@ public class FeedController {
 //         for(int j=0; j<f.getPhotoList().size(); j++) {
 //            if(!fileList.get(i).getOriginalFilename().equals(fileList.get(j).getOriginalFilename())) {
 //            
-//            }
 //         }
 //      }
 //      
@@ -320,11 +334,12 @@ public class FeedController {
    	}
 	
 	@ResponseBody
-	@RequestMapping("addReply.do")
-	public String addReply(Reply r, HttpSession session, int rfNo) {
+	@RequestMapping(value="addReply.do",produces="application/json; charset=utf-8")
+	public String addReply(Reply r,String fNo, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		r.setrWriterImg(mem.getmRenameImage());
 		System.out.println("Reply Check : " + r);
+		System.out.println("fNo 값 확인 : " + fNo);
 		System.out.println("rfNo" + rfNo);
 		
 		r.setfNo(rfNo);
@@ -337,18 +352,37 @@ public class FeedController {
 		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
 		
 		if(result > 0) {
-			return "success";
+			ArrayList<Reply> replyList = myService.selectReplyList(Integer.parseInt(fNo));
+			JSONObject job = new JSONObject();
+			if(replyList != null) {
+				JSONArray jArr = new JSONArray();
+				for(int i=0; i <replyList.size(); i++) {
+					JSONObject jObj = new JSONObject();
+					jObj.put("mNo", replyList.get(i).getmNo());
+					jObj.put("rNo", replyList.get(i).getrNo());
+					jObj.put("rContent", replyList.get(i).getrContent());
+					jObj.put("rWriter", replyList.get(i).getrWriter());
+					jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
+					jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
+					jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
+					jObj.put("rStatus", replyList.get(i).getrStatus());
+					jArr.add(jObj);
+				}
+				job.put("replyListSize", replyList.size());
+				job.put("replyList", jArr);
+			}
+			return job.toJSONString();
 		}else {
 			return "fail";
 		}
 	}
 	
 	@ResponseBody
-	@RequestMapping("editReply.do")
-	public String editReply(Reply r, HttpSession session) {
+	@RequestMapping(value="editReply.do",produces="application/json; charset=utf-8")
+	public String editReply(Reply r,String fNo, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		System.out.println("수정 Reply Check : " + r);
-		
+		System.out.println("fNo 값 확인 : " + fNo);
 		r.setmNo(mem.getmNo());
 		
 		int result = fService.updateReply(r);
@@ -357,7 +391,26 @@ public class FeedController {
 		System.out.println("수정 reply_mNo : " + r.getmNo());
 		
 		if(result > 0) {
-			return "success";
+			ArrayList<Reply> replyList = myService.selectReplyList(Integer.parseInt(fNo));
+			JSONObject job = new JSONObject();
+			if(replyList != null) {
+				JSONArray jArr = new JSONArray();
+				for(int i=0; i <replyList.size(); i++) {
+					JSONObject jObj = new JSONObject();
+					jObj.put("mNo", replyList.get(i).getmNo());
+					jObj.put("rNo", replyList.get(i).getrNo());
+					jObj.put("rContent", replyList.get(i).getrContent());
+					jObj.put("rWriter", replyList.get(i).getrWriter());
+					jObj.put("rWriterImg", replyList.get(i).getrWriterImg());
+					jObj.put("rCreateDate", replyList.get(i).getrCreateDate());
+					jObj.put("rModifyDate", replyList.get(i).getrModifyDate());
+					jObj.put("rStatus", replyList.get(i).getrStatus());
+					jArr.add(jObj);
+				}
+				job.put("replyListSize", replyList.size());
+				job.put("replyList", jArr);
+			}
+			return job.toJSONString();
 		}else {
 			return "fail";
 		}
@@ -405,17 +458,25 @@ public class FeedController {
 		@ResponseBody
 		@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
 		public String popFeed(int fno) {
+			System.out.println("fno"+fno);
 			Feed f = new Feed();
 			f = fService.popFeed(fno);
 			JSONObject job = new JSONObject();
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	@ResponseBody
+	@RequestMapping(value = "feedPop.do",produces="application/json;charset=utf-8")
+	public String popFeed(int fno) {
+		Feed f = new Feed();
+		f = fService.popFeed(fno);
+		JSONObject job = new JSONObject();
 		
-			JSONArray jarr = new JSONArray();
-			if(f.getPhotoList().size() >-1) {
-			for(int i =0; i < f.getPhotoList().size(); i++) {
-				jarr.add(i, f.getPhotoList().get(i).getChangeName());
-				}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
+		JSONArray jarr = new JSONArray();
+		if(f.getPhotoList().size() >-1) {
+		for(int i =0; i < f.getPhotoList().size(); i++) {
+			jarr.add(i, f.getPhotoList().get(i).getChangeName());
 			}
 			if(f != null) {
 				System.out.println(f);
@@ -425,14 +486,32 @@ public class FeedController {
 				job.put("plist", jarr);
 				job.put("fcontent", f.getfContent());
 				job.put("fwriter", f.getfWriter());
-				job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
-				job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
+				job.put("fcreate_date", sdf.format(f.getfCreateDate()));
+				if(f.getfModifyDate() != null) {
+				job.put("fmodify_date", sdf.format(f.getfModifyDate()));
+				}
 				return job.toJSONString();
 			}else {
 				job.put("msg","검색되는 게시글이 없습니다");
 				return job.toJSONString();
 			}
 		}
+		if(f != null) {
+			System.out.println(f);
+			job.put("mno", f.getmNo());
+			job.put("mImage", f.getmImage());
+			job.put("fno", f.getfNo());
+			job.put("plist", jarr);
+			job.put("fcontent", f.getfContent());
+			job.put("fwriter", f.getfWriter());
+			job.put("fcreate_date", sdf.format(f.getfCreateDate()) );
+			job.put("fmodify_date", sdf.format(f.getfModifyDate()) );
+			return job.toJSONString();
+		}else {
+			job.put("msg","검색되는 게시글이 없습니다");
+			return job.toJSONString();
+		}
+	}
  
       
       @RequestMapping("selectStorage.do")
@@ -528,5 +607,5 @@ public class FeedController {
 			}else 
 				return "에러";
 			
-		} 
+		}
 }

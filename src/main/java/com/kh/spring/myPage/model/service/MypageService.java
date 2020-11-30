@@ -67,6 +67,8 @@ public interface MypageService {
 
 	int shareFeedCancle(Feed f);
 
+	Feed storagePopup(Feed ff);
+
 
 
 

@@ -19,7 +19,7 @@
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gName" column="G_NAME"/>
-		<result property="mImage" column="M_PROFILE"/>
+		<result property="mImage" column="M_RENAME_IMAGE"/>
 		<result property="likeChk" column="LIKECHK"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
@@ -168,6 +168,11 @@
 		                            WHERE M_ID =#{userId})
 		        ))
 		ORDER BY F.F_NO DESC, R.R_NO DESC
+	</select>
+	
+	<select id="selectPhotoList" resultMap="photoResultSet">
+		SELECT * FROM PHOTO
+		WHERE F_NO=#{fNo}
 	</select>
 	
 	<select id="selectGroupMemberId" resultMap="groupNameReulstSet" parameterType="string">
@@ -372,4 +377,7 @@
 		VALUES(#{sf_no},#{sm_no},DEFAULT)
 	</insert>
 
+	<select id="findTagMember" parameterType="string">
+	SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{string}
+	</select>
 </mapper>

@@ -112,6 +112,11 @@ public class MypageServiceImpl implements MypageService {
 		return myDao.shareFeedCancle(f);
 	}
 
+	@Override
+	public Feed storagePopup(Feed ff) {
+		return myDao.storagePopup(ff);
+	}
+
 
 
 	

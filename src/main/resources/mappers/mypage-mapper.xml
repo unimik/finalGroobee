@@ -97,8 +97,8 @@
 	</resultMap>
 	
 	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
-		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
-		,(select count(*) from FOLLOW where follows = #{mNo}) as followers  
+		select (select count(DISTINCT follows) from FOLLOW  where m_no = #{mNo}) as follows
+		,(select count(DISTINCT m_no) from FOLLOW where follows = #{mNo}) as followers  
 		from dual
 	</select>
 	
@@ -227,6 +227,7 @@
 		join member m on(r.m_no=m.m_no)
         where r.f_no = #{fNo}
         and r.r_status='Y'
+        order by r_Create_Date
 	</select>
 	
 	<insert id="insertStorage" parameterType="sBox">
@@ -240,4 +241,23 @@
 		UPDATE share_Feed set s_status='N' WHERE sm_no=#{smNo} and sf_no=#{fNo}
 	</update>
 	
+	<select id="storagePopup" resultMap="feedResultSet" parameterType="Feed">
+	SELECT
+    F.*
+  , (SELECT MB.M_RENAME_IMAGE
+    FROM MEMBER MB
+    WHERE MB.M_ID = F.F_WRITER) AS M_PROFILE
+  , R.*
+  , P.*
+  , M.M_RENAME_IMAGE
+  , L.LIKECHK
+	FROM FEED F
+	LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
+	LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
+	LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
+	LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{fWriter} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
+	WHERE
+	F.F_STATUS ='Y'
+	AND F_NO = #{fNo}
+	</select>
 </mapper>

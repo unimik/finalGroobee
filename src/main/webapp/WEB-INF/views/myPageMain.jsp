@@ -75,7 +75,11 @@
 	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
 	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
 	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
-
+	.sb .postbox{float: left;}
+	.postbox{float: left;}
+	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
+	#replyIcon{ margin: 9px 0 0 60px;}
+	#likeIcon { margin: 7px 0 0 25px; }
    </style>
    <script>
   
@@ -165,7 +169,7 @@
                         <div class="feed_report">
                             <div id="feed_report_con">
                                 <p>신고 사유</p>
-                                <select style=>
+                                <select>
                                     <option>부적절한 게시글</option>
                                     <option>욕설</option>
                                     <option>광고</option>
@@ -425,79 +429,37 @@
 	              input += "</div>";
 	              <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
 	              input +="<div class='pop_menu'>";
-	              input +="<div id='feed_Mymenu_list'>";
-	              input +="<ul>";
+
 	              if(data.shareYN == 'N'){
-	              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
-	              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
-	              input +="<li><a id='close' class='close'>취소</a></li>";
+		              input +="<div id='feed_Mymenu_list'>";
+		              input +="<ul>";
+		              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
+		              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+		              input +="<li><a id='close' class='close'>취소</a></li>";
+		              input +="</ul>";
+		              input +="</div>";
 	              } else{
+		              input +="<div id='share_Mymenu_list'>";
+		              input +="<ul>";
 	            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
 		              input +="<li><a id='close' class='close'>취소</a></li>";
-	            	  }
-	              input +="</ul>";
-	              input +="</div>";
+		              input +="</ul>";
+		              input +="</div>";
+	              }
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
-	         	var size;
-	  	        var idx = idx1 = 0;
-	  	       // var count = $(".feed").children('div#con').children('div#feed_content').children("ul#imgList").length;
-	  	        var ul;
-	  	        //console.log(count);
-	  	        var liCount;
-	  	        
-  				if( data.photoList.length > 1){
-  	        		$('#nextBtn'+i).css("display","block");
-  	        		$('#prevBtn'+i).css({"display":"block"});
-  	        	}
-		            	// ul = $("#feed"+i).children('div#con').children('div#feed_content').children("ul#imgList").children("li").length;
-		  				
-		  				//console.log(ul);
-		  				
-		  				
-		  			/* 	
-		  				$('#prevBtn'+i).on("click",function(){
-		      	  			size = $(this).nextAll().children('li').length;
-		      	  			console.log(size);
-		      	  			
-		      	  			if(size > 1){
-		      	  				idx1 = (idx-1) % size;
-		      	  				if(idx1 < 0)
-		      	  					idx1 = size - 1;
-		      	  					
-		      	  					$(this).nextAll().children('li:hidden').css("left","-633px");
-		      	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
-		      	  						$(this).css("display","none").css("left","-633px");
-		      	  					});
-		      	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
-		      	  					idx = idx1;
-		      	  			}
-		      	  		});
-		  				
-		  				$('#nextBtn'+i).on("click",function(){
-		      	  			size = $(this).nextAll().children('li').length;
-		      	  			console.log(size);
-		      	  			
-		      	  			if( size > 1){
-		      	  				idx1 = (idx + 1) % size;
-		      	  				$(this).nextAll().children('li:hidden').css("left","633px");
-		      	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-		      	  					$(this).css("display","none").css("left","633px");
-		      	  				});
-		      	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-		      	  				idx = idx1;
-		      	  			} */
-	            	
-	              for(var i=0; i<data.photoList.length; i++){
+ 	        	  if(data.photoList[0] != null){
+	      	  	 	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+				 	input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+            	 	input +="<ul id='imgList' style='height:633px'>";
+	              	for(var i=0; i < data.photoList.length; i++){
 					  if(data.photoList[i].changeName != null){
-						  input +="<ul id='imgList'>";
-					      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-						  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-						  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
-						  input +="</ul>";
-		            	  }
-	              }
+						  input +="<li><img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
+		              }
+	              } 
+	              input +="</ul>";
+  	        	  }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
 	              if(data.shareYN == 'N'){
 	              input +="<div id='heart_reply'>";
@@ -551,38 +513,69 @@
  	              input +="</div>";
 	              input +="</div>";
                   input +="<div id='replyArea'>";
-	              input +="<div id='replySub'>";	                  
+	              input +="<div id='replyEditCont'>";
+                  if(data.replyList[0] != null){
+	              input +="<div id='replySub'>";
 	              for(var i=0;i<data.replyList.length;i++){
+		              input +="<div id='selectOne'>";	
+		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
+		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	                  input +="<div id='replyList'>";
-	                  input +="<ul id='re_list'>";
-	            	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-		              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
+	                  input +="<ul id='re_list' class='list'>";
+	                  if(data.replyList[i].mNo == mNo){
+	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  } else {
+	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	                  }
+	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
+		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 		              if(data.replyList[i].mNo == mNo){
-			              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";
-			              input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
-						  input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-						  input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' alt='' id='updateBtn' class='rUpBtn'></li>";
 		               }
-					   input +="</ul>";
+					  input +="</ul>";
 		              input +="</div>";
 		              input +="<div class='reply_menu'>";
-		              input +="<div id='re_menu_list'>";
-		              input +="<ul>";
+
 		              if(data.replyList[i].mNo == mNo){
+			              input +="<div id='re_menu_list'>";
+			              input +="<ul>";
 			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
 			              input +="<li><a class='rDelete'>댓글 삭제</a></li>";
-			              input +="<li><a id='re_close'>취소</a></li>";
+			              input +="<li><a id='re_close' class='rClose'>취소</a></li>";
+			              input +="</ul>";
+			          	  input +="</div>";
 		              } else{
-		            	  input +="<li><a id='feed_report_btn' class='feed_report_btn'>댓글 신고</a></li>";
-		            	  input +="<li><a id='re_close'>취소</a></li>";
+			              input +="<div id='user_menu_list'>";
+			              input +="<ul>";
+		            	  input +="<li><a id='rReport' class='rReport'>댓글 신고</a></li>";
+		            	  input +="<li><a id='re_close' class='rClose'>취소</a></li>";
+			              input +="</ul>";
+			          	  input +="</div>";
+			    		  <!-- 댓글을 신고해보자! -->
+			    		  input +="<div class='reply_report' id='reply_report' style='display:none'>";
+			    		  input +="<div id='reply_report_con'>";
+				    	  input +="<p>신고사유</p>";
+				    	  input +="<select id='reply_reportType' class='selectRtype'>";
+				    	  input +="<option value='unacceptfeed' selected>부적절한 게시글</option>";
+					      input +="<option value='insult'>욕설</option>";
+					      input +="<option value='ad'>광고</option>";
+					      input +="<option value='spam'>도배</option>";
+					      input +="</select>";   
+					      input +="<textarea class='sendreport Rcontent' id='reply_reportContent' cols='28' rows='4'></textarea>";
+					      input +="<br> <input class='selectRtype Rtype' id='selectRtype' type='button' value='확인' style='cursor: pointer;'>";
+					      input +="<input class='sendreport reply_submit' type='button' id='reply_report-submit' value='확인' style='cursor: pointer; display: none;'>";
+					      input +="<button class='selectRtype cancel' id='cancel' style='cursor: pointer;'>취소</button>";
+					      input +="<button class='sendreport cancel2' id='cancel2' style='cursor: pointer; display: none;'>취소</button>";
+					      input +="</div>";
+					      input +="</div>";
 		              }
-		              input +="</ul>";
-		          	  input +="</div>";
                   	  input +="</div>";
+	                  input +="</div>";       
 	              }
                   input +="</div>";       
+                  }
+                  input +="</div>"; 
                   if(data.fReplySet == 'Y' || data.fReplySet == null){
 	              input +="<div id='reply'>";
 	              input +="<input type='hidden' class='replyFeedNo' name='replyFeedNo' value="+fNo+">";
@@ -610,8 +603,20 @@
 		              $('.pop_menu').hide();
 		          });
 		          
-		          $('#updateBtn').on("click", function(){
-		              $('.reply_menu').show();
+ 		          $('.rUpBtn').on("click", function(e){
+ 		        	  var replyMenu = e.target.parentElement.parentElement.parentElement.nextElementSibling;
+		              $(replyMenu).show();
+		          }); 
+		          $('.rClose').on("click", function(){
+		              $('.reply_menu').hide();
+		          });
+		          
+		          $('.cancel').on("click", function(){
+		              $('.feed_report').hide();
+		          });
+		          
+		          $('.cancel').on("click", function(){
+		              $('.reply_report').hide();
 		          });
 		          $('#re_close').on("click", function(){
 		              $('.reply_menu').hide();
@@ -663,11 +668,15 @@
         $(".pop_feed").show();
     });
     
+
+    
+    /*댓글 등록*/
     function applyReply(fNo){
     	console.log(fNo);
     	var rContent = $('.rContent').val();
 		var rfNo = fNo;
 		var rWriter = '${loginUser.userId}';
+		var mNo = $('#mNo').val();
 		
 		var ok = confirm("댓글을 등록하시겠습니까?");
      	console.log(ok);
@@ -678,14 +687,16 @@
 			data: {
 				rContent: rContent,
 				rfNo: rfNo,
-				rWriter: rWriter
+				rWriter: rWriter,
+				mNo: mNo,
+				fNo : fNo
 			},
 			type: "post",
+			async:false,
 			success: function(data) {	// 성공 시: success, 실패 시: fail
-				if(data == "success") {
-
 					var refNo = fNo;
 					var reWriter = '${loginUser.userId}';
+					var mNo = $('#mNo').val();
 			    	sendAlram("상관없음",reWriter,"reply",refNo);
 					$('.rContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
 					location.href="home.do?userId="+rWriter;
@@ -694,45 +705,20 @@
 				console.log("전송 실패");
 			}
 		}); 
+     	
      	} else {
      		
      		$('.rContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
      	}
     }
     
-	    $('.rUpBtn').on("click", function(event){
-	//	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
-	    var btn = $(event.target).parent('li').parent('ul').next('div#reply_menu')
-		  $(btn).show();
-	  });
 	  $('.rClose').on("click", function(){
 	      $('.reply_menu').hide();
 	  });
 	  $('.deleteMyPost').on('click', function () {
 	  	confirm('이 포스트를 정말 삭제하시겠습니까?');
 	  });
-    
-    $('.rEdit').on("click", function(e) {
-		var repCon = $(this.parentElement).parents("div#re_menu_list").find("textarea#replyCon.rCon");
-		var repBtn = $(this.parentElement).parents("div#re_menu_list").find("input#confirmR");
-
-		repCon.css('border', '1px solid #555555');
-  	  	repCon.removeAttr('disabled');
-  	  	repCon.removeAttr('readonly');
-  	  	repBtn.css('display', 'block');
-  	  	$('.reply_menu').hide();
-    });
-    
-    // text-area resize
-	$.each(jQuery('textarea[data-autoresize]'), function() {
-		var offset = this.offsetHeight - this.clientHeight;
-		var resizeTextarea = function(el) {
-			$(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-		};
-		$(this).on('keyup input', function() {
-		 resizeTextarea(this);
-		}).removeAttr('data-autoresize');
-	});
+	  
     
     function likeClick(likeStatu){
     	var likeid = likeStatu.getAttribute('id');
@@ -1078,10 +1064,220 @@
 			alert('보관함을 불러올 수 없습니다');
 		}
 	});
-	//팝업창 띄울것....
-	 function sbPop() {
-		 $('.pop_feed').show();
-	}
+	
+	/*보관함 팝업*/
+	 $(document).on("click",'.postbox',function(){
+		 var fNo = $(this).attr("id");
+		 var sbNo =  $('#selectSbNo').val();
+		 var a = '${ loginUser.userId}';
+		 var b = ${ loginUser.mNo };
+		 
+		 alert('포스트 누름'+fNo+' : '+sbNo);
+		$.ajax({
+			 	url:"storagePopup",
+	        	dataType:'json',
+				type:'post',
+				data:{
+					fnno: fNo,
+					sbNo:sbNo,
+					userId: a,
+					mNo: b
+		 		},success:function(data){
+					
+					 alert(fNo+' : '+sbNo);
+    				  var input="";
+	                  input += "<div class='feed_delete'>";
+	                  input += "<img src='${ contextPath }/resources/icons/close_white.png' type='button'>";
+	                  input += "</div>";
+	                  input += "<div id='writer_submenu'>";
+	                  if(data.mImage != null){
+	                    input += "<img src='${ contextPath }/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
+	                  } else {
+	                    input += "<img src='${ contextPath }/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
+	                  }
+		              input += "<div id='user_time'>";
+		              input += "<p id='feed_id'>"+data.fWriter+"</p>";
+		              input += "<h6>"+data.fCreateDate+"</h6>";
+		              input += "</div>";
+		              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
+		              input += "</div>";
+
+		              input +="<div class='pop_menu'>";
+		              input +="<div id='feed_Mymenu_list'>";
+		              input +="<ul>";
+		              if(data.shareYN == 'N'){
+		              input +="<li><a href='pUpdateView.do?fNo="+fNo+"&like="+data.fLikeSet+"&share="+data.fShareSet+"&reply="+data.fReplySet+"' id='feed_menu1_btn'>수정</a></li>";
+		              input +="<li><a href='pDelete.do?fNo="+fNo+"' class='deleteMyPost'>삭제</a></li>";
+		              input +="<li><a id='close' class='close'>취소</a></li>";
+		              } else{
+		            	  input +="<li><a href='shareFeedCancle.do?sfNo="+fNo+"&smNo="+mNo+"' class='deleteMyPost'>공유 취소</a></li>";
+			              input +="<li><a id='close' class='close'>취소</a></li>";
+		            	  }
+		              input +="</ul>";
+		              input +="</div>";
+		              input +="</div>";
+		              input +="<div id='con'>";
+		              input +="<div id='feed_content'>";
+		         	var size;
+		  	        var idx = idx1 = 0;
+		  	        var ul;
+		  	        var liCount;
+		  	        
+	  				if( data.photoList.length > 1){
+	  	        		$('#nextBtn'+i).css("display","block");
+	  	        		$('#prevBtn'+i).css({"display":"block"});
+	  	        	}
+			           
+		              for(var i=0; i<data.photoList.length; i++){
+						  if(data.photoList[i].changeName != null){
+							  input +="<ul id='imgList'>";
+						      input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+							  input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+							  input +="<img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'>";
+							  input +="</ul>";
+			            	  }
+		              }
+		              input +="<p id='text'>"+data.fcontent+"</p>";
+		              if(data.shareYN == 'N'){
+		              input +="<div id='heart_reply'>";
+
+	 				  if(data.fLikeSet == 'Y' ||  data.fLikeSet == null){
+
+		             	if(data.likeChk == null){
+			             	input +="<img src='${ contextPath }/resources/icons/heart.png' alt='' name='"+fNo+"'class='likeIcon' id='likeIcon' onclick='likeClick(this);'>";
+			             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
+		             	} else {
+			             	input +="<img src='${ contextPath }/resources/icons/heart_red.png' alt='' name='"+fNo+"' class='liked' id='liked' onclick='likeClick(this);'>";	             	
+			             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
+		             	}
+					  }
+	 				 input +="<input type='hidden'  class='fLikeCnt' value='"+data.fLikeCnt+"'>";
+					  input +="<input type='hidden' class='toNo' value='"+fNo+"'>";
+					  input +="<input type='hidden' class='toId' value='"+data.fWriter+"'>";
+
+					  if(data.fReplySet == 'Y' || data.fReplySet == null){
+					  	 if(data.fLikeSet == 'N'){
+
+					  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon' style='margin: 9px 0 0 25px;'>";
+					  	 	if(data.replyListSize > 0){
+					  	 	 if(data.replyList[0].rStatus == 'Y'){
+					  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
+					  	 	 }
+					  	 	 else if(data.replyList[0].rStatus == 'N' || data.replyList[0].rStatus == null){
+					  	 	 input +="<label class='replycnt_p'>0개</label>";
+					  	 	 }
+					  	 	} else {
+					  	 	 input +="<label class='replycnt_p'>0개</label>";
+					  	 	}
+					  	 } else {
+						  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon'>";
+					  		if(data.replyListSize > 0){
+					  	 	 if(data.replyList[0].rStatus == 'Y'){
+					  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
+					  	 	 }
+					  	 	 else if(data.replyList[0].rStatus == 'N' || data.replyList[0].rStatus == null){
+					  	 	 input +="<label class='replycnt_p'>0개</label>";
+					  	 	 }
+					  		} else {
+						  	 	 input +="<label class='replycnt_p'>0개</label>";
+						  	 	}
+					  	 }
+					  }
+					  if(data.fReplySet == 'N' && data.fLikeSet == 'N'){
+					  input +="<label class='setN'>댓글과 좋아요가 금지된 포스트입니다.</label>";
+					  } 
+	 	              input +="</div>";
+		              input +="</div>";
+	                  input +="<div id='replyArea'>";
+		              input +="<div id='replySub'>";	                  
+		              for(var i=0;i<data.replyList.length;i++){
+		                  input +="<div id='replyList'>";
+		                  input +="<ul id='re_list'>";
+		            	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			              input +="<li><p id='replyCon'>"+data.replyList[i].rContent+"</p></li>";
+			              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
+			              if(data.replyList[i].mNo == mNo){
+				              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn'></li>";
+				              input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
+							  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
+							  input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
+							  input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' alt='' id='updateBtn' class='rUpBtn'></li>";
+			               }
+						   input +="</ul>";
+			              input +="</div>";
+			              input +="<div class='reply_menu'>";
+			              input +="<div id='re_menu_list'>";
+			              input +="<ul>";
+			              if(data.replyList[i].mNo == mNo){
+				              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
+				              input +="<li><a class='rDelete'>댓글 삭제</a></li>";
+				              input +="<li><a id='re_close'>취소</a></li>";
+			              } else{
+			            	  input +="<li><a id='feed_report_btn' class='feed_report_btn'>댓글 신고</a></li>";
+			            	  input +="<li><a id='re_close'>취소</a></li>";
+			              }
+			              input +="</ul>";
+			          	  input +="</div>";
+	                  	  input +="</div>";
+		              }
+	                  input +="</div>";       
+	                  if(data.fReplySet == 'Y' || data.fReplySet == null){
+		              input +="<div id='reply'>";
+		              input +="<input type='hidden' class='replyFeedNo' name='replyFeedNo' value="+fNo+">";
+		              input +="<input type='text' id='textArea'class='rContent'  name='textArea'>";
+		              input +="<input type='button' id='replyBtn'  class='replyUpBtn' name='replyBtn' value='등록' onClick='applyReply("+fNo+");'>";
+		              input +="</div>";
+	                  }
+		              input +="</div>";
+		              }
+		              input +="</div>";
+
+	                    
+	                  $(".pop_feed").html(input);
+	      	 		  $(".pop_feed").show();
+
+	      	        $('.feed_delete').click(function() {
+	      	            $(".pop_feed").hide();
+	      	        });
+	      	        
+		      	      $('#feed_menu').click(function() {
+		                  $('.pop_menu').show();
+			          }); 
+			      	
+			          $('.close').on('click', function(){
+			              $('.pop_menu').hide();
+			          });
+			          
+			          $('#updateBtn').on("click", function(){
+			              $('.reply_menu').show();
+			          });
+			          $('#re_close').on("click", function(){
+			              $('.reply_menu').hide();
+			          });
+				},
+	            error:function(request,jqXHR,exception){
+	               var msg="";
+	               if(request.status == 0){
+	                  msg = 'Not Connect. \n Verify Network.';
+	               } else if(request.status == 404){
+	                  msg = 'Requested page not fount [404]';
+	               } else if(request.status == 500){
+	                  msg = 'Internal Server Error [500]';
+	               } else if(request.status == 'parsererror'){
+	                  msg = 'Requested JSON parse failed';
+	               } else if(exception == 'timeout'){
+	                  msg = 'Time out error';
+	               } else if(exception == 'abort'){
+	                  msg = 'Ajax request aborted';
+	               } else {
+	                  msg = 'Error. \n' + jqXHR.responseText;
+	               }
+	               alert(msg);
+		        } 
+		 });
+	
+	 });
+	
     /************* 팝업 메뉴 script *************/
     $('#details_btn').on("click", function(){
         $('.myFeed_popup_others').show();
