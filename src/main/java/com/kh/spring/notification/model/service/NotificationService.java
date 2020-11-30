@@ -19,4 +19,6 @@ public interface NotificationService {
 
 	int readAlarm(PushAlarm pa);
 
+	String selectGM(String crno);
+
 }

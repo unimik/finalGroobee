@@ -54,4 +54,7 @@ public class NotificationController {
 	public int insertAlarm(PushAlarm pa) {
 		return nService.insertAlarm(pa);
 	}
+	public String selectGM(String crno) {
+		return nService.selectGM(crno);
+	}
 }

@@ -168,7 +168,12 @@ public class EchoHandler extends TextWebSocketHandler{
         		}
         	} else if(Rmsg.equals("alarm")) {
         		//작성자가 로그인 해서 있다면
-				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
+        		WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
+        		if(sendType.equals("groupjoin")) {
+        			String gmId = nController.selectGM(crno);
+        			boardWriterSession = userSessions.get(gmId);
+        			System.out.println(gmId);
+        		}
 				System.out.println(boardWriterSession);
 				if(boardWriterSession != null) {
 					if(sendType.equals("reply") ) {

@@ -33,4 +33,8 @@ public class NotificationDao {
 		return sqlSession.update("NotificationMapper.readAlarm",pa);
 	}
 
+	public String selectGM(String crno) {
+		return sqlSession.selectOne("groupMapper.selectGm",crno);
+	}
+
 }

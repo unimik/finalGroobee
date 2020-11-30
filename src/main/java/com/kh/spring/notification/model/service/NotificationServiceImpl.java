@@ -35,4 +35,9 @@ public class NotificationServiceImpl implements NotificationService {
 		return nDao.readAlarm(pa);
 	}
 
+	@Override
+	public String selectGM(String crno) {
+		return nDao.selectGM(crno);
+	}
+
 }
