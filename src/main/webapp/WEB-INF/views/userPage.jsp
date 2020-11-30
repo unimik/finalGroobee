@@ -117,9 +117,6 @@
                         	<c:if test="${followYN eq 'Y' && blockedYN eq 'N'}">
                         		<input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 취소">
                         	</c:if>
-                        	<c:if test="${followYN eq 'W' && blockedYN eq 'N'}">
-                        		<input type="button" id="followCancle_btn" name="followCancle_btn" value="팔로우 대기">
-                        	</c:if>
                         	<c:if test="${blockedYN ne 'N'}">
                         		<c:url var="myDisableBlock" value="myDisableBlock.do">
                                 	<c:param name="disblockId" value="${ memberInfo.mNo }"/>
@@ -380,36 +377,25 @@
             
             var mNo = $('#mNo').val();
             var follow = $('#follow').val();
-            var openStatus =0;
-            if($("#openStatus").val() == "F"){
-            	 openStatus = 2;
-            	 console.log("follow 클릭됨");
-                 sendAlram('${loginUser.userId}','${ memberInfo.userId }','followChk',mNo);
-                 $("#follow_btn").val("팔로우 요청됨");
-                 
-            }else if($("#openStatus").val() == "Y"){
-            	openStatus = 1;
-            	console.log("follow 클릭됨");
-                sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow',mNo);
             
-                $.ajax({
-     	       		 url: 'insertFollow.do',
-     	      		  	 type: 'post',
-     	      		   	 data: {follow:follow,mNo:mNo},
-     	      		   	 datatype:"text",
-     	      		   	 success: function(data){
-     		      		   	if(data == 'success'){
-     		      		 	  	window.location.reload();
-     		  		   		 }else{
-     		  		   			alert("팔로우 실패했습니다.");
-     		  		   		 }
-     	      		   	 },error: function(error){
-     	      		   		 alert(error+"팔로우 에러");
-     	      		   	 }
-     	       	 });
-            }
+            console.log("follow 클릭됨");
+            sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow','1');
             
-          
+            $.ajax({
+ 	       		 url: 'insertFollow.do',
+ 	      		  	 type: 'post',
+ 	      		   	 data: {follow:follow,mNo:mNo},
+ 	      		   	 datatype:"text",
+ 	      		   	 success: function(data){
+ 		      		   	if(data == 'success'){
+ 		      		 	  	window.location.reload();
+ 		  		   		 }else{
+ 		  		   			alert("팔로우 실패했습니다.");
+ 		  		   		 }
+ 	      		   	 },error: function(error){
+ 	      		   		 alert(error+"팔로우 에러");
+ 	      		   	 }
+ 	       	 });
         });
 
         $('#followCancle_btn').click(function() {
