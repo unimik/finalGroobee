@@ -378,6 +378,6 @@
 	</insert>
 
 	<select id="findTagMember" resultType="_int" parameterType="string">
-	SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{string}
+	SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{id}
 	</select>
 </mapper>

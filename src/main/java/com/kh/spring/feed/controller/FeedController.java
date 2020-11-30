@@ -123,11 +123,12 @@ public class FeedController {
  				taglist.add(t);
  			}else if(strarr[i].charAt(0) == '@') {
  				Tag user = new Tag();
- 				System.out.println("@태그 한 아이디"+strarr[i]);
- 				int TagMemResult = fService.findTagMember(strarr[i]);
- 				System.out.println("아이디 있니?"+TagMemResult);
- 				if(TagMemResult == 1) {
- 					System.out.println("아이디 있음");
+ 				String id = strarr[i].substring(1);
+ 				System.out.println("검색하는 아이디 "+id);
+ 				int TagMemResult = fService.findTagMember(id);
+ 				System.out.println("결과값"+TagMemResult);
+ 				if(TagMemResult > 0) {
+ 					
  				}
  			}
  			
