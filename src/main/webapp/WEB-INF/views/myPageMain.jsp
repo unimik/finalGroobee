@@ -627,8 +627,6 @@
 		              $('.reply_report').hide();
 		          });
 		          $('#re_close').on("click", function(){
-=======
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 		              $('.reply_menu').hide();
 		          });
 		          
@@ -2062,6 +2060,7 @@
 		}
 		
     });
+
 	//보관함 눌러서 내가 보관한 피드 볼 때
 	$('.sbButton').click(function() {
 		var sbNo = $(this).attr("id");
@@ -2121,7 +2120,7 @@
 			alert('보관함을 불러올 수 없습니다');
 		}
 	});
-	//팝업창 띄울것....
+
 	 function deleteStorageFeed(fno,type) {
 		 //alert(type);
 		 $.ajax({
@@ -2137,7 +2136,7 @@
 				location.href ='goMypage.do?mNo=${ loginUser.mNo }&type=1';
 			},
             error:function(request,jqXHR,exception){
-	               var msg="";
+	               var msg=""; 
 	               if(request.status == 0){
 	                  msg = 'Not Connect. \n Verify Network.';
 	               } else if(request.status == 404){
