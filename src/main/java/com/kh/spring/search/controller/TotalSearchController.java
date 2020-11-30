@@ -145,9 +145,14 @@ public class TotalSearchController {
 
 			Search srch = new Search('N', key);
 			mList = tsService.searcMember(srch);
+			if(!mList.isEmpty()) {
+				 ArrayList<Member> mlist = block(mList,mno);
+				 mv.addObject("mList", mlist);
+			}else {
+				mv.addObject("mList", mList);
+			}
 			gList = tsService.searchGroup(srch);
 			ArrayList<Feed> fList = tsService.searchFeed(srch);
-			mv.addObject("mList", mList);
 			mv.addObject("gList", gList);
 			mv.addObject("fList", fList);
 			mv.setViewName("search/totalSearch");
