@@ -74,15 +74,15 @@
 						<!-- 다른 회원 글 볼 때 피드메뉴 -->
 						<div class="pop_menu" id="pop_menu${ i }">
 						<input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
-						<div id="feed_menu_list">
-						    	<ul>
-						       	   <li><a href="${ godetail }">그룹보기</a></li>
-						           <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-						           <li><a id="share_feed" class="share_feed">공유하기</a></li>
-						           <li><a id="goStorage" class="goStorage">보관함</a></li>
-						           <li><a id="close" class="close">취소</a></li>
-						        </ul>
-						    </div>
+							<div id="feed_menu_list">
+							    	<ul>
+							       	   <li><a href="${ godetail }">그룹보기</a></li>
+							           <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
+							           <li><a id="share_feed" class="share_feed">공유하기</a></li>
+							           <li><a id="goStorage" class="goStorage">보관함</a></li>
+							           <li><a id="close" class="close">취소</a></li>
+							        </ul>
+							</div>
 						</div>
 						<div class="storagePop">
 						</div>
@@ -120,7 +120,7 @@
 				</div>
 	        <div id="con">
 				<div id="feed_content">
-						<c:if test="${ !empty f.photoList and f.photoList ne null }">
+						<c:if test="${ !empty f.photoList }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 							
@@ -406,6 +406,8 @@
 			if( ul > 1){
         		$('#nextBtn'+i).css("display","block");
         		$('#prevBtn'+i).css({"display":"block"});
+        	} else if(ul == 0) {
+        		$('#nextBtn'+i).nextAll('#imgList').css("display","none");
         	}
 			
 			
@@ -462,7 +464,7 @@
 							$('.pop_menu').hide();
 						}
 					},error:function(){
-						alert("공유 실패");
+						alert("이미 공유하신 게시글이거나, 공유에 실패하였습니다.");
 					}
 				});
 			});
@@ -479,7 +481,7 @@
 					dataType:"json",
 					success:function(data){
 						$('.pop_menu').hide();
-				         $('.pop_Mymenu').hide();
+				        $('.pop_Mymenu').hide();
 						$divAll = $('.storagePop');
 						$divAll.html("");
 						
@@ -502,6 +504,8 @@
 							$divAll.append($div);
 						
 						$('.storagePop').show();
+					},error:function(){
+							alret("보관함리스트 불러오기 실패");
 					}
 				});
 				

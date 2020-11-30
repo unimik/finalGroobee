@@ -150,12 +150,17 @@ public interface FeedService {
 	int insertStorage(StorageBox sb);
 	
 	/**
-	 * 사진 리스트
+	 * 맴버 있는지 확인
+	 * @param string
+	 * @return
+	 */
+	int findTagMember(String string);
+	
+	
+	 /* 사진 리스트
 	 * @param getfNo
 	 * @return
 	 */
 	ArrayList<Photo> selectPhotoList(int getfNo);
 	
-	
-
 }
