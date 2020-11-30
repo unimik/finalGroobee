@@ -447,16 +447,16 @@
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
-  	        	  	if(data.photoList[0].changeName != null){
-		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
-	            	input +="<ul id='imgList' style='height:633px'>";
-		              for(var i=0; i < data.photoList.length; i++){
-						  if(data.photoList[i].changeName != null){
-							  input +="<li><img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
-			              }
-		              } 
-		              input +="</ul>";
+ 	        	  if(data.photoList[0] != null){
+	      	  	 	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+				 	input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+            	 	input +="<ul id='imgList' style='height:633px'>";
+	              	for(var i=0; i < data.photoList.length; i++){
+					  if(data.photoList[i].changeName != null){
+						  input +="<li><img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
+		              }
+	              } 
+	              input +="</ul>";
   	        	  }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
 	              if(data.shareYN == 'N'){

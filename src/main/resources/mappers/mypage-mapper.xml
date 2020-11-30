@@ -97,8 +97,8 @@
 	</resultMap>
 	
 	<select id="selectFollowInfo" parameterType="Mypage" resultMap="mypageResultSet">
-		select (select count(*) from FOLLOW  where m_no = #{mNo}) as follows
-		,(select count(*) from FOLLOW where follows = #{mNo}) as followers  
+		select (select count(DISTINCT follows) from FOLLOW  where m_no = #{mNo}) as follows
+		,(select count(DISTINCT m_no) from FOLLOW where follows = #{mNo}) as followers  
 		from dual
 	</select>
 	
@@ -227,6 +227,7 @@
 		join member m on(r.m_no=m.m_no)
         where r.f_no = #{fNo}
         and r.r_status='Y'
+        order by r_Create_Date
 	</select>
 	
 	<insert id="insertStorage" parameterType="sBox">
