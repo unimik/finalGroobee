@@ -169,7 +169,7 @@
 			</div>
 			<div id="con">
 				<div id="feed_content">
-					<c:if test="${ !empty f.photoList }">
+					<c:if test="${ !empty f.photoList and f.photoList ne null }">
 						<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 						<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 						<ul id="imgList" style="height:633px">
@@ -180,21 +180,21 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text">
+					<div id="text">
 						<!-- 진선 : 태그기능 추가 중. -->
 						<c:forEach var="d" items="${fn:split(f.fContent,'#')}">	
 							<c:choose>							
 							<c:when test="${fn:contains(d,' ') }">
-									<a href="_blank" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
+									<p style="color:skyblue;cursor:pointer;" class="hashTag">#${fn:substringBefore(d,' ') } </p>
 									 ${fn:substringAfter(d,' ') }
 							</c:when>
 							<c:otherwise>
-								<a href="_blank" style="color:skyblue;">#${d }</a>
+								<p style="color:skyblue;cursor:pointer;" class="hashTag">#${d }</p>
 							</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						
-					</p>
+					</div>
 	
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -651,6 +651,8 @@
 			if( ul > 1){
         		$('#nextBtn'+i).css("display","block");
         		$('#prevBtn'+i).css({"display":"block"});
+        	} else if(ul == 0) {
+        		$('#nextBtn'+i).nextAll('#imgList').css("display","none");
         	}
 			
 			
@@ -952,6 +954,15 @@
 			$("#feedArea").animate( { scrollTop : 0 }, 400 );
 			return false;
 		});
+	});
+	
+	// 해시태그 클릭하면 해시태그 검색하기
+	$(document).on("click",".hashTag",function(){
+		var keyword=$(this).text().substr(1,this.length); // #태그 분리 및  value 뽑아내기
+		var mno = "<%= ((Member)session.getAttribute("loginUser")).getmNo() %>";
+		console.log(keyword);
+		location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
+		
 	});
     </script>
     

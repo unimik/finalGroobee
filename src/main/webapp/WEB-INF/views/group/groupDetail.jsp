@@ -73,6 +73,7 @@
 		.postbox {cursor: pointer;}
 		.storagePop_menu{ position:fixed; z-index:99; left:50%; top: 50%; transform: translate(-50%, -50%); margin-top:0; box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.4); }
 		.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
+
 	</style>
 </head>
 <body>
@@ -2534,13 +2535,11 @@
                 } 
          	});
 	}
-  
- 	
+
     $('.feed_delete').click(function() {
         $(".pop_feed").hide();
     });
  	
-
  	/**************** 댓글 등록 ****************/
 			$(function() {
 				
