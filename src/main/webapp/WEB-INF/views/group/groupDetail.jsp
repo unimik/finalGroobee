@@ -61,14 +61,18 @@
 		.pop_feed >#reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
 		.pop_feed >#textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
 		.pop_feed >#replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
-		
+		/*그룹 검색내 팝업*/
 		.pop_menu_2{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
 		#feed_Mymenu_list_2{ background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
 		#feed_Mymenu_list_2 ul{ padding:0; margin: 0; }
+		#feed_Mymenu_list_2 li{ list-style: none; text-align: center; height: 60px;}
 		#feed_Mymenu_list_2 li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
 		#feed_Mymenu_list_2 li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
 		#feed_Mymenu_list_2 ul li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
 		#selectOne{height:60px;}
+		.postbox {cursor: pointer;}
+		.storagePop_menu{ position:fixed; z-index:99; left:50%; top: 50%; transform: translate(-50%, -50%); margin-top:0; box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.4); }
+		.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
 	</style>
 </head>
 <body>
@@ -150,7 +154,7 @@
                                     <br>
                                     <input class="selectRtype" id="selectRtype"type="button" value="확인" style="cursor:pointer;">
                                     <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
-                                    <button class="selectRtype" id="cancel" style="cursor:pointer;">취소</button>
+                                    <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
                                     <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
                                 </div>
                             </div>
@@ -295,15 +299,18 @@
 										<c:when test="${ loginUser.userId ne f.fWriter }">
 								            <!-- 다른 회원 글 볼 때 피드메뉴 -->
 								            <div class="g_pop_menu" id="g_pop_menu${ i }">
+								            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 								                <div id="g_feed_menu_list">
 								                    <ul>
 								                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-								                       <li><a>공유하기</a></li> 
-								                       <li><a id="storageBox_btn">보관함</a></li> 
+								                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
+						           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
 								                       <li><a id="close" class="close">취소</a></li>
 								                    </ul>
 								                </div>
 								            </div>
+								            <div class="storagePop">
+											</div>
 								        </c:when>
 										<c:otherwise>
 											<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
@@ -322,7 +329,7 @@
 								    </div>
 							            <div id="con">
 							                <div id="feed_content">
-												<c:if test="${ !empty f.photoList and f.photoList ne null }">
+												<c:if test="${ !empty f.photoList }">
 													<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 													<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 														
@@ -495,15 +502,18 @@
 										<c:when test="${ loginUser.userId ne f.fWriter }">
 								            <!-- 다른 회원 글 볼 때 피드메뉴 -->
 								            <div class="g_pop_menu" id="g_pop_menu${ i }">
+								            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 								                <div id="g_feed_menu_list">
 								                    <ul>
 								                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-								                       <li><a>공유하기</a></li> 
-								                       <li><a>보관함</a></li> 
+								                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
+						           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
 								                       <li><a id="close" class="close">취소</a></li>
 								                    </ul>
 								                </div>
 								            </div>
+								            <div class="storagePop">
+											</div>
 								        </c:when>
 										<c:otherwise>
 											<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
@@ -521,7 +531,7 @@
 								    </div>
 							            <div id="con">
 											<div id="feed_content">
-												<c:if test="${ !empty f.photoList and f.photoList ne null }">
+												<c:if test="${ !empty f.photoList }">
 													<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 													<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 														
@@ -713,15 +723,18 @@
 										<c:when test="${ loginUser.userId ne f.fWriter }">
 								            <!-- 다른 회원 글 볼 때 피드메뉴 -->
 								            <div class="g_pop_menu" id="g_pop_menu${ i }">
+								            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 								                <div id="g_feed_menu_list">
 								                    <ul>
 								                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-								                       <li><a>공유하기</a></li> 
-								                       <li><a>보관함</a></li> 
+								                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
+						           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
 								                       <li><a id="close" class="close">취소</a></li>
 								                    </ul>
 								                </div>
 								            </div>
+								            <div class="storagePop">
+											</div>
 								        </c:when>
 										<c:otherwise>
 											<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
@@ -740,7 +753,7 @@
 								    </div>
 							            <div id="con">
 											<div id="feed_content">
-													<c:if test="${ !empty f.photoList and f.photoList ne null }">
+													<c:if test="${ !empty f.photoList }">
 														<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 														<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 															
@@ -912,15 +925,18 @@
 										<c:when test="${ loginUser.userId ne f.fWriter }">
 								            <!-- 다른 회원 글 볼 때 피드메뉴 -->
 								            <div class="g_pop_menu" id="g_pop_menu${ i }">
+								            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 								                <div id="g_feed_menu_list">
 								                    <ul>
 								                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-								                       <li><a>공유하기</a></li> 
-								                       <li><a>보관함</a></li> 
+								                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
+						           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
 								                       <li><a id="close" class="close">취소</a></li>
 								                    </ul>
 								                </div>
 								            </div>
+								            <div class="storagePop">
+											</div>
 								        </c:when>
 										<c:otherwise>
 											<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
@@ -939,7 +955,7 @@
 								    </div>
 							            <div id="con">
 											<div id="feed_content">
-													<c:if test="${ !empty f.photoList and f.photoList ne null }">
+													<c:if test="${ !empty f.photoList }">
 														<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
 														<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
 															
@@ -1126,7 +1142,7 @@
                 $('.feed_report').show();
             });
 
-            $('#cancel').on("click",function(){
+            $('.cancel').on("click",function(){
                 $('.feed_report').hide();
             });
 
@@ -1231,6 +1247,8 @@
  				if( ul > 1){
  	        		$('#nextBtn'+i).css("display","block");
  	        		$('#prevBtn'+i).css({"display":"block"});
+ 	        	} else if(ul == 0) {
+ 	        		$('#nextBtn'+i).nextAll('#imgList').css("display","none");
  	        	}
  				
  				
@@ -1272,7 +1290,98 @@
  				
  			}
             
-            
+ 			$(function(){
+ 				
+ 				$('.share_feed').on("click",function(){
+ 					var fNo = $(this).parents().children('.fn').val();
+ 					console.log(fNo);
+ 					
+ 					$.ajax({
+ 						url:"shareFeed.do",
+ 						data:{ fNo:fNo, mNo:${ loginUser.mNo} },
+ 						type:"post",
+ 						success:function(data){
+ 							if( data > 0){
+ 								alert("게시글을 공유하였습니다.");
+ 								$('.pop_menu').hide();
+ 							}
+ 						},error:function(){
+ 							alert("이미 공유하신 게시글이거나, 공유에 실패하였습니다.");
+ 						}
+ 					});
+ 				});
+ 			});
+ 			
+ 			$(function(){
+ 				$('.goStorage').on("click",function(){
+ 					var mNo = ${ loginUser.mNo};
+ 					var fNo = $(this).parents().children('.fn').val();
+ 					console.log(mNo);
+ 					$.ajax({
+ 						url:"selectStorage.do",
+ 						data:{ mNo:mNo},
+ 						dataType:"json",
+ 						success:function(data){
+ 							$('.g_pop_menu').hide();
+ 					        $('.g_pop_Mymenu').hide();
+ 							$divAll = $('.storagePop');
+ 							$divAll.html("");
+ 							
+ 								var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
+ 								var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;">');
+ 								var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
+ 								var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
+ 								var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
+ 								for(var i=0; i < data.length; i++){
+ 									$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
+ 								}
+ 								var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
+ 								
+ 								
+ 								$div.append($p);
+ 								$div.append($p2);
+ 								$div.append($select);
+ 								$div.append($button);
+ 								$divAll.append($input);
+ 								$divAll.append($div);
+ 							
+ 							$('.storagePop').show();
+ 						},error:function(){
+ 							alret("보관함리스트 불러오기 실패");
+ 						}
+ 					});
+ 					
+ 					$(document).on("click",".insertStorage",function(){
+
+ 						
+ 						var fNo = $(this).parents().children('.in_fno').val();
+ 						console.log(fNo);
+ 						var mNo = ${ loginUser.mNo};
+ 						var sbNo = $(this).prev('select').children('option:selected').val();
+ 						var sbName = $(this).prev('select').children('option:selected').text();
+ 						console.log(sbNo);
+ 						console.log(sbName);
+ 						$.ajax({
+ 							url:"insertStorage.do",
+ 							data:{ fNo:fNo,mNo:mNo,sbNo:sbNo,sbName:sbName },
+ 							type:"post",
+ 							success:function(data){
+ 								if(data > 0){
+ 									alert("게시글을 보관함에 넣었습니다.");
+ 								}else if(data == 0){
+ 									alert("게시글이 이미 보관되어있습니다.");
+ 								}
+ 								$('.storagePop').hide();
+ 								$('.g_pop_menu').hide();
+ 							},error:function(){
+ 								alert("보관함에 이미 게시글이 있거나, 보관함에 넣기 실패하였습니다.");
+ 								$('.storagePop').hide();
+ 								$('.g_pop_menu').hide();
+ 							}
+ 						});
+ 					});
+ 				});
+ 			})
             /**************** 그룹 신고 관련*******************/ 
     		$(document).on('click',"#report-submit",function(){
     			
@@ -1467,7 +1576,7 @@
 		              input +="<ul>";
 		              input +="<li><a id='feed_report_btn_class' class='feed_report_btn_class'>신고</a></li>"; 
 		              input +="<li><a id='share_feed' class='share_feed'>공유하기</a></li>"; 
-		              input +="<li><a id='goStorage' class='goStorage'>보관함</a></li>";
+		              input +="<li><a id='goStorage_1' class='goStorage_1'>보관함</a></li>";
 		              input +="<li><a id='popMenuclose' class='popMenuclose' onClick='popMenuclose()'>취소</a></li>";
 		              input +="</ul>";
 		              input +="</div>";
@@ -1495,8 +1604,8 @@
 	              input +="<div id='con2'>";
 	              input +="<div id='feed_content'>";
 	        	  	if(data.photoList.length > 0 ){
-		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+		      	  	input +="<button id='nextBtn_2' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+					input +="<button id='prevBtn_2' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
 	            	input +="<ul id='imgList' style='height:633px'>";
 		              for(var i=0; i < data.photoList.length; i++){
 						  if(data.photoList[i].changeName != null){
@@ -1559,7 +1668,7 @@
 	                  input +="<div id='replyArea'>";
 		              input +="<div id='replyEditCont'>";
 	                  if(data.replyList.length > 0){
-		              input +="<div id='replySub'>";
+		              input +="<div id='replySub_1'>";
 		              for(var i=0;i<data.replyList.length;i++){
 			              input +="<div id='selectOne'>";	
 			              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
@@ -1661,52 +1770,52 @@
 			          });
 			          
 			          
-			        var size;
-			        var idx = idx1 = 0;
-			        var count = $(".pop_feed").children('div#con2').children('div#feed_content').children("ul#imgList").children('li').length;
-			        console.log(count);
-			        var liCount;
-			          
-			  		for (var i = 1; i <= count; i++){
-			  			
-			  			if( count > 1){
-			          		$('#nextBtn').css("display","block");
-			          		$('#prevBtn').css({"display":"block"});
-			          	}
-			  			
-			  		}
-			  			$(document).on("click",'#prevBtn',function(){
-			     	  			size = $(this).nextAll().children('li').length;
-			     	  			console.log(size);
-			     	  			
-			     	  			if(size > 1){
-			     	  				idx1 = (idx-1) % size;
-			     	  				if(idx1 < 0)
-			     	  					idx1 = size - 1;
-			     	  					
-			     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
-			     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
-			     	  						$(this).css("display","none").css("left","-633px");
-			     	  					});
-			     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
-			     	  					idx = idx1;
-			     	  			}
-			     	  		});
-			  			
-			  			$(document).on("click",'#nextBtn',function(){
-			     	  			size = $(this).nextAll().children('li').length;
-			     	  			console.log(size);
-			     	  			
-			     	  			if( size > 1){
-			     	  				idx1 = (idx + 1) % size;
-			     	  				$(this).nextAll().children('li:hidden').css("left","633px");
-			     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-			     	  					$(this).css("display","none").css("left","633px");
-			     	  				});
-			     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-			     	  				idx = idx1;
-			     	  			}
-			     	  		});	
+				        var size;
+				        var idx = idx1 = 0;
+				        var count = $(".pop_feed").children('div#con2').children('div#feed_content').children("ul#imgList").children('li').length;
+				        console.log(count);
+				        var liCount;
+				          
+				  		for (var i = 1; i <= count; i++){
+				  			
+				  			if( count > 1){
+				          		$('#nextBtn_2').css("display","block");
+				          		$('#prevBtn_2').css({"display":"block"});
+				          	}
+				  			
+				  		}
+				  			$(document).on("click",'#prevBtn_2',function(){
+				     	  			size = $(this).nextAll().children('li').length;
+				     	  			console.log(size);
+				     	  			
+				     	  			if(size > 1){
+				     	  				idx1 = (idx-1) % size;
+				     	  				if(idx1 < 0)
+				     	  					idx1 = size - 1;
+				     	  					
+				     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+				     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+				     	  						$(this).css("display","none").css("left","-633px");
+				     	  					});
+				     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+				     	  					idx = idx1;
+				     	  			}
+				     	  		});
+				  			
+				  			$(document).on("click",'#nextBtn_2',function(){
+				     	  			size = $(this).nextAll().children('li').length;
+				     	  			console.log(size);
+				     	  			
+				     	  			if( size > 1){
+				     	  				idx1 = (idx + 1) % size;
+				     	  				$(this).nextAll().children('li:hidden').css("left","633px");
+				     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+				     	  					$(this).css("display","none").css("left","633px");
+				     	  				});
+				     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+				     	  				idx = idx1;
+				     	  			}
+				     	  		});	
 			  			
 			  		 	/* 댓글 신고하기*/
 			  		 	// 1. 신고하기 버튼 이벤트
@@ -1838,10 +1947,10 @@
 				       				
 //				      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 				       						//location.href="goMypage.do?mNo="+mNo;
-				       						$('#replySub').remove();
+				       						$('#replySub_1').remove();
 				       						
 				       						var input = "";
-				       					 input +="<div id='replySub'>";
+				       					 input +="<div id='replySub_1'>";
 				       	              for(var i=0;i<data.replyList.length;i++){
 				       		              input +="<div id='selectOne'>";	
 				       		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
@@ -2061,10 +2170,10 @@
 								       				
 //								      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 								       						//location.href="goMypage.do?mNo="+mNo;
-								       						$('#replySub').remove();
+								       						$('#replySub_1').remove();
 								       						
 								       						var input = "";
-								       					 input +="<div id='replySub'>";
+								       					 input +="<div id='replySub_1'>";
 								       	              for(var i=0;i<data.replyList.length;i++){
 								       		              input +="<div id='selectOne'>";	
 								       		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
@@ -2343,15 +2452,15 @@
 			          
 				    /*게시글 보관함 추가*/
 					$(function(){
-						$('.goStorage').on("click",function(){
+						$('.goStorage_1').on("click",function(){
 							console.log(mNo);
 							$.ajax({
 								url:"selectStorage.do",
 								data:{ mNo:mNo},
 								dataType:"json",
 								success:function(data){
-									$('.pop_menu').hide();
-							         $('.pop_Mymenu').hide();
+									$('.pop_menu_2').hide();
+							         $('.pop_Mymenu_2').hide();
 									$divAll = $('.storagePop');
 									$divAll.html("");
 									
@@ -2425,115 +2534,12 @@
                 } 
          	});
 	}
-  function nextBtn(index){
-  	
-		//size = $(this).nextAll().children('li').length;
-		console.log(index);
-		
-		if( size > 1){
-			idx1 = (idx + 1) % size;
-			$(this).nextAll().children('li:hidden').css("left","633px");
-			$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-				$(this).css("display","none").css("left","633px");
-			});
-			$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-			idx = idx1;
-		}
-}
   
  	
     $('.feed_delete').click(function() {
         $(".pop_feed").hide();
     });
  	
-    $(function(){
-		
-		$('.share_feed').on("click",function(){
-			var fNo = $(this).parents().children('.fn').val();
-			console.log(fNo);
-			
-			$.ajax({
-				url:"shareFeed.do",
-				data:{ fNo:fNo, mNo:${ loginUser.mNo} },
-				type:"post",
-				success:function(data){
-					if( data > 0){
-						alert("게시글을 공유하였습니다.");
-						$('.pop_menu').hide();
-					}
-				},error:function(){
-					alert("공유 실패");
-				}
-			});
-		});
-	});
-	
-	$(function(){
-		$('.goStorage').on("click",function(){
-			var mNo = ${ loginUser.mNo};
-			var fNo = $(this).parents().children('.fn').val();
-			console.log(mNo);
-			$.ajax({
-				url:"selectStorage.do",
-				data:{ mNo:mNo},
-				dataType:"json",
-				success:function(data){
-					$('.pop_menu').hide();
-			         $('.pop_Mymenu').hide();
-					$divAll = $('.storagePop');
-					$divAll.html("");
-					
-						var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
-						var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;">');
-						var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
-						var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
-						var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
-						for(var i=0; i < data.length; i++){
-							$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
-						}
-						var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
-						
-						
-						$div.append($p);
-						$div.append($p2);
-						$div.append($select);
-						$div.append($button);
-						$divAll.append($input);
-						$divAll.append($div);
-					
-					$('.storagePop').show();
-				}
-			});
-			
-			$(document).on("click",".insertStorage",function(){
-
-				
-				var fNo = $(this).parents().children('.in_fno').val();
-				console.log(fNo);
-				var mNo = ${ loginUser.mNo};
-				var sbNo = $(this).prev('select').children('option:selected').val();
-				var sbName = $(this).prev('select').children('option:selected').text();
-				console.log(sbNo);
-				console.log(sbName);
-				$.ajax({
-					url:"insertStorage.do",
-					data:{ fNo:fNo,mNo:mNo,sbNo:sbNo,sbName:sbName },
-					type:"post",
-					success:function(data){
-						if(data > 0){
-							alert("게시글을 보관함에 넣었습니다.");
-						}else if(data ==0){
-							alert("게시글이 이미 보관되어있습니다.");
-						}
-						$('.storagePop').hide();
-						$('.pop_menu').hide();
-					},error:function(){
-						alert("보관함에 이미 게시글이 있거나, 보관함에 넣기 실패하였습니다.");
-					}
-				});
-			});
-		});
-	})
 
  	/**************** 댓글 등록 ****************/
 			$(function() {
