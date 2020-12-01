@@ -17,6 +17,8 @@
     .sendreport { margin-top:0;}
     .usertag {color: #47c6a3;}
     .storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
+    <%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:red;}
     </style>
 </head>
 <body>

@@ -53,6 +53,8 @@
 	#likeIcon { margin: 7px 0 0 25px; }
 	button{ cursor: pointer; }
 	.usertag {color: #47c6a3;}
+	<%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:red;}
 </style>
 
 </head>

@@ -12,6 +12,8 @@
 	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
 	button{ cursor: pointer; }
 	.usertag {color: #47c6a3;}
+	<%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:red;}
 </style>
 </head>
 <body>
@@ -808,7 +810,7 @@
 						$divAll.html("");
 						
 							var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
-							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;">');
+							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 210px; border-radius: 15px; margin-top:300px;">');
 							var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
 							var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
 							var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
@@ -816,12 +818,13 @@
 								$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
 							}
 							var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
-							
+							var $cancelbtn =$('<input type="button" id="storageClose" class="storageClose" value="취소" style="width: 150px; height:32px; border:0; border-radius:10px; background:#daf4ed; margin: 10px 0 0 80px;">'); 
 							
 							$div.append($p);
 							$div.append($p2);
 							$div.append($select);
 							$div.append($button);
+							$div.append($cancelbtn);
 							$divAll.append($input);
 							$divAll.append($div);
 						
@@ -830,6 +833,10 @@
 							alret("보관함리스트 불러오기 실패");
 					}
 				});
+				
+				$(document).on("click",".storageClose",function(){
+						$('.storagePop').hide();
+					});
 				
 				$(document).on("click",".insertStorage",function(){
 
