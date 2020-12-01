@@ -215,22 +215,12 @@
 							<c:when test="${ f.fLikeSet eq 'N' }">
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 									<label class="replycnt_p">${ f.replyList.size() }개</label>
-								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 									<label class="replycnt_p">${ f.replyList.size() }개</label>
-								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty r.rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
