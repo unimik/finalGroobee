@@ -29,4 +29,12 @@ public class NotificationDao {
 		return (ArrayList)sqlSession.selectList("NotificationMapper.selectAlarmList",name);
 	}
 
+	public int readAlarm(PushAlarm pa) {
+		return sqlSession.update("NotificationMapper.readAlarm",pa);
+	}
+
+	public String selectGM(String crno) {
+		return sqlSession.selectOne("groupMapper.selectGm",crno);
+	}
+
 }

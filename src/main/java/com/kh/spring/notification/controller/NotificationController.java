@@ -1,6 +1,5 @@
 package com.kh.spring.notification.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.spring.member.model.vo.Member;
@@ -39,9 +39,22 @@ public class NotificationController {
 		}
 		return nt;
 	}
+	@ResponseBody
+	@RequestMapping("readAlarm.do")
+	public String readAlarm(@RequestParam("typeNo") String typeNo,
+							@RequestParam("toId") String toId,
+							@RequestParam("type") String type) {
+		PushAlarm pa = new PushAlarm(toId,typeNo,type);
+		int result = nService.readAlarm(pa);
+
+		return "success";
+	}
 
 
 	public int insertAlarm(PushAlarm pa) {
 		return nService.insertAlarm(pa);
+	}
+	public String selectGM(String crno) {
+		return nService.selectGM(crno);
 	}
 }

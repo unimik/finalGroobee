@@ -18,6 +18,14 @@ public class PushAlarm implements Serializable {
 	public PushAlarm() {
 		super();
 	}
+	
+	public PushAlarm(String toId, String typeNo, String type) {
+		super();
+		this.toId = toId;
+		this.typeNo = typeNo;
+		this.type = type;
+	}
+
 	public PushAlarm(int pNo, String toId, String fromId, String type, String typeNo, String readYN) {
 		super();
 		this.pNo = pNo;

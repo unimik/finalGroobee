@@ -93,8 +93,8 @@ public class EchoHandler extends TextWebSocketHandler{
 			}
         	System.out.println("Rmsg : " + Rmsg);
         	int crNo = Integer.parseInt(crno);
-        	
         	if(sendType.equals("chatting")) {
+        		
         		WebSocketSession toSession =  userSessions.get(toId);
         		System.out.println(toSession);
         		if(Rmsg == null || Rmsg.equals("")) {
@@ -168,20 +168,31 @@ public class EchoHandler extends TextWebSocketHandler{
         		}
         	} else if(Rmsg.equals("alarm")) {
         		//작성자가 로그인 해서 있다면
-				WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
+        		WebSocketSession boardWriterSession = userSessions.get(toId); // 이줄 맞는지 모르겠음 get()
+        		if(sendType.equals("groupjoin")) {
+        			String gmId = nController.selectGM(crno);
+        			boardWriterSession = userSessions.get(gmId);
+        			System.out.println(gmId);
+        		}
 				System.out.println(boardWriterSession);
 				if(boardWriterSession != null) {
 					if(sendType.equals("reply") ) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 " + 
 											"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
 					
+					}else if("followChk".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+crNo);
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
+						boardWriterSession.sendMessage(tmpMsg);							
 					}else if("follow".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님을 팔로우를 시작했습니다.");
 						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
 						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
-						
+						boardWriterSession.sendMessage(tmpMsg);							
 					}else if("like".equals(sendType)) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 회원님의 게시물을 좋아합니다.");
 						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
@@ -209,12 +220,8 @@ public class EchoHandler extends TextWebSocketHandler{
 						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
 						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
-					}else if("reply".equals(sendType)) {
-						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId);
-						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
-						int result = nController.insertAlarm(pa);
-						boardWriterSession.sendMessage(tmpMsg);
 					}
+					
 				}else {
 					PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
 					int result = nController.insertAlarm(pa);
@@ -223,11 +230,11 @@ public class EchoHandler extends TextWebSocketHandler{
 						int like = fService.insertLike(lI);
 					}
 				}
-
         	}
         }
+     }
         
-    }
+    
     //클라이언트 연결을 끊었을 때 실행
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

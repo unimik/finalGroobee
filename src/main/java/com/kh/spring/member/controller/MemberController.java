@@ -28,6 +28,8 @@ import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
+import com.kh.spring.notification.model.service.NotificationService;
+import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 import com.kh.spring.setting.model.service.SettingService;
 
 @SessionAttributes("loginUser")
@@ -52,6 +54,8 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	@Autowired
+	private NotificationService nService;
 	/**
 	 * - 로그인
 	 * @param m
@@ -62,8 +66,10 @@ public class MemberController {
 	public String memberLogin(Member m, String userId, String userPwd, Model model) {      
 		m.setUserId(userId);
 		m.setUserPwd(userPwd);
+		String name = m.getUserId();
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
+		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
 		for(Feed ff : feed) {
 			ff.setfReplyCnt(ff.getReplyList().size());
 //			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
@@ -100,6 +106,7 @@ public class MemberController {
 		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
 			model.addAttribute("feed", feed);
 			model.addAttribute("loginUser", loginUser);
+			model.addAttribute("alarmList", alarmList);
 			if(loginUser.getUserId().equals("admin")) {
 				return "admin/adminmember";
 			}else {

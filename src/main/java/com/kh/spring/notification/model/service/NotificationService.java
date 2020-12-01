@@ -17,4 +17,8 @@ public interface NotificationService {
 
 	ArrayList<PushAlarm> selectAlarmList(String name);
 
+	int readAlarm(PushAlarm pa);
+
+	String selectGM(String crno);
+
 }

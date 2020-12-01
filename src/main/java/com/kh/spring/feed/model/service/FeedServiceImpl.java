@@ -147,6 +147,11 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	public int findTagMember(String string) {
+		return fDao.findTagMember(string);
+	}
+
+	@Override
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return fDao.selectPhotoList(getfNo);
 	}

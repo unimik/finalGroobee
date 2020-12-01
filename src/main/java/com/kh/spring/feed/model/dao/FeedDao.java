@@ -125,6 +125,10 @@ public class FeedDao {
 		return sqlSession.insert("mypageMapper.insertStorage", sb);
 	}
 
+	public int findTagMember(String string) {
+		return sqlSession.selectOne("mypageMapper.findTagMember", string);
+	}
+
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectPhotoList", getfNo);
 	}
