@@ -45,7 +45,7 @@
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" multiple="multiple" class="input_file" name="upFile"
+                                    <input type="file" multiple="multiple" id="input_file" class="input_file" name="upFile"
                                      accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
                                 </td>
                                 <td><!-- 파일 선택 폼 추가 -->
@@ -228,13 +228,12 @@
         
     	/***************** 이미지 미리보기 *****************/
     	
-//    	var sel_files= [];
-	    var sel_files;
+    	var sel_files= [];
+//	    var sel_files;
     	
     	$(document).ready(function(e) {
     		//var pCount = ${pCount};
     		//alert(pCount);
-    		var chk = <%= ((Feed)request.getAttribute("f")).getfNo() %>;
     		$('.input_file').change(
     			function(e) {
     				
@@ -252,7 +251,7 @@
    						return false;
    					}
     				
-    				// 파일 업로드가 0개인 업데이트 피드에 파일 업로드할 경우 미리보기 추가
+    				// 파일 업로드가 0개인 인서트/업데이트 피드에 파일 업로드할 경우 미리보기 추가
     				if(checkPhotopreview < 1) {
     					var trView = '<tr class="trView">';
    						var trViewName = '<tr class="trViewName">';
@@ -300,9 +299,9 @@
     			
     			arr.forEach(function(fUp) {
     				
-//    				sel_files = [];
-//    				sel_files.push(fUp);
-					sel_files = fUp;
+    				sel_files = [];
+    				sel_files.push(fUp);
+//					sel_files = fUp;
     				
     				console.log(sel_files);
     				
@@ -318,14 +317,14 @@
     					reader.onload = function(e) { // 파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
     					
     						// tr에 이미지, 이미지명 추가
-    						var str = '<td class="plistView" id="pView_'+index+'"><div id="photolistUpView" class="photoView">';
-    						var name = '<td class="plistName" id="pName_'+index+'">';
+    						var str = '<td class="plistView" id="pView"><div id="photolistUpView" class="photoView">';
+    						var name = '<td class="plistName" id="pName">';
     						
-    						str += '<a href=\"javascript:void(0);\" onclick=\"updateImageAction('+index+')\" id=\"img_id_'+index+'\"><img id="preview" class="photopreview" src="'+e.target.result+'" title="'+fUp.name+'" style="width: 100px; height: 100px;" /></a>';
+    						str += '<a href=\"javascript:void(0);\" id=\"img_id\"><img id="preview" class="photopreview" src="'+e.target.result+'" title="'+fUp.name+'" style="width: 100px; height: 100px;" /></a>';
     						str += '</div></td>';
     						$(str).appendTo('.trView');
     						
-    						name += fileName + '<div class="dltImg"><a href=\"javascript:void(0);\" onclick=\"deleteImageAction('+index+')\" id=\"dimg_id_'+index+'\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
+    						name += fileName + '<div class="dltImg"><a href=\"javascript:void(0);\" id=\"dimg_id\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
     						name += '</div>' +'</td>';
     						//index++;
     						$(name).appendTo('.trViewName')
@@ -345,26 +344,46 @@
     		
    		// 이미지 전체 삭제 클릭 시 삭제 이벤트 핸들러
        	function deleteFile() {
-       		console.log("index : " + index);
-       		sel_files.splice(index, 1);
-       		
-       		var dimg_id = "#dimg_id_" + index;
-       		var img_id = "#img_id_" + index;
-       		var image = "#pView_" + index;
-       		var name = "#pName_" + index;
-       		
-       		var newFileList = Array.from(document.getElementById("input_file").files);
-       		console.log("files : " + newFileList);
-       		newFileList.splice(index, 1);
-       		$(dimg_id).remove();
-       		$(img_id).remove();
-       		$(image).remove();
-       		$(name).remove();
-       		
-       		$(".input_file").prop(newFileList);
-       		
-       		console.log(sel_files);
-       	}
+   			
+	        var newFileList = Array.from(document.getElementById("input_file").files);
+	        
+	        if(newFileList.length == 0) {
+	        	alert('삭제할 이미지 파일이 없습니다.');
+	        }else {
+	        
+   			var deleteConfirm = confirm('첨부한 이미지를 전체 삭제하시겠습니까?\n※ 이미지는 부분 삭제를 할 수 없습니다.');
+   			
+   			if(deleteConfirm) {
+		
+	       		var dimg_id = "#dimg_id";
+	       		var img_id = "#img_id";
+	       		var image = "#pView";
+	       		var name = "#pName";
+	       		
+	       		console.log("files : " + newFileList);
+	       		
+	       		var ie = navigator.userAgent.indexOf("MSIE") >-1 || navigator.userAgent.indexOf("Trident") >-1
+				
+	       		for(i = 0; i < newFileList.length; i++) {
+		       		$(dimg_id).remove();
+		       		$(img_id).remove();
+		       		$(image).remove();
+		       		$(name).remove();
+//       			$(".input_file").prop(newFileList);
+		       		console.log(sel_files);
+	       		}
+	       		
+	       		if (/(MSIE|Trident)/.test(navigator.userAgent)) {
+	       			// ie 일때 input[type=file] init.
+	       			$("#input_file").replaceWith( $("#input_file").clone(true) );
+	       		}else {
+	       			// other browser 일때 input[type=file] init.
+	       			$("#input_file").val("");
+	       		}
+
+   			}
+       		}
+   		}
    		
 /*    		function updateImageAction(index) {
  		console.log("index : " + index);
