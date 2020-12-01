@@ -11,6 +11,7 @@
 <style>
 	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
 	button{ cursor: pointer; }
+	.usertag {color: #47c6a3;}
 </style>
 </head>
 <body>
@@ -1048,6 +1049,12 @@
 			return false;
 		});
 	});
+	/*@유저아이디 클릭이벤트 */
+	function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
 	</script>
 </body>
 </html>

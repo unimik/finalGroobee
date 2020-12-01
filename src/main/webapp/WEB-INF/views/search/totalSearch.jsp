@@ -15,6 +15,7 @@
     .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
     #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
     .sendreport { margin-top:0;}
+    .usertag {color: #47c6a3;}
     </style>
 </head>
 <body>
@@ -1797,6 +1798,11 @@
          		$('.replyContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
          	}
         }
+    function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
     </script>
 </body>
 </html>

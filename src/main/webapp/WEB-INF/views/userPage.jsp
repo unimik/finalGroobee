@@ -87,6 +87,7 @@
 		#likeIcon { margin: 7px 0 0 25px; }
 		.storagePop_menu{ position:fixed; z-index:99; left:50%; top: 50%; transform: translate(-50%, -50%); margin-top:0; box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.4); }
 /*    		.storagePop{ display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100;background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4); } */
+      .usertag {color: #47c6a3;} 
    </style>
 </head>
 <body>
@@ -2288,6 +2289,14 @@
        		
        		$("#feed_report").css("display","none"); // 전송 후 전체창 끄기
        	}); 
+         
+         
+     	/*@유저아이디 클릭이벤트 */
+         function goUser(){
+         	var id = $(event.target).attr('id')
+         	var mno = ${ loginUser.mNo };
+         	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+         }
     </script>
 </body>
 </html>

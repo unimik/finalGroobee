@@ -52,6 +52,7 @@
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
 	button{ cursor: pointer; }
+	.usertag {color: #47c6a3;}
 </style>
 
 </head>
@@ -965,6 +966,12 @@
 		location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
 		
 	});
+	/*@유저 아이디 클릭이벤트*/
+	function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
     </script>
     
 </body>

@@ -71,7 +71,7 @@
 		#selectOne{height:60px;}
 		
 		.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
-		
+		.usertag {color: #47c6a3;}
 	</style>
 </head>
 <body>
@@ -3248,6 +3248,13 @@
          		
          		$('.replyContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
          	}
+        }
+        
+    	/*@유저아이디 클릭이벤트 */
+        function goUser(){
+        	var id = $(event.target).attr('id')
+        	var mno = ${ loginUser.mNo };
+        	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
         }
     </script>
 </body>
