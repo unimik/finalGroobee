@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,6 +77,8 @@ public class FeedController {
     	if(strarr[i].charAt(0) == '#') {
 				Tag t = new Tag(f.getfNo(),strarr[i]);
 				taglist.add(t);
+				String tt = strarr[i];
+				strarr[i] = "<a href='javascript:void(0);' class='hashtag' onclick='goTag(this)'>"+tt+"</a>";
 				
 		}else if(strarr[i].charAt(0) == '@') {
     		  String id = strarr[i].substring(1);
@@ -192,10 +195,13 @@ public class FeedController {
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
-      System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
-      System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
-      System.out.println("들어온 fShareSet : " + f.getfShareSet());
-      System.out.println("들어온 fReplySet : " + f.getfReplySet());
+		/*
+		 * System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
+		 * System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
+		 * System.out.println("들어온 fShareSet : " + f.getfShareSet());
+		 * System.out.println("들어온 fReplySet : " + f.getfReplySet());
+		 */
+      
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
       
@@ -251,27 +257,51 @@ public class FeedController {
       f.setfReplySet(reply);
       f.setfShareSet(share);
       
+      //#태그 @태그 처리 
+      String huhu = "";
+      String[] strarr = f.getfContent().split(" |\\n");
+      ArrayList<Tag> taglist = new ArrayList<Tag>();
+      for(int i = 0; i < strarr.length; i++) {
+    	if(strarr[i].charAt(0) == '#') {
+    			
+				Tag t = new Tag(f.getfNo(),strarr[i]);
+				taglist.add(t);
+				String tt = strarr[i];
+				strarr[i] = "<a href='javascript:void(0);' class='hashtag' onclick='goTag(this)'>"+tt+"</a>";
+				
+		}else if(strarr[i].charAt(0) == '@') {
+    		  String id = strarr[i].substring(1);
+    		  Member m = fService.findTagMember(id);
+    		  
+			if(m != null) {
+				strarr[i] ="<a href='javascript:void(0);' class='usertag' id='"+m.getUserId()+"' onclick='goUser()'>"+"@"+id+"</a>";
+			}
+		}
+		if(strarr[i] != null) {
+			huhu += strarr[i]+" ";
+		}
+      }
+      
+      f.setfContent(huhu);
+      System.out.println("글"+f.getfContent());
+      
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
-      System.out.println("수정 fOpenScope : " + f.getfOpenScope());
-      System.out.println("수정 fLikeSet : " + f.getfLikeSet());
-      System.out.println("수정 fShareSet : " + f.getfShareSet());
-      System.out.println("수정 fReplySet : " + f.getfReplySet());
+		/*
+		 * System.out.println("수정 fOpenScope : " + f.getfOpenScope());
+		 * System.out.println("수정 fLikeSet : " + f.getfLikeSet());
+		 * System.out.println("수정 fShareSet : " + f.getfShareSet());
+		 * System.out.println("수정 fReplySet : " + f.getfReplySet());
+		 */
       
+      //태그 딜리트 
+      int deleteTag = fService.deleteTag(f.getfNo());
+      System.out.println("몇개 지웠니"+deleteTag);
       // 태그 인서트
-		String[] strarr = f.getfContent().split(" |\\n");
-		ArrayList<Tag> taglist = new ArrayList<Tag>();
-		for(int i = 0; i < strarr.length; i++) {
-			if(strarr[i].charAt(0) == '#') {
-				Tag t = new Tag(f.getfNo(),strarr[i]);
-				taglist.add(t);
-			}
-		}
-	
 		if(!taglist.isEmpty()) {
 			int resultTag = fService.insertTag(taglist);
-			System.out.println("인서트 태그"+resultTag);
+			//System.out.println("인서트 태그"+resultTag);
 		}
     		
       Member mem = (Member)session.getAttribute("loginUser");
@@ -296,30 +326,35 @@ public class FeedController {
          
          String saveFile = savePath + "/" + renameFileName;
          
+         // 파일이 잘 들어온 경우
          if(!mf.isEmpty() && mf.getOriginalFilename() != "") {
-            
-            if(p.getChangeName() != null) {
-               deleteFile(p.getChangeName(), multi);
-            }
+        	 
+        	// 바뀐 이름이 비어있지 않으면?
+        	 System.out.println("바뀐 이름은? : " + p.getChangeName());
+             if(p.getChangeName() != null) {
+                deleteFile(p.getChangeName(), multi);
+             }
             
             // 서버에 업로드 진행하기
-            if(renameFileName != null) {   // 파일이 잘 저장된 경우
-               p.setOriginName(mf.getOriginalFilename());
-               p.setChangeName(renameFileName);
-            }
+             if(renameFileName != null) {   // 파일이 잘 저장된 경우
+                p.setOriginName(mf.getOriginalFilename());
+                p.setChangeName(renameFileName);
+             }
             
          }
          
+         System.out.println("여기서 originName은? : " + p.getOriginName());
+         
          try {
-            p.setfNo(f.getfNo());
-            System.out.println("넘길 때 : " + fService.updatePhoto(p));
-            mf.transferTo(new File(saveFile));
+             p.setfNo(f.getfNo());
+             int photo = fService.updatePhoto(p);
+             System.out.println("넘길 때 : " + fService.updatePhoto(p));
+             mf.transferTo(new File(saveFile));
          }catch(IOException e) {
-            e.printStackTrace();
+             e.printStackTrace();
          }
          
          
-         int photo = fService.updatePhoto(p);
          System.out.println("업데이트 : " + originalFileName);
       }
       

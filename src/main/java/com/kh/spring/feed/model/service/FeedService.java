@@ -164,4 +164,13 @@ public interface FeedService {
 	 */
 	ArrayList<Photo> selectPhotoList(int getfNo);
 	
+	
+	/**
+	 * 수정시 태그 삭제
+	 * @param taglist
+	 * @param i 
+	 * @return
+	 */
+	int updateDeleteTag(ArrayList<Tag> taglist);
+	
 }

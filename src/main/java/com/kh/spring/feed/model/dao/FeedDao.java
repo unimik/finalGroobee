@@ -133,4 +133,8 @@ public class FeedDao {
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectPhotoList", getfNo);
 	}
+
+	public int updateDeleteTag(ArrayList<Tag> taglist) {
+		return sqlSession.delete("feedMapper.updateDeleteTag",taglist);
+	}
 }

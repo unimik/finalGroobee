@@ -196,6 +196,7 @@
 	           GM.G_NO
 	         , G.G_NAME
 	         , GM.GM_ID
+	         , G.G_STATUS
           FROM 
         	   GROUPS G
           LEFT JOIN MEMBER M 
@@ -204,6 +205,7 @@
             ON (G.G_NO = GM.G_NO)
          WHERE GM.GM_ID = #{userId}
          AND GM.GM_STATUS = 'Y'
+         AND G.G_STATUS = 'Y'
          ORDER BY G_JOINDATE DESC
 	</select>
 	
@@ -405,6 +407,14 @@
 	</insert>
 
 	<select id="findTagMember" resultMap="memberResultSet" parameterType="string">
-	SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{id}
+		SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{id}
 	</select>
+	
+	<delete id="updateDeleteTag" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="t" index="index" open="DECLARE BEGIN" close="; END;" separator=";">
+		DELETE FROM TAG
+		WHERE F_NO = #{t.fNo}
+		AND NOT F_TAG = #{t.fTag}
+		</foreach>
+	</delete>
 </mapper>
