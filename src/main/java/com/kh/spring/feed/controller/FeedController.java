@@ -281,15 +281,7 @@ public class FeedController {
       String root = multi.getSession().getServletContext().getRealPath("resources");
       String savePath = root + "/pUploadFiles";
       File folder = new File(savePath);   // 저장 폴더
-
-      // insert -> , insert, update 
-//      for(int i=0; i<fileList.size(); i++) {
-//         for(int j=0; j<f.getPhotoList().size(); j++) {
-//            if(!fileList.get(i).getOriginalFilename().equals(fileList.get(j).getOriginalFilename())) {
-//            
-//         }
-//      }
-//      
+     
       for(MultipartFile mf : fileList) {
          String originalFileName = mf.getOriginalFilename(); // 원본 파일명
          long fileSize = mf.getSize();      // 파일 사이즈

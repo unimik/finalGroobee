@@ -219,12 +219,13 @@
 							<c:when test="${ f.fLikeSet eq 'N' }">
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
@@ -235,7 +236,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%=rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -464,29 +465,29 @@
 	               		<input type="hidden" class="toNo" value="${ f.fNo }">
 	               		<input type="hidden" class="toId" value="${ f.fWriter }">
 	               		<!-- 댓글이 전체 허용일 경우 -->
-						<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+						<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
 						<c:choose>
 							<c:when test="${ f.fLikeSet eq 'N' }">
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-								<c:forEach var="r" items="${ f.replyList }">
-								<c:if test="${ r.rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ r.rStatus eq 'N' || empty r.rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
-								</c:forEach>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>

@@ -1,3 +1,4 @@
+<%@page import="com.kh.spring.feed.model.vo.Feed"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,21 +12,7 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/common.css">
     <link rel="stylesheet" href="${ contextPath }/resources/css/postInsertForm.css">
     <title>G R O O B E E</title>
-    
-    <style>
-    	#feedArea{ width: 633px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; -ms-overflow-style: none; margin-top:-80px; }
-		#feedArea::-webkit-scrollbar{display: none;}
-    	#postingForm { height: 704px; margin-bottom: 100px; border: none; }
-    	#photolistUpView { width: 100px; height: 100px; border: 1px solid #e5e5e5; 
-    					   border-radius: 10px; margin: 20px 0px 0px 15px; }
-    	#photolistUpView img { width: inherit; height: inherit; border-radius: 10px; }
-    	.plistName{ text-align: center; font-size: 10pt; width: 100px;
-    				margin-left: 20px; text-align: center; }
-    	#postingArea{ border: 2px #e5e5e5 solid; background: white; border-radius: 10px; width: 630px; }
-    	#postingArea > h4{ text-align: center }
-		#postingArea > hr{ border: 1px solid #e5e5e5;}
-		#btnstd{ display: inline-flex; margin-bottom: 200px; }
-    </style>
+
 </head>
 <body>
     <div class="wapper">
@@ -53,13 +40,19 @@
                                 </td>    
                             </tr>
                             <!-- 파일 첨부 영역 -->
-                            <tr>
+                            <tr class="tr">
                                 <td>
                                     <img id="fileIcon" src="${ contextPath }/resources/icons/add_file.png">
                                 </td>
                                 <td class="filetb">
-                                    <input type="file" multiple="multiple" id="input_file" name="upFile"
+                                    <input type="file" multiple="multiple" class="input_file" name="upFile"
                                      accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
+                                </td>
+                                <td><!-- 파일 선택 폼 추가 -->
+                                	<a href="#this" onclick="deleteFile()">
+                                		<img id="deleteFile" src="${ contextPath }/resources/icons/delete_image.png">
+                                		<p class="file_p">이미지 전체 삭제</p>
+                                	</a>
                                 </td>
                             </tr>
                             <!-- 파일 미리보기 영역 -->
@@ -195,7 +188,7 @@
                 } else{
                     $('#myGroupList').hide();
                 }
-            })
+            });
         });
         $('.tab_menu_btn').on('click',function(){
             $('.tab_menu_btn').removeClass('on');
@@ -235,57 +228,81 @@
         
     	/***************** 이미지 미리보기 *****************/
     	
-    	var sel_files= [];
+//    	var sel_files= [];
+	    var sel_files;
     	
     	$(document).ready(function(e) {
-    		
-    		$('#input_file').change(
+    		//var pCount = ${pCount};
+    		//alert(pCount);
+    		var chk = <%= ((Feed)request.getAttribute("f")).getfNo() %>;
+    		$('.input_file').change(
     			function(e) {
     				
     				var files = e.target.files;
     				var arr = Array.prototype.slice.call(files);
-    				// 업로드 가능 파일인지 체크
+					
+    				var checkPhotopreview = $(".photopreview").length;
+    				alert("이미 업로드된 이미지 : " + checkPhotopreview);
+    				
     				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
+    				if((files.length + checkPhotopreview) > 5) {
+   						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.')
+   						$('.input_file').val(""); // 파일 초기화
+   						reloadPhotoList(chk);
+   						return false;
+   					}
+    				
+    				// 파일 업로드가 0개인 업데이트 피드에 파일 업로드할 경우 미리보기 추가
+    				if(checkPhotopreview < 1) {
+    					var trView = '<tr class="trView">';
+   						var trViewName = '<tr class="trViewName">';
+						$("#undertd").before(trView);
+						$("#undertd").before(trViewName);
+						preview(arr);
+    					return true;
+    				}
+    				
+    				// 업로드 가능 파일인지 체크
     				for (var i = 0; i < files.length; i++) {
     					if (!checkExtension(files[i].name, files[i].size)) {
     						return false;
-    					}
-    					
-    					if(files.length > 5) {
-    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.');
-    						$('#input_file').val(""); // 파일 초기화
-    						return false;
-    					}
-    					
-    				// 기존 파일이 있을 시에 갯수 체크해서 추가할 수 있는 만큼의 이미지 갯수만 올리기
-    					
+    					}	
     				}
+
     				preview(arr);
+
     			}); // file change
+
     		function checkExtension(fileName, fileSize) {
+
     			var regex = new RegExp("(.*?)\.(bmp|gif|png|jpg|jpeg)$");
     			var maxSize = 20971520; // 20MB
+
     			if(fileSize >= maxSize) {
     				alert('파일 사이즈를 초과하였습니다.');
-    				$('#input_file').val(""); // 파일 초기화
+    				$('.input_file').val(""); // 파일 초기화
+    				
     				return false;
     			}
+
     			if(!regex.test(fileName)) {
     				alert('이미지 확장자만 업로드 가능합니다.');
-    				$('#input_file').val(""); // 파일 초기화
+    				$('.input_file').val(""); // 파일 초기화
     				return false;
     			}
     			
     			return true;
     		}
+
     		function preview(arr) {
-    			
+    			// 1
     			var index = 0;
     			
     			arr.forEach(function(fUp) {
     				
-    				sel_files = [];
-    				sel_files.push(fUp);
+//    				sel_files = [];
+//    				sel_files.push(fUp);
+					sel_files = fUp;
     				
     				console.log(sel_files);
     				
@@ -294,6 +311,7 @@
     				if (fileName.length > 10) {
     					fileName = fileName.substring(0, 9) + "...";
     				}
+
     				// 이미지 파일 미리보기
     				if (fUp.type.match('image.*')) {
     					var reader = new FileReader(); // 파일을 읽기 위한 FileReader객체 생성
@@ -309,7 +327,7 @@
     						
     						name += fileName + '<div class="dltImg"><a href=\"javascript:void(0);\" onclick=\"deleteImageAction('+index+')\" id=\"dimg_id_'+index+'\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
     						name += '</div>' +'</td>';
-    						index++;
+    						//index++;
     						$(name).appendTo('.trViewName')
     						
     						console.log(fUp);
@@ -325,8 +343,8 @@
     		
     	});
     		
-   		// X 이미지 클릭 시 삭제 이벤트 핸들러
-       	function deleteImageAction(index) {
+   		// 이미지 전체 삭제 클릭 시 삭제 이벤트 핸들러
+       	function deleteFile() {
        		console.log("index : " + index);
        		sel_files.splice(index, 1);
        		
@@ -334,14 +352,46 @@
        		var img_id = "#img_id_" + index;
        		var image = "#pView_" + index;
        		var name = "#pName_" + index;
+       		
+       		var newFileList = Array.from(document.getElementById("input_file").files);
+       		console.log("files : " + newFileList);
+       		newFileList.splice(index, 1);
        		$(dimg_id).remove();
        		$(img_id).remove();
        		$(image).remove();
        		$(name).remove();
        		
+       		$(".input_file").prop(newFileList);
+       		
        		console.log(sel_files);
        	}
    		
+/*    		function updateImageAction(index) {
+ 		console.log("index : " + index);
+		sel_files.splice(index, 1);
+		console.log(sel_files);
+		 
+   			$(document).ready(function(e) {
+   	    		$('.input_file').change(	
+ 	    		function(e) {
+		   		    e.preventDefault();
+		   		    $(".input_file").click();			
+   	    		});
+		   	
+   			});
+
+   		} */
+   		
+        function changeValue(obj){
+	        alert("너냐? : " + obj.value);
+	        
+	        // 파일 선택창을 띄웠다가 취소 시 선택값이 모두 사라질 경우 미리보기 사진도 모두 삭제
+       		if(obj.value === '') {
+				$(".plistView").remove();
+  				$(".plistName").remove();
+       		}
+        }
+        
     </script>
 </body>
 </html>
