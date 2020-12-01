@@ -118,6 +118,22 @@
 		<result property="s_status" column="S_STATUS"/>
 	</resultMap>
 	
+	<resultMap id="memberResultSet" type="Member">
+ 		<id property="mNo" column="M_NO"/>
+ 		<result property="userId" column="M_ID"/>
+ 		<result property="userName" column="M_NAME"/>
+ 		<result property="userPwd" column="M_PWD"/>
+ 		<result property="email" column="M_EMAIL"/>
+ 		<result property="interestes" column="INTERESTES"/>
+ 		<result property="gNo" column="G_NO"/>
+ 		<result property="mStatus" column="M_STATUS"/>
+ 		<result property="mImage" column="M_IMAGE"/>
+ 		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
+ 		<result property="cDate" column="CREATE_DATE"/>
+ 		<result property="mLevel" column="M_LEVEL"/>
+ 		<result property="mIntro" column="M_INTRO"/>
+ 	</resultMap>
+	
 	<insert id="insertPost" parameterType="Feed" useGeneratedKeys="true" keyProperty="fNo" keyColumn="F_NO">
 		<selectKey keyProperty="fNo" keyColumn="F_NO" resultType="int" order="BEFORE">
 			SELECT SEQ_FNO.NEXTVAL FROM DUAL
@@ -388,7 +404,7 @@
 		VALUES(#{sf_no},#{sm_no},DEFAULT)
 	</insert>
 
-	<select id="findTagMember" parameterType="string">
-	SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{string}
+	<select id="findTagMember" resultMap="memberResultSet" parameterType="string">
+	SELECT * FROM MEMBER WHERE M_STATUS ='Y' AND M_LEVEL='M' AND M_ID = #{id}
 	</select>
 </mapper>

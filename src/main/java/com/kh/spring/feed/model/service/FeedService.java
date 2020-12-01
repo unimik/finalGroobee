@@ -9,6 +9,7 @@ import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.StorageBox;
 
 public interface FeedService {
@@ -154,7 +155,7 @@ public interface FeedService {
 	 * @param string
 	 * @return
 	 */
-	int findTagMember(String string);
+	Member findTagMember(String string);
 	
 	
 	 /* 사진 리스트

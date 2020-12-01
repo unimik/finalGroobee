@@ -80,6 +80,7 @@
 	#likeIcon { margin: 7px 0 0 25px; }
 	.postbox{float: left; cursor: pointer; margin: 10px 5px 0 5px;}
 	.post .img_wrap:before{margin: 10px 5px 0 5px;}
+	.usertag{ color: #47c6a3;}
    </style>
    <script>
   
@@ -2183,7 +2184,12 @@
     $('#close').on("click", function(){
         $('.myFeed_popup_myEdit').hide();
     });
-
+	
+    function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
     </script>
 </body>
 </html>
