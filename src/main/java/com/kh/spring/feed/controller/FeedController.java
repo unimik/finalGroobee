@@ -82,8 +82,9 @@ public class FeedController {
     		  Member m = fService.findTagMember(id);
     		  
 			if(m != null) {
-				strarr[i] ="<a href='#' class='usertag' id='"+m.getUserId()+"' onclick='goUser("+m.getUserId()+")'>"+"@"+id+"</a>";
-				}
+				strarr[i] ="<a href='javascript:void(0);' class='usertag' id='"+m.getUserId()+"' onclick='goUser()'>"+"@"+id+"</a>";
+				System.out.println(strarr[i]);
+			}
 		}
 		if(strarr[i] != null) {
 			huhu += strarr[i]+" ";

@@ -2185,13 +2185,10 @@
         $('.myFeed_popup_myEdit').hide();
     });
 	
-    function goUser(userId){
-    	var id =  $(this).attr("id");
+    function goUser(){
+    	var id = $(event.target).attr('id')
     	var mno = ${ loginUser.mNo };
-    	console.log(id);
-    	console.log(userId);
-    	alert('안나옴?');
-
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
     }
     </script>
 </body>
