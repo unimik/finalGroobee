@@ -15,6 +15,8 @@
     .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
     #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
     .sendreport { margin-top:0;}
+    .storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
+		
     </style>
 </head>
 <body>
@@ -1093,7 +1095,7 @@
 									
 										var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
 										var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px;">');
-										var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
+										var $p = $('<p id="sbText" style="margin-top:300px; text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
 										var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
 										var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
 										for(var i=0; i < data.length; i++){

@@ -76,7 +76,7 @@
 							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
@@ -95,7 +95,7 @@
 							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 					</c:otherwise>
 				</c:choose>
 					<c:choose>
@@ -147,27 +147,7 @@
 							  <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
 			       		</div>
 					</div>
-					<div class="reply_report" id="reply_report" style="display:none">
-				<div id="Reply_report_con">
-					<p>신고사유</p>
-					<select id="reply_reportType" class="selectRtype">
-						<option value="unacceptfeed" selected>부적절한 게시글</option>
-						<option value="insult">욕설</option>
-						<option value="ad">광고</option>
-						<option value="spam">도배</option>
-					</select>
-					<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
-						rows="4"></textarea>
-					<br> <input class="selectRtype Rtype" id="selectRtype"
-						type="button" value="확인" style="cursor: pointer;"> <input
-						class="sendreport reply_submit" type="button" id="reply_report-submit"
-						value="확인" style="cursor: pointer; display: none;">
-					<button class="selectRtype cancel" id="cancel"
-						style="cursor: pointer;">취소</button>
-					<button class="sendreport cancel2" id="cancel2"
-						style="cursor: pointer; display: none;">취소</button>
-				</div>
-				</div>
+				
 	        <div id="con">
 				<div id="feed_content">
 						<c:if test="${ !empty f.photoList }">
@@ -236,6 +216,27 @@
 	           		</div>
 				</div>
 				<div id="replyArea">
+					<div class="reply_report" id="reply_report" style="display:none">
+						<div id="Reply_report_con">
+							<p>신고사유</p>
+							<select id="reply_reportType" class="selectRtype">
+								<option value="unacceptfeed" selected>부적절한 게시글</option>
+								<option value="insult">욕설</option>
+								<option value="ad">광고</option>
+								<option value="spam">도배</option>
+							</select>
+							<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+								rows="4"></textarea>
+							<br> <input class="selectRtype Rtype" id="selectRtype"
+								type="button" value="확인" style="cursor: pointer;"> <input
+								class="sendreport reply_submit" type="button" id="reply_report-submit"
+								value="확인" style="cursor: pointer; display: none;">
+							<button class="selectRtype cancel" id="cancel"
+								style="cursor: pointer;">취소</button>
+							<button class="sendreport cancel2" id="cancel2"
+								style="cursor: pointer; display: none;">취소</button>
+						</div>
+					</div>
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
@@ -996,7 +997,8 @@
 			/* 댓글 신고하기*/
 		 	// 1. 신고하기 버튼 이벤트
 		 	$(document).on("click","#rReport",function(){
-		 		$(".reply_report").css("display","block");
+		 		$(this).parents('#reply_menu').hide();
+		 		$(this).parents().children(".reply_report").css("display","block");
 		 		// 2.리플 번호 불러오기
 			 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
 		 		
