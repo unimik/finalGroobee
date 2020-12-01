@@ -974,6 +974,7 @@
     /*#태그 이벤트*/
     function goTag(htag) {
     	var tag = $(htag).text();
+    	console.log('검색하는 단어'+tag.substr(1));
     	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
 	}
     </script>
