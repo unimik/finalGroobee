@@ -182,19 +182,8 @@
 						</ul>
 					</c:if>
 					<p id="text">
-						<!-- 진선 : 태그기능 추가 중. -->
-						<c:forEach var="d" items="${fn:split(f.fContent,'#')}">	
-							<c:choose>							
-							<c:when test="${fn:contains(d,' ') }">
-									<a href="search.do?type=tag&key=${fn:substringBefore(d,' ') }&mNo=${ loginUser.mNo }" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
-									 ${fn:substringAfter(d,' ') }
-							</c:when>
-							<c:otherwise>
-								<p style="color:skyblue;cursor:pointer;" class="hashTag">#${d }</p>
-							</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						
+						<!-- 진선 : 원래 코드로 복원 -->
+						<c:out value="${ f.fContent }" />	
 					</p>
 	
 					<div id="heart_reply">
@@ -958,14 +947,14 @@
 		});
 	});
 	
-	// 해시태그 클릭하면 해시태그 검색하기
+<%-- 	// 해시태그 클릭하면 해시태그 검색하기
 	$(document).on("click",".hashTag",function(){
 		var keyword=$(this).text().substr(1,this.length); // #태그 분리 및  value 뽑아내기
 		var mno = "<%= ((Member)session.getAttribute("loginUser")).getmNo() %>";
 		console.log(keyword);
 		location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
 		
-	});
+	}); --%>
 	/*@유저 아이디 클릭이벤트*/
 	function goUser(){
     	var id = $(event.target).attr('id')
