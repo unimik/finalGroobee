@@ -196,6 +196,7 @@
 	           GM.G_NO
 	         , G.G_NAME
 	         , GM.GM_ID
+	         , G.G_STATUS
           FROM 
         	   GROUPS G
           LEFT JOIN MEMBER M 
@@ -204,6 +205,7 @@
             ON (G.G_NO = GM.G_NO)
          WHERE GM.GM_ID = #{userId}
          AND GM.GM_STATUS = 'Y'
+         AND G.G_STATUS = 'Y'
          ORDER BY G_JOINDATE DESC
 	</select>
 	

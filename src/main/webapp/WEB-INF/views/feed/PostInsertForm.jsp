@@ -49,7 +49,7 @@
                                      accept="image/png, image/jpeg, image/JPEG, image/jpg, image/bmp, image/gif">
                                 </td>
                                 <td><!-- 파일 선택 폼 추가 -->
-                                	<a href="#this" onclick="deleteFile()">
+                                	<a href="javascript:void(0);" onclick="deleteFile()">
                                 		<img id="deleteFile" src="${ contextPath }/resources/icons/delete_image.png">
                                 		<p class="file_p">이미지 전체 삭제</p>
                                 	</a>

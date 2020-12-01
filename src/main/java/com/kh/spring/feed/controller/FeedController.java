@@ -192,10 +192,13 @@ public class FeedController {
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
-      System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
-      System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
-      System.out.println("들어온 fShareSet : " + f.getfShareSet());
-      System.out.println("들어온 fReplySet : " + f.getfReplySet());
+		/*
+		 * System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
+		 * System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
+		 * System.out.println("들어온 fShareSet : " + f.getfShareSet());
+		 * System.out.println("들어온 fReplySet : " + f.getfReplySet());
+		 */
+      
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
       
@@ -254,10 +257,12 @@ public class FeedController {
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
-      System.out.println("수정 fOpenScope : " + f.getfOpenScope());
-      System.out.println("수정 fLikeSet : " + f.getfLikeSet());
-      System.out.println("수정 fShareSet : " + f.getfShareSet());
-      System.out.println("수정 fReplySet : " + f.getfReplySet());
+		/*
+		 * System.out.println("수정 fOpenScope : " + f.getfOpenScope());
+		 * System.out.println("수정 fLikeSet : " + f.getfLikeSet());
+		 * System.out.println("수정 fShareSet : " + f.getfShareSet());
+		 * System.out.println("수정 fReplySet : " + f.getfReplySet());
+		 */
       
       // 태그 인서트
 		String[] strarr = f.getfContent().split(" |\\n");
@@ -296,30 +301,35 @@ public class FeedController {
          
          String saveFile = savePath + "/" + renameFileName;
          
+         // 파일이 잘 들어온 경우
          if(!mf.isEmpty() && mf.getOriginalFilename() != "") {
-            
-            if(p.getChangeName() != null) {
-               deleteFile(p.getChangeName(), multi);
-            }
+        	 
+        	// 바뀐 이름이 비어있지 않으면?
+        	 System.out.println("바뀐 이름은? : " + p.getChangeName());
+             if(p.getChangeName() != null) {
+                deleteFile(p.getChangeName(), multi);
+             }
             
             // 서버에 업로드 진행하기
-            if(renameFileName != null) {   // 파일이 잘 저장된 경우
-               p.setOriginName(mf.getOriginalFilename());
-               p.setChangeName(renameFileName);
-            }
+             if(renameFileName != null) {   // 파일이 잘 저장된 경우
+                p.setOriginName(mf.getOriginalFilename());
+                p.setChangeName(renameFileName);
+             }
             
          }
          
+         System.out.println("여기서 originName은? : " + p.getOriginName());
+         
          try {
-            p.setfNo(f.getfNo());
-            System.out.println("넘길 때 : " + fService.updatePhoto(p));
-            mf.transferTo(new File(saveFile));
+             p.setfNo(f.getfNo());
+             int photo = fService.updatePhoto(p);
+             System.out.println("넘길 때 : " + fService.updatePhoto(p));
+             mf.transferTo(new File(saveFile));
          }catch(IOException e) {
-            e.printStackTrace();
+             e.printStackTrace();
          }
          
          
-         int photo = fService.updatePhoto(p);
          System.out.println("업데이트 : " + originalFileName);
       }
       

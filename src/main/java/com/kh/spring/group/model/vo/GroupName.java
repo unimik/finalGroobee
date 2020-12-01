@@ -12,16 +12,18 @@ public class GroupName implements Serializable {
 	private int gNo;
 	private String gName;
 	private String gmId;
+	private String gStatus;
 
 	public GroupName() {
 		super();
 	}
 
-	public GroupName(int gNo, String gName, String gmId) {
+	public GroupName(int gNo, String gName, String gmId, String gStatus) {
 		super();
 		this.gNo = gNo;
 		this.gName = gName;
 		this.gmId = gmId;
+		this.gStatus = gStatus;
 	}
 
 	public int getgNo() {
@@ -48,9 +50,17 @@ public class GroupName implements Serializable {
 		this.gmId = gmId;
 	}
 
+	public String getgStatus() {
+		return gStatus;
+	}
+
+	public void setgStatus(String gStatus) {
+		this.gStatus = gStatus;
+	}
+
 	@Override
 	public String toString() {
-		return "GroupName [gNo=" + gNo + ", gName=" + gName + ", gmId=" + gmId + "]";
+		return "GroupName [gNo=" + gNo + ", gName=" + gName + ", gmId=" + gmId + ", gStatus=" + gStatus + "]";
 	}
 
 }
