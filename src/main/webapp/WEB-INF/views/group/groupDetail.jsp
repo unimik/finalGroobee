@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>G R O O B E E</title>
 	<link href="<%=request.getContextPath()%>/resources/css/groupDetail.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
@@ -71,7 +71,8 @@
 		#selectOne{height:60px;}
 		
 		.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
-		
+		.hashtag{color:#88abda;}
+		.usertag{color: #47c6a3;}
 	</style>
 </head>
 <body>
@@ -372,7 +373,7 @@
 																</c:if>
 											                   <%--<p id="text"><c:out value="${ f.fContent }" /></p>--%>
 																<div id="text">
-																${ f.fContent }
+																	${ f.fContent }
 																</div>
 																<div id="heart_reply">
 																	<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -2555,6 +2556,8 @@
  				$('.goStorage').on("click",function(){
  					var mNo = ${ loginUser.mNo};
  					var fNo = $(this).parents().children('.fn').val();
+ 					var pop = $(this).parents().children('div.storagePop');
+ 					console.log(pop);
  					console.log(mNo);
  					$.ajax({
  						url:"selectStorage.do",
@@ -2585,7 +2588,7 @@
  								$divAll.append($input);
  								$divAll.append($div);
  							
- 							$('.storagePop').show();
+ 								pop.css("display","block");
  						},error:function(){
  							alret("보관함리스트 불러오기 실패");
  						}
@@ -2677,7 +2680,10 @@
           		$(".sendreport").css("display","block");
           	}); 
           	
-          	
+          	$('.cancel').on("click", function(e){
+		   		var feedReport = e.target.parentElement.parentElement;
+		 		$(feedReport).hide();
+		 	});
           	
           	$('.rUpBtn').on("click", function(event){
 //      	  	  var btn = $(event.target).parents("div#replyArea").find("div#reply_menu");
@@ -3947,7 +3953,46 @@
 				}
 				
 			});
-				
+			/* 댓글 신고하기*/
+		 	// 1. 신고하기 버튼 이벤트
+		 	$(document).on("click","#rReport",function(){
+		 		$(this).parents('#reply_menu').hide();
+		 		$(this).parents().children(".reply_report").css("display","block");
+		 		// 2.리플 번호 불러오기
+			 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
+		 		
+			 	// 3. 댓글 신고하기
+			 	$(document).on("click",'.reply_submit',function(){
+			 		var text =$(this).prev().prev().prev().val();
+			 		
+			 		console.log(text);
+		 			console.log(targetrNo);
+			 		console.log($("#reply_reportType").val());
+			 		
+			 		if(text == ""){
+						alert('신고 사유를 입력해 주세요.')
+					}else{
+						
+						$.ajax({
+							url:'reportRInsert.do',
+							data:{
+								reportType : $("#reply_reportType").val(),
+								replyType : "reply",
+								content : text,
+								targetrNo:targetrNo
+							},
+							success: function(){
+								alert('신고 완료');
+								$('.reply_menu').hide();
+					      		$('.reply_report').hide();
+							},error:function(){
+								alert('신고 실패!');
+							}
+						});
+						
+					};	
+			 	});
+		 	});
 	/* 스크롤 맨위로 올리기 */
 	$(function(){
 		$("#feedArea").scroll(function(){

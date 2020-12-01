@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>G R O O B E E</title>
 <link href="<%=request.getContextPath()%>/resources/css/groupUpdate.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -31,9 +31,6 @@
                    <div class="container second" id="search_container">
                        <div id="search_container_first">
                            <p id="page_name">그룹 정보 수정</p>
-                       </div>
-                       <div id="search_container_second">
-                           <input type="search" id="searchBox" name="searchBox"/><input type="button" id="searchBtn" name="searchBtn" value="검색" />
                        </div>
                    </div>
 
@@ -102,7 +99,7 @@
                                            		<c:if test="${ !empty g.gProfile }">
 				                        		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameProfile }"></div>
 				                        		<p id="p_title">그룹 프로필사진</p>
-				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);" value="${ g.gProfile }">
 			                        	   		</c:if>
 			                        	   		<c:if test="${ empty g.gProfile }">
 			                        	   		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/icons/g_pro.png"></div>
@@ -169,7 +166,7 @@
                                        <div id="container_main_sixth_first">
                                            <p id="p_title">대표 사진</p>
                                            <c:if test="${ !empty g.gImage }">
-                                            <input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
+                                            <input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);" value="${ g.gImage }"/>
                                            <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }"></div>
                                        		</c:if>
                                        		<c:if test="${ empty g.gImage }">

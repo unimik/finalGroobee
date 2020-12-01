@@ -13,7 +13,7 @@
 	button{ cursor: pointer; }
 	.usertag {color: #47c6a3;}
 	<%--해쉬태그 색을 바꿔주세요...--%>
-	.hashtag{color:red;}
+	.hashtag{color:#88abda;}
 </style>
 </head>
 <body>
@@ -798,6 +798,8 @@
 			$('.goStorage').on("click",function(){
 				var mNo = ${ loginUser.mNo};
 				var fNo = $(this).parents().children('.fn').val();
+				var pop = $(this).parents().children('div.storagePop');
+				console.log(pop);
 				console.log(mNo);
 				$.ajax({
 					url:"selectStorage.do",
@@ -828,7 +830,8 @@
 							$divAll.append($input);
 							$divAll.append($div);
 						
-						$('.storagePop').show();
+						
+							pop.css("display","block");
 					},error:function(){
 							alret("보관함리스트 불러오기 실패");
 					}

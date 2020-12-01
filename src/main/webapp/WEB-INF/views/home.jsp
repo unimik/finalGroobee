@@ -54,7 +54,7 @@
 	button{ cursor: pointer; }
 	.usertag {color: #47c6a3;}
 	<%--해쉬태그 색을 바꿔주세요...--%>
-	.hashtag{color:red;}
+	.hashtag{color:#88abda;}
 </style>
 
 </head>
