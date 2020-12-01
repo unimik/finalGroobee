@@ -368,8 +368,10 @@
 															</c:forEach>
 														</ul>
 												</c:if>
-							                   <p id="text"><c:out value="${ f.fContent }" /></p>
-
+							                   <%--<p id="text"><c:out value="${ f.fContent }" /></p>--%>
+												<div id="text">
+												${ f.fContent }
+												</div>
 												<div id="heart_reply">
 													<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 													<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
@@ -572,8 +574,10 @@
 															</c:forEach>
 														</ul>
 												</c:if>
-												 <p id="text"><c:out value="${ f.fContent }" /></p>
-
+												 <%-- <p id="text"><c:out value="${ f.fContent }" /></p>--%>
+												<div id="text">
+												${ f.fContent }
+												</div>
 												<div id="heart_reply">
 												<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 												<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
@@ -794,8 +798,10 @@
 																</c:forEach>
 															</ul>
 													</c:if>
-												 <p id="text"><c:out value="${ f.fContent }" /></p>
-
+												 <%-- <p id="text"><c:out value="${ f.fContent }" /></p> --%>
+												<div id="text">
+												${ f.fContent }
+												</div>
 												<div id="heart_reply">
 												<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 												<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
