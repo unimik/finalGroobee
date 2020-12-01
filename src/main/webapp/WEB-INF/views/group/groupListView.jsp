@@ -623,7 +623,12 @@
 				//var reportCon = e.target.parentElement.parentElement.children[0].children[2];
 				$(".pop_menu").css("display","none");
 				
+				var reportContent= $(this).siblings("#reportContent").val();
+				var reportType=$(this).siblings("#reportType").val();
+				
 				var targetfNo=$(this).parents().prev().val(); // fNo 불러오기
+				
+				
 				if($("#reportType").val() == ""){
 					alert('신고 사유를 입력해 주세요.')
 				}else{
@@ -631,9 +636,9 @@
 					$.ajax({
 						url:'reportFInsert.do',
 						data:{
-							reportType : $("#reportType").val(),
+							reportType : reportType,
 							feedType : "feed",
-							content : $("#reportContent").val(),
+							content : reportContent,
 							targetfNo:targetfNo
 						},
 						success: function(){
