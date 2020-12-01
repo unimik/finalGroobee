@@ -303,11 +303,22 @@
 	</select>
 	
 	<select id="selectGfList" resultMap="postResultSet">
-		SELECT *
+		SELECT 
+			F.*
+	      , (SELECT MB.M_RENAME_IMAGE
+	        FROM MEMBER MB
+	        WHERE MB.M_ID = F.F_WRITER) AS M_PROFILE
+	      , R.*
+	      , P.*
+	      , G.*
+	      , M.M_RENAME_IMAGE
+          , L.LIKECHK
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+        LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
+        LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{userId} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO != 0

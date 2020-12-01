@@ -48,8 +48,8 @@ public class FeedServiceImpl implements FeedService {
 	}
 	
 	@Override
-	public ArrayList<Feed> selectGfList() {
-		return fDao.selectGfList();
+	public ArrayList<Feed> selectGfList(String userId) {
+		return fDao.selectGfList(userId);
 	}
 
 	public int deletePost(int fNo) {

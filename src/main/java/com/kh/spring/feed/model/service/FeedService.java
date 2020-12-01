@@ -76,7 +76,7 @@ public interface FeedService {
 	 *  전체 그룹피드 리스트
 	 * @return
 	 */
-	ArrayList<Feed> selectGfList();
+	ArrayList<Feed> selectGfList(String userId);
 	
 	/**
 	 * 한 그룹의 피드 최신순 리스트
