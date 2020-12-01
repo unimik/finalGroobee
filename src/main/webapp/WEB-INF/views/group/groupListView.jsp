@@ -11,6 +11,9 @@
 <style>
 	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
 	button{ cursor: pointer; }
+	.usertag {color: #47c6a3;}
+	<%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:red;}
 </style>
 </head>
 <body>
@@ -76,7 +79,7 @@
 							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
@@ -95,7 +98,7 @@
 							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 					</c:otherwise>
 				</c:choose>
 					<c:choose>
@@ -131,6 +134,7 @@
 					</c:choose>
 					</div>
 					<div class="feed_report">
+						<input type="hidden" value="${f.fNo }"/>
 			             <div id="feed_report_con">
 			                  <p>신고사유</p>
 			                  <select id="reportType" class="selectRtype">
@@ -147,27 +151,7 @@
 							  <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
 			       		</div>
 					</div>
-					<div class="reply_report" id="reply_report" style="display:none">
-				<div id="Reply_report_con">
-					<p>신고사유</p>
-					<select id="reply_reportType" class="selectRtype">
-						<option value="unacceptfeed" selected>부적절한 게시글</option>
-						<option value="insult">욕설</option>
-						<option value="ad">광고</option>
-						<option value="spam">도배</option>
-					</select>
-					<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
-						rows="4"></textarea>
-					<br> <input class="selectRtype Rtype" id="selectRtype"
-						type="button" value="확인" style="cursor: pointer;"> <input
-						class="sendreport reply_submit" type="button" id="reply_report-submit"
-						value="확인" style="cursor: pointer; display: none;">
-					<button class="selectRtype cancel" id="cancel"
-						style="cursor: pointer;">취소</button>
-					<button class="sendreport cancel2" id="cancel2"
-						style="cursor: pointer; display: none;">취소</button>
-				</div>
-				</div>
+				
 	        <div id="con">
 				<div id="feed_content">
 						<c:if test="${ !empty f.photoList }">
@@ -183,8 +167,10 @@
 							</ul>
 						</c:if>
 						
-					<p id="text"><c:out value="${ f.fContent }" /></p>
-
+					 <%-- <p id="text"><c:out value="${ f.fContent }" /></p> --%>
+					<div id="text">
+					${ f.fContent }
+					</div>
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 					<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
@@ -236,6 +222,27 @@
 	           		</div>
 				</div>
 				<div id="replyArea">
+					<div class="reply_report" id="reply_report" style="display:none">
+						<div id="Reply_report_con">
+							<p>신고사유</p>
+							<select id="reply_reportType" class="selectRtype">
+								<option value="unacceptfeed" selected>부적절한 게시글</option>
+								<option value="insult">욕설</option>
+								<option value="ad">광고</option>
+								<option value="spam">도배</option>
+							</select>
+							<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+								rows="4"></textarea>
+							<br> <input class="selectRtype Rtype" id="selectRtype"
+								type="button" value="확인" style="cursor: pointer;"> <input
+								class="sendreport reply_submit" type="button" id="reply_report-submit"
+								value="확인" style="cursor: pointer; display: none;">
+							<button class="selectRtype cancel" id="cancel"
+								style="cursor: pointer;">취소</button>
+							<button class="sendreport cancel2" id="cancel2"
+								style="cursor: pointer; display: none;">취소</button>
+						</div>
+					</div>
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
@@ -377,7 +384,7 @@
 				</c:if>
 			</div>
 		<div class="feed_report">
-			<input type="hidden" value=${f.fNo }>
+			<input type="hidden" value="${f.fNo}" class="feedNo"/>
 			<div id="feed_report_con">
 				<p>신고사유</p>
 				<select id="reportType" class="selectRtype">
@@ -433,8 +440,10 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text"><c:out value="${ f.fContent }" /></p>
-	
+					 <%-- <p id="text"><c:out value="${ f.fContent }" /></p> --%>
+					<div id="text">
+					${ f.fContent }
+					</div>
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 					<c:if test="${ f.fLikeSet eq 'Y' || empty f.fLikeSet }">
@@ -606,33 +615,44 @@
 			     });
 				  
 				  
-			 	$('.feed_report_btn').on("click",function(e){
-			 		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
-			 		$(feedReport).show();
-	            });
+				  $('.feed_report_btn').on("click",function(){
+		                $(this).parents().children('.feed_report').show();
+		                /* var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
+		                console.log(feedReport);
+		                $(feedReport).show(); */
+		               });
 				 
 			 	
 			}
 			     
-			$(document).on('click',".report-submit",function(e){
-				var feedReport = e.target.parentElement.parentElement;
-				var reportCon = e.target.parentElement.parentElement.children[0].children[2];
-				if($(reportCon).val() == ""){
+			$(document).on('click',".report-submit",function(){
+				//var feedReport = e.target.parentElement.parentElement;
+				//var reportCon = e.target.parentElement.parentElement.children[0].children[2];
+				$(".pop_menu").css("display","none");
+				
+				var reportContent= $(this).siblings("#reportContent").val();
+				var reportType=$(this).siblings("#reportType").val();
+				
+				var targetfNo=$(this).parents().prev().val(); // fNo 불러오기
+				
+				
+				if($("#reportType").val() == ""){
 					alert('신고 사유를 입력해 주세요.')
 				}else{
 					
 					$.ajax({
-						url:'/spring/report.do',
+						url:'reportFInsert.do',
 						data:{
-							reportType : $("#reportType").val(),
+							reportType : reportType,
 							feedType : "feed",
-							content : $(reportCon).val()
+							content : reportContent,
+							targetfNo:targetfNo
 						},
 						success: function(){
-							$(feedReport).css('display','none');
+							$(".feed_report").css('display','none');
 							$(".selectRtype").css("display","inline-block");
 				      		$(".sendreport").css("display","none");
-				      		$(reportCon).val('')
+				      		$("#reportContent").val('')
 							alert('신고완료');
 						},error:function(){
 							alert('신고 실패!');
@@ -790,7 +810,7 @@
 						$divAll.html("");
 						
 							var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
-							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;">');
+							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 210px; border-radius: 15px; margin-top:300px;">');
 							var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
 							var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
 							var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
@@ -798,12 +818,13 @@
 								$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
 							}
 							var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
-							
+							var $cancelbtn =$('<input type="button" id="storageClose" class="storageClose" value="취소" style="width: 150px; height:32px; border:0; border-radius:10px; background:#daf4ed; margin: 10px 0 0 80px;">'); 
 							
 							$div.append($p);
 							$div.append($p2);
 							$div.append($select);
 							$div.append($button);
+							$div.append($cancelbtn);
 							$divAll.append($input);
 							$divAll.append($div);
 						
@@ -812,6 +833,10 @@
 							alret("보관함리스트 불러오기 실패");
 					}
 				});
+				
+				$(document).on("click",".storageClose",function(){
+						$('.storagePop').hide();
+					});
 				
 				$(document).on("click",".insertStorage",function(){
 
@@ -996,7 +1021,8 @@
 			/* 댓글 신고하기*/
 		 	// 1. 신고하기 버튼 이벤트
 		 	$(document).on("click","#rReport",function(){
-		 		$(".reply_report").css("display","block");
+		 		$(this).parents('#reply_menu').hide();
+		 		$(this).parents().children(".reply_report").css("display","block");
 		 		// 2.리플 번호 불러오기
 			 		var targetrNo = $(this).parent().parent().parent().parent().prev().prev().val();
 		 		
@@ -1048,6 +1074,18 @@
 			return false;
 		});
 	});
+	/*@유저아이디 클릭이벤트 */
+	function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
+	
+	/*#태그 이벤트*/
+    function goTag(htag) {
+    	var tag = $(htag).text();
+    	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
+	}
 	</script>
 </body>
 </html>
