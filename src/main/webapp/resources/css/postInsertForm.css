@@ -1,6 +1,10 @@
-#postingForm{border: 2px #e5e5e5 solid; background: white; border-radius: 10px; width: 630px; height: 700px; margin-bottom: 100px;}
+#postingForm{ border: none; background: white; border-radius: 10px; width: 630px;
+		      height: 704px; margin-bottom: 100px;}
 #postingForm > h4{ text-align: center }
-#postingForm >hr{ border: 1px solid #e5e5e5;}
+#postingForm > hr{ border: 1px solid #e5e5e5;}
+#postingArea{ border: 2px #e5e5e5 solid; background: white; border-radius: 10px; width: 630px; }
+#postingArea > h4{ text-align: center; }
+#postingArea > hr{ border: 1px solid #e5e5e5;}
 #tbb{display: table;}
 td{ display: table; padding: 0; float: left;}
 #tbb ul{ list-style: none; margin: auto;}
@@ -15,11 +19,22 @@ td{ display: table; padding: 0; float: left;}
 .tdfi{ margin-top: 15px;}
 .tdfi select{ width: 100px; height: 32px; border-radius: 10px; margin-top: -5px; color: #555555;}
 
+#feedArea{ width: 633px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll;
+		   -ms-overflow-style: none; margin-top:-80px; }
+#feedArea::-webkit-scrollbar{ display: none; }
+#photolistUpView { width: 100px; height: 100px; border: 1px solid #e5e5e5; 
+  				   border-radius: 10px; margin: 20px 0px 0px 15px; }
+#photolistUpView img { width: inherit; height: inherit; border-radius: 10px; }
+.plistName{ text-align: center; font-size: 10pt; width: 100px;
+  			margin-left: 20px; text-align: center; }
 
 #myGroupList{display:none; width: 100px; height: 32px; margin-left: 10px; border-radius: 10px; margin-top: 11px; color: #555555;}
 
 label{font-size: 14px; margin-left: 10px; color: #555555;}
-#btnstd{ margin-left: 210px;}
+#btnstd{ display: inline-flex; margin-bottom: 200px; margin-left: 210px;}
 #btns1{margin-top: 30px; width: 90px; height: 43px; border:1px; border-radius: 10px; background-color: #e5e5e5;}
 #btns2{margin-top: 30px; width: 90px; height: 43px; border:1px; border-radius: 10px; background-color: #daf4ed;}
 #btns1 a{ text-decoration: none; color: #555555;}
+
+#deleteFile{ width: 25px; height: 25px; margin: 10px 0px 0px 80px; display: block; opacity: 50%; }
+.file_p{ color: #555555; font-size: 10pt; font-weight: bolder; margin-top: -23px; margin-left: 115px; }

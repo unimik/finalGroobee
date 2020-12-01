@@ -43,23 +43,27 @@
 	    margin:0 40px 30px 30px;
 	    }
 	    .follow_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
-    	background-color: rgba(0,0,0,0.5);}
-    	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
    		background-color: rgba(0,0,0,0.5);}
-    	.follow_detail{ background: white; border-radius: 15px; -ms-overflow-style: none; width: 400px; height: 500px; position: fixed; top: 20%; left: 42%;}
-    	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
-    	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
-    	.follow_list{ height: 440px; overflow-y: scroll; }
-    	.follow_list>ul{ 
-		    margin: 30px;
-		    text-align: center;
+	   	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
+	   		background-color: rgba(0,0,0,0.5);}
+	   	.follow_detail{ background: white; border-radius: 15px;  width: 400px; height: 400px; position: fixed; top: 20%; left: 42%;}
+	   	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
+	   	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
+	   	.follow_list{ height: 320px; overflow-y: scroll; -ms-overflow-style: none; }
+	   	.follow_list>ul{ 
+	   		margin-left:130px;
+	   		width:100%;
+	   		height:40px;
 		    list-style: none;
 		    padding: unset;
-    	 }
-    	.follow_list>ul>li{ 
+	   	 }
+	   	.follow_list>ul>li{ 
 		    height: 40px;
+		    margin:0;
 		    margin-bottom: 10px;
-    	 }
+		    float:left; 
+	   	 }
+	   	.follow_list img{ width:40px; height:40px; border-radius:10px; float:left; margin-right:20px;}
 		.follow_list::-webkit-scrollbar{display: none;}
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
@@ -220,10 +224,24 @@
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
                                    		<c:if test="${ loginUser.userId eq followerList.userId }">
-                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followerList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ loginUser.userId }</a></li>
                                    		</c:if>
                                    		<c:if test="${ loginUser.userId ne followerList.userId }">
-	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   			<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followerList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ followerList.userId }</a></li>
                                    		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
@@ -248,12 +266,26 @@
 	                    		   <c:url var="goUserPage" value="goUserpage.do">
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
-                                   <c:if test="${ !empty followingList.mNo }">
-	                    		   		<c:if test="${ loginUser.userId eq followingList.userId }">
-                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+	                               <c:if test="${ !empty followingList.mNo }">
+                                   		<c:if test="${ loginUser.userId eq followingList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followingList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ loginUser.userId }</a></li>
                                    		</c:if>
                                    		<c:if test="${ loginUser.userId ne followingList.userId }">
-	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   			<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followingList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ followingList.userId }</a></li>
                                    		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">
