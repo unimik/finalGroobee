@@ -157,5 +157,10 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.selectPhotoList(getfNo);
 	}
 
+	@Override
+	public int updateDeleteTag(ArrayList<Tag> taglist) {
+		return fDao.updateDeleteTag(taglist);
+	}
+
 
 }
