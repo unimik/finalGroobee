@@ -1388,24 +1388,29 @@
  			})
             /**************** 그룹 신고 관련*******************/ 
     		$(document).on('click',"#report-submit",function(){
-    			var rCon = $(this).parents().children('.Rcontent').val();
-    			console.log(rCon);
-    			if(rCon == ""){
+    			var content = $("#reportContent").val();
+    			var reportType = $("#reportType").val();
+				var gNo = ${g.gNo};
+				console.log(gNo);
+    			
+    			if(content == ""){
     				alert('신고 사유를 입력해 주세요.')
     			}else{
     				
     				$.ajax({
-    					url:'/spring/report.do',
+    					url:'reportGInsert.do',
     					data:{
-    						reportType : $("#reportType").val(),
+    						reportType : reportType,
     						feedType : "group",
-    						content : rCon
+    						content : content,
+    						gNo:gNo
     					},
     					success: function(){
     						$(".feed_report").css('display','none');
     						$(".selectRtype").css("display","inline-block");
     			      		$(".sendreport").css("display","none");
     			      		$(this).parents().children('.Rcontent').val('');
+    			      		$(".pop_menu").css('display','none');
     						alert('신고완료');
     					},error:function(){
     						alert('신고 실패!');
