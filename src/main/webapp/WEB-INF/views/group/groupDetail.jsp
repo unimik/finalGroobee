@@ -61,19 +61,17 @@
 		.pop_feed >#reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
 		.pop_feed >#textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
 		.pop_feed >#replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
-		/*그룹 검색내 팝업*/
+		
 		.pop_menu_2{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
 		#feed_Mymenu_list_2{ background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
 		#feed_Mymenu_list_2 ul{ padding:0; margin: 0; }
-		#feed_Mymenu_list_2 li{ list-style: none; text-align: center; height: 60px;}
 		#feed_Mymenu_list_2 li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
 		#feed_Mymenu_list_2 li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
 		#feed_Mymenu_list_2 ul li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
 		#selectOne{height:60px;}
-		.postbox {cursor: pointer;}
-		.storagePop_menu{ position:fixed; z-index:99; left:50%; top: 50%; transform: translate(-50%, -50%); margin-top:0; box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.4); }
+		
 		.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
-
+		
 	</style>
 </head>
 <body>
@@ -151,12 +149,12 @@
                                         <option value="ad">광고</option>
                                         <option value="spam">도배</option>
                                     </select>
-                                    	<textarea class="sendreport" id="reportContent" cols="28" rows="4"></textarea>
+                                    <textarea class="sendreport" id="reportContent" cols="28" rows="4"></textarea>
                                     <br>
                                     <input class="selectRtype" id="selectRtype"type="button" value="확인" style="cursor:pointer;">
                                     <input class="sendreport" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
                                     <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
-                                    <button class="sendreport" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+                                    <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
                                 </div>
                             </div>
                             </div>
@@ -1140,6 +1138,7 @@
             });
 
             $('#feed_report_btn').on("click",function(){
+            	$('.g_pop_menu').hide();
                 $('.feed_report').show();
             });
 
@@ -1154,7 +1153,11 @@
             $('#re_close').on("click",function(){
                 $('.reply_menu').hide();
             });
-
+            
+            $(".Rtype").on('click',function(){
+          		$(".selectRtype").css("display","none");
+          		$(".sendreport").css("display","block");
+          	}); 
             
            	$('#groupJoin_btn').on("click",function(){
            		if ( "${ g.gJoinSet }" == "N"){
@@ -1385,8 +1388,9 @@
  			})
             /**************** 그룹 신고 관련*******************/ 
     		$(document).on('click',"#report-submit",function(){
-    			
-    			if($("#reportContent").val() == ""){
+    			var rCon = $(this).parents().children('.Rcontent').val();
+    			console.log(rCon);
+    			if(rCon == ""){
     				alert('신고 사유를 입력해 주세요.')
     			}else{
     				
@@ -1395,13 +1399,13 @@
     					data:{
     						reportType : $("#reportType").val(),
     						feedType : "group",
-    						content : $("#reportContent").val()
+    						content : rCon
     					},
     					success: function(){
     						$(".feed_report").css('display','none');
     						$(".selectRtype").css("display","inline-block");
     			      		$(".sendreport").css("display","none");
-    			      		$("#reportContent").val('')
+    			      		$(this).parents().children('.Rcontent').val('');
     						alert('신고완료');
     					},error:function(){
     						alert('신고 실패!');
@@ -1411,7 +1415,7 @@
     			};
     		});
           	 
-          	$("#cancel2").on('click',function(){
+          	$(".cancel2").on('click',function(){
           		$(".feed_report").css('display','none');
     			$(".selectRtype").css("display","inline-block");
           		$(".sendreport").css("display","none");
@@ -1577,7 +1581,7 @@
 		              input +="<ul>";
 		              input +="<li><a id='feed_report_btn_class' class='feed_report_btn_class'>신고</a></li>"; 
 		              input +="<li><a id='share_feed' class='share_feed'>공유하기</a></li>"; 
-		              input +="<li><a id='goStorage_1' class='goStorage_1'>보관함</a></li>";
+		              input +="<li><a id='goStorage' class='goStorage'>보관함</a></li>";
 		              input +="<li><a id='popMenuclose' class='popMenuclose' onClick='popMenuclose()'>취소</a></li>";
 		              input +="</ul>";
 		              input +="</div>";
@@ -1605,8 +1609,8 @@
 	              input +="<div id='con2'>";
 	              input +="<div id='feed_content'>";
 	        	  	if(data.photoList.length > 0 ){
-		      	  	input +="<button id='nextBtn_2' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-					input +="<button id='prevBtn_2' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
+					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
 	            	input +="<ul id='imgList' style='height:633px'>";
 		              for(var i=0; i < data.photoList.length; i++){
 						  if(data.photoList[i].changeName != null){
@@ -1669,7 +1673,7 @@
 	                  input +="<div id='replyArea'>";
 		              input +="<div id='replyEditCont'>";
 	                  if(data.replyList.length > 0){
-		              input +="<div id='replySub_1'>";
+		              input +="<div id='replySub'>";
 		              for(var i=0;i<data.replyList.length;i++){
 			              input +="<div id='selectOne'>";	
 			              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
@@ -1771,52 +1775,52 @@
 			          });
 			          
 			          
-				        var size;
-				        var idx = idx1 = 0;
-				        var count = $(".pop_feed").children('div#con2').children('div#feed_content').children("ul#imgList").children('li').length;
-				        console.log(count);
-				        var liCount;
-				          
-				  		for (var i = 1; i <= count; i++){
-				  			
-				  			if( count > 1){
-				          		$('#nextBtn_2').css("display","block");
-				          		$('#prevBtn_2').css({"display":"block"});
-				          	}
-				  			
-				  		}
-				  			$(document).on("click",'#prevBtn_2',function(){
-				     	  			size = $(this).nextAll().children('li').length;
-				     	  			console.log(size);
-				     	  			
-				     	  			if(size > 1){
-				     	  				idx1 = (idx-1) % size;
-				     	  				if(idx1 < 0)
-				     	  					idx1 = size - 1;
-				     	  					
-				     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
-				     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
-				     	  						$(this).css("display","none").css("left","-633px");
-				     	  					});
-				     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
-				     	  					idx = idx1;
-				     	  			}
-				     	  		});
-				  			
-				  			$(document).on("click",'#nextBtn_2',function(){
-				     	  			size = $(this).nextAll().children('li').length;
-				     	  			console.log(size);
-				     	  			
-				     	  			if( size > 1){
-				     	  				idx1 = (idx + 1) % size;
-				     	  				$(this).nextAll().children('li:hidden').css("left","633px");
-				     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
-				     	  					$(this).css("display","none").css("left","633px");
-				     	  				});
-				     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
-				     	  				idx = idx1;
-				     	  			}
-				     	  		});	
+			        var size;
+			        var idx = idx1 = 0;
+			        var count = $(".pop_feed").children('div#con2').children('div#feed_content').children("ul#imgList").children('li').length;
+			        console.log(count);
+			        var liCount;
+			          
+			  		for (var i = 1; i <= count; i++){
+			  			
+			  			if( count > 1){
+			          		$('#nextBtn').css("display","block");
+			          		$('#prevBtn').css({"display":"block"});
+			          	}
+			  			
+			  		}
+			  			$(document).on("click",'#prevBtn',function(){
+			     	  			size = $(this).nextAll().children('li').length;
+			     	  			console.log(size);
+			     	  			
+			     	  			if(size > 1){
+			     	  				idx1 = (idx-1) % size;
+			     	  				if(idx1 < 0)
+			     	  					idx1 = size - 1;
+			     	  					
+			     	  					$(this).nextAll().children('li:hidden').css("left","-633px");
+			     	  					$(this).nextAll().children('li:eq('+idx+')').animate({left:"+=633px"},500,function(){
+			     	  						$(this).css("display","none").css("left","-633px");
+			     	  					});
+			     	  					$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"+=633px"},500);
+			     	  					idx = idx1;
+			     	  			}
+			     	  		});
+			  			
+			  			$(document).on("click",'#nextBtn',function(){
+			     	  			size = $(this).nextAll().children('li').length;
+			     	  			console.log(size);
+			     	  			
+			     	  			if( size > 1){
+			     	  				idx1 = (idx + 1) % size;
+			     	  				$(this).nextAll().children('li:hidden').css("left","633px");
+			     	  				$(this).nextAll().children('li:eq('+idx+')').animate({left:"-=633px"},500, function(){
+			     	  					$(this).css("display","none").css("left","633px");
+			     	  				});
+			     	  				$(this).nextAll().children('li:eq('+idx1+')').css("display","block").animate({left:"-=633px"},500);
+			     	  				idx = idx1;
+			     	  			}
+			     	  		});	
 			  			
 			  		 	/* 댓글 신고하기*/
 			  		 	// 1. 신고하기 버튼 이벤트
@@ -1948,10 +1952,10 @@
 				       				
 //				      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 				       						//location.href="goMypage.do?mNo="+mNo;
-				       						$('#replySub_1').remove();
+				       						$('#replySub').remove();
 				       						
 				       						var input = "";
-				       					 input +="<div id='replySub_1'>";
+				       					 input +="<div id='replySub'>";
 				       	              for(var i=0;i<data.replyList.length;i++){
 				       		              input +="<div id='selectOne'>";	
 				       		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
@@ -2171,10 +2175,10 @@
 								       				
 //								      						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 								       						//location.href="goMypage.do?mNo="+mNo;
-								       						$('#replySub_1').remove();
+								       						$('#replySub').remove();
 								       						
 								       						var input = "";
-								       					 input +="<div id='replySub_1'>";
+								       					 input +="<div id='replySub'>";
 								       	              for(var i=0;i<data.replyList.length;i++){
 								       		              input +="<div id='selectOne'>";	
 								       		              input +="<input type='hidden' id='hdFno' class='fno' value='"+fNo+"'>";		              
@@ -2453,15 +2457,15 @@
 			          
 				    /*게시글 보관함 추가*/
 					$(function(){
-						$('.goStorage_1').on("click",function(){
+						$('.goStorage').on("click",function(){
 							console.log(mNo);
 							$.ajax({
 								url:"selectStorage.do",
 								data:{ mNo:mNo},
 								dataType:"json",
 								success:function(data){
-									$('.pop_menu_2').hide();
-							         $('.pop_Mymenu_2').hide();
+									$('.pop_menu').hide();
+							         $('.pop_Mymenu').hide();
 									$divAll = $('.storagePop');
 									$divAll.html("");
 									
@@ -2535,11 +2539,14 @@
                 } 
          	});
 	}
-
+  
+  
+ 	
     $('.feed_delete').click(function() {
         $(".pop_feed").hide();
     });
  	
+   
  	/**************** 댓글 등록 ****************/
 			$(function() {
 				
