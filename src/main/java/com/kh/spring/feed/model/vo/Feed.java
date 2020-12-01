@@ -354,13 +354,16 @@ public class Feed {
 
 	@Override
 	public String toString() {
-		return "Feed [fNo=" + fNo + ", mNo=" + mNo + ", fContent=" + fContent + ", fWriter=" + fWriter
-				+ ", fCreateDate=" + fCreateDate + ", fModifyDate=" + fModifyDate + ", fStatus=" + fStatus
+		return "Feed [fNo=" + fNo + ", mNo=" + mNo + ", smNo=" + smNo + ", fContent=" + fContent + ", fWriter="
+				+ fWriter + ", fCreateDate=" + fCreateDate + ", fModifyDate=" + fModifyDate + ", fStatus=" + fStatus
 				+ ", fLocation=" + fLocation + ", fOpenScope=" + fOpenScope + ", fLikeSet=" + fLikeSet + ", fReplySet="
 				+ fReplySet + ", fShareSet=" + fShareSet + ", fLikeCnt=" + fLikeCnt + ", fReplyCnt=" + fReplyCnt
-				+ ", gNo=" + gNo + ", thumbnail=" + thumbnail + ", gName=" + gName + ", mImage=" + mImage
-				+ ", replyList=" + replyList + ", photoList=" + photoList + "]";
+				+ ", gNo=" + gNo + ", thumbnail=" + thumbnail + ", gName=" + gName + ", mImage=" + mImage + ", likeChk="
+				+ likeChk + ", shareYN=" + shareYN + ", replyList=" + replyList + ", photoList=" + photoList
+				+ ", tagList=" + tagList + "]";
 	}
+
+
 
 	
 	
