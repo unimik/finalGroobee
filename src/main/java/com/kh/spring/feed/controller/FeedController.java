@@ -76,6 +76,8 @@ public class FeedController {
     	if(strarr[i].charAt(0) == '#') {
 				Tag t = new Tag(f.getfNo(),strarr[i]);
 				taglist.add(t);
+				String tt = strarr[i];
+				strarr[i] = "<a href='javascript:void(0);' class='hashtag' onclick='goTag(this)'>"+tt+"</a>";
 				
 		}else if(strarr[i].charAt(0) == '@') {
     		  String id = strarr[i].substring(1);
