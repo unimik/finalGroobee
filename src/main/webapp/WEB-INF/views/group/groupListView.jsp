@@ -131,6 +131,7 @@
 					</c:choose>
 					</div>
 					<div class="feed_report">
+						<input type="hidden" value="${f.fNo }"/>
 			             <div id="feed_report_con">
 			                  <p>신고사유</p>
 			                  <select id="reportType" class="selectRtype">
@@ -378,7 +379,7 @@
 				</c:if>
 			</div>
 		<div class="feed_report">
-			<input type="hidden" value=${f.fNo }>
+			<input type="hidden" value="${f.fNo}" class="feedNo"/>
 			<div id="feed_report_con">
 				<p>신고사유</p>
 				<select id="reportType" class="selectRtype">
@@ -607,33 +608,39 @@
 			     });
 				  
 				  
-			 	$('.feed_report_btn').on("click",function(e){
-			 		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
-			 		$(feedReport).show();
-	            });
+				  $('.feed_report_btn').on("click",function(){
+		                $(this).parents().children('.feed_report').show();
+		                /* var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
+		                console.log(feedReport);
+		                $(feedReport).show(); */
+		               });
 				 
 			 	
 			}
 			     
-			$(document).on('click',".report-submit",function(e){
-				var feedReport = e.target.parentElement.parentElement;
-				var reportCon = e.target.parentElement.parentElement.children[0].children[2];
-				if($(reportCon).val() == ""){
+			$(document).on('click',".report-submit",function(){
+				//var feedReport = e.target.parentElement.parentElement;
+				//var reportCon = e.target.parentElement.parentElement.children[0].children[2];
+				$(".pop_menu").css("display","none");
+				
+				var targetfNo=$(this).parents().prev().val(); // fNo 불러오기
+				if($("#reportType").val() == ""){
 					alert('신고 사유를 입력해 주세요.')
 				}else{
 					
 					$.ajax({
-						url:'/spring/report.do',
+						url:'reportFInsert.do',
 						data:{
 							reportType : $("#reportType").val(),
 							feedType : "feed",
-							content : $(reportCon).val()
+							content : $("#reportContent").val(),
+							targetfNo:targetfNo
 						},
 						success: function(){
-							$(feedReport).css('display','none');
+							$(".feed_report").css('display','none');
 							$(".selectRtype").css("display","inline-block");
 				      		$(".sendreport").css("display","none");
-				      		$(reportCon).val('')
+				      		$("#reportContent").val('')
 							alert('신고완료');
 						},error:function(){
 							alert('신고 실패!');
