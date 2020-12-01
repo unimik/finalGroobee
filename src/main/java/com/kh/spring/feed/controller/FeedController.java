@@ -69,6 +69,29 @@ public class FeedController {
       f.setfReplySet(reply);
       f.setfShareSet(share);
       
+      String huhu = "";
+      String[] strarr = f.getfContent().split(" |\\n");
+      ArrayList<Tag> taglist = new ArrayList<Tag>();
+      for(int i = 0; i < strarr.length; i++) {
+    	if(strarr[i].charAt(0) == '#') {
+				Tag t = new Tag(f.getfNo(),strarr[i]);
+				taglist.add(t);
+				
+		}else if(strarr[i].charAt(0) == '@') {
+    		  String id = strarr[i].substring(1);
+    		  Member m = fService.findTagMember(id);
+    		  
+			if(m != null) {
+				strarr[i] ="<a href='#' class='usertag' id='"+m.getUserId()+"' onclick='goUser("+m.getUserId()+")'>"+"@"+id+"</a>";
+				}
+		}
+		if(strarr[i] != null) {
+			huhu += strarr[i]+" ";
+		}
+      }
+      f.setfContent(huhu);
+      System.out.println("글"+f.getfContent());
+	  
       System.out.println("selectOpenScope 값: " + selectOpenScope);
       System.out.println("like 값: " + like);
       System.out.println("reply 값: " + reply);
@@ -114,7 +137,7 @@ public class FeedController {
          }
          
        // 태그 인서트
-         String huhu = null;
+       /* String huhu = null;
  		String[] strarr = f.getfContent().split(" |\\n");
  		ArrayList<Tag> taglist = new ArrayList<Tag>();
  		for(int i = 0; i < strarr.length; i++) {
@@ -122,20 +145,19 @@ public class FeedController {
  				Tag t = new Tag(f.getfNo(),strarr[i]);
  				taglist.add(t);
  			}else if(strarr[i].charAt(0) == '@') {
- 				Tag user = new Tag();
  				String id = strarr[i].substring(1);
  				System.out.println("검색하는 아이디 "+id);
- 				int TagMemResult = fService.findTagMember(id);
- 				System.out.println("결과값"+TagMemResult);
- 				if(TagMemResult > 0) {
- 					
+ 				Member m = fService.findTagMember(id);
+ 				if(m != null) {
+ 					strarr[i] = "<a href='#' onclick='goUser()'>"+"@"+id+"</a>";
  				}
  			}
- 			
+ 			if(strarr[i] != null) {
  			huhu += strarr[i]+" ";
+ 			}
  		}
  		System.out.println("글"+huhu);
- 		
+ 		*/
  		System.out.println("태그리스트"+taglist);
  	
  		if(!taglist.isEmpty()) {
@@ -173,16 +195,34 @@ public class FeedController {
       System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
       System.out.println("들어온 fShareSet : " + f.getfShareSet());
       System.out.println("들어온 fReplySet : " + f.getfReplySet());
-      
       System.out.println("view : " + f.getfNo());
       System.out.println("photo : " + f.getPhotoList());
       
+      //수정 업데이트  태그 제거
+	    try {
+			String str = removeTag(f.getfContent());
+			f.setfContent(str);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    
       mv.addObject("gn", gn);
       mv.addObject("f", f);
       mv.addObject("pCount", f.getPhotoList().size());
       mv.setViewName("feed/PostUpdateForm");
       return mv;
    }
+   
+   /**
+    * 모든 HTML 태그를 제거하고 반환한다.
+    * 
+    * @param html
+    * @throws Exception  
+    */
+   public String removeTag(String html) throws Exception {
+   	return html.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+   }
+   
    
    @ResponseBody
    @RequestMapping(value="getPhotoList.do", produces="application/json; charset=utf-8")
