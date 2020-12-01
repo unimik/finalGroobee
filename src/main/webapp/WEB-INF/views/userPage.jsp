@@ -624,12 +624,13 @@
         /************ 포스트 박스 클릭 시 script ************/
 
         function goDetail(fNo,smNo){
-        	   var mNo = $('#mNo').val();
+        	   var mNo = $('#follow').val();
         	   var follow = $('#follow').val();
+        	   var mNoUser = $('#mNo').val();
                $.ajax({
                   url:"goDetail.do",
                   dataType:"json",
-                  data:{mNo: mNo,fNo : fNo, smNo : smNo},
+                  data:{mNo: mNo,fNo : fNo, smNo : smNo, mNoUser : mNoUser},
                   type:"post",
                   success:function(data){
                     
@@ -753,22 +754,22 @@
 				              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 			                  input +="<div id='replyList'>";
 			                  input +="<ul id='re_list' class='list'>";
-			                  if(data.replyList[i].mNo == mNo){
-			                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			                  if(data.replyList[i].mNo == mNoUser){
+			                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 			                  } else {
-			            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 			                  }
 			            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 				              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 				              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-				              if(data.replyList[i].mNo == mNo){
+				              if(data.replyList[i].mNo == mNoUser){
 								  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 				               }
 							  input +="</ul>";
 				              input +="</div>";
 				              input +="<div class='reply_menu'>";
 	
-				              if(data.replyList[i].mNo == mNo){
+				              if(data.replyList[i].mNo == mNoUser){
 					              input +="<div id='re_menu_list'>";
 					              input +="<ul>";
 					              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -1038,21 +1039,21 @@
 					       	                  input +="<div id='replyList'>";
 					       	                  input +="<ul id='re_list' class='list'>";
 					       	                  if(data.replyList[i].mNo == mNo){
-					       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					       	                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 					       	                  } else {
-					       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 					       	                  }
 					       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 					       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 					       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-					       		              if(data.replyList[i].mNo == mNo){
+					       		              if(data.replyList[i].mNo == mNoUser){
 					       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 					       		               }
 					       					  input +="</ul>";
 					       		              input +="</div>";
 					       		              input +="<div class='reply_menu'>";
 
-					       		              if(data.replyList[i].mNo == mNo){
+					       		              if(data.replyList[i].mNo == mNoUser){
 					       			              input +="<div id='re_menu_list'>";
 					       			              input +="<ul>";
 					       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -1260,22 +1261,22 @@
 									       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 									       	                  input +="<div id='replyList'>";
 									       	                  input +="<ul id='re_list' class='list'>";
-									       	                  if(data.replyList[i].mNo == mNo){
-									       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+									       	                  if(data.replyList[i].mNo == mNoUser){
+									       	                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 									       	                  } else {
-									       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+									       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 									       	                  }
 									       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 									       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 									       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-									       		              if(data.replyList[i].mNo == mNo){
+									       		              if(data.replyList[i].mNo == mNoUser){
 									       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 									       		               }
 									       					  input +="</ul>";
 									       		              input +="</div>";
 									       		              input +="<div class='reply_menu'>";
 
-									       		              if(data.replyList[i].mNo == mNo){
+									       		              if(data.replyList[i].mNo == mNoUser){
 									       			              input +="<div id='re_menu_list'>";
 									       			              input +="<ul>";
 									       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -1536,7 +1537,7 @@
 								console.log(mNo);
 								$.ajax({
 									url:"selectStorage.do",
-									data:{ mNo:mNo},
+									data:{ mNo:${ loginUser.mNo}},
 									dataType:"json",
 									success:function(data){
 										$('.pop_menu').hide();
@@ -1575,7 +1576,7 @@
 									console.log(sbName);
 									$.ajax({
 										url:"insertStorage.do",
-										data:{ fNo:fNo,mNo:mNo,sbNo:sbNo,sbName:sbName },
+										data:{ fNo:fNo,mNo:${ loginUser.mNo},sbNo:sbNo,sbName:sbName },
 										type:"post",
 										success:function(data){
 											if(data > 0){
@@ -1906,22 +1907,22 @@
 	    			       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	    			       	                  input +="<div id='replyList'>";
 	    			       	                  input +="<ul id='re_list' class='list'>";
-	    			       	                  if(data.replyList[i].mNo == mNo){
+	    			       	                  if(data.replyList[i].mNo == mNoUser){
 	    			       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 	    			       	                  } else {
-	    			       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	    			       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 	    			       	                  }
 	    			       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 	    			       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 	    			       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-	    			       		              if(data.replyList[i].mNo == mNo){
+	    			       		              if(data.replyList[i].mNo == mNoUser){
 	    			       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 	    			       		               }
 	    			       					  input +="</ul>";
 	    			       		              input +="</div>";
 	    			       		              input +="<div class='reply_menu'>";
 
-	    			       		              if(data.replyList[i].mNo == mNo){
+	    			       		              if(data.replyList[i].mNo == mNoUser){
 	    			       			              input +="<div id='re_menu_list'>";
 	    			       			              input +="<ul>";
 	    			       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
