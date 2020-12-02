@@ -88,6 +88,7 @@
 		.storagePop_menu{ position:fixed; z-index:99; left:50%; top: 50%; transform: translate(-50%, -50%); margin-top:0; box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.4); }
 /*    		.storagePop{ display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100;background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4); } */
       .usertag {color: #47c6a3;} 
+      #user_time h6{margin-bottom:0;margin-top:3px;}
    </style>
 </head>
 <body>
