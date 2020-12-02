@@ -181,7 +181,7 @@
                     	</c:forEach> 
                     </div>
                 </div>
-                <div class="pop_feed"></div>
+                <div class="pop_feed1"></div>
                 
         </div>
 	     

@@ -251,11 +251,11 @@
 	              input +="</div>";
 
                     
-                  $(".pop_feed").html(input);
-      	 		  $(".pop_feed").show();
+                  $(".pop_feed11").html(input);
+      	 		  $(".pop_feed11").show();
 
       	        $('.feed_delete').click(function() {
-      	            $(".pop_feed").hide();
+      	            $(".pop_feed11").hide();
       	        });
       	        
 	      	      $('#feed_menu').click(function() {
@@ -285,7 +285,7 @@
 		          
 		        var size;
 		        var idx = idx1 = 0;
-		        var count = $(".pop_feed").children('div#con').children('div#feed_content').children("ul#imgList").children('li').length;
+		        var count = $(".pop_feed1").children('div#con').children('div#feed_content').children("ul#imgList").children('li').length;
 		        console.log(count);
 		        var liCount;
 		          
@@ -495,7 +495,7 @@
 		       	                  
 		       	                  
 		       	      	        $('.feed_delete').click(function() {
-		       	      	            $(".pop_feed").hide();
+		       	      	            $(".pop_feed1").hide();
 		       	      	        });
 		       	      	        
 		       		      	      $('#feed_menu').click(function() {
@@ -726,7 +726,7 @@
 		    			       	                  
 		    			       	                  
 		    			       	      	        $('.feed_delete').click(function() {
-		    			       	      	            $(".pop_feed").hide();
+		    			       	      	            $(".pop_feed1").hide();
 		    			       	      	        });
 		    			       	      	        
 		    			       		      	      $('#feed_menu').click(function() {
@@ -962,7 +962,7 @@
     }).mouseleave(function() {
         $(this).css({'background' : 'none'});
     }).click(function() {
-        $(".pop_feed").show();
+        $(".pop_feed1").show();
     });
     
 
@@ -1072,7 +1072,7 @@
       	                  $('#replyEditCont').append(input);
       	                  
 	       	      	        $('.feed_delete').click(function() {
-	       	      	            $(".pop_feed").hide();
+	       	      	            $(".pop_feed1").hide();
 	       	      	        });
 	       	      	        
 	       		      	      $('#feed_menu').click(function() {
@@ -1304,7 +1304,7 @@
 	    			       	                  
 	    			       	                  
 	    			       	      	        $('.feed_delete').click(function() {
-	    			       	      	            $(".pop_feed").hide();
+	    			       	      	            $(".pop_feed1").hide();
 	    			       	      	        });
 	    			       	      	        
 	    			       		      	      $('#feed_menu').click(function() {
