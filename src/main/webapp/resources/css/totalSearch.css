@@ -19,8 +19,7 @@ p{margin: 0;}
 	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
-
-#con_user{ display: -webkit-inline-box; width: 100%; margin: 10px 20px;  overflow-y: scroll; height: 100px;}
+#con_user{ display: -webkit-inline-box; width: 100%; margin: 10px 20px;  overflow-y: auto; height: 100px;}
 #con_group{ display: -webkit-inline-box; width: 100%; margin: 10px 20px; overflow-y: scroll; height: 100px;}
 #con_tag{ display: -webkit-inline-box; width: 100%;}
 #con_feed{ display: -webkit-inline-box; width: 100%; margin-bottom:200px;}
