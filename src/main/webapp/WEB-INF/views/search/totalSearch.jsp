@@ -17,8 +17,6 @@
     .sendreport { margin-top:0;}
     .usertag {color: #47c6a3;}
     .storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
-    <%--해쉬태그 색을 바꿔주세요...--%>
-	.hashtag{color:red;}
     </style>
 </head>
 <body>
@@ -32,7 +30,7 @@
                         <div id="title_user">
                             <p id="title"><b>계정</b></p>
                         </div>
-                        <div id="con_user">
+                        <div id="con_user" class="scr">
                         <c:choose>
 	                        <c:when test="${empty mList}">
 	         					<div id="nouser">계정이 존재하지 않습니다</div>
@@ -42,7 +40,7 @@
 	                            <c:choose>
 	                            <c:when test="${ empty m.mImage }">
 		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='goUserpage.do?userId=${ m.userId }&mNo=${ loginUser.mNo }'">
-		                                <img src="resources/images/IMG_7502.JPG" alt="" id="user_profile_img">
+		                                <img src="resources/icons/pro_default.png" alt="" id="user_profile_img">
 		                                <p id="search_id">${ m.userId }</p>
 		                                <input type="hidden" id="mNo" name="mNo" value="${m.mNo}"/>
 		                                <input type="hidden" id="mStatus" name="mStatus" value="${m.mStatus}"/>

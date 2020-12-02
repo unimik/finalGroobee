@@ -85,10 +85,10 @@
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
-						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ empty loginUser.mRenameImage }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
@@ -343,10 +343,10 @@
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
-						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ empty loginUser.mRenameImage }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
@@ -714,11 +714,16 @@
 				},
 				type: "post",
 				success: function(data) {	// 성공 시: success, 실패 시: fail
-					if(data == "success") {
+					if(data != "fail") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
+<<<<<<< HEAD
 						location.href="home.do?userId="+rWriter;
 //						location.reload();
 						location.href="home.do?userId="+rWriter;
+=======
+						location.reload();
+//						location.href="home.do?userId="+rWriter;
+>>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
 					}
 				}, error: function() {
 					console.log("전송 실패");
@@ -754,7 +759,7 @@
 				type: "post",
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					console.log(data);
- 					if(data == "success") {
+ 					if(data != "fail") {
 //						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 //						location.href="home.do?userId=" + rWriter;
 						location.reload();
