@@ -252,6 +252,7 @@ public class FeedController {
       ArrayList<Tag> taglist = new ArrayList<Tag>();
       for(int i = 0; i < strarr.length; i++) {
     	if(strarr[i].charAt(0) == '#') {
+    			
 				Tag t = new Tag(f.getfNo(),strarr[i]);
 				taglist.add(t);
 				String tt = strarr[i];
