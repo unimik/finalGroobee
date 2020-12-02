@@ -19,7 +19,7 @@
 		<result property="fReplyCnt" column="F_REPLYCNT"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gName" column="G_NAME"/>
-		<result property="mImage" column="M_RENAME_IMAGE"/>
+		<result property="mImage" column="M_PROFILE"/>
 		<result property="likeChk" column="LIKECHK"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
@@ -110,8 +110,6 @@
 		<result property="mNo" column="L_USERID"/>
 	</resultMap>
 	
-	
-
 	<resultMap id="shareResultSet" type="Share">
 		<id property="sf_no" column="SF_NO"/>
 		<result property="sm_no" column="SM_NO"/>
@@ -231,13 +229,17 @@
 		WHERE F_NO = #{fNo}
 	</update>
 	
-	<update id="updatePhoto" parameterType="Photo">
+<!-- 	<update id="updatePhoto" parameterType="Photo">
 		UPDATE
 		    PHOTO
 		SET ORIGINNAME = #{originName}
 		  , CHANGENAME = #{changeName}
 		WHERE F_NO = #{fNo}
-	</update>
+	</update> -->
+	
+	<delete id="deleteFile" parameterType="string">
+		DELETE FROM PHOTO WHERE CHANGENAME = #{ fileName }
+	</delete>
 	
 	<update id="deletePost" parameterType="_int">
 		UPDATE FEED
@@ -304,7 +306,7 @@
 		</trim>
 	</select>
 	
-	<select id="selectGfList" resultMap="postResultSet">
+	<select id="selectGfList" resultMap="postResultSet" parameterType="String">
 		SELECT 
 			F.*
 	      , (SELECT MB.M_RENAME_IMAGE

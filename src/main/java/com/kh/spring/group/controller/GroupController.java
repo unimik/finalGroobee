@@ -58,7 +58,6 @@ public class GroupController{
 		ArrayList<Photo> fp = null;
 		for(Feed f : flist) {
 			fp = fService.selectPhotoList(f.getfNo());
-			
 			for(Photo p : fp) {
 				if(p.getChangeName() != null) {
 					f.setPhotoList(fp);
