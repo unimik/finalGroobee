@@ -32,8 +32,9 @@
 	#re_list li:nth-child(2){ width: 55%; margin-bottom: 20px; height: fit-content; }
 	#replyCon{ width: 55%; resize: none; line-height: 12pt; white-space: pre-line; background: white;
 			   inline-size: fit-content; border: none; font-size: 9pt; float: left; overflow: hidden; }
-	.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9;     position: absolute;
-    margin: 10px;}
+	.replycnt_p, .likeCnt{ width: fit-content; display: inline; font-size: 10pt; color: #a9a9a9;
+						   position: absolute; margin: 10px;}
+	.likeCnt{ margin-left: 0px; }
 	#userId{ margin: 9px 10px 0 10px; }
 	#time{ width: 100%; }
 	#rWriterInfo{ width: 25%; }
@@ -66,14 +67,15 @@
 		<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
 		<c:if test="${ f.fOpenScope ne 'G' }">
 			<div id="feed${ i }" class="feed">
+			<input type="hidden" value="${ f.fNo }" class="feedNum">
 			<div id="writer_submenu">
 				<c:choose>
 					<c:when test="${ loginUser.userId ne f.fWriter }">
 						<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
+						<c:if test="${ f.mImage ne null }">
 						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ f.mImage eq null }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
@@ -201,7 +203,7 @@
 		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:when>
 		             	<c:otherwise>
-		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">
 			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:otherwise>
 	             	</c:choose>
@@ -220,7 +222,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%= rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %></label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
@@ -231,7 +233,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%= rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %></label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -324,6 +326,7 @@
 		<c:if test="${ f.fOpenScope eq 'G' }">
 			<c:if test="${ loginUser.userId eq f.fWriter }">
 			<div id="feed${ i }" class="feed">
+			<input type="hidden" value="${ f.fNo }" class="feedNum">
 			<div id="writer_submenu">
 				<c:choose>
 					<c:when test="${ loginUser.userId ne f.fWriter }">
@@ -478,7 +481,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%= rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %></label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
@@ -489,7 +492,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%= rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %></label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -986,6 +989,105 @@
     	console.log('검색하는 단어'+tag.substr(1));
     	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
 	}
+    
+	$(function(){
+		
+		$('.share_feed').on("click",function(){
+			var fNo = $(this).parents().children('.fn').val();
+			console.log(fNo);
+			
+			$.ajax({
+				url:"shareFeed.do",
+				data:{ fNo:fNo, mNo:${ loginUser.mNo} },
+				type:"post",
+				success:function(data){
+					if( data > 0){
+						alert("게시글을 공유하였습니다.");
+						$('.pop_menu').hide();
+					}
+				},error:function(){
+					alert("이미 공유하신 게시글이거나, 공유에 실패하였습니다.");
+				}
+			});
+		});
+	});
+	
+	$(function(){
+		$('.goStorage').on("click",function(){
+			var mNo = ${ loginUser.mNo};
+			var fNo = $(this).parents().children('.fn').val();
+			var pop = $(this).parents().children('div.storagePop');
+			console.log(pop);
+			console.log(mNo);
+			$.ajax({
+				url:"selectStorage.do",
+				data:{ mNo:mNo},
+				dataType:"json",
+				success:function(data){
+					$('.pop_menu').hide();
+			        $('.pop_Mymenu').hide();
+					$divAll = $('.storagePop');
+					$divAll.html("");
+					
+						var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
+						var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 210px; border-radius: 15px; margin-top:300px;">');
+						var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
+						var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
+						var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
+						for(var i=0; i < data.length; i++){
+							$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
+						}
+						var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
+						var $cancelbtn =$('<input type="button" id="storageClose" class="storageClose" value="취소" style="width: 150px; height:32px; border:0; border-radius:10px; background:#daf4ed; margin: 10px 0 0 80px;">'); 
+						
+						$div.append($p);
+						$div.append($p2);
+						$div.append($select);
+						$div.append($button);
+						$div.append($cancelbtn);
+						$divAll.append($input);
+						$divAll.append($div);
+
+						pop.css("display","block");
+				},error:function(){
+						alret("보관함 리스트 불러오기 실패");
+				}
+			});
+			
+			$(document).on("click",".storageClose",function(){
+					$('.storagePop').hide();
+				});
+			
+			$(document).on("click",".insertStorage",function(){
+
+				
+				var fNo = $(this).parents().children('.in_fno').val();
+				console.log(fNo);
+				var mNo = ${ loginUser.mNo};
+				var sbNo = $(this).prev('select').children('option:selected').val();
+				var sbName = $(this).prev('select').children('option:selected').text();
+				console.log(sbNo);
+				console.log(sbName);
+				$.ajax({
+					url:"insertStorage.do",
+					data:{ fNo:fNo,mNo:mNo,sbNo:sbNo,sbName:sbName },
+					type:"post",
+					success:function(data){
+						if(data > 0){
+							alert("게시글을 보관함에 넣었습니다.");
+						}else if(data ==0){
+							alert("게시글이 이미 보관되어 있습니다.");
+						}
+						$('.storagePop').hide();
+						$('.pop_menu').hide();
+					},error:function(){
+						alert("보관함에 이미 게시글이 있거나, 보관함에 넣기 실패하였습니다.");
+					}
+				});
+			});
+		});
+	});
+    
     </script>
     
 </body>

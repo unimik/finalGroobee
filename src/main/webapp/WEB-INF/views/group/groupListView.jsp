@@ -833,7 +833,7 @@
 						
 							pop.css("display","block");
 					},error:function(){
-							alret("보관함리스트 불러오기 실패");
+							alret("보관함 리스트 불러오기 실패");
 					}
 				});
 				
@@ -859,7 +859,7 @@
 							if(data > 0){
 								alert("게시글을 보관함에 넣었습니다.");
 							}else if(data ==0){
-								alert("게시글이 이미 보관되어있습니다.");
+								alert("게시글이 이미 보관되어 있습니다.");
 							}
 							$('.storagePop').hide();
 							$('.pop_menu').hide();
