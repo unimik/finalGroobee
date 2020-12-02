@@ -199,8 +199,9 @@ public class FeedController {
 		 * System.out.println("들어온 fReplySet : " + f.getfReplySet());
 		 */
       
-      System.out.println("view : " + f.getfNo());
+      System.out.println("view : " + f);
       System.out.println("photo : " + f.getPhotoList());
+      System.out.println("photo : " + f.getPhotoList().size());
       
       //수정 업데이트  태그 제거
 	    try {
@@ -283,55 +284,55 @@ public class FeedController {
       
       // 파일 업로드 부분
       
-      List<MultipartFile> fileList = multi.getFiles("reloadFile");
-      String root = multi.getSession().getServletContext().getRealPath("resources");
-      String savePath = root + "/pUploadFiles";
-      File folder = new File(savePath);   // 저장 폴더
+//      List<MultipartFile> fileList = multi.getFiles("reloadFile");
+//      String root = multi.getSession().getServletContext().getRealPath("resources");
+//      String savePath = root + "/pUploadFiles";
+//      File folder = new File(savePath);   // 저장 폴더
      
-      for(MultipartFile mf : fileList) {
-         String originalFileName = mf.getOriginalFilename(); // 원본 파일명
-         long fileSize = mf.getSize();      // 파일 사이즈
+//      for(MultipartFile mf : fileList) {
+//         String originalFileName = mf.getOriginalFilename(); // 원본 파일명
+//         long fileSize = mf.getSize();      // 파일 사이즈
          
-         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
          //                  [      20200929191422.                                 ]
-         int rdv = (int)(Math.random()*1000);
-         String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + rdv + "."
+//         int rdv = (int)(Math.random()*1000);
+//         String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + rdv + "."
                //                  [      20200929191422 + 랜덤값.png                              ]
-                                + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+//                                + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
          
-         String saveFile = savePath + "/" + renameFileName;
+//         String saveFile = savePath + "/" + renameFileName;
          
          // 파일이 잘 들어온 경우
-         if(!mf.isEmpty() && mf.getOriginalFilename() != "") {
+//         if(!mf.isEmpty() && mf.getOriginalFilename() != "") {
         	 
-        	// 바뀐 이름이 비어있지 않으면?
-        	 System.out.println("바뀐 이름은? : " + p.getChangeName());
-             if(p.getChangeName() != null) {
-                deleteFile(p.getChangeName(), multi);
-             }
+        	// 파일이 있으면 삭제
+//        	 System.out.println("========================================");
+//        	 System.out.println("바뀐 이름은? : " + p.getChangeName());
+//             if(p.getChangeName() != null) {
+//                deleteFile(p.getChangeName(), multi);
+//             }
             
             // 서버에 업로드 진행하기
-             if(renameFileName != null) {   // 파일이 잘 저장된 경우
-                p.setOriginName(mf.getOriginalFilename());
-                p.setChangeName(renameFileName);
-             }
+//             if(renameFileName != null) {   // 파일이 잘 저장된 경우
+//                p.setOriginName(mf.getOriginalFilename());
+//                p.setChangeName(renameFileName);
+//             }
             
-         }
+//         }
          
-         System.out.println("여기서 originName은? : " + p.getOriginName());
+//         System.out.println("여기서 originName은? : " + p.getOriginName());
          
-         try {
-             p.setfNo(f.getfNo());
-             int photo = fService.updatePhoto(p);
-             System.out.println("넘길 때 : " + fService.updatePhoto(p));
-             mf.transferTo(new File(saveFile));
-         }catch(IOException e) {
-             e.printStackTrace();
-         }
+//         try {
+//             p.setfNo(f.getfNo());
+//             int photo = fService.insertPhoto(p);
+//             System.out.println("넘길 때 : " + fService.insertPhoto(p));
+//             mf.transferTo(new File(saveFile));
+//         }catch(IOException e) {
+//             e.printStackTrace();
+//         }
          
-         
-         System.out.println("업데이트 : " + originalFileName);
-      }
+//         System.out.println("업데이트 : " + originalFileName);
+//      }
       
       // 업로드 끝
       
@@ -370,13 +371,17 @@ public class FeedController {
 			return "common/errorPage";
 		}
 	}
-   
+	
+	@ResponseBody
+	@RequestMapping("deleteFile.do")
    	public void deleteFile(String fileName, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\pUploadFiles";
 		File f = new File(savePath + "\\"+ fileName);
-		  
+		
+		int delFile = fService.deleteFile(fileName);
 		System.out.println("fileName : " + fileName);
+		System.out.println("f란? : " + f);
 		  
 		if(f.exists()) {
 		   f.delete();

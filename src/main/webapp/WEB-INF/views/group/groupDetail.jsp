@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>G R O O B E E</title>
 	<link href="<%=request.getContextPath()%>/resources/css/groupDetail.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/groupJoinPop.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">

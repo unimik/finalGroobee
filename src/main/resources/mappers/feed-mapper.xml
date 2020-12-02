@@ -93,7 +93,7 @@
 	</resultMap>
 	
 	<resultMap id="photoResultSet" type="Photo">
-		<id property="fNo" column="F_NO"/>
+		<result property="fNo" column="F_NO"/>
 		<result property="originName" column="ORIGINNAME"/>
 		<result property="changeName" column="CHANGENAME"/>
 	</resultMap>
@@ -210,7 +210,22 @@
 	</select>
 	
  	<select id="selectUpdateFeed" resultMap="postResultSet">
-		SELECT *
+		SELECT 
+				F.F_NO
+              , F.M_NO
+              , F.F_CONTENT
+              , F.F_WRITER
+              , F.F_CREATE_DATE
+              , F.F_MODIFY_DATE
+              , F.F_STATUS
+              , F.F_LOCATION
+              , F.F_OPEN_SCOPE
+              , F.F_LIKE_SET
+              , F.F_REPLY_SET
+              , F.F_SHARE_SET
+              , F.G_NO
+              , P.ORIGINNAME
+              , P.CHANGENAME
 		FROM FEED F
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
 		WHERE F.F_STATUS='Y'
@@ -231,13 +246,17 @@
 		WHERE F_NO = #{fNo}
 	</update>
 	
-	<update id="updatePhoto" parameterType="Photo">
+<!-- 	<update id="updatePhoto" parameterType="Photo">
 		UPDATE
 		    PHOTO
 		SET ORIGINNAME = #{originName}
 		  , CHANGENAME = #{changeName}
 		WHERE F_NO = #{fNo}
-	</update>
+	</update> -->
+	
+	<delete id="deleteFile" parameterType="string">
+		DELETE FROM PHOTO WHERE CHANGENAME = #{ changeName }
+	</delete>
 	
 	<update id="deletePost" parameterType="_int">
 		UPDATE FEED

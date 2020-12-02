@@ -71,10 +71,9 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.selectHGfeed(gNo);
 	}
 
-	@Override
-	public int updatePhoto(Photo p) {
-		return fDao.updatePhoto(p);
-	}
+	/*
+	 * @Override public int updatePhoto(Photo p) { return fDao.updatePhoto(p); }
+	 */
 
 	@Override
 	public int insertReply(Reply r) {
@@ -155,6 +154,11 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return fDao.selectPhotoList(getfNo);
+	}
+
+	@Override
+	public int deleteFile(String fileName) {
+		return fDao.deleteFile(fileName);
 	}
 
 

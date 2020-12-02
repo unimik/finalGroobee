@@ -37,7 +37,7 @@ public interface FeedService {
 	 */
 	Feed selectUpdateFeed(int fNo);
 	int updatePost(Feed f);
-	int updatePhoto(Photo p);
+//	int updatePhoto(Photo p);
 
 	/**
 	 * 2_3. 포스트 삭제(게시글)
@@ -163,5 +163,11 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Photo> selectPhotoList(int getfNo);
+	
+	 /* 사진 삭제
+	 * @param fileName
+	 * @return
+	 */
+	int deleteFile(String fileName);
 	
 }

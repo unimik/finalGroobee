@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>G R O O B E E</title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/myPage_Edit.css">

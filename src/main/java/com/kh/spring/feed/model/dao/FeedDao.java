@@ -50,9 +50,10 @@ public class FeedDao {
 		return sqlSession.update("feedMapper.updatePost", f);
 	}
 
-	public int updatePhoto(Photo p) {
-		return sqlSession.update("feedMapper.updatePhoto", p);
-	}
+	/*
+	 * public int updatePhoto(Photo p) { return
+	 * sqlSession.update("feedMapper.updatePhoto", p); }
+	 */
 
 	public int deletePost(int fNo) {
 		return sqlSession.update("feedMapper.deletePost", fNo);
@@ -114,10 +115,6 @@ public class FeedDao {
 		return sqlSession.insert("feedMapper.insertShare", sf);
 	}
 
-
-	
-
-
 	public int deleteReply(int rNo) {
 		return sqlSession.update("feedMapper.deleteReply", rNo);
 	}
@@ -132,5 +129,9 @@ public class FeedDao {
 
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectPhotoList", getfNo);
+	}
+
+	public int deleteFile(String fileName) {
+		return sqlSession.delete("feedMapper.deleteFile", fileName);
 	}
 }
