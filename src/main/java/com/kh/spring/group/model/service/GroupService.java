@@ -172,6 +172,10 @@ public interface GroupService {
 	 */
 	ArrayList<Feed> groupSearch(Search s);
 
+	int updateFile1(int gNo);
+	
+	int updateFile2(int gNo);
+
 
 
 

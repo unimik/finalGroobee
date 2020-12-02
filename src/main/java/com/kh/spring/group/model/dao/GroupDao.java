@@ -122,6 +122,14 @@ public class GroupDao {
 		return (ArrayList)sqlSession.selectList("groupMapper.groupSearch",s);
 	}
 
+	public int groupFileDelete1(int gNo) {
+		return sqlSession.update("groupMapper.delFilePro", gNo);
+	}
+	
+	public int groupFileDelete2(int gNo) {
+		return sqlSession.update("groupMapper.delFileImg", gNo);
+	}
+
 
 
 

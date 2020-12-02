@@ -97,12 +97,15 @@
                                        <div class="container second" id="container_main_first_first">
                                            <div class="groupImg">
                                            		<c:if test="${ !empty g.gProfile }">
-				                        		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameProfile }"></div>
-				                        		<p id="p_title">그룹 프로필사진</p>
-				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);" value="${ g.gProfile }">
+				                        		<div id="imgView"><img name="${ g.gRenameProfile }" src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameProfile }"></div>
+				                        		<p id="p_title">그룹 프로필사진</p><input type="hidden" id="gPro" name="gPro" value="${ g.gRenameProfile }">
+				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+				                        		<p id="inDel1">저장된 사진 삭제</p><br>
+				                        		<p id="inFile1"><c:out value="${ g.gProfile }"/></p>
+				                        		<input type="button" id="inDelBtn1" value="x" >
 			                        	   		</c:if>
 			                        	   		<c:if test="${ empty g.gProfile }">
-			                        	   		<div id="imgView"><img src="<%=request.getContextPath()%>/resources/icons/g_pro.png"></div>
+			                        	   		<div id="imgView"><img name="imgFilepro" src="<%=request.getContextPath()%>/resources/icons/g_pro.png"></div>
 				                        		<p id="p_title">그룹 프로필사진</p>
 				                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
 			                        	   		</c:if>
@@ -121,7 +124,8 @@
                                            <div class="container third" id="container_main_first_second_first" >
                                                <p id="p_title">그룹 관심사</p>
                                                <select class="container third" id="container_main_first_second_second" name="gCategory">
-                                                   <option selected disabled>---------------------</option>
+                                                   <option selected value="${ g.gCategory }">${ g.gCategory }</option>
+                                                   <option disabled>---------------------</option>
 			                                       <option value="문화/책">문화/책</option>
 			                                       <option value="영화">영화</option>
 			                                       <option value="미술/디자인">미술/디자인</option>
@@ -144,34 +148,75 @@
                                    <div class="container" id="container_main_second">
                                        <div id="container_main_second_first">
                                            <p id="p_title">공개 여부</p>
-                                           <input type="radio" id="open" name="gOpenScope" value="Y"><label for="gOpenScope">공개</label>
-                                           <input type="radio" id="not_open" name="gOpenScope" value="N"><label for="gOpenScope">비공개</label>
+                                           <c:if test="${ g.gOpenScope eq 'Y' }">
+                                           		<input type="radio" id="open" name="gOpenScope" value="Y" checked><label for="gOpenScope">공개</label>
+                                           		<input type="radio" id="not_open" name="gOpenScope" value="N"><label for="gOpenScope">비공개</label>
+                                       	   </c:if>
+                                       	   <c:if test="${ g.gOpenScope eq 'N' }">
+                                           		<input type="radio" id="open" name="gOpenScope" value="Y" ><label for="gOpenScope">공개</label>
+                                           		<input type="radio" id="not_open" name="gOpenScope" value="N" checked><label for="gOpenScope">비공개</label>
+                                       	   </c:if>
                                        </div>
                                        <div id="container_main_third_first">
                                            <p id="p_title">가입 승인</p>
-                                           <input type="radio" id="approve" name="gJoinSet" value="Y"><label for="gJoinSet">허용</label>
-                                           <input type="radio" id="not_approve" name="gJoinSet" value="N"><label for="gJoinSet">비허용</label>
+                                           <c:if test="${ g.gJoinSet eq 'Y' }">
+                                           		<input type="radio" id="approve" name="gJoinSet" value="Y" checked><label for="gJoinSet">허용</label>
+                                           		<input type="radio" id="not_approve" name="gJoinSet" value="N"><label for="gJoinSet">비허용</label>
+                                       	   </c:if>
+                                       	   <c:if test="${ g.gJoinSet eq 'N' }">
+                                           		<input type="radio" id="approve" name="gJoinSet" value="Y" ><label for="gJoinSet">허용</label>
+                                           		<input type="radio" id="not_approve" name="gJoinSet" value="N" checked><label for="gJoinSet">비허용</label>
+                                       	   </c:if>
                                        </div>
                                        <div id="container_main_fourth_first">
                                            <p id="p_title">가입 질문</p>
-                                           <input type="radio" id="questionY" name="gQset" value="Y"><label for="gQset">있음</label>
-                                           <input type="radio" id="questionN" name="gQset" value="N"><label for="gQset">없음</label>
+                                           <c:if test="${ g.gQset eq 'Y' }">
+                                           		<input type="radio" id="questionY" name="gQset" value="Y" checked><label for="gQset">있음</label>
+                                           		<input type="radio" id="questionN" name="gQset" value="N"><label for="gQset">없음</label>
+                                           </c:if>
+                                           <c:if test="${ g.gQset eq 'N' }">
+                                           		<input type="radio" id="questionY" name="gQset" value="Y"><label for="gQset">있음</label>
+                                           		<input type="radio" id="questionN" name="gQset" value="N" checked><label for="gQset">없음</label>
+                                           </c:if>
                                        </div>
                                        <div id="container_main_fifth_first">  
                                            <p id="p_title">질문</p>
-                                           <input type="text" id="question" name="q1" placeholder="질문 설정은 최대 3개까지 가능합니다." />&nbsp;
-                                           <input type="button" id="add_question" name="add_question" value="+" />
-                                           <input type="button" id="sub_question" name="sub_question" value="-">
+                                           <c:if test="${ !empty g.q1 && !empty g.q2 && !empty g.q3 }">
+                                           		<input type="text" id="question" name="q1" value="${ g.q1 }" />
+                                           		<input type="text" id="question" name="q2" value="${ g.q2 }" />
+                                           		<input type="text" id="question" name="q3" value="${ g.q3 }" />
+                                           		<input type="button" id="add_question" name="add_question" value="+" />
+                                           		<input type="button" id="sub_question" name="sub_question" value="-">
+                                           </c:if>
+                                           <c:if test="${ !empty g.q1 && !empty g.q2 }">
+                                           		<input type="text" id="question" name="q1" value="${ g.q1 }" />
+                                           		<input type="text" id="question" name="q2" value="${ g.q2 }" />
+                                           		<input type="button" id="add_question" name="add_question" value="+" />
+                                           		<input type="button" id="sub_question" name="sub_question" value="-">
+                                           </c:if>
+                                           <c:if test="${ !empty g.q1 }">
+                                           		<input type="text" id="question" name="q1" value="${ g.q1 }" />
+                                           		<input type="button" id="add_question" name="add_question" value="+" />
+                                           		<input type="button" id="sub_question" name="sub_question" value="-">
+                                           </c:if>
+                                           <c:if test="${ empty g.q1 }">
+                                           		<input type="text" id="question" name="q1" placeholder="질문 설정은 최대 3개까지 가능합니다." />&nbsp;
+                                           		<input type="button" id="add_question" name="add_question" value="+" />
+                                           		<input type="button" id="sub_question" name="sub_question" value="-">
+                                           </c:if>
                                        </div>
                                        <div id="container_main_sixth_first">
-                                           <p id="p_title">대표 사진</p>
+                                           <p id="p_title">대표 사진</p><input type="hidden" id="gPro" name="gPro" value="${ g.gRenameImage }">
                                            <c:if test="${ !empty g.gImage }">
                                             <input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);" value="${ g.gImage }"/>
-                                           <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }"></div>
+                                           <div id="imgBox"><img name="${ g.gRenameImage }" src="<%=request.getContextPath()%>/resources/gUploadFiles/${ g.gRenameImage }"></div>
+                                       		<p id="inDel2">저장된 사진 삭제</p><br>
+				                        	<p id="inFile2"><c:out value="${ g.gImage }"/></p>
+				                        	<input type="button" id="inDelBtn2" value="x" >
                                        		</c:if>
                                        		<c:if test="${ empty g.gImage }">
                                        		<input type="file"  id="uploadFile" name="file" accept="image/*" onchange="sethumbnail2(event);"/>
-                                           <div id="imgBox"><img src="<%=request.getContextPath()%>/resources/images/g_back.png"></div>
+                                           <div id="imgBox"><img name="${ g.gRenameImage }" src="<%=request.getContextPath()%>/resources/images/g_back.png"></div>
                                        		</c:if>
                                        </div>
                                        <div id="container_main_seventh_first">
@@ -214,6 +259,51 @@
            	sendAlram("fromId",toId,"groupAccept",'${g.gNo}');
            	console.log($("#"+e.target.id).parent().parent().children().children("#acceptId").val());
        	});
+     
+     	
+     	$('#inDelBtn1').on("click",function(){
+     		var gPro = "${ g.gRenameProfile }";
+     		var gNo = ${g.gNo};
+			console.log(gPro);
+			alert("사진을 삭제하면 되돌릴 수 없습니다.");
+			$.ajax({
+     			url:"delFile1.do",
+     			data:{ file:gPro, gNo:gNo },
+     			type:"post",
+     			success:function(data){
+     				if(data > 0){
+     					alert("삭제하였습니다.");
+     				}
+     				
+     				$('#inFile1').hide();
+     				$('#imgView').children('img').hide();
+     			}, error:function(){
+     				alert("실패");
+     			}
+     		})
+     	});
+     
+     	$('#inDelBtn2').on("click",function(){
+     		var gImg = "${ g.gRenameImage }";
+     		var gNo = ${g.gNo};
+     		console.log(gImg);
+     		alert("사진을 삭제하면 되돌릴 수 없습니다.");
+     		$.ajax({
+     			url:"delFile2.do",
+     			data:{ file:gImg, gNo:gNo},
+     			type:"post",
+     			success:function(data){
+     				if(data > 0){
+     					alert("삭제하였습니다.");
+     				} 
+     				$('#inFile2').hide();
+     				$('#imgBox').children('img').hide();
+     			}, error:function(){
+     				alert("실패");
+     			}
+     		})
+     	});
+     	
             // groupUdate 메뉴 버튼 이벤트
             $(document).ready(function(){
             	
