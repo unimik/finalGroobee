@@ -125,11 +125,14 @@ public class GroupController{
 				}
 				groupImgFiles.add(gfile.getOriginalFilename());
 				groupImgFiles.add(renameFileName);
+			} else {
+				groupImgFiles.add(null);
+				groupImgFiles.add(null);
 			}
 			System.out.println(groupImgFiles);
 		}
 		
-		if( groupImgFiles.size()!=0){
+		
 		    String gProfileName = (String) groupImgFiles.get(0);
 			String renameGproName = (String) groupImgFiles.get(1);
 			String gImageName = (String) groupImgFiles.get(2);
@@ -141,7 +144,7 @@ public class GroupController{
 			g.setgRenameProfile(renameGproName);
 			g.setgImage(gImageName);
 			g.setgRenameImage(renameGimgName);
-		} 		
+				
 		
 		
 		System.out.println(g.getgProfile()+", " +g.getgRenameProfile()+", "+g.getgImage()+", "+g.getgRenameImage());
@@ -277,22 +280,21 @@ public class GroupController{
 				}
 				groupImgFiles.add(gfile.getOriginalFilename());
 				groupImgFiles.add(renameFileName);
-			} else {
-				
-				
-				for(int i = 0; i < 2; i++) {
-					String[] str = gPro.split(",");
+			} else if(!gPro.isEmpty()){
+				String[] str = gPro.split(",");
+				for(int i = 0; i < str.length ; i++) {
 					groupImgFiles.add(str[i]);
 					groupImgFiles.add(str[i]);
 				}
-				
-				
+			}else {
+				groupImgFiles.add(null);
+				groupImgFiles.add(null);
 			}
 			
 			System.out.println(groupImgFiles);
 		} 
 		
-		if( groupImgFiles.size()!=0){
+		
 		    String gProfileName = (String) groupImgFiles.get(0);
 			String renameGproName = (String) groupImgFiles.get(1);
 			String gImageName = (String) groupImgFiles.get(2);
@@ -304,7 +306,7 @@ public class GroupController{
 			g.setgRenameProfile(renameGproName);
 			g.setgImage(gImageName);
 			g.setgRenameImage(renameGimgName);
-		} 
+		
 
 		
 		int result = gService.updateGroup(g);
@@ -375,6 +377,7 @@ public class GroupController{
 	
 	@RequestMapping("gdelete.do")
 	public String groupDelete(int gNo, HttpServletRequest request) {
+		System.out.println("그룹 삭제:"+gNo);
 		Group g = gService.selectGroup(gNo);
 		
 		if(g.getgRenameImage() != null && g.getgRenameProfile() != null) {
