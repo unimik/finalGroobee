@@ -13,6 +13,7 @@ import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.StorageBox;
 
 @Repository("fDao")
@@ -41,7 +42,7 @@ public class FeedDao {
 		return sqlSession.selectOne("feedMapper.selectUpdateFeed", fNo);
 	}
 
-	public ArrayList<Feed> selectGfList() {
+	public ArrayList<Feed> selectGfList(String userId) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList");
 	}
 
@@ -125,11 +126,15 @@ public class FeedDao {
 		return sqlSession.insert("mypageMapper.insertStorage", sb);
 	}
 
-	public int findTagMember(String string) {
-		return sqlSession.selectOne("mypageMapper.findTagMember", string);
+	public Member findTagMember(String id) {
+		return sqlSession.selectOne("feedMapper.findTagMember", id);
 	}
 
 	public ArrayList<Photo> selectPhotoList(int getfNo) {
 		return (ArrayList)sqlSession.selectList("feedMapper.selectPhotoList", getfNo);
+	}
+
+	public int updateDeleteTag(ArrayList<Tag> taglist) {
+		return sqlSession.delete("feedMapper.updateDeleteTag",taglist);
 	}
 }

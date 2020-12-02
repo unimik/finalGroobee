@@ -17,6 +17,7 @@ p{margin:0;}
 #searchBox{ width: 250px; height: 35px; border: 1px solid #e5e5e5; border-radius: 10px; margin-right: 10px;}
 #searchBtn{ width: 80px; height: 35px; border: 0; border-radius: 10px; background: #daf4ed;}
 
+#gmId{ font-weight:600;}
 
 /* management*/
 #management_container{height: 550px; display: none; border: 2px solid #e5e5e5; border-radius: 10px;}

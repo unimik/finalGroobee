@@ -607,65 +607,7 @@ public class MypageController {
 			return "common/errorPage";
 		}
 	}
-	@ResponseBody
-	@RequestMapping(value="storagePopup",produces="application/json;charset=utf-8")
-	public String selectStoragePopup(String mNo, String sbNo, String fnno, String userId) {
-		System.out.println(mNo+":"+sbNo+":"+fnno);
-		Feed ff = new Feed();
-		ff.setfWriter(userId);
-		ff.setfNo(Integer.parseInt(fnno));
-		Feed f = myService.storagePopup(ff);
-		
-		JSONObject job = new JSONObject();
-		if(f == null) {
-			job.put("msg", "잘못된 게시물입니다.");
-			return job.toString();
-		}else {
-			job.put("fcontent", f.getfContent());
-			job.put("fWriter", f.getfWriter());
-			job.put("fCreateDate", f.getfCreateDate().toString());
-			job.put("fLocation", f.getfLocation());
-			job.put("fLikeCnt", f.getfLikeCnt());
-			job.put("fReplyCnt", f.getfReplyCnt());
-			job.put("mImage", f.getmImage());
-			job.put("fLikeSet", f.getfLikeSet());
-			job.put("fReplySet", f.getfReplySet());
-			job.put("fShareSet", f.getfShareSet());
-			job.put("fOpenScope", f.getfOpenScope());
-			job.put("likeChk", f.getLikeChk());
-			job.put("shareYN", f.getShareYN());
-		}
-
-		if(f.getPhotoList() != null) {
-			JSONArray jArr = new JSONArray();
-			for(int i=0; i <f.getPhotoList().size(); i++) {
-					JSONObject jObj = new JSONObject();
-					jObj.put("changeName", f.getPhotoList().get(i).getChangeName());
-					jArr.add(jObj);
-			}
-			job.put("photoList", jArr);
-		}
-		job.put("photoListSize", f.getPhotoList().size());
-		
-		if(f.getReplyList() != null) {
-			JSONArray jArr = new JSONArray();
-			for(int i=0; i <f.getReplyList().size(); i++) {
-				JSONObject jObj = new JSONObject();
-				jObj.put("mNo", f.getReplyList().get(i).getmNo());
-				jObj.put("rContent", f.getReplyList().get(i).getrContent());
-				jObj.put("rWriter", f.getReplyList().get(i).getrWriter());
-				jObj.put("rWriterImg", f.getReplyList().get(i).getrWriterImg());
-				jObj.put("rCreateDate", f.getReplyList().get(i).getrCreateDate());
-				jObj.put("rModifyDate", f.getReplyList().get(i).getrModifyDate());
-				jObj.put("rStatus", f.getReplyList().get(i).getrStatus());
-				jArr.add(jObj);
-			}
-			job.put("replyListSize", f.getReplyList().size());
-			job.put("replyList", jArr);
-		}
-
-		return job.toString();
-	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value="deleteStorageFeed",produces="application/json;charset=utf-8")

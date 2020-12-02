@@ -52,6 +52,9 @@
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
 	button{ cursor: pointer; }
+	.usertag {color: #47c6a3;}
+	<%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:#88abda;}
 </style>
 
 </head>
@@ -180,21 +183,14 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text">
-						<!-- 진선 : 태그기능 추가 중. -->
-						<c:forEach var="d" items="${fn:split(f.fContent,'#')}">	
-							<c:choose>							
-							<c:when test="${fn:contains(d,' ') }">
-									<a href="search.do?type=tag&key=${fn:substringBefore(d,' ') }&mNo=${ loginUser.mNo }" style="color:skyblue;">#${fn:substringBefore(d,' ') }</a>
-									 ${fn:substringAfter(d,' ') }
-							</c:when>
-							<c:otherwise>
-								<p style="color:skyblue;cursor:pointer;" class="hashTag">#${d }</p>
-							</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						
-					</p>
+						<%-- 
+						<p id="text">
+						<c:out value="${ f.fContent }" />
+						</p>
+						--%>
+						<div id="text">
+						${ f.fContent }
+						</div>
 	
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -219,22 +215,24 @@
 							<c:when test="${ f.fLikeSet eq 'N' }">
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty r.rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -443,7 +441,14 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text"><c:out value="${ f.fContent }" /></p>
+						<%-- 
+						<p id="text">
+						<c:out value="${ f.fContent }" />
+						</p>
+						--%>
+					<div id="text">
+					${ f.fContent }
+					</div>
 	
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -463,29 +468,29 @@
 	               		<input type="hidden" class="toNo" value="${ f.fNo }">
 	               		<input type="hidden" class="toId" value="${ f.fWriter }">
 	               		<!-- 댓글이 전체 허용일 경우 -->
-						<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+						<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
 						<c:choose>
 							<c:when test="${ f.fLikeSet eq 'N' }">
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-								<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ f.replyList[0].rStatus eq 'N' || empty f.replyList[0].rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
-								<c:forEach var="r" items="${ f.replyList }">
-								<c:if test="${ r.rStatus eq 'Y' }">
-									<label class="replycnt_p">${ f.replyList.size() }개</label>
+							<% int rCount = 0; %>
+							<c:forEach var="rC" items="${ f.replyList }">
+								<c:if test="${ rC.rStatus eq 'Y' }">
+									<% ++rCount; %>
 								</c:if>
-								<c:if test="${ r.rStatus eq 'N' || empty r.rStatus }">
-									<label class="replycnt_p">0개</label>
-								</c:if>
-								</c:forEach>
+							</c:forEach>
+							<label class="replycnt_p"><%= rCount %>개</label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -955,14 +960,25 @@
 		});
 	});
 	
-	// 해시태그 클릭하면 해시태그 검색하기
+<%-- 	// 해시태그 클릭하면 해시태그 검색하기
 	$(document).on("click",".hashTag",function(){
 		var keyword=$(this).text().substr(1,this.length); // #태그 분리 및  value 뽑아내기
 		var mno = "<%= ((Member)session.getAttribute("loginUser")).getmNo() %>";
 		console.log(keyword);
 		location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
 		
-	});
+	}); --%>
+	/*@유저 아이디 클릭이벤트*/
+	function goUser(){
+    	var id = $(event.target).attr('id')
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+${ loginUser.mNo };
+    }
+    /*#태그 이벤트*/
+    function goTag(htag) {
+    	var tag = $(htag).text();
+    	console.log('검색하는 단어'+tag.substr(1));
+    	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
+	}
     </script>
     
 </body>

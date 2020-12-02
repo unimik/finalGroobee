@@ -9,6 +9,7 @@ import com.kh.spring.feed.model.vo.Reply;
 import com.kh.spring.feed.model.vo.ShareFeed;
 import com.kh.spring.feed.model.vo.Tag;
 import com.kh.spring.group.model.vo.GroupName;
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.vo.StorageBox;
 
 public interface FeedService {
@@ -75,7 +76,7 @@ public interface FeedService {
 	 *  전체 그룹피드 리스트
 	 * @return
 	 */
-	ArrayList<Feed> selectGfList();
+	ArrayList<Feed> selectGfList(String userId);
 	
 	/**
 	 * 한 그룹의 피드 최신순 리스트
@@ -154,7 +155,7 @@ public interface FeedService {
 	 * @param string
 	 * @return
 	 */
-	int findTagMember(String string);
+	Member findTagMember(String string);
 	
 	
 	 /* 사진 리스트
@@ -162,5 +163,14 @@ public interface FeedService {
 	 * @return
 	 */
 	ArrayList<Photo> selectPhotoList(int getfNo);
+	
+	
+	/**
+	 * 수정시 태그 삭제
+	 * @param taglist
+	 * @param i 
+	 * @return
+	 */
+	int updateDeleteTag(ArrayList<Tag> taglist);
 	
 }

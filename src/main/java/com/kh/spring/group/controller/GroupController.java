@@ -51,10 +51,10 @@ public class GroupController{
 	/******* 그룹 **********/
 	
 	@RequestMapping("glist.do")
-	public ModelAndView gList(ModelAndView mv) {
+	public ModelAndView gList(ModelAndView mv, String userId) {
 		ArrayList<Group> glist = gService.selectList();
-		ArrayList<Feed> flist = fService.selectGfList();
-		
+		ArrayList<Feed> flist = fService.selectGfList(userId);
+		System.out.println("지금 그룹리스트 불러올 때 : "+userId);
 		ArrayList<Photo> fp = null;
 		for(Feed f : flist) {
 			fp = fService.selectPhotoList(f.getfNo());

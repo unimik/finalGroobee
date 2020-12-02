@@ -43,23 +43,27 @@
 	    margin:0 40px 30px 30px;
 	    }
 	    .follow_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
-    	background-color: rgba(0,0,0,0.5);}
-    	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
    		background-color: rgba(0,0,0,0.5);}
-    	.follow_detail{ background: white; border-radius: 15px; -ms-overflow-style: none; width: 400px; height: 500px; position: fixed; top: 20%; left: 42%;}
-    	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
-    	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
-    	.follow_list{ height: 440px; overflow-y: scroll; }
-    	.follow_list>ul{ 
-		    margin: 30px;
-		    text-align: center;
+	   	.following_wrap{ display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; background-color: rgb(0,0,0); 
+	   		background-color: rgba(0,0,0,0.5);}
+	   	.follow_detail{ background: white; border-radius: 15px;  width: 400px; height: 400px; position: fixed; top: 20%; left: 42%;}
+	   	.follow_title{ height: 60px; border-bottom: 1px solid #e5e5e5; text-align: center; }
+	   	.follow_title>p{ padding:20px; color:#555555; font-weight:600; }
+	   	.follow_list{ height: 320px; overflow-y: scroll; -ms-overflow-style: none; }
+	   	.follow_list>ul{ 
+	   		margin-left:130px;
+	   		width:100%;
+	   		height:40px;
 		    list-style: none;
 		    padding: unset;
-    	 }
-    	.follow_list>ul>li{ 
+	   	 }
+	   	.follow_list>ul>li{ 
 		    height: 40px;
+		    margin:0;
 		    margin-bottom: 10px;
-    	 }
+		    float:left; 
+	   	 }
+	   	.follow_list img{ width:40px; height:40px; border-radius:10px; float:left; margin-right:20px;}
 		.follow_list::-webkit-scrollbar{display: none;}
 		.close_popup>img{ width:20px; height: 20px; margin: 10px; float: right; }
 		#blockedCancle_btn{ width: 120px; height: 40px; margin-top: 40px; background: #daf4ed; border: none; border-radius: 10px; color: #555555;
@@ -83,6 +87,7 @@
 		#likeIcon { margin: 7px 0 0 25px; }
 		.storagePop_menu{ position:fixed; z-index:99; left:50%; top: 50%; transform: translate(-50%, -50%); margin-top:0; box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.4); }
 /*    		.storagePop{ display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100;background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4); } */
+      .usertag {color: #47c6a3;} 
    </style>
 </head>
 <body>
@@ -220,10 +225,24 @@
 	                               </c:url>
                                    <c:if test="${ !empty followerList.mNo }">
                                    		<c:if test="${ loginUser.userId eq followerList.userId }">
-                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followerList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ loginUser.userId }</a></li>
                                    		</c:if>
                                    		<c:if test="${ loginUser.userId ne followerList.userId }">
-	                    		   		<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">${ followerList.userId }</a></li>
+                                   			<li><a href="goUserpage.do?userId=${ followerList.userId }&mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followerList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followerList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ followerList.userId }</a></li>
                                    		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followerList.mNo }">
@@ -248,12 +267,26 @@
 	                    		   <c:url var="goUserPage" value="goUserpage.do">
 	                               		<c:param name="mNo" value="${ followingList.mNo }"/>
 	                               </c:url>
-                                   <c:if test="${ !empty followingList.mNo }">
-	                    		   		<c:if test="${ loginUser.userId eq followingList.userId }">
-                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">${ loginUser.userId }</a></li>
+	                               <c:if test="${ !empty followingList.mNo }">
+                                   		<c:if test="${ loginUser.userId eq followingList.userId }">
+                                   			<li><a href="goMypage.do?mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followingList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ loginUser.userId }</a></li>
                                    		</c:if>
                                    		<c:if test="${ loginUser.userId ne followingList.userId }">
-	                    		   		<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">${ followingList.userId }</a></li>
+                                   			<li><a href="goUserpage.do?userId=${ followingList.userId }&mNo=${ loginUser.mNo }">
+                                   			<c:if test="${ !empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/memberProfileFiles/${ followingList.mRenameProfile }">
+                                   			</c:if>
+                                   			<c:if test="${ empty followingList.mRenameProfile }">
+                                   			<img id="f_img" src="<%=request.getContextPath()%>/resources/icons/pro_default.png">
+                                   			</c:if>
+                                   			${ followingList.userId }</a></li>
                                    		</c:if>
                                    </c:if>
                                    <c:if test="${ empty followingList.mNo }">
@@ -591,12 +624,13 @@
         /************ 포스트 박스 클릭 시 script ************/
 
         function goDetail(fNo,smNo){
-        	   var mNo = $('#mNo').val();
+        	   var mNo = $('#follow').val();
         	   var follow = $('#follow').val();
+        	   var mNoUser = $('#mNo').val();
                $.ajax({
                   url:"goDetail.do",
                   dataType:"json",
-                  data:{mNo: mNo,fNo : fNo, smNo : smNo},
+                  data:{mNo: mNo,fNo : fNo, smNo : smNo, mNoUser : mNoUser},
                   type:"post",
                   success:function(data){
                     
@@ -720,22 +754,22 @@
 				              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 			                  input +="<div id='replyList'>";
 			                  input +="<ul id='re_list' class='list'>";
-			                  if(data.replyList[i].mNo == mNo){
-			                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			                  if(data.replyList[i].mNo == mNoUser){
+			                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 			                  } else {
-			            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 			                  }
 			            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 				              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 				              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-				              if(data.replyList[i].mNo == mNo){
+				              if(data.replyList[i].mNo == mNoUser){
 								  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 				               }
 							  input +="</ul>";
 				              input +="</div>";
 				              input +="<div class='reply_menu'>";
 	
-				              if(data.replyList[i].mNo == mNo){
+				              if(data.replyList[i].mNo == mNoUser){
 					              input +="<div id='re_menu_list'>";
 					              input +="<ul>";
 					              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -1005,21 +1039,21 @@
 					       	                  input +="<div id='replyList'>";
 					       	                  input +="<ul id='re_list' class='list'>";
 					       	                  if(data.replyList[i].mNo == mNo){
-					       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					       	                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 					       	                  } else {
-					       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 					       	                  }
 					       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 					       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 					       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-					       		              if(data.replyList[i].mNo == mNo){
+					       		              if(data.replyList[i].mNo == mNoUser){
 					       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 					       		               }
 					       					  input +="</ul>";
 					       		              input +="</div>";
 					       		              input +="<div class='reply_menu'>";
 
-					       		              if(data.replyList[i].mNo == mNo){
+					       		              if(data.replyList[i].mNo == mNoUser){
 					       			              input +="<div id='re_menu_list'>";
 					       			              input +="<ul>";
 					       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -1227,22 +1261,22 @@
 									       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 									       	                  input +="<div id='replyList'>";
 									       	                  input +="<ul id='re_list' class='list'>";
-									       	                  if(data.replyList[i].mNo == mNo){
-									       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+									       	                  if(data.replyList[i].mNo == mNoUser){
+									       	                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 									       	                  } else {
-									       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+									       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 									       	                  }
 									       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 									       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 									       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-									       		              if(data.replyList[i].mNo == mNo){
+									       		              if(data.replyList[i].mNo == mNoUser){
 									       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 									       		               }
 									       					  input +="</ul>";
 									       		              input +="</div>";
 									       		              input +="<div class='reply_menu'>";
 
-									       		              if(data.replyList[i].mNo == mNo){
+									       		              if(data.replyList[i].mNo == mNoUser){
 									       			              input +="<div id='re_menu_list'>";
 									       			              input +="<ul>";
 									       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -1503,7 +1537,7 @@
 								console.log(mNo);
 								$.ajax({
 									url:"selectStorage.do",
-									data:{ mNo:mNo},
+									data:{ mNo:${ loginUser.mNo}},
 									dataType:"json",
 									success:function(data){
 										$('.pop_menu').hide();
@@ -1542,7 +1576,7 @@
 									console.log(sbName);
 									$.ajax({
 										url:"insertStorage.do",
-										data:{ fNo:fNo,mNo:mNo,sbNo:sbNo,sbName:sbName },
+										data:{ fNo:fNo,mNo:${ loginUser.mNo},sbNo:sbNo,sbName:sbName },
 										type:"post",
 										success:function(data){
 											if(data > 0){
@@ -1873,22 +1907,22 @@
 	    			       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	    			       	                  input +="<div id='replyList'>";
 	    			       	                  input +="<ul id='re_list' class='list'>";
-	    			       	                  if(data.replyList[i].mNo == mNo){
+	    			       	                  if(data.replyList[i].mNo == mNoUser){
 	    			       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 	    			       	                  } else {
-	    			       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	    			       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
 	    			       	                  }
 	    			       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 	    			       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
 	    			       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-	    			       		              if(data.replyList[i].mNo == mNo){
+	    			       		              if(data.replyList[i].mNo == mNoUser){
 	    			       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 	    			       		               }
 	    			       					  input +="</ul>";
 	    			       		              input +="</div>";
 	    			       		              input +="<div class='reply_menu'>";
 
-	    			       		              if(data.replyList[i].mNo == mNo){
+	    			       		              if(data.replyList[i].mNo == mNoUser){
 	    			       			              input +="<div id='re_menu_list'>";
 	    			       			              input +="<ul>";
 	    			       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 
@@ -2256,6 +2290,19 @@
        		
        		$("#feed_report").css("display","none"); // 전송 후 전체창 끄기
        	}); 
+         
+         
+     	/*@유저아이디 클릭이벤트 */
+         function goUser(){
+         	var id = $(event.target).attr('id')
+         	var mno = ${ loginUser.mNo };
+         	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+         }
+         /*#태그 이벤트*/
+         function goTag(htag) {
+         	var tag = $(htag).text();
+         	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
+     	}
     </script>
 </body>
 </html>
