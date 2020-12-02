@@ -175,7 +175,13 @@ public class EchoHandler extends TextWebSocketHandler{
         			System.out.println(gmId);
         		}
 				System.out.println(boardWriterSession);
-				if(boardWriterSession != null) {
+				if(toId.equals(fromId)) {
+					if("like".equals(sendType)) {
+						LikeIt lI = new LikeIt(Integer.parseInt(crno),fromId);
+						int like = fService.insertLike(lI);						
+					}
+					System.out.println("자신에게는 알림이 가지 않음");
+				}else if(boardWriterSession != null) {
 					if(sendType.equals("reply") ) {
 						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + "님이 " + 
 											"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+"게시글번호"+"&pg=1'></a> 회원님 게시글에 댓글을 남겼습니다.");

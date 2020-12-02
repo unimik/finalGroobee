@@ -10,6 +10,7 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
+<!-- <link rel="stylesheet" href="resources/css/myPage_Main.css"> -->
 <link rel="stylesheet" href="resources/css/alarmPop.css">
 <link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <link rel="stylesheet" href="resources/css/myAccount.css">
@@ -23,6 +24,7 @@
 <style>
    a{text-decoration:none;}
    .followChk{width:38px; height:28px; background:#daf4ed; color: gray; border:none; border-radius:3px; margin-right:2px;}
+   
 </style>
 </head>
 <body>
@@ -179,6 +181,8 @@
                     	</c:forEach> 
                     </div>
                 </div>
+                <div class="pop_feed"></div>
+                
         </div>
 	     
 	     <div class="myAccount">
@@ -1056,6 +1060,7 @@
         var data = msg.data;
         var dArr = data.split('|');
         console.log(data);
+        
         if(dArr.length == 2) {
           if(dArr[0] == null || dArr[0] == ' ') {
              
@@ -1133,6 +1138,17 @@
      }else{
 			$("#alarmIcon").attr('src',"resources/icons/alarm_new.png");
 			var notifytext = "";
+			var mNo = '${loginUser.mNo}';
+			var nArr = new Array();
+			$.ajax({
+				url: 'notifyset.do',
+				data: {mNo: mNo},
+				success : function(data){
+					nArr = data.split('|');
+					console.log(nArr);
+					
+				}
+			});
 			 // 알림기능
 				if(dArr[1] == 'follow'){
 		 	 		$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 회원님을 팔로우합니다.</p></div>'); 					
@@ -1150,8 +1166,7 @@
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="gdetail.do?gNo='+dArr[2]+'">'+dArr[3]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
 					notifytext += dArr[3]+' 에서 그룹 가입을 승인했습니다.';
 				}else if(dArr[1] == 'like'){
-					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+
-							'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(332,3)"</a></b>'+dArr[2]+'가 회원님의 게시물을 좋아합니다.</p></div>');
 					notifytext += dArr[2]+' 가 회원님의 게시물을 좋아합니다.';
 				}else if (dArr[1] == 'reply'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(fNo,smNo)"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
@@ -1161,14 +1176,19 @@
 					notifytext +='그룹 '+dArr[3]+' 에서 추방 당하셨습니다.';
 				};
 				
-				$.notify(notifytext, {
-	    		  	icon : '../../resource/icon/alarm.png',
-	      		style: 'groobee',
-	    		  	position : 'bottom-right',
-	    		  	icon_type: 'img'
-	    		});
+				if(notifytext != ""){
+						
+					$.notify(notifytext, {
+		    		  	icon : '../../resource/icon/alarm.png',
+		      		style: 'groobee',
+		    		  	position : 'bottom-right',
+		    		  	icon_type: 'img'
+		    		});
+				}
 		 };
      };
+     
+     
      $.notify.addStyle('groobee', {
  		  html: "<div background: #fcfcfc; width: 350px; height: 70px; border-radius:10px; border: 1px solid #47c6a3; margin-bottom: 5px;'>"+
 					  

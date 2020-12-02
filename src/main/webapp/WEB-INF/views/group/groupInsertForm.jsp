@@ -5,41 +5,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>G R O O B E E</title>
+<title>Insert title here</title>
 <link href="<%=request.getContextPath()%>/resources/css/groupInsertView.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-	<c:import url="../common/menubar.jsp"/>
-		<div id="feedArea">
-        	<form action="ginsert.do" id="joinform" method="post" enctype="multipart/form-data">
-            	<div id="group_create">
-                	<div class="container">
-                	<input type="hidden" id="gCreator" name="gmId" value="${ loginUser.userId }">
-                    	<p id="title">그룹 만들기</p>
+   <c:import url="../common/menubar.jsp"/>
+      <div id="feedArea">
+           <form action="ginsert.do" id="joinform" method="post" enctype="multipart/form-data">
+               <div id="group_create">
+                   <div class="container">
+                   <input type="hidden" id="gCreator" name="gmId" value="${ loginUser.userId }">
+                       <p id="title">그룹 만들기</p>
                     </div>
-                   	<div class="container" id="container_main_first">
-                    	<div class="container second" id="container_main_first_first">
-                        	<div class="groupImg">
-                        		<div class="imgView" id="imgView"></div>
-                        		<p id="p_title">그룹 프로필사진</p>
-                        		<input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
-                        	</div>
-                        	
-                        	<div class="container third" id="container_main_first_first_first">
-                            	<p id="p_title">그룹 이름</p>
+                      <div class="container" id="container_main_first">
+                       <div class="container second" id="container_main_first_first">
+                           <div class="groupImg">
+                              <div class="imgView" id="imgView"></div>
+                              <p id="p_title">그룹 프로필사진</p>
+                              <input type="file" id="groupProfile" name="file" accept="image/*" onchange="sethumbnail(event);">
+                           </div>
+                           
+                           <div class="container third" id="container_main_first_first_first">
+                               <p id="p_title">그룹 이름</p>
                                 <input type="text" class="container third" id="inputBox" name="gName">
                             </div>
                             <div class="container third" id="container_main_first_first_third">
-                            	<p id="p_title">최대 인원수</p>
+                               <p id="p_title">최대 인원수</p>
                                 <input type="number" class="container third" id="inputBox" name="gMax">
                             </div>
                         </div>
                         <div class="container second" id="container_main_first_second">
-                        	<div class="container third" id="container_main_first_second_first" >
-                            	<p id="p_title">그룹 관심사</p>
+                           <div class="container third" id="container_main_first_second_first" >
+                               <p id="p_title">그룹 관심사</p>
                                 <select class="container third" id="container_main_first_second_second" name="gCategory">
-                                	<option selected disabled>---------------------</option>
+                                   <option selected disabled>---------------------</option>
                                     <option value="문학/책">문학/책</option>
                                     <option value="영화">영화</option>
                                     <option value="미술/디자인">미술/디자인</option>
@@ -60,18 +60,18 @@
                         </div>
                     </div>
                     <div class="container" id="container_main_second">
-                    	<div id="container_main_second_first">
-                        	<p id="p_title">공개 여부</p>
+                       <div id="container_main_second_first">
+                           <p id="p_title">공개 여부</p>
                             <input type="radio" id="open" name="gOpenScope" value="Y"><label for="gOpenScope">공개</label>
                             <input type="radio" id="not_open" name="gOpenScope" value="N"><label for="gOpenScope">비공개</label>
                         </div>
                         <div id="container_main_third_first">
-                        	<p id="p_title">가입 승인</p>
+                           <p id="p_title">가입 승인</p>
                             <input type="radio" id="approve" name="gJoinSet" value="Y"><label for="gJoinSet">허용</label>
                             <input type="radio" id="not_approve" name="gJoinSet" value="N"><label for="gJoinSet">비허용</label>
                         </div>
                         <div id="container_main_fourth_first">
-                        	<p id="p_title">가입 질문</p>
+                           <p id="p_title">가입 질문</p>
                             <input type="radio" id="questionY" name="gQset" value="Y"><label for="gQset">있음</label>
                             <input type="radio" id="questionN" name="gQset" value="N"><label for="gQset">없음</label>
                         </div>
@@ -102,10 +102,10 @@
                </div>
             </form>
         </div>
-	</div>
-	<script>	
-		$(document).ready(function(){
-			
+   </div>
+   <script>   
+      $(document).ready(function(){
+         
             var i = 2;
             $('#add_question').on("click",function(){
                 $('#sub_question').show();
@@ -124,51 +124,51 @@
 
                 }
             });
-		});
-		
-		
-		$('#cancel').on("click",function(){
-			location.href="javascript:history.go(-1);";
-		});
-	</script>
-	<script type="text/javascript">
-	function sethumbnail(event){
-		var reader = new FileReader();
-		
-		reader.onload = function(event){
-			var inimg = document.getElementById('imgView');
-			console.log(inimg.childElementCount);
-			var img = document.createElement('img');
-			img.setAttribute("src",event.target.result);
-			if( inimg.childElementCount > 0 ){
-				document.querySelector("div#imgView>img").remove();
-				document.querySelector("div#imgView").appendChild(img);
-			} else {
-				document.querySelector("div#imgView").appendChild(img);
-			}
-		};
-		
-		reader.readAsDataURL(event.target.files[0]);
-	}
+      });
+      
+      
+      $('#cancel').on("click",function(){
+         location.href="javascript:history.go(-1);";
+      });
+   </script>
+   <script type="text/javascript">
+   function sethumbnail(event){
+      var reader = new FileReader();
+      
+      reader.onload = function(event){
+         var inimg = document.getElementById('imgView');
+         console.log(inimg.childElementCount);
+         var img = document.createElement('img');
+         img.setAttribute("src",event.target.result);
+         if( inimg.childElementCount > 0 ){
+            document.querySelector("div#imgView>img").remove();
+            document.querySelector("div#imgView").appendChild(img);
+         } else {
+            document.querySelector("div#imgView").appendChild(img);
+         }
+      };
+      
+      reader.readAsDataURL(event.target.files[0]);
+   }
     
     function sethumbnail2(event){
-		var reader = new FileReader();
-		
-		reader.onload = function(event){
-			var inimg = document.getElementById('imgBox');
-			var groupimg = document.createElement('img');
-			groupimg.setAttribute("src",event.target.result);
-			if( inimg.childElementCount > 0 ){
-				document.querySelector("div#imgBox>img").remove();
-				document.querySelector("div#imgBox").appendChild(groupimg);
-			} else {
-				document.querySelector("div#imgBox").appendChild(groupimg);
-			}
-			
-		};
-		
-		reader.readAsDataURL(event.target.files[0]);
-	}
-	</script>
+      var reader = new FileReader();
+      
+      reader.onload = function(event){
+         var inimg = document.getElementById('imgBox');
+         var groupimg = document.createElement('img');
+         groupimg.setAttribute("src",event.target.result);
+         if( inimg.childElementCount > 0 ){
+            document.querySelector("div#imgBox>img").remove();
+            document.querySelector("div#imgBox").appendChild(groupimg);
+         } else {
+            document.querySelector("div#imgBox").appendChild(groupimg);
+         }
+         
+      };
+      
+      reader.readAsDataURL(event.target.files[0]);
+   }
+   </script>
 </body>
 </html>

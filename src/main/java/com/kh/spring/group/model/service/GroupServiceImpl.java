@@ -137,16 +137,6 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.groupSearch(s);
 	}
 
-	@Override
-	public int updateFile1(int gNo) {
-		return gDao.groupFileDelete1(gNo);
-	}
-	
-	@Override
-	public int updateFile2(int gNo) {
-		return gDao.groupFileDelete2(gNo);
-	}
-
 
 
 
