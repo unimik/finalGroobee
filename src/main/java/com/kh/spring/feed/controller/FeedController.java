@@ -143,34 +143,17 @@ public class FeedController {
             }
          }
          
-       // 태그 인서트
-       /* String huhu = null;
- 		String[] strarr = f.getfContent().split(" |\\n");
- 		ArrayList<Tag> taglist = new ArrayList<Tag>();
- 		for(int i = 0; i < strarr.length; i++) {
- 			if(strarr[i].charAt(0) == '#') {
- 				Tag t = new Tag(f.getfNo(),strarr[i]);
- 				taglist.add(t);
- 			}else if(strarr[i].charAt(0) == '@') {
- 				String id = strarr[i].substring(1);
- 				System.out.println("검색하는 아이디 "+id);
- 				Member m = fService.findTagMember(id);
- 				if(m != null) {
- 					strarr[i] = "<a href='#' onclick='goUser()'>"+"@"+id+"</a>";
- 				}
- 			}
- 			if(strarr[i] != null) {
- 			huhu += strarr[i]+" ";
- 			}
- 		}
- 		System.out.println("글"+huhu);
- 		*/
+
  		System.out.println("태그리스트"+taglist);
- 	
+ 		for(int i =0; i < taglist.size(); i++) {
+ 			taglist.get(i).setfNo(f.getfNo());
+ 		}
+ 		
  		if(!taglist.isEmpty()) {
  			int resultTag = fService.insertTag(taglist);
 // 			System.out.println(resultTag); // 성공해도 -1나옴 왜...
  		}
+ 		
          try {
             p.setfNo(f.getfNo());
             int photo = fService.insertPhoto(p);
@@ -189,7 +172,7 @@ public class FeedController {
          return "../common/errorPage";
       }
    }
-   
+ 
    @RequestMapping("pUpdateView.do")
    public ModelAndView postUpdateView(ModelAndView mv, int fNo, ArrayList<GroupName> gn, HttpSession session) {
       Member mem = (Member)session.getAttribute("loginUser");
