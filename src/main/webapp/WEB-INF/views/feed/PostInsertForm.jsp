@@ -218,11 +218,7 @@
         });
         
         /************* 내계정 자세히보기 script **************/
-        $(document).ready(function(){
-            $('#detailInfo').click(function(){
-                $(".myAccount").animate({width:"toggle"},250);
-            });
-        });
+
         $('.MyTab_tab').on("click",function(){
             $('.MyTab_tab').removeClass('on');
             $(this).addClass('on')

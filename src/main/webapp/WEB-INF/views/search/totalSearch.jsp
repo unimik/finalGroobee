@@ -118,45 +118,27 @@
                         <p id="title"><b>게시물</b> </p>
                     </div>
                     <div id="con_feed">
-                    <table>
                     <c:choose>
 	                    <c:when test="${empty fList}">
-	                    <tr>
-	                    	<td>
-		       					<div id="nouser">게시글이 존재하지 않습니다</div>	                    	
-	                    	</td>
-	                    </tr>
+		       				<div id="nouser">게시글이 존재하지 않습니다</div>	                    	
 	       				</c:when>
 	       				<c:otherwise>
-		       				 <% int  j = 0; %>
 	                    	<c:forEach var="f" items="${ fList }">
-		       				 <% if (j%3 == 0){ %>
-	                    	<tr>
-	                    	 <%} %>
 	                    	<c:choose>
 	                   			<c:when test="${ empty f.thumbnail }">
-		                    		<td>
 		                   			<div class="post" id="${ f.fNo }" onclick="goDetail(${ f.fNo },${ f.mNo })" style=" cursor: pointer;">
 			                             <p>${f.fContent} </p>
 			                        </div>
-			                        </td>
 	                   			</c:when>
-	                   		
 	                   			<c:otherwise>
-		                   			<td>
 		                   			<div class="post" id="${ f.fNo }" onclick="goDetail(${ f.fNo },${ f.mNo })">
 			                            <img src="resources/pUploadFiles/${f.thumbnail}" alt="" id="post_con">                                 	
 			                        </div>
-			                        <td>
 	                   			</c:otherwise>
 	                   		</c:choose>							                 		
-	                   		 <% if (j%3==2){ %>
-	                   		<tr>
-	                   		 <%} j++;%>
 	                   		</c:forEach>
 		                </c:otherwise>
 					</c:choose>
-                   	</table>	
                     </div>
                 </div>
                 
