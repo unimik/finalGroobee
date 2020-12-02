@@ -716,14 +716,8 @@
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					if(data != "fail") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-<<<<<<< HEAD
-						location.href="home.do?userId="+rWriter;
-//						location.reload();
-						location.href="home.do?userId="+rWriter;
-=======
 						location.reload();
-//						location.href="home.do?userId="+rWriter;
->>>>>>> branch 'master' of https://github.com/unimik/finalGroobee.git
+
 					}
 				}, error: function() {
 					console.log("전송 실패");
