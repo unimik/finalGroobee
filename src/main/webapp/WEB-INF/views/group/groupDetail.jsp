@@ -132,7 +132,7 @@
                                 		<c:param name="gNo" value="${ g.gNo }"/>
                                 		<c:param name="gmId" value="${ loginUser.userId }"/>
                                 	</c:url>
-                                    <c:url var="gdelete" value="gdelete.do"/>
+                                    <c:url var="gdelete" value="gdelete.do?gNo=${ g.gNo }"/>
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>

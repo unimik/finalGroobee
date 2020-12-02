@@ -84,7 +84,7 @@ public class GroupController{
 								MultipartHttpServletRequest groupFiles){
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
-		String savePath = root + "\\gUploadFiles";
+		String savePath = root + "/gUploadFiles";
 		String fileName = "";
 		
 		File folder = new File(savePath);
@@ -116,7 +116,7 @@ public class GroupController{
 				int rdv = (int)(Math.random()*1000);
 				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + rdv 
 										+ originalFileName.substring(originalFileName.lastIndexOf("."));
-				String renamePath = folder + "\\" + renameFileName;
+				String renamePath = folder + "/" + renameFileName;
 			
 				try {
 					gfile.transferTo(new File(renamePath));
@@ -125,11 +125,14 @@ public class GroupController{
 				}
 				groupImgFiles.add(gfile.getOriginalFilename());
 				groupImgFiles.add(renameFileName);
+			} else {
+				groupImgFiles.add(null);
+				groupImgFiles.add(null);
 			}
 			System.out.println(groupImgFiles);
 		}
 		
-		if( groupImgFiles.size()!=0){
+		
 		    String gProfileName = (String) groupImgFiles.get(0);
 			String renameGproName = (String) groupImgFiles.get(1);
 			String gImageName = (String) groupImgFiles.get(2);
@@ -141,7 +144,7 @@ public class GroupController{
 			g.setgRenameProfile(renameGproName);
 			g.setgImage(gImageName);
 			g.setgRenameImage(renameGimgName);
-		} 		
+				
 		
 		
 		System.out.println(g.getgProfile()+", " +g.getgRenameProfile()+", "+g.getgImage()+", "+g.getgRenameImage());
@@ -226,7 +229,7 @@ public class GroupController{
 	}
 	
 	@RequestMapping("groupUpdate.do")
-	public ModelAndView groupUpdate(ModelAndView mv, Group g, int gNo, HttpServletRequest request,
+	public ModelAndView groupUpdate(ModelAndView mv, Group g, int gNo, String gPro, HttpServletRequest request,
 								MultipartHttpServletRequest groupFiles) {
 		System.out.println(g.getgNo());
 		g.setgNo(gNo);
@@ -234,7 +237,7 @@ public class GroupController{
 		System.out.println("그룹번호 : " + g.getgNo());
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
-		String savePath = root + "\\gUploadFiles";
+		String savePath = root + "/gUploadFiles";
 		String fileName = "";
 		
 		File folder = new File(savePath);
@@ -265,7 +268,7 @@ public class GroupController{
 				int rdv = (int)(Math.random()*1000);
 				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + rdv 
 										+ originalFileName.substring(originalFileName.lastIndexOf("."));
-				String renamePath = folder + "\\" + renameFileName;
+				String renamePath = folder + "/" + renameFileName;
 			
 				try {
 					gfile.transferTo(new File(renamePath));
@@ -274,11 +277,21 @@ public class GroupController{
 				}
 				groupImgFiles.add(gfile.getOriginalFilename());
 				groupImgFiles.add(renameFileName);
+
+			} else if(!gPro.isEmpty()){
+				String[] str = gPro.split(",");
+				for(int i = 0; i < str.length ; i++) {
+					groupImgFiles.add(str[i]);
+					groupImgFiles.add(str[i]);
+				}
+			}else {
+				groupImgFiles.add(null);
+				groupImgFiles.add(null);
 			}
 			System.out.println(groupImgFiles);
 		}
 		
-		if( groupImgFiles.size()!=0){
+		
 		    String gProfileName = (String) groupImgFiles.get(0);
 			String renameGproName = (String) groupImgFiles.get(1);
 			String gImageName = (String) groupImgFiles.get(2);
@@ -290,8 +303,8 @@ public class GroupController{
 			g.setgRenameProfile(renameGproName);
 			g.setgImage(gImageName);
 			g.setgRenameImage(renameGimgName);
-		} 		
 
+		 	
 		
 		int result = gService.updateGroup(g);
 		
@@ -306,12 +319,12 @@ public class GroupController{
 
 	private void deleteFile(String getgRenameProfile, String getgRenameImage, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\buploadFiles";
+		String savePath = root + "/buploadFiles";
 		
 		System.out.println(getgRenameProfile);
 		System.out.println(getgRenameImage);
-		File f = new File(savePath + "\\" + getgRenameProfile);
-		File f2 = new File(savePath + "\\" + getgRenameImage);
+		File f = new File(savePath + "/" + getgRenameProfile);
+		File f2 = new File(savePath + "/" + getgRenameImage);
 		if(f.exists() && f2.exists()) {
 			f.delete();
 			f2.delete();
@@ -320,6 +333,7 @@ public class GroupController{
 
 	@RequestMapping("gdelete.do")
 	public String groupDelete(int gNo, HttpServletRequest request) {
+		System.out.println("그룹 삭제:"+gNo);
 		Group g = gService.selectGroup(gNo);
 		
 		if(g.getgRenameImage() != null && g.getgRenameProfile() != null) {
