@@ -212,4 +212,12 @@ public class settingController {
 		}
 
 	}
+	
+	@ResponseBody
+	@RequestMapping("notifyset.do")
+	public String notifyset(@RequestParam("mNo") String mNo) {
+		NotificationSetting ns = sService.notifyset(mNo);
+		
+		return ns.getaAll()+"|"+ns.getaLike()+"|"+ns.getaReply()+"|"+ns.getaFriends()+"|"+ns.getaMessage();
+	}
 }

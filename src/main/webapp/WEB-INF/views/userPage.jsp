@@ -636,19 +636,19 @@
                     
                 	  var input=""; 
                       input += "<div class='feed_delete'>";
-                      input += "<img src='${ contextPath }/resources/icons/close_white.png' type='button'>";
+                      input += "<img src='/spring/resources/icons/close_white.png' type='button'>";
                       input += "</div>";
                       input += "<div id='writer_submenu'>";
                       if(data.mImage != null){
-                        input += "<img src='${ contextPath }/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
+                        input += "<img src='/spring/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
                       } else {
-                        input += "<img src='${ contextPath }/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
+                        input += "<img src='/spring/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
                       }
     	              input += "<div id='user_time'>";
     	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
     	              input += "<h6>"+data.fCreateDate+"</h6>";
     	              input += "</div>";
-    	              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
+    	              input += "<img src='/spring/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
     	              input += "</div>";
 		              <!-- 다른 회원 글 볼 때 피드 메뉴 -->
 		              input +="<div class='pop_menu'>";
@@ -683,12 +683,12 @@
 		              input +="<div id='con'>";
 		              input +="<div id='feed_content'>";
 	  	        	  	if(data.photoList[0] != null){
-			      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-						input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+			      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='/spring/resources/icons/nextbtn.png'></button>";
+						input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='/spring/resources/icons/prevbtn.png'></button>";
 		            	input +="<ul id='imgList' style='height:633px'>";
 			              for(var i=0; i < data.photoList.length; i++){
 							  if(data.photoList[i].changeName != null){
-								  input +="<li><img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
+								  input +="<li><img src='/spring/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
 				              }
 			              } 
 			              input +="</ul>";
@@ -700,10 +700,10 @@
 		 				  if(data.fLikeSet == 'Y' ||  data.fLikeSet == null){
 							<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 			             	if(data.likeChk == null){
-				             	input +="<img src='${ contextPath }/resources/icons/heart.png' alt='' name='"+fNo+"'class='likeIcon' id='likeIcon' onclick='likeClick(this);'>";
+				             	input +="<img src='/spring/resources/icons/heart.png' alt='' name='"+fNo+"'class='likeIcon' id='likeIcon' onclick='likeClick(this);'>";
 				             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
 			             	} else {
-				             	input +="<img src='${ contextPath }/resources/icons/heart_red.png' alt='' name='"+fNo+"' class='liked' id='liked' onclick='likeClick(this);'>";	             	
+				             	input +="<img src='/spring/resources/icons/heart_red.png' alt='' name='"+fNo+"' class='liked' id='liked' onclick='likeClick(this);'>";	             	
 				             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
 			             	}
 						  }
@@ -714,7 +714,7 @@
 						  if(data.fReplySet == 'Y' || data.fReplySet == null){
 						  	 if(data.fLikeSet == 'N'){
 						  	 <!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-						  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon' style='margin: 9px 0 0 25px;'>";
+						  	 input +="<img src='/spring/resources/icons/bubble.png' alt='' id='replyIcon' style='margin: 9px 0 0 25px;'>";
 						  	 	if(data.replyListSize > 0){
 						  	 	 if(data.replyList[0].rStatus == 'Y'){
 						  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
@@ -727,7 +727,7 @@
 						  	 	}
 						  	 } else {
 						  	 <!-- 댓글과 좋아요 모두 허용될 때 -->
-						  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon'>";
+						  	 input +="<img src='/spring/resources/icons/bubble.png' alt='' id='replyIcon'>";
 						  		if(data.replyListSize > 0){
 						  	 	 if(data.replyList[0].rStatus == 'Y'){
 						  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
@@ -755,13 +755,21 @@
 			                  input +="<div id='replyList'>";
 			                  input +="<ul id='re_list' class='list'>";
 			                  if(data.replyList[i].mNo == mNoUser){
-			                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					  			  if(data.replyList[i].rWriterImg != null){
+					  				input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					  			  }else{
+					  				input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+					  			  }
 			                  } else {
-			            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			                	  if(data.replyList[i].rWriterImg != null){
+			                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			                	  }else{
+			                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+			                	  }
 			                  }
 			            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 				              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-				              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+				              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 				              if(data.replyList[i].mNo == mNoUser){
 								  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 				               }
@@ -1038,14 +1046,22 @@
 					       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 					       	                  input +="<div id='replyList'>";
 					       	                  input +="<ul id='re_list' class='list'>";
-					       	                  if(data.replyList[i].mNo == mNo){
-					       	                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-					       	                  } else {
-					       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-					       	                  }
+					       	               if(data.replyList[i].mNo == mNoUser){
+									  			  if(data.replyList[i].rWriterImg != null){
+									  				input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+									  			  }else{
+									  				input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+									  			  }
+							                  } else {
+							                	  if(data.replyList[i].rWriterImg != null){
+							                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+							                	  }else{
+							                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+							                	  }
+							                  }
 					       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 					       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-					       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+					       		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 					       		              if(data.replyList[i].mNo == mNoUser){
 					       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 					       		               }
@@ -1261,14 +1277,22 @@
 									       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 									       	                  input +="<div id='replyList'>";
 									       	                  input +="<ul id='re_list' class='list'>";
-									       	                  if(data.replyList[i].mNo == mNoUser){
-									       	                	  input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-									       	                  } else {
-									       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-									       	                  }
+									       	               if(data.replyList[i].mNo == mNoUser){
+													  			  if(data.replyList[i].rWriterImg != null){
+													  				input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+													  			  }else{
+													  				input +="<li><a href='goMypage.do?mNo="+mNoUser+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+													  			  }
+											                  } else {
+											                	  if(data.replyList[i].rWriterImg != null){
+											                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+											                	  }else{
+											                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+											                	  }
+											                  }
 									       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 									       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-									       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+									       		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 									       		              if(data.replyList[i].mNo == mNoUser){
 									       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 									       		               }
@@ -1685,14 +1709,22 @@
       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
       	                  input +="<div id='replyList'>";
       	                  input +="<ul id='re_list' class='list'>";
-      	                  if(data.replyList[i].mNo == mNo){
-      	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-      	                  } else {
-      	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-      	                  }
+      	                if(data.replyList[i].mNo == mNo){
+  			  			  if(data.replyList[i].rWriterImg != null){
+  			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  			  			  }else{
+  			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  			  			  }
+  	                  } else {
+  	                	  if(data.replyList[i].rWriterImg != null){
+  	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  	                	  }else{
+  	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  	                	  }
+  	                  }
       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-      		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+      		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
       		              if(data.replyList[i].mNo == mNo){
       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
       		               }
@@ -1907,22 +1939,30 @@
 	    			       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 	    			       	                  input +="<div id='replyList'>";
 	    			       	                  input +="<ul id='re_list' class='list'>";
-	    			       	                  if(data.replyList[i].mNo == mNoUser){
-	    			       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-	    			       	                  } else {
-	    			       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNoUser+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-	    			       	                  }
+	    			       	               if(data.replyList[i].mNo == mNo){
+	    			   			  			  if(data.replyList[i].rWriterImg != null){
+	    			   			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	    			   			  			  }else{
+	    			   			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	    			   			  			  }
+	    			   	                  } else {
+	    			   	                	  if(data.replyList[i].rWriterImg != null){
+	    			   	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	    			   	                	  }else{
+	    			   	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+	    			   	                	  }
+	    			   	                  }
 	    			       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 	    			       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-	    			       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
-	    			       		              if(data.replyList[i].mNo == mNoUser){
+	    			       		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+	    			       		              if(data.replyList[i].mNo == mNo){
 	    			       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 	    			       		               }
 	    			       					  input +="</ul>";
 	    			       		              input +="</div>";
 	    			       		              input +="<div class='reply_menu'>";
 
-	    			       		              if(data.replyList[i].mNo == mNoUser){
+	    			       		              if(data.replyList[i].mNo == mNo){
 	    			       			              input +="<div id='re_menu_list'>";
 	    			       			              input +="<ul>";
 	    			       			              input +="<li><a id='rEdit' class='rEdit'>댓글 수정</a></li>"; 

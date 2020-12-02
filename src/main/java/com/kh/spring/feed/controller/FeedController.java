@@ -58,6 +58,7 @@ public class FeedController {
    
    @RequestMapping("pInsert.do")
    public String insertPost(Feed f, Photo p, GroupName gn, MultipartHttpServletRequest multi, HttpSession session,
+		   					@RequestParam(value = "selectLocation") String selectBoard,
 		   					@RequestParam(value = "selectOpenScope") String selectOpenScope,
 		   					@RequestParam(value = "like") String like,
 		   					@RequestParam(value = "reply") String reply,
@@ -65,6 +66,7 @@ public class FeedController {
 	  System.out.println(f);
       System.out.println(gn.getgNo());
       
+      f.setfLocation(selectBoard);
       f.setfOpenScope(selectOpenScope);
       f.setfLikeSet(like);
       f.setfReplySet(reply);
@@ -96,6 +98,7 @@ public class FeedController {
       f.setfContent(huhu);
       System.out.println("글"+f.getfContent());
 	  
+      System.out.println("selectBoard 값: " + selectBoard);
       System.out.println("selectOpenScope 값: " + selectOpenScope);
       System.out.println("like 값: " + like);
       System.out.println("reply 값: " + reply);
@@ -178,6 +181,8 @@ public class FeedController {
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
+      
+      System.out.println("들어온 selectBoard : " + f.getfLocation());
 		/*
 		 * System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
 		 * System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
@@ -272,6 +277,8 @@ public class FeedController {
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
+      
+      System.out.println("들어온 selectBoard : " + f.getfLocation());
 		/*
 		 * System.out.println("수정 fOpenScope : " + f.getfOpenScope());
 		 * System.out.println("수정 fLikeSet : " + f.getfLikeSet());
@@ -397,12 +404,11 @@ public class FeedController {
    	}
 	
 	@ResponseBody
-	@RequestMapping(value="addReply.do",produces="application/json; charset=utf-8")
-	public String addReply(Reply r,String fNo, HttpSession session, int rfNo) {
+	@RequestMapping(value="addReply.do", produces="application/json; charset=utf-8")
+	public String addReply(Reply r, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		r.setrWriterImg(mem.getmRenameImage());
 		System.out.println("Reply Check : " + r);
-		System.out.println("fNo 값 확인 : " + fNo);
 		System.out.println("rfNo" + rfNo);
 		
 		r.setfNo(rfNo);
@@ -415,7 +421,7 @@ public class FeedController {
 		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
 		
 		if(result > 0) {
-			ArrayList<Reply> replyList = myService.selectReplyList(Integer.parseInt(fNo));
+			ArrayList<Reply> replyList = myService.selectReplyList(rfNo);
 			JSONObject job = new JSONObject();
 			if(replyList != null) {
 				JSONArray jArr = new JSONArray();
@@ -442,7 +448,7 @@ public class FeedController {
 	
 	@ResponseBody
 	@RequestMapping(value="editReply.do",produces="application/json; charset=utf-8")
-	public String editReply(Reply r,String fNo, HttpSession session) {
+	public String editReply(Reply r, String fNo, String rNo, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		System.out.println("수정 Reply Check : " + r);
 		System.out.println("fNo 값 확인 : " + fNo);
@@ -454,7 +460,15 @@ public class FeedController {
 		System.out.println("수정 reply_mNo : " + r.getmNo());
 		
 		if(result > 0) {
-			ArrayList<Reply> replyList = myService.selectReplyList(Integer.parseInt(fNo));
+			
+			ArrayList<Reply> replyList = null;
+			
+			if(fNo != null) {
+				replyList = myService.selectReplyList(Integer.parseInt(fNo));		
+			}else {
+				replyList = myService.selectReplyList(Integer.parseInt(rNo));
+			}
+			
 			JSONObject job = new JSONObject();
 			if(replyList != null) {
 				JSONArray jArr = new JSONArray();

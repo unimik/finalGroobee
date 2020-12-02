@@ -47,6 +47,10 @@ public class SettingDao {
 		return sqlSession.update("settingMapper.disableblock",p);
 	}
 
+	public NotificationSetting notifyset(String mNo) {
+		return sqlSession.selectOne("settingMapper.notifyset",mNo);
+	}
+
 
 
 }

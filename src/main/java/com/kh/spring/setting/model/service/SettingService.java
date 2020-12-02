@@ -22,6 +22,8 @@ public interface SettingService {
 
 	int disableblock(PersonalSetting p);
 
+	NotificationSetting notifyset(String mNo);
+
 
 
 

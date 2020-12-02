@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>G R O O B E E</title>
+<title>GROOBEE</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/login.css">
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>

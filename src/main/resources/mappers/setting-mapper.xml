@@ -70,5 +70,8 @@
  		UPDATE PERSON_SET SET BLOCKED_NO = #{blockedNo} WHERE M_NO = #{mNo}
  	</update>
  	
+ 	<select id="notifyset" parameterType="string" resultMap="notificationResultSet">
+ 		SELECT * FROM NOTI_SET WHERE M_NO = #{mNo}
+ 	</select>
 
 </mapper>

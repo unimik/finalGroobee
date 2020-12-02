@@ -93,24 +93,6 @@
 		G_NO=#{gNo}
 	</update>
 
-	<update id="delFilePro" parameterType="Group">
-		UPDATE GROUPS
-		SET
-			G_PROFILE = NULL
-		,	G_RENAME_PROFILE = NULL
-		WHERE
-		G_NO=#{ gNo }
-	</update>
-	
-	<update id="delFileImg" parameterType="Group">
-		UPDATE GROUPS
-		SET
-			G_IMAGE = NULL
-		,	G_RENAME_IMAGE = NULL
-		WHERE
-		G_NO=#{ gNo }
-	</update>
-
 	<select id="totalGroups" resultType="_int">
 		SELECT COUNT(*)
 		FROM GROUPS

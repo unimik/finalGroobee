@@ -85,10 +85,10 @@
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
-						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ empty loginUser.mRenameImage }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
@@ -198,11 +198,11 @@
 	             	<c:choose>
 		             	<c:when test="${ f.likeChk eq null }">
 		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:when>
 		             	<c:otherwise>
 		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:otherwise>
 	             	</c:choose>
 					</c:if>
@@ -343,10 +343,10 @@
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
-						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ empty loginUser.mRenameImage }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
@@ -714,10 +714,10 @@
 				},
 				type: "post",
 				success: function(data) {	// 성공 시: success, 실패 시: fail
-					if(data == "success") {
+					if(data != "fail") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-//						location.reload();
-						location.href="home.do?userId="+rWriter;
+						location.reload();
+
 					}
 				}, error: function() {
 					console.log("전송 실패");
@@ -753,7 +753,7 @@
 				type: "post",
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					console.log(data);
- 					if(data == "success") {
+ 					if(data != "fail") {
 //						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 //						location.href="home.do?userId=" + rWriter;
 						location.reload();

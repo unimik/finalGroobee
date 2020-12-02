@@ -101,30 +101,27 @@
                             <tr>
                                 <td class="checkList tdfi">작성위치</td>
                                 <td class="tdfi">
-                                    <select id="select_board">
-                                        <option value="myFeed" <c:if test="${ f.gNo eq 0 }">selected</c:if>>내 피드</option>
-                                        <option value="group" <c:if test="${ f.gNo ne 0 }">selected</c:if>>그룹 피드</option>
+                                    <select id="select_board" name="selectLocation">
+                                        <option value="M" <c:if test="${ f.gNo eq 0 }">selected</c:if>>내 피드</option>
+                                        <option value="G" <c:if test="${ f.gNo ne 0 }">selected</c:if>>그룹 피드</option>
                                     </select>
                                 </td>
                                 <td>
+                                	<c:if test="${ f.gNo eq 0 }">
                                     <select id="myGroupList" name="gNo">
+                                    <option value="0">그룹을 선택해 주세요.</option>
                                     	<c:forEach var="g" items="${ gn }">
-                                    	<c:if test="${ empty g.gmId }">
-                                        	<option>가입된 그룹이 없습니다.</option>
-                                    	</c:if>
-                                    	
                                     	<c:if test="${ loginUser.userId eq g.gmId }">
 											<option value="${ g.gNo }" <c:if test="${ f.gNo eq g.gNo }">selected</c:if>>${ g.gName }</option>
 										</c:if>
 										</c:forEach>
                                     </select>
+                                   	</c:if>
+                                    <!-- 그룹에 올린 글이면 -->
                                 	<c:if test="${ f.gNo ne 0 }">
                                     <select id="myGroupList" name="gNo" style="display: block;">
+                                    	<option value="0">그룹을 선택해 주세요.</option>
                                     	<c:forEach var="g" items="${ gn }">
-                                    	<c:if test="${ empty g.gmId }">
-                                        	<option>가입된 그룹이 없습니다.</option>
-                                    	</c:if>
-                                    	
                                     	<c:if test="${ loginUser.userId eq g.gmId }">
 											<option value="${ g.gNo }" <c:if test="${ f.gNo eq g.gNo }">selected</c:if>>${ g.gName }</option>
 										</c:if>
@@ -208,7 +205,7 @@
 		$('#select_board').change(function() {
 			var state = $("#select_board option:selected").val();
 
-			if (state == 'group') {
+			if (state == 'G') {
 				$('#myGroupList').css("display", "block");
 			} else {
 				$('#myGroupList').hide();
