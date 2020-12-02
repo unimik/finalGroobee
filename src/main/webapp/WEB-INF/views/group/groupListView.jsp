@@ -11,6 +11,9 @@
 <style>
 	#cancel2{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}
 	button{ cursor: pointer; }
+	.usertag {color: #47c6a3;}
+	<%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:#88abda;}
 </style>
 </head>
 <body>
@@ -131,6 +134,7 @@
 					</c:choose>
 					</div>
 					<div class="feed_report">
+						<input type="hidden" value="${f.fNo }"/>
 			             <div id="feed_report_con">
 			                  <p>신고사유</p>
 			                  <select id="reportType" class="selectRtype">
@@ -163,8 +167,10 @@
 							</ul>
 						</c:if>
 						
-					<p id="text"><c:out value="${ f.fContent }" /></p>
-
+					 <%-- <p id="text"><c:out value="${ f.fContent }" /></p> --%>
+					<div id="text">
+					${ f.fContent }
+					</div>
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 					<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
@@ -378,7 +384,7 @@
 				</c:if>
 			</div>
 		<div class="feed_report">
-			<input type="hidden" value=${f.fNo }>
+			<input type="hidden" value="${f.fNo}" class="feedNo"/>
 			<div id="feed_report_con">
 				<p>신고사유</p>
 				<select id="reportType" class="selectRtype">
@@ -434,8 +440,10 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text"><c:out value="${ f.fContent }" /></p>
-	
+					 <%-- <p id="text"><c:out value="${ f.fContent }" /></p> --%>
+					<div id="text">
+					${ f.fContent }
+					</div>
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
 					<c:if test="${ f.fLikeSet eq 'Y' || empty f.fLikeSet }">
@@ -607,33 +615,44 @@
 			     });
 				  
 				  
-			 	$('.feed_report_btn').on("click",function(e){
-			 		var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
-			 		$(feedReport).show();
-	            });
+				  $('.feed_report_btn').on("click",function(){
+		                $(this).parents().children('.feed_report').show();
+		                /* var feedReport = e.target.parentElement.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
+		                console.log(feedReport);
+		                $(feedReport).show(); */
+		               });
 				 
 			 	
 			}
 			     
-			$(document).on('click',".report-submit",function(e){
-				var feedReport = e.target.parentElement.parentElement;
-				var reportCon = e.target.parentElement.parentElement.children[0].children[2];
-				if($(reportCon).val() == ""){
+			$(document).on('click',".report-submit",function(){
+				//var feedReport = e.target.parentElement.parentElement;
+				//var reportCon = e.target.parentElement.parentElement.children[0].children[2];
+				$(".pop_menu").css("display","none");
+				
+				var reportContent= $(this).siblings("#reportContent").val();
+				var reportType=$(this).siblings("#reportType").val();
+				
+				var targetfNo=$(this).parents().prev().val(); // fNo 불러오기
+				
+				
+				if($("#reportType").val() == ""){
 					alert('신고 사유를 입력해 주세요.')
 				}else{
 					
 					$.ajax({
-						url:'/spring/report.do',
+						url:'reportFInsert.do',
 						data:{
-							reportType : $("#reportType").val(),
+							reportType : reportType,
 							feedType : "feed",
-							content : $(reportCon).val()
+							content : reportContent,
+							targetfNo:targetfNo
 						},
 						success: function(){
-							$(feedReport).css('display','none');
+							$(".feed_report").css('display','none');
 							$(".selectRtype").css("display","inline-block");
 				      		$(".sendreport").css("display","none");
-				      		$(reportCon).val('')
+				      		$("#reportContent").val('')
 							alert('신고완료');
 						},error:function(){
 							alert('신고 실패!');
@@ -779,6 +798,8 @@
 			$('.goStorage').on("click",function(){
 				var mNo = ${ loginUser.mNo};
 				var fNo = $(this).parents().children('.fn').val();
+				var pop = $(this).parents().children('div.storagePop');
+				console.log(pop);
 				console.log(mNo);
 				$.ajax({
 					url:"selectStorage.do",
@@ -791,7 +812,7 @@
 						$divAll.html("");
 						
 							var $input = $('<input type="hidden" id="in_fno" class="in_fno" value="'+fNo+'">')
-							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;">');
+							var $div = $('<div class="storagePop_menu" id="storagePop_menu" style="background: white; width: 320px; margin: auto; height: 210px; border-radius: 15px; margin-top:300px;">');
 							var $p = $('<p id="sbText" style="text-align:center; padding:20px 0 20px 0; border-bottom:1px solid #ccc; color:#555555; font-weight:600">').text("보관함");
 							var $p2 = $('<p id="sbText2" style="color:#555555; font-size:14px; text-align:center; padding:20px 0 20px 0">').text("보관함을 선택해주세요.")
 							var $select = $('<select id="sbSel" style="width:140px; height:32px; border-radius:10px; margin:0 10px 0 40px">');
@@ -799,20 +820,26 @@
 								$select.append('<option id="op" value="'+data[i].sbNo+'">'+data[i].sbName+"</option>");
 							}
 							var $button = $('<input type="button" id="insertStorage" class="insertStorage" value="확인" style="width:80px; height:32px; border:0; border-radius:10px; background:#daf4ed">');	
-							
+							var $cancelbtn =$('<input type="button" id="storageClose" class="storageClose" value="취소" style="width: 150px; height:32px; border:0; border-radius:10px; background:#daf4ed; margin: 10px 0 0 80px;">'); 
 							
 							$div.append($p);
 							$div.append($p2);
 							$div.append($select);
 							$div.append($button);
+							$div.append($cancelbtn);
 							$divAll.append($input);
 							$divAll.append($div);
 						
-						$('.storagePop').show();
+						
+							pop.css("display","block");
 					},error:function(){
 							alret("보관함리스트 불러오기 실패");
 					}
 				});
+				
+				$(document).on("click",".storageClose",function(){
+						$('.storagePop').hide();
+					});
 				
 				$(document).on("click",".insertStorage",function(){
 
@@ -1050,6 +1077,18 @@
 			return false;
 		});
 	});
+	/*@유저아이디 클릭이벤트 */
+	function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
+	
+	/*#태그 이벤트*/
+    function goTag(htag) {
+    	var tag = $(htag).text();
+    	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
+	}
 	</script>
 </body>
 </html>

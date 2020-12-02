@@ -46,6 +46,7 @@
         <url-pattern>*.js</url-pattern>
         <url-pattern>*.jpeg</url-pattern>
         <url-pattern>*.mp3</url-pattern>
+        <url-pattern>*.gif</url-pattern>
     </servlet-mapping>
     
     <error-page>

@@ -161,5 +161,10 @@ public class FeedServiceImpl implements FeedService {
 		return fDao.deleteFile(fileName);
 	}
 
+	@Override
+	public int updateDeleteTag(ArrayList<Tag> taglist) {
+		return fDao.updateDeleteTag(taglist);
+	}
+
 
 }

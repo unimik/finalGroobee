@@ -25,8 +25,8 @@ p{margin: 0;}
 #con_tag{ display: -webkit-inline-box; width: 100%;}
 #con_feed{ display: -webkit-inline-box; width: 100%; margin-bottom:200px;}
 #search_user{ width: 100px; height: 100px; display: inline-block; margin: 10px 0;}
-#search_group{ width: 100px; height: 100px; display: inline-block; margin: 10px 0;}
-#search_id_group{ color:#555555; font-weight: 500; font-size: 14px; padding-left: 20px;}
+#search_group{ width: 100px; height: 100px; margin: 10px 0;    text-align: center;}
+#search_id_group{ color:#555555; font-weight: 500; font-size: 14px; margin-top:5px;}
 #group_profile_img{width: 50px; height: 50px; border-radius: 15px; margin:10px 20px 0 20px;}
 
 #con_tag #tag li{ list-style: none; float: left; margin: 5px 10px; font-size: 14px; color: #555555;}

@@ -15,8 +15,10 @@
     .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
     #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
     .sendreport { margin-top:0;}
+    .usertag {color: #47c6a3;}
     .storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
-		
+    <%--해쉬태그 색을 바꿔주세요...--%>
+	.hashtag{color:red;}
     </style>
 </head>
 <body>
@@ -77,7 +79,12 @@
 	         				<c:otherwise>
 	                        	<c:forEach var="g" items="${ gList }">
 		                            <div id="search_group" style=" cursor: pointer;" onclick="location.href='gdetail.do?gNo=${ g.gNo }';">
-		                                <img src="resources/gUploadFiles/${g.gRenameProfile} " alt="" id="group_profile_img">
+		                                <c:if test="${ !empty g.gRenameProfile  }">
+		                                <img src="resources/gUploadFiles/${g.gRenameProfile}" alt="" id="group_profile_img">
+		                                </c:if>
+		                                <c:if test="${ empty g.gRenameProfile  }">
+		                                <img src="resources/icons/g_pro.png" alt="" id="group_profile_img">
+		                                </c:if>
 		                                <p id="search_id_group">${ g.gName} </p>
 		                            </div>                      
 		                       </c:forEach>
@@ -1799,6 +1806,17 @@
          		$('.replyContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
          	}
         }
+    /*@유저 이벤트*/
+    function goUser(){
+    	var id = $(event.target).attr('id')
+    	var mno = ${ loginUser.mNo };
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+mno;
+    }
+    /*#태그 이벤트*/
+    function goTag(htag) {
+    	var tag = $(htag).text();
+    	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
+	}
     </script>
 </body>
 </html>

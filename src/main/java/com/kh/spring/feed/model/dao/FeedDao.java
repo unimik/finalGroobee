@@ -134,4 +134,8 @@ public class FeedDao {
 	public int deleteFile(String fileName) {
 		return sqlSession.delete("feedMapper.deleteFile", fileName);
 	}
+	
+	public int updateDeleteTag(ArrayList<Tag> taglist) {
+		return sqlSession.delete("feedMapper.updateDeleteTag",taglist);
+	}
 }

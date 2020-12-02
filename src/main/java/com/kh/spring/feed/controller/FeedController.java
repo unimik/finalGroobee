@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,6 +77,8 @@ public class FeedController {
     	if(strarr[i].charAt(0) == '#') {
 				Tag t = new Tag(f.getfNo(),strarr[i]);
 				taglist.add(t);
+				String tt = strarr[i];
+				strarr[i] = "<a href='javascript:void(0);' class='hashtag' onclick='goTag(this)'>"+tt+"</a>";
 				
 		}else if(strarr[i].charAt(0) == '@') {
     		  String id = strarr[i].substring(1);
@@ -255,6 +258,34 @@ public class FeedController {
       f.setfReplySet(reply);
       f.setfShareSet(share);
       
+      //#태그 @태그 처리 
+      String huhu = "";
+      String[] strarr = f.getfContent().split(" |\\n");
+      ArrayList<Tag> taglist = new ArrayList<Tag>();
+      for(int i = 0; i < strarr.length; i++) {
+    	if(strarr[i].charAt(0) == '#') {
+    			
+				Tag t = new Tag(f.getfNo(),strarr[i]);
+				taglist.add(t);
+				String tt = strarr[i];
+				strarr[i] = "<a href='javascript:void(0);' class='hashtag' onclick='goTag(this)'>"+tt+"</a>";
+				
+		}else if(strarr[i].charAt(0) == '@') {
+    		  String id = strarr[i].substring(1);
+    		  Member m = fService.findTagMember(id);
+    		  
+			if(m != null) {
+				strarr[i] ="<a href='javascript:void(0);' class='usertag' id='"+m.getUserId()+"' onclick='goUser()'>"+"@"+id+"</a>";
+			}
+		}
+		if(strarr[i] != null) {
+			huhu += strarr[i]+" ";
+		}
+      }
+      
+      f.setfContent(huhu);
+      System.out.println("글"+f.getfContent());
+      
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
@@ -265,19 +296,13 @@ public class FeedController {
 		 * System.out.println("수정 fReplySet : " + f.getfReplySet());
 		 */
       
+      //태그 딜리트 
+      int deleteTag = fService.deleteTag(f.getfNo());
+      System.out.println("몇개 지웠니"+deleteTag);
       // 태그 인서트
-		String[] strarr = f.getfContent().split(" |\\n");
-		ArrayList<Tag> taglist = new ArrayList<Tag>();
-		for(int i = 0; i < strarr.length; i++) {
-			if(strarr[i].charAt(0) == '#') {
-				Tag t = new Tag(f.getfNo(),strarr[i]);
-				taglist.add(t);
-			}
-		}
-	
 		if(!taglist.isEmpty()) {
 			int resultTag = fService.insertTag(taglist);
-			System.out.println("인서트 태그"+resultTag);
+			//System.out.println("인서트 태그"+resultTag);
 		}
     		
       Member mem = (Member)session.getAttribute("loginUser");

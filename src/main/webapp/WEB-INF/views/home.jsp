@@ -52,6 +52,8 @@
 	#replyIcon{ margin: 9px 0 0 60px;}
 	#likeIcon { margin: 7px 0 0 25px; }
 	button{ cursor: pointer; }
+	.usertag {color: #47c6a3;}
+	.hashtag{color:#88abda;}
 </style>
 
 </head>
@@ -180,10 +182,14 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text">
-						<!-- 진선 : 원래 코드로 복원 -->
-						<c:out value="${ f.fContent }" />	
-					</p>
+						<%-- 
+						<p id="text">
+						<c:out value="${ f.fContent }" />
+						</p>
+						--%>
+						<div id="text">
+						${ f.fContent }
+						</div>
 	
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -434,7 +440,14 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					<p id="text"><c:out value="${ f.fContent }" /></p>
+						<%-- 
+						<p id="text">
+						<c:out value="${ f.fContent }" />
+						</p>
+						--%>
+					<div id="text">
+					${ f.fContent }
+					</div>
 	
 					<div id="heart_reply">
 					<!-- 좋아요 금지가 되어 있지 않을 경우 -->
@@ -962,6 +975,17 @@
 		location.href="search.do?type=tag&key="+keyword+"&mNo="+mno;
 		
 	}); --%>
+	/*@유저 아이디 클릭이벤트*/
+	function goUser(){
+    	var id = $(event.target).attr('id')
+    	location.href ='goUserpage.do?userId='+id+'&mNo='+${ loginUser.mNo };
+    }
+    /*#태그 이벤트*/
+    function goTag(htag) {
+    	var tag = $(htag).text();
+    	console.log('검색하는 단어'+tag.substr(1));
+    	location.href="search.do?type=tag&key="+tag.substr(1)+"&mNo="+${ loginUser.mNo };
+	}
     </script>
     
 </body>
