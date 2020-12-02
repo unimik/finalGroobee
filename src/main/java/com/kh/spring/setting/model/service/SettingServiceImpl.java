@@ -59,6 +59,11 @@ public class SettingServiceImpl implements SettingService {
 		return sDao.disableblock(p);
 	}
 
+	@Override
+	public NotificationSetting notifyset(String mNo) {
+		return sDao.notifyset(mNo);
+	}
+
 
 
 }

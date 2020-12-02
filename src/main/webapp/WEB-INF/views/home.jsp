@@ -199,11 +199,11 @@
 	             	<c:choose>
 		             	<c:when test="${ f.likeChk eq null }">
 		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:when>
 		             	<c:otherwise>
 		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:otherwise>
 	             	</c:choose>
 					</c:if>
@@ -715,7 +715,7 @@
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					if(data == "success") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-//						location.href="home.do?userId="+rWriter;
+						location.href="home.do?userId="+rWriter;
 					}
 				}, error: function() {
 					console.log("전송 실패");

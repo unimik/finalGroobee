@@ -42,14 +42,13 @@ public class NotificationController {
 	@ResponseBody
 	@RequestMapping("readAlarm.do")
 	public String readAlarm(@RequestParam("typeNo") String typeNo,
-							@RequestParam("toId") String toId,
-							@RequestParam("type") String type) {
+			@RequestParam("toId") String toId,
+			@RequestParam("type") String type) {
 		PushAlarm pa = new PushAlarm(toId,typeNo,type);
 		int result = nService.readAlarm(pa);
-
+		
 		return "success";
 	}
-
 
 	public int insertAlarm(PushAlarm pa) {
 		return nService.insertAlarm(pa);
@@ -57,4 +56,5 @@ public class NotificationController {
 	public String selectGM(String crno) {
 		return nService.selectGM(crno);
 	}
+	
 }
