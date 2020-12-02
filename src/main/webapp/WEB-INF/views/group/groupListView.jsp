@@ -181,7 +181,7 @@
 		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 		             	</c:when>
 		             	<c:otherwise>
-		             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+		             		<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 		             	</c:otherwise>
 	             	</c:choose>
