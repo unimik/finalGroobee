@@ -10,7 +10,7 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
-<link rel="stylesheet" href="resources/css/myPage_Main.css">
+<!-- <link rel="stylesheet" href="resources/css/myPage_Main.css"> -->
 <link rel="stylesheet" href="resources/css/alarmPop.css">
 <link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <link rel="stylesheet" href="resources/css/myAccount.css">
@@ -1166,7 +1166,7 @@
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="gdetail.do?gNo='+dArr[2]+'">'+dArr[3]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
 					notifytext += dArr[3]+' 에서 그룹 가입을 승인했습니다.';
 				}else if(dArr[1] == 'like'){
-					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(332,3)"</a></b>가 회원님의 게시물을 좋아합니다.</p></div>');
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(332,3)"</a></b>'+dArr[2]+'가 회원님의 게시물을 좋아합니다.</p></div>');
 					notifytext += dArr[2]+' 가 회원님의 게시물을 좋아합니다.';
 				}else if (dArr[1] == 'reply'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a onclick="goDetail(fNo,smNo)"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
