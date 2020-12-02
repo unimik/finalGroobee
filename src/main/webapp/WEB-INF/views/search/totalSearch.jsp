@@ -40,7 +40,7 @@
 	                            <c:choose>
 	                            <c:when test="${ empty m.mImage }">
 		                            <div id="search_user" style=" cursor: pointer;" onclick="location.href='goUserpage.do?userId=${ m.userId }&mNo=${ loginUser.mNo }'">
-		                                <img src="resources/images/IMG_7502.JPG" alt="" id="user_profile_img">
+		                                <img src="resources/icons/pro_default.png" alt="" id="user_profile_img">
 		                                <p id="search_id">${ m.userId }</p>
 		                                <input type="hidden" id="mNo" name="mNo" value="${m.mNo}"/>
 		                                <input type="hidden" id="mStatus" name="mStatus" value="${m.mStatus}"/>
