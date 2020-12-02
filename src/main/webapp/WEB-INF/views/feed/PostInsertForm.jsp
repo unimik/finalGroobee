@@ -66,14 +66,14 @@
                             <tr>
                                 <td class="checkList tdfi">작성위치</td>
                                 <td class="tdfi">
-                                    <select id="select_board">
-                                        <option value="myFeed">내 피드</option>
-                                        <option value="group">그룹 피드</option>
+                                    <select id="select_board" name="selectLocation">
+                                        <option value="M">내 피드</option>
+                                        <option value="G">그룹 피드</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select id="myGroupList" name="gNo">
-                                    	<option value="0">그룹을 선택해주세요</option>
+                                    	<option value="0">그룹을 선택해 주세요.</option>
                                     	<c:forEach var="g" items="${ gn }">
                                     	<c:if test="${ empty g.gmId }">
                                         	<option>가입된 그룹이 없습니다.</option>
@@ -183,7 +183,7 @@
             $('#select_board').change(function(){
                 var state = $("#select_board option:selected").val();
                 
-                if(state == 'group'){
+                if(state == 'G'){
                     $('#myGroupList').css("display","block");
                 } else{
                     $('#myGroupList').hide();
@@ -256,7 +256,7 @@
     				var arr = Array.prototype.slice.call(files);
 					
     				var checkPhotopreview = $(".photopreview").length;
-    				alert("이미 업로드된 이미지 : " + checkPhotopreview);
+//    				alert("이미 업로드된 이미지 : " + checkPhotopreview);
     				
     				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
     				if((files.length + checkPhotopreview) > 5) {
