@@ -306,7 +306,7 @@
 		</trim>
 	</select>
 	
-	<select id="selectGfList" resultMap="postResultSet" parameterType="String">
+	<select id="selectGfList" parameterType="string" resultMap="postResultSet">
 		SELECT 
 			F.*
 	      , (SELECT MB.M_RENAME_IMAGE
@@ -322,7 +322,7 @@
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
         LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
-        LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{userId} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
+        LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{ userId } GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO != 0
