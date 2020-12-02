@@ -81,7 +81,6 @@
 	.postbox{float: left; cursor: pointer; margin: 10px 5px 0 5px;}
 	.post .img_wrap:before{margin: 10px 5px 0 5px;}
 	.usertag{ color: #47c6a3;}
-	#user_time h6{margin-bottom:0;margin-top:3px;}
    </style>
    <script>
   
@@ -425,7 +424,7 @@
                   }
 	              input += "<div id='user_time'>";
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
-	              input += "<h6>"+data.fCreateDate+"</h6>";
+	              input += "<h6 style='margin:0;'>"+data.fCreateDate+"</h6>";
 	              input += "</div>";
 	              input += "<img src='/spring/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
 	              input += "</div>";
