@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>G R O O B E E</title>
 </head>
 <body>
 	<c:out value="${ msg }"/>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<%=path%>/resources/css/memberFind.css">
     <link rel="stylesheet" href="<%=path%>/resources/css/bootstrap.min.css">
     <script type="text/javascript" src="<%=path%>/resources/js/bootstrap.min.js"></script>
-    <title>GROOBEE</title>
+    <title>G R O O B E E</title>
 </head>
 <body>
     <div class="wapper">
