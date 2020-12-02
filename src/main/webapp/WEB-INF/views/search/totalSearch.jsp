@@ -135,24 +135,24 @@
 	                    	 <%} %>
 	                    	<c:choose>
 	                   			<c:when test="${ empty f.thumbnail }">
-		                    		<td>
+		                    		<td class="확인용 사진있음">
 		                   			<div class="post" id="${ f.fNo }" onclick="goDetail(${ f.fNo },${ f.mNo })" style=" cursor: pointer;">
 			                             <p>${f.fContent} </p>
 			                        </div>
 			                        </td>
 	                   			</c:when>
-	                   		
 	                   			<c:otherwise>
-		                   			<td>
+		                   			<td class="확인용 사진없음">
 		                   			<div class="post" id="${ f.fNo }" onclick="goDetail(${ f.fNo },${ f.mNo })">
 			                            <img src="resources/pUploadFiles/${f.thumbnail}" alt="" id="post_con">                                 	
 			                        </div>
 			                        <td>
 	                   			</c:otherwise>
 	                   		</c:choose>							                 		
-	                   		 <% if (j%3==2){ %>
-	                   		<tr>
-	                   		 <%} j++;%>
+	                   		 <% if (j % 3 == 2){ %>
+	                   		</tr>
+	                   		 <%}%>
+	                   		 <% j++;%>
 	                   		</c:forEach>
 		                </c:otherwise>
 					</c:choose>
