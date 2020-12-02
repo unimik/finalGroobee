@@ -132,7 +132,7 @@
                                 		<c:param name="gNo" value="${ g.gNo }"/>
                                 		<c:param name="gmId" value="${ loginUser.userId }"/>
                                 	</c:url>
-                                    <c:url var="gdelete" value="gdelete.do"/>
+                                    <c:url var="gdelete" value="gdelete.do?gNo=${ g.gNo }"/>
                                     <ul>
                                         <li><a href="${ gUpdateView }">그룹관리</a></li>
                                         <li><a href="${ gdelete }">그룹삭제</a></li>
@@ -272,10 +272,10 @@
 																<c:when test="${ loginUser.userId ne f.fWriter }">
 																	<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 																	<c:if test="${ !empty f.mImage }">
-																	<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																	</c:if>
 																	<c:if test="${ empty f.mImage }">
-																	<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																	</c:if>
 																	<div id="user_time">
 																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -286,15 +286,15 @@
 																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 																	</div>
 																	</a>
-																	<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 																</c:when>
 																<c:otherwise>
 																	<a href="goMypage.do?mNo=${ loginUser.mNo }">
 																	<c:if test="${ !empty f.mImage }">
-																	<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																	</c:if>
 																	<c:if test="${ empty f.mImage }">
-																	<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																	</c:if>
 																	<div id="user_time">
 																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -305,7 +305,7 @@
 																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 																	</div>
 																	</a>
-																	<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 																</c:otherwise>
 															</c:choose>
 															    <div class="feed_report">
@@ -360,13 +360,13 @@
 											            <div id="con">
 											                <div id="feed_content">
 																<c:if test="${ !empty f.photoList }">
-																	<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-																	<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+																	<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																	<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																		
 																		<ul id="imgList" style="height:633px">
 																			<c:forEach var="p" items="${ f.photoList }">
 																			<c:if test="${ p.changeName ne null }">
-																				<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																				<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																			</c:if>
 																			</c:forEach>
 																		</ul>
@@ -381,11 +381,11 @@
 																	<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 													             	<c:choose>
 														             	<c:when test="${ f.likeChk eq null }">
-														             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+														             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 														             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 														             	</c:when>
 														             	<c:otherwise>
-														             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+														             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 															               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 														             	</c:otherwise>
 													             	</c:choose>
@@ -397,7 +397,7 @@
 																		<c:choose>
 																			<c:when test="${ f.fLikeSet eq 'N' }">
 																			<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																			<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																			<% int rCount = 0; %>
 																			<c:forEach var="rC" items="${ f.replyList }">
 																				<c:if test="${ rC.rStatus eq 'Y' }">
@@ -408,7 +408,7 @@
 																			</c:when>
 																			<c:otherwise>
 																			<!-- 댓글과 좋아요 모두 허용될 때 -->
-																			<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																			<% int rCount = 0; %>
 																			<c:forEach var="rC" items="${ f.replyList }">
 																				<c:if test="${ rC.rStatus eq 'Y' }">
@@ -458,19 +458,19 @@
 																		<input type="hidden" class="rNum" value="${ r.rNo }">
 															  				<ul id="re_list" class="list">
 															  				<c:if test="${ !empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																			<c:if test="${ empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																				<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
 																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																			<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -533,32 +533,32 @@
 															<c:when test="${ loginUser.userId ne f.fWriter }">
 																<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fModifyDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:when>
 															<c:otherwise>
 																<a href="goMypage.do?mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fCreateDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:otherwise>
 														</c:choose>
 														<c:if test="${ loginUser.userId ne f.fWriter }">
@@ -634,12 +634,12 @@
 													<div id="con">
 														<div id="feed_content">
 															<c:if test="${ !empty f.photoList }">
-																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																<ul id="imgList" style="height:633px">
 																	<c:forEach var="p" items="${ f.photoList }">
 																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																	</c:if>
 																	</c:forEach>
 																</ul>
@@ -652,11 +652,11 @@
 															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 											             	<c:choose>
 												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:when>
 												             	<c:otherwise>
-												             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:otherwise>
 											             	</c:choose>
@@ -668,7 +668,7 @@
 																<c:choose>
 																	<c:when test="${ f.fLikeSet eq 'N' }">
 																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																		<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
 																		</c:if>
@@ -678,7 +678,7 @@
 																	</c:when>
 																	<c:otherwise>
 																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																		<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
@@ -709,19 +709,19 @@
 																		<input type="hidden" class="rNum" value="${ r.rNo }">
 															  				<ul id="re_list" class="list">
 															  				<c:if test="${ !empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																			<c:if test="${ empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																				<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
 																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																			<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -782,10 +782,10 @@
 														<c:when test="${ loginUser.userId ne f.fWriter }">
 															<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 															<c:if test="${ !empty f.mImage }">
-															<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 															</c:if>
 															<c:if test="${ empty f.mImage }">
-															<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 															</c:if>
 															<div id="user_time">
 																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -796,15 +796,15 @@
 																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 															</div>
 															</a>
-															<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 														</c:when>
 														<c:otherwise>
 															<a href="goMypage.do?mNo=${ loginUser.mNo }">
 															<c:if test="${ !empty f.mImage }">
-															<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 															</c:if>
 															<c:if test="${ empty f.mImage }">
-															<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 															</c:if>
 															<div id="user_time">
 																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -815,7 +815,7 @@
 																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 															</div>
 															</a>
-															<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 														</c:otherwise>
 													</c:choose>
 													    <div class="feed_report">
@@ -870,13 +870,13 @@
 									            <div id="con">
 									                <div id="feed_content">
 														<c:if test="${ !empty f.photoList }">
-															<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-															<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+															<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+															<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																
 																<ul id="imgList" style="height:633px">
 																	<c:forEach var="p" items="${ f.photoList }">
 																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																	</c:if>
 																	</c:forEach>
 																</ul>
@@ -893,11 +893,11 @@
 															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 											             	<c:choose>
 												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 												             	</c:when>
 												             	<c:otherwise>
-												             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 												             	</c:otherwise>
 											             	</c:choose>
@@ -909,7 +909,7 @@
 																<c:choose>
 																	<c:when test="${ f.fLikeSet eq 'N' }">
 																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																	<% int rCount = 0; %>
 																	<c:forEach var="rC" items="${ f.replyList }">
 																		<c:if test="${ rC.rStatus eq 'Y' }">
@@ -920,7 +920,7 @@
 																	</c:when>
 																	<c:otherwise>
 																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																	<% int rCount = 0; %>
 																	<c:forEach var="rC" items="${ f.replyList }">
 																		<c:if test="${ rC.rStatus eq 'Y' }">
@@ -970,19 +970,19 @@
 																<input type="hidden" class="rNum" value="${ r.rNo }">
 													  				<ul id="re_list" class="list">
 													  				<c:if test="${ !empty r.rWriterImg }">
-																		<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																		<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																			id="reply_img">&nbsp;&nbsp;&nbsp;
 																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																	</c:if>
 																	<c:if test="${ empty r.rWriterImg }">
-																		<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																		<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																			id="reply_img">&nbsp;&nbsp;&nbsp;
 																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																	</c:if>
 																		<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																		<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																		<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																		<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																		<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																	</ul>
 																	<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																	<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -1045,32 +1045,32 @@
 															<c:when test="${ loginUser.userId ne f.fWriter }">
 																<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fModifyDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:when>
 															<c:otherwise>
 																<a href="goMypage.do?mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fCreateDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:otherwise>
 														</c:choose>
 														<c:if test="${ loginUser.userId ne f.fWriter }">
@@ -1146,12 +1146,12 @@
 													<div id="con">
 														<div id="feed_content">
 															<c:if test="${ !empty f.photoList }">
-																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																<ul id="imgList" style="height:633px">
 																	<c:forEach var="p" items="${ f.photoList }">
 																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																	</c:if>
 																	</c:forEach>
 																</ul>
@@ -1164,11 +1164,11 @@
 															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 											             	<c:choose>
 												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:when>
 												             	<c:otherwise>
-												             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:otherwise>
 											             	</c:choose>
@@ -1180,7 +1180,7 @@
 																<c:choose>
 																	<c:when test="${ f.fLikeSet eq 'N' }">
 																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																		<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
 																		</c:if>
@@ -1190,7 +1190,7 @@
 																	</c:when>
 																	<c:otherwise>
 																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																		<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
@@ -1221,19 +1221,19 @@
 																		<input type="hidden" class="rNum" value="${ r.rNo }">
 															  				<ul id="re_list" class="list">
 															  				<c:if test="${ !empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																			<c:if test="${ empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																				<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
 																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																			<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -1312,10 +1312,10 @@
 																<c:when test="${ loginUser.userId ne f.fWriter }">
 																	<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 																	<c:if test="${ !empty f.mImage }">
-																	<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																	</c:if>
 																	<c:if test="${ empty f.mImage }">
-																	<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																	</c:if>
 																	<div id="user_time">
 																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -1326,15 +1326,15 @@
 																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 																	</div>
 																	</a>
-																	<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 																</c:when>
 																<c:otherwise>
 																	<a href="goMypage.do?mNo=${ loginUser.mNo }">
 																	<c:if test="${ !empty f.mImage }">
-																	<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																	</c:if>
 																	<c:if test="${ empty f.mImage }">
-																	<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																	</c:if>
 																	<div id="user_time">
 																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -1345,7 +1345,7 @@
 																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 																	</div>
 																	</a>
-																	<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 																</c:otherwise>
 															</c:choose>
 															    <div class="feed_report">
@@ -1400,13 +1400,13 @@
 											            <div id="con">
 											                <div id="feed_content">
 																<c:if test="${ !empty f.photoList }">
-																	<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-																	<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+																	<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																	<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																		
 																		<ul id="imgList" style="height:633px">
 																			<c:forEach var="p" items="${ f.photoList }">
 																			<c:if test="${ p.changeName ne null }">
-																				<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																				<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																			</c:if>
 																			</c:forEach>
 																		</ul>
@@ -1421,11 +1421,11 @@
 																	<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 													             	<c:choose>
 														             	<c:when test="${ f.likeChk eq null }">
-														             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+														             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 														             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 														             	</c:when>
 														             	<c:otherwise>
-														             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+														             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 															               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 														             	</c:otherwise>
 													             	</c:choose>
@@ -1437,7 +1437,7 @@
 																		<c:choose>
 																			<c:when test="${ f.fLikeSet eq 'N' }">
 																			<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																			<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																			<% int rCount = 0; %>
 																			<c:forEach var="rC" items="${ f.replyList }">
 																				<c:if test="${ rC.rStatus eq 'Y' }">
@@ -1448,7 +1448,7 @@
 																			</c:when>
 																			<c:otherwise>
 																			<!-- 댓글과 좋아요 모두 허용될 때 -->
-																			<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																			<% int rCount = 0; %>
 																			<c:forEach var="rC" items="${ f.replyList }">
 																				<c:if test="${ rC.rStatus eq 'Y' }">
@@ -1498,19 +1498,19 @@
 																		<input type="hidden" class="rNum" value="${ r.rNo }">
 															  				<ul id="re_list" class="list">
 															  				<c:if test="${ !empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																			<c:if test="${ empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																				<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
 																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																			<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -1573,32 +1573,32 @@
 															<c:when test="${ loginUser.userId ne f.fWriter }">
 																<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fModifyDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:when>
 															<c:otherwise>
 																<a href="goMypage.do?mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fCreateDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:otherwise>
 														</c:choose>
 														<c:if test="${ loginUser.userId ne f.fWriter }">
@@ -1674,12 +1674,12 @@
 													<div id="con">
 														<div id="feed_content">
 															<c:if test="${ !empty f.photoList }">
-																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																<ul id="imgList" style="height:633px">
 																	<c:forEach var="p" items="${ f.photoList }">
 																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																	</c:if>
 																	</c:forEach>
 																</ul>
@@ -1692,11 +1692,11 @@
 															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 											             	<c:choose>
 												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:when>
 												             	<c:otherwise>
-												             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:otherwise>
 											             	</c:choose>
@@ -1708,7 +1708,7 @@
 																<c:choose>
 																	<c:when test="${ f.fLikeSet eq 'N' }">
 																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																		<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
 																		</c:if>
@@ -1718,7 +1718,7 @@
 																	</c:when>
 																	<c:otherwise>
 																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																		<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
@@ -1749,19 +1749,19 @@
 																		<input type="hidden" class="rNum" value="${ r.rNo }">
 															  				<ul id="re_list" class="list">
 															  				<c:if test="${ !empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																			<c:if test="${ empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																				<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
 																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																			<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -1822,10 +1822,10 @@
 														<c:when test="${ loginUser.userId ne f.fWriter }">
 															<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 															<c:if test="${ !empty f.mImage }">
-															<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 															</c:if>
 															<c:if test="${ empty f.mImage }">
-															<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 															</c:if>
 															<div id="user_time">
 																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -1836,15 +1836,15 @@
 																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 															</div>
 															</a>
-															<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 														</c:when>
 														<c:otherwise>
 															<a href="goMypage.do?mNo=${ loginUser.mNo }">
 															<c:if test="${ !empty f.mImage }">
-															<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 															</c:if>
 															<c:if test="${ empty f.mImage }">
-															<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 															</c:if>
 															<div id="user_time">
 																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
@@ -1855,7 +1855,7 @@
 																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 															</div>
 															</a>
-															<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 														</c:otherwise>
 													</c:choose>
 													    <div class="feed_report">
@@ -1910,13 +1910,13 @@
 									            <div id="con">
 									                <div id="feed_content">
 														<c:if test="${ !empty f.photoList }">
-															<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-															<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+															<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+															<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																
 																<ul id="imgList" style="height:633px">
 																	<c:forEach var="p" items="${ f.photoList }">
 																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																	</c:if>
 																	</c:forEach>
 																</ul>
@@ -1933,11 +1933,11 @@
 															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 											             	<c:choose>
 												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 												             	</c:when>
 												             	<c:otherwise>
-												             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
 												             	</c:otherwise>
 											             	</c:choose>
@@ -1949,7 +1949,7 @@
 																<c:choose>
 																	<c:when test="${ f.fLikeSet eq 'N' }">
 																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																	<% int rCount = 0; %>
 																	<c:forEach var="rC" items="${ f.replyList }">
 																		<c:if test="${ rC.rStatus eq 'Y' }">
@@ -1960,7 +1960,7 @@
 																	</c:when>
 																	<c:otherwise>
 																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																	<% int rCount = 0; %>
 																	<c:forEach var="rC" items="${ f.replyList }">
 																		<c:if test="${ rC.rStatus eq 'Y' }">
@@ -2010,19 +2010,19 @@
 																<input type="hidden" class="rNum" value="${ r.rNo }">
 													  				<ul id="re_list" class="list">
 													  				<c:if test="${ !empty r.rWriterImg }">
-																		<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																		<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																			id="reply_img">&nbsp;&nbsp;&nbsp;
 																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																	</c:if>
 																	<c:if test="${ empty r.rWriterImg }">
-																		<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																		<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																			id="reply_img">&nbsp;&nbsp;&nbsp;
 																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																	</c:if>
 																		<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																		<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																		<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																		<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																		<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																	</ul>
 																	<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																	<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -2085,32 +2085,32 @@
 															<c:when test="${ loginUser.userId ne f.fWriter }">
 																<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fModifyDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:when>
 															<c:otherwise>
 																<a href="goMypage.do?mNo=${ loginUser.mNo }">
 																<c:if test="${ !empty f.mImage }">
-																<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
 																</c:if>
 																<c:if test="${ empty f.mImage }">
-																<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 																</c:if>
 																<div id="user_time">
 																	<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 																	<h6><c:out value="${ f.fCreateDate }" /></h6>
 																</div>
 																</a>
-																<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+																<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
 															</c:otherwise>
 														</c:choose>
 														<c:if test="${ loginUser.userId ne f.fWriter }">
@@ -2186,12 +2186,12 @@
 													<div id="con">
 														<div id="feed_content">
 															<c:if test="${ !empty f.photoList }">
-																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="${ contextPath }/resources/icons/nextbtn.png"></button>
-																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="${ contextPath }/resources/icons/prevbtn.png"></button>
+																<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
 																<ul id="imgList" style="height:633px">
 																	<c:forEach var="p" items="${ f.photoList }">
 																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
 																	</c:if>
 																	</c:forEach>
 																</ul>
@@ -2204,11 +2204,11 @@
 															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 											             	<c:choose>
 												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
 												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:when>
 												             	<c:otherwise>
-												             	<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
 													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 												             	</c:otherwise>
 											             	</c:choose>
@@ -2220,7 +2220,7 @@
 																<c:choose>
 																	<c:when test="${ f.fLikeSet eq 'N' }">
 																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 																		<c:if test="${ f.replyList[0].rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
 																		</c:if>
@@ -2230,7 +2230,7 @@
 																	</c:when>
 																	<c:otherwise>
 																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
+																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
 																		<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
 																			<label class="replycnt_p">${ f.replyList.size() }개</label>
@@ -2261,19 +2261,19 @@
 																		<input type="hidden" class="rNum" value="${ r.rNo }">
 															  				<ul id="re_list" class="list">
 															  				<c:if test="${ !empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																			<c:if test="${ empty r.rWriterImg }">
-																				<li><img src="${ contextPath }/resources/icons/pro_default.png" alt=""
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
 																					id="reply_img">&nbsp;&nbsp;&nbsp;
 																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 																			</c:if>
 																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
 																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
 																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																				<li><img src="${ contextPath }/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
 																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
 																			<c:if test="${ loginUser.userId eq r.rWriter }">
@@ -2808,19 +2808,19 @@
               
           	  var input=""; 
                 input += "<div class='feed_delete'>";
-                input += "<img src='${ contextPath }/resources/icons/close_white.png' type='button'>";
+                input += "<img src='/spring/resources/icons/close_white.png' type='button'>";
                 input += "</div>";
                 input += "<div id='writer_submenu2'>";
                 if(data.mImage != null){
-                  input += "<img src='${ contextPath }/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
+                  input += "<img src='/spring/resources/memberProfileFiles/"+data.mImage+"' alt='' id='feed_profile_img'>";
                 } else {
-                  input += "<img src='${ contextPath }/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
+                  input += "<img src='/spring/resources/icons/pro_default.png' alt='' id='feed_profile_img'>";
                 }
 	              input += "<div id='user_time2'>";
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
 	              input += "<h6>"+data.fCreateDate+"</h6>";
 	              input += "</div>";
-	              input += "<img src='${ contextPath }/resources/icons/feed_menu.png' alt='' id='feed_menu_2' class='test' style='cursor:pointer;' onClick='feedMenu();'>";
+	              input += "<img src='/spring/resources/icons/feed_menu.png' alt='' id='feed_menu_2' class='test' style='cursor:pointer;' onClick='feedMenu();'>";
 	              input += "</div>";
 	              input +="<div class='pop_menu_2'>";
 	              <!-- 내가 쓴 글 볼 때 피드 메뉴 -->
@@ -2865,12 +2865,12 @@
 	              input +="<div id='con2'>";
 	              input +="<div id='feed_content'>";
 	        	  	if(data.photoList.length > 0 ){
-		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='${ contextPath }/resources/icons/nextbtn.png'></button>";
-					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='${ contextPath }/resources/icons/prevbtn.png'></button>";
+		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='/spring/resources/icons/nextbtn.png'></button>";
+					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='/spring/resources/icons/prevbtn.png'></button>";
 	            	input +="<ul id='imgList' style='height:633px'>";
 		              for(var i=0; i < data.photoList.length; i++){
 						  if(data.photoList[i].changeName != null){
-							  input +="<li><img src='${ contextPath }/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
+							  input +="<li><img src='/spring/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
 			              }
 		              } 
 		              input +="</ul>";
@@ -2881,10 +2881,10 @@
 	 				  if(data.fLikeSet == 'Y' ||  data.fLikeSet == null){
 						<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
 		             	if(data.likeChk == null){
-			             	input +="<img src='${ contextPath }/resources/icons/heart.png' alt='' name='"+fNo+"'class='likeIcon_2' id='likeIcon_2' onclick='likeClick(this);'>";
+			             	input +="<img src='/spring/resources/icons/heart.png' alt='' name='"+fNo+"'class='likeIcon_2' id='likeIcon_2' onclick='likeClick(this);'>";
 			             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
 		             	} else {
-			             	input +="<img src='${ contextPath }/resources/icons/heart_red.png' alt='' name='"+fNo+"' class='liked_2' id='liked_2' onclick='likeClick(this);'>";	             	
+			             	input +="<img src='/spring/resources/icons/heart_red.png' alt='' name='"+fNo+"' class='liked_2' id='liked_2' onclick='likeClick(this);'>";	             	
 			             	input +="<label class='likeCnt' id='"+fNo+"'>"+data.fLikeCnt+"개</label>";
 		             	}
 					  }
@@ -2895,7 +2895,7 @@
 					  if(data.fReplySet == 'Y' || data.fReplySet == null){
 					  	 if(data.fLikeSet == 'N'){
 					  	 <!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-					  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon' style='margin: 9px 0 0 25px;'>";
+					  	 input +="<img src='/spring/resources/icons/bubble.png' alt='' id='replyIcon' style='margin: 9px 0 0 25px;'>";
 					  	 	if(data.replyListSize > 0){
 					  	 	 if(data.replyList[0].rStatus == 'Y'){
 					  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
@@ -2908,7 +2908,7 @@
 					  	 	}
 					  	 } else {
 					  	 <!-- 댓글과 좋아요 모두 허용될 때 -->
-					  	 input +="<img src='${ contextPath }/resources/icons/bubble.png' alt='' id='replyIcon'>";
+					  	 input +="<img src='/spring/resources/icons/bubble.png' alt='' id='replyIcon'>";
 					  		if(data.replyListSize > 0){
 					  	 	 if(data.replyList[0].rStatus == 'Y'){
 					  	 	 input +="<label class='replycnt_p'>"+data.replyListSize+"개</label>";
@@ -2936,13 +2936,21 @@
 		                  input +="<div id='replyList'>";
 		                  input +="<ul id='re_list' class='list'>";
 		                  if(data.replyList[i].mNo == mNo){
-		                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				  			  if(data.replyList[i].rWriterImg != null){
+				  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				  			  }else{
+				  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				  			  }
 		                  } else {
-		            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+		                	  if(data.replyList[i].rWriterImg != null){
+		                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+		                	  }else{
+		                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+		                	  }
 		                  }
 		            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 			              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-			              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+			              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 			              if(data.replyList[i].mNo == mNo){
 							  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 			               }
@@ -3218,14 +3226,22 @@
 				       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 				       	                  input +="<div id='replyList'>";
 				       	                  input +="<ul id='re_list' class='list'>";
-				       	                  if(data.replyList[i].mNo == mNo){
-				       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-				       	                  } else {
-				       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-				       	                  }
+				       	               if(data.replyList[i].mNo == mNo){
+				 			  			  if(data.replyList[i].rWriterImg != null){
+				 			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				 			  			  }else{
+				 			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				 			  			  }
+				 	                  } else {
+				 	                	  if(data.replyList[i].rWriterImg != null){
+				 	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				 	                	  }else{
+				 	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+				 	                	  }
+				 	                  }
 				       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 				       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-				       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+				       		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 				       		              if(data.replyList[i].mNo == mNo){
 				       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 				       		               }
@@ -3441,14 +3457,22 @@
 								       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
 								       	                  input +="<div id='replyList'>";
 								       	                  input +="<ul id='re_list' class='list'>";
-								       	                  if(data.replyList[i].mNo == mNo){
-								       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-								       	                  } else {
-								       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-								       	                  }
+								       	               if(data.replyList[i].mNo == mNo){
+								 			  			  if(data.replyList[i].rWriterImg != null){
+								 			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+								 			  			  }else{
+								 			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+								 			  			  }
+								 	                  } else {
+								 	                	  if(data.replyList[i].rWriterImg != null){
+								 	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+								 	                	  }else{
+								 	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+								 	                	  }
+								 	                  }
 								       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
 								       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-								       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+								       		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
 								       		              if(data.replyList[i].mNo == mNo){
 								       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
 								       		               }
@@ -4117,14 +4141,22 @@
       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
       	                  input +="<div id='replyList'>";
       	                  input +="<ul id='re_list' class='list'>";
-      	                  if(data.replyList[i].mNo == mNo){
-      	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-      	                  } else {
-      	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-      	                  }
+      	                if(data.replyList[i].mNo == mNo){
+  			  			  if(data.replyList[i].rWriterImg != null){
+  			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  			  			  }else{
+  			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  			  			  }
+  	                  } else {
+  	                	  if(data.replyList[i].rWriterImg != null){
+  	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  	                	  }else{
+  	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+  	                	  }
+  	                  }
       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-      		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+      		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
       		              if(data.replyList[i].mNo == mNo){
       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
       		               }
@@ -4333,14 +4365,22 @@
         			       		              input +="<input type='hidden' class='rNum' value='"+data.replyList[i].rNo+"'>";		              
         			       	                  input +="<div id='replyList'>";
         			       	                  input +="<ul id='re_list' class='list'>";
-        			       	                  if(data.replyList[i].mNo == mNo){
-        			       	                	  input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-        			       	                  } else {
-        			       	            	  	  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='${ contextPath }/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
-        			       	                  }
+        			       	               if(data.replyList[i].mNo == mNo){
+        			 			  			  if(data.replyList[i].rWriterImg != null){
+        			 			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+        			 			  			  }else{
+        			 			  				input +="<li><a href='goMypage.do?mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+        			 			  			  }
+        			 	                  } else {
+        			 	                	  if(data.replyList[i].rWriterImg != null){
+        			 	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/memberProfileFiles/"+data.replyList[i].rWriterImg+"' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+        			 	                	  }else{
+        			 	                		  input +="<li><a href='goUserpage.do?userId="+data.replyList[i].rWriter+"&mNo="+mNo+"'><img src='/spring/resources/icons/pro_default.png' alt='' id='reply_img'>&nbsp;&nbsp;&nbsp;<p id='userId'>"+data.replyList[i].rWriter+"</p></a></li>";
+        			 	                	  }
+        			 	                  }
         			       	            	  input +="<li><textarea id='replyCon' class='rCon' data-autoresize readonly required='required' placeholder='댓글을 입력해 주세요.' cols=40 rows=auto disabled>"+data.replyList[i].rContent+"</textarea>";
         			       		              input +="<li><p id='time'>"+data.replyList[i].rModifyDate+"</p></li>";
-        			       		              input +="<li><img src='${ contextPath }/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
+        			       		              input +="<li><img src='/spring/resources/icons/replyMenu.png' type='button' alt='' id='updateBtn' class='rUpBtn'></li>";
         			       		              if(data.replyList[i].mNo == mNo){
         			       						  input +="<input type='button' id='confirmR' class='rConfirm' value='완료'></li>";
         			       		               }
