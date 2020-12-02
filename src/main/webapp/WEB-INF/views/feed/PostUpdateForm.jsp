@@ -228,30 +228,7 @@
 			$('.tab_box2').show();
 		});
 
-		/************* 내계정 자세히보기 script **************/
-
-		$(document).ready(function() {
-			$('#detailInfo').click(function() {
-				$(".myAccount").animate({
-					width : "toggle"
-				}, 250);
-			});
-		});
-
-		$('.MyTab_tab').on("click", function() {
-			$('.MyTab_tab').removeClass('on');
-			$(this).addClass('on')
-		});
-
-		$('.MyTab_tab1').on('click', function() {
-			$('.MyTab_box').hide();
-			$('.MyTab_box1').show();
-		});
-
-		$('.MyTab_tab2').on('click', function() {
-			$('.MyTab_box').hide();
-			$('.MyTab_box2').show();
-		});
+		
 		
         $('#btns2').on('click', function () {
             /***** 글 작성 시 0바이트일 경우(글 작성 안 했을 경우) *****/
