@@ -43,7 +43,7 @@ public class FeedDao {
 	}
 
 	public ArrayList<Feed> selectGfList(String userId) {
-		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList");
+		return (ArrayList)sqlSession.selectList("feedMapper.selectGfList",userId);
 	}
 
 	public int updatePost(Feed f) {
