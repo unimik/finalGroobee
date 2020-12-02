@@ -226,7 +226,7 @@ public class GroupController{
 	}
 	
 	@RequestMapping("groupUpdate.do")
-	public ModelAndView groupUpdate(ModelAndView mv, Group g, int gNo, HttpServletRequest request,
+	public ModelAndView groupUpdate(ModelAndView mv, Group g, int gNo, String gPro, HttpServletRequest request,
 								MultipartHttpServletRequest groupFiles) {
 		System.out.println(g.getgNo());
 		g.setgNo(gNo);
@@ -236,6 +236,9 @@ public class GroupController{
 		
 		String savePath = root + "\\gUploadFiles";
 		String fileName = "";
+		
+		
+		System.out.println("jsp에서 넘어온 파일 이름 :"+gPro);
 		
 		File folder = new File(savePath);
 			if(!folder.exists()) {
@@ -249,7 +252,7 @@ public class GroupController{
 			if(g.getgRenameProfile()!=null && g.getgRenameImage()!=null) {
 				deleteFile(g.getgRenameProfile(),g.getgRenameImage(),request);
 			}
-		}	
+		}
 		ArrayList groupImgFiles = new ArrayList();
 			
 		List<MultipartFile> fileList = groupFiles.getFiles("file");
@@ -274,9 +277,20 @@ public class GroupController{
 				}
 				groupImgFiles.add(gfile.getOriginalFilename());
 				groupImgFiles.add(renameFileName);
+			} else {
+				
+				
+				for(int i = 0; i < 2; i++) {
+					String[] str = gPro.split(",");
+					groupImgFiles.add(str[i]);
+					groupImgFiles.add(str[i]);
+				}
+				
+				
 			}
+			
 			System.out.println(groupImgFiles);
-		}
+		} 
 		
 		if( groupImgFiles.size()!=0){
 		    String gProfileName = (String) groupImgFiles.get(0);
@@ -290,7 +304,7 @@ public class GroupController{
 			g.setgRenameProfile(renameGproName);
 			g.setgImage(gImageName);
 			g.setgRenameImage(renameGimgName);
-		} 		
+		} 
 
 		
 		int result = gService.updateGroup(g);
@@ -303,6 +317,7 @@ public class GroupController{
 
 		return mv;
 	}
+	
 
 	private void deleteFile(String getgRenameProfile, String getgRenameImage, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -318,6 +333,46 @@ public class GroupController{
 		}
 	}
 
+	@ResponseBody
+	@RequestMapping("delFile1.do")
+	public int fileDel1(int gNo, String file, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		
+		System.out.println("넘어온 값 : "+file);
+		File f = new File(savePath + "\\" + file);
+		
+		if(f.exists()) {
+			f.delete();
+			
+		}
+		
+		int result = gService.updateFile1(gNo);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("delFile2.do")
+	public int fileDel2(int gNo, String file, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		
+		System.out.println("넘어온 값 : "+file);
+		File f = new File(savePath + "\\" + file);
+		
+		if(f.exists()) {
+			f.delete();
+		}
+		
+		int result = gService.updateFile2(gNo);
+		
+		return result;
+	}
+	
+	
 	@RequestMapping("gdelete.do")
 	public String groupDelete(int gNo, HttpServletRequest request) {
 		Group g = gService.selectGroup(gNo);
