@@ -229,13 +229,17 @@
 		WHERE F_NO = #{fNo}
 	</update>
 	
-	<update id="updatePhoto" parameterType="Photo">
+<!-- 	<update id="updatePhoto" parameterType="Photo">
 		UPDATE
 		    PHOTO
 		SET ORIGINNAME = #{originName}
 		  , CHANGENAME = #{changeName}
 		WHERE F_NO = #{fNo}
-	</update>
+	</update> -->
+	
+	<delete id="deleteFile" parameterType="string">
+		DELETE FROM PHOTO WHERE CHANGENAME = #{ fileName }
+	</delete>
 	
 	<update id="deletePost" parameterType="_int">
 		UPDATE FEED

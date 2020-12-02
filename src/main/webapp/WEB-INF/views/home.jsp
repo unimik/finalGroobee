@@ -67,7 +67,6 @@
 		<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
 		<c:if test="${ f.fOpenScope ne 'G' }">
 			<div id="feed${ i }" class="feed">
-			<input type="hidden" value="${ f.fNo }" class="feedNum">
 			<div id="writer_submenu">
 				<c:choose>
 					<c:when test="${ loginUser.userId ne f.fWriter }">
@@ -104,6 +103,7 @@
 				<c:if test="${ loginUser.userId ne f.fWriter }">
 					<!-- 다른 회원 글 볼 때 피드 메뉴 -->
 	 				<div class="pop_menu">
+	 				<input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 						<div id="feed_menu_list">
 							<ul>
 					            <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
@@ -113,10 +113,12 @@
 							</ul>
 						</div>
 					</div>
+					<div class="storagePop">
+					</div>
 				</c:if>
 				<c:if test="${ loginUser.userId eq f.fWriter }">
 					<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-	                <div class="pop_menu">
+	                <div class="pop_Mymenu">
 	                    <div id="feed_Mymenu_list">
 	                        <ul>
 	                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
@@ -326,7 +328,6 @@
 		<c:if test="${ f.fOpenScope eq 'G' }">
 			<c:if test="${ loginUser.userId eq f.fWriter }">
 			<div id="feed${ i }" class="feed">
-			<input type="hidden" value="${ f.fNo }" class="feedNum">
 			<div id="writer_submenu">
 				<c:choose>
 					<c:when test="${ loginUser.userId ne f.fWriter }">
@@ -363,6 +364,7 @@
 				<c:if test="${ loginUser.userId ne f.fWriter }">
 					<!-- 다른 회원 글 볼 때 피드 메뉴 -->
 	 				<div class="pop_menu">
+	 				<input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
 						<div id="feed_menu_list">
 							<ul>
 					            <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
@@ -371,6 +373,8 @@
 					            <li><a id="close" class="close">취소</a></li>
 							</ul>
 						</div>
+					</div>
+					<div class="storagePop">
 					</div>
 				</c:if>
 				<c:if test="${ loginUser.userId eq f.fWriter }">
@@ -720,7 +724,6 @@
 					if(data != "fail") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
 						location.reload();
-
 					}
 				}, error: function() {
 					console.log("전송 실패");
@@ -788,12 +791,8 @@
 			success: function(data) {	// 성공 시: success, 실패 시: fail
 //				console.log(data);
   				if(data == "success") {
-//					$(ul).css('display', 'none');
-//					$(rNo).css('display', 'none');
-//					$(rMenu).css('display', 'none');
 //					location.href="home.do?userId=" + rWriter;
 					location.reload();
-//					$(".feed").load(window.location.href + $(".feed"));
 //					alert('test');
 				}
 			}, error: function() {
