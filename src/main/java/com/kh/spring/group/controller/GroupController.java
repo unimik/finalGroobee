@@ -54,11 +54,11 @@ public class GroupController{
 	public ModelAndView gList(ModelAndView mv, String userId) {
 		ArrayList<Group> glist = gService.selectList();
 		ArrayList<Feed> flist = fService.selectGfList(userId);
-		System.out.println("지금 그룹리스트 불러올 때 : "+userId);
+		System.out.println("지금 그룹리스트 불러올 때 :"+userId);
 		ArrayList<Photo> fp = null;
 		for(Feed f : flist) {
 			fp = fService.selectPhotoList(f.getfNo());
-			
+			System.out.println(f.getLikeChk());
 			for(Photo p : fp) {
 				if(p.getChangeName() != null) {
 					f.setPhotoList(fp);
