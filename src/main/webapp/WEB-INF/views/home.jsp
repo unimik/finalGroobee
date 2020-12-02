@@ -85,10 +85,10 @@
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
-						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ empty loginUser.mRenameImage }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
@@ -343,10 +343,10 @@
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
-						<c:if test="${ !empty f.mImage }">
-						<img src="${ contextPath }/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+						<c:if test="${ !empty loginUser.mRenameImage }">
+						<img src="${ contextPath }/resources/memberProfileFiles/${ loginUser.mRenameImage }" alt="" id="feed_profile_img">
 						</c:if>
-						<c:if test="${ empty f.mImage }">
+						<c:if test="${ empty loginUser.mRenameImage }">
 						<img src="${ contextPath }/resources/icons/pro_default.png" alt="" id="feed_profile_img">
 						</c:if>
 						<div id="user_time">
