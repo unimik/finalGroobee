@@ -63,35 +63,37 @@
                                 </td>
                             </tr>
                             <!-- 파일 미리보기 영역 -->
-                            <c:forEach var="p" items="${ f.photoList }">
-                            <c:if test="${ !empty p.originName }">
+                            <c:if test="${ !empty f.photoList }">
                             <tr class="trView">
-								<c:if test="${ !empty p.originName }">
+                            <c:forEach var="pt" items="${ f.photoList }">
+								<c:if test="${ !empty pt.originName }">
                           			<td class="plistView" id="pView">
 	                                <div id="photolistUpView" class="photoView">
 	                                	<a href="javascript:void(0);" id="img_id">
-	                                    <img id="preview" class="photopreview" src="${ contextPath }/resources/pUploadFiles/${ p.changeName }" title="${ p.originName }" style="width: 100px; height: 100px;">
+	                                    <img id="preview" class="photopreview" src="${ contextPath }/resources/pUploadFiles/${ pt.changeName }" title="${ pt.originName }" style="width: 100px; height: 100px;">
 	                                	</a>
 	                                </div>
                               		</td>
                                 </c:if>
+                            </c:forEach>
                             </tr>
                             <tr class="trViewName">
+                             <c:forEach var="pn" items="${ f.photoList }">
+								<c:if test="${ !empty pn.originName }">
 								<td class="plistName" id="pName">
-									<c:if test="${ !empty p.originName }">
 	                                <c:choose>
-										<c:when test="${ fn:length(p.originName) gt 15 }">
-											<c:out value="${ fn:substring(p.originName, 0, 14) }..."/>
+										<c:when test="${ fn:length(pn.originName) gt 15 }">
+											<c:out value="${ fn:substring(pn.originName, 0, 14) }..."/>
 										</c:when>
 										<c:otherwise>
-											${ p.originName }
+											${ pn.originName }
 										</c:otherwise>
 									</c:choose>
-	                                </c:if>
                                	</td>
+	                            </c:if>
+                            </c:forEach>
                             </tr>
                             </c:if>
-	                        </c:forEach>
 	                     
                             <tr id="undertd">
                                 <td id="underLine"></td>
@@ -201,17 +203,17 @@
 				}
 			});
 
-			/*************** 그룹 선택 옵션 *****************/
+		/*************** 그룹 선택 옵션 *****************/
 
-			$('#select_board').change(function() {
-				var state = $("#select_board option:selected").val();
+		$('#select_board').change(function() {
+			var state = $("#select_board option:selected").val();
 
-				if (state == 'group') {
-					$('#myGroupList').css("display", "block");
-				} else {
-					$('#myGroupList').hide();
-				}
-			})
+			if (state == 'group') {
+				$('#myGroupList').css("display", "block");
+			} else {
+				$('#myGroupList').hide();
+			}
+			});
 		});
 
 		$('.tab_menu_btn').on('click', function() {
@@ -253,7 +255,26 @@
 			$('.MyTab_box').hide();
 			$('.MyTab_box2').show();
 		});
-
+		
+        $('#btns2').on('click', function () {
+            /***** 글 작성 시 0바이트일 경우(글 작성 안 했을 경우) *****/
+                var text = $('textarea').val();
+                
+                if(text == "") {
+                	alert('작성된 내용이 없습니다.\n내용을 작성해 주세요.');
+                	return false;
+                }
+                
+                if(text != "") {
+            		var postConfirm = confirm('글을 작성하시겠습니까?');
+            		
+            		/***** 취소 누르면 작성되지 않게 *****/
+            		if(postConfirm == false) {
+            			return false;
+            		}
+                }
+            });
+        
     	/***************** 이미지 미리보기 *****************/
     	
 //    	var sel_files= [];
@@ -268,9 +289,10 @@
     				
     				var files = e.target.files;
     				var arr = Array.prototype.slice.call(files);
-					
+    				
+
     				var checkPhotopreview = $(".photopreview").length;
-    				alert("이미 업로드된 이미지 : " + checkPhotopreview + "개");
+//    				alert("이미 업로드된 이미지 : " + checkPhotopreview + "개");
     				
     				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
     				if((files.length + checkPhotopreview) > 5) {
@@ -281,14 +303,14 @@
    					}
     				
     				// 파일 업로드가 0개인 인서트/업데이트 피드에 파일 업로드할 경우 미리보기 추가
-    				if(checkPhotopreview < 1) {
+/*     				if(checkPhotopreview < 1) {
     					var trView = '<tr class="trView">';
    						var trViewName = '<tr class="trViewName">';
 						$("#undertd").before(trView);
 						$("#undertd").before(trViewName);
 						preview(arr);
     					return true;
-    				}
+    				} */
     				
     				// 업로드 가능 파일인지 체크
     				for (var i = 0; i < files.length; i++) {
@@ -374,8 +396,20 @@
    		// 이미지 전체 삭제 클릭 시 삭제 이벤트 핸들러
        	function deleteFile() {
    			
-	        var newFileList = Array.from(document.getElementById("input_file").files);
+//   			var file = $('.photopreview')[0].title;
    			var checkPhotopreview = $(".photopreview").length;
+			for(var i = 0; i < checkPhotopreview; i++) {
+				var file = $('.photopreview')[i].src.substring(52);				
+	   			$.ajax({
+	   				url: "deleteFile.do",
+	   				data: { fileName : file },
+	   				success: function(data){
+	   					console.log(data);
+	   				}
+	   			});
+			}
+   			
+	        var newFileList = Array.from(document.getElementById("input_file").files);
 	        
 	        if(checkPhotopreview == 0) {
 	        	alert('삭제할 이미지 파일이 없습니다.');
@@ -384,24 +418,34 @@
    			var deleteConfirm = confirm('첨부한 이미지를 전체 삭제하시겠습니까?\n※ 이미지는 부분 삭제를 할 수 없습니다.');
    			
    			if(deleteConfirm) {
+   				
+        		if(deleteConfirm == false) {
+        			return false;
+        		}
+        		
 	       		var dimg_id = "#dimg_id";
 	       		var img_id = "#img_id";
 	       		var image = "#pView";
 	       		var name = "#pName";
 	       		
+/* 	       		if(checkPhotopreview == 0) {
+	       			$('.trView').remove();
+	       			$('.trViewName').remove();
+	       		} */
+	       		
 	       		console.log("files : " + newFileList);
 	       		
-	       		var ie = navigator.userAgent.indexOf("MSIE") >-1 || navigator.userAgent.indexOf("Trident") >-1
+	       		var ie = navigator.userAgent.indexOf("MSIE") >-1 || navigator.userAgent.indexOf("Trident") >-1;
 				
 	       		for(i = 0; i < checkPhotopreview; i++) {
 	       			if(checkPhotopreview > 0) {
-			       		$(".trView").remove();
-			       		$(".trViewName").remove();
-/* 			       		$(dimg_id).remove();
+//			       		$(".trView").remove();
+//			       		$(".trViewName").remove();
+ 			       		$(dimg_id).remove();
 			       		$(img_id).remove();
 			       		$(image).remove();
-			       		$(name).remove(); */
-	//       			$(".input_file").prop(newFileList);
+			       		$(name).remove();
+//	 	      			$(".input_file").prop(newFileList);
 			       		console.log(sel_files);
 	       			}
 	       		}
@@ -439,6 +483,12 @@
    					$(".trView").remove();
    					$(".trViewName").remove();
    					
+   					var trView = '<tr class="trView">';
+   					var trViewName = '<tr class="trViewName">';
+
+					$("#undertd").before(trView);
+					$("#undertd").before(trViewName);
+   					
    					for(var index in data.photoList){
    						
    	    				// 파일명이 길면 파일명...으로 처리
@@ -447,8 +497,6 @@
    	    					fileName = fileName.substring(0, 14) + "...";
    	    				}
    						
-   						var trView = '<tr class="trView">';
-   						var trViewName = '<tr class="trViewName">';
    						var str = '<td class="plistView" id="pView"><div id="photolistUpView" class="photoView">';
 						var name = '<td class="plistName" id="pNam">';
 						
@@ -460,8 +508,6 @@
 						trView += '</tr>';
 						trViewName += '</tr>';
 						
-						$("#undertd").before(trView);
-						$("#undertd").before(trViewName);
 						$(str).appendTo('.trView');
 						$(name).appendTo('.trViewName');
 						

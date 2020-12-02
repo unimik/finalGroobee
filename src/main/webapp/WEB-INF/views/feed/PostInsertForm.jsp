@@ -203,7 +203,22 @@
             $('.tab_box2').show();
         });
         $('#btns2').on('click', function () {
-        	confirm('글을 작성하시겠습니까?');
+        /***** 글 작성 시 0바이트일 경우(글 작성 안 했을 경우) *****/
+            var text = $('textarea').val();
+            
+            if(text == "") {
+            	alert('작성된 내용이 없습니다.\n내용을 작성해 주세요.');
+            	return false;
+            }
+            
+            if(text != "") {
+        		var postConfirm = confirm('글을 작성하시겠습니까?');
+        		
+        		/***** 취소 누르면 작성되지 않게 *****/
+        		if(postConfirm == false) {
+        			return false;
+        		}
+            }
         });
         
         /************* 내계정 자세히보기 script **************/
@@ -259,6 +274,7 @@
 						$("#undertd").before(trViewName);
 						preview(arr);
     					return true;
+    					
     				}
     				
     				// 업로드 가능 파일인지 체크
@@ -354,7 +370,11 @@
    			var deleteConfirm = confirm('첨부한 이미지를 전체 삭제하시겠습니까?\n※ 이미지는 부분 삭제를 할 수 없습니다.');
    			
    			if(deleteConfirm) {
-		
+				
+        		if(deleteConfirm == false) {
+        			return false;
+        		}
+        		
 	       		var dimg_id = "#dimg_id";
 	       		var img_id = "#img_id";
 	       		var image = "#pView";
@@ -384,22 +404,6 @@
    			}
        		}
    		}
-   		
-/*    		function updateImageAction(index) {
- 		console.log("index : " + index);
-		sel_files.splice(index, 1);
-		console.log(sel_files);
-		 
-   			$(document).ready(function(e) {
-   	    		$('.input_file').change(	
- 	    		function(e) {
-		   		    e.preventDefault();
-		   		    $(".input_file").click();			
-   	    		});
-		   	
-   			});
-
-   		} */
    		
         function changeValue(obj){
 	        alert("너냐? : " + obj.value);

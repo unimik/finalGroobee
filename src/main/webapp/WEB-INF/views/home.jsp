@@ -615,7 +615,9 @@
         $('.reply_menu').hide();
 	});
     $('.deleteMyPost').on('click', function () {
-    	confirm('이 포스트를 정말 삭제하시겠습니까?');
+		if(confirm("이 포스트를 정말 삭제하시겠습니까?") == false) {
+			return false;
+		}	
     });
     $('.rEdit').on("click", function(e) {
 		var repCon = $(this.parentElement).parents("div#selectOne").find("textarea#replyCon.rCon");
@@ -714,7 +716,8 @@
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					if(data == "success") {
 						$(rContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-//						location.href="home.do?userId="+rWriter;
+//						location.reload();
+						location.href="home.do?userId="+rWriter;
 					}
 				}, error: function() {
 					console.log("전송 실패");
@@ -760,7 +763,10 @@
 				}
 			});
 			
-		confirm("댓글을 수정하시겠습니까?");
+		if(confirm("댓글을 수정하시겠습니까?") == false) {
+			return false;
+		}	
+		
 	});
 	
 	// 댓글 삭제 시
@@ -783,9 +789,9 @@
 //					$(rNo).css('display', 'none');
 //					$(rMenu).css('display', 'none');
 //					location.href="home.do?userId=" + rWriter;
-//					location.reload(rSub);
+					location.reload();
 //					$(".feed").load(window.location.href + $(".feed"));
-					alert('test');
+//					alert('test');
 				}
 			}, error: function() {
 				console.log("전송 실패");
@@ -797,7 +803,9 @@
 			$(this.parentElement).parents("div#replySub").css('display', 'none');
 		}
 		
-		confirm("댓글을 삭제하시겠습니까?");
+		if(confirm("댓글을 삭제하시겠습니까?") == false) {
+			return false;
+		}
 	});
 	
 	});

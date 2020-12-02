@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="resources/css/setting.css">
     <link rel="stylesheet" href="resources/css/chat.css">
     <link rel="stylesheet" href="resources/css/myAccount.css">
-    <title>Home</title>
+    <title>G R O O B E E</title>
     <style>
     	.disblock,.block{float:right; color:black; background:#a3d4ff; border:none; border-radius:5px;font-size: 14px;padding: 3px;}
     	.closemodal{position: fixed;bottom: 685px;left: 820px;width: 50px;font-size: 20px; border: none;background: none;color: white;cursor:pointer;}

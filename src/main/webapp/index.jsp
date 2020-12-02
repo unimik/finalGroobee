@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GROOBEE</title>
+<title>G R O O B E E</title>
 </head>
 <body>
 	<jsp:forward page="loginView.do"/>
