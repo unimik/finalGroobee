@@ -1508,6 +1508,13 @@
     	  });
       };
       
+      $(function(){
+    	 $("#allSearch").keydown(function(key){
+     		if(key.keyCode == 13) {
+     			search();
+     		} 
+     	});
+      });
 
      </script>
 </body>
