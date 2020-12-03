@@ -554,6 +554,8 @@ public class MypageController {
 			job.put("likeChk", detail.getLikeChk());
 			job.put("shareYN", detail.getShareYN());
 			job.put("type", type);
+			job.put("groupName", detail.getgName());
+			job.put("gno", detail.getgNo());
 		}
 
 		if(photoList != null) {

@@ -6,6 +6,12 @@ p{margin: 0;}
 #user_profile_img{width: 50px; height: 50px; border-radius: 15px; margin:10px 20px 0 20px;}
 #search_id{ color:#555555; font-weight: 500; font-size: 14px;margin-top:5px; }
 
+
+
+    .sendreport { margin-top:0;}
+    .usertag {color: #47c6a3;}
+    .storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
+ #feed_gName{ float:left; position: absolute; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
  .post{height: 200px;}
    .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
    #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
