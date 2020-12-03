@@ -72,7 +72,7 @@ public class FeedController {
       f.setfReplySet(reply);
       f.setfShareSet(share);
       
-      String huhu = "";
+      String changeFeedContent = "";
       String[] strarr = f.getfContent().split(" |\\n");
       ArrayList<Tag> taglist = new ArrayList<Tag>();
       for(int i = 0; i < strarr.length; i++) {
@@ -91,11 +91,10 @@ public class FeedController {
 			}
 		}
 		if(strarr[i] != null) {
-			huhu += strarr[i]+" ";
+			changeFeedContent += strarr[i]+" ";
 		}
       }
-      f.setfContent(huhu);
-      System.out.println("글"+f.getfContent());
+      f.setfContent(changeFeedContent);
 	  
       System.out.println("selectBoard 값: " + selectBoard);
       System.out.println("selectOpenScope 값: " + selectOpenScope);
