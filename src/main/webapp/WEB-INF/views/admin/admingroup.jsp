@@ -92,7 +92,6 @@
 				dataType: "html",
 				type:"get",
 				success:function(data){
-					console.log(data);
 					$("#total").html(data);
 				},error:function(){
 					console.log("전송실패!");
@@ -129,12 +128,10 @@
         
     	// 회원 검색 버튼 클릭 이벤트
 		 $('#searchBtn').on("click",function(){
-			console.log("클릭했엉?");
 			
 			var dynamicBtnY = '<input type="button" class="g_btn" value="OUT"/>';
 			var dynamicBtnN = '<input type="button" class="g_btn" value="IN"/>';
 			
-			console.log("전달되는 값"+$("#groupSearch_form").serialize());
 			
 			$.ajax({
 				url:"groupSearch.do",
@@ -142,7 +139,6 @@
 				data:$("#groupSearch_form").serialize(),
 				dataType:"json",
 				success:function(data){
-					console.log(data);
 					
 					$tableBody = $("#group_table  tbody");
 					$tableBody.html("");
@@ -230,8 +226,6 @@
 			function page(){ 
 				
 			    $('#feedTable').each(function() {
-
-				console.log("page()가 실행됨");		   
 				
 			    var pagination = $("#pagination"); // 페이징을 표시할 곳
 			    
@@ -239,15 +233,12 @@
 			    var currentPage = 0;    
 			    var numPerPage = 10;  //목록의 수   
 			    var $table = $(this);      // table을 가르킴 
-			    console.log(this); // this => tbody
 			    
 			    //length로 원래 리스트의 전체길이구함   
 			    var numRows = $table.find('tbody tr').length;
-			    console.log("numRows : "+numRows); // 출력될 행의 갯수
 			     
 			    //Math.ceil를 이용하여 반올림   
 			    var numPages = Math.ceil(numRows / numPerPage);
-			    console.log("numPages의 갯수 : "+ numPages);
 			    
 			    //리스트가 없으면 종료   
 			    if (numPages==0) return;

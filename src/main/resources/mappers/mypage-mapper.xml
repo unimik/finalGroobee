@@ -121,6 +121,7 @@
 		                            FROM PHOTO)
                                     WHERE NUM =1)P ON (F.F_NO = P.F_NO)
         WHERE F.F_NO IN (SELECT SF_NO FROM SHARE_FEED WHERE SM_NO=#{mNo} and s_status='Y')
+        AND  F.F_STATUS='Y'
         ORDER BY 5 DESC
         
 	</select>
