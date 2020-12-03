@@ -25,7 +25,7 @@
 				<p id="title">GROOBEE 회원관리</p>
 				<div id="searchBox">
 					<div id="all_user" style="font-size: 15px;">
-						<p>현재 GROOBEE 회원 수는 <b id="total" style="color: red;"></b> 명입니다.</p>
+						<p>현재 GROOBEE 회원 수는 <b id="total" style="color: red; cursor:pointer;"></b> 명입니다.</p>
 					</div>
 					<div id="search">
 						<form id="memberSearch_form" name="memberSearch_form">
