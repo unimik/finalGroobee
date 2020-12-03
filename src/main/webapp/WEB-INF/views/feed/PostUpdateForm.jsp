@@ -82,8 +82,8 @@
 								<c:if test="${ !empty pn.originName }">
 								<td class="plistName" id="pName">
 	                                <c:choose>
-										<c:when test="${ fn:length(pn.originName) gt 15 }">
-											<c:out value="${ fn:substring(pn.originName, 0, 14) }..."/>
+										<c:when test="${ fn:length(pn.originName) gt 10 }">
+											<c:out value="${ fn:substring(pn.originName, 0, 9) }..."/>
 										</c:when>
 										<c:otherwise>
 											${ pn.originName }
@@ -333,8 +333,8 @@
     				
     				// 파일명이 길면 파일명...으로 처리
     				var fileName = fUp.name;
-    				if (fileName.length > 15) {
-    					fileName = fileName.substring(0, 14) + "...";
+    				if (fileName.length > 10) {
+    					fileName = fileName.substring(0, 9) + "...";
     				}
 
     				// 이미지 파일 미리보기
@@ -467,8 +467,8 @@
    						
    	    				// 파일명이 길면 파일명...으로 처리
    	     				var fileName = data.photoList[index].originName;
-   	    				if (fileName.length > 15) {
-   	    					fileName = fileName.substring(0, 14) + "...";
+   	    				if (fileName.length > 10) {
+   	    					fileName = fileName.substring(0, 9) + "...";
    	    				}
    						
    						var str = '<td class="plistView" id="pView"><div id="photolistUpView" class="photoView">';
