@@ -19,7 +19,7 @@ public class Feed {
 	private String fReplySet;
 	private String fShareSet;
 	private int fLikeCnt;
-	private int fReplyCnt;
+	private String fReplyCnt;
 	private int gNo;
 	private String thumbnail;
 	private String gName;
@@ -56,7 +56,7 @@ public class Feed {
 
 	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
 			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
-			int fReplyCnt, int gNo) {
+			String fReplyCnt, int gNo) {
 		super();
 		this.fNo = fNo;
 		this.mNo = mNo;
@@ -77,7 +77,7 @@ public class Feed {
 
 	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
 			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
-			int fReplyCnt, int gNo, ArrayList<Reply> replyList, ArrayList<Photo> photoList) {
+			String fReplyCnt, int gNo, ArrayList<Reply> replyList, ArrayList<Photo> photoList) {
 		super();
 		this.fNo = fNo;
 		this.mNo = mNo;
@@ -101,7 +101,7 @@ public class Feed {
 
 	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
 			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
-			int fReplyCnt, int gNo, String thumbnail, ArrayList<Reply> replyList, ArrayList<Photo> photoList) {
+			String fReplyCnt, int gNo, String thumbnail, ArrayList<Reply> replyList, ArrayList<Photo> photoList) {
 		super();
 		this.fNo = fNo;
 		this.mNo = mNo;
@@ -126,7 +126,7 @@ public class Feed {
 	
 	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
 			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
-			int fReplyCnt, int gNo, String thumbnail, String gName, ArrayList<Reply> replyList,
+			String fReplyCnt, int gNo, String thumbnail, String gName, ArrayList<Reply> replyList,
 			ArrayList<Photo> photoList) {
 		super();
 		this.fNo = fNo;
@@ -154,7 +154,7 @@ public class Feed {
 
 	public Feed(int fNo, int mNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate, String fStatus,
 			String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet, int fLikeCnt,
-			int fReplyCnt, int gNo, String thumbnail, String gName, String mImage, ArrayList<Reply> replyList,
+			String fReplyCnt, int gNo, String thumbnail, String gName, String mImage, ArrayList<Reply> replyList,
 			ArrayList<Photo> photoList) {
 		super();
 		this.fNo = fNo;
@@ -294,11 +294,11 @@ public class Feed {
 		this.fLikeCnt = fLikeCnt;
 	}
 
-	public int getfReplyCnt() {
+	public String getfReplyCnt() {
 		return fReplyCnt;
 	}
 
-	public void setfReplyCnt(int fReplyCnt) {
+	public void setfReplyCnt(String fReplyCnt) {
 		this.fReplyCnt = fReplyCnt;
 	}
 	
