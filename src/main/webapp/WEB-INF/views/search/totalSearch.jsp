@@ -97,7 +97,7 @@
              				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="rs" items="${ rsList }">
-		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}+&mNo=${ loginUser.mNo }">#${rs}</a></li>
+		                            <li style="cursor: pointer;"><a class="hashtag" href="tagSearch.do?search=${searchKey}+${rs}+&mNo=${ loginUser.mNo }">#${rs}</a></li>
 		                       </c:forEach>
 	                       </c:otherwise>                        
                         </c:choose>
