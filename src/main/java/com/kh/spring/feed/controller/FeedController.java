@@ -16,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -659,4 +660,26 @@ public class FeedController {
 				return "에러";
 			
 		}
+      
+      @ResponseBody
+      @RequestMapping("findMember.do")
+      public List findMember(@RequestParam() String mid) {
+    	  System.out.println("자바에서 받는 멤버 아이디"+mid);
+    	  Member m = fService.findTagMember(mid);
+    	  System.out.println("멤버 찾아옴?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"+m);
+    	  
+    	  if( m.getUserId() != null) {
+    	  ArrayList test = new ArrayList();
+    	  test.add(m.getmNo());
+    	  test.add(m.getUserId());
+		  System.out.println("dkdlel : "+m.getUserId());
+    	  System.out.println("글썼을 때 알람  ㅣㅏ너라ㅓㅇ너ㅏ러니ㅏㅓㅏ니ㅓㅏㅣㅓㅇ나ㅣ"+m);
+
+		  return test;
+    	  }else {
+    	  return new ArrayList();	  
+    	  }
+    	  
+      };
+      
 }

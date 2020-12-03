@@ -226,6 +226,11 @@ public class EchoHandler extends TextWebSocketHandler{
 						PushAlarm pa = new PushAlarm(toId,fromGroup.getgName(),sendType,crno,"N");
 						int result = nController.insertAlarm(pa);
 						boardWriterSession.sendMessage(tmpMsg);
+					}else if("tag".equals(sendType)) {
+						TextMessage tmpMsg = new TextMessage("alarm|"+sendType+"|"+fromId+"|"+fromId + ".");
+						PushAlarm pa = new PushAlarm(toId,fromId,sendType,crno,"N");
+						int result = nController.insertAlarm(pa);
+						boardWriterSession.sendMessage(tmpMsg);
 					}
 					
 				}else {

@@ -208,13 +208,33 @@
             }
             
             if(text != "") {
-        		var postConfirm = confirm('글을 작성하시겠습니까?');
-        		
+        		var postConfirm = confirm('글을 작성하시겠습니까?');        		
         		/***** 취소 누르면 작성되지 않게 *****/
         		if(postConfirm == false) {
         			return false;
+        		}else{
+		            var tarr = text.split(" ");
+		        		for(var i =0; i < tarr.length;i++){
+		        			if(tarr[i].charAt(0)=='@'){
+		        				var mid = tarr[i].substr(1);;
+		        				$.ajax({
+		                			url:'findMember.do',
+		        					data:{ 
+		        						mid:mid
+		        					},success: function(data){
+		        							sendAlram("상관없음",data[1],"tag",data[0]);		        							
+		        					},error:function(){
+		        						
+		        					}
+		                			
+		                		});
+		        		}
+		            }
+        			
         		}
-            }
+	        }
+            
+        
         });
         
         /************* 내계정 자세히보기 script **************/
