@@ -23,4 +23,4 @@ body{margin:0; background: #fcfcfc;}
 #menu li a{ text-decoration:none; display:block; margin:auto; text-align:center;color: #555555; cursor:pointer; padding-top: 22px;}
 #menu li:nth-child(4):checked{margin-bottom:0; }
 
-#adminLogoutBtn{color: #c5c5c5;}
+#adminLogoutBtn{color: #c5c5c5; cursor: pointer;}
