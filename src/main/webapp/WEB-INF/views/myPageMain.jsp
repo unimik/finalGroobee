@@ -18,7 +18,6 @@
     background: #fcfcfc;
     font-size:16px;
     color: #555555;
-    readonly="readonly";
     }
     .fstorageBox_folder,.sbBoxCheck{
      display:none;
@@ -340,7 +339,7 @@
 			                            <label>
 			                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
 			                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
-			                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+			                            <input type="text" class="sbNameBox"  value="${ sb.sbName }" readonly>
 			                            </label>                            
 		                            </div>
 		                        </div>
