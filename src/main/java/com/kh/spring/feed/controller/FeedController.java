@@ -88,7 +88,6 @@ public class FeedController {
     		  
 			if(m != null) {
 				strarr[i] ="<a href='javascript:void(0);' class='usertag' id='"+m.getUserId()+"' onclick='goUser()'>"+"@"+id+"</a>";
-				System.out.println(strarr[i]);
 			}
 		}
 		if(strarr[i] != null) {

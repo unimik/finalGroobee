@@ -45,6 +45,7 @@
 		<result property="mImage" column="M_RENAME_IMAGE"/>
 		<result property="thumbnail" column="thumbnail"/>
 		<result property="likeChk" column="LIKECHK"/>
+		<result property="groupName" column="G_NAME"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 		<collection property="tagList" javaType="java.util.ArrayList" resultMap="tagResultSet"/>
@@ -208,11 +209,12 @@
 	</select>
 
 	<select id="detailFeed" parameterType="Feed" resultMap="feedResultSet">
-		select f.*, m.*
+		select f.*, m.*,G.G_NAME
 		,(SELECT COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=m.m_id and F.F_NO = F_NO GROUP BY F_NO) likeChk
         ,(select case when COUNT(*)>0 then 'Y' else 'N' end from SHARE_FEED sf where (sf.sf_no=f.f_no) and sf.sm_no = #{mNo}) as shareYN
         from feed f
 		left join member m on(f.m_no=m.m_no)
+		left join groups g on(g.g_no = f.g_no) 
 		where f.f_no=#{fNo}
 		and f.m_no=#{smNo}
 		and F.F_STATUS='Y'
