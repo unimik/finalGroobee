@@ -82,8 +82,8 @@
 								<c:if test="${ !empty pn.originName }">
 								<td class="plistName" id="pName">
 	                                <c:choose>
-										<c:when test="${ fn:length(pn.originName) gt 15 }">
-											<c:out value="${ fn:substring(pn.originName, 0, 14) }..."/>
+										<c:when test="${ fn:length(pn.originName) gt 10 }">
+											<c:out value="${ fn:substring(pn.originName, 0, 9) }..."/>
 										</c:when>
 										<c:otherwise>
 											${ pn.originName }
@@ -228,30 +228,7 @@
 			$('.tab_box2').show();
 		});
 
-		/************* 내계정 자세히보기 script **************/
-
-		$(document).ready(function() {
-			$('#detailInfo').click(function() {
-				$(".myAccount").animate({
-					width : "toggle"
-				}, 250);
-			});
-		});
-
-		$('.MyTab_tab').on("click", function() {
-			$('.MyTab_tab').removeClass('on');
-			$(this).addClass('on')
-		});
-
-		$('.MyTab_tab1').on('click', function() {
-			$('.MyTab_box').hide();
-			$('.MyTab_box1').show();
-		});
-
-		$('.MyTab_tab2').on('click', function() {
-			$('.MyTab_box').hide();
-			$('.MyTab_box2').show();
-		});
+		
 		
         $('#btns2').on('click', function () {
             /***** 글 작성 시 0바이트일 경우(글 작성 안 했을 경우) *****/
@@ -356,8 +333,8 @@
     				
     				// 파일명이 길면 파일명...으로 처리
     				var fileName = fUp.name;
-    				if (fileName.length > 15) {
-    					fileName = fileName.substring(0, 14) + "...";
+    				if (fileName.length > 10) {
+    					fileName = fileName.substring(0, 9) + "...";
     				}
 
     				// 이미지 파일 미리보기
@@ -490,8 +467,8 @@
    						
    	    				// 파일명이 길면 파일명...으로 처리
    	     				var fileName = data.photoList[index].originName;
-   	    				if (fileName.length > 15) {
-   	    					fileName = fileName.substring(0, 14) + "...";
+   	    				if (fileName.length > 10) {
+   	    					fileName = fileName.substring(0, 9) + "...";
    	    				}
    						
    						var str = '<td class="plistView" id="pView"><div id="photolistUpView" class="photoView">';
