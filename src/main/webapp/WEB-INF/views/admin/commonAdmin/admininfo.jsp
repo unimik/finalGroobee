@@ -14,6 +14,7 @@
 					id="profile_img">&nbsp;&nbsp;&nbsp;
 					<p>admin</p></li>
 				<!-- <li><img src="resources/icons/write.png" alt="" id="writeIcon"></li> -->
+				<li><p id="adminLogoutBtn" style="color: #c5c5c5;" onclick="logout();">로그아웃</p></li>
 				<li><img src="resources/icons/alarm.png" alt="" id="alarmIcon"></li>
 			</ul>
 		</div>
@@ -113,6 +114,10 @@
 				}
 			});
      }
+    
+    function logout(){
+   	 	location.href = "logout.do";
+    }
 	</script>
 </body>
 </html>
