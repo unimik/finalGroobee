@@ -14,6 +14,7 @@
 	.usertag {color: #47c6a3;}
 	<%--해쉬태그 색을 바꿔주세요...--%>
 	.hashtag{color:#88abda;}
+	#footer{ padding-top:30px; padding-bottom:50px;}
 </style>
 </head>
 <body>
@@ -305,16 +306,6 @@
 						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 					</div>
 					</c:if>
-					<!-- 댓글 친구 허용일 경우 -->
-					<c:forEach var="fl" items="followerList">
-					<c:if test="${ f.fReplySet eq 'F' }">
-					<div id="reply">
-						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-						<input type="text" id="textArea" class="rContent" name="textArea">
-						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-					</div>
-					</c:if>
-					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -564,6 +555,8 @@
 		</div>
 		</c:if>
 	</c:if>
+	<div id="footer"><p>GROOBEE © 2020</p></div>
+	</div>
 	<script>
 	
 	$('.likeicon').mouseenter(function() {
