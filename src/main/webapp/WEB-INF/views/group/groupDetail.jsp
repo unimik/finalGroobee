@@ -12,6 +12,64 @@
 	<link href="<%=request.getContextPath()%>/resources/css/pop_menu.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript" src="resources/js/Alarm.js"></script>
+	<style>
+		/*검색했을 때 피드들 */
+		#searchFeed {display: none; width: 630px; height: 100%;}
+		.postbox{ width: 200px; height: 200px; margin: 10px 5px 0 5px; float: left; display: inline-block;}
+		.postbox > img {width: 100%; height: 100%;}
+		.feedContainar { height: 100%;}
+		/*피드 팝업*/
+		.pop_feed{ position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4); }
+		.feed_delete>img{ width:20px; height: 20px; margin: 10px; float: right; }
+		.pop_feed > #writer_submenu_pop{ width: 630px; height: 60px; border-bottom: 1px solid #e5e5e5; background: white; margin: auto; margin-top: 50px; }
+		.pop_feed > #feed_profile_img{width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; margin:10px 20px 0 20px; }
+		.pop_feed > #feed_id{ padding-top:11px; margin:0; color:#555555; font-weight: 600; font-size: 16px; }
+		.pop_feed > #feed_menu_pop{ float: right; margin:27px 20px 0 0; }
+		.pop_feed > #user_time{ float: left; width: 200px; }
+		.pop_feed > #feed h6{ color: #cccccc; margin: 0; padding:0; margin-top: 2px; }
+		.pop_feed > #input_img{ width: 630px; height: 630px; }
+		
+		.pop_feed > #heart_reply{ border-bottom: 1px solid #e5e5e5; width: 100%; height: 40px; }
+		.pop_feed > #likeIcon{ width: 25px; height: 25px; opacity: 80%; margin: 6px 0 0 25px; }
+		.pop_feed > #replyIcon{ width: 23px; height: 23px; opacity: 65%; margin: -6px 0 0 15px;}
+		.pop_feed > #text{ margin:25px 0 25px 25px; font-size: 18px; color:#555555; }
+		.pop_feed > #con{ width: 630px; background: white; margin: auto; }
+		.pop_feed > #con #tag{ padding: 5px 5px 5px 0; height: 60px; width: 90%; margin:auto; }
+		.pop_feed > #con #tag li{ list-style: none; float: left; margin-right: 5px; font-size: 14px; color: #555555;}
+		
+		.pop_feed >#replyArea{ width: 630px; padding-top: 20px;background: white; margin: auto; }
+		.pop_feed >#replyList{ width: 630px; height: 150px; overflow: auto; margin: auto; }
+		.pop_feed >#replyList::-webkit-scrollbar{ width: 7px; }
+		.pop_feed >#replyList::-webkit-scrollbar-thumb{ border-radius: 10px;background-color: #47c6a3; }
+		.pop_feed >#replyList::-webkit-scrollbar-track{ background-color: #daf4ed; }
+		.pop_feed >#replyList ul{ margin: auto; margin-left:25px; padding: 0; }
+		.pop_feed >#re_list li{ list-style: none; float: left; }
+		.pop_feed >#re_list li:nth-child(1){ width: 25%; }
+		.pop_feed >#re_list li:nth-child(2){ width: 55%; }
+		.pop_feed >#re_list li:nth-child(3){ width: 10%; }
+		.pop_feed >#re_list li:nth-child(4){ width: 10%; }
+		.pop_feed >#updateBtn{ margin: 15px 0 0 14px; padding: 5px 0px 5px 0px; }
+		
+		.pop_feed >#userId{ float: left; margin: 9px 0px 0 15px; font-weight: 600; color: #555555;}
+		.pop_feed >#reply_img{ width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; }
+		.pop_feed >#replyCon{ font-size: 14px; color:#555555; font-weight:lighter; margin-top:9px; height: 100%; }
+		.pop_feed >#time{ font-size: 12px; float: right; color: #aaaaaa;}
+		.pop_feed >#reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
+		.pop_feed >#textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
+		.pop_feed >#replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
+		
+		.pop_menu_2{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+		#feed_Mymenu_list_2{ background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
+		#feed_Mymenu_list_2 ul{ padding:0; margin: 0; }
+		#feed_Mymenu_list_2 li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
+		#feed_Mymenu_list_2 li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
+		#feed_Mymenu_list_2 ul li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400;}
+		#selectOne{height:60px;}
+		
+		.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
+		.hashtag{color:#88abda;}
+		.usertag{color: #47c6a3;}
+	</style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
@@ -2798,7 +2856,7 @@
 	    		  input +="</div>";
 	              input +="<div id='con2'>";
 	              input +="<div id='feed_content'>";
-	        	  	if(data.photoList.length > 0 ){
+ 	        	  if(data.photoList[0] != null && data.photoList[0].changeName != null){
 		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='/spring/resources/icons/nextbtn.png'></button>";
 					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='/spring/resources/icons/prevbtn.png'></button>";
 	            	input +="<ul id='imgList' style='height:633px'>";
