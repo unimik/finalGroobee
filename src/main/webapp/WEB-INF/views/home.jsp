@@ -219,17 +219,11 @@
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 							<label class="replycnt_p">${ f.fReplyCnt }</label>
-							<c:if test="${ f.fReplyCnt eq null }">
-								<label class="replycnt_p">0</label>
-							</c:if>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 							<label class="replycnt_p">${ f.fReplyCnt }</label>
-							<c:if test="${ f.fReplyCnt eq null }">
-								<label class="replycnt_p">0</label>
-							</c:if>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -244,7 +238,7 @@
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-					<c:if test="${ f.fReplyCnt ne null }">
+					<c:if test="${ f.fReplyCnt ne 0 }">
 						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 						<c:forEach var="r" items="${ f.replyList }">
 							<c:if test="${ r.rStatus eq 'Y' }">
@@ -476,17 +470,11 @@
 							<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
 							<label class="replycnt_p">${ f.fReplyCnt }</label>
-							<c:if test="${ f.fReplyCnt eq null }">
-								<label class="replycnt_p">0</label>
-							</c:if>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
 							<img src="${ contextPath }/resources/icons/bubble.png" alt="" id="replyIcon">
 							<label class="replycnt_p">${ f.fReplyCnt }</label>
-							<c:if test="${ f.fReplyCnt eq null }">
-								<label class="replycnt_p">0</label>
-							</c:if>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -501,7 +489,7 @@
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-					<c:if test="${ f.fReplyCnt ne null }">
+					<c:if test="${ f.fReplyCnt ne 0 }">
 						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 						<c:forEach var="r" items="${ f.replyList }">
 							<c:if test="${ r.rStatus eq 'Y' }">
@@ -510,7 +498,7 @@
 							<input type="hidden" class="rNum" value="${ r.rNo }">
 				  				<ul id="re_list" class="list">
 				  				<c:if test="${ !empty r.rWriterImg }">
-									<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+									<li>ㅇㅋㅇ<img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 										id="reply_img">&nbsp;&nbsp;&nbsp;
 										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 								</c:if>
