@@ -22,7 +22,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
 <style>
-   a{text-decoration:none;}
+   a{ text-decoration:none;}
    .followChk{width:38px; height:28px; background:#daf4ed; color: gray; border:none; border-radius:3px; margin-right:2px;}
    
 </style>

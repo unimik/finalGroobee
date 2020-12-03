@@ -691,7 +691,7 @@
 							  if(data.photoList[i].changeName != null){
 								  input +="<li><img src='/spring/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
 				              }
-			              } 
+			              }
 			              input +="</ul>";
 	  	        	  }
 		              input +="<p id='text'>"+data.fcontent+"</p>";
