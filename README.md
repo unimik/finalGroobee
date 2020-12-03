@@ -1,6 +1,6 @@
 # GROOBEE
 ![GROOBEE](/src/main/webapp/resources/icons/logo.png) 
-### KH 파이널 프로젝트 :dog:
+### KH 파이널 프로젝트 :hatched_chick:
      
      - 팀명: 다행이조
      
