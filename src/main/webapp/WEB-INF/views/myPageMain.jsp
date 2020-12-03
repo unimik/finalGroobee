@@ -399,14 +399,13 @@
 
     <script>
     
-    /************ 포스트 박스 클릭 시 script ************/
+    /************ 게시글 클릭 시 script ************/
     function goDetail(fNo,smNo,type){
     	var mNo = $('#mNo').val();
     
            $.ajax({
               url:"goDetail.do", 
               dataType:"json",
-		    	// smNo : 공유한 글작성자
               data:{mNo: mNo, fNo : fNo, smNo : smNo, type: type},
               type:"post", 
               success:function(data){
