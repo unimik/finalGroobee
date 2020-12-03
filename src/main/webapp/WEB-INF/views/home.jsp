@@ -498,7 +498,7 @@
 							<input type="hidden" class="rNum" value="${ r.rNo }">
 				  				<ul id="re_list" class="list">
 				  				<c:if test="${ !empty r.rWriterImg }">
-									<li>ㅇㅋㅇ<img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+									<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 										id="reply_img">&nbsp;&nbsp;&nbsp;
 										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 								</c:if>
@@ -583,6 +583,9 @@
 	});
     $('.close').on('click', function(){
         $('.pop_menu').hide();
+    });
+    $('.close').on('click', function(){
+        $('.pop_Mymenu').hide();
     });
     $('.cancel').on("click", function(){
         $('.feed_report').hide();
