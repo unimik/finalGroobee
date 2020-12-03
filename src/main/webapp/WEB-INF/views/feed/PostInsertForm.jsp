@@ -332,8 +332,7 @@
     						str += '</div></td>';
     						$(str).appendTo('.trView');
     						
-    						name += fileName + '<div class="dltImg"><a href=\"javascript:void(0);\" id=\"dimg_id\"><img class="previewDlt" src="${ contextPath }/resources/icons/close.png" style="width: 10px; height: 10px;" /></a>';
-    						name += '</div>' +'</td>';
+    						name += fileName + '</div></td>';
     						//index++;
     						$(name).appendTo('.trViewName')
     						
