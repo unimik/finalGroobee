@@ -96,12 +96,7 @@ public class FeedController {
 		}
       }
       f.setfContent(changeFeedContent);
-	  
-      System.out.println("selectBoard 값: " + selectBoard);
-      System.out.println("selectOpenScope 값: " + selectOpenScope);
-      System.out.println("like 값: " + like);
-      System.out.println("reply 값: " + reply);
-      System.out.println("share 값: " + share);
+      
       int result = fService.insertPost(f);
       
       Member mem = (Member)session.getAttribute("loginUser");
@@ -150,7 +145,6 @@ public class FeedController {
  		
  		if(!taglist.isEmpty()) {
  			int resultTag = fService.insertTag(taglist);
-// 			System.out.println(resultTag); // 성공해도 -1나옴 왜...
  		}
  		
          try {
@@ -180,14 +174,6 @@ public class FeedController {
       
       // fNo를 가지고 해당하는 피드 정보 + 사진 정보 가져오기 
       Feed f = fService.selectUpdateFeed(fNo);
-      
-      System.out.println("들어온 selectBoard : " + f.getfLocation());
-		/*
-		 * System.out.println("들어온 fOpenScope : " + f.getfOpenScope());
-		 * System.out.println("들어온 fLikeSet : " + f.getfLikeSet());
-		 * System.out.println("들어온 fShareSet : " + f.getfShareSet());
-		 * System.out.println("들어온 fReplySet : " + f.getfReplySet());
-		 */
       
       System.out.println("view : " + f);
       System.out.println("photo : " + f.getPhotoList());
@@ -238,7 +224,6 @@ public class FeedController {
                             	  @RequestParam(value = "like") String like,
                             	  @RequestParam(value = "reply") String reply,
                             	  @RequestParam(value = "share") String share) {
-      System.out.println("사진정보 : " + p);
       
       f.setfOpenScope(selectOpenScope);
       f.setfLikeSet(like);
@@ -276,15 +261,6 @@ public class FeedController {
       int result = fService.updatePost(f);
       System.out.println(f.getfNo());
       System.out.println(result);
-      
-      System.out.println("들어온 selectBoard : " + f.getfLocation());
-		/*
-		 * System.out.println("수정 fOpenScope : " + f.getfOpenScope());
-		 * System.out.println("수정 fLikeSet : " + f.getfLikeSet());
-		 * System.out.println("수정 fShareSet : " + f.getfShareSet());
-		 * System.out.println("수정 fReplySet : " + f.getfReplySet());
-		 */
-      
       //태그 딜리트 
       int deleteTag = fService.deleteTag(f.getfNo());
       System.out.println("몇개 지웠니"+deleteTag);
@@ -394,8 +370,6 @@ public class FeedController {
 		File f = new File(savePath + "\\"+ fileName);
 		
 		int delFile = fService.deleteFile(fileName);
-		System.out.println("fileName : " + fileName);
-		System.out.println("f란? : " + f);
 		  
 		if(f.exists()) {
 		   f.delete();
@@ -407,17 +381,11 @@ public class FeedController {
 	public String addReply(Reply r, HttpSession session, int rfNo) {
 		Member mem = (Member)session.getAttribute("loginUser");
 		r.setrWriterImg(mem.getmRenameImage());
-		System.out.println("Reply Check : " + r);
-		System.out.println("rfNo" + rfNo);
 		
 		r.setfNo(rfNo);
 		r.setmNo(mem.getmNo());
 		
 		int result = fService.insertReply(r);
-		
-		System.out.println("reply_fNo : " + r.getfNo());
-		System.out.println("reply_rNo : " + r.getrNo());
-		System.out.println("reply_rWriterImg : " + r.getrWriterImg());
 		
 		if(result > 0) {
 			ArrayList<Reply> replyList = myService.selectReplyList(rfNo);
@@ -449,14 +417,9 @@ public class FeedController {
 	@RequestMapping(value="editReply.do",produces="application/json; charset=utf-8")
 	public String editReply(Reply r, String fNo, String rNo, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
-		System.out.println("수정 Reply Check : " + r);
-		System.out.println("fNo 값 확인 : " + fNo);
 		r.setmNo(mem.getmNo());
 		
 		int result = fService.updateReply(r);
-		
-		System.out.println("수정 reply_rNo : " + r.getrNo());
-		System.out.println("수정 reply_mNo : " + r.getmNo());
 		
 		if(result > 0) {
 			
@@ -496,16 +459,11 @@ public class FeedController {
 	@RequestMapping("deleteReply.do")
 	public String deleteReply(Reply r, int rNo, HttpSession session) {
 		Member mem = (Member)session.getAttribute("loginUser");
-		System.out.println("삭제 Reply Check : " + r);
 		
 		r.setrNo(rNo);
 		r.setmNo(mem.getmNo());
 		
 		int result = fService.deleteReply(rNo);
-		
-		System.out.println("삭제 reply_rNo : " + r.getrNo());
-		System.out.println("삭제 rNo : " + rNo);
-		System.out.println("삭제 reply_mNo : " + r.getmNo());
 		
 		if(result > 0) {
 			return "success";
