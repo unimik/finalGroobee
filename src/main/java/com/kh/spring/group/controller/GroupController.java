@@ -330,6 +330,46 @@ public class GroupController{
 		}
 	}
 
+	@ResponseBody
+	@RequestMapping("delFile1.do")
+	public int fileDel1(int gNo, String file, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		
+		System.out.println("넘어온 값 : "+file);
+		File f = new File(savePath + "\\" + file);
+		
+		if(f.exists()) {
+			f.delete();
+			
+		}
+		
+		int result = gService.updateFile1(gNo);
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("delFile2.do")
+	public int fileDel2(int gNo, String file, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		
+		System.out.println("넘어온 값 : "+file);
+		File f = new File(savePath + "\\" + file);
+		
+		if(f.exists()) {
+			f.delete();
+		}
+		
+		int result = gService.updateFile2(gNo);
+		
+		return result;
+	}
+	
+	
 	@RequestMapping("gdelete.do")
 	public String groupDelete(int gNo, HttpServletRequest request) {
 		System.out.println("그룹 삭제:"+gNo);

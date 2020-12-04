@@ -14,7 +14,11 @@
 <body>
 	<c:import url="../common/menubar.jsp"/>
 	 <div id="searchArea">
-	 <div><p>${ rStr }<br><p></div>
+	 <div>
+	 <c:if test="${ !empty rStr }">
+	 <p id="scInfo"><img src="resources/icons/pro_default.png" id="scImg">${ rStr }<br><p>
+	 </c:if>
+	 </div>
                 <!--계정/그룹 검색 결과-->
                 <div id="search_account">
                     <!--계정-->
