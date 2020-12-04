@@ -4,12 +4,11 @@
 
 // 알람 전송
  function sendAlram(fromId,toId,type,aNo) {
-// 	 var fromId = fromId;//알람을 보낼id   
-// 	 var toId = toId;
-//	 var sendType = type; // 보낼 알람의 타입
-//	 var type = type;
-//	 var crNo = aNo;//보내질 알람 타입별 유저/게시물번호   
-	 console.log(fromId+","+toId+","+type+","+aNo +"여기까지나옴");
+// 	  fromId : 알람을 보낼 Id   
+// 	  toId   : 알림을 받을 Id
+//	  type   : 보낼 알람의 타입
+//	  crNo   : 보내질 알람 타입별 유저/게시물번호   
+	 console.log(fromId+","+toId+","+type+","+aNo);
 	 sock.send("alarm"+"|"+toId+"|"+type+"|"+aNo);
 
  }
