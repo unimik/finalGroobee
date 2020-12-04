@@ -624,14 +624,12 @@ public class FeedController {
       public List findMember(@RequestParam() String mid) {
     	  System.out.println("자바에서 받는 멤버 아이디"+mid);
     	  Member m = fService.findTagMember(mid);
-    	  System.out.println("멤버 찾아옴?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"+m);
     	  
     	  if( m.getUserId() != null) {
     	  ArrayList test = new ArrayList();
     	  test.add(m.getmNo());
     	  test.add(m.getUserId());
 		  System.out.println("dkdlel : "+m.getUserId());
-    	  System.out.println("글썼을 때 알람  ㅣㅏ너라ㅓㅇ너ㅏ러니ㅏㅓㅏ니ㅓㅏㅣㅓㅇ나ㅣ"+m);
 
 		  return test;
     	  }else {

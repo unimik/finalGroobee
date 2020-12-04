@@ -79,7 +79,7 @@
 	#likeIcon { margin: 7px 0 0 25px; }
 	.postbox{float: left; cursor: pointer; margin: 10px 5px 0 5px;}
 	.post .img_wrap:before{margin: 10px 5px 0 5px;}
-	.usertag{ color: #47c6a3;}
+	.usertag{color: #47c6a3;}
    </style>
    <script>
   
@@ -469,6 +469,7 @@
 	              input +="</ul>";
   	        	  }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
+	              /*공유 여부*/
 	              if(data.shareYN == 'N'){
 	              input +="<div id='heart_reply'>";
 				  <!-- 좋아요 금지가 되어 있지 않을 경우 -->
