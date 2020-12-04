@@ -141,6 +141,8 @@
 			                                       <option value="육아/결혼">육아/결혼</option>
 			                                       <option value="스포츠">스포츠</option>
 			                                       <option value="지역">지역</option>
+			                                       <option value="IT">IT</option>
+                                    			   <option value="기타">기타</option>
                                                </select>
                                            </div>
                                        </div>
