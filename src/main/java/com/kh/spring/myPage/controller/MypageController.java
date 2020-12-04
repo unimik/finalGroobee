@@ -523,7 +523,6 @@ public class MypageController {
 		int mno = 0;
 		int fno = 0;
 		int smno = 0;
-		System.out.println(mNo+"    "+fNo+"     "+smNo);
 		mno = Integer.parseInt(mNo);
 		fno = Integer.parseInt(fNo);
 		smno = Integer.parseInt(smNo);
