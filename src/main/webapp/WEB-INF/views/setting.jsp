@@ -632,7 +632,9 @@
         		    aMessage : $('input[name=notification-Message]:checked').val(),
         		    openStatus : $('input[name=personal-openstatus]:checked').val(),
         		    pwdSaved : $('input[name=personal-savedpwd]:checked').val()
-        		  } 
+        		  },error : function(){
+        			  console.log("설정 값 변경 오류");
+        		  }
         		 
         		
         		}); 

@@ -613,7 +613,7 @@
    	            				gmChangeMaster();
    	            			}
    	            		},error:function(){
-   	            			alert("오류");
+   	            			alert("그룹장 변경 오류");
    	            		}
    	            	});
    			 	});
@@ -639,7 +639,7 @@
     	            				alert("전송실패");
     	            			}
     	            		},error:function(){
-    	            			alert("오류");
+    	            			alert("그룹장 변경 오류");
     	            		}
     	            	});
     	            	

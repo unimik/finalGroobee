@@ -45,6 +45,7 @@
 		<result property="mImage" column="M_RENAME_IMAGE"/>
 		<result property="thumbnail" column="thumbnail"/>
 		<result property="likeChk" column="LIKECHK"/>
+		<result property="groupName" column="G_NAME"/>
 		<collection property="replyList" javaType="java.util.ArrayList" resultMap="replyResultSet"/>
 		<collection property="photoList" javaType="java.util.ArrayList" resultMap="photoResultSet"/>
 		<collection property="tagList" javaType="java.util.ArrayList" resultMap="tagResultSet"/>
