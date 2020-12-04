@@ -407,7 +407,7 @@
         
         /************ 팔로우 언팔로우 script ************/
 
-        $('#follow_btn').click(function() {
+        /* $('#follow_btn').click(function() {
             
             var mNo = $('#mNo').val();
             var follow = $('#follow').val();
@@ -430,8 +430,44 @@
  	      		   		 alert(error+"팔로우 에러");
  	      		   	 }
  	       	 });
-        });
+        }); */
 
+        
+ $('#follow_btn').click(function() {
+            
+            var mNo = $('#mNo').val();
+            var follow = $('#follow').val();
+            var openStatus =0;
+            if($("#openStatus").val() == "F"){
+            	 openStatus = 2;
+            	 console.log("follow 클릭됨");
+                 sendAlram('${loginUser.userId}','${ memberInfo.userId }','followChk',mNo);
+                 $("#follow_btn").val("팔로우 요청됨");
+                 
+            }else if($("#openStatus").val() == "Y"){
+            	openStatus = 1;
+            	console.log("follow 클릭됨");
+                sendAlram('${loginUser.userId}','${ memberInfo.userId }','follow',mNo);
+            
+                $.ajax({
+     	       		 url: 'insertFollow.do',
+     	      		  	 type: 'post',
+     	      		   	 data: {follow:follow,mNo:mNo},
+     	      		   	 datatype:"text",
+     	      		   	 success: function(data){
+     		      		   	if(data == 'success'){
+     		      		 	  	window.location.reload();
+     		  		   		 }else{
+     		  		   			alert("팔로우 실패했습니다.");
+     		  		   		 }
+     	      		   	 },error: function(error){
+     	      		   		 alert(error+"팔로우 에러");
+     	      		   	 }
+     	       	 });
+            }
+            
+          
+        });
         $('#followCancle_btn').click(function() {
            
             var mNo = $('#mNo').val();
