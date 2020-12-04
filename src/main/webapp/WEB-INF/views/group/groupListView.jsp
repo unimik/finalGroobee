@@ -224,27 +224,6 @@
 	           		</div>
 				</div>
 				<div id="replyArea">
-					<div class="reply_report" id="reply_report" style="display:none">
-						<div id="Reply_report_con">
-							<p>신고사유</p>
-							<select id="reply_reportType" class="selectRtype">
-								<option value="unacceptfeed" selected>부적절한 게시글</option>
-								<option value="insult">욕설</option>
-								<option value="ad">광고</option>
-								<option value="spam">도배</option>
-							</select>
-							<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
-								rows="4"></textarea>
-							<br> <input class="selectRtype Rtype" id="selectRtype"
-								type="button" value="확인" style="cursor: pointer;"> <input
-								class="sendreport reply_submit" type="button" id="reply_report-submit"
-								value="확인" style="cursor: pointer; display: none;">
-							<button class="selectRtype cancel" id="cancel"
-								style="cursor: pointer;">취소</button>
-							<button class="sendreport cancel2" id="cancel2"
-								style="cursor: pointer; display: none;">취소</button>
-						</div>
-					</div>
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
@@ -299,16 +278,26 @@
 							</c:if>
 						</c:forEach>
 						</div>
-					</c:if>	
+					</c:if>
 					</div>
 					<!-- 댓글 전체 허용일 경우 -->
-					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+					<c:if test="${ f.fReplySet eq 'Y' }">
 					<div id="reply">
 						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
 						<input type="text" id="textArea" class="rContent" name="textArea">
 						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 					</div>
 					</c:if>
+					<!-- 댓글 친구 허용일 경우 -->
+					<c:forEach var="fl" items="followerList">
+					<c:if test="${ f.fReplySet eq 'F' }">
+					<div id="reply">
+						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+						<input type="text" id="textArea" class="rContent" name="textArea">
+						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+					</div>
+					</c:if>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -493,6 +482,7 @@
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+					<c:if test="${ f.fReplyCnt ne 0 }">
 						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 						<c:forEach var="r" items="${ f.replyList }">
 							<c:if test="${ r.rStatus eq 'Y' }">
@@ -543,16 +533,26 @@
 							</c:if>
 						</c:forEach>
 						</div>
-
+					</c:if>
 					</div>
 					<!-- 댓글 전체 허용일 경우 -->
-					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+					<c:if test="${ f.fReplySet eq 'Y' }">
 					<div id="reply">
 						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
 						<input type="text" id="textArea" class="rContent" name="textArea">
-						<input type="button"  id="${f.fWriter }"class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 					</div>
 					</c:if>
+					<!-- 댓글 친구 허용일 경우 -->
+					<c:forEach var="fl" items="followerList">
+					<c:if test="${ f.fReplySet eq 'F' }">
+					<div id="reply">
+						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+						<input type="text" id="textArea" class="rContent" name="textArea">
+						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+					</div>
+					</c:if>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
