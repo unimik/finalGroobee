@@ -213,6 +213,10 @@ groobee 서비스
                                     <label for="checkbox">스포츠</label>
                                     <input type="checkbox" name="interest" class="checkBox" value="지역">
                                     <label for="checkbox">지역</label>
+                                    <input type="checkbox" name="interest" class="checkBox" value="IT">
+                                    <label for="checkbox">IT</label>
+                                    <input type="checkbox" name="interest" class="checkBox" value="기타">
+                                    <label for="checkbox">기타</label>
                                 </div>  
                             </div>
                         </div>

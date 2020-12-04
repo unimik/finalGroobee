@@ -256,11 +256,8 @@
     	/***************** 이미지 미리보기 *****************/
     	
     	var sel_files= [];
-//	    var sel_files;
     	
     	$(document).ready(function(e) {
-    		//var pCount = ${pCount};
-    		//alert(pCount);
     		$('.input_file').change(
     			function(e) {
     				
@@ -268,8 +265,7 @@
     				var arr = Array.prototype.slice.call(files);
 					
     				var checkPhotopreview = $(".photopreview").length;
-//    				alert("이미 업로드된 이미지 : " + checkPhotopreview);
-    				
+
     				// 업로드 시에 이미지가 5개를 초과하면 alert창 띄우기
     				if((files.length + checkPhotopreview) > 5) {
    						alert('첨부 가능한 이미지 갯수는 5개를 초과할 수 없습니다.')
@@ -322,14 +318,12 @@
     		}
 
     		function preview(arr) {
-    			// 1
     			var index = 0;
     			
     			arr.forEach(function(fUp) {
     				
     				sel_files = [];
     				sel_files.push(fUp);
-//					sel_files = fUp;
     				
     				console.log(sel_files);
     				
@@ -353,7 +347,6 @@
     						$(str).appendTo('.trView');
     						
     						name += fileName + '</div></td>';
-    						//index++;
     						$(name).appendTo('.trViewName')
     						
     						console.log(fUp);
@@ -400,7 +393,6 @@
 		       		$(img_id).remove();
 		       		$(image).remove();
 		       		$(name).remove();
-//       			$(".input_file").prop(newFileList);
 		       		console.log(sel_files);
 	       		}
 	       		
@@ -417,9 +409,7 @@
    		}
    		
         function changeValue(obj){
-	        alert("너냐? : " + obj.value);
-	        
-	        // 파일 선택창을 띄웠다가 취소 시 선택값이 모두 사라질 경우 미리보기 사진도 모두 삭제
+	        // 파일 선택창을 띄웠다가 취소 시 선택값이 모두 사라질 경우 기존에 추가되었던 미리보기 사진도 모두 삭제
        		if(obj.value === '') {
 				$(".plistView").remove();
   				$(".plistName").remove();

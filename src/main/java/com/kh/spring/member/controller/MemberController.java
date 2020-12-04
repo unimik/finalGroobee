@@ -71,29 +71,9 @@ public class MemberController {
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
 		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
-		for(Feed ff : feed) {
-//			ff.setfReplyCnt(ff.getReplyList().size());
-//			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
-			System.out.println(ff.getfNo() + " : " + ff.getfReplyCnt());
-		}
 		
 		ArrayList<Feed> newFeed = new ArrayList<>();
 		ArrayList<Reply> r = new ArrayList<>();
-
-		/*
-		 * for(int i=0; i<feed.size();i++) {
-		 * 
-		 * for(int j=0; j<feed.get(i).getReplyList().size();j++) {
-		 * 
-		 * if(feed.get(i).getReplyList().get(j).getrStatus().equals("Y")) { //
-		 * feed.get(i).getReplyList().get(j).on
-		 * 
-		 * //r(k).add(feed.get(i).getReplyList().get(j)); }
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
 		
 		ArrayList<Photo> fp = null;
 		for(Feed f : feed) {
