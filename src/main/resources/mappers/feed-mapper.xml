@@ -202,6 +202,7 @@
 		UPDATE
 		    FEED
 		SET F_CONTENT = #{fContent}
+		  , F_WRITER = #{fWriter}
 		  , F_MODIFY_DATE = SYSDATE
 		  , F_LOCATION = #{fLocation}
 		  , F_OPEN_SCOPE = #{fOpenScope}
@@ -241,6 +242,7 @@
 	<update id="updateReply" parameterType="Reply">
 		UPDATE REPLY
 		SET R_CONTENT = #{rContent}
+		  , R_WRITER = #{rWriter}
 		  , R_MODIFLY_DATE = SYSDATE
 		WHERE R_NO = #{rNo}
 	</update>
