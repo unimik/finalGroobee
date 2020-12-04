@@ -79,7 +79,7 @@
 	#likeIcon { margin: 7px 0 0 25px; }
 	.postbox{float: left; cursor: pointer; margin: 10px 5px 0 5px;}
 	.post .img_wrap:before{margin: 10px 5px 0 5px;}
-	.usertag{ color: #47c6a3;}
+	.usertag{color: #47c6a3;}
    </style>
    <script>
   
