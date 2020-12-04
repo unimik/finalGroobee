@@ -202,6 +202,7 @@
 		UPDATE
 		    FEED
 		SET F_CONTENT = #{fContent}
+		  , F_WRITER = #{fWriter}
 		  , F_MODIFY_DATE = SYSDATE
 		  , F_LOCATION = #{fLocation}
 		  , F_OPEN_SCOPE = #{fOpenScope}
@@ -241,6 +242,7 @@
 	<update id="updateReply" parameterType="Reply">
 		UPDATE REPLY
 		SET R_CONTENT = #{rContent}
+		  , R_WRITER = #{rWriter}
 		  , R_MODIFLY_DATE = SYSDATE
 		WHERE R_NO = #{rNo}
 	</update>
@@ -306,6 +308,7 @@
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
         LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
         LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{ userId } GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
+		LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO != 0

@@ -498,7 +498,7 @@
 							<input type="hidden" class="rNum" value="${ r.rNo }">
 				  				<ul id="re_list" class="list">
 				  				<c:if test="${ !empty r.rWriterImg }">
-									<li>ㅇㅋㅇ<img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+									<li><img src="${ contextPath }/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
 										id="reply_img">&nbsp;&nbsp;&nbsp;
 										<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
 								</c:if>
@@ -583,6 +583,9 @@
 	});
     $('.close').on('click', function(){
         $('.pop_menu').hide();
+    });
+    $('.close').on('click', function(){
+        $('.pop_Mymenu').hide();
     });
     $('.cancel').on("click", function(){
         $('.feed_report').hide();
@@ -712,21 +715,16 @@
 			var ok = confirm("댓글을 등록하시겠습니까?");
          	console.log(ok);
          	if(ok){
-        	sendAlram("상관없음",fWriter,"reply",rfNo); 
+        	sendAlram("상관없음",fWriter,"reply",rfNo);
         	console.log("상관없음",fWriter,"reply",rfNo+"테스트");
          }
 	});
 
 	// 댓글 수정 시 완료 버튼
  	$('.rConfirm').on("click", function(e) {
-/* 		var rContent = e.target.parentElement.children[1].value; */
 		var rNo = e.target.parentElement.parentElement.previousElementSibling.value;
-//		var rNo = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].value;
 		var rWriter = "<%= ((Member)session.getAttribute("loginUser")).getUserId() %>";
-		
 		var replyContent = e.target.previousElementSibling.value;
-//		var replyContent = e.target.parentElement.parentElement.parentElement.previousSibling.parentElement.children[0].children[0].children[1].innerText;
-//		var replyDiv = e.target.parentElement.parentElement.parentElement.parentElement;
 		
 			$.ajax({
 				url: "editReply.do",
@@ -739,8 +737,6 @@
 				success: function(data) {	// 성공 시: success, 실패 시: fail
 					console.log(data);
  					if(data != "fail") {
-//						$(replyContent).val("");	// 등록 시에 사용한 댓글 내용 초기화
-//						location.href="home.do?userId=" + rWriter;
 						location.reload();
 					}
 				}, error: function() {
@@ -768,11 +764,8 @@
 			data: {rNo: rNo},
 			type: "post",
 			success: function(data) {	// 성공 시: success, 실패 시: fail
-//				console.log(data);
   				if(data == "success") {
-//					location.href="home.do?userId=" + rWriter;
 					location.reload();
-//					alert('test');
 				}
 			}, error: function() {
 				console.log("전송 실패");

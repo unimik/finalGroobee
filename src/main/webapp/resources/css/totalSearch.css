@@ -1,6 +1,8 @@
 p{margin: 0;}
 #searchArea{ width: 640px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; overflow-x: hidden; -ms-overflow-style: none; }
 #searchArea::-webkit-scrollbar{display: none;}
+#scInfo{ padding:20px; text-align:center; display:flex;    margin-left: 100px; color:#555;}
+#scImg{ border-radius:10px; margin:0 10px 0 10px; height: 25px;  width: 25px;}
 #title{ width: 100%; color:#555555; font-weight: 600; font-size: 16px;padding: 5px 0 5px 0; background: #daf4ed; border-radius: 10px;}
 #title b{margin-left:20px;}
 #user_profile_img{width: 50px; height: 50px; border-radius: 15px; margin:10px 20px 0 20px;}
@@ -11,7 +13,7 @@ p{margin: 0;}
 #feed_gName{ float:left; position: absolute; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
 .post{height: 200px;}
 .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
-#nouser{font-size:14px; padding:10px 30px;  color: #555555;}
+#nouser{font-size:14px; padding:20px 50px;  color: #555555;}
 #imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
 #imgList li{display:none; float:left; position: absolute; top:0; left:0;}
 #imgList li:nth-child(1){display:block;}
@@ -158,4 +160,4 @@ button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
 #submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
 #cancel{ width: 100px; height: 35px; margin-left: 10px; border: 0; border-radius: 10px; background: #e5e5e5;}
 
-.hashtag{color:#47c6a3;}
+.hashtag{color : #88abda;}
