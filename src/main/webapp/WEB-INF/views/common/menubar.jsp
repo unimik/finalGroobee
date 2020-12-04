@@ -277,7 +277,7 @@
     		data:{gNo:gNo,fromId:userId},
     		success:function(data) {
     			if(data == "ok") {
-    			 alert("채팅방 나가기에 성공했수다");
+    			 alert("채팅방 나가기에 성공했습니다.");
 				 $(".chat_room").hide();
 				 openGruopChat();
 				 $(".chat").show();
@@ -296,12 +296,10 @@
           var plusId = $('input[name="plusGroupChatMember"]:checked').val();
           var gNo = $("#chatArea").children(".1").val();
           var crNo = $("#chatArea").children(".3").val();
-          console.log(plusId+":"+gNo+":"+crNo);
           $.ajax({
             url:"plusGroupChatMember.do",
             data:{plusId:plusId,gNo:gNo,crNo:crNo},
             success:function(data){
-               console.log(data);
                if(data == "ok") {
                   sock.send(plusId+"!@#$" +"|"+gNo+"|"+"groupChatting"+"|"+crNo);
                } else {
@@ -319,13 +317,11 @@
         $('#plusGroupUser').modal("show");
         var gNo = $(".1").val();
         var myId = '<c:out value="${loginUser.userId}"/>';
-        console.log(gNo+":"+myId);
         $.ajax({
          url:"findGroupMember.do",
          data:{gNo:gNo},
          dataType:"json",
          success:function(data){
-            console.log("굳");
             $("#findIdResult").children().remove();
             $.each(data,function(index,value){
                if(myId == value.gmId) {
