@@ -18,7 +18,6 @@
     background: #fcfcfc;
     font-size:16px;
     color: #555555;
-    readonly="readonly";
     }
     .fstorageBox_folder,.sbBoxCheck{
      display:none;
@@ -340,7 +339,7 @@
 			                            <label>
 			                            <input type="checkbox" class="sbBoxCheck" value="${ sb.sbNo }">
 			                            <input type="hidden" class="sbNo" value="${ sb.sbNo }">
-			                            <input type="text" class="sbNameBox"  value="${ sb.sbName }">
+			                            <input type="text" class="sbNameBox"  value="${ sb.sbName }" readonly>
 			                            </label>                            
 		                            </div>
 		                        </div>
@@ -400,14 +399,13 @@
 
     <script>
     
-    /************ 포스트 박스 클릭 시 script ************/
+    /************ 게시글 클릭 시 script ************/
     function goDetail(fNo,smNo,type){
     	var mNo = $('#mNo').val();
     
            $.ajax({
               url:"goDetail.do", 
               dataType:"json",
-		    	// smNo : 공유한 글작성자
               data:{mNo: mNo, fNo : fNo, smNo : smNo, type: type},
               type:"post", 
               success:function(data){
@@ -459,12 +457,12 @@
 	              input +="</div>";
 	              input +="<div id='con'>";
 	              input +="<div id='feed_content'>";
- 	        	  if(data.photoList[0] != null){
+ 	        	  if(data.photoList[0] != null && data.photoList[0].changeName != null){
 	      	  	 	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='/spring/resources/icons/nextbtn.png'></button>";
 				 	input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='/spring/resources/icons/prevbtn.png'></button>";
             	 	input +="<ul id='imgList' style='height:633px'>";
 	              	for(var i=0; i < data.photoList.length; i++){
-					  if(data.photoList[i].changeName != null){
+					  if(data.photoList[0].changeName != null){
 						  input +="<li><img src='/spring/resources/pUploadFiles/"+data.photoList[i].changeName+"' alt='' id='input_img'></li>";
 		              }
 	              } 

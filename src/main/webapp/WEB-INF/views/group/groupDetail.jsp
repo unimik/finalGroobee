@@ -13,10 +13,6 @@
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript" src="resources/js/Alarm.js"></script>
 	<style>
-		#cancel2{margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
-		#report-submit{margin-left:50px; margin-top:-4px; float:left; width:100px; background:#daf4ed;}
-		#selectRtype{ width:100px; margin-left:50px; background:#daf4ed;}
-		#reportContent{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
 		/*검색했을 때 피드들 */
 		#searchFeed {display: none; width: 630px; height: 100%;}
 		.postbox{ width: 200px; height: 200px; margin: 10px 5px 0 5px; float: left; display: inline-block;}
@@ -774,269 +770,267 @@
 										<c:if test="${ !empty hgflist }">
 										<c:forEach var="f" items="${ hgflist }" varStatus="status">
 											<c:set var="i" value="${ i + 1 }"/>
-											<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
-											<c:if test="${ f.fOpenScope ne 'G' }">
-											<div id="feed${ i }" class="feed">
-												<div id="writer_submenu">
-													<c:choose>
-														<c:when test="${ loginUser.userId ne f.fWriter }">
-															<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-															<c:if test="${ !empty f.mImage }">
-															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
-															</c:if>
-															<c:if test="${ empty f.mImage }">
-															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
-															</c:if>
-															<div id="user_time">
-																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-																<h6><c:out value="${ f.fModifyDate }" /></h6>
-																<c:url var="godetail" value="gdetail.do">
-																<c:param name="gNo" value="${ f.gNo }"/>
-																</c:url>
-																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
-															</div>
-															</a>
-															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
-														</c:when>
-														<c:otherwise>
-															<a href="goMypage.do?mNo=${ loginUser.mNo }">
-															<c:if test="${ !empty f.mImage }">
-															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
-															</c:if>
-															<c:if test="${ empty f.mImage }">
-															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
-															</c:if>
-															<div id="user_time">
-																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-																<h6><c:out value="${ f.fCreateDate }" /></h6>
-																<c:url var="godetail" value="gdetail.do">
-																<c:param name="gNo" value="${ f.gNo }"/>
-																</c:url>
-																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
-															</div>
-															</a>
-															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
-														</c:otherwise>
-													</c:choose>
-													    <div class="feed_report">
-											                   <div id="feed_report_con">
-											                        <p>신고사유</p>
-											                        <select id="reportType" class="selectRtype">
-											                            <option value="unacceptfeed" selected>부적절한 게시글</option>
-											                            <option value="insult">욕설</option>
-											                            <option value="ad">광고</option>
-											                            <option value="spam">도배</option>
-											                        </select>
-											                        	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
-											                        <br>
-											                        <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
-											                        <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
-											                        <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
-											                        <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
-											                </div>
-												        </div>
-														    <c:choose>
+																								<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
+													<c:if test="${ f.fOpenScope ne 'G' }">
+													<div id="feed${ i }" class="feed">
+														<div id="writer_submenu">
+															<c:choose>
 																<c:when test="${ loginUser.userId ne f.fWriter }">
-														            <!-- 다른 회원 글 볼 때 피드메뉴 -->
-														            <div class="g_pop_menu" id="g_pop_menu${ i }">
-														            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
-														                <div id="g_feed_menu_list">
-														                    <ul>
-														                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-														                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
-												           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
-														                       <li><a id="close" class="close">취소</a></li>
-														                    </ul>
-														                </div>
-														            </div>
-														            <div class="storagePop">
+																	<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+																	<c:if test="${ !empty f.mImage }">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	</c:if>
+																	<c:if test="${ empty f.mImage }">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	</c:if>
+																	<div id="user_time">
+																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+																		<h6><c:out value="${ f.fModifyDate }" /></h6>
+																		<c:url var="godetail" value="gdetail.do">
+																		<c:param name="gNo" value="${ f.gNo }"/>
+																		</c:url>
+																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 																	</div>
-														        </c:when>
+																	</a>
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+																</c:when>
 																<c:otherwise>
-																	<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-													                <div class="g_pop_Mymenu">
-													                    <div id="g_feed_Mymenu_list">
-													                        <ul>
-													                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-													                        <li><a>삭제</a></li> 
-													                        <li><a id="close" class="close">취소</a></li>
-													                        </ul>
-													                    </div>
-													                </div>
+																	<a href="goMypage.do?mNo=${ loginUser.mNo }">
+																	<c:if test="${ !empty f.mImage }">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	</c:if>
+																	<c:if test="${ empty f.mImage }">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	</c:if>
+																	<div id="user_time">
+																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+																		<h6><c:out value="${ f.fCreateDate }" /></h6>
+																		<c:url var="godetail" value="gdetail.do">
+																		<c:param name="gNo" value="${ f.gNo }"/>
+																		</c:url>
+																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
+																	</div>
+																	</a>
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 																</c:otherwise>
 															</c:choose>
-										    
-										    			</div>
-									            <div id="con">
-									                <div id="feed_content">
-														<c:if test="${ !empty f.photoList }">
-															<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
-															<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
-																
-																<ul id="imgList" style="height:633px">
-																	<c:forEach var="p" items="${ f.photoList }">
-																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+															    <div class="feed_report">
+													                   <div id="feed_report_con">
+													                        <p>신고사유</p>
+													                        <select id="reportType" class="selectRtype">
+													                            <option value="unacceptfeed" selected>부적절한 게시글</option>
+													                            <option value="insult">욕설</option>
+													                            <option value="ad">광고</option>
+													                            <option value="spam">도배</option>
+													                        </select>
+													                        	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
+													                        <br>
+													                        <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
+													                        <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+													                        <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
+													                        <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+													                </div>
+														        </div>
+																    <c:choose>
+																		<c:when test="${ loginUser.userId ne f.fWriter }">
+																            <!-- 다른 회원 글 볼 때 피드메뉴 -->
+																            <div class="g_pop_menu" id="g_pop_menu${ i }">
+																            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
+																                <div id="g_feed_menu_list">
+																                    <ul>
+																                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
+																                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
+														           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
+																                       <li><a id="close" class="close">취소</a></li>
+																                    </ul>
+																                </div>
+																            </div>
+																            <div class="storagePop">
+																			</div>
+																        </c:when>
+																		<c:otherwise>
+																			<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+															                <div class="g_pop_Mymenu">
+															                    <div id="g_feed_Mymenu_list">
+															                        <ul>
+															                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
+															                        <li><a>삭제</a></li> 
+															                        <li><a id="close" class="close">취소</a></li>
+															                        </ul>
+															                    </div>
+															                </div>
+																		</c:otherwise>
+																	</c:choose>
+												    
+												    			</div>
+											            <div id="con">
+											                <div id="feed_content">
+																<c:if test="${ !empty f.photoList }">
+																	<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																	<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
+																		
+																		<ul id="imgList" style="height:633px">
+																			<c:forEach var="p" items="${ f.photoList }">
+																			<c:if test="${ p.changeName ne null }">
+																				<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																			</c:if>
+																			</c:forEach>
+																		</ul>
+																</c:if>
+											                   <%--<p id="text"><c:out value="${ f.fContent }" /></p>--%>
+																<div id="text">
+																	${ f.fContent }
+																</div>
+																<div id="heart_reply">
+																	<!-- 좋아요 금지가 되어 있지 않을 경우 -->
+																	<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
+																	<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+													             	<c:choose>
+														             	<c:when test="${ f.likeChk eq null }">
+														             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+														             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+														             	</c:when>
+														             	<c:otherwise>
+														             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+															               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+														             	</c:otherwise>
+													             	</c:choose>
 																	</c:if>
-																	</c:forEach>
-																</ul>
-														</c:if>
-									                   <p id="text"><c:out value="${ f.fContent }" /></p>
-		
-														 <%-- <p id="text"><c:out value="${ f.fContent }" /></p>--%>
-														<div id="text">
-														${ f.fContent }
-														</div>
-														<div id="heart_reply">
-															<!-- 좋아요 금지가 되어 있지 않을 경우 -->
-															<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
-															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
-											             	<c:choose>
-												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
-												             	</c:when>
-												             	<c:otherwise>
-												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
-												             	</c:otherwise>
-											             	</c:choose>
-															</c:if>
-											               		<input type="hidden" class="toNo" value="${ f.fNo }">
-											               		<input type="hidden" class="toId" value="${ f.fWriter }">
-											               		<!-- 댓글이 전체 허용일 경우 -->
-																<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
-																<c:choose>
-																	<c:when test="${ f.fLikeSet eq 'N' }">
-																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-																	<% int rCount = 0; %>
-																	<c:forEach var="rC" items="${ f.replyList }">
-																		<c:if test="${ rC.rStatus eq 'Y' }">
-																			<% ++rCount; %>
+													               		<input type="hidden" class="toNo" value="${ f.fNo }">
+													               		<input type="hidden" class="toId" value="${ f.fWriter }">
+													               		<!-- 댓글이 전체 허용일 경우 -->
+																		<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
+																		<c:choose>
+																			<c:when test="${ f.fLikeSet eq 'N' }">
+																			<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																			<% int rCount = 0; %>
+																			<c:forEach var="rC" items="${ f.replyList }">
+																				<c:if test="${ rC.rStatus eq 'Y' }">
+																					<% ++rCount; %>
+																				</c:if>
+																			</c:forEach>
+																			<label class="replycnt_p"><%= rCount %>개</label>
+																			</c:when>
+																			<c:otherwise>
+																			<!-- 댓글과 좋아요 모두 허용될 때 -->
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
+																			<% int rCount = 0; %>
+																			<c:forEach var="rC" items="${ f.replyList }">
+																				<c:if test="${ rC.rStatus eq 'Y' }">
+																					<% ++rCount; %>
+																				</c:if>
+																			</c:forEach>
+																			<label class="replycnt_p"><%= rCount %>개</label>
+																			</c:otherwise>
+																		</c:choose>
 																		</c:if>
-																	</c:forEach>
-																	<label class="replycnt_p"><%= rCount %>개</label>
-																	</c:when>
-																	<c:otherwise>
-																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
-																	<% int rCount = 0; %>
-																	<c:forEach var="rC" items="${ f.replyList }">
-																		<c:if test="${ rC.rStatus eq 'Y' }">
-																			<% ++rCount; %>
+													
+																		<c:if test="${ f.fReplySet eq 'N' && f.fLikeSet eq 'N' }">
+																			<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
 																		</c:if>
-																	</c:forEach>
-																	<label class="replycnt_p"><%= rCount %>개</label>
-																	</c:otherwise>
-																</c:choose>
-																</c:if>
-											
-																<c:if test="${ f.fReplySet eq 'N' && f.fLikeSet eq 'N' }">
-																	<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
-																</c:if>
-											           	</div>
-													</div>
-													<div id="replyArea">
-														<div class="reply_report" id="reply_report" style="display:none">
-															<div id="Reply_report_con">
-																<p>신고사유</p>
-																<select id="reply_reportType" class="selectRtype">
-																	<option value="unacceptfeed" selected>부적절한 게시글</option>
-																	<option value="insult">욕설</option>
-																	<option value="ad">광고</option>
-																	<option value="spam">도배</option>
-																</select>
-																<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
-																	rows="4"></textarea>
-																<br> <input class="selectRtype Rtype" id="selectRtype"
-																	type="button" value="확인" style="cursor: pointer;"> <input
-																	class="sendreport reply_submit" type="button" id="reply_report-submit"
-																	value="확인" style="cursor: pointer; display: none;">
-																<button class="selectRtype cancel" id="cancel"
-																	style="cursor: pointer;">취소</button>
-																<button class="sendreport cancel2" id="cancel2"
-																	style="cursor: pointer; display: none;">취소</button>
+													           	</div>
 															</div>
-														</div>
-														<div id="replyList" style="display: block; height: fit-content;">
-														<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
-														<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-															<div id="replySub" style="display: block; height: 150px; overflow: auto;">
-															<c:forEach var="r" items="${ f.replyList }">
-																<c:if test="${ r.rStatus eq 'Y' }">
-																<div id="selectOne">
-																<!-- 댓글 번호 -->
-																<input type="hidden" class="rNum" value="${ r.rNo }">
-													  				<ul id="re_list" class="list">
-													  				<c:if test="${ !empty r.rWriterImg }">
-																		<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
-																			id="reply_img">&nbsp;&nbsp;&nbsp;
-																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-																	</c:if>
-																	<c:if test="${ empty r.rWriterImg }">
-																		<li><img src="/spring/resources/icons/pro_default.png" alt=""
-																			id="reply_img">&nbsp;&nbsp;&nbsp;
-																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-																	</c:if>
-																		<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
-																		<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
-																		<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																		<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
-																	</ul>
-																	<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
-																	<c:if test="${ loginUser.userId eq r.rWriter }">
-																	<div id="reply_menu" class="reply_menu">
-																		<div id="re_menu_list">
-																			<ul>
-																				<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
-																				<li><a class="rDelete">댓글 삭제</a></li>
-																				<li><a id="re_close" class="rClose">취소</a></li>
-																			</ul>
-																		</div>
+															<div id="replyArea">
+																<div class="reply_report" id="reply_report" style="display:none">
+																	<div id="Reply_report_con">
+																		<p>신고사유</p>
+																		<select id="reply_reportType" class="selectRtype">
+																			<option value="unacceptfeed" selected>부적절한 게시글</option>
+																			<option value="insult">욕설</option>
+																			<option value="ad">광고</option>
+																			<option value="spam">도배</option>
+																		</select>
+																		<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+																			rows="4"></textarea>
+																		<br> <input class="selectRtype Rtype" id="selectRtype"
+																			type="button" value="확인" style="cursor: pointer;"> <input
+																			class="sendreport reply_submit" type="button" id="reply_report-submit"
+																			value="확인" style="cursor: pointer; display: none;">
+																		<button class="selectRtype cancel" id="cancel"
+																			style="cursor: pointer;">취소</button>
+																		<button class="sendreport cancel2" id="cancel2"
+																			style="cursor: pointer; display: none;">취소</button>
 																	</div>
-																	</c:if>
-																	<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
-																	<c:if test="${ loginUser.userId ne r.rWriter }">
-																	<div id="reply_menu" class="reply_menu">
-																		<div id="re_menu_list">
-																			<ul>
-																				<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
-																				<li><a id="rReport" class="rReport">댓글 신고</a></li>
-																				<li><a id="re_close" class="rClose">취소</a></li>
+																</div>
+																<div id="replyList" style="display: block; height: fit-content;">
+																<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
+																<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+																	<div id="replySub" style="display: block; height: 150px; overflow: auto;">
+																	<c:forEach var="r" items="${ f.replyList }">
+																		<c:if test="${ r.rStatus eq 'Y' }">
+																		<div id="selectOne">
+																		<!-- 댓글 번호 -->
+																		<input type="hidden" class="rNum" value="${ r.rNo }">
+															  				<ul id="re_list" class="list">
+															  				<c:if test="${ !empty r.rWriterImg }">
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																					id="reply_img">&nbsp;&nbsp;&nbsp;
+																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+																			</c:if>
+																			<c:if test="${ empty r.rWriterImg }">
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
+																					id="reply_img">&nbsp;&nbsp;&nbsp;
+																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+																			</c:if>
+																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
+																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
+																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
+																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
+																			<c:if test="${ loginUser.userId eq r.rWriter }">
+																			<div id="reply_menu" class="reply_menu">
+																				<div id="re_menu_list">
+																					<ul>
+																						<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
+																						<li><a class="rDelete">댓글 삭제</a></li>
+																						<li><a id="re_close" class="rClose">취소</a></li>
+																					</ul>
+																				</div>
+																			</div>
+																			</c:if>
+																			<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
+																			<c:if test="${ loginUser.userId ne r.rWriter }">
+																			<div id="reply_menu" class="reply_menu">
+																				<div id="re_menu_list">
+																					<ul>
+																						<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
+																						<li><a id="rReport" class="rReport">댓글 신고</a></li>
+																						<li><a id="re_close" class="rClose">취소</a></li>
+																					</ul>
+																				</div>
+																			</div>
+																			</c:if>
 																		</div>
+																		</c:if>
+																	</c:forEach>
 																	</div>
-																	</c:if>
+																</div>
+																<!-- 댓글 전체 허용일 경우 -->
+																<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+																<div id="reply">
+																	<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+																	<input type="text" id="textArea" class="rContent" name="textArea">
+																	<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 																</div>
 																</c:if>
-															</c:forEach>
+																<!-- 댓글 친구 허용일 경우 -->
+																<c:forEach var="fl" items="followerList">
+																<c:if test="${ f.fReplySet eq 'F' }">
+																<div id="reply">
+																	<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+																	<input type="text" id="textArea" class="rContent" name="textArea">
+																	<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+																</div>
+																</c:if>
+																</c:forEach>
 															</div>
 														</div>
-														<!-- 댓글 전체 허용일 경우 -->
-														<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
-														<div id="reply">
-															<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-															<input type="text" id="textArea" class="rContent" name="textArea">
-															<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-														</div>
-														</c:if>
-														<!-- 댓글 친구 허용일 경우 -->
-														<c:forEach var="fl" items="followerList">
-														<c:if test="${ f.fReplySet eq 'F' }">
-														<div id="reply">
-															<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-															<input type="text" id="textArea" class="rContent" name="textArea">
-															<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-														</div>
-														</c:if>
-														</c:forEach>
-													</div>
-												</div>
-									       	</div>
-									   </c:if>
-									   </c:forEach>
-									    <!-- 공개 여부가 비공개일 때 -->
+											       	</div>
+											   </c:if>
+											   </c:forEach>
+											   <!-- 공개 여부가 비공개일 때 -->
 												<c:if test="${ f.fOpenScope eq 'G' }">
 													<c:if test="${ loginUser.userId eq f.fWriter }">
 													<div id="feed${ i }" class="feed">
@@ -1814,269 +1808,267 @@
 										<c:if test="${ !empty hgflist }">
 										<c:forEach var="f" items="${ hgflist }" varStatus="status">
 											<c:set var="i" value="${ i + 1 }"/>
-											<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
-											<c:if test="${ f.fOpenScope ne 'G' }">
-											<div id="feed${ i }" class="feed">
-												<div id="writer_submenu">
-													<c:choose>
-														<c:when test="${ loginUser.userId ne f.fWriter }">
-															<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
-															<c:if test="${ !empty f.mImage }">
-															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
-															</c:if>
-															<c:if test="${ empty f.mImage }">
-															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
-															</c:if>
-															<div id="user_time">
-																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-																<h6><c:out value="${ f.fModifyDate }" /></h6>
-																<c:url var="godetail" value="gdetail.do">
-																<c:param name="gNo" value="${ f.gNo }"/>
-																</c:url>
-																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
-															</div>
-															</a>
-															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
-														</c:when>
-														<c:otherwise>
-															<a href="goMypage.do?mNo=${ loginUser.mNo }">
-															<c:if test="${ !empty f.mImage }">
-															<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
-															</c:if>
-															<c:if test="${ empty f.mImage }">
-															<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
-															</c:if>
-															<div id="user_time">
-																<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
-																<h6><c:out value="${ f.fCreateDate }" /></h6>
-																<c:url var="godetail" value="gdetail.do">
-																<c:param name="gNo" value="${ f.gNo }"/>
-																</c:url>
-																<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
-															</div>
-															</a>
-															<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
-														</c:otherwise>
-													</c:choose>
-													    <div class="feed_report">
-											                   <div id="feed_report_con">
-											                        <p>신고사유</p>
-											                        <select id="reportType" class="selectRtype">
-											                            <option value="unacceptfeed" selected>부적절한 게시글</option>
-											                            <option value="insult">욕설</option>
-											                            <option value="ad">광고</option>
-											                            <option value="spam">도배</option>
-											                        </select>
-											                        	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
-											                        <br>
-											                        <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
-											                        <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
-											                        <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
-											                        <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
-											                </div>
-												        </div>
-														    <c:choose>
+																								<!-- 공개 여부가 비공개가 아닐 때 (전체 공개, 친구 공개) -->
+													<c:if test="${ f.fOpenScope ne 'G' }">
+													<div id="feed${ i }" class="feed">
+														<div id="writer_submenu">
+															<c:choose>
 																<c:when test="${ loginUser.userId ne f.fWriter }">
-														            <!-- 다른 회원 글 볼 때 피드메뉴 -->
-														            <div class="g_pop_menu" id="g_pop_menu${ i }">
-														            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
-														                <div id="g_feed_menu_list">
-														                    <ul>
-														                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
-														                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
-												           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
-														                       <li><a id="close" class="close">취소</a></li>
-														                    </ul>
-														                </div>
-														            </div>
-														            <div class="storagePop">
+																	<a href="goUserpage.do?userId=${ f.fWriter }&mNo=${ loginUser.mNo }">
+																	<c:if test="${ !empty f.mImage }">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	</c:if>
+																	<c:if test="${ empty f.mImage }">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	</c:if>
+																	<div id="user_time">
+																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+																		<h6><c:out value="${ f.fModifyDate }" /></h6>
+																		<c:url var="godetail" value="gdetail.do">
+																		<c:param name="gNo" value="${ f.gNo }"/>
+																		</c:url>
+																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 																	</div>
-														        </c:when>
+																	</a>
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
+																</c:when>
 																<c:otherwise>
-																	<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
-													                <div class="g_pop_Mymenu">
-													                    <div id="g_feed_Mymenu_list">
-													                        <ul>
-													                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
-													                        <li><a>삭제</a></li> 
-													                        <li><a id="close" class="close">취소</a></li>
-													                        </ul>
-													                    </div>
-													                </div>
+																	<a href="goMypage.do?mNo=${ loginUser.mNo }">
+																	<c:if test="${ !empty f.mImage }">
+																	<img src="/spring/resources/memberProfileFiles/${ f.mImage }" alt="" id="feed_profile_img">
+																	</c:if>
+																	<c:if test="${ empty f.mImage }">
+																	<img src="/spring/resources/icons/pro_default.png" alt="" id="feed_profile_img">
+																	</c:if>
+																	<div id="user_time">
+																		<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
+																		<h6><c:out value="${ f.fCreateDate }" /></h6>
+																		<c:url var="godetail" value="gdetail.do">
+																		<c:param name="gNo" value="${ f.gNo }"/>
+																		</c:url>
+																		<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
+																	</div>
+																	</a>
+																	<img src="/spring/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feed_menu${ i }">
 																</c:otherwise>
 															</c:choose>
-										    
-										    			</div>
-									            <div id="con">
-									                <div id="feed_content">
-														<c:if test="${ !empty f.photoList }">
-															<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
-															<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
-																
-																<ul id="imgList" style="height:633px">
-																	<c:forEach var="p" items="${ f.photoList }">
-																	<c:if test="${ p.changeName ne null }">
-																		<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+															    <div class="feed_report">
+													                   <div id="feed_report_con">
+													                        <p>신고사유</p>
+													                        <select id="reportType" class="selectRtype">
+													                            <option value="unacceptfeed" selected>부적절한 게시글</option>
+													                            <option value="insult">욕설</option>
+													                            <option value="ad">광고</option>
+													                            <option value="spam">도배</option>
+													                        </select>
+													                        	<textarea class="sendreport Rcontent" id="reportContent" cols="28" rows="4"></textarea>
+													                        <br>
+													                        <input class="selectRtype Rtype" id="selectRtype" type="button" value="확인" style="cursor:pointer;">
+													                        <input class="sendreport report-submit" type="button" id="report-submit" value="확인" style="cursor:pointer; display:none;">
+													                        <button class="selectRtype cancel" id="cancel" style="cursor:pointer;">취소</button>
+													                        <button class="sendreport cancel2" id="cancel2" style="cursor:pointer; display:none;">취소</button>
+													                </div>
+														        </div>
+																    <c:choose>
+																		<c:when test="${ loginUser.userId ne f.fWriter }">
+																            <!-- 다른 회원 글 볼 때 피드메뉴 -->
+																            <div class="g_pop_menu" id="g_pop_menu${ i }">
+																            <input type="hidden" id="fn" name="fn" class="fn" value="${ f.fNo }">
+																                <div id="g_feed_menu_list">
+																                    <ul>
+																                       <li><a id="feed_report_btn" class="feed_report_btn">신고</a></li> 
+																                       <li><a id="share_feed" class="share_feed">공유하기</a></li>
+														           					   <li><a id="goStorage" class="goStorage">보관함</a></li>
+																                       <li><a id="close" class="close">취소</a></li>
+																                    </ul>
+																                </div>
+																            </div>
+																            <div class="storagePop">
+																			</div>
+																        </c:when>
+																		<c:otherwise>
+																			<!-- 내가 쓴 글 볼 때 피드 메뉴 -->
+															                <div class="g_pop_Mymenu">
+															                    <div id="g_feed_Mymenu_list">
+															                        <ul>
+															                        <li><a href="pUpdateView.do?fNo=${ f.fNo }" id="feed_menu1_btn">수정</a></li> 
+															                        <li><a>삭제</a></li> 
+															                        <li><a id="close" class="close">취소</a></li>
+															                        </ul>
+															                    </div>
+															                </div>
+																		</c:otherwise>
+																	</c:choose>
+												    
+												    			</div>
+											            <div id="con">
+											                <div id="feed_content">
+																<c:if test="${ !empty f.photoList }">
+																	<button id="nextBtn${ i }" name="nextBtn" class="imgbtn nextBtn"><img src="/spring/resources/icons/nextbtn.png"></button>
+																	<button id="prevBtn${ i }" name="prevBtn" class="imgbtn prevBtn"><img src="/spring/resources/icons/prevbtn.png"></button>
+																		
+																		<ul id="imgList" style="height:633px">
+																			<c:forEach var="p" items="${ f.photoList }">
+																			<c:if test="${ p.changeName ne null }">
+																				<li><img src="/spring/resources/pUploadFiles/${ p.changeName }" alt="" class="input_img"></li>
+																			</c:if>
+																			</c:forEach>
+																		</ul>
+																</c:if>
+											                   <%--<p id="text"><c:out value="${ f.fContent }" /></p>--%>
+																<div id="text">
+																	${ f.fContent }
+																</div>
+																<div id="heart_reply">
+																	<!-- 좋아요 금지가 되어 있지 않을 경우 -->
+																	<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
+																	<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
+													             	<c:choose>
+														             	<c:when test="${ f.likeChk eq null }">
+														             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
+														             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+														             	</c:when>
+														             	<c:otherwise>
+														             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
+															               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+														             	</c:otherwise>
+													             	</c:choose>
 																	</c:if>
-																	</c:forEach>
-																</ul>
-														</c:if>
-									                   <p id="text"><c:out value="${ f.fContent }" /></p>
-		
-														 <%-- <p id="text"><c:out value="${ f.fContent }" /></p>--%>
-														<div id="text">
-														${ f.fContent }
-														</div>
-														<div id="heart_reply">
-															<!-- 좋아요 금지가 되어 있지 않을 경우 -->
-															<c:if test="${ f.fLikeSet == 'Y' || empty f.fLikeSet }">
-															<!-- true / false 로 나누어서 하트를 채울지 말지 결정 -->
-											             	<c:choose>
-												             	<c:when test="${ f.likeChk eq null }">
-												             		<img src="/spring/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-												             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
-												             	</c:when>
-												             	<c:otherwise>
-												             	<img src="/spring/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-													               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
-												             	</c:otherwise>
-											             	</c:choose>
-															</c:if>
-											               		<input type="hidden" class="toNo" value="${ f.fNo }">
-											               		<input type="hidden" class="toId" value="${ f.fWriter }">
-											               		<!-- 댓글이 전체 허용일 경우 -->
-																<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
-																<c:choose>
-																	<c:when test="${ f.fLikeSet eq 'N' }">
-																	<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
-																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
-																	<% int rCount = 0; %>
-																	<c:forEach var="rC" items="${ f.replyList }">
-																		<c:if test="${ rC.rStatus eq 'Y' }">
-																			<% ++rCount; %>
+													               		<input type="hidden" class="toNo" value="${ f.fNo }">
+													               		<input type="hidden" class="toId" value="${ f.fWriter }">
+													               		<!-- 댓글이 전체 허용일 경우 -->
+																		<c:if test="${ f.fReplySet eq 'Y' || f.fReplySet eq 'F' || empty f.fReplySet }">
+																		<c:choose>
+																			<c:when test="${ f.fLikeSet eq 'N' }">
+																			<!-- 댓글이 전체 허용되면서 좋아요는 금지일 때 -->
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon" style="margin: 9px 0 0 25px;">
+																			<% int rCount = 0; %>
+																			<c:forEach var="rC" items="${ f.replyList }">
+																				<c:if test="${ rC.rStatus eq 'Y' }">
+																					<% ++rCount; %>
+																				</c:if>
+																			</c:forEach>
+																			<label class="replycnt_p"><%= rCount %>개</label>
+																			</c:when>
+																			<c:otherwise>
+																			<!-- 댓글과 좋아요 모두 허용될 때 -->
+																			<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
+																			<% int rCount = 0; %>
+																			<c:forEach var="rC" items="${ f.replyList }">
+																				<c:if test="${ rC.rStatus eq 'Y' }">
+																					<% ++rCount; %>
+																				</c:if>
+																			</c:forEach>
+																			<label class="replycnt_p"><%= rCount %>개</label>
+																			</c:otherwise>
+																		</c:choose>
 																		</c:if>
-																	</c:forEach>
-																	<label class="replycnt_p"><%= rCount %>개</label>
-																	</c:when>
-																	<c:otherwise>
-																	<!-- 댓글과 좋아요 모두 허용될 때 -->
-																	<img src="/spring/resources/icons/bubble.png" alt="" id="replyIcon">
-																	<% int rCount = 0; %>
-																	<c:forEach var="rC" items="${ f.replyList }">
-																		<c:if test="${ rC.rStatus eq 'Y' }">
-																			<% ++rCount; %>
+													
+																		<c:if test="${ f.fReplySet eq 'N' && f.fLikeSet eq 'N' }">
+																			<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
 																		</c:if>
-																	</c:forEach>
-																	<label class="replycnt_p"><%= rCount %>개</label>
-																	</c:otherwise>
-																</c:choose>
-																</c:if>
-											
-																<c:if test="${ f.fReplySet eq 'N' && f.fLikeSet eq 'N' }">
-																	<label class="setN">댓글과 좋아요가 금지된 포스트입니다.</label>
-																</c:if>
-											           	</div>
-													</div>
-													<div id="replyArea">
-														<div class="reply_report" id="reply_report" style="display:none">
-															<div id="Reply_report_con">
-																<p>신고사유</p>
-																<select id="reply_reportType" class="selectRtype">
-																	<option value="unacceptfeed" selected>부적절한 게시글</option>
-																	<option value="insult">욕설</option>
-																	<option value="ad">광고</option>
-																	<option value="spam">도배</option>
-																</select>
-																<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
-																	rows="4"></textarea>
-																<br> <input class="selectRtype Rtype" id="selectRtype"
-																	type="button" value="확인" style="cursor: pointer;"> <input
-																	class="sendreport reply_submit" type="button" id="reply_report-submit"
-																	value="확인" style="cursor: pointer; display: none;">
-																<button class="selectRtype cancel" id="cancel"
-																	style="cursor: pointer;">취소</button>
-																<button class="sendreport cancel2" id="cancel2"
-																	style="cursor: pointer; display: none;">취소</button>
+													           	</div>
 															</div>
-														</div>
-														<div id="replyList" style="display: block; height: fit-content;">
-														<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
-														<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
-															<div id="replySub" style="display: block; height: 150px; overflow: auto;">
-															<c:forEach var="r" items="${ f.replyList }">
-																<c:if test="${ r.rStatus eq 'Y' }">
-																<div id="selectOne">
-																<!-- 댓글 번호 -->
-																<input type="hidden" class="rNum" value="${ r.rNo }">
-													  				<ul id="re_list" class="list">
-													  				<c:if test="${ !empty r.rWriterImg }">
-																		<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
-																			id="reply_img">&nbsp;&nbsp;&nbsp;
-																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-																	</c:if>
-																	<c:if test="${ empty r.rWriterImg }">
-																		<li><img src="/spring/resources/icons/pro_default.png" alt=""
-																			id="reply_img">&nbsp;&nbsp;&nbsp;
-																			<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
-																	</c:if>
-																		<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
-																		<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
-																		<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
-																		<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
-																	</ul>
-																	<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
-																	<c:if test="${ loginUser.userId eq r.rWriter }">
-																	<div id="reply_menu" class="reply_menu">
-																		<div id="re_menu_list">
-																			<ul>
-																				<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
-																				<li><a class="rDelete">댓글 삭제</a></li>
-																				<li><a id="re_close" class="rClose">취소</a></li>
-																			</ul>
-																		</div>
+															<div id="replyArea">
+																<div class="reply_report" id="reply_report" style="display:none">
+																	<div id="Reply_report_con">
+																		<p>신고사유</p>
+																		<select id="reply_reportType" class="selectRtype">
+																			<option value="unacceptfeed" selected>부적절한 게시글</option>
+																			<option value="insult">욕설</option>
+																			<option value="ad">광고</option>
+																			<option value="spam">도배</option>
+																		</select>
+																		<textarea class="sendreport Rcontent" id="reply_reportContent" cols="28"
+																			rows="4"></textarea>
+																		<br> <input class="selectRtype Rtype" id="selectRtype"
+																			type="button" value="확인" style="cursor: pointer;"> <input
+																			class="sendreport reply_submit" type="button" id="reply_report-submit"
+																			value="확인" style="cursor: pointer; display: none;">
+																		<button class="selectRtype cancel" id="cancel"
+																			style="cursor: pointer;">취소</button>
+																		<button class="sendreport cancel2" id="cancel2"
+																			style="cursor: pointer; display: none;">취소</button>
 																	</div>
-																	</c:if>
-																	<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
-																	<c:if test="${ loginUser.userId ne r.rWriter }">
-																	<div id="reply_menu" class="reply_menu">
-																		<div id="re_menu_list">
-																			<ul>
-																				<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
-																				<li><a id="rReport" class="rReport">댓글 신고</a></li>
-																				<li><a id="re_close" class="rClose">취소</a></li>
+																</div>
+																<div id="replyList" style="display: block; height: fit-content;">
+																<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
+																<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+																	<div id="replySub" style="display: block; height: 150px; overflow: auto;">
+																	<c:forEach var="r" items="${ f.replyList }">
+																		<c:if test="${ r.rStatus eq 'Y' }">
+																		<div id="selectOne">
+																		<!-- 댓글 번호 -->
+																		<input type="hidden" class="rNum" value="${ r.rNo }">
+															  				<ul id="re_list" class="list">
+															  				<c:if test="${ !empty r.rWriterImg }">
+																				<li><img src="/spring/resources/memberProfileFiles/${ r.rWriterImg }" alt=""
+																					id="reply_img">&nbsp;&nbsp;&nbsp;
+																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+																			</c:if>
+																			<c:if test="${ empty r.rWriterImg }">
+																				<li><img src="/spring/resources/icons/pro_default.png" alt=""
+																					id="reply_img">&nbsp;&nbsp;&nbsp;
+																					<p id="userId"><c:out value="${ r.rWriter }" /></p></li>
+																			</c:if>
+																				<li><textarea id="replyCon" class="rCon" data-autoresize readonly required="required" placeholder="댓글을 입력해 주세요." cols=40 rows=auto disabled><c:out value="${ r.rContent }" /></textarea>
+																				<input type="button" id="confirmR" class="rConfirm" value="완료"></li>
+																				<li><p id="time"><c:out value="${ r.rModifyDate }" /></p></li>
+																				<li><img src="/spring/resources/icons/replyMenu.png" alt="" id="updateBtn" class="rUpBtn"></li>
 																			</ul>
+																			<!-- 내가 단 댓글 볼 때 댓글 메뉴-->
+																			<c:if test="${ loginUser.userId eq r.rWriter }">
+																			<div id="reply_menu" class="reply_menu">
+																				<div id="re_menu_list">
+																					<ul>
+																						<li><a id="rEdit" class="rEdit">댓글 수정</a></li>
+																						<li><a class="rDelete">댓글 삭제</a></li>
+																						<li><a id="re_close" class="rClose">취소</a></li>
+																					</ul>
+																				</div>
+																			</div>
+																			</c:if>
+																			<!-- 다른 사람이 단 댓글 볼 때 메뉴 -->
+																			<c:if test="${ loginUser.userId ne r.rWriter }">
+																			<div id="reply_menu" class="reply_menu">
+																				<div id="re_menu_list">
+																					<ul>
+																						<li><a href="goUserpage.do?userId=${ r.rWriter }&mNo=${ r.mNo }" class="rGoFeed">피드 가기</a></li>
+																						<li><a id="rReport" class="rReport">댓글 신고</a></li>
+																						<li><a id="re_close" class="rClose">취소</a></li>
+																					</ul>
+																				</div>
+																			</div>
+																			</c:if>
 																		</div>
+																		</c:if>
+																	</c:forEach>
 																	</div>
-																	</c:if>
+																</div>
+																<!-- 댓글 전체 허용일 경우 -->
+																<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
+																<div id="reply">
+																	<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+																	<input type="text" id="textArea" class="rContent" name="textArea">
+																	<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 																</div>
 																</c:if>
-															</c:forEach>
+																<!-- 댓글 친구 허용일 경우 -->
+																<c:forEach var="fl" items="followerList">
+																<c:if test="${ f.fReplySet eq 'F' }">
+																<div id="reply">
+																	<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
+																	<input type="text" id="textArea" class="rContent" name="textArea">
+																	<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
+																</div>
+																</c:if>
+																</c:forEach>
 															</div>
 														</div>
-														<!-- 댓글 전체 허용일 경우 -->
-														<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
-														<div id="reply">
-															<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-															<input type="text" id="textArea" class="rContent" name="textArea">
-															<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-														</div>
-														</c:if>
-														<!-- 댓글 친구 허용일 경우 -->
-														<c:forEach var="fl" items="followerList">
-														<c:if test="${ f.fReplySet eq 'F' }">
-														<div id="reply">
-															<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-															<input type="text" id="textArea" class="rContent" name="textArea">
-															<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-														</div>
-														</c:if>
-														</c:forEach>
-													</div>
-												</div>
-									       	</div>
-									   </c:if>
-									   </c:forEach>
-									    <!-- 공개 여부가 비공개일 때 -->
+											       	</div>
+											   </c:if>
+											   </c:forEach>
+											   <!-- 공개 여부가 비공개일 때 -->
 												<c:if test="${ f.fOpenScope eq 'G' }">
 													<c:if test="${ loginUser.userId eq f.fWriter }">
 													<div id="feed${ i }" class="feed">
@@ -2864,7 +2856,7 @@
 	    		  input +="</div>";
 	              input +="<div id='con2'>";
 	              input +="<div id='feed_content'>";
-	        	  	if(data.photoList.length > 0 ){
+ 	        	  if(data.photoList[0] != null && data.photoList[0].changeName != null){
 		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='/spring/resources/icons/nextbtn.png'></button>";
 					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='/spring/resources/icons/prevbtn.png'></button>";
 	            	input +="<ul id='imgList' style='height:633px'>";

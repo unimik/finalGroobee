@@ -145,7 +145,6 @@ public class adminController {
 		m.setmNo(Integer.parseInt(no));
 		int result = aService.memberStatusChange(m);
 
-		System.out.println("result의 값 : " + result);
 
 		if (result > 0) {
 			return "redirect:adminmember.do";
@@ -175,14 +174,13 @@ public class adminController {
 	@RequestMapping(value = "groupSearch.do", method = RequestMethod.POST)
 	public void groupSearchList(HttpServletResponse response, HttpServletRequest request) throws IOException {
 		response.setContentType("application/json; charset=utf-8");
-
 		Group g = new Group(); // 받아온 파라미터를 정보를 담을 객체
-
+		
 		String name = request.getParameter("name");
 		String category = request.getParameter("category");
 		String tag = request.getParameter("tag");
 		String date = request.getParameter("enrolldate");
-
+		
 		if (!name.equals("") || !category.equals("") || !tag.equals("") || !date.equals("")) {
 			if (!name.equals("")) {
 				g.setgName(name);
@@ -198,7 +196,6 @@ public class adminController {
 				g.setgDate(todate);
 			}
 		}
-
 		ArrayList<Group> groupList = aService.groupSearchList(g);
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -502,7 +499,6 @@ public class adminController {
 		
 		
 		String type = typeAndNumber.substring(0, startIdx); // type을 찾자
-		System.out.println("type : "+type);
 		int number = Integer.parseUnsignedInt(typeAndNumber.substring(startIdx+1, typeAndNumber.length())); // 타입의 기본 키 값
 		
 		Declaration d;
@@ -570,7 +566,6 @@ public class adminController {
 			
 		}
 		
-		System.out.println(job);
 		
 		PrintWriter out = response.getWriter(); 
 		out.print(job);

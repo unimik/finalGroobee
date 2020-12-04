@@ -10,19 +10,15 @@
     <link rel="stylesheet" href="resources/css/home.css">
     <link rel="stylesheet" href="resources/css/chat.css">
     <link rel="stylesheet" href="resources/css/myAccount.css">
-    <style>
-    .post{height: 200px;}
-    .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
-    #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
-    .sendreport { margin-top:0;}
-    .usertag {color: #47c6a3;}
-    .storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
-    </style>
 </head>
 <body>
 	<c:import url="../common/menubar.jsp"/>
 	 <div id="searchArea">
-	 <div><p>${ rStr }<br><p></div>
+	 <div>
+	 <c:if test="${ !empty rStr }">
+	 <p id="scInfo"><img src="resources/icons/pro_default.png" id="scImg">${ rStr }<br><p>
+	 </c:if>
+	 </div>
                 <!--계정/그룹 검색 결과-->
                 <div id="search_account">
                     <!--계정-->
@@ -105,7 +101,7 @@
              				</c:when>
 	         				<c:otherwise>
 	                        	<c:forEach var="rs" items="${ rsList }">
-		                            <li style=" cursor: pointer;"><a href="tagSearch.do?search=${searchKey}+${rs}+&mNo=${ loginUser.mNo }">#${rs}</a></li>
+		                            <li style="cursor: pointer;"><a class="hashtag" href="tagSearch.do?search=${searchKey}+${rs}+&mNo=${ loginUser.mNo }">#${rs}</a></li>
 		                       </c:forEach>
 	                       </c:otherwise>                        
                         </c:choose>
@@ -173,6 +169,9 @@
                 }
 	              input += "<div id='user_time2'>";
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
+	            if(data.groupName != null){
+	              input +="<a href='gdetail.do?gNo="+data.gno+"' id='feed_gName' style=' font-size: 14px; font-weight: 600; color: #47c6a3; position: absolute; margin-top: -17px;margin-left: 100px;'>"+data.groupName+"</a>"
+	            }
 	              input += "<h6>"+data.fCreateDate+"</h6>";
 	              input += "</div>";
 	              input += "<img src='/spring/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
@@ -219,7 +218,7 @@
 	    		  input +="</div>";
 	              input +="<div id='con2'>";
 	              input +="<div id='feed_content'>";
-	        	  	if(data.photoList.length > 0 ){
+ 	        	  if(data.photoList[0] != null && data.photoList[0].changeName != null){
 		      	  	input +="<button id='nextBtn${ i }' name='nextBtn' class='imgbtn nextBtn'><img src='/spring/resources/icons/nextbtn.png'></button>";
 					input +="<button id='prevBtn${ i }' name='prevBtn' class='imgbtn prevBtn'><img src='/spring/resources/icons/prevbtn.png'></button>";
 	            	input +="<ul id='imgList' style='height:633px'>";

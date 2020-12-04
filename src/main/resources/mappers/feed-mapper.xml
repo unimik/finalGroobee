@@ -16,7 +16,7 @@
 		<result property="fReplySet" column="F_REPLY_SET"/>
 		<result property="fShareSet" column="F_SHARE_SET"/>
 		<result property="fLikeCnt" column="F_LIKECNT"/>
-		<result property="fReplyCnt" column="F_REPLYCNT"/>
+		<result property="fReplyCnt" column="REPLYCNT"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gName" column="G_NAME"/>
 		<result property="mImage" column="M_PROFILE"/>
@@ -140,11 +140,13 @@
 	      , P.*
 	      , M.M_RENAME_IMAGE
           , L.LIKECHK
+          , RP.REPLYCNT
 		FROM FEED F
 		LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
 		LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
-        LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{userId} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
+        LEFT JOIN (SELECT F_NO, COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{userId} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
+        LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE
 		F.F_STATUS ='Y'
 		AND
@@ -304,6 +306,7 @@
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
         LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
         LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{ userId } GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
+		LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO != 0
@@ -333,20 +336,7 @@
 		AND F.G_NO = #{ gNo }
 		ORDER BY F.F_LIKECNT DESC
 	</select>
-	
-	<select id="selectPoPFeed" parameterType="_int" resultMap="postResultSet">
-      SELECT
-        F.*
-      , R.*
-      , P.*
-      , M.M_RENAME_IMAGE
-      FROM FEED F
-      LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-      LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
-      INNER JOIN MEMBER M ON(F.M_NO = M.M_NO)
-      WHERE F.F_STATUS='Y'
-      AND F.F_NO =#{ fno }
-   </select>
+
    
 	<insert id="insertTag" parameterType="java.util.ArrayList">
 		<foreach collection="list" item="t" index="index" open="DECLARE BEGIN" close="; END;" separator=";">

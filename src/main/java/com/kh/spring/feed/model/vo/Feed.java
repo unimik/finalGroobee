@@ -26,6 +26,7 @@ public class Feed {
 	private String mImage;
 	private String likeChk;
 	private String shareYN;
+	private String groupName;
 	
 	
 	
@@ -178,9 +179,40 @@ public class Feed {
 		this.replyList = replyList;
 		this.photoList = photoList;
 	}
-	
 
 
+	public Feed(int fNo, int mNo, int smNo, String fContent, String fWriter, Date fCreateDate, Date fModifyDate,
+			String fStatus, String fLocation, String fOpenScope, String fLikeSet, String fReplySet, String fShareSet,
+			int fLikeCnt, int fReplyCnt, int gNo, String thumbnail, String gName, String mImage, String likeChk,
+			String shareYN, String groupName, ArrayList<Reply> replyList, ArrayList<Photo> photoList,
+			ArrayList<Tag> tagList) {
+		super();
+		this.fNo = fNo;
+		this.mNo = mNo;
+		this.smNo = smNo;
+		this.fContent = fContent;
+		this.fWriter = fWriter;
+		this.fCreateDate = fCreateDate;
+		this.fModifyDate = fModifyDate;
+		this.fStatus = fStatus;
+		this.fLocation = fLocation;
+		this.fOpenScope = fOpenScope;
+		this.fLikeSet = fLikeSet;
+		this.fReplySet = fReplySet;
+		this.fShareSet = fShareSet;
+		this.fLikeCnt = fLikeCnt;
+		this.fReplyCnt = fReplyCnt;
+		this.gNo = gNo;
+		this.thumbnail = thumbnail;
+		this.gName = gName;
+		this.mImage = mImage;
+		this.likeChk = likeChk;
+		this.shareYN = shareYN;
+		this.groupName = groupName;
+		this.replyList = replyList;
+		this.photoList = photoList;
+		this.tagList = tagList;
+	}
 
 	public int getSmNo() {
 		return smNo;
@@ -361,6 +393,14 @@ public class Feed {
 				+ ", gNo=" + gNo + ", thumbnail=" + thumbnail + ", gName=" + gName + ", mImage=" + mImage + ", likeChk="
 				+ likeChk + ", shareYN=" + shareYN + ", replyList=" + replyList + ", photoList=" + photoList
 				+ ", tagList=" + tagList + "]";
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
 

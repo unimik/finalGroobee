@@ -1,34 +1,39 @@
 p{margin: 0;}
 #searchArea{ width: 640px; height: 100%; margin-left:100px; position: fixed; overflow-y: scroll; overflow-x: hidden; -ms-overflow-style: none; }
 #searchArea::-webkit-scrollbar{display: none;}
+#scInfo{ padding:20px; text-align:center; display:flex;    margin-left: 100px; color:#555;}
+#scImg{ border-radius:10px; margin:0 10px 0 10px; height: 25px;  width: 25px;}
 #title{ width: 100%; color:#555555; font-weight: 600; font-size: 16px;padding: 5px 0 5px 0; background: #daf4ed; border-radius: 10px;}
 #title b{margin-left:20px;}
 #user_profile_img{width: 50px; height: 50px; border-radius: 15px; margin:10px 20px 0 20px;}
 #search_id{ color:#555555; font-weight: 500; font-size: 14px;margin-top:5px; }
-
- .post{height: 200px;}
-    .post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
-    #nouser{font-size:14px; padding:10px 30px;  color: #555555;}
-    #imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
-	#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
-	#imgList li:nth-child(1){display:block;}
-	#imgList img{ width: 633px; height:633px; }
-	.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
-	button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
-	button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
-	.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
-	#replyIcon{ margin: 9px 0 0 60px;}
-	#likeIcon { margin: 7px 0 0 25px; }
-#con_user{ display: -webkit-inline-box; width: 100%; margin: 10px 20px;  overflow-y: auto; height: 100px;}
-#con_group{ display: -webkit-inline-box; width: 100%; margin: 10px 20px; overflow-y: scroll; height: 100px;}
+.sendreport { margin-top:0;}
+.usertag {color: #47c6a3;}
+.storagePop{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color: rgba(0,0,0,0.4);};
+#feed_gName{ float:left; position: absolute; margin-top: -32px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
+.post{height: 200px;}
+.post p{margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small}
+#nouser{font-size:14px; padding:20px 50px;  color: #555555;}
+#imgList{position:relative; margin:0; padding:0; height:633px; list-style:none; overflow:hidden;}
+#imgList li{display:none; float:left; position: absolute; top:0; left:0;}
+#imgList li:nth-child(1){display:block;}
+#imgList img{ width: 633px; height:633px; }
+.imgbtn{  z-index:10;border: 0; background: none; cursor: pointer; outline:none;}
+button[name=nextBtn]{display:none; position: absolute; margin: 300px 570px; }
+button[name=prevBtn]{display:none; position: absolute; margin: 300px 20px; }
+.setN{ margin-left: 25px; font-size: 10pt; color: #a9a9a9; line-height: 2.7em; }
+#replyIcon{ margin: 9px 0 0 60px;}
+#likeIcon { margin: 7px 0 0 25px; }
+#con_user{ display: -webkit-inline-box; width: 100%; margin: 10px 20px;  overflow-y: auto; height: 200px;}
+#con_group{ display: -webkit-inline-box; width: 100%; margin: 10px 20px; overflow-y: scroll; height: 200px;}
 #con_tag{ display: -webkit-inline-box; width: 100%;}
-#con_feed{ width: 100%; height: 100%; margin-bottom: 50px;}
+#con_feed{ width: 100%; height: 100%; margin-bottom: 250px;}
 #search_user{ width: 100px; height: 100px; display: inline-block; margin: 10px 0;  text-align: center;}
 #search_group{ width: 100px; height: 100px; margin: 10px 0;    text-align: center;}
 #search_id_group{ color:#555555; font-weight: 500; font-size: 14px; margin-top:5px; text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;width:80px;overflow:hidden;}
 #group_profile_img{width: 50px; height: 50px; border-radius: 15px; margin:10px 20px 0 20px;}
 
-#con_tag #tag li{ list-style: none; float: left; margin: 5px 10px; font-size: 14px; color: #555555;}
+#con_tag #tag li{list-style: none; float: left; margin: 5px 10px; font-size: 14px;}
 #con_feed .post{ width: 200px; display: inline-block; margin: 15px 6px 0 5px; height: 200px;}
 .post #post_con{width: 100%; height:100%;}
 
@@ -154,3 +159,5 @@ p{margin: 0;}
 #feed_report_con select{ width: 220px; height: 35px; border-radius: 10px; border: 1px solid #555555; margin:30px 0 30px 50px;}
 #submit{ width: 100px; height: 35px; border: 0; background: #daf4ed; border-radius: 10px; margin-left: 55px; }
 #cancel{ width: 100px; height: 35px; margin-left: 10px; border: 0; border-radius: 10px; background: #e5e5e5;}
+
+.hashtag{color:#47c6a3;}

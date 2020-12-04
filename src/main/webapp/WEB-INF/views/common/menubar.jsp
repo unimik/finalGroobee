@@ -22,7 +22,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
 <style>
-   a{text-decoration:none;}
+   a{ text-decoration:none;}
    .followChk{width:38px; height:28px; background:#daf4ed; color: gray; border:none; border-radius:3px; margin-right:2px;}
    
 </style>
@@ -1176,6 +1176,9 @@
 				}else if(dArr[1] == 'groupDelete'){
 					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b>'+dArr[3]+'</b>에서 추방 당하셨습니다.</p></div>');
 					notifytext +='그룹 '+dArr[3]+' 에서 추방 당하셨습니다.';
+				}else if(dArr[1] == 'tag'){
+					$('#alarmList').prepend('<div id="list"><img src="resources/images/mp_profile_sample.jpg"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 게시물에 회원님을 태그하셨습니다.</p></div>'); 					
+		 	 		notifytext += dArr[2]+' 님이 게시물에 회원님을 태그하셨습니다.';
 				};
 				
 				if(notifytext != ""){
@@ -1514,6 +1517,13 @@
     	  
       });
       
+      $(function(){
+    	 $("#allSearch").keydown(function(key){
+     		if(key.keyCode == 13) {
+     			search();
+     		} 
+     	});
+      });
 
      </script>
 </body>

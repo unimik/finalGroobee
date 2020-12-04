@@ -14,6 +14,7 @@
 	.usertag {color: #47c6a3;}
 	<%--해쉬태그 색을 바꿔주세요...--%>
 	.hashtag{color:#88abda;}
+	#footer{ padding-top:30px; padding-bottom:50px;}
 </style>
 </head>
 <body>
@@ -30,6 +31,7 @@
 	       <c:forEach var="g" items="${ glist }">
 	       <c:url var="gdetail" value="gdetail.do">
 				<c:param name="gNo" value="${ g.gNo }"/>
+				<c:param name="userId" value="${ loginUser.userId }"/>
 		   </c:url>
 	       <div id="groupBox">
 	       <a href="${ gdetail }">
@@ -178,11 +180,11 @@
 	             	<c:choose>
 		             	<c:when test="${ f.likeChk eq null }">
 		             		<img src="${ contextPath }/resources/icons/heart.png" alt="" name="${ f.fNo }"class="likeIcon" id="likeIcon">
-		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+		             		<label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:when>
 		             	<c:otherwise>
 		             		<img src="${ contextPath }/resources/icons/heart_red.png" alt="" name="${ f.fNo }" class="likeIcon" id="liked">	             	
-			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }개</label>
+			               <label class="likeCnt" id="${ f.fNo }">${ f.fLikeCnt }</label>
 		             	</c:otherwise>
 	             	</c:choose>
 					</c:if>
@@ -200,7 +202,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%= rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %></label>
 							</c:when>
 							<c:otherwise>
 							<!-- 댓글과 좋아요 모두 허용될 때 -->
@@ -211,7 +213,7 @@
 									<% ++rCount; %>
 								</c:if>
 							</c:forEach>
-							<label class="replycnt_p"><%= rCount %>개</label>
+							<label class="replycnt_p"><%= rCount %></label>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -246,6 +248,7 @@
 					<div id="replyList" style="display: block; height: fit-content;">
 					<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 					<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+					<c:if test="${ f.fReplyCnt ne 0 }">
 						<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 						<c:forEach var="r" items="${ f.replyList }">
 							<c:if test="${ r.rStatus eq 'Y' }">
@@ -296,6 +299,7 @@
 							</c:if>
 						</c:forEach>
 						</div>
+					</c:if>	
 					</div>
 					<!-- 댓글 전체 허용일 경우 -->
 					<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
@@ -305,16 +309,6 @@
 						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
 					</div>
 					</c:if>
-					<!-- 댓글 친구 허용일 경우 -->
-					<c:forEach var="fl" items="followerList">
-					<c:if test="${ f.fReplySet eq 'F' }">
-					<div id="reply">
-						<input type="hidden" class="replyFeedNo" name="replyFeedNo" value="${ f.fNo }">
-						<input type="text" id="textArea" class="rContent" name="textArea">
-						<input type="button" id="${f.fWriter }" class="replyUpBtn${ f.fNo } replyUpBtn" name="replyBtn" value="등록">
-					</div>
-					</c:if>
-					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -564,6 +558,8 @@
 		</div>
 		</c:if>
 	</c:if>
+	<div id="footer"><p>GROOBEE © 2020</p></div>
+	</div>
 	<script>
 	
 	$('.likeicon').mouseenter(function() {

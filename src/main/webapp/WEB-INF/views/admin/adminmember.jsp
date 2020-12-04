@@ -25,7 +25,7 @@
 				<p id="title">GROOBEE 회원관리</p>
 				<div id="searchBox">
 					<div id="all_user" style="font-size: 15px;">
-						<p>현재 GROOBEE 회원 수는 <b id="total" style="color: red;"></b> 명입니다.</p>
+						<p>현재 GROOBEE 회원 수는 <b id="total" style="color: red; cursor:pointer;"></b> 명입니다.</p>
 					</div>
 					<div id="search">
 						<form id="memberSearch_form" name="memberSearch_form">
@@ -74,7 +74,6 @@
 				dataType: "html",
 				type:"get",
 				success:function(data){
-					console.log(data);
 					$("#total").html(data);
 				},error:function(){
 					console.log("전송실패!");
@@ -120,8 +119,6 @@
 		function page(){ 
 			
 		    $('#user_table').each(function() {
-
-			console.log("page()가 실행됨");		   
 			
 		    var pagination = $("#pagination"); // 페이징을 표시할 곳
 		    
@@ -129,15 +126,12 @@
 		    var currentPage = 0;    
 		    var numPerPage = 10;  //목록의 수   
 		    var $table = $(this);      // table을 가르킴 
-		    console.log(this); // this => tbody
 		    
 		    //length로 원래 리스트의 전체길이구함   
 		    var numRows = $table.find('tbody tr').length;
-		    console.log("numRows : "+numRows); // 출력될 행의 갯수
 		     
 		    //Math.ceil를 이용하여 반올림   
 		    var numPages = Math.ceil(numRows / numPerPage);
-		    console.log("numPages의 갯수 : "+ numPages);
 		    
 		    //리스트가 없으면 종료   
 		    if (numPages==0) return;
