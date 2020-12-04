@@ -149,6 +149,10 @@
 	                                <label for="checkbox">스포츠</label>
 	                                <input type="checkbox" name="interest" class="checkBox" value="인테리어/DIY">
 	                                <label for="checkbox">인테리어/DIY</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="IT">
+	                                <label for="checkbox">IT</label>
+	                                <input type="checkbox" name="interest" class="checkBox" value="기타">
+	                                <label for="checkbox">기타</label>
 		                        </div>
 
                             </div>
