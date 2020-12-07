@@ -122,6 +122,12 @@ public class MypageServiceImpl implements MypageService {
 		return myDao.deleteSf(sf);
 	}
 
+	@Override
+	public ArrayList<Feed> selectUserFeedInfo(int mNo) {
+		return myDao.selectUserFeedInfo(mNo);
+	}
+
+
 
 
 	
