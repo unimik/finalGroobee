@@ -344,7 +344,7 @@
             });
         });
         
-     // 회원 검색  이벤트
+     // 신고 검색  이벤트
 		 $('#searchBtn').on("click",function(){
 			
 			var dynamicBtn = '<input type="button" class="btnyn" value="삭제하기"/>';

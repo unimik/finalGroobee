@@ -956,6 +956,7 @@
 																<div id="replyList" style="display: block; height: fit-content;">
 																<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 																<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+																<c:if test="${ f.fReplyCnt ne 0 }">
 																	<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 																	<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
@@ -1006,6 +1007,7 @@
 																		</c:if>
 																	</c:forEach>
 																	</div>
+																</c:if>
 																</div>
 																<!-- 댓글 전체 허용일 경우 -->
 																<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
@@ -1484,6 +1486,7 @@
 																<div id="replyList" style="display: block; height: fit-content;">
 																<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 																<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+																<c:if test="${ f.fReplyCnt ne 0 }">
 																	<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 																	<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
@@ -1534,6 +1537,7 @@
 																		</c:if>
 																	</c:forEach>
 																	</div>
+																</c:if>	
 																</div>
 																<!-- 댓글 전체 허용일 경우 -->
 																<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">
@@ -1994,6 +1998,7 @@
 																<div id="replyList" style="display: block; height: fit-content;">
 																<input type="hidden" class="rCnt" value="${ f.fReplyCnt }">
 																<!-- 댓글 갯수(삭제된 댓글 갯수 포함)가 0이 아니고 댓글 상태가 'Y'인 것만 표시 -->
+																<c:if test="${ f.fReplyCnt ne 0 }">
 																	<div id="replySub" style="display: block; height: 150px; overflow: auto;">
 																	<c:forEach var="r" items="${ f.replyList }">
 																		<c:if test="${ r.rStatus eq 'Y' }">
@@ -2044,6 +2049,7 @@
 																		</c:if>
 																	</c:forEach>
 																	</div>
+																</c:if>	
 																</div>
 																<!-- 댓글 전체 허용일 경우 -->
 																<c:if test="${ f.fReplySet eq 'Y' || empty f.fReplySet }">

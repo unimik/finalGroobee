@@ -256,7 +256,7 @@ button[name=prevBtn]{display: none; position: absolute; margin: 300px 20px; }
 #reply_img{ width: 35px; height: 35px; border-radius: 15px; border: 3px double #47c6a3; float: left; }
 #replyCon{ color:#555555; font-weight:lighter;height: 100%;  }
 #time{ font-size: 12px; float: right; color: #aaaaaa;}
-#reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
+#reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; }
 #textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
 #replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
 
