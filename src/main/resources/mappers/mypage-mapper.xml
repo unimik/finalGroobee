@@ -209,11 +209,12 @@
 	</select>
 
 	<select id="detailFeed" parameterType="Feed" resultMap="feedResultSet">
-		select f.*, m.*
+		select f.*, m.*,G.G_NAME
 		,(SELECT COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=m.m_id and F.F_NO = F_NO GROUP BY F_NO) likeChk
-        ,(select case when COUNT(*)>0 then 'Y' else 'N' end from SHARE_FEED sf where (sf.sf_no=f.f_no) and sf.sm_no = #{mNo}) as shareYN
+        ,(select case when COUNT(*)>0 then 'Y' else 'N' end from SHARE_FEED sf where (sf.sf_no=f.f_no) and sf.sm_no = '143') as shareYN
         from feed f
-		left join member m on(f.m_no=m.m_no)
+		LEFT JOIN member m on(f.m_no=m.m_no)
+        LEFT JOIN GROUPS G ON (G.G_NO = F.G_NO)
 		where f.f_no=#{fNo}
 		and f.m_no=#{smNo}
 		and F.F_STATUS='Y'

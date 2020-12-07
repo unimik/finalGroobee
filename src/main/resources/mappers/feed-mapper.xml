@@ -302,7 +302,6 @@
 	      , G.*
 	      , M.M_RENAME_IMAGE
           , L.LIKECHK
-          , RP.REPLYCNT
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
