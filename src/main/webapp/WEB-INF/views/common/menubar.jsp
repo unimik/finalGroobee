@@ -995,10 +995,6 @@
              openGruopChat();
          });
 
-         $("#list").on("click",function(){
-             $(".chat_room").show();
-         });
-
          $('#goList').on("click",function(){
              $(".chat_room").hide();
              openChat();
