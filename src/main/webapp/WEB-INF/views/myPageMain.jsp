@@ -79,7 +79,7 @@
 	#likeIcon { margin: 7px 0 0 25px; }
 	.postbox{float: left; cursor: pointer; margin: 10px 5px 0 5px;}
 	.post .img_wrap:before{margin: 10px 5px 0 5px;}
-	.usertag{ color: #47c6a3;}
+	.usertag{color: #47c6a3;}
    </style>
    <script>
   
@@ -399,14 +399,13 @@
 
     <script>
     
-    /************ 포스트 박스 클릭 시 script ************/
+    /************ 게시글 클릭 시 script ************/
     function goDetail(fNo,smNo,type){
     	var mNo = $('#mNo').val();
     
            $.ajax({
               url:"goDetail.do", 
               dataType:"json",
-		    	// smNo : 공유한 글작성자
               data:{mNo: mNo, fNo : fNo, smNo : smNo, type: type},
               type:"post", 
               success:function(data){
@@ -423,6 +422,9 @@
                   }
 	              input += "<div id='user_time'>";
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
+	              if(data.gno != 0){
+		              input +="<a href='gdetail.do?gNo="+data.gno+"' id='feed_gName' style=' font-size: 14px; font-weight: 600; color: #47c6a3; position: absolute; margin-top: -17px;margin-left: 100px;'>"+data.groupName+"</a>"
+		            }
 	              input += "<h6 style='margin:0;'>"+data.fCreateDate+"</h6>";
 	              input += "</div>";
 	              input += "<img src='/spring/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
@@ -470,6 +472,7 @@
 	              input +="</ul>";
   	        	  }
 	              input +="<p id='text'>"+data.fcontent+"</p>";
+	              /*공유 여부*/
 	              if(data.shareYN == 'N'){
 	              input +="<div id='heart_reply'>";
 				  <!-- 좋아요 금지가 되어 있지 않을 경우 -->

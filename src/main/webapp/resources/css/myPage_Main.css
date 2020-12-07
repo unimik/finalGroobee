@@ -57,7 +57,7 @@ a{ color: #555555; text-decoration: none; }
 .postbox div, .storageBox_folder img{ width: 200px; height: 200px; }
 .postbox div{ margin-bottom: 3px; }
 .postbox text{ margin: 25px; top: 17px; display: inline-block; height: 150px; overflow: hidden; font-size:small; }
-.hashtag{ font-size: 10pt; font-weight: 600; }
+.hashtag{ color : #88abda;}
 .storagebox, .group { display: none; }
 
 #storageboxArea{ width:630px; height:100%;}

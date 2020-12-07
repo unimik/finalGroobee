@@ -14,7 +14,11 @@
 <body>
 	<c:import url="../common/menubar.jsp"/>
 	 <div id="searchArea">
-	 <div><p>${ rStr }<br><p></div>
+	 <div>
+	 <c:if test="${ !empty rStr }">
+	 <p id="scInfo"><img src="resources/icons/pro_default.png" id="scImg">${ rStr }<br><p>
+	 </c:if>
+	 </div>
                 <!--계정/그룹 검색 결과-->
                 <div id="search_account">
                     <!--계정-->
@@ -165,7 +169,7 @@
                 }
 	              input += "<div id='user_time2'>";
 	              input += "<p id='feed_id'>"+data.fWriter+"</p>";
-	            if(data.groupName != null){
+	            if(data.gno != 0){
 	              input +="<a href='gdetail.do?gNo="+data.gno+"' id='feed_gName' style=' font-size: 14px; font-weight: 600; color: #47c6a3; position: absolute; margin-top: -17px;margin-left: 100px;'>"+data.groupName+"</a>"
 	            }
 	              input += "<h6>"+data.fCreateDate+"</h6>";

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -70,29 +71,9 @@ public class MemberController {
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
 		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
-		for(Feed ff : feed) {
-//			ff.setfReplyCnt(ff.getReplyList().size());
-//			System.out.println("댓글 갯수 : " + ff.getfReplyCnt());
-			System.out.println(ff.getfNo() + " : " + ff.getfReplyCnt());
-		}
 		
 		ArrayList<Feed> newFeed = new ArrayList<>();
 		ArrayList<Reply> r = new ArrayList<>();
-
-		/*
-		 * for(int i=0; i<feed.size();i++) {
-		 * 
-		 * for(int j=0; j<feed.get(i).getReplyList().size();j++) {
-		 * 
-		 * if(feed.get(i).getReplyList().get(j).getrStatus().equals("Y")) { //
-		 * feed.get(i).getReplyList().get(j).on
-		 * 
-		 * //r(k).add(feed.get(i).getReplyList().get(j)); }
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
 		
 		ArrayList<Photo> fp = null;
 		for(Feed f : feed) {
@@ -304,7 +285,14 @@ public class MemberController {
 		return "member/memberFindForm";
 	}
 	
-
+	@ResponseBody
+	@RequestMapping("userData.do")
+	public Member userData(@RequestParam("fromId") String fromId) {
+		
+		Member userData = mService.selectNo(fromId);
+		
+		return userData;
+	}
 	
 
 }
