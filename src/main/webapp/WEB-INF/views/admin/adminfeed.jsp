@@ -175,7 +175,7 @@
 						var $tr = $("<tr>");
 						var $fNo = $("<td>").text(data[i].fNo);	// 피드번호
 						var $fWriter = $("<td>").text(data[i].fWriter); // 작성자
-						var $fContent = $("<td>").text(data[i].fContent);	// 내용
+						var $fContent = $("<td>").html(data[i].fContent);	// 내용
 						//var $rNo = $("<td>").text(data[i].rNo);	// 구분 (아직 미구현)
 						var $fCreateDate = $("<td>").text(data[i].fCreateDate);// 작성일
 						var $fLikeCnt = $("<td>").text(data[i].fLikeCnt);// 좋아요 갯수
@@ -238,7 +238,7 @@
 						var $fNo = $("<td>").text(data[i].fNo);	// 피드번호
 						var $rNo = $("<td>").text(data[i].rNo);	// 댓글번호
 						var $rWriter = $("<td>").text(data[i].rWriter); // 작성자
-						var $rContent = $("<td>").text(data[i].rContent);	// 내용
+						var $rContent = $("<td>").html(data[i].rContent);	// 내용
 						var $rCreateDate = $("<td>").text(data[i].rCreateDate);// 작성일
 						var $rStatus = $("<td>").text(data[i].rStatus); // 상태
 						

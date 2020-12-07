@@ -270,6 +270,11 @@
 				AND R_CREATE_DATE like '%'||#{rCreateDate}||'%'
 			</if>
 		</trim>
+		<trim prefix="ORDER BY">
+			<if test="rNo != null">
+				R_NO DESC
+			</if>
+		</trim>
 	</select>
 	
 	<select id="feedSearchList" parameterType="Feed"  resultMap="postResultSet">
@@ -287,6 +292,11 @@
 			</if>
 			<if test="fCreateDate != null">
 				AND F_CREATE_DATE like '%'||#{fCreateDate}||'%'
+			</if>
+		</trim>
+		<trim prefix="ORDER BY">
+			<if test="fNo != null">
+				F_NO DESC
 			</if>
 		</trim>
 	</select>
