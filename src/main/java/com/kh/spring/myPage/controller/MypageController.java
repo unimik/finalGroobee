@@ -349,7 +349,7 @@ public class MypageController {
 		fw.setFollows(memberInfo.getmNo());
 		String followYN = myService.selectFollowYN(fw);
 		Mypage followInfo = myService.selectFollowInfo(memberInfo.getmNo());
-		ArrayList<Feed> feedList = myService.selectFeedInfo(memberInfo.getmNo());
+		ArrayList<Feed> feedList = myService.selectUserFeedInfo(memberInfo.getmNo());
 		ArrayList<Mypage> followerList = myService.selectFollowerList(memberInfo.getmNo());
 		ArrayList<Mypage> followingList = myService.selectFollowingList(memberInfo.getmNo());
 		

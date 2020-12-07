@@ -76,6 +76,8 @@ public interface MypageService {
 	 */
 	int deleteSf(StorageBox sf);
 
+	ArrayList<Feed> selectUserFeedInfo(int getmNo);
+
 
 
 

@@ -124,6 +124,27 @@
         WHERE F.F_NO IN (SELECT SF_NO FROM SHARE_FEED WHERE SM_NO=#{mNo} and s_status='Y')
         AND  F.F_STATUS='Y'
         ORDER BY 5 DESC
+	</select>
+	
+		<select id="selectUserFeedInfo" parameterType="Mypage" resultMap="feedResultSet">
+		SELECT F.*, P.CHANGENAME AS thumbnail
+		FROM FEED F
+		LEFT JOIN (SELECT * FROM (SELECT F_NO, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO, PHOTO.CHANGENAME DESC) AS NUM, CHANGENAME
+		                            FROM PHOTO)
+		            WHERE NUM =1)P ON (F.F_NO = P.F_NO)
+		WHERE F.M_NO= #{mNo}
+		AND F.F_STATUS='Y'
+		AND F.G_NO = 0
+        UNION
+        SELECT F.*,P.CHANGENAME AS thumbnail 
+        FROM FEED F 
+        LEFT JOIN (SELECT * FROM (SELECT F_NO, ROW_NUMBER() OVER (PARTITION BY F_NO ORDER BY F_NO, PHOTO.CHANGENAME DESC) AS NUM, CHANGENAME
+		                            FROM PHOTO)
+                                    WHERE NUM =1)P ON (F.F_NO = P.F_NO)
+        WHERE F.F_NO IN (SELECT SF_NO FROM SHARE_FEED WHERE SM_NO=#{mNo} and s_status='Y')
+        AND  F.F_STATUS='Y'
+        AND F.G_NO = 0
+        ORDER BY 5 DESC
         
 	</select>
 	
@@ -209,11 +230,12 @@
 	</select>
 
 	<select id="detailFeed" parameterType="Feed" resultMap="feedResultSet">
-		select f.*, m.*
+		select f.*, m.*,G.G_NAME
 		,(SELECT COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=m.m_id and F.F_NO = F_NO GROUP BY F_NO) likeChk
-        ,(select case when COUNT(*)>0 then 'Y' else 'N' end from SHARE_FEED sf where (sf.sf_no=f.f_no) and sf.sm_no = #{mNo}) as shareYN
+        ,(select case when COUNT(*)>0 then 'Y' else 'N' end from SHARE_FEED sf where (sf.sf_no=f.f_no) and sf.sm_no = '143') as shareYN
         from feed f
-		left join member m on(f.m_no=m.m_no)
+		LEFT JOIN member m on(f.m_no=m.m_no)
+        LEFT JOIN GROUPS G ON (G.G_NO = F.G_NO)
 		where f.f_no=#{fNo}
 		and f.m_no=#{smNo}
 		and F.F_STATUS='Y'
@@ -243,25 +265,6 @@
 		UPDATE share_Feed set s_status='N' WHERE sm_no=#{smNo} and sf_no=#{fNo}
 	</update>
 	
-	<select id="storagePopup" resultMap="feedResultSet" parameterType="Feed">
-	SELECT
-    F.*
-  , (SELECT MB.M_RENAME_IMAGE
-    FROM MEMBER MB
-    WHERE MB.M_ID = F.F_WRITER) AS M_PROFILE
-  , R.*
-  , P.*
-  , M.M_RENAME_IMAGE
-  , L.LIKECHK
-	FROM FEED F
-	LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
-	LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
-	LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
-	LEFT JOIN (SELECT F_NO,COUNT(*) AS LIKECHK FROM LIKEIT WHERE L_USERID=#{fWriter} GROUP BY F_NO) L ON (F.F_NO = L.F_NO)
-	WHERE
-	F.F_STATUS ='Y'
-	AND F_NO = #{fNo}
-	</select>
 	<delete id="deleteSf" parameterType="sBox">
 	DELETE FROM STORAGE_BOX WHERE F_NO = #{fNos} AND M_NO =#{mNo} AND SB_NO =#{sbNo}
 	</delete>

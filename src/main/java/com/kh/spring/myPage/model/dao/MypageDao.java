@@ -105,6 +105,10 @@ public class MypageDao {
 		return  sqlSession.delete("mypageMapper.deleteSf",sf);
 	}
 
+	public ArrayList<Feed> selectUserFeedInfo(int mNo) {
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectUserFeedInfo", mNo);
+	}
+
 
 
 
