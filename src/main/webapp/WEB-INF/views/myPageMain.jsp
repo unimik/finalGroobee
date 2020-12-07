@@ -1341,8 +1341,12 @@
 		var rfNo = fNo;
 		var rWriter = '${loginUser.userId}';
 		var mNo = $('#mNo').val();
-		
-		var ok = confirm("댓글을 등록하시겠습니까?");
+     	
+     	var ok = confirm("댓글을 등록하시겠습니까?");
+     	if(ok == false) {
+     		return false;
+     	}
+     	
      	console.log(ok);
      	if(ok){
  		
@@ -1436,6 +1440,7 @@
       	                  input +="</div>"; 
       	                  
       	                  $('#replyEditCont').append(input);
+      	                  
       	                  
 	       	      	        $('.feed_delete').click(function() {
 	       	      	            $(".pop_feed").hide();
@@ -1820,6 +1825,9 @@
      	} else {
      		
      		$('.rContent').val("");	// 등록 시에 사용한 댓글 내용 초기화
+     	}
+     	
+     	
      	}
     }
     
