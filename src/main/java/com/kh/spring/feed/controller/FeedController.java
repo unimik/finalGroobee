@@ -178,6 +178,7 @@ public class FeedController {
       System.out.println("view : " + f);
       System.out.println("photo : " + f.getPhotoList());
       System.out.println("photo : " + f.getPhotoList().size());
+      System.out.println("공개여부 : " +  f.getfOpenScope());
       
       //수정 업데이트  태그 제거
 	    try {
