@@ -79,4 +79,9 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.selectUserInfo(userId);
 	}
 
+	@Override
+	public String blist(String userId) {
+		return mDao.blist(userId);
+	}
+
 }

@@ -73,7 +73,6 @@ public class MemberController {
 		String name = m.getUserId();
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-		
 		//내가 가입 안한 그룹은 게시글에서 제거하기
 		
 		/*ArrayList<Mypage> mp = mpService.selectGroupInfo(m.getgNo());

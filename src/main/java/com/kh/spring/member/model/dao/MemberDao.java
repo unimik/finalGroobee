@@ -66,4 +66,8 @@ public class MemberDao {
 	public Member selectUserInfo(String userId) {
 		return sqlSession.selectOne("memberMapper.selectUserInfo",userId);
 	}
+
+	public String blist(String userId) {
+		return sqlSession.selectOne("memberMapper.blist", userId);
+	}
 }
