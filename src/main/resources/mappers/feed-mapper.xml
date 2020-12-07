@@ -164,7 +164,7 @@
 		                            FROM MEMBER
 		                            WHERE M_ID =#{userId})
 		        ))
-		ORDER BY F.F_NO DESC, R.R_NO DESC
+		ORDER BY F.F_NO DESC
 	</select>
 	
 	<select id="selectPhotoList" resultMap="photoResultSet">
@@ -321,6 +321,7 @@
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+        LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO = #{ gNo }
@@ -333,6 +334,7 @@
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+        LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO = #{ gNo }
