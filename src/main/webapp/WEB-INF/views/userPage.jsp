@@ -326,6 +326,7 @@
 	                    		</c:when>
 	                    		<c:otherwise>
 			                        <c:forEach var="feedlist" items="${ feedList }">
+		                            <c:if test="${ feedlist.fOpenScope ne 'G'}">
 			                        <input type="hidden" id="fNo" name="fNo" value="${ feedlist.fNo }">
 			                        <div class="post">
 			                            <c:choose>
@@ -343,6 +344,7 @@
 			                                 </c:otherwise>
 			                              </c:choose>
 				                      </div>
+			                              </c:if>
 			                          </c:forEach>
 	                    		</c:otherwise>
                     		</c:choose>
