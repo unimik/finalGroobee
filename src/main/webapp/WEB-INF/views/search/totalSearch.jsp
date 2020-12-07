@@ -1343,6 +1343,11 @@
       		var rWriter = '${loginUser.userId}';
       		var mNo = '${loginUser.mNo}';
       		
+    		if(rContent == "") {
+   	         alert("댓글을 입력해 주세요.");
+   	         return false;
+   	      }
+      		
       		var ok = confirm("댓글을 등록하시겠습니까?");
          	console.log(ok);
          	if(ok){
