@@ -208,3 +208,5 @@ a{ color: #555555; text-decoration: none; }
 #reply{ width: 630px; padding: 20px 0 20px 0; margin: auto; margin-bottom: 50px; }
 #textArea{ width: 470px; height: 40px; border-radius: 10px; border: 1px solid #e5e5e5; margin:0 10px 0 25px; }
 #replyBtn{ width: 90px; height: 40px; border-radius: 10px; border: 0; background: #daf4ed; }
+
+#osG{ margin: -15px 65px; }
