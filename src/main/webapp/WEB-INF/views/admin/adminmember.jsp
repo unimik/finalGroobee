@@ -254,7 +254,7 @@
 
 					$tableFoot = $("#user_table tfoot");
 					var $tr2 = $("<tr>");				
-					
+					console.log(data);
 					for(var i in data){
 						var $tr = $("<tr>");
 						var $mNo = $("<td>").text(data[i].mNo);

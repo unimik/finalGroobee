@@ -40,5 +40,10 @@
 					AND D_REPORTDATE like '%'||#{dReportDate}||'%'
 				</if>
 		</trim>
+		<trim prefix="ORDER BY">
+			<if test="dNO != null">
+				D_NO DESC
+			</if>
+		</trim>
 	</select>
 </mapper>
