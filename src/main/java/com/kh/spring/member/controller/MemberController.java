@@ -75,7 +75,7 @@ public class MemberController {
 		ArrayList<Feed> feed = fService.selectFeed(userId);
 		
 		//내가 가입 안한 그룹은 게시글에서 제거하기
-		/*
+		
 		ArrayList<Mypage> mp = mpService.selectGroupInfo(m.getgNo());
 		for(int j = 0; j < feed.size(); j++) {
 			for(int i = 0 ; i < mp.size(); i++) {
@@ -84,7 +84,7 @@ public class MemberController {
 				}
 			}
 		}
-		*/
+		
 		
 		
 		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
