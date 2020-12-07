@@ -168,6 +168,11 @@
 				AND G_TAG like '%'||#{gTag}||'%'
 			</if>
 		</trim>
+		<trim prefix="ORDER BY">
+			<if test="gNo != null">
+				G_NO DESC
+			</if>
+		</trim>
 	</select>
 	
 

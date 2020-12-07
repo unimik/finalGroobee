@@ -190,7 +190,7 @@
 					var $fNo = $("<tr><td>").text("1. 피드 번호 : "+ data.fNo);
 					var $fWriter = $("<tr><td>").text(" 2. 작성자 : "+data.fWriter);
 					var $fCreateDate = $("<tr><td>").text(" 3. 작성일 : "+data.fCreateDate);
-					var $fContent = $("<tr><td>").text(" 4. 내용 : "+ data.fContent);
+					var $fContent = $("<tr><td>").html(" 4. 내용 : "+ data.fContent);
 					
 					
 					$tableEtc.append($fNo);
@@ -203,7 +203,7 @@
 					var $rNo = $("<tr><td>").text("1. 댓글 번호 : "+ data.rNo);
 					var $rWriter = $("<tr><td>").text(" 2. 작성자 : "+data.rWriter);
 					var $rCreateDate = $("<tr><td>").text(" 3. 작성일 : "+data.rCreateDate);
-					var $rContent = $("<tr><td>").text(" 4. 내용 : "+ data.rContent);
+					var $rContent = $("<tr><td>").html(" 4. 내용 : "+ data.rContent);
 					
 					
 					$tableEtc.append($rNo);

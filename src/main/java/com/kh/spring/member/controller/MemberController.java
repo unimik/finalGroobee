@@ -2,6 +2,7 @@ package com.kh.spring.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,10 +26,12 @@ import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
 import com.kh.spring.feed.model.vo.Reply;
+import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.member.model.service.MailService;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.myPage.model.service.MypageService;
+import com.kh.spring.myPage.model.vo.Mypage;
 import com.kh.spring.notification.model.service.NotificationService;
 import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 import com.kh.spring.setting.model.service.SettingService;
@@ -70,6 +73,20 @@ public class MemberController {
 		String name = m.getUserId();
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
+		
+		//내가 가입 안한 그룹은 게시글에서 제거하기
+		/*
+		ArrayList<Mypage> mp = mpService.selectGroupInfo(m.getgNo());
+		for(int j = 0; j < feed.size(); j++) {
+			for(int i = 0 ; i < mp.size(); i++) {
+				if(feed.get(j).getgNo() != mp.get(i).getgNo()) {
+					feed.remove(j);
+				}
+			}
+		}
+		*/
+		
+		
 		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
 		
 		ArrayList<Feed> newFeed = new ArrayList<>();

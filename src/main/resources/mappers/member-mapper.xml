@@ -127,9 +127,11 @@
 				<if test="cDate != null">
 					AND CREATE_DATE like '%'||#{cDate}||'%'
 				</if>
-<!-- 				<if test="mNo != null">
-					AND M_NO like '%'||#{mNo}||'%'
-				</if> -->
+		</trim>
+		<trim prefix="ORDER BY">
+			<if test="mNo != null">
+				M_NO DESC
+			</if>
 		</trim>
 	</select>
 	
