@@ -1437,6 +1437,7 @@
       	                  
       	                  $('#replyEditCont').append(input);
       	                  
+      	                  
 	       	      	        $('.feed_delete').click(function() {
 	       	      	            $(".pop_feed").hide();
 	       	      	        });
