@@ -80,6 +80,12 @@
 						<div id="user_time">
 							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 							<h6><c:out value="${ f.fModifyDate }" /></h6>
+							<c:if test="${ f.gNo ne 0 }">
+							<c:url var="godetail" value="gdetail.do">
+							<c:param name="gNo" value="${ f.gNo }"/>
+							</c:url>
+							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
+							</c:if>
 						</div>
 						</a>
 						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
@@ -95,6 +101,12 @@
 						<div id="user_time">
 							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 							<h6><c:out value="${ f.fCreateDate }" /></h6>
+							<c:if test="${ f.gNo ne 0 }">
+							<c:url var="godetail" value="gdetail.do">
+							<c:param name="gNo" value="${ f.gNo }"/>
+							</c:url>
+							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
+							</c:if>
 						</div>
 						</a>
 						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
@@ -331,6 +343,10 @@
 						<div id="user_time">
 							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 							<h6><c:out value="${ f.fModifyDate }" /></h6>
+							<c:url var="godetail" value="gdetail.do">
+							<c:param name="gNo" value="${ f.gNo }"/>
+							</c:url>
+							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 						</div>
 						</a>
 						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
@@ -346,6 +362,10 @@
 						<div id="user_time">
 							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 							<h6><c:out value="${ f.fCreateDate }" /></h6>
+							<c:url var="godetail" value="gdetail.do">
+							<c:param name="gNo" value="${ f.gNo }"/>
+							</c:url>
+							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
 						</div>
 						</a>
 						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
