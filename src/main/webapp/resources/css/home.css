@@ -84,4 +84,5 @@
 #cancel2{outline:none; margin-left: 16px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}	
 /*  #cancel{outline:none; margin-left: 16px; margin-top:-4px;cursor: pointer;display: block;width: 100px; background:#e5e5e5;border: none;border-radius: 10px;width:100px;height: 35px;float: left;}*/	
 .sendreport{margin-top:14px; margin-left:50px; background:#daf4ed; resize:none;display:none; border:none;}
-#reply_reportContent{border-radius:10px}
+#reply_reportContent{border-radius:10px;}
+#feed_gName{ float:left; position: absolute; margin-top: -36px; color: #47c6a3; margin-left: 80px; font-size: 12px; font-weight: 600;}
