@@ -400,11 +400,12 @@ public class MypageController {
 		fw.setFollows(follow);
 		int result = myService.insertFollow(fw);
 		
+		System.out.println(result);
 		
 		if(result > 0) {
 			return "success";				
 		} else {
-			return"server error";			
+			return"error";			
 		}
 	}
 

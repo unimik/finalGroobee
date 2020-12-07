@@ -74,15 +74,7 @@
                             <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" value="N">알림 해제</td></tr>
                             <tr><td class="others"><input class="others" type="radio" name="notification-Comment" id="" value="F">친구만 알림</td></tr>
                             <tr><td><div class="line"></div></td></tr>
-                            <tr>
-                                <th class="settings others">댓글 좋아요</th>
-                            </tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" value="Y" checked>전체 알림</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" value="N">알림 해제</td></tr>
-                            <tr><td class="others"><input class="others" type="radio" name="notification-CommentLike" id="" value="F">친구만 알림</td></tr>
-                            <tr><td><div class="line"></div></td></tr>
-                            <tr>
-                                <th class="settings others">친구추가</th>
+                                <th class="settings others">팔로우</th>
                             </tr>
                             <tr><td class="others"><input class="others" type="radio" name="notification-Addfollow" id="" value="Y" checked>설정</td></tr>
                             <tr><td class="others"><input class="others" type="radio" name="notification-Addfollow" id="" value="N">해제</td></tr>

@@ -36,7 +36,7 @@ import com.kh.spring.notification.model.service.NotificationService;
 import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 import com.kh.spring.setting.model.service.SettingService;
 
-@SessionAttributes("loginUser")
+@SessionAttributes({"loginUser","alarmList"})
 @Controller
 public class MemberController {
 

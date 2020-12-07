@@ -326,6 +326,7 @@
 	                    		</c:when>
 	                    		<c:otherwise>
 			                        <c:forEach var="feedlist" items="${ feedList }">
+		                            <c:if test="${ feedlist.fOpenScope ne 'G'}">
 			                        <input type="hidden" id="fNo" name="fNo" value="${ feedlist.fNo }">
 			                        <div class="post">
 			                            <c:choose>
@@ -343,6 +344,7 @@
 			                                 </c:otherwise>
 			                              </c:choose>
 				                      </div>
+			                              </c:if>
 			                          </c:forEach>
 	                    		</c:otherwise>
                     		</c:choose>
@@ -1712,11 +1714,6 @@
     		var rfNo = fNo;
     		var rWriter = '${loginUser.userId}';
     		var mNo = $('#mNo').val();
-    		
-    		if(rContent == "") {
-   	         alert("댓글을 입력해 주세요.");
-   	         return false;
-   	      }
     		
     		var ok = confirm("댓글을 등록하시겠습니까?");
          	console.log(ok);
