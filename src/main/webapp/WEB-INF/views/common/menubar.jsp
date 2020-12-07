@@ -1175,6 +1175,7 @@
 								}else if(dArr[1] == 'followAccept' ){
 									$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 팔로우를 수락하였습니다.</p></div>');
 									if(nArr[3] == "N"){notifychk = false;}
+									window.location.reload();
 								}else if(dArr[1] == 'groupjoin'){
 									$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a style="color:black;"href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 그룹 가입을 신청했습니다.</p></div>');
 									notifytext +=dArr[2]+' 님이 그룹 가입을 신청했습니다.';
@@ -1183,7 +1184,7 @@
 									notifytext += dArr[3]+' 에서 그룹 가입을 승인했습니다.';
 								}else if(dArr[1] == 'like'){
 									$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a onclick="goDetail(332,3)"</a></b>'+dArr[2]+'가 회원님의 게시물을 좋아합니다.</p></div>');
-									notifytext += dArr[2]+' 가 회원님의 게시물을 좋아합니다.';
+									notifytext += dArr[2]+' 님이 회원님의 게시물을 좋아합니다.';
 									if(nArr[1] == "N"){notifychk = false;}
 								}else if (dArr[1] == 'reply' ){
 									$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a onclick="goDetail(fNo,smNo)"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
@@ -1212,69 +1213,7 @@
 					});
 				}
 			}); 
-			
-			/* $.ajax({
-				url:"userData.do",
-				data : {
-					fromId : fromId
-				},
-				success:function(data){
-					console.log(data.mRenameImage);
-					if(data.mRenameImage != null){
-						userImg = data.mRenameImage;
-						
-						console.log("userImg: "+userImg);
-						
-						// 알림기능
-						if(dArr[1] == 'follow'){
-				 	 		$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 회원님을 팔로우합니다.</p></div>'); 					
-				 	 		notifytext += dArr[2]+' 님이 회원님을 팔로우합니다.';
-				 	 		if(nArr[3] == "N"){notifychk = false;}
-						}else if(dArr[1] == 'followChk'){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><span><b><a href="goUserpage.do?userId='+dArr[2]+
-									'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+
-									'</a></b>님이 회원님을 팔로우 하고 싶어 합니다.</span> <button class="followChk" id="followAccept" value="'+dArr[2]+'">수락</button><button class="followChk" id="no" value="거절">거절</button><input id="followId" type="hidden" value="'+dArr[2]+'"><input id="followNo" type="hidden" value="'+dArr[3]+'"></div>');
-							notifytext += dArr[2]+' 님이 회원님을 팔로우 하고 싶어 합니다.';
-						}else if(dArr[1] == 'followAccept' ){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 팔로우를 수락하였습니다.</p></div>');
-							if(nArr[3] == "N"){notifychk = false;}
-						}else if(dArr[1] == 'groupjoin'){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a style="color:black;"href="goUserpage.do?userId='+dArr[2]+'&mNo=' + ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 그룹 가입을 신청했습니다.</p></div>');
-							notifytext +=dArr[2]+' 님이 그룹 가입을 신청했습니다.';
-						}else if(dArr[1] == 'groupAccept'){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a href="gdetail.do?gNo='+dArr[2]+'">'+dArr[3]+'</a></b>에서 그룹 가입을 승인했습니다.</p></div>');
-							notifytext += dArr[3]+' 에서 그룹 가입을 승인했습니다.';
-						}else if(dArr[1] == 'like'){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a onclick="goDetail(332,3)"</a></b>'+dArr[2]+'가 회원님의 게시물을 좋아합니다.</p></div>');
-							notifytext += dArr[2]+' 가 회원님의 게시물을 좋아합니다.';
-							if(nArr[1] == "N"){ console.log(nArr[0]);}
-						}else if (dArr[1] == 'reply' ){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a onclick="goDetail(fNo,smNo)"></a></b>'+dArr[2]+'님이 회원님의 게시물에 댓글을 남겼습니다.</p></div>');
-							notifytext += dArr[2]+' 님이 회원님의 게시물에 댓글을 남겼습니다.';
-							if(nArr[2] == "N"){notifychk = false;}
-						}else if(dArr[1] == 'groupDelete'){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b>'+dArr[3]+'</b>에서 추방 당하셨습니다.</p></div>');
-							notifytext +='그룹 '+dArr[3]+' 에서 추방 당하셨습니다.';
-						}else if(dArr[1] == 'tag'){
-							$('#alarmList').prepend('<div id="list"><img src="/spring/resources/memberProfileFiles/'+userImg+'"><p><b><a href="goUserpage.do?userId='+dArr[2]+'&mNo='+ ${loginUser.mNo} + '">'+dArr[2]+'</a></b>님이 게시물에 회원님을 태그하셨습니다.</p></div>'); 					
-				 	 		notifytext += dArr[2]+' 님이 게시물에 회원님을 태그하셨습니다.';
-						};
 
-						// 알림 설정 확인
-						console.log(notifychk);
-						if(notifychk != false){
-							$.notify(notifytext, {
-				    		  	icon : '../../resource/icon/alarm.png',
-				      		style: 'groobee',
-				    		  	position : 'bottom-right',
-				    		  	icon_type: 'img'
-				    		});
-						}
-					}
-				} 
-			}); */
-			
-			
 			
 		 };
      };
@@ -1571,12 +1510,17 @@
 	      		   	 datatype:"text",
 	      		   	 success: function(data){
 		      		   	if(data == 'success'){
-		      		 	  	window.location.reload();
+		      		 	  	history.go(0);
 		  		   		 }else{
 		  		   			alert("팔로우 실패했습니다.");
 		  		   		 }
-	      		   	 },error: function(error){
-	      		   		 alert(error+"팔로우 에러??????????????????");
+	      		   	 },error: function(data){
+	      		   		 if(data == 'error'){
+	      		   		 alert(data+"팔로우 에러??????????????????");
+	      		   		history.go(0);
+	      		   		 }else{
+	      		   			 
+	      		   		 }
 	      		   	 }
 	       	 });
     	  
