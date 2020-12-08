@@ -325,10 +325,9 @@
 			</div>
 		</div>
 		</c:if>
-		</c:forEach>
+		
 		<!-- 공개 여부가 비공개일 때 -->
-		<c:if test="${ f.fOpenScope eq 'G' }">
-			<c:if test="${ loginUser.userId eq f.fWriter }">
+		<c:if test="${ f.fOpenScope eq 'G' and loginUser.userId eq f.fWriter }">
 			<div id="feed${ i }" class="feed">
 			<div id="writer_submenu">
 				<c:choose>
@@ -343,10 +342,15 @@
 						<div id="user_time">
 							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 							<h6><c:out value="${ f.fModifyDate }" /></h6>
+							<c:if test="${ f.fOpenScope eq 'G' }">
+								<h6 id="osG">비공개</h6>
+							</c:if>
+							<c:if test="${ f.gNo ne 0 }">
 							<c:url var="godetail" value="gdetail.do">
 							<c:param name="gNo" value="${ f.gNo }"/>
 							</c:url>
 							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
+							</c:if>
 						</div>
 						</a>
 						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
@@ -362,10 +366,15 @@
 						<div id="user_time">
 							<p id="feed_id"><c:out value="${ f.fWriter }" /></p>
 							<h6><c:out value="${ f.fCreateDate }" /></h6>
+							<c:if test="${ f.fOpenScope eq 'G' }">
+								<h6 id="osG">비공개</h6>
+							</c:if>
+							<c:if test="${ f.gNo ne 0 }">
 							<c:url var="godetail" value="gdetail.do">
 							<c:param name="gNo" value="${ f.gNo }"/>
 							</c:url>
 							<a href="${ godetail }" id="feed_gName">｜&nbsp;<c:out value="${ f.gName }"/></a>
+							</c:if>
 						</div>
 						</a>
 						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
@@ -573,8 +582,8 @@
 				</div>
 			</div>
 		</div>
-		</c:if>
 	</c:if>
+	</c:forEach>
 
 	<div id="footer"><p>GROOBEE © 2020</p></div>
 	</div>

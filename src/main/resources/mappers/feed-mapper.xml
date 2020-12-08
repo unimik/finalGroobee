@@ -166,7 +166,7 @@
 		                            FROM MEMBER
 		                            WHERE M_ID =#{userId})
 		        ))
-		ORDER BY F.F_NO DESC
+		ORDER BY F.F_NO DESC, R.R_MODIFLY_DATE ASC
 	</select>
 	
 	<select id="selectPhotoList" resultMap="photoResultSet">
@@ -323,33 +323,53 @@
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO != 0
-		ORDER BY F.F_NO DESC
+		ORDER BY F.F_NO DESC, R.R_MODIFLY_DATE ASC
 	</select>
 	
 	<select id="selectGfeed" resultMap="postResultSet">
-		SELECT *
+		SELECT
+			F.*
+	      , (SELECT MB.M_RENAME_IMAGE
+	        FROM MEMBER MB
+	        WHERE MB.M_ID = F.F_WRITER) AS M_PROFILE
+	      , R.*
+	      , P.*
+	      , G.*
+	      , M.M_RENAME_IMAGE
+          , RP.REPLYCNT
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+        LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
         LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO = #{ gNo }
-		ORDER BY F.F_CREATE_DATE DESC
+		ORDER BY F.F_CREATE_DATE DESC, R.R_MODIFLY_DATE ASC
 	</select>
 	
 	<select id="selectHGfeed" resultMap="postResultSet">
-		SELECT *
+		SELECT
+			F.*
+	      , (SELECT MB.M_RENAME_IMAGE
+	        FROM MEMBER MB
+	        WHERE MB.M_ID = F.F_WRITER) AS M_PROFILE
+	      , R.*
+	      , P.*
+	      , G.*
+	      , M.M_RENAME_IMAGE
+          , RP.REPLYCNT
 		FROM FEED F
         LEFT JOIN REPLY R ON (F.F_NO = R.F_NO)
         LEFT JOIN PHOTO P ON (F.F_NO = P.F_NO)
         LEFT JOIN GROUPS G ON (F.G_NO = G.G_NO)
+        LEFT JOIN MEMBER M ON (M.M_ID = R.R_WRITER)
         LEFT JOIN (SELECT RR.F_NO, COUNT(*) AS REPLYCNT FROM(SELECT RE.*, CASE WHEN R_STATUS = 'Y' THEN 1 END AS K FROM REPLY RE) RR GROUP BY RR.F_NO) RP ON (RP.F_NO = F.F_NO)
 		WHERE F.F_STATUS='Y'
 		AND F.G_NO IS NOT NULL
 		AND F.G_NO = #{ gNo }
-		ORDER BY F.F_LIKECNT DESC
+		ORDER BY F.F_LIKECNT DESC, R.R_MODIFLY_DATE ASC
 	</select>
 
    

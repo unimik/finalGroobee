@@ -54,12 +54,6 @@
                          </c:choose>   
                         </div>
                     </div>
-                     <script type="text/javascript">
-                     function ClickUser(obj) {
-                     	console.log("눌렀다")
-	
-						}
-                     </script>
                     <!--그룹-->
                     <div id="group">
                         <div id="title_group">

@@ -13,6 +13,7 @@
 		<result property="mStatus" column="M_STATUS"/>
 		<result property="mImage" column="M_IMAGE"/>
  		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
+ 		
 		<result property="cDate" column="CREATE_DATE"/>
 		<result property="mLevel" column="M_LEVEL"/>
 		<result property="mIntro" column="M_INTRO"/>
