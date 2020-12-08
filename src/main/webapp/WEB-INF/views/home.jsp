@@ -88,7 +88,7 @@
 							</c:if>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feedMenu">
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
@@ -109,7 +109,7 @@
 							</c:if>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feedMenu">
 					</c:otherwise>
 				</c:choose>
 				<c:if test="${ loginUser.userId ne f.fWriter }">
@@ -353,7 +353,7 @@
 							</c:if>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feedMenu">
 					</c:when>
 					<c:otherwise>
 						<a href="goMypage.do?mNo=${ loginUser.mNo }">
@@ -377,7 +377,7 @@
 							</c:if>
 						</div>
 						</a>
-						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="test">
+						<img src="${ contextPath }/resources/icons/feed_menu.png" alt="" id="feed_menu" class="feedMenu">
 					</c:otherwise>
 				</c:choose>
 				<c:if test="${ loginUser.userId ne f.fWriter }">
@@ -599,17 +599,20 @@
 	$('.replyUpBtn').mouseenter(function() {
 		$(this).css('cursor', 'pointer')
 	});
-	$('.test').mouseenter(function() {
+	$('.feedMenu').mouseenter(function() {
 		$(this).css('cursor', 'pointer')
 	});
 	$('.rUpBtn').mouseenter(function() {
 		$(this).css('cursor', 'pointer')
-	});
-	
-	$('.test').on("click", function(event){
+	}); 	
+	$('.feedMenu').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
 	    $(sample).show();
 	});
+/* 	$(document).on("click", '.feedMenu', function(event){
+	    var sample = $(event.target).siblings()[1];
+	    $(sample).show();
+	}); */
     $('.close').on('click', function(){
         $('.pop_menu').hide();
     });
