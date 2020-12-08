@@ -10,7 +10,6 @@
 <title>home</title>
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/chat.css">
-<!-- <link rel="stylesheet" href="resources/css/myPage_Main.css"> -->
 <link rel="stylesheet" href="resources/css/alarmPop.css">
 <link rel="stylesheet" href="resources/css/user_alarmPop.css">
 <link rel="stylesheet" href="resources/css/myAccount.css">
@@ -254,7 +253,7 @@
     		 success:function(data){
    				 console.log(data);
     			 if(data == "ok") {
-    				 alert("채팅방 나가기에 성공했수다");
+    				 alert("채팅방 나가기에 성공했습니다.");
     				 $(".chat_room").hide();
     				 openChat();
     				 $(".chat").show();
