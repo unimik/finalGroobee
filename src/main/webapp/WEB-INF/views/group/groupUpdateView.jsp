@@ -55,6 +55,16 @@
 	                       </div>
                        </div>
                        
+                       <div class="pop_menu_gmMasterList_Manager">
+	                       <div id="feed_menu_gmMasterlist_Manager">
+	                       		<ul id="popMaster_Manager">
+	                       			<li><a id="del_gm">내보내기</a></li>
+	                       			<li><a id="gm_report">신고</a></li>
+	                       			<li><a class="close">취소</a></li>
+	                       		</ul>
+	                       </div>
+                       </div>
+                       
                        <div class="pop_menu_gmList">
 	                       <div id="feed_menu_gmlist">
 	                       		<ul id="popGm">
@@ -183,14 +193,24 @@
                                        </div>
                                        <div id="container_main_fifth_first">  
                                            <p id="p_title">질문</p>
-                                           <c:if test="${ !empty g.q1 && !empty g.q2 && !empty g.q3 }">
-                                           		<input type="text" id="question" name="q1" value="${ g.q1 }" />
-                                           		<input type="text" id="question" name="q2" value="${ g.q2 }" />
-                                           		<input type="text" id="question" name="q3" value="${ g.q3 }" />
-                                           		<input type="button" id="add_question" name="add_question" value="+" />
-                                           		<input type="button" id="sub_question" name="sub_question" value="-">
-                                           </c:if>
-                                           <c:if test="${ !empty g.q1 && !empty g.q2 }">
+                                           <%-- <c:if test="${ !empty g.q1 && !empty g.q2 && !empty g.q3 }">--%>
+                                           <c:choose>
+                                           		<c:when test="${ !empty g.q1 }">
+                                           			<input type="text" id="question" name="q1" value="${ g.q1 }" />
+                                           			<input type="button" id="add_question" name="add_question" value="+" />
+                                           			<input type="button" id="sub_question" name="sub_question" value="-">
+                                           		</c:when>
+                                           		<c:when test="${ !empty g.q1 && !empty g.q2 }">
+                                           			<input type="text" id="question" name="q1" value="${ g.q1 }" />
+                                           			<input type="button" id="add_question" name="add_question" value="+" />
+                                           			<input type="button" id="sub_question" name="sub_question" value="-">
+                                           			<input type="text" id="question2" name="q2" value="${ g.q2 }" />
+                                           		</c:when>
+                                           	</c:choose>
+                                           		<%-- <input type="text" id="question2" name="q2" value="${ g.q2 }" />
+                                           		<input type="text" id="question3" name="q3" value="${ g.q3 }" /> --%>
+                                           <%-- </c:if>--%>
+                                           <%--<c:if test="${ !empty g.q1 && !empty g.q2 }">
                                            		<input type="text" id="question" name="q1" value="${ g.q1 }" />
                                            		<input type="text" id="question" name="q2" value="${ g.q2 }" />
                                            		<input type="button" id="add_question" name="add_question" value="+" />
@@ -200,7 +220,7 @@
                                            		<input type="text" id="question" name="q1" value="${ g.q1 }" />
                                            		<input type="button" id="add_question" name="add_question" value="+" />
                                            		<input type="button" id="sub_question" name="sub_question" value="-">
-                                           </c:if>
+                                           </c:if> --%>
                                            <c:if test="${ empty g.q1 }">
                                            		<input type="text" id="question" name="q1" placeholder="질문 설정은 최대 3개까지 가능합니다." />&nbsp;
                                            		<input type="button" id="add_question" name="add_question" value="+" />
@@ -682,7 +702,8 @@
 	      	      		//*******************  그룹 매니저 지정 후 gmList 다시 불러오기
 	        	        function gManagerChange(){
 	    	            	var gNo = ${g.gNo};
-	    	            	var gmI = $(this).parents().children('input#inid').val();
+	    	            	var gmI = $('input#inid').val();
+	    	            	console.log(gmI);
 	    	            	
 	    	            	$.ajax({
 	    	            		url:"gManagerChange.do",
@@ -818,14 +839,19 @@
     	            		
     	            		var level = $(this).parents().children('li#level').text()
     		            	console.log(level);
-    	            		
+    	            		var gManager = "${ g.gManager}";
+							
     		            	if( level == "매니저" ){
     		            		$('.pop_menu_gmMasterList').append(maId);
     		            		$('.pop_menu_gmMasterList').show();
-    		            	} else {
+    		            	} else if ( "${loginUser.userId}" == gManager ){ 
+    		            		$('.pop_menu_gmMasterList_Manager').append(maId);
+    		            		$('.pop_menu_gmMasterList_Manager').show();
+    		            	}else {
     		            		$(".pop_menu_gmList").append(id);
     		            		 $(".pop_menu_gmList").show();
     		            	}
+    		            	
     		            	
     	                   
     	                });
@@ -836,6 +862,7 @@
     	                	
     	                    $('.pop_menu_gmList').hide();
     	                    $('.pop_menu_gmMasterList').hide();
+    	                    $('.pop_menu_gmMasterList_Manager').hide();
     	                    $('#inid').remove();
     	                    $('#inid').remove();
     	                });
