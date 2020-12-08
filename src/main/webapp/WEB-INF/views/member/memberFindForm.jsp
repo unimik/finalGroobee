@@ -79,7 +79,7 @@
                             </div>
                             <input type="hidden" name="random" id="random">
                             <div><button id="userPwdFindBtn">비밀번호 찾기</button></div>
-                            <a href="loginView.do"><p>돌아가기</p></a>
+                            <a href="loginView.do" id="goBack"><p>돌아가기</p></a>
                         </div>
                     </div>
                 </form>
