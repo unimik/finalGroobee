@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.model.dao.NotificationDao;
 import com.kh.spring.notification.model.vo.Notification;
 import com.kh.spring.pushAlarm.model.vo.PushAlarm;
@@ -38,6 +39,11 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public String selectGM(String crno) {
 		return nDao.selectGM(crno);
+	}
+
+	@Override
+	public ArrayList<Member> selectImg(String name) {
+		return nDao.selectImg(name);
 	}
 
 }

@@ -59,4 +59,8 @@ public interface MemberService {
 	int updatePwd(Member m);
 
 	Member selectUserInfo(String userId);
+
+	int activeAcount(Member m);
+	
+	String blist(String userId);
 }

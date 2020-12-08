@@ -355,9 +355,22 @@ public class MypageController {
 		
 		PersonalSetting ps = sService.personalSetting(mNo);
 		PersonalSetting userPs = sService.personalSetting(memberInfo.getmNo());
-		
+		String bList = mService.blist(userId);
+		System.out.println(bList);
+		String blockCheck= "";
+		if(bList != null) {
+			String[] userblist = bList.split(",");
+			for(int i = 0; i < userblist.length; i++) {
+				int userblock = Integer.parseInt(userblist[i]);
+				if(userblock == mNo) {
+					blockCheck = "b";
+				}
+			}
+		}
+
 		String blocked = ps.getBlockedNo();
 		String blockedYN = "N";
+		
 		if(blocked != null) {
 			String[] blist = blocked.split(",");
 			
@@ -376,7 +389,9 @@ public class MypageController {
 				}
 			}
 		}
-		
+		//상대방이 나를 못보게 하는 뭔가
+
+		mv.addObject("blockCheck", blockCheck);
 		mv.addObject("blockedYN",blockedYN);
 		mv.addObject("userPs",userPs);
 		mv.addObject("memberInfo", memberInfo);

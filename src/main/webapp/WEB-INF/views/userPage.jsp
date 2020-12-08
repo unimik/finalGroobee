@@ -93,7 +93,7 @@
 </head>
 <body>
    <c:import url="common/menubar.jsp"/>
-            
+            <c:if test="${ blockCheck ne 'b'}" >  
         <!-- 피드 부분 -->
             <div id="feedArea">
                 <div id="feed">
@@ -308,7 +308,7 @@
                              ${ memberInfo.interestes }
                         </div>
                     </div>
-                    
+            
             <!-- 내가 올린 피드 목록 -->
                 <div id="myPage_feedList">
                     <div id="myPage_feed">
@@ -355,7 +355,10 @@
                 </div>
             </div>
         </div>
-
+		</c:if>
+		<c:if test="${ blockCheck eq 'b'}">
+		<div style="margin-left: 300px"> 존재하지 않는 계정 입니다.</div>
+		</c:if>
 
     <script>
     	

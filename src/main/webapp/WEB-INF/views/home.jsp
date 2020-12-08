@@ -608,6 +608,7 @@
 	$('.feedMenu').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
 	    $(sample).show();
+	    console.log($(event.target).siblings()[1]);
 	});
 /* 	$(document).on("click", '.feedMenu', function(event){
 	    var sample = $(event.target).siblings()[1];
