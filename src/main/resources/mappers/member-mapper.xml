@@ -141,5 +141,13 @@
 		WHERE M_ID = #{userId}
 	</select>
 	
-
+	<select id="blist"  parameterType="string" resultType="string">
+	SELECT
+    BLOCKED_NO
+	FROM PERSON_SET
+	WHERE M_NO = (SELECT
+	                    M_NO
+	                FROM MEMBER
+	                WHERE M_ID=#{userId})
+	</select>
 </mapper>

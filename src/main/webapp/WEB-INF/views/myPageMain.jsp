@@ -426,6 +426,9 @@
 		              input +="<a href='gdetail.do?gNo="+data.gno+"' id='feed_gName' style=' font-size: 14px; font-weight: 600; color: #47c6a3; position: absolute; margin-top: -17px;margin-left: 100px;'>"+data.groupName+"</a>"
 		            }
 	              input += "<h6 style='margin:0;'>"+data.fCreateDate+"</h6>";
+	              if(data.fOpenScope == 'G'){
+	            	 input += "<h6 id='osG' style='margin: -15px 65px'>비공개</h6>";
+	              }
 	              input += "</div>";
 	              input += "<img src='/spring/resources/icons/feed_menu.png' alt='' id='feed_menu' class='test'>";
 	              input += "</div>";
