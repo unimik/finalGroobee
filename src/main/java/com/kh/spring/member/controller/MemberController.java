@@ -73,52 +73,46 @@ public class MemberController {
 		String name = m.getUserId();
 		Member loginUser = mService.loginMember(m);
 		ArrayList<Feed> feed = fService.selectFeed(userId);
-		
-		//내가 가입 안한 그룹은 게시글에서 제거하기
-		/*
-		ArrayList<Mypage> mp = mpService.selectGroupInfo(m.getgNo());
-		for(int j = 0; j < feed.size(); j++) {
-			for(int i = 0 ; i < mp.size(); i++) {
-				if(feed.get(j).getgNo() != mp.get(i).getgNo()) {
-					feed.remove(j);
-				}
-			}
-		}
-		*/
-		
-		
-		ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
-		
-		ArrayList<Feed> newFeed = new ArrayList<>();
-		ArrayList<Reply> r = new ArrayList<>();
-		
-		ArrayList<Photo> fp = null;
-		for(Feed f : feed) {
-			fp = fService.selectPhotoList(f.getfNo());
-			
-			for(Photo p : fp) {
-				if(p.getChangeName() != null) {
-					f.setPhotoList(fp);
-				}else {
-					f.setPhotoList(null);
-				}
-			}
-		}
-
-
-		if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
-			model.addAttribute("feed", feed);
+		System.out.println(loginUser.getmStatus());
+		if(loginUser.getmStatus().equals("N")){
 			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("alarmList", alarmList);
-			if(loginUser.getUserId().equals("admin")) {
-				return "admin/adminmember";
-			}else {
-				return "home";
-			}
+			return "common/disabledAccount";
 		}else {
-			model.addAttribute("msg", "로그인 실패!");
-			return "common/errorPage";
+			
+			ArrayList<PushAlarm> alarmList = nService.selectAlarmList(name);
+			ArrayList<Feed> newFeed = new ArrayList<>();
+			ArrayList<Reply> r = new ArrayList<>();
+			
+			ArrayList<Photo> fp = null;
+			for(Feed f : feed) {
+				fp = fService.selectPhotoList(f.getfNo());
+				
+				for(Photo p : fp) {
+					if(p.getChangeName() != null) {
+						f.setPhotoList(fp);
+					}else {
+						f.setPhotoList(null);
+					}
+				}
+			}
+			
+			
+			if(loginUser != null && bcryptPasswordEncoder.matches(userPwd, loginUser.getUserPwd())) {
+				model.addAttribute("feed", feed);
+				model.addAttribute("loginUser", loginUser);
+				model.addAttribute("alarmList", alarmList);
+				if(loginUser.getUserId().equals("admin")) {
+					return "admin/adminmember";
+				}else {
+					return "home";
+				}
+			}else {
+				model.addAttribute("msg", "로그인 실패!");
+				return "common/errorPage";
+			}
 		}
+		
+		
 	}
 	
 
@@ -310,6 +304,24 @@ public class MemberController {
 		
 		return userData;
 	}
+	@ResponseBody
+	@RequestMapping("activeAccount.do")
+	public String userData(@RequestParam("userNo") String userNo,
+							@RequestParam("password") String pwd) {
+		Member m = new Member();
+		
+		m.setmNo(Integer.parseInt(userNo));
+		m.setUserPwd(pwd);
+		
+		int result = mService.activeAcount(m);
+		if(result >0) {
+			return "success";			
+		}else {
+			return "error";
+		}
+	}
+	
+	
 	
 
 }

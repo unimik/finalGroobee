@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.model.vo.Notification;
 import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 
@@ -35,6 +36,10 @@ public class NotificationDao {
 
 	public String selectGM(String crno) {
 		return sqlSession.selectOne("groupMapper.selectGm",crno);
+	}
+
+	public ArrayList<Member> selectImg(String name) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectImg",name);
 	}
 
 }

@@ -66,4 +66,8 @@ public class MemberDao {
 	public Member selectUserInfo(String userId) {
 		return sqlSession.selectOne("memberMapper.selectUserInfo",userId);
 	}
+
+	public int activeAcount(Member m) {
+		return sqlSession.update("memberMapper.activeAcount",m);
+	}
 }

@@ -24,7 +24,6 @@
 		SELECT *
 		FROM MEMBER
 		WHERE M_ID = #{userId}
-		AND M_STATUS = 'Y'
 	</select>
 
 	<!-- ID 중복확인 -->
@@ -142,4 +141,18 @@
 	</select>
 	
 
+	<select id="selectImg" parameterType="string" resultMap="memberResultSet">
+		SELECT FROM_ID,M_RENAME_IMAGE 
+    	FROM PUSH_ALARM 
+   	 	LEFT JOIN MEMBER ON(FROM_ID = M_ID)
+   		WHERE TO_ID=#{name}
+ 		AND READ_YN ='N'
+ 		ORDER BY P_NO DESC
+	</select>
+	
+	<update id="activeAcount" parameterType="Member">
+		UPDATE MEMBER SET M_STATUS ='Y'
+		WHERE M_NO=#{mNo}
+		AND M_PWD="userPwd"
+	</update>
 </mapper>

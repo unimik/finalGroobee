@@ -3,8 +3,7 @@ package com.kh.spring.notification.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
+import com.kh.spring.member.model.vo.Member;
 import com.kh.spring.notification.model.vo.Notification;
 import com.kh.spring.pushAlarm.model.vo.PushAlarm;
 
@@ -20,5 +19,7 @@ public interface NotificationService {
 	int readAlarm(PushAlarm pa);
 
 	String selectGM(String crno);
+
+	ArrayList<Member> selectImg(String name);
 
 }
