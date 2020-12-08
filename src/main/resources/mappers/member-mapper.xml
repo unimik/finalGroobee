@@ -9,7 +9,6 @@
  		<result property="userPwd" column="M_PWD"/>
  		<result property="email" column="M_EMAIL"/>
  		<result property="interestes" column="INTERESTES"/>
- 		<result property="gNo" column="G_NO"/>
  		<result property="mStatus" column="M_STATUS"/>
  		<result property="mImage" column="M_IMAGE"/>
  		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
@@ -36,7 +35,7 @@
 
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER
-		VALUES(SEQ_MNO.NEXTVAL,#{userId},#{userName},#{userPwd},#{email},#{interestes},NULL,DEFAULT,NULL,NULL,SYSDATE,DEFAULT,NULL)
+		VALUES(SEQ_MNO.NEXTVAL,#{userId},#{userName},#{userPwd},#{email},#{interestes},DEFAULT,NULL,NULL,SYSDATE,DEFAULT,NULL)
 	</insert>
 
 	<select id="findId" parameterType="Member" resultType="string">
