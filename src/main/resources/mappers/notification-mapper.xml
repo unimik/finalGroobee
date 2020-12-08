@@ -12,6 +12,7 @@
  		<result property="type" column="TYPE"/>
  		<result property="typeNo" column="TYPE_NO"/>
  		<result property="readYN" column="READ_YN"/>
+ 		<result property="fromImg" column="M_RENAME_IMAGE"/>	
  	</resultMap>
 	<select id="getNotification" parameterType="int" resultMap="notificationResultSet"> 
 		SELECT * FROM NOTIFICATION WHERE M_NO = #{mNo}
@@ -22,14 +23,18 @@
 	</insert>
  	
  	<select id="selectAlarmList" parameterType="String" resultMap="pushAlarmResultSet">
- 		SELECT * FROM PUSH_ALARM WHERE TO_ID=#{name}
- 		AND READ_YN ='N'
- 		ORDER BY P_NO DESC
+ 		
+ 		  SELECT p.*,M.M_RENAME_IMAGE 
+  		  FROM PUSH_ALARM p 
+  		  LEFT JOIN MEMBER M ON(FROM_ID = M_ID)
+  		  WHERE TO_ID=#{name}
+ 		  AND READ_YN ='N'
+ 	      ORDER BY P_NO DESC
  	</select>
  	
  	<update id="readAlarm" parameterType="PushAlarm">
  		UPDATE PUSH_ALARM SET READ_YN = 'Y' 
- 		WHERE TO_ID = #{toId}
+ 		WHERE FROM_ID = #{toId}
  		AND TYPE = #{type}
  		AND TYPE_NO =#{typeNo} 
  	</update>

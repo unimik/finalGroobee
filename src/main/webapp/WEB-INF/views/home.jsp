@@ -609,6 +609,7 @@
 	$('.test').on("click", function(event){
 	    var sample = $(event.target).siblings()[1];
 	    $(sample).show();
+	    console.log($(event.target).siblings()[1]);
 	});
     $('.close').on('click', function(){
         $('.pop_menu').hide();
