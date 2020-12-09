@@ -14,11 +14,31 @@ public class PushAlarm implements Serializable {
 	private String fromId;
 	private String type;
 	private String typeNo;
+	private String fromImg;
 	private String readYN;
 	public PushAlarm() {
 		super();
 	}
 	
+	public PushAlarm(int pNo, String toId, String fromId, String type, String typeNo, String fromImg, String readYN) {
+		super();
+		this.pNo = pNo;
+		this.toId = toId;
+		this.fromId = fromId;
+		this.type = type;
+		this.typeNo = typeNo;
+		this.fromImg = fromImg;
+		this.readYN = readYN;
+	}
+
+	public String getFromImg() {
+		return fromImg;
+	}
+
+	public void setFromImg(String fromImg) {
+		this.fromImg = fromImg;
+	}
+
 	public PushAlarm(String toId, String typeNo, String type) {
 		super();
 		this.toId = toId;

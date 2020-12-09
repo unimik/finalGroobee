@@ -64,3 +64,12 @@
 #popMaster li:nth-child(4){border-bottom: 1px solid #e5e5e5;}
 #popMaster li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color:#555555;}
 
+
+.pop_menu_gmMasterList_Manager{position: fixed; display: none; width: 100%; height: 100%; left:0; top:0; z-index: 100; overflow: auto; background-color:rgb(0,0,0); background-color: rgba(0,0,0,0.3);}
+#feed_menu_gmMasterlist_Manager{background: white; width: 320px; margin: auto; height: 183px; border-radius: 15px; margin-top:300px;}
+#feed_menu_gmMasterlist_Manager ul{ padding:0; margin: 0; }
+#popMaster_Manager li{ list-style: none; text-align: center; height: 60px;}
+#popMaster_Manager li:nth-child(1){border-bottom: 1px solid #e5e5e5;}
+#popMaster_Manager li:nth-child(2){border-bottom: 1px solid #e5e5e5;}
+#popMaster_Manager li a{ display: block; text-decoration: none; cursor: pointer; padding-top: 20px; font-weight: 400; color:#555555;}
+

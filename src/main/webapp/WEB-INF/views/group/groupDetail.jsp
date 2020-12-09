@@ -185,19 +185,19 @@
 		            									<c:if test="${ !empty g.q1 }">
 			                                                <div id="questionBox">
 			                                                    <p>질문 : ${ g.q1 }</p>
-			                                                    <textarea cols="70" rows="5" name="a1"></textarea>
+			                                                    <textarea cols="70" rows="5" name="a1" id="a1"></textarea>
 			                                                </div>
 		                                                </c:if>
 		                                                <c:if test="${ !empty g.q2 }">
 		                                                	<div id="questionBox">
 		                                                    	<p>질문 : ${ g.q2 }</p>
-		                                                    	<textarea cols="70" rows="5" name="a2"></textarea>
+		                                                    	<textarea cols="70" rows="5" name="a2" id="a2"></textarea>
 		                                                	</div>
 		                                                </c:if>
 		                                                <c:if test="${ !empty g.q3 }">
 		                                                	<div id="questionBox">
 		                                                    	<p>질문 : ${ g.q3 }</p>
-		                                                    	<textarea cols="70" rows="5" name="a3"></textarea>
+		                                                    	<textarea cols="70" rows="5" name="a3" id="a3"></textarea>
 		                                                	</div>
 		                                                </c:if>
 		                                            </c:when>
@@ -207,7 +207,7 @@
 	                                        	</c:choose>
 	                                            </div>
 	                                            <div id="btnBox">
-	                                                <input type="submit"  id="joinBtn" name="joinBtn" value="가입하기">
+	                                                <input type="button"  id="joinBtn" class="joinBtn" name="joinBtn" value="가입하기" >
 	                                                <input type="button" id="close_joinPop" name="close_joinPop" value="취소">
 	                                    	</div>
 	                                	</form>
@@ -2419,6 +2419,8 @@
                 $('.joinPop_back').hide();
             });
         });
+        
+        var msg = "${msg}";
 
         $(document).ready(function(){
 			
@@ -2718,13 +2720,49 @@
       		
           	
           	
-          	
- 			
- 			// 알림 기능
- 			$("#joinBtn").on('click',function test(){
- 				console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+          	$('.joinBtn').on('click',function(){
+          		var a1 = $('#a1').val();
+          		var a2 = $('#a2').val();
+          		var a3 = $('#a3').val();
+          		var mId = "${loginUser.userId}";
+          		var gNo = ${ g.gNo };
+          		console.log(a1);
+          		console.log(a2);
+          		console.log(a3);
+          		if(a1 == "" || a2 == "" || a3 == ""){
+          			alert("답변을 작성해주세요.");
+          		} else {
+          		$.ajax({
+          			url:"gmInsert.do",
+          			type:"post",
+          			data:{a1:a1, a2:a2, a3:a3, mId:mId, gNo:gNo},
+          			success: function(data){
+          				if(data == "success"){
+          					$('#a1').val("");
+          					$('#a2').val("");
+          					$('#a3').val("");
+          					$('.joinPop_back').css('display',"none");
+          					
+          				}
+          				location.reload(true);
+          			},error:function(data){
+          				if(data == 'error'){
+          					alert("그룹가입 오류");
+          				}
+          			}
+          		});
+          		
+          	// 알림 기능          		
+          		console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
  	  			sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
- 			});
+          		}
+          	});
+ 			
+
+ 			//$("#joinBtn").on('click',function test(){
+ 			//	console.log('${loginUser.userId}','${g.gCreator}',"groupjoin",'${g.gNo}');
+ 	  		//	sendAlram('${loginUser.userId}','${g.gCreator}','groupjoin','${g.gNo}');   
+ 			//});
  			
  			
  	/*그룸내 검색*/

@@ -125,7 +125,7 @@ public class settingController {
 		int mNo = m.getmNo();
 		
 		if(bcryptPasswordEncoder.matches(userPwd,m.getUserPwd())) {
-			int result  = mService.deleteAccount(mNo);	
+			int result  = mService.disableAccount(mNo);	
 			System.out.println(result);
 			if(result > 0) {
 				return "success";				

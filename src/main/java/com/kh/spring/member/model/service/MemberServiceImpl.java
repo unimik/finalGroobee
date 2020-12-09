@@ -80,6 +80,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	public int activeAcount(Member m) {
+		return mDao.activeAcount(m);
+	}
 	public String blist(String userId) {
 		return mDao.blist(userId);
 	}

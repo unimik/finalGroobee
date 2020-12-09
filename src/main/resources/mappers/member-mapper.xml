@@ -9,7 +9,6 @@
  		<result property="userPwd" column="M_PWD"/>
  		<result property="email" column="M_EMAIL"/>
  		<result property="interestes" column="INTERESTES"/>
- 		<result property="gNo" column="G_NO"/>
  		<result property="mStatus" column="M_STATUS"/>
  		<result property="mImage" column="M_IMAGE"/>
  		<result property="mRenameImage" column="M_RENAME_IMAGE"/>
@@ -24,7 +23,6 @@
 		SELECT *
 		FROM MEMBER
 		WHERE M_ID = #{userId}
-		AND M_STATUS = 'Y'
 	</select>
 
 	<!-- ID 중복확인 -->
@@ -37,7 +35,7 @@
 
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER
-		VALUES(SEQ_MNO.NEXTVAL,#{userId},#{userName},#{userPwd},#{email},#{interestes},NULL,DEFAULT,NULL,NULL,SYSDATE,DEFAULT,NULL)
+		VALUES(SEQ_MNO.NEXTVAL,#{userId},#{userName},#{userPwd},#{email},#{interestes},DEFAULT,NULL,NULL,SYSDATE,DEFAULT,NULL)
 	</insert>
 
 	<select id="findId" parameterType="Member" resultType="string">
@@ -140,7 +138,23 @@
 		FROM MEMBER
 		WHERE M_ID = #{userId}
 	</select>
+
+
+	<select id="selectImg" parameterType="string" resultMap="memberResultSet">
+		SELECT FROM_ID,M_RENAME_IMAGE 
+    	FROM PUSH_ALARM 
+   	 	LEFT JOIN MEMBER ON(FROM_ID = M_ID)
+   		WHERE TO_ID=#{name}
+ 		AND READ_YN ='N'
+ 		ORDER BY P_NO DESC
+	</select>
 	
+	<update id="activeAcount" parameterType="Member">
+		UPDATE MEMBER SET M_STATUS ='Y'
+		WHERE M_NO=#{mNo}
+		AND M_PWD="userPwd"
+	</update>
+
 	<select id="blist"  parameterType="string" resultType="string">
 	SELECT
     BLOCKED_NO
@@ -150,4 +164,5 @@
 	                FROM MEMBER
 	                WHERE M_ID=#{userId})
 	</select>
+
 </mapper>

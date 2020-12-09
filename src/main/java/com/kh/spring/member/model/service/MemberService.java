@@ -60,5 +60,7 @@ public interface MemberService {
 
 	Member selectUserInfo(String userId);
 
+	int activeAcount(Member m);
+	
 	String blist(String userId);
 }

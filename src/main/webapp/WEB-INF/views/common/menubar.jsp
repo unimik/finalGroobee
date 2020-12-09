@@ -143,13 +143,13 @@
                     	<c:choose>
                     	<c:when test="${i.type eq 'follow'}">
                     		<div id="list">
-	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <img src="/spring/resources/memberProfileFiles/${i.fromImg}">
 	                            <p><b>${ i.fromId }</b>님이 회원님을 팔로우 합니다.</p>
                         	</div>
                     	</c:when>
                     	<c:when test="${i.type eq 'followChk'}">
                     		<div id="list">
-                    			<img src="resources/images/mp_profile_sample.jpg">
+                    			<img src="/spring/resources/memberProfileFiles/${i.fromImg}">
                     			<span>
                     				<b><a href="goUserpage.do?userId=${ i.typeNo}&mNo=${loginUser.mNo}">${i.fromId }</a></b>
                     				님이 회원님을 팔로우 하고 싶어 합니다.
@@ -160,19 +160,19 @@
                     	</c:when>
                     	<c:when test="${i.type eq 'like' }">
 	                        <div id="list">
-	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <img src="/spring/resources/memberProfileFiles/${i.fromImg}">
 	                            <p><b>${ i.fromId }</b>님이 회원님의 게시글을 좋아합니다.</p>
 	                        </div>
 	                    </c:when>
 	                    <c:when test="${i.type eq 'groupjoin' }">
 	                        <div id="list">
-	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <img src="/spring/resources/memberProfileFiles/${i.fromImg}">
 	                            <p><b>${ i.fromId }</b>님이 그룹에 가입을 신청 했습니다.</p>
 	                        </div>
 	                    </c:when>
 	                    <c:when test="${i.type eq 'groupAccept' }">
 	                        <div id="list">
-	                            <img src="resources/images/mp_profile_sample.jpg">
+	                            <img src="/spring/resources/memberProfileFiles/${i.fromImg}">
 	                            <p><b>${ i.fromId }</b>회원님의 그룹 가입을 승인했습니다.</p>
 	                        </div>
 	                    </c:when>
@@ -1505,40 +1505,40 @@
 	      		   	 datatype:"text",
 	      		   	 success: function(data){
 		      		   	if(data == 'success'){
+
+		      	    	  $.ajax({
+		      	    		  url: 'readAlarm.do',
+		      	    		  data:{
+		      	    			  typeNo : mNo,
+		      	    			  toId : toid,
+		      	    			  type : 'followChk'
+		      	    		  },
+		      	    		  datatype:"text",
+		      	   		   	  success: function(data){
+		      		      		   	if(data == 'success'){
+		      		      		 	  	window.location.reload();
+		      		      		 		sendAlram("s",toid,"followAccept",mNo);
+		      		  		   		 }else{
+		      		  		   			alert("팔로우 실패했습니다.");
+		      		  		   		 }
+		      	   		   	  },error: function(error){
+		      	   		   		 console.log("");
+		      	   		   	 }
+		      	    	  });
 		      		 	  	history.go(0);
 		  		   		 }else{
 		  		   			alert("팔로우 실패했습니다.");
 		  		   		 }
 	      		   	 },error: function(data){
 	      		   		 if(data == 'error'){
-	      		   		 alert(data+"팔로우 에러??????????????????");
+	      		   		 alert(data+"팔로우 에러");
 	      		   		history.go(0);
 	      		   		 }else{
 	      		   			 
 	      		   		 }
 	      		   	 }
 	       	 });
-    	  
-    	  $.ajax({
-    		  url: 'readAlarm.do',
-    		  data:{
-    			  typeNo : mNo,
-    			  toId : toid,
-    			  type : 'followChk'
-    		  },
-    		  datatype:"text",
-   		   	  success: function(data){
-	      		   	if(data == 'success'){
-	      		 	  	window.location.reload();
-	  		   		 }else{
-	  		   			alert("팔로우 실패했습니다.");
-	  		   		 }
-   		   	  },error: function(error){
-   		   		 alert(error+"팔로우 에러!!!!!!!!!!!!!!1");
-   		   	 }
-    	  });
-    	  
-    	  //sendAlram("fromid",toid,"followAccept",mNo)
+    
     	  
       });
       

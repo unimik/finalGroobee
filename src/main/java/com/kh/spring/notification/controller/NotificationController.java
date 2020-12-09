@@ -46,8 +46,13 @@ public class NotificationController {
 			@RequestParam("type") String type) {
 		PushAlarm pa = new PushAlarm(toId,typeNo,type);
 		int result = nService.readAlarm(pa);
-		
-		return "success";
+		System.out.println(toId+type+typeNo);
+		System.out.println("result!@!@!@!@:" +result);
+//		if(result >0) {
+			return "success";			
+//		}else {
+//			return "error";			
+//		}
 	}
 
 	public int insertAlarm(PushAlarm pa) {

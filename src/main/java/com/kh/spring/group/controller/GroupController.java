@@ -16,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,12 +25,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonIOException;
-
+import com.kh.spring.chat.model.service.ChatService;
 import com.kh.spring.feed.model.service.FeedService;
 import com.kh.spring.feed.model.vo.Feed;
 import com.kh.spring.feed.model.vo.Photo;
-import com.kh.spring.chat.model.service.ChatService;
-import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.group.model.service.GroupService;
 import com.kh.spring.group.model.vo.Group;
 import com.kh.spring.group.model.vo.GroupMember;
@@ -456,16 +455,18 @@ public class GroupController{
 	}
 	
 	@RequestMapping(value="gmInsert.do", method=RequestMethod.POST)
-	public String gmInsert(Group g, GroupMember gm, String mId, HttpServletRequest request) {
-				
-		gm.setgNo(g.getgNo());
+	public String gmInsert(Group g, GroupMember gm, String mId, int gNo, HttpServletRequest request, Model model) {
+		int result = 0;	
+		gm.setgNo(gNo);
 		gm.setGmId(mId);
 		
+		System.out.println("질문 답변 확인 : " + gm.getA1());
 		
-		int result = gService.gmInsert(gm);
+		result = gService.gmInsert(gm);
+
 		
 		if(result > 0) {
-			return "redirect:gdetail.do?gNo="+g.getgNo();
+			return "redirect:gdetail.do?gNo="+gNo;
 		}else {
 			return "common/errorPage";
 		}
