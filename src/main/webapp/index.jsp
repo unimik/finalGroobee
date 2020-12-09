@@ -7,6 +7,6 @@
 <title>GROOBEE</title>
 </head>
 <body>
-	<jsp:forward page="loginView.do"/>
+	<jsp:forward page="loginView.do"/> 
 </body>
 </html>
